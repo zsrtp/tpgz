@@ -1,0 +1,19 @@
+[info]
+game-name = "TP:GZ"
+full-game-name = "The Legend of Zelda: Twilight Princess Debug"
+developer-name = "Twilight Princess Community"
+full-developer-name = "Speedrun Community"
+
+[src]
+iso = "gz2e01.iso"
+patch = "patch.asm"
+map = "map/Final/Release/frameworkF.map"
+
+[build]
+map = "build/GZ2E01.map"
+iso = "build/tpgz.iso"
+
+[link]
+entries = ["game_loop", "read_controller"]
+base = "0x8046_0000"
+libs = ["tpgz.a"]

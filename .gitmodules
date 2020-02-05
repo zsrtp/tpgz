@@ -1,0 +1,3 @@
+[submodule "external/libtp_c"]
+	path = external/libtp_c
+	url = https://github.com/hallcristobal/libtp_c.git
