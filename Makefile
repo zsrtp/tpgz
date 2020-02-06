@@ -18,8 +18,10 @@ include $(DEVKITPPC)/gamecube_rules
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	src
-DATA		:=	data  
+EXTERNAL    :=  external
+DATA		:=	data 
 INCLUDES	:=	include external
+MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -91,11 +93,13 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` || exit 1; done;
 
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).o $(OUTPUT).a
+	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` clean || exit 1; done;
 
 #---------------------------------------------------------------------------------
 else

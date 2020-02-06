@@ -3,28 +3,21 @@
 #include <stdint.h>
 
 namespace Controller {
-    class Button {
-       private:
-        uint8_t idx;
-
-       public:
-        Button(uint8_t _idx) {
-            idx = _idx;
-        }
-        bool is_pressed();
-        bool is_down();
+    enum Button {
+        DPAD_LEFT = 0,
+        DPAD_RIGHT = 1,
+        DPAD_DOWN = 2,
+        DPAD_UP = 3,
+        Z = 4,
+        R = 5,
+        L = 6,
+        A = 7,
+        B = 8,
+        X = 9,
+        Y = 10,
+        START = 11,
     };
 
-    static Button DPAD_LEFT = Button(0);
-    static Button DPAD_RIGHT = Button(1);
-    static Button DPAD_DOWN = Button(2);
-    static Button DPAD_UP = Button(3);
-    static Button Z = Button(4);
-    static Button R = Button(5);
-    static Button L = Button(6);
-    static Button A = Button(7);
-    static Button B = Button(8);
-    static Button X = Button(9);
-    static Button Y = Button(10);
-    static Button START = Button(11);
-}
+    bool button_is_pressed(int idx);
+    bool button_is_down(int idx);
+}  // namespace Controller

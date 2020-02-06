@@ -1,4 +1,3 @@
-#include "controller.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/items.h"

@@ -16,4 +16,4 @@ iso = "build/tpgz.iso"
 [link]
 entries = ["game_loop", "read_controller"]
 base = "0x8046_0000"
-libs = ["tpgz.a"]
+libs = ["tpgz.a", "external/libtp_c/libtp_c.a"]

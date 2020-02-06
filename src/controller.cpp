@@ -34,7 +34,7 @@ static ButtonState buttonStates[BUTTON_STATES] = {
 extern "C" uint32_t read_controller() {
     sButtons_down_last_frame = sButtons_down;
     sButtons_down = tp_mPadStatus.sval;
-    sButtons_pressed = sButtons_down & (0xFFF ^ sButtons_down_last_frame);
+    sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
 
     uint8_t idx = 0;
     for (; idx < BUTTON_STATES; idx++) {
@@ -43,21 +43,24 @@ extern "C" uint32_t read_controller() {
             buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
         }
     }
+
     Cheats::apply_cheats();
     return 0x80000000;
 }
 
 namespace Controller {
-    bool Button::is_pressed() {
-        uint32_t delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
-        bool just_clicked = delta == 0;
-        bool held_down_long_enough = delta > REPEAT_DELAY;
-        bool is_repeat_frame = held_down_long_enough && (delta % REPEAT_TIME == 0);
 
-        return is_down() && (just_clicked || is_repeat_frame);
+    bool button_is_down(int idx) {
+        return buttonStates[idx].is_down;
     }
 
-    bool Button::is_down() {
-        return buttonStates[idx].is_down;
+    bool button_is_pressed(int idx) {
+        auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
+        auto just_clicked = delta == 0;
+        auto held_down_long_enough = delta > REPEAT_DELAY;
+        auto is_repeat_frame = held_down_long_enough && delta % REPEAT_TIME == 0;
+        auto down = button_is_down(idx);
+
+        return down && (just_clicked || is_repeat_frame);
     }
 }  // namespace Controller
