@@ -1,3 +1,6 @@
 [submodule "external/libtp_c"]
 	path = external/libtp_c
 	url = https://github.com/hallcristobal/libtp_c.git
+[submodule "external/gcn_c"]
+	path = external/gcn_c
+	url = https://github.com/hallcristobal/gcn_c.git

@@ -3,6 +3,9 @@
 ; with inject at 0x80460000 gives us 0xA7BE0 bytes
 u32 0x3c608050
 
+0x802e7648:
+b draw
+
 0x80006444:
 bl game_loop
 bl fapGm_Execute()
