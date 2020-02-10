@@ -2,11 +2,72 @@
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/items.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
+#include <string.h>
 
 namespace Cheats {
     using namespace Controller;
 
+    static int before_cs_val = 0;
+    static int after_cs_val = 0;
+    static bool held_last_frame = false;
+    static bool got_it = false;
+
     void apply_cheats() {
+        if (tp_gameInfo.freeze_game != 0 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0 && tp_gameInfo.cs_val == 0x128) {
+            before_cs_val++;
+        };
+
+        if (tp_gameInfo.freeze_game != 0 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0 && tp_gameInfo.cs_val == 0x900) {
+            after_cs_val++;
+        };
+        if (before_cs_val >= 104) {
+            
+            if (tp_mPadStatus.sval != (Pad::L | Pad::A)) { 
+                held_last_frame = false;
+            }
+
+            if (got_it == false && held_last_frame == false && (before_cs_val <= 134) && tp_gameInfo.cs_val == 0x128 && tp_gameInfo.freeze_game != 2 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
+                // went early
+                int final_val = 135 - before_cs_val;
+                held_last_frame = true;
+                tp_osReport("%df early", final_val);
+                tp_osReport("%df late", after_cs_val);
+                Controller::set_buttons_down(0x0);
+                Controller::set_buttons_pressed(0x0);
+                tp_mPadButton.sval = 0x0;
+                tp_mPadStatus.sval = 0x0;
+            }
+
+            else if (got_it == false && held_last_frame == false && (before_cs_val == 134) && tp_gameInfo.freeze_game == 2 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
+                // got it
+                held_last_frame = true;
+                tp_osReport("<3");
+                tp_osReport("%df early", before_cs_val);
+                tp_osReport("%df late", after_cs_val);
+                Controller::set_buttons_down(0x0);
+                Controller::set_buttons_pressed(0x0);
+                tp_mPadButton.sval = 0x0;
+                tp_mPadStatus.sval = 0x0;
+                got_it = true;
+            }
+
+            else if (got_it == false && held_last_frame == false && (after_cs_val <= 30) && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
+                // went late
+                // sloppy
+                if (tp_gameInfo.freeze_game == 1) { after_cs_val = 1;}
+                held_last_frame = true;
+                tp_osReport("%df early", before_cs_val + 1);
+                tp_osReport("%df late", after_cs_val);
+                Controller::set_buttons_down(0x0);
+                Controller::set_buttons_pressed(0x0);
+                tp_mPadButton.sval = 0x0;
+                tp_mPadStatus.sval = 0x0;
+            }
+
+            else { }
+        }
+
         if (tp_mPadStatus.sval == (Pad::R | Pad::A)) {
             if (tp_gameInfo.momentum_ptr) {
                 tp_gameInfo.momentum_ptr->link_momentum.y = 56.0f;
