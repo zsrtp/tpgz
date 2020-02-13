@@ -8,6 +8,7 @@ namespace Cheats {
     void moon_jump();
     void reload_area();
     void process_inputs();
+    void gorge_void();
 
     static bool doing_cheats = false;
     static float saved_x = 0.0f;

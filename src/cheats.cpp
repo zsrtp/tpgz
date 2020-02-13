@@ -12,6 +12,8 @@ namespace Cheats {
 
     static int before_cs_val = 0;
     static int after_cs_val = 0;
+    static int roll_frames = 25;
+    static int roll_counter = 0;
     static bool held_last_frame = false;
     static bool got_it = false;
 
@@ -51,8 +53,7 @@ namespace Cheats {
         {TeleportEnabled, "Teleport Enabled", true},
         {ReloadArea, "Reload Area", true},
         {FastRolling, "Fast Rolling", true},
-        {GorgeVoid, "Gorge Void Indicator", true}
-    };
+        {GorgeVoid, "Gorge Void Indicator", true}};
 
     void moon_jump() {
         if (tp_gameInfo.momentum_ptr) {
@@ -76,7 +77,36 @@ namespace Cheats {
         };
     };
 
+    void roll_check() {
+        // add animation check it will make this logic easier
+        if (tp_gameInfo.freeze_game == 0) {
+            if (tp_mPadStatus.sval != (Pad::A)) {
+                held_last_frame = false;
+            }
+            if (tp_mPadStatus.sval == Pad::A) {
+                if (roll_counter < roll_frames) {
+                    tp_osReport("%df early", roll_frames - roll_counter);
+                    held_last_frame = true;
+                } else if (roll_counter == roll_frames) {
+                    tp_osReport("<3", roll_frames - roll_counter);
+                    held_last_frame = true;
+                } else {
+                    tp_osReport("%df late", roll_counter - roll_frames);
+                    roll_counter = 0;
+                };
+            } else {
+                roll_counter++;
+            };
+        }
+    }
+
+    // finish
+    void store_position(){};
+    void load_position(){};
+
     void apply_cheats() {
+        roll_check();
+
         Link::Link link = *Link::get_link();
         Inventory::Inventory inventory = *Inventory::get_inventory();
         for (auto cheat : Items) {
