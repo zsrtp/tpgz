@@ -107,14 +107,14 @@ namespace Cheats {
                         inventory.arrow_count = 99;
                     }
                     case MoonJumpEnabled: {
-                        Cheats::Commands[Cheats::Command::moon_jump].active = true;
+                        Cheats::Commands[MOON_JUMP].active = true;
                     }
                     case TeleportEnabled: {
-                        Cheats::Commands[Cheats::Command::load_position].active = true;
-                        Cheats::Commands[Cheats::Command::store_position].active = true;
+                        Cheats::Commands[LOAD_POSITION].active = true;
+                        Cheats::Commands[STORE_POSITION].active = true;
                     }
                     case ReloadArea: {
-                        Cheats::Commands[Cheats::Command::reload_area].active = true;
+                        Cheats::Commands[RELOAD_AREA].active = true;
                     }
                     case FastRolling: {
                         tp_linkRollConstants.roll_factor = 3.0;
@@ -181,14 +181,14 @@ namespace Cheats {
                         //libtp::system::memory::write::<u32>(0x8008_7F28, 0xA81B_0562);
                     }
                     case MoonJumpEnabled: {
-                        Cheats::Commands[Cheats::Command::moon_jump].active = false;
+                        Cheats::Commands[MOON_JUMP].active = false;
                     }
                     case TeleportEnabled: {
-                        Cheats::Commands[Cheats::Command::load_position].active = false;
-                        Cheats::Commands[Cheats::Command::store_position].active = false;
+                        Cheats::Commands[LOAD_POSITION].active = false;
+                        Cheats::Commands[STORE_POSITION].active = false;
                     }
                     case ReloadArea: {
-                        Cheats::Commands[Cheats::Command::reload_area].active = false;
+                        Cheats::Commands[RELOAD_AREA].active = false;
                     }
                     case FastRolling: {
                         tp_linkRollConstants.roll_factor = 1.3;
