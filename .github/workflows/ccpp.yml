@@ -16,5 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
     - name: Run Make
       run: make
