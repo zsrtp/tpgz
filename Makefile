@@ -17,7 +17,7 @@ include $(DEVKITPPC)/gamecube_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	src
+SOURCES		:=	src src/fonts
 EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
@@ -68,7 +68,7 @@ else
 	export LD	:=	$(CXX)
 endif
 
-export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
+export OFILES	:=	$(BINFILES) \
 					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) \
 					$(sFILES:.s=.o) $(SFILES:.S=.o)
 
@@ -100,6 +100,12 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).o $(OUTPUT).a
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` clean || exit 1; done;
+
+#---------------------------------------------------------------------------------
+font:
+	@cd external/fonts && cargo run -- -I fonts/consola.ttf -S 18.0 -N Consolas -O build
+	@cp external/fonts/build/*.h include/fonts/
+	@cp external/fonts/build/*.c src/fonts/
 
 #---------------------------------------------------------------------------------
 else
