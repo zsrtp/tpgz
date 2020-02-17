@@ -1,4 +1,4 @@
-## tpgz - The Twilight Princess Practice ROM
+## tpgz - the twilight princess practice rom
 
 <p align="center">
   <img src="./res/giphy.gif?raw=true" />
@@ -6,23 +6,23 @@
 
 ## Usage
 
-You will need to Twilight Princess ISO; Currently only the US version is supported.
+You will need the **Twilight Princess ISO** -- currently only the US version is supported.
 
-Download the lastest release [here]()
+1. Download the lastest release [here]().
 
-Unzip the contents into a folder and run the `romhack-patcher.exe`
+2. Unzip the contents into a folder and run the `romhack-patcher.exe`
 
-1. Select the associated patch file
+3. Select the associated patch file and the TP ISO
 
-2. Select the TP ISO
+<p align="center">
+  <img src="./res/select_patch.png" />
+</p>
 
-3. Click Apply
+3. Click apply
 
-- You will be asked to select a save directory for the newly patched ISO
+    * You will be asked to select a save directory for the newly patched ISO. After giving the ISO a name, the patcher will freeze briefly while generating the ISO.
 
-After giving the ISO a name, the patcher will freeze briefly while generating the ISO.
-
-You can now load the generated ISO in Dolphin or a homebrew loader such as [Nintendont]()
+4. You can now load the generated ISO in Dolphin emulator or on Wii in a homebrew loader such as [Nintendont](https://github.com/FIX94/Nintendont).
 
 ## Compiling
 
