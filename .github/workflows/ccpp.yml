@@ -13,11 +13,11 @@ jobs:
     container:
       image: pheenoh/devkitppc-gcn:latest
     
-    steps:
-    - uses: actions/checkout@v2
-    - uses: webfactory/ssh-agent@v0.2.0
+    steps:    
+    - uses: fusion-engineering/setup-git-credentials@v2
       with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        credentials: ${{secrets.GIT_CREDENTIALS}}
+    - uses: actions/checkout@v2
     - name: Checkout submodules
       run: git submodule update --init --recursive
     - name: Run Make
