@@ -8,8 +8,6 @@ tpgz is a rom hack of the game Twilight Princess geared towards enhancing practi
   <img src="./res/giphy.gif?raw=true" />
 </p>
 
-## Features
-
 The current build supports a wide variety of features including the following:
 
 - RAM watch
