@@ -15,5 +15,6 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout submodules
     - name: Run Make
       run: make
