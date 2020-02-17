@@ -1,4 +1,4 @@
-# <img src="./res/icon.gif" height="42" width="45" align="top"/>tpgz</h1>
+# <img src="./res/icon.gif" height="100" width="100" align="top"/>tpgz</h1>
 
 <p align="center">
   <img src="./res/giphy.gif?raw=true" />
