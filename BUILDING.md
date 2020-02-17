@@ -1,6 +1,6 @@
 ## Compiling
 
-1. Clone this repo and do a `git submodule update --init` to pull down the correct
+1. Clone this repo and do a `git submodule update --init --recursive` to pull down the correct
 TP Bindings.
 
 2. Copy your copy of Twilight Princess (Currently only NTSC-U) to the root folder
