@@ -21,7 +21,7 @@ The current build supports a wide variety of features including the following:
 
 More to come soon!
 
-## Usage
+## Download / Usage
 
 You will need the **Twilight Princess ISO** -- currently only the US version is supported.
 
