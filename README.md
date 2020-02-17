@@ -35,7 +35,7 @@ You will need the **Twilight Princess ISO** -- currently only the US version is 
 
     * You will be asked to select a save directory for the newly patched ISO. After giving the ISO a name, the patcher will freeze briefly while generating the ISO.
 
-5. You can now load the generated ISO in Dolphin emulator or on Wii in a homebrew loader such as [Nintendont](https://github.com/FIX94/Nintendont).
+5. You can now load the generated ISO in Dolphin emulator or in a Wii in a homebrew loader such as [Nintendont](https://github.com/FIX94/Nintendont).
 
 ## Building
 See [BUILDING](./BUILDING.md).
