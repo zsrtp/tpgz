@@ -15,9 +15,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout submodules
-      uses: srt32/git-actions@v0.0.3
       with:
-        args: git submodule update --init --recursive
+        token: ${{ secrets.ACCESS_TOKEN }}
+        submodules: true
     - name: Run Make
       run: make
