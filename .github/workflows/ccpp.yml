@@ -9,6 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: pheenoh/devkitppc-gcn@latest
+    - uses: pheenoh/devkitppc-ppc@master
     - name: Make
       run: make
