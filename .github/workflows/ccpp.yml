@@ -1,14 +1,22 @@
 name: C/C++ CI
 
-on: 
+on:
   pull_request:
-    branches:
+    branches: 
       - master
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
+    container:
+      image: pheenoh/devkitppc-gcn:latest
+    
     steps:
-    - uses: pheenoh/devkitppc
-    - name: Make
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+        token: ${{ secrets.GitHub_PAT }} # GitHub_PAT is a secret contains your PAT.
+    - name: Run Make
       run: make
