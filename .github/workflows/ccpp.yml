@@ -13,12 +13,10 @@ jobs:
     container:
       image: pheenoh/devkitppc-gcn:latest
     
-    steps:    
-    - uses: fusion-engineering/setup-git-credentials@v2
+    steps:
+    - uses: actions/checkout@v1
       with:
-        credentials: ${{secrets.GIT_CREDENTIALS}}
-    - uses: actions/checkout@v2
-    - name: Checkout submodules
-      run: git submodule update --init --recursive
+        submodules: true
+        token: ${{ secrets.GitHub_PAT }} # GitHub_PAT is a secret contains your PAT.
     - name: Run Make
       run: make
