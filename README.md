@@ -1,5 +1,9 @@
 ## tpgz - The Twilight Princess Practice ROM
 
+<p align="center">
+  <img src="./res/giphy.gif?raw=true" />
+</p>
+
 ## Usage
 
 You will need to Twilight Princess ISO; Currently only the US version is supported.
