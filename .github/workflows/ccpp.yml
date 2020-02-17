@@ -2,14 +2,11 @@ name: C/C++ CI
 
 on:
   pull_request:
-    branches: 
-      - master
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     container:
       image: pheenoh/devkitppc-gcn:latest
     
