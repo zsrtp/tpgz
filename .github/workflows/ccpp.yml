@@ -1,14 +1,19 @@
 name: C/C++ CI
 
-on: 
+on:
   push:
-    branches:
+    branches: 
       - master
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
+    container:
+      image: pheenoh/devkitppc-gcn:latest
+    
     steps:
-    - uses: pheenoh/devkitppc-ppc@master
-    - name: Make
+    - uses: actions/checkout@v2
+    - name: Run Make
       run: make
