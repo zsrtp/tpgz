@@ -32,7 +32,7 @@ romhack build --raw
 
 7. The built ISO will now be in a build/ folder in the same directory as the source code.
 
-8. If you want to compile alternative fonts, place your font in include/fonts/ and replace the following command in the Makefile:
+8. If you want to compile alternative fonts, place your font in external/fonts/fonts/ and replace the following command in the Makefile:
 
 ```rust
 cargo run -I fonts/your_font.ttf -S 18.0 -N Your_Font_Name -O build
