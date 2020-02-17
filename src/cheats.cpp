@@ -5,6 +5,7 @@
 #include "libtp_c/include/link.h"
 #include "libtp_c/include/system.h"
 #include "cheats.h"
+#include "spawning.h"
 #include <string.h>
 
 namespace Cheats {
@@ -85,7 +86,6 @@ namespace Cheats {
             if (tp_mPadStatus.sval != (Pad::A)) {
                 held_last_frame = false;
             }
-            // check if went early or got it
             if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
                 // reset counter cause next frame is either a new roll or a miss
                 if (roll_counter > 20) {

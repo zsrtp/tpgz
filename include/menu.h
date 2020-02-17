@@ -19,6 +19,17 @@ public:
     virtual void render() = 0;
 };
 
+class MainMenu : public Menu {
+public:
+    MainMenu() : Menu("Main Menu", 99, "Main Menu Description") {}
+    void transition_into(){
+        // logic on how to transition into menu
+    };
+    void render(){
+        // graphics stuff
+    };
+};
+
 class InventoryMenu : public Menu {
 public:
     InventoryMenu() : Menu("Inventory", 0, "Inventory Description") {}
