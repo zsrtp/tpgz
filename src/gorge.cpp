@@ -11,7 +11,6 @@ namespace GorgeVoidIndicator {
 
     static int before_cs_val = 0;
     static int after_cs_val = 0;
-    static _FIFOQueue Queue;
     static bool held_last_frame = false;
     static bool got_it = false;
 
@@ -35,7 +34,6 @@ namespace GorgeVoidIndicator {
                 char buf[20];
                 sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue);
-                FIFOQueue::renderItems(Queue);
                 held_last_frame = true;
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
@@ -49,7 +47,6 @@ namespace GorgeVoidIndicator {
                 char buf[20];
                 sprintf(buf, "<3");
                 FIFOQueue::push(buf, Queue);
-                FIFOQueue::renderItems(Queue);
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
                 tp_mPadButton.sval = 0x0;
@@ -62,7 +59,6 @@ namespace GorgeVoidIndicator {
                 char buf[20];
                 sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue);
-                FIFOQueue::renderItems(Queue);
                 held_last_frame = true;
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
