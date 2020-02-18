@@ -1,14 +1,13 @@
 #pragma once
 
 struct QueueMessage {
-    char msg[50];
+    char msg[100];
     int ttl;
-
 };
 
 struct _FIFOQueue {
     // max of 5 messages on the queue at a time
-    QueueMessage msg[5];
+    QueueMessage messages[5];
 };
 
 class FIFOQueue {
@@ -16,10 +15,7 @@ class FIFOQueue {
 
    public:
     FIFOQueue();
-    void initQueue();
-    void renderQueue();
-    void renderItems();
-    void cleanupQueue();
-    void push(QueueMessage msg);
-    void pop(QueueMessage msg);
+    FIFOQueue(_FIFOQueue Queue);
+    static void renderItems(_FIFOQueue& Queue, int& max_message_count);
+    static void push(const char *msg, _FIFOQueue& Queue);
 };
