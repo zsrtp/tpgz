@@ -21,3 +21,5 @@ class FIFOQueue {
     static void renderItems(_FIFOQueue& Queue);
     static void push(const char *msg, _FIFOQueue& Queue);
 };
+
+extern _FIFOQueue Queue;

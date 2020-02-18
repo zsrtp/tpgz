@@ -2,6 +2,7 @@
 #include "cheats.h"
 #include "controller.h"
 #include "libtp_c/include/tp.h"
+#include "fifo_queue.h"
 
 #define BUTTON_STATES 12
 #define REPEAT_TIME 6
@@ -43,8 +44,8 @@ extern "C" uint32_t read_controller() {
             buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
         }
     }
-
     Cheats::apply_cheats();
+    FIFOQueue::renderItems(Queue);
     return 0x80000000;
 }
 
