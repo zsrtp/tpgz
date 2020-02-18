@@ -66,7 +66,6 @@ float Font::renderChar(char c, float x, float y, uint32_t color) {
 }
 
 void Font::renderChars(const char* str, float x, float y, uint32_t color) {
-    tp_osReport(str);
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
         x = renderChar(str[i], x, y, color);
