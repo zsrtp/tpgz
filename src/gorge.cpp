@@ -13,6 +13,7 @@ namespace GorgeVoidIndicator {
     static int after_cs_val = 0;
     static bool held_last_frame = false;
     static bool got_it = false;
+    static char buf[20];
 
     void render() {}
     void run() {
@@ -31,7 +32,6 @@ namespace GorgeVoidIndicator {
             if (got_it == false && held_last_frame == false && before_cs_val < 132 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
                 // went early
                 int final_val = 132 - before_cs_val;
-                char buf[20];
                 sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue);
                 held_last_frame = true;
@@ -44,9 +44,7 @@ namespace GorgeVoidIndicator {
             else if (got_it == false && held_last_frame == false && before_cs_val == 132 &&
                      tp_mPadStatus.sval == (Pad::L | Pad::A) && after_cs_val == 0) {
                 held_last_frame = true;
-                char buf[20];
-                sprintf(buf, "<3");
-                FIFOQueue::push(buf, Queue);
+                FIFOQueue::push("<3", Queue);
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
                 tp_mPadButton.sval = 0x0;
@@ -56,18 +54,9 @@ namespace GorgeVoidIndicator {
 
             else if (got_it == false && held_last_frame == false && after_cs_val > 0 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
                 // went late
-                char buf[20];
                 sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue);
                 held_last_frame = true;
-                Controller::set_buttons_down(0x0);
-                Controller::set_buttons_pressed(0x0);
-                tp_mPadButton.sval = 0x0;
-                tp_mPadStatus.sval = 0x0;
-            }
-
-            if (tp_mPadStatus.sval == (Pad::R | Pad::A)) {
-                Inventory::set_rupee_flags();
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
                 tp_mPadButton.sval = 0x0;

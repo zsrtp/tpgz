@@ -9,8 +9,12 @@ static Font Consolas;
 void FIFOQueue::renderItems(_FIFOQueue& Queue) {
     Consolas = Font(f_Consolas, consolas_bytes);
     Consolas.setupRendering();
-    Queue.messages[0].ttl--;
     for (int i = 0; i < MAX_MESSAGES; i++) {
+
+        // decrement the ttl every frame until it hits zero
+        if (Queue.messages[i].ttl > 0){
+            Queue.messages[i].ttl--;
+        }
         float offset = (float)i * 14.0f;
         int color = 0xFFFFFF00;
         int alpha;
