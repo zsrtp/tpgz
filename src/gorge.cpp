@@ -1,14 +1,18 @@
+#include <stdio.h>
 #include "gorge.h"
 #include <string.h>
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
+#include "fifo_queue.h"
 
 namespace GorgeVoidIndicator {
     using namespace Controller;
 
     static int before_cs_val = 0;
     static int after_cs_val = 0;
+    static int max_messages = 5;
+    static _FIFOQueue Queue;
     static bool held_last_frame = false;
     static bool got_it = false;
 
@@ -29,7 +33,10 @@ namespace GorgeVoidIndicator {
             if (got_it == false && held_last_frame == false && before_cs_val < 132 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
                 // went early
                 int final_val = 132 - before_cs_val;
-                tp_osReport("%df early", final_val);
+                char buf[20];
+                sprintf(buf, "%df early", final_val);
+                FIFOQueue::push(buf, Queue);
+                FIFOQueue::renderItems(Queue, max_messages);
                 held_last_frame = true;
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
@@ -39,9 +46,11 @@ namespace GorgeVoidIndicator {
 
             else if (got_it == false && held_last_frame == false && before_cs_val == 132 &&
                      tp_mPadStatus.sval == (Pad::L | Pad::A) && after_cs_val == 0) {
-                // got it
                 held_last_frame = true;
-                tp_osReport("<3");
+                char buf[20];
+                sprintf(buf, "<3");
+                FIFOQueue::push(buf, Queue);
+                FIFOQueue::renderItems(Queue, max_messages);
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);
                 tp_mPadButton.sval = 0x0;
@@ -51,7 +60,10 @@ namespace GorgeVoidIndicator {
 
             else if (got_it == false && held_last_frame == false && after_cs_val > 0 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
                 // went late
-                tp_osReport("%df late", after_cs_val);
+                char buf[20];
+                sprintf(buf, "%df late", after_cs_val);
+                FIFOQueue::push(buf, Queue);
+                FIFOQueue::renderItems(Queue, max_messages);
                 held_last_frame = true;
                 Controller::set_buttons_down(0x0);
                 Controller::set_buttons_pressed(0x0);

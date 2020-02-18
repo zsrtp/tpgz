@@ -45,11 +45,20 @@ namespace Cheats {
         {ReloadArea, "Reload Area", true},
         {FastRolling, "Fast Rolling", true}};
 
+    void testQueue() {
+
+        
+        // FIFOQueue MsgQueue = FIFOQueue(Queue);
+        // MsgQueue.renderItems(Queue);
+    };
+
     // finish
     void store_position(){};
     void load_position(){};
 
     void apply_cheats() {
+        testQueue();
+
         Link::Link *link = Link::get_link();
         Inventory::Inventory *inventory = Inventory::get_inventory();
         for (auto cheat : Items) {
