@@ -2,12 +2,15 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
+#include "fifo_queue.h"
+#include <stdio.h>
 
 namespace RollIndicator {
     using namespace Controller;
     static int roll_counter = 0;
     static int missed_counter = 0;
     static bool held_last_frame = false;
+    static char buf[20];
 
     void roll_check() {
         // if normal human link gameplay
@@ -22,14 +25,16 @@ namespace RollIndicator {
                 }
                 roll_counter++;
                 if (missed_counter > 0 && held_last_frame == false) {
-                    tp_osReport("%df late", missed_counter);
+                    sprintf(buf, "%df late", missed_counter);
+                    FIFOQueue::push(buf, Queue);
                     missed_counter = 0;
                 } else {
                     if (roll_counter > 15 && roll_counter < 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                        tp_osReport("%df early", 20 - roll_counter);
+                        sprintf(buf, "%df early", 20 - roll_counter);
+                        FIFOQueue::push(buf, Queue);
                         held_last_frame = true;
                     } else if (roll_counter == 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                        tp_osReport("<3");
+                        FIFOQueue::push("<3", Queue);
                         held_last_frame = true;
                     }
                 }

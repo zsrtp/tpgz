@@ -6,14 +6,10 @@
 #include "libtp_c/include/system.h"
 #include "cheats.h"
 #include "commands.h"
-#include "fifo_queue.h"
-#include <stdio.h>
 #include <string.h>
 
 namespace Cheats {
     using namespace Controller;
-    static _FIFOQueue Queue;
-    static int i = 0;
 
     enum CheatId {
         Invincible,
@@ -54,14 +50,6 @@ namespace Cheats {
     void load_position(){};
 
     void apply_cheats() {
-        i++;
-        char buf[16]; // need a buffer for that
-        sprintf(buf,"%d",i);
-        const char* p = buf;
-        
-        //auto i = TP::get_frame_count;
-        FIFOQueue::push(p,Queue);
-        FIFOQueue::renderItems(Queue);
 
         Link::Link *link = Link::get_link();
         Inventory::Inventory *inventory = Inventory::get_inventory();
