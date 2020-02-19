@@ -15,34 +15,21 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
         if (Queue.messages[i].ttl > 0){
             Queue.messages[i].ttl--;
         }
-        float offset = (float)i * 14.0f;
+        float offset = ((float)i * 14.0f) + 114.0f;
         int color = 0xFFFFFF00;
-        int alpha;
-        switch (Queue.messages[i].ttl) {
-            case 0:
-                alpha = 0x00;
-                break;
-            case 1 ... 10:
-                alpha = 0x40;
-                break;
-            case 11 ... 20:
-                alpha = 0x80;
-                break;
-            case 21 ... 30:
-                alpha = 0xBF;
-                break;
-            default:
-                alpha = 0xFF;
-                break;
+        int alpha = 0xFF;
+
+        if (Queue.messages[i].ttl < 30) {
+            // linear alpha fade
+            alpha = Queue.messages[i].ttl * 8.5;
         }
         color |= alpha;
-        Consolas.renderChars(Queue.messages[i].msg, 20.0f, offset + 114.0f, color);
+        Consolas.renderChars(Queue.messages[i].msg, 20.0f, offset, color);
     }
 };
 
 void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
-        tp_osReport("%d",i);
         strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
     }
     strcpy(Queue.messages[0].msg, msg);

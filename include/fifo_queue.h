@@ -13,6 +13,8 @@ struct _FIFOQueue {
     QueueMessage messages[MAX_MESSAGES];
 };
 
+extern _FIFOQueue Queue;
+
 class FIFOQueue {
    private:
 

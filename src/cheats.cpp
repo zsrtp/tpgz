@@ -7,6 +7,8 @@
 #include "cheats.h"
 #include "commands.h"
 #include <string.h>
+#include "fifo_queue.h"
+
 
 namespace Cheats {
     using namespace Controller;
@@ -51,6 +53,28 @@ namespace Cheats {
 
     void apply_cheats() {
 
+        switch(tp_mPadStatus.sval) {
+            case Pad::A: {
+                FIFOQueue::push("Pressed A", Queue);
+                break;
+            }
+            case Pad::B: {
+                FIFOQueue::push("Pressed B", Queue);
+                break;
+            }
+            case Pad::X: {
+                FIFOQueue::push("Pressed X", Queue);
+                break;
+            }
+            case Pad::Y: {
+                FIFOQueue::push("Pressed Y", Queue);
+                break;
+            }
+            case Pad::Z: {
+                FIFOQueue::push("Pressed Z", Queue);
+                break;
+            }
+        }
         Link::Link *link = Link::get_link();
         Inventory::Inventory *inventory = Inventory::get_inventory();
         for (auto cheat : Items) {
