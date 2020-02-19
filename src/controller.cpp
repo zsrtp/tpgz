@@ -2,6 +2,7 @@
 #include "cheats.h"
 #include "controller.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "fifo_queue.h"
 
 #define BUTTON_STATES 12
@@ -11,6 +12,8 @@
 static uint16_t sButtons_down_last_frame = 0;
 static uint16_t sButtons_down = 0;
 static uint16_t sButtons_pressed = 0;
+
+_FIFOQueue Queue;
 
 struct ButtonState {
     uint16_t button;
