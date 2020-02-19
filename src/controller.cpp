@@ -48,7 +48,6 @@ extern "C" uint32_t read_controller() {
         }
     }
     Cheats::apply_cheats();
-    FIFOQueue::renderItems(Queue);
     return 0x80000000;
 }
 

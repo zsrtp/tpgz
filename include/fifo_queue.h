@@ -1,6 +1,6 @@
 #pragma once
-
-#define MAX_MESSAGES 5
+#include "font.h"
+#define MAX_MESSAGES 25
 
 struct QueueMessage {
     char msg[100];
@@ -20,7 +20,7 @@ class FIFOQueue {
 
    public:
     FIFOQueue();
-    static void renderItems(_FIFOQueue& Queue);
+    static void renderItems(_FIFOQueue& Queue, Font& font);
     static void push(const char *msg, _FIFOQueue& Queue);
 };
 
