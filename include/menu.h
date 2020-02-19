@@ -1,14 +1,21 @@
 #pragma once
-
+#include "font.h"
 #include <string.h>
 
+struct Line {
+    char line[50];
+    const int idx;
+};
+
+extern bool visible;
+
 class Menu {
-protected:
+   protected:
     char MenuName[32];
     int MenuId;
     char MenuDescription[32];
 
-public:
+   public:
     Menu() {}
     Menu(const char* _MenuName, int _MenuId, const char* _MenuDescription) {
         strcpy(MenuName, _MenuName);
@@ -20,19 +27,18 @@ public:
 };
 
 class MainMenu : public Menu {
-public:
-    MainMenu() : Menu("Main Menu", 99, "Main Menu Description") {}
+   private:
+   public:
+    MainMenu() : Menu("Main Menu", 0, "Main Menu Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
-    void render(){
-        // graphics stuff
-    };
+    static void render(Font& font);
 };
 
 class InventoryMenu : public Menu {
-public:
-    InventoryMenu() : Menu("Inventory", 0, "Inventory Description") {}
+   public:
+    InventoryMenu() : Menu("Inventory", 1, "Inventory Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -42,8 +48,8 @@ public:
 };
 
 class CheatsMenu : public Menu {
-public:
-    CheatsMenu() : Menu("Cheats", 1, "Cheats Description") {}
+   public:
+    CheatsMenu() : Menu("Cheats", 2, "Cheats Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -53,8 +59,8 @@ public:
 };
 
 class WarpingMenu : public Menu {
-public:
-    WarpingMenu() : Menu("Warping", 2, "Warping Description") {}
+   public:
+    WarpingMenu() : Menu("Warping", 3, "Warping Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -64,8 +70,8 @@ public:
 };
 
 class MemoryMenu : public Menu {
-public:
-    MemoryMenu() : Menu("Memory", 3, "Memory Description") {}
+   public:
+    MemoryMenu() : Menu("Memory", 4, "Memory Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -75,8 +81,8 @@ public:
 };
 
 class SettingsMenu : public Menu {
-public:
-    SettingsMenu() : Menu("Settings", 4, "Settings Description") {}
+   public:
+    SettingsMenu() : Menu("Settings", 5, "Settings Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };

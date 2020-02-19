@@ -3,6 +3,7 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
 #include "fifo_queue.h"
+#include "rollcheck.h"
 #include <stdio.h>
 
 namespace RollIndicator {
@@ -12,7 +13,7 @@ namespace RollIndicator {
     static bool held_last_frame = false;
     static char buf[20];
 
-    void roll_check() {
+    void run() {
         // if normal human link gameplay
         if (tp_gameInfo.freeze_game == 0 && tp_gameInfo.link.is_wolf == false) {
             if (tp_mPadStatus.sval != (Pad::A)) {

@@ -8,6 +8,7 @@
 #include "commands.h"
 #include <string.h>
 #include "fifo_queue.h"
+#include "rollcheck.h"
 
 
 namespace Cheats {
@@ -52,29 +53,7 @@ namespace Cheats {
     void load_position(){};
 
     void apply_cheats() {
-
-        switch(tp_mPadStatus.sval) {
-            case Pad::A: {
-                FIFOQueue::push("Pressed A", Queue);
-                break;
-            }
-            case Pad::B: {
-                FIFOQueue::push("Pressed B", Queue);
-                break;
-            }
-            case Pad::X: {
-                FIFOQueue::push("Pressed X", Queue);
-                break;
-            }
-            case Pad::Y: {
-                FIFOQueue::push("Pressed Y", Queue);
-                break;
-            }
-            case Pad::Z: {
-                FIFOQueue::push("Pressed Z", Queue);
-                break;
-            }
-        }
+        RollIndicator::run();
         Link::Link *link = Link::get_link();
         Inventory::Inventory *inventory = Inventory::get_inventory();
         for (auto cheat : Items) {
