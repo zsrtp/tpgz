@@ -14,9 +14,72 @@ namespace GorgeVoidIndicator {
     static bool held_last_frame = false;
     static bool got_it = false;
     static char buf[20];
+    static bool execute_loading_prep = false;
+    static bool loading_initiated = false;
 
     void render() {}
+
+    void prep_rupee_roll() {
+        tp_gameInfo.respawn_next_spawn_id = 2;
+        tp_gameInfo.respawn_position = {-11856.857f,-5700.0f,56661.5};
+        tp_gameInfo.respawn_angle = 24169;
+        Inventory::clear_rupee_flags();
+        
+        if (tp_fopScnRq.isLoading == 1) { loading_initiated = true; }
+        if (loading_initiated == true) {
+            if (tp_fopScnRq.isLoading == 0) {
+                tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0x20;
+                tp_gameInfo.cs_val = 0x900;
+                execute_loading_prep = false;
+            }
+        }
+    }
+
+    void warp_to_gorge() {
+        
+
+        // set gorge map info
+        tp_gameInfo.warps.kak_gorge_warp = 0;
+        tp_gameInfo.temp_flags.temp_flag_bit_field_13 = 0;
+        tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0;
+        tp_gameInfo.warps.kak_gorge_unk = 0;
+
+        // change form to wolf
+        tp_gameInfo.link.is_wolf = true;
+
+        // set loading info
+        tp_gameInfo.warp.entrance.void_flag = 0;
+        tp_gameInfo.event_to_play = 0;
+        tp_gameInfo.respawn_animation = 0;
+        tp_gameInfo.warp.entrance.spawn = 2;
+        tp_gameInfo.warp.entrance.room = 3;
+        tp_gameInfo.warp.entrance.state = 0xE;
+        strcpy((char *)tp_gameInfo.warp.entrance.stage,"F_SP121");
+        
+        // reset health, item
+        tp_gameInfo.respawn_item_id = 40;
+        tp_gameInfo.link.heart_quarters = 12; // 3 hearts
+
+        // trigger loading
+        tp_gameInfo.warp.enabled = true;
+    }
     void run() {
+        // run while loading
+        if (execute_loading_prep == true){
+            prep_rupee_roll();
+        };
+
+        if (tp_mPadStatus.sval == (Pad::R | Pad::L)) {
+            execute_loading_prep = true;
+            warp_to_gorge();
+        }
+        // reset counters on load
+        if (tp_fopScnRq.isLoading == 1) {
+            before_cs_val = 0;
+            after_cs_val = 0;
+            got_it = false;
+        }
+
         if (tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
             before_cs_val++;
         } else if (before_cs_val == 132 && (tp_gameInfo.freeze_game == 2 || tp_gameInfo.cs_val == 0x900) && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
