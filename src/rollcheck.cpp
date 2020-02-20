@@ -14,40 +14,42 @@ namespace RollIndicator {
     static char buf[20];
 
     void run() {
-        // if normal human link gameplay
-        if (tp_gameInfo.freeze_game == 0 && tp_gameInfo.link.is_wolf == false) {
-            if (tp_mPadStatus.sval != (Pad::A)) {
-                held_last_frame = false;
-            }
-            if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
-                // reset counter cause next frame is either a new roll or a miss
-                if (roll_counter > 20) {
-                    roll_counter = 0;
+        if (RollIndicator::active == true) {
+            // if normal human link gameplay
+            if (tp_gameInfo.freeze_game == 0 && tp_gameInfo.link.is_wolf == false) {
+                if (tp_mPadStatus.sval != (Pad::A)) {
+                    held_last_frame = false;
                 }
-                roll_counter++;
-                if (missed_counter > 0 && held_last_frame == false) {
-                    sprintf(buf, "%df late", missed_counter);
-                    FIFOQueue::push(buf, Queue);
-                    missed_counter = 0;
-                } else {
-                    if (roll_counter > 15 && roll_counter < 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                        sprintf(buf, "%df early", 20 - roll_counter);
+                if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
+                    // reset counter cause next frame is either a new roll or a miss
+                    if (roll_counter > 20) {
+                        roll_counter = 0;
+                    }
+                    roll_counter++;
+                    if (missed_counter > 0 && held_last_frame == false) {
+                        sprintf(buf, "%df late", missed_counter);
                         FIFOQueue::push(buf, Queue);
-                        held_last_frame = true;
-                    } else if (roll_counter == 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                        FIFOQueue::push("<3", Queue);
-                        held_last_frame = true;
+                        missed_counter = 0;
+                    } else {
+                        if (roll_counter > 15 && roll_counter < 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
+                            sprintf(buf, "%df early", 20 - roll_counter);
+                            FIFOQueue::push(buf, Queue);
+                            held_last_frame = true;
+                        } else if (roll_counter == 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
+                            FIFOQueue::push("<3", Queue);
+                            held_last_frame = true;
+                        }
+                    }
+                } else if (roll_counter > 0 || missed_counter > 0) {
+                    missed_counter++;
+                    if (missed_counter > 5) {
+                        missed_counter = 0;
                     }
                 }
-            } else if (roll_counter > 0 || missed_counter > 0) {
-                missed_counter++;
-                if (missed_counter > 5) {
-                    missed_counter = 0;
+                // account for roll interupt
+                if (roll_counter > 0 && roll_counter < 21 && tp_zelAudio.link_debug_ptr->current_action_id != 14) {
+                    roll_counter = 0;
                 }
-            }
-            // account for roll interupt
-            if (roll_counter > 0 && roll_counter < 21 && tp_zelAudio.link_debug_ptr->current_action_id != 14) {
-                roll_counter = 0;
             }
         }
     }

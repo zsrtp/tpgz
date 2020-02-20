@@ -8,10 +8,14 @@
 #include "fifo_queue.h"
 #include "menu.h"
 #include "input_viewer.h"
+#include "gorge.h"
+#include "rollcheck.h"
 
 static Font Consolas;
-bool visible = false;
+bool mm_visible = false;
+bool prac_visible = false;
 bool iv_visible = false;
+_FIFOQueue Queue;
 
 extern "C" {
 
@@ -20,9 +24,13 @@ void init() {
 }
 
 void game_loop() {
-    if (tp_mPadStatus.sval == (Controller::Pad::R | Controller::Pad::DPAD_DOWN)) {
-        visible = true;
+    using namespace Controller::Pad;
+    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN)) {
+        mm_visible = true;
     }
+
+    GorgeVoidIndicator::run();
+    RollIndicator::run();
 
     // TODO
     // if (Settings::showInputViewer()) {
@@ -33,7 +41,12 @@ void game_loop() {
 void draw() {
     Consolas.setupRendering();
     FIFOQueue::renderItems(Queue, Consolas);
-    MainMenu::render(Consolas);
+    if (mm_visible == true) {
+        MainMenu::render(Consolas);
+    }
+    if (prac_visible == true) {
+        PracticeMenu::render(Consolas);
+    }
     InputViewer::render(Consolas);
 }
 }

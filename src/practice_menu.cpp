@@ -3,7 +3,9 @@
 #include "menu.h"
 #include "controller.h"
 #include "utils.h"
-#define LINES 6
+#include "gorge.h"
+#include "rollcheck.h"
+#define LINES 2
 
 static int cursor = 0;
 static bool ddown_held_last_frame;
@@ -11,18 +13,14 @@ static bool dup_held_last_frame;
 
 void transition_into(){};
 
-void MainMenu::render(Font& font) {
+void PracticeMenu::render(Font& font) {
     Line lines[LINES] = {
-        {"inventory", 0},
-        {"cheats", 1},
-        {"warping", 2},
-        {"memory", 3},
-        {"practice", 4},
-        {"settings", 5},
-    };
+        {"rolling", 0, false, "see how bad u are at chaining rolls"},
+        {"gorge void", 1, false, "gorge void practice -- use L + R to warp to to kak gorge"}};
 
     if (button_is_down(Controller::B)) {
-        mm_visible = false;
+        prac_visible = false;
+        mm_visible = true;
         return;
     };
 
@@ -50,30 +48,11 @@ void MainMenu::render(Font& font) {
 
     if (button_is_down(Controller::A)) {
         switch (cursor) {
-            case MEMORY_INDEX: {
-                // go to memory menu
-                return;
+            case GORGE_INDEX: {
+
             }
-            case INVENTORY_INDEX: {
-                //transition(MenuState::InventoryMenu);
-                return;
-            }
-            case CHEAT_INDEX: {
-                //transition(MenuState::CheatMenu);
-                return;
-            }
-            case SETTINGS_INDEX: {
-                //transition(MenuState::Settings);
-                return;
-            }
-            case WARPING_INDEX: {
-                //transition(MenuState::Warp);
-                return;
-            }
-            case PRACTICE_INDEX: {
-                prac_visible = true;
-                mm_visible = false;
-                return;
+            case ROLL_INDEX: {
+
             }
         }
     }
@@ -93,6 +72,15 @@ void MainMenu::render(Font& font) {
         }
         cursor_color |= cursor_alpha;
         description_color |= description_alpha;
+
+        if (i == GORGE_INDEX && (GorgeVoidIndicator::active == true)) {
+            strcat(lines[i].line, " [X]");
+        }
+
+        if (i == ROLL_INDEX && (RollIndicator::active == true)) {
+            strcat(lines[i].line, " [X]");
+        }
+
         font.renderChars(lines[i].line, 15.0f, offset, cursor_color);
         font.renderChars(lines[i].description, 15.0f, 440.f, description_color);
     };

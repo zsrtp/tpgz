@@ -2,12 +2,25 @@
 #include "font.h"
 #include <string.h>
 
+#define INVENTORY_INDEX 0
+#define CHEAT_INDEX 1
+#define WARPING_INDEX 2
+#define MEMORY_INDEX 3
+#define PRACTICE_INDEX 4
+#define SETTINGS_INDEX 5
+
+#define ROLL_INDEX 0
+#define GORGE_INDEX 1
+
 struct Line {
     char line[50];
     const int idx;
+    bool enabled;
+    char description[100];
 };
 
-extern bool visible;
+extern bool mm_visible;
+extern bool prac_visible;
 
 class Menu {
    protected:
@@ -29,7 +42,7 @@ class Menu {
 class MainMenu : public Menu {
    private:
    public:
-    MainMenu() : Menu("Main Menu", 0, "Main Menu Description") {}
+    MainMenu() : Menu("main menu", 0, "Main Menu Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -38,7 +51,7 @@ class MainMenu : public Menu {
 
 class InventoryMenu : public Menu {
    public:
-    InventoryMenu() : Menu("Inventory", 1, "Inventory Description") {}
+    InventoryMenu() : Menu("inventory", 1, "Inventory Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -49,7 +62,7 @@ class InventoryMenu : public Menu {
 
 class CheatsMenu : public Menu {
    public:
-    CheatsMenu() : Menu("Cheats", 2, "Cheats Description") {}
+    CheatsMenu() : Menu("cheats", 2, "Cheats Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -60,7 +73,7 @@ class CheatsMenu : public Menu {
 
 class WarpingMenu : public Menu {
    public:
-    WarpingMenu() : Menu("Warping", 3, "Warping Description") {}
+    WarpingMenu() : Menu("warping", 3, "Warping Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
@@ -71,13 +84,22 @@ class WarpingMenu : public Menu {
 
 class MemoryMenu : public Menu {
    public:
-    MemoryMenu() : Menu("Memory", 4, "Memory Description") {}
+    MemoryMenu() : Menu("memory", 4, "Memory Description") {}
     void transition_into(){
         // logic on how to transition into menu
     };
-    void render(){
+    void render(Font& font){
         // graphics stuff
     };
+};
+
+class PracticeMenu : public Menu {
+   public:
+    PracticeMenu() : Menu("practice", 5, "Practice Description") {}
+    void transition_into(){
+        // logic on how to transition into menu
+    };
+    static void render(Font& font);
 };
 
 class SettingsMenu : public Menu {
