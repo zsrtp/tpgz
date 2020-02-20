@@ -7,8 +7,6 @@
 #include "cheats.h"
 #include "commands.h"
 #include <string.h>
-#include "fifo_queue.h"
-#include "rollcheck.h"
 
 
 namespace Cheats {
@@ -53,7 +51,6 @@ namespace Cheats {
     void load_position(){};
 
     void apply_cheats() {
-        RollIndicator::run();
         Link::Link *link = Link::get_link();
         Inventory::Inventory *inventory = Inventory::get_inventory();
         for (auto cheat : Items) {
