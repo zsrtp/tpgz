@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "libtp_c/include/tp.h"
-#include "controller.h"
 #include "libtp_c/include/system.h"
-#include "font.h"
 #include "libtp_c/include/flag.h"
+#include "controller.h"
+#include "font.h"
 #include "input_viewer.h"
 
 namespace InputViewer {
