@@ -63,4 +63,18 @@ namespace Controller {
 
         return down && (just_clicked || is_repeat_frame);
     }
+
+    uint32_t get_current_inputs() {
+        return tp_mPadStatus.sval;
+    }
+
+    bool button_is_held(int idx) {
+        auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame + 1;
+        if (delta != 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }  // namespace Controller

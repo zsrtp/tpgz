@@ -2,53 +2,77 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
+#include "controller.h"
 #include "fifo_queue.h"
 #include "rollcheck.h"
+#include "log.h"
 #include <stdio.h>
+#define ROLL_FRAMES 20
+
+bool g_roll_check_active;
 
 namespace RollIndicator {
     using namespace Controller;
-    static int roll_counter = 0;
+    static int current_counter = 0;
+    static int counter_difference = 0;
+    static int previous_counter = 0;
     static int missed_counter = 0;
-    static bool held_last_frame = false;
     static char buf[20];
 
     void run() {
-        if (RollIndicator::active == true) {
+        if (g_roll_check_active) {
             // if normal human link gameplay
             if (tp_gameInfo.freeze_game == 0 && tp_gameInfo.link.is_wolf == false) {
-                if (tp_mPadStatus.sval != (Pad::A)) {
-                    held_last_frame = false;
-                }
-                if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
-                    // reset counter cause next frame is either a new roll or a miss
-                    if (roll_counter > 20) {
-                        roll_counter = 0;
+                Log log;
+
+                current_counter = TP::get_frame_count();
+
+                if (counter_difference >= 20 && tp_zelAudio.link_debug_ptr->current_action_id == 4) {
+                    if (counter_difference > 24) {
+                        counter_difference = 0;
+                        missed_counter = 0;
+                        previous_counter = 0;
+                        current_counter = 0;
+                    } else {
+                        missed_counter++;
+                        counter_difference++;
                     }
-                    roll_counter++;
-                    if (missed_counter > 0 && held_last_frame == false) {
+                }
+
+                
+
+                if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
+                    if (previous_counter == 0) {
+                        previous_counter = current_counter - 1;
+                    }
+                    counter_difference += current_counter - previous_counter;
+                    previous_counter = current_counter;
+
+                    sprintf(buf, "counter: %d", counter_difference);
+                    log.PrintLog(buf, DEBUG);
+                    sprintf(buf, "missed: %d", missed_counter);
+                    log.PrintLog(buf, DEBUG);
+                    sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
+                    log.PrintLog(buf, DEBUG);
+
+                    if (counter_difference > 15 && counter_difference < 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
+                        sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
+                        FIFOQueue::push(buf, Queue);
+                    } else if (counter_difference == 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
+                        FIFOQueue::push("<3", Queue);
+                        counter_difference = 0;
+                    } else if (missed_counter > 0 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                         sprintf(buf, "%df late", missed_counter);
                         FIFOQueue::push(buf, Queue);
-                        missed_counter = 0;
-                    } else {
-                        if (roll_counter > 15 && roll_counter < 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                            sprintf(buf, "%df early", 20 - roll_counter);
-                            FIFOQueue::push(buf, Queue);
-                            held_last_frame = true;
-                        } else if (roll_counter == 20 && tp_mPadStatus.sval == Pad::A && held_last_frame == false) {
-                            FIFOQueue::push("<3", Queue);
-                            held_last_frame = true;
-                        }
                     }
-                } else if (roll_counter > 0 || missed_counter > 0) {
-                    missed_counter++;
-                    if (missed_counter > 5) {
+
+                    //account for roll interupt via bonks or other means
+                    if (counter_difference > 0 && counter_difference < 20 && tp_zelAudio.link_debug_ptr->current_action_id != 14) {
+                        counter_difference = 0;
+                        previous_counter = 0;
+                        current_counter = 0;
                         missed_counter = 0;
                     }
-                }
-                // account for roll interupt
-                if (roll_counter > 0 && roll_counter < 21 && tp_zelAudio.link_debug_ptr->current_action_id != 14) {
-                    roll_counter = 0;
                 }
             }
         }

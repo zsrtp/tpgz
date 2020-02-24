@@ -2,28 +2,26 @@
 #include "gorge.h"
 #include <string.h>
 #include "libtp_c/include/tp.h"
-#include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
+#include "libtp_c/include/controller.h"
 #include "fifo_queue.h"
+#include "controller.h"
+#include "log.h"
+#define WARP_CS_FRAMES 133
+bool g_gorge_active;
 
 namespace GorgeVoidIndicator {
     using namespace Controller;
 
-    static int before_cs_val = 0;
+    static bool start_timer = false;
+    uint32_t previous_counter = 0;
+    uint32_t current_counter = 0;
+    uint32_t counter_difference = 0;
     static int after_cs_val = 0;
-    static bool held_last_frame = false;
     static bool got_it = false;
     static char buf[20];
     static bool execute_loading_prep = false;
     static bool loading_initiated = false;
-
-    void reset_controller_loop() {
-        held_last_frame = true;
-        Controller::set_buttons_down(0x0);
-        Controller::set_buttons_pressed(0x0);
-        tp_mPadButton.sval = 0x0;
-        tp_mPadStatus.sval = 0x0;
-    }
 
     void prep_rupee_roll() {
         // set respawn location for rupee roll and clear flags
@@ -72,7 +70,8 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.warp.enabled = true;
     }
     void run() {
-        if (GorgeVoidIndicator::active == true) {
+        if (g_gorge_active) {
+            Log log;  // instantiate logger for debugging
 
             // runs after button combo is pressed
             if (execute_loading_prep == true) {
@@ -80,53 +79,61 @@ namespace GorgeVoidIndicator {
             };
 
             // execute warp
-            if (tp_mPadStatus.sval == (Pad::R | Pad::L)) {
+            if (button_is_down(L) && button_is_down(Z)) {
                 execute_loading_prep = true;
                 warp_to_gorge();
             }
             // reset counters on load
             if (tp_fopScnRq.isLoading == 1) {
-                before_cs_val = 0;
+                counter_difference = 0;
                 after_cs_val = 0;
                 got_it = false;
+                start_timer = false;
             }
 
+            current_counter = TP::get_frame_count();
             // situation specific frame counters
-            if (tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
-                before_cs_val++;
-            } else if (before_cs_val == 132 && (tp_gameInfo.freeze_game == 2 || tp_gameInfo.cs_val == 0x900) && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
-                after_cs_val++;
+            if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
+                start_timer = true;
+                previous_counter = current_counter;
+                counter_difference = 0;
             }
 
-            // only care about 10f before and after
-            if (before_cs_val > 122 && after_cs_val < 10) {
-                // only report if you didn't hold it last frame
-                if (tp_mPadStatus.sval != (Pad::L | Pad::A)) {
-                    held_last_frame = false;
+            if (start_timer == true) {
+                counter_difference += current_counter - previous_counter;
+                previous_counter = current_counter;
+
+                if (counter_difference > WARP_CS_FRAMES) {
+                    after_cs_val = counter_difference - WARP_CS_FRAMES;
                 }
 
-                // went early
-                if (got_it == false && held_last_frame == false && before_cs_val < 132 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
-                    int final_val = 132 - before_cs_val;
-                    sprintf(buf, "%df early", final_val);
-                    FIFOQueue::push(buf, Queue);
-                    reset_controller_loop();
-                }
+                sprintf(buf, "counter: %d", counter_difference);
+                log.PrintLog(buf, DEBUG);
+                sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
+                log.PrintLog(buf, DEBUG);
 
-                // got it
-                else if (got_it == false && held_last_frame == false && before_cs_val == 132 &&
-                         tp_mPadStatus.sval == (Pad::L | Pad::A) && after_cs_val == 0) {
-                    FIFOQueue::push("<3", Queue);
-                    reset_controller_loop();
-                    got_it = true;
-                }
+                // only care about 10f before and after
+                if (counter_difference > 123 && after_cs_val < 10) {
+                    // went early
+                    if (!got_it && !(button_is_held(L) && button_is_held(A)) && (counter_difference < WARP_CS_FRAMES) &&
+                        (button_is_down(A) && button_is_down(L))) {
+                        int final_val = WARP_CS_FRAMES - counter_difference;
+                        sprintf(buf, "%df early", final_val);
+                        FIFOQueue::push(buf, Queue);
+                    }
 
-                // went late
-                else if (got_it == false && held_last_frame == false && after_cs_val > 0 && tp_mPadStatus.sval == (Pad::L | Pad::A)) {
+                    // got it
+                    else if (!got_it && !(button_is_held(L) && button_is_held(A)) && (counter_difference == WARP_CS_FRAMES) &&
+                             (button_is_down(A) && button_is_down(L))) {
+                        FIFOQueue::push("got it", Queue);
+                    }
+
                     // went late
-                    sprintf(buf, "%df late", after_cs_val);
-                    FIFOQueue::push(buf, Queue);
-                    reset_controller_loop();
+                    else if (!got_it && !(button_is_held(L) && button_is_held(A)) && after_cs_val > 0 &&
+                             (button_is_down(A) && button_is_down(L))) {
+                        sprintf(buf, "%df late", after_cs_val);
+                        FIFOQueue::push(buf, Queue);
+                    }
                 }
             }
         }

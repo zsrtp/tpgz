@@ -20,4 +20,5 @@ namespace Controller {
 
     bool button_is_pressed(int idx);
     bool button_is_down(int idx);
+    bool button_is_held(int idx);
 }  // namespace Controller
