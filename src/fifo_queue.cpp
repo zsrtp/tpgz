@@ -12,7 +12,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
             Queue.messages[i].ttl--;
         }
         float offset = (440.0f - (float)i * 14.0f);
-        int color = 0xFFFFFF00;
+        int color = Queue.messages[i].RGBA;
         int alpha = 0xFF;
         if (Queue.messages[i].ttl < 30) {
             // linear alpha fade
@@ -27,7 +27,20 @@ void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
         strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
+        Queue.messages[i].RGBA = Queue.messages[i - 1].RGBA;
     }
     strcpy(Queue.messages[0].msg, msg);
     Queue.messages[0].ttl = 120;
+    Queue.messages[0].RGBA = 0xFFFFFF00;
+};
+
+void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, uint32_t RGBA) {
+    for (int i = MAX_MESSAGES - 1; i > 0; i--) {
+        strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
+        Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
+        Queue.messages[i].ttl = Queue.messages[i - 1].RGBA;
+    }
+    strcpy(Queue.messages[0].msg, msg);
+    Queue.messages[0].ttl = 120;
+    Queue.messages[0].RGBA = RGBA;
 };

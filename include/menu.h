@@ -9,7 +9,6 @@
 #define MEMORY_INDEX 5
 #define PRACTICE_INDEX 6
 #define SETTINGS_INDEX 7
-#define LOG_LEVEL_INDEX 8
 
 // practice
 #define ROLL_INDEX 2
@@ -28,6 +27,9 @@
 #define RELOAD_AREA_INDEX 11
 #define FAST_MOVEMENT_INDEX 12
 
+// settings
+#define LOG_LEVEL_INDEX 2
+
 struct Line {
     char line[50];
     const int idx;
@@ -38,6 +40,7 @@ extern bool mm_visible;
 extern bool prac_visible;
 extern bool settings_visible;
 extern bool cheats_visible;
+extern bool settings_visible;
 extern bool trigger_menu_anim;
 
 class Menu {
@@ -128,7 +131,5 @@ class SettingsMenu : public Menu {
     void transition_into(){
         // logic on how to transition into menu
     };
-    void render(){
-        // graphics stuff
-    };
+    static void render(Font& font);
 };

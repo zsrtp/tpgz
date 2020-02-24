@@ -38,9 +38,6 @@ namespace RollIndicator {
                         counter_difference++;
                     }
                 }
-
-                
-
                 if (tp_zelAudio.link_debug_ptr->current_action_id == 14) {
                     if (previous_counter == 0) {
                         previous_counter = current_counter - 1;
@@ -57,13 +54,13 @@ namespace RollIndicator {
 
                     if (counter_difference > 15 && counter_difference < 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                         sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
-                        FIFOQueue::push(buf, Queue);
+                        FIFOQueue::push(buf, Queue, 0x0000FFFF);
                     } else if (counter_difference == 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
-                        FIFOQueue::push("<3", Queue);
+                        FIFOQueue::push("<3", Queue, 0x00CC00FF);
                         counter_difference = 0;
                     } else if (missed_counter > 0 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                         sprintf(buf, "%df late", missed_counter);
-                        FIFOQueue::push(buf, Queue);
+                        FIFOQueue::push(buf, Queue, 0x990000FF);
                     }
 
                     //account for roll interupt via bonks or other means

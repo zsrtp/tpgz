@@ -65,6 +65,8 @@ void draw() {
     if (cheats_visible) {
         CheatsMenu::render(Consolas);
     }
-    InputViewer::render(Consolas);
+    if (iv_visible) {
+        InputViewer::render(Consolas);
+    }
 }
 }
