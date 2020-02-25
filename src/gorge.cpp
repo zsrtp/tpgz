@@ -7,7 +7,7 @@
 #include "fifo_queue.h"
 #include "controller.h"
 #include "log.h"
-#define WARP_CS_FRAMES 133
+#define WARP_CS_FRAMES 132
 bool g_gorge_active;
 
 namespace GorgeVoidIndicator {
@@ -126,6 +126,7 @@ namespace GorgeVoidIndicator {
                     else if (!got_it && !(button_is_held(L) && button_is_held(A)) && (counter_difference == WARP_CS_FRAMES) &&
                              (button_is_down(A) && button_is_down(L))) {
                         FIFOQueue::push("got it", Queue);
+                        got_it = true;
                     }
 
                     // went late

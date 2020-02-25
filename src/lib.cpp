@@ -12,6 +12,7 @@
 #include "gorge.h"
 #include "log.h"
 #include "rollcheck.h"
+#include "save_injector.h"
 
 static Font Consolas;
 bool mm_visible = false;
@@ -22,6 +23,7 @@ bool iv_visible = false;
 static bool jump_to_quest_log_screen;
 static bool was_loading_title_screen = false;
 _FIFOQueue Queue;
+uint8_t norgor_bytes[2700];
 
 extern "C" {
 
@@ -49,6 +51,10 @@ void game_loop() {
         mm_visible = true;
     }
 
+    PracticeFile norgor_file;
+    memcpy(&norgor_file.qlog_bytes,&norgor_bytes,2700);
+
+    SaveInjector::load_area(norgor_file);
     RollIndicator::run();
     GorgeVoidIndicator::run();
 }
@@ -64,6 +70,9 @@ void draw() {
     }
     if (cheats_visible) {
         CheatsMenu::render(Consolas);
+    }
+    if (settings_visible) {
+        SettingsMenu::render(Consolas);
     }
     if (iv_visible) {
         InputViewer::render(Consolas);

@@ -13,6 +13,7 @@
 // practice
 #define ROLL_INDEX 2
 #define GORGE_INDEX 3
+#define NORGOR_INDEX 4
 
 // cheats
 #define INVINCIBLE_INDEX 2
@@ -40,7 +41,6 @@ extern bool mm_visible;
 extern bool prac_visible;
 extern bool settings_visible;
 extern bool cheats_visible;
-extern bool settings_visible;
 extern bool trigger_menu_anim;
 
 class Menu {

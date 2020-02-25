@@ -119,52 +119,52 @@ namespace Cheats {
     };
 }  // namespace Cheats
 
-void CheatsMenu::render(Font &font) {
-        if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {
-            cheats_visible = false;
-            mm_visible = true;
-            return;
-        };
+void CheatsMenu::render(Font& font) {
+    if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {
+        cheats_visible = false;
+        mm_visible = true;
+        return;
+    };
 
-        move_cursor(cursor,LINES);
+    move_cursor(cursor, LINES);
 
-        if (button_is_down(Controller::A) && !button_is_held(Controller::A)) {
-            switch (cursor) {
-                case INVINCIBLE_INDEX: {
-                    Cheats::Items[INVINCIBLE_INDEX - 2].active = !Cheats::Items[INVINCIBLE_INDEX - 2].active
-                }
-                case INVINCIBLE_ENEMIES_INDEX: {
-                    Cheats::Items[INVINCIBLE_ENEMIES_INDEX - 2].active = !Cheats::Items[INVINCIBLE_ENEMIES_INDEX - 2].active
-                }
-                case INFINITE_AIR_INDEX: {
-                    Cheats::Items[INFINITE_AIR_INDEX - 2].active = !Cheats::Items[INFINITE_AIR_INDEX - 2].active
-                }
-                case INFINITE_OIL_INDEX: {
-                    Cheats::Items[INFINITE_OIL_INDEX - 2].active = !Cheats::Items[INFINITE_OIL_INDEX - 2].active
-                }
-                case INFINITE_BOMBS_INDEX: {
-                    Cheats::Items[INFINITE_BOMBS_INDEX - 2].active = !Cheats::Items[INFINITE_BOMBS_INDEX - 2].active
-                }
-                case INFINITE_RUPEES_INDEX: {
-                    Cheats::Items[INFINITE_RUPEES_INDEX - 2].active = !Cheats::Items[INFINITE_RUPEES_INDEX - 2].active
-                }
-                case INFINITE_ARROWS_INDEX: {
-                    Cheats::Items[INFINITE_ARROWS_INDEX - 2].active = !Cheats::Items[INFINITE_ARROWS_INDEX - 2].active
-                }
-                case MOON_JUMP_INDEX: {
-                    Cheats::Items[MOON_JUMP_INDEX].active  = !Cheats::Items[MOON_JUMP_INDEX].active
-                }
-                case TELEPORT_INDEX: {
-                    Cheats::Items[TELEPORT_INDEX].active = !Cheats::Items[TELEPORT_INDEX].active
-                }
-                case RELOAD_AREA_INDEX: {
-                    Cheats::Items[RELOAD_AREA_INDEX].active = !Cheats::Items[RELOAD_AREA_INDEX].active
-                }
-                case FAST_MOVEMENT_INDEX: {
-                    Cheats::Items[FAST_MOVEMENT_INDEX].active = !Cheats::Items[FAST_MOVEMENT_INDEX].active
-                }
+    if (button_is_down(Controller::A) && !button_is_held(Controller::A)) {
+        switch (cursor) {
+            case INVINCIBLE_INDEX: {
+                Cheats::Items[INVINCIBLE_INDEX - 2].active = !Cheats::Items[INVINCIBLE_INDEX - 2].active;
+            }
+            case INVINCIBLE_ENEMIES_INDEX: {
+                Cheats::Items[INVINCIBLE_ENEMIES_INDEX - 2].active = !Cheats::Items[INVINCIBLE_ENEMIES_INDEX - 2].active;
+            }
+            case INFINITE_AIR_INDEX: {
+                Cheats::Items[INFINITE_AIR_INDEX - 2].active = !Cheats::Items[INFINITE_AIR_INDEX - 2].active;
+            }
+            case INFINITE_OIL_INDEX: {
+                Cheats::Items[INFINITE_OIL_INDEX - 2].active = !Cheats::Items[INFINITE_OIL_INDEX - 2].active;
+            }
+            case INFINITE_BOMBS_INDEX: {
+                Cheats::Items[INFINITE_BOMBS_INDEX - 2].active = !Cheats::Items[INFINITE_BOMBS_INDEX - 2].active;
+            }
+            case INFINITE_RUPEES_INDEX: {
+                Cheats::Items[INFINITE_RUPEES_INDEX - 2].active = !Cheats::Items[INFINITE_RUPEES_INDEX - 2].active;
+            }
+            case INFINITE_ARROWS_INDEX: {
+                Cheats::Items[INFINITE_ARROWS_INDEX - 2].active = !Cheats::Items[INFINITE_ARROWS_INDEX - 2].active;
+            }
+            case MOON_JUMP_INDEX: {
+                Cheats::Items[MOON_JUMP_INDEX].active = !Cheats::Items[MOON_JUMP_INDEX].active;
+            }
+            case TELEPORT_INDEX: {
+                Cheats::Items[TELEPORT_INDEX].active = !Cheats::Items[TELEPORT_INDEX].active;
+            }
+            case RELOAD_AREA_INDEX: {
+                Cheats::Items[RELOAD_AREA_INDEX].active = !Cheats::Items[RELOAD_AREA_INDEX].active;
+            }
+            case FAST_MOVEMENT_INDEX: {
+                Cheats::Items[FAST_MOVEMENT_INDEX].active = !Cheats::Items[FAST_MOVEMENT_INDEX].active;
             }
         }
-        render_lines(font, LINES);
-        }
-    };
+    }
+
+    render_lines(font, lines, cursor, LINES);
+};

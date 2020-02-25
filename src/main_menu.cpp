@@ -62,8 +62,5 @@ void MainMenu::render(Font& font) {
             }
         }
     }
-
-    if (mm_visible == true) {
-        render_lines(font, LINES);
-    };
+        render_lines(font, lines, cursor, LINES);
 };

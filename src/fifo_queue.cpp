@@ -34,11 +34,11 @@ void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     Queue.messages[0].RGBA = 0xFFFFFF00;
 };
 
-void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, uint32_t RGBA) {
+void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, int RGBA) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
         strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
-        Queue.messages[i].ttl = Queue.messages[i - 1].RGBA;
+        Queue.messages[i].RGBA = Queue.messages[i - 1].RGBA;
     }
     strcpy(Queue.messages[0].msg, msg);
     Queue.messages[0].ttl = 120;

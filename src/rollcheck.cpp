@@ -54,13 +54,13 @@ namespace RollIndicator {
 
                     if (counter_difference > 15 && counter_difference < 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                         sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
-                        FIFOQueue::push(buf, Queue, 0x0000FFFF);
+                        FIFOQueue::push(buf, Queue, 0x0000FF00);
                     } else if (counter_difference == 20 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
-                        FIFOQueue::push("<3", Queue, 0x00CC00FF);
+                        FIFOQueue::push("<3", Queue, 0x00CC0000);
                         counter_difference = 0;
                     } else if (missed_counter > 0 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                         sprintf(buf, "%df late", missed_counter);
-                        FIFOQueue::push(buf, Queue, 0x990000FF);
+                        FIFOQueue::push(buf, Queue, 0x99000000);
                     }
 
                     //account for roll interupt via bonks or other means

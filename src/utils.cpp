@@ -20,28 +20,28 @@ void move_cursor(int& cursor, int LINES) {
     };
 }
 
-void menu_anim(Font& font, int idx) {
-    if (current_offset != 60.0f) {
-        current_offset = current_offset - 5.0f;
-    }
+// void menu_anim(Font& font, int idx) {
+//     if (current_offset != 60.0f) {
+//         current_offset = current_offset - 5.0f;
+//     }
 
-    font.renderChars(lines[idx].line, 15.0f, current_offset, 0xFFFFFFFF);
-    if (current_offset == 60.0f) {
-        trigger_menu_anim = false;
-        switch (idx) {
-            case PRACTICE_INDEX: {
-                prac_visible = true;
-                break;
-            }
-            case SETTINGS_INDEX: {
-                settings_visible = true;
-                break;
-            }
-        }
-    }
-}
+//     font.renderChars(lines[idx].line, 15.0f, current_offset, 0xFFFFFFFF);
+//     if (current_offset == 60.0f) {
+//         trigger_menu_anim = false;
+//         switch (idx) {
+//             case PRACTICE_INDEX: {
+//                 prac_visible = true;
+//                 break;
+//             }
+//             case SETTINGS_INDEX: {
+//                 settings_visible = true;
+//                 break;
+//             }
+//         }
+//     }
+// }
 
-void render_lines(Font& font, int LINES) {
+void render_lines(Font& font, Line lines[], int cursor, int LINES) {
     font.renderChars("tpgz v0.1", 13.0f, 15.0f, 0x008080FF);
     
     for (int i = 0; i < LINES; i++) {
