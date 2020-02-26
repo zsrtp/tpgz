@@ -27,3 +27,27 @@ void Log::PrintLog(const char *msg, int log_level) {
         }
     }
 }
+
+void Log::PrintLog(const char *strformat,const char *string, int log_level) {
+    
+    char tempbuf[100];
+    if (g_log_level == INFO) {
+        if (log_level == INFO) {
+            sprintf(tempbuf, strformat, string);
+            sprintf(buf, "[INFO] %s", tempbuf);
+            FIFOQueue::push(buf, Queue);
+        }
+    }
+    if (g_log_level == DEBUG) {
+        if (log_level == INFO) {
+            sprintf(tempbuf, strformat, string);
+            sprintf(buf, "[INFO] %s", tempbuf);
+            FIFOQueue::push(buf, Queue);
+        }
+        if (log_level == DEBUG) {
+            sprintf(tempbuf, strformat, string);
+            sprintf(buf, "[DEBUG] %s", tempbuf);
+            FIFOQueue::push(buf, Queue);
+        }
+    }
+}

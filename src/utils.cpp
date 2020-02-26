@@ -58,7 +58,11 @@ void render_lines(Font& font, Line lines[], int cursor, int LINES) {
         }
         cursor_color |= cursor_alpha;
         description_color |= description_alpha;
-        font.renderChars(lines[i].line, 15.0f, offset, cursor_color);
+        if (lines[i].toggleable) {
+            // append [ ] or [X]
+        } else {
+            font.renderChars(lines[i].line, 15.0f, offset, cursor_color);
+        }
         font.renderChars(lines[i].description, 15.0f, 440.f, description_color);
     };
 }

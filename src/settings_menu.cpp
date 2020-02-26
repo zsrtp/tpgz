@@ -10,9 +10,9 @@
 static int cursor = 2;
 
 Line lines[LINES] = {
-    {"settings", 0},
-    {"", 1},
-    {"log level:", 2, "changes log level for debugging"}};
+    {"settings", 0, "", false},
+    {"", 1, "", false},
+    {"log level:", 2, "changes log level for debugging", false}};
 
 void SettingsMenu::render(Font& font) {
     if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {

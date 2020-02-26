@@ -10,4 +10,5 @@ class Log {
     public:
      void SetLogLevel(LogLevel level);
      void PrintLog(const char *msg, int l_log_level);
+     void PrintLog(const char *strformat, const char *string, int log_level);
 };

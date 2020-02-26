@@ -35,6 +35,7 @@ struct Line {
     char line[50];
     const int idx;
     char description[100];
+    bool toggleable;
 };
 
 extern bool mm_visible;

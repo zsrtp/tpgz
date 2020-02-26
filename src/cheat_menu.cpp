@@ -15,19 +15,19 @@
 static int cursor = 2;
 
 Line lines[LINES] = {
-    {"cheats", 0},
-    {"", 1},
-    {"invincible", 2, "makes link invincible"},
-    {"invincible enemies", 3, "makes some enemies invicible (area reload required)"},
-    {"infinite air", 4, "gives link infinite air underwater"},
-    {"infinite oil", 5, "gives link infinite lantern oil"},
-    {"infinite bombs", 6, "gives link 99 bombs in all bags"},
-    {"infinite rupees", 7, "link will always have 1000 rupees"},
-    {"infinite arrows", 8, "gives link 99 arrows"},
-    {"moon jump", 9, "hold R+A to moon jump"},
-    {"teleport", 10, "use dpad+up to set position, use dpad+down to load position"},
-    {"area reload", 11, "use L+R+Start to reload current area"},
-    {"fast movement", 12, "move much faster (human rolling only for now)"}};
+    {"cheats", 0, "", false},
+    {"", 1, "", false},
+    {"invincible", 2, "makes link invincible", true},
+    {"invincible enemies", 3, "makes some enemies invicible (area reload required)", true},
+    {"infinite air", 4, "gives link infinite air underwater", true},
+    {"infinite oil", 5, "gives link infinite lantern oil", true},
+    {"infinite bombs", 6, "gives link 99 bombs in all bags", true},
+    {"infinite rupees", 7, "link will always have 1000 rupees", true},
+    {"infinite arrows", 8, "gives link 99 arrows", true},
+    {"moon jump", 9, "hold R+A to moon jump", true},
+    {"teleport", 10, "use dpad+up to set position, use dpad+down to load position", true},
+    {"area reload", 11, "use L+R+Start to reload current area", true},
+    {"fast movement", 12, "move much faster (human rolling only for now)", true}};
 
 namespace Cheats {
     using namespace Controller;
