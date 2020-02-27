@@ -15,6 +15,7 @@ struct _FIFOQueue {
 };
 
 extern _FIFOQueue Queue;
+extern bool fifo_visible;
 
 class FIFOQueue {
    private:

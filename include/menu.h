@@ -8,28 +8,47 @@
 #define WARPING_INDEX 4
 #define MEMORY_INDEX 5
 #define PRACTICE_INDEX 6
-#define SETTINGS_INDEX 7
+#define TOOLS_INDEX 7
+#define SETTINGS_INDEX 8
+extern bool mm_visible;
 
 // practice
-#define ROLL_INDEX 2
-#define GORGE_INDEX 3
-#define NORGOR_INDEX 4
+#define ROLL_INDEX 0
+#define GORGE_INDEX 1
+#define NORGOR_INDEX 2
+extern bool prac_visible;
+extern bool inject_save_flag;
 
 // cheats
-#define INVINCIBLE_INDEX 2
-#define INVINCIBLE_ENEMIES_INDEX 3
-#define INFINITE_AIR_INDEX 4
-#define INFINITE_OIL_INDEX 5
-#define INFINITE_BOMBS_INDEX 6
-#define INFINITE_RUPEES_INDEX 7
-#define INFINITE_ARROWS_INDEX 8
-#define MOON_JUMP_INDEX 9
-#define TELEPORT_INDEX 10
-#define RELOAD_AREA_INDEX 11
-#define FAST_MOVEMENT_INDEX 12
+#define INVINCIBLE_INDEX 0
+#define INVINCIBLE_ENEMIES_INDEX 1
+#define INFINITE_AIR_INDEX 2
+#define INFINITE_OIL_INDEX 3
+#define INFINITE_BOMBS_INDEX 4
+#define INFINITE_RUPEES_INDEX 5
+#define INFINITE_ARROWS_INDEX 6
+#define MOON_JUMP_INDEX 7
+#define TELEPORT_INDEX 8
+#define RELOAD_AREA_INDEX 9
+#define FAST_MOVEMENT_INDEX 10
+extern bool cheats_visible;
 
 // settings
 #define LOG_LEVEL_INDEX 2
+#define RELOAD_TEMP_FLAGS_INDEX 3
+#define RELOAD_POSITION_INDEX 4
+extern bool settings_visible;
+extern bool g_reload_temp_flags;
+extern bool g_reload_position;
+
+// tools
+#define INPUT_VIEWER_INDEX 2
+#define TIMER_INDEX 3
+extern bool tools_visible;
+
+
+// utils
+extern bool trigger_menu_anim;
 
 struct Line {
     char line[50];
@@ -37,12 +56,6 @@ struct Line {
     char description[100];
     bool toggleable;
 };
-
-extern bool mm_visible;
-extern bool prac_visible;
-extern bool settings_visible;
-extern bool cheats_visible;
-extern bool trigger_menu_anim;
 
 class Menu {
    protected:
@@ -132,5 +145,12 @@ class SettingsMenu : public Menu {
     void transition_into(){
         // logic on how to transition into menu
     };
+    static void render(Font& font);
+};
+
+class ToolsMenu : public Menu {
+    public:
+    ToolsMenu() : Menu("Tools", 6, "Tools Description") {}
+    void transition_into();
     static void render(Font& font);
 };

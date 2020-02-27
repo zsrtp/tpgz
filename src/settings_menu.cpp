@@ -8,6 +8,8 @@
 #define LINES 3
 
 static int cursor = 2;
+bool g_reload_temp_flags;
+bool g_reload_position;
 
 Line lines[LINES] = {
     {"settings", 0, "", false},
@@ -21,20 +23,30 @@ void SettingsMenu::render(Font& font) {
         return;
     };
 
-    move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES);
 
     if (button_is_down(Controller::A) && !button_is_held(Controller::A)) {
         switch (cursor) {
             case LOG_LEVEL_INDEX: {
                 if (g_log_level < 2) {
                     g_log_level++;
+                    break;
                 } else {
                     g_log_level = 0;
+                    break;
                 }
+            }
+            case RELOAD_TEMP_FLAGS_INDEX: {
+                g_reload_temp_flags = !g_reload_temp_flags;
+                break;
+            }
+            case RELOAD_POSITION_INDEX: {
+                g_reload_position = !g_reload_position;
+                break;
             }
         }
     }
-    render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor, LINES);
 
     int cursor_alpha = 0xFF;
     int cursor_color = 0xFFFFFF00;

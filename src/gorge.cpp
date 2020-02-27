@@ -7,6 +7,7 @@
 #include "fifo_queue.h"
 #include "controller.h"
 #include "log.h"
+#include "utils.h"
 #define WARP_CS_FRAMES 132
 bool g_gorge_active;
 
@@ -20,28 +21,6 @@ namespace GorgeVoidIndicator {
     static int after_cs_val = 0;
     static bool got_it = false;
     static char buf[20];
-    static bool execute_loading_prep = false;
-    static bool loading_initiated = false;
-
-    void prep_rupee_roll() {
-        // set respawn location for rupee roll and clear flags
-        tp_gameInfo.respawn_next_spawn_id = 2;
-        tp_gameInfo.respawn_position = {-11856.857f, -5700.0f, 56661.5};
-        tp_gameInfo.respawn_angle = 24169;
-        Inventory::clear_rupee_flags();
-
-        if (tp_fopScnRq.isLoading == 1) {
-            loading_initiated = true;
-        }
-        if (loading_initiated == true) {
-            if (tp_fopScnRq.isLoading == 0) {
-                // jump straight into warp after loading is done
-                tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0x20;
-                tp_gameInfo.cs_val = 0x900;
-                execute_loading_prep = false;
-            }
-        }
-    }
 
     void warp_to_gorge() {
         // set gorge map info
@@ -67,20 +46,14 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.link.heart_quarters = 12;  // 3 hearts
 
         // trigger loading
-        tp_gameInfo.warp.enabled = true;
+        Utilities::trigger_load(Gorge);
     }
     void run() {
         if (g_gorge_active) {
             Log log;  // instantiate logger for debugging
 
-            // runs after button combo is pressed
-            if (execute_loading_prep == true) {
-                prep_rupee_roll();
-            };
-
             // execute warp
             if (button_is_down(L) && button_is_down(Z)) {
-                execute_loading_prep = true;
                 warp_to_gorge();
             }
             // reset counters on load

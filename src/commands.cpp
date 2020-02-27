@@ -1,12 +1,19 @@
 #include "commands.h"
+#include "menu.h"
+#include "utils.h"
+#include "timer.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
+
+bool reload_area_flag = false;
+bool timer_started = false;
+bool reset_timer = false;
 
 namespace Commands {
     static float saved_x = 0.0f;
     static float saved_y = 0.0f;
     static float saved_z = 0.0f;
-    static uint16_t saved_a = 0;
+    static uint16_t saved_angle = 0;
     static float saved_c0 = 0.0f;
     static float saved_c1 = 0.0f;
     static float saved_c2 = 0.0f;
@@ -16,26 +23,35 @@ namespace Commands {
     static float saved_c6 = 0.0f;
     static float saved_c7 = 0.0f;
 
-    void store_position();
-    void load_position();
-    void moon_jump();
-    void reload_area();
+    void store_position() {
+        saved_x = tp_zelAudio.link_debug_ptr->position.x;
+        saved_y = tp_zelAudio.link_debug_ptr->position.y;
+        saved_z = tp_zelAudio.link_debug_ptr->position.z;
+        saved_angle = tp_zelAudio.link_debug_ptr->facing;
+        saved_c0 = tp_matrixInfo.matrix_info->camera0;
+        saved_c1 = tp_matrixInfo.matrix_info->camera1;
+        saved_c2 = tp_matrixInfo.matrix_info->camera2;
+        saved_c3 = tp_matrixInfo.matrix_info->camera3;
+        saved_c4 = tp_matrixInfo.matrix_info->camera4;
+        saved_c5 = tp_matrixInfo.matrix_info->camera5;
+        saved_c6 = tp_matrixInfo.matrix_info->camera6;
+        saved_c7 = tp_matrixInfo.matrix_info->camera7;
+    }
 
-    struct Command {
-        bool active;
-        uint16_t buttons;
-        void (*command)();
-    };
-
-    static Command Commands[4] = {
-        {true, 0x0028, store_position},
-        {true, 0x0024, load_position},
-        {true, 0x0120, moon_jump},
-        {true, 0x1160, reload_area}};
-
-    void store_position() {}
-
-    void load_position() {}
+    void load_position() {
+        tp_zelAudio.link_debug_ptr->position.x = saved_x;
+        tp_zelAudio.link_debug_ptr->position.y = saved_y;
+        tp_zelAudio.link_debug_ptr->position.z = saved_z;
+        tp_zelAudio.link_debug_ptr->facing = saved_angle;
+        tp_matrixInfo.matrix_info->camera0 = saved_c0;
+        tp_matrixInfo.matrix_info->camera1 = saved_c1;
+        tp_matrixInfo.matrix_info->camera2 = saved_c2;
+        tp_matrixInfo.matrix_info->camera3 = saved_c3;
+        tp_matrixInfo.matrix_info->camera4 = saved_c4;
+        tp_matrixInfo.matrix_info->camera5 = saved_c5;
+        tp_matrixInfo.matrix_info->camera6 = saved_c6;
+        tp_matrixInfo.matrix_info->camera7 = saved_c7;
+    }
 
     void moon_jump() {
         if (tp_gameInfo.momentum_ptr) {
@@ -43,9 +59,33 @@ namespace Commands {
         };
     };
 
+    void toggle_timer() {
+        timer_started = !timer_started;
+    }
+
+    void hit_reset() {
+        reset_timer = true;
+    }
+
     void reload_area() {
-        tp_gameInfo.warp.enabled = true;
+        reload_area_flag = true;
     };
+
+    struct Command {
+        bool active;
+        uint16_t buttons;
+        void (*command)();
+    };
+
+    static Command Commands[6] = {
+        {true, 0x0028, store_position},
+        {true, 0x0024, load_position},
+        {true, 0x0120, moon_jump},
+        {true, 0x1160, reload_area},
+        {true, 0x0110, toggle_timer},
+        {true, 0x0210, hit_reset}};
+
+    
 
     void process_inputs() {
         for (auto c : Commands) {

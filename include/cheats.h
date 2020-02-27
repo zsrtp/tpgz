@@ -3,7 +3,25 @@
 
 namespace Cheats {
     const int CHEAT_AMNT = 11;
+    enum CheatId {
+        Invincible,
+        InvincibleEnemies,
+        InfiniteAir,
+        InfiniteOil,
+        InfiniteBombs,
+        InfiniteRupees,
+        InfiniteArrows,
+        MoonJump,
+        Teleport,
+        ReloadArea,
+        FastRolling
+    };
 
+    struct Cheat {
+        enum CheatId id;
+        bool active;
+    };
+    
     void apply_cheats();
 };  // namespace Cheats
 

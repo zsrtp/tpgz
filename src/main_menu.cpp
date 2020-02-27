@@ -1,23 +1,25 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
+#include "fifo_queue.h"
 #include "menu.h"
 #include "controller.h"
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 8
+#define LINES 9
 
 static int cursor = 2;
 
 Line lines[LINES] = {
-    {"main menu", 0},
-    {"", 1},
-    {"inventory", 2, "set link's items and equipment"},
-    {"cheats", 3, "turn cheats on/off"},
-    {"warping", 4, "warp to dungeons, towns, grottos, etc."},
-    {"memory", 5, "add memory watches to the screen"},
-    {"practice", 6, "practice tools for various categories"},
-    {"settings", 7, "configure settings"}};
+    {"main menu", 0, "", false},
+    {"", 1, "", false},
+    {"inventory", 2, "set link's items and equipment", false},
+    {"cheats", 3, "turn cheats on/off", false},
+    {"warping", 4, "warp to dungeons, towns, grottos, etc.", false},
+    {"memory", 5, "add memory watches to the screen", false},
+    {"practice", 6, "practice tools for various categories", false},
+    {"tools", 7, "various tools for practice and testing", false},
+    {"settings", 8, "configure settings", false}};
 
 void transition_into(){};
 
@@ -25,11 +27,12 @@ void MainMenu::render(Font& font) {
 
     if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {
         mm_visible = false;
+        fifo_visible = true;
         return;
     };
 
-    move_cursor(cursor, LINES);
-
+    Utilities::move_cursor(cursor, LINES);
+    
     if (button_is_down(Controller::A) && !button_is_held(Controller::A)) {
         switch (cursor) {
             case MEMORY_INDEX: {
@@ -43,6 +46,12 @@ void MainMenu::render(Font& font) {
             case CHEAT_INDEX: {
                 mm_visible = false;
                 cheats_visible = true;
+                return;
+            }
+            case TOOLS_INDEX: {
+                //transition(MenuState::Settings);
+                mm_visible = false;
+                tools_visible = true;
                 return;
             }
             case SETTINGS_INDEX: {
@@ -62,5 +71,5 @@ void MainMenu::render(Font& font) {
             }
         }
     }
-        render_lines(font, lines, cursor, LINES);
+        Utilities::render_lines(font, lines, cursor, LINES);
 };

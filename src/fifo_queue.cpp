@@ -19,7 +19,9 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
             alpha = Queue.messages[i].ttl * 8.5;
         }
         color |= alpha;
-        font.renderChars(Queue.messages[i].msg, 5.0f, offset, color);
+        if (fifo_visible) {
+            font.renderChars(Queue.messages[i].msg, 5.0f, offset, color);
+        }
     }
 };
 

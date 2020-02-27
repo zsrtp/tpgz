@@ -1,6 +1,8 @@
 #include "libtp_c/include/controller.h"
 #include "cheats.h"
 #include "controller.h"
+#include "menu.h"
+#include "commands.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 
@@ -45,6 +47,15 @@ extern "C" uint32_t read_controller() {
         }
     }
     Cheats::apply_cheats();
+    if (mm_visible|| prac_visible || settings_visible || cheats_visible || tools_visible) {
+        Controller::set_buttons_down(0x0);
+        Controller::set_buttons_pressed(0x0);
+        tp_mPadStatus.sval = 0x0;
+        tp_mPadButton.sval = 0x0;
+    }
+    else {
+        Commands::process_inputs();
+    }
     return 0x80000000;
 }
 

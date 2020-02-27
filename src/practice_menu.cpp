@@ -1,12 +1,15 @@
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "libtp_c/include/controller.h"
 #include "menu.h"
 #include "controller.h"
+#include "fifo_queue.h"
 #include "utils.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
 #include "save_files/norgor.h"
+#include "log.h"
 #define LINES 5
 
 
@@ -15,11 +18,11 @@ static int cursor = 2;
 void transition_into(){};
 
 Line lines[LINES] = {
-    {"practice", 0},
-    {"", 1},
-    {"roll check [ ]", 2, "see how bad u are at chaining rolls"},
-    {"gorge void [ ]", 3, "gorge void practice -- use L + Z to warp to to kak gorge"},
-    {"norgor", 4, "for otti :^)"}};
+    {"practice", 0, "", false},
+    {"", 1, "", false},
+    {"roll check", 2, "see how bad u are at chaining rolls", true},
+    {"gorge void", 3, "gorge void practice -- use L + Z to warp to to kak gorge", true},
+    {"norgor", 4, "for otti :^)", false}};
 
 void PracticeMenu::render(Font& font) {
     
@@ -29,8 +32,10 @@ void PracticeMenu::render(Font& font) {
         return;
     };
 
-    if (button_is_down(Controller::A) && !button_is_held(Controller::A)) {
-        switch (cursor) {
+    tp_osReport("%d", tp_mPadStatus.sval == Controller::Pad::A);
+    tp_osReport("%d", button_is_held(Controller::A));
+    if (tp_mPadStatus.sval == Controller::Pad::A && !button_is_held(Controller::A)) {
+        switch (cursor-2) {
             case GORGE_INDEX: {
                 g_gorge_active = !g_gorge_active;
                 break;
@@ -40,17 +45,17 @@ void PracticeMenu::render(Font& font) {
                 break;
             }
             case NORGOR_INDEX: {
-                execute_injection_loading_prep = true;
+                inject_save_flag = true;
                 prac_visible = false;
-                //load_area(norgor_file);
+                fifo_visible = true;
                 break;
             }
         }
     }
 
-    move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES);
 
-    render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor, LINES);
     float gorge_offset = (60.0f + (float)GORGE_INDEX * 20.0f);
     float roll_offset = (60.0f + (float)ROLL_INDEX * 20.0f);
     int cursor_color = 0xFFFFFF00;
@@ -59,18 +64,6 @@ void PracticeMenu::render(Font& font) {
         cursor_alpha = 0x80;
     }
     cursor_color |= cursor_alpha;
-
-    if (g_gorge_active) {
-        strcpy(lines[GORGE_INDEX].line, "gorge void [X]");
-    } else {
-        strcpy(lines[GORGE_INDEX].line, "gorge void [ ]");
-    }
-
-    if (g_roll_check_active) {
-        strcpy(lines[ROLL_INDEX].line, "roll check [X]");
-    } else {
-        strcpy(lines[ROLL_INDEX].line, "roll check [ ]");
-    }
 
     font.renderChars(lines[GORGE_INDEX].line, 15.0f, gorge_offset, cursor_color);
     font.renderChars(lines[ROLL_INDEX].line, 15.0f, roll_offset, cursor_color);
