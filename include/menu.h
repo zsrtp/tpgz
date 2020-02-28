@@ -13,8 +13,6 @@
 extern bool mm_visible;
 
 // practice
-#define ROLL_INDEX 0
-#define GORGE_INDEX 1
 #define NORGOR_INDEX 2
 extern bool prac_visible;
 extern bool inject_save_flag;
@@ -36,13 +34,16 @@ extern bool cheats_visible;
 // settings
 #define LOG_LEVEL_INDEX 2
 #define RELOAD_TEMP_FLAGS_INDEX 3
-#define RELOAD_POSITION_INDEX 4
+#define DROP_SHADOWS_INDEX 4
 extern bool settings_visible;
 extern bool g_reload_temp_flags;
+extern bool g_drop_shadows;
 
 // tools
 #define INPUT_VIEWER_INDEX 2
 #define TIMER_INDEX 3
+#define ROLL_INDEX 4
+#define GORGE_INDEX 5
 extern bool tools_visible;
 
 
@@ -54,6 +55,7 @@ struct Line {
     const int idx;
     char description[100];
     bool toggleable;
+    bool *activation_flag;
 };
 
 class Menu {

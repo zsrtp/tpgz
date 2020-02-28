@@ -10,7 +10,7 @@
 #include "save_injector.h"
 #include "save_files/norgor.h"
 #include "log.h"
-#define LINES 5
+#define LINES 3
 
 
 static int cursor = 2;
@@ -20,8 +20,6 @@ void transition_into(){};
 Line lines[LINES] = {
     {"practice", 0, "", false},
     {"", 1, "", false},
-    {"roll check", 2, "see how bad u are at chaining rolls", true},
-    {"gorge void", 3, "gorge void practice -- use L + Z to warp to to kak gorge", true},
     {"norgor", 4, "for otti :^)", false}};
 
 void PracticeMenu::render(Font& font) {
@@ -35,15 +33,7 @@ void PracticeMenu::render(Font& font) {
     tp_osReport("%d", tp_mPadStatus.sval == Controller::Pad::A);
     tp_osReport("%d", button_is_held(Controller::A));
     if (tp_mPadStatus.sval == Controller::Pad::A && !button_is_held(Controller::A)) {
-        switch (cursor-2) {
-            case GORGE_INDEX: {
-                g_gorge_active = !g_gorge_active;
-                break;
-            }
-            case ROLL_INDEX: {
-                g_roll_check_active = !g_roll_check_active;
-                break;
-            }
+        switch (cursor) {
             case NORGOR_INDEX: {
                 inject_save_flag = true;
                 prac_visible = false;

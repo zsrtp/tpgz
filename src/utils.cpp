@@ -1,5 +1,6 @@
 #include "utils.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "save_injector.h"
 #include "commands.h"
 #include "log.h"
@@ -57,6 +58,7 @@ namespace Utilities {
             int description_color = 0xFFFFFF00;
             int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
+            int drop_shadows_color = 0x00000080;
 
             if (input_lines[i].idx != cursor) {
                 cursor_alpha = 0x80;
@@ -67,25 +69,35 @@ namespace Utilities {
             cursor_color |= cursor_alpha;
             description_color |= description_alpha;
 
-            if (lines[i].toggleable) {
+            if (input_lines[i].toggleable) {
                 char toggleline[54];
                 for (int j = 0; j < 50; j++) {
                     toggleline[j] = input_lines[i].line[j];
                 }
-                strcat(toggleline, " [ ]");
+                if (*input_lines[i].activation_flag) {
+                    strcat(toggleline, " [X]");
+                } else {
+                    strcat(toggleline, " [ ]");
+                }
+
+                tp_osReport("%d",input_lines[i].activation_flag);
+                tp_osReport("%d",g_drop_shadows);
+                
                 font.renderChars(toggleline, 15.0f, offset, cursor_color);
-                if (g_drop_shadow) {
-                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                if (g_drop_shadows) {
+                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             } else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
-                if (g_drop_shadow) {
-                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                if (g_drop_shadows) {
+                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             }
 
-            font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
             font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
+            if (g_drop_shadows && input_lines[i].idx == cursor) {
+                font.renderChars(input_lines[i].description, 15.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
+            };
         };
     }
 
@@ -100,6 +112,7 @@ namespace Utilities {
             int description_color = 0xFFFFFF00;
             int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
+            int drop_shadows_color = 0x00000080;
             if (input_lines[i].idx != cursor) {
                 cursor_alpha = 0x80;
             }
@@ -120,16 +133,19 @@ namespace Utilities {
                     strcat(toggleline, " [ ]");
                 }
                 font.renderChars(toggleline, 15.0f, offset, cursor_color);
-                if (g_drop_shadow) {
-                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                if (g_drop_shadows) {
+                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             } else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
-                if (g_drop_shadow) {
-                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                if (g_drop_shadows) {
+                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             }
             font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
+            if (g_drop_shadows && input_lines[i].idx == cursor) {
+                font.renderChars(input_lines[i].description, 15.0f + 2.0f, 440.f + 2.0f, drop_shadows_color);
+            }
         };
     }
 
@@ -146,14 +162,14 @@ namespace Utilities {
             log.PrintLog("Setting link's angle", DEBUG);
             tp_zelAudio.link_debug_ptr->facing = practice_file.angle;
             log.PrintLog("Setting camera matrix", DEBUG);
-            tp_matrixInfo.matrix_info->camera0 = practice_file.camera0
-            tp_matrixInfo.matrix_info->camera1 = practice_file.camera1
-            tp_matrixInfo.matrix_info->camera2 = practice_file.camera2
-            tp_matrixInfo.matrix_info->camera3 = practice_file.camera3
-            tp_matrixInfo.matrix_info->camera4 = practice_file.camera4
-            tp_matrixInfo.matrix_info->camera5 = practice_file.camera5
-            tp_matrixInfo.matrix_info->camera6 = practice_file.camera6
-            tp_matrixInfo.matrix_info->camera7 = practice_file.camera7
+            tp_matrixInfo.matrix_info->camera0 = practice_file.camera_matrix.camera0;
+            tp_matrixInfo.matrix_info->camera1 = practice_file.camera_matrix.camera1;
+            tp_matrixInfo.matrix_info->camera2 = practice_file.camera_matrix.camera2;
+            tp_matrixInfo.matrix_info->camera3 = practice_file.camera_matrix.camera3;
+            tp_matrixInfo.matrix_info->camera4 = practice_file.camera_matrix.camera4;
+            tp_matrixInfo.matrix_info->camera5 = practice_file.camera_matrix.camera5;
+            tp_matrixInfo.matrix_info->camera6 = practice_file.camera_matrix.camera6;
+            tp_matrixInfo.matrix_info->camera7 = practice_file.camera_matrix.camera7;
             log.PrintLog("Turning off area reload trigger", DEBUG);
             reload_area_flag = false;
         }
@@ -167,16 +183,14 @@ namespace Utilities {
             log.PrintLog("Setting link's angle", DEBUG);
             tp_zelAudio.link_debug_ptr->facing = practice_file.angle;
             log.PrintLog("Setting camera matrix", DEBUG);
-            if (practice_file.camera_matrix) {
-                tp_matrixInfo.matrix_info->camera0 = practice_file.camera_matrix.camera0
-                tp_matrixInfo.matrix_info->camera1 = practice_file.camera_matrix.camera1
-                tp_matrixInfo.matrix_info->camera2 = practice_file.camera_matrix.camera2
-                tp_matrixInfo.matrix_info->camera3 = practice_file.camera_matrix.camera3
-                tp_matrixInfo.matrix_info->camera4 = practice_file.camera_matrix.camera4
-                tp_matrixInfo.matrix_info->camera5 = practice_file.camera_matrix.camera5
-                tp_matrixInfo.matrix_info->camera6 = practice_file.camera_matrix.camera6
-                tp_matrixInfo.matrix_info->camera7 = practice_file.camera_matrix.camera7
-            }
+            tp_matrixInfo.matrix_info->camera0 = practice_file.camera_matrix.camera0;
+            tp_matrixInfo.matrix_info->camera1 = practice_file.camera_matrix.camera1;
+            tp_matrixInfo.matrix_info->camera2 = practice_file.camera_matrix.camera2;
+            tp_matrixInfo.matrix_info->camera3 = practice_file.camera_matrix.camera3;
+            tp_matrixInfo.matrix_info->camera4 = practice_file.camera_matrix.camera4;
+            tp_matrixInfo.matrix_info->camera5 = practice_file.camera_matrix.camera5;
+            tp_matrixInfo.matrix_info->camera6 = practice_file.camera_matrix.camera6;
+            tp_matrixInfo.matrix_info->camera7 = practice_file.camera_matrix.camera7;
             log.PrintLog("Turning off save injection trigger", DEBUG);
             inject_save_flag = false;
         }
@@ -232,7 +246,7 @@ namespace Utilities {
 
     void trigger_load(Caller caller) {
         // trigger loading
-        if (tp_fopScnRq.isLoading == 0 && !loading_initiated && caller != SaveTempFlags ) {
+        if (tp_fopScnRq.isLoading == 0 && !loading_initiated && caller != SaveTempFlags) {
             log.PrintLog("Initiating warp", INFO);
             tp_gameInfo.warp.enabled = true;
         }

@@ -5,16 +5,18 @@
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 4
+#define LINES 5
 
 static int cursor = 2;
 bool g_reload_temp_flags;
+bool g_drop_shadows = true;
 
 Line lines[LINES] = {
     {"settings", 0, "", false},
     {"", 1, "", false},
     {"log level:", 2, "changes log level for debugging", false},
-    {"reload temp flags", 3, "resets temp flags when using area reload cheat", true};
+    {"reload temp flags", 3, "resets temp flags when using area reload cheat", true, &g_reload_temp_flags},
+    {"drop shadows", 4, "adds shadows to all font letters", true, &g_drop_shadows}};
 
 void SettingsMenu::render(Font& font) {
     if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {
@@ -40,6 +42,10 @@ void SettingsMenu::render(Font& font) {
                 g_reload_temp_flags = !g_reload_temp_flags;
                 break;
             }
+            case DROP_SHADOWS_INDEX: {
+                g_drop_shadows = !g_drop_shadows;
+                break;
+            }
         }
     }
     Utilities::render_lines(font, lines, cursor, LINES);
@@ -49,7 +55,7 @@ void SettingsMenu::render(Font& font) {
     float offset = (60.0f + ((float)LOG_LEVEL_INDEX * 20.0f));
 
     if (lines[LOG_LEVEL_INDEX].idx != cursor) {
-        cursor_alpha = 0x00;
+        cursor_alpha = 0x80;
     }
 
     cursor_color |= cursor_alpha;
@@ -69,4 +75,7 @@ void SettingsMenu::render(Font& font) {
         }
     }
     font.renderChars(buf, 105.0f, offset, cursor_color);
+    if (g_drop_shadows) {
+        font.renderChars(buf, 105.0f+2.0f, offset+2.0f, 0x00000080);
+    }
 };

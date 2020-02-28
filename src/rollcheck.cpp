@@ -9,8 +9,6 @@
 #include <stdio.h>
 #define ROLL_FRAMES 20
 
-bool g_roll_check_active;
-
 namespace RollIndicator {
     using namespace Controller;
     static int current_counter = 0;
