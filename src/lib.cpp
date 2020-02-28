@@ -28,6 +28,11 @@ bool iv_visible = false;
 bool timer_visible = false;
 bool tools_visible = false;
 bool fifo_visible = true;
+bool item_wheel_visible = false;
+bool pause_visible = false;
+bool inventory_visible = false;
+bool memory_visible = false;
+bool warping_visible = false;
 static bool jump_to_quest_log_screen;
 static bool was_loading_title_screen = false;
 _FIFOQueue Queue;
@@ -70,7 +75,6 @@ void game_loop() {
     if (reload_area_flag) {
         Utilities::trigger_load(AreaReload);
     }
-
     if (g_reload_temp_flags) {
         Utilities::trigger_load(SaveTempFlags);
     }
@@ -83,6 +87,21 @@ void draw() {
     }
     if (mm_visible) {
         MainMenu::render(Consolas);
+    }
+    if (inventory_visible) {
+        InventoryMenu::render(Consolas);
+    }
+    if (pause_visible) {
+        PauseMenu::render(Consolas);
+    }
+    if (item_wheel_visible) {
+        ItemWheelMenu::render(Consolas);
+    }
+    if (warping_visible) {
+        WarpingMenu::render(Consolas);
+    }
+    if (memory_visible) {
+        MemoryMenu::render(Consolas);
     }
     if (prac_visible) {
         PracticeMenu::render(Consolas);

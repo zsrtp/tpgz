@@ -7,6 +7,7 @@
 #include "save_injector.h"
 
 extern bool loading_initiated;
+extern bool trigger_menu_anim;
 
 enum Caller {
         Gorge,
