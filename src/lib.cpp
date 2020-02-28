@@ -70,6 +70,10 @@ void game_loop() {
     if (reload_area_flag) {
         Utilities::trigger_load(AreaReload);
     }
+
+    if (g_reload_temp_flags) {
+        Utilities::trigger_load(SaveTempFlags);
+    }
 }
 
 void draw() {
@@ -78,7 +82,6 @@ void draw() {
         FIFOQueue::renderItems(Queue, Consolas);
     }
     if (mm_visible) {
-        //fifo_visible = false;
         MainMenu::render(Consolas);
     }
     if (prac_visible) {

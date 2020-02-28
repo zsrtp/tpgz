@@ -58,7 +58,6 @@ namespace Utilities {
             int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
 
-            // only highlight current line and menu title
             if (input_lines[i].idx != cursor) {
                 cursor_alpha = 0x80;
             }
@@ -67,6 +66,24 @@ namespace Utilities {
             }
             cursor_color |= cursor_alpha;
             description_color |= description_alpha;
+
+            if (lines[i].toggleable) {
+                char toggleline[54];
+                for (int j = 0; j < 50; j++) {
+                    toggleline[j] = input_lines[i].line[j];
+                }
+                strcat(toggleline, " [ ]");
+                font.renderChars(toggleline, 15.0f, offset, cursor_color);
+                if (g_drop_shadow) {
+                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                };
+            } else {
+                font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
+                if (g_drop_shadow) {
+                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                };
+            }
+
             font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
             font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
         };
@@ -90,8 +107,6 @@ namespace Utilities {
                 description_alpha = 0x00;
             }
 
-            //strcpy(toggleline, test);
-
             cursor_color |= cursor_alpha;
             description_color |= description_alpha;
             if (input_lines[i].toggleable) {
@@ -105,9 +120,14 @@ namespace Utilities {
                     strcat(toggleline, " [ ]");
                 }
                 font.renderChars(toggleline, 15.0f, offset, cursor_color);
-                // append [ ] or [X]
+                if (g_drop_shadow) {
+                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                };
             } else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
+                if (g_drop_shadow) {
+                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, 0x000000FF);
+                };
             }
             font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
         };
@@ -118,22 +138,45 @@ namespace Utilities {
             tp_gameInfo.warp.entrance.void_flag = 0;
             tp_gameInfo.event_to_play = 0;
             tp_gameInfo.respawn_animation = 0;
-            log.PrintLog("Writing temp flags to RAM", DEBUG);
-            memcpy(&tp_gameInfo.temp_flags, &practice_file.temp_flags, 40);
+            // moved to set_during_load
+            // log.PrintLog("Writing temp flags to RAM", DEBUG);
+            // memcpy(&tp_gameInfo.temp_flags, &practice_file.temp_flags, 40);
             log.PrintLog("Setting link's position", DEBUG);
             tp_zelAudio.link_debug_ptr->position = practice_file.position;
             log.PrintLog("Setting link's angle", DEBUG);
             tp_zelAudio.link_debug_ptr->facing = practice_file.angle;
+            log.PrintLog("Setting camera matrix", DEBUG);
+            tp_matrixInfo.matrix_info->camera0 = practice_file.camera0
+            tp_matrixInfo.matrix_info->camera1 = practice_file.camera1
+            tp_matrixInfo.matrix_info->camera2 = practice_file.camera2
+            tp_matrixInfo.matrix_info->camera3 = practice_file.camera3
+            tp_matrixInfo.matrix_info->camera4 = practice_file.camera4
+            tp_matrixInfo.matrix_info->camera5 = practice_file.camera5
+            tp_matrixInfo.matrix_info->camera6 = practice_file.camera6
+            tp_matrixInfo.matrix_info->camera7 = practice_file.camera7
+            log.PrintLog("Turning off area reload trigger", DEBUG);
             reload_area_flag = false;
         }
 
         if (caller == SaveInjection) {
-            log.PrintLog("Saving temp flags to RAM", DEBUG);
-            memcpy(&practice_file.temp_flags, &tp_gameInfo.temp_flags, 40);
+            // moving to a general temp flag saving function
+            // log.PrintLog("Saving temp flags", DEBUG);
+            // memcpy(&practice_file.temp_flags, &tp_gameInfo.temp_flags, 40);
             log.PrintLog("Setting link's position", DEBUG);
             tp_zelAudio.link_debug_ptr->position = practice_file.position;
             log.PrintLog("Setting link's angle", DEBUG);
             tp_zelAudio.link_debug_ptr->facing = practice_file.angle;
+            log.PrintLog("Setting camera matrix", DEBUG);
+            if (practice_file.camera_matrix) {
+                tp_matrixInfo.matrix_info->camera0 = practice_file.camera_matrix.camera0
+                tp_matrixInfo.matrix_info->camera1 = practice_file.camera_matrix.camera1
+                tp_matrixInfo.matrix_info->camera2 = practice_file.camera_matrix.camera2
+                tp_matrixInfo.matrix_info->camera3 = practice_file.camera_matrix.camera3
+                tp_matrixInfo.matrix_info->camera4 = practice_file.camera_matrix.camera4
+                tp_matrixInfo.matrix_info->camera5 = practice_file.camera_matrix.camera5
+                tp_matrixInfo.matrix_info->camera6 = practice_file.camera_matrix.camera6
+                tp_matrixInfo.matrix_info->camera7 = practice_file.camera_matrix.camera7
+            }
             log.PrintLog("Turning off save injection trigger", DEBUG);
             inject_save_flag = false;
         }
@@ -143,6 +186,11 @@ namespace Utilities {
             tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0x20;
             log.PrintLog("Setting cs_val to 0x900", DEBUG);
             tp_gameInfo.cs_val = 0x900;
+        }
+
+        if (caller == SaveTempFlags) {
+            log.PrintLog("Writing temp flags to RAM", DEBUG);
+            memcpy(&practice_file.temp_flags, &tp_gameInfo.temp_flags, 40);
         }
     }
 
@@ -159,8 +207,10 @@ namespace Utilities {
         }
 
         if (caller == AreaReload) {
-            log.PrintLog("Writing temp flags to RAM", DEBUG);
-            memcpy(&tp_gameInfo.temp_flags, &practice_file.temp_flags, 40);
+            if (g_reload_temp_flags) {
+                log.PrintLog("Writing temp flags to RAM", DEBUG);
+                memcpy(&tp_gameInfo.temp_flags, &practice_file.temp_flags, 40);
+            }
         }
 
         if (caller == SaveInjection) {
@@ -182,7 +232,7 @@ namespace Utilities {
 
     void trigger_load(Caller caller) {
         // trigger loading
-        if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {
+        if (tp_fopScnRq.isLoading == 0 && !loading_initiated && caller != SaveTempFlags ) {
             log.PrintLog("Initiating warp", INFO);
             tp_gameInfo.warp.enabled = true;
         }

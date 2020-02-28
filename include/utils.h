@@ -11,7 +11,8 @@ extern bool loading_initiated;
 enum Caller {
         Gorge,
         SaveInjection,
-        AreaReload
+        AreaReload,
+        SaveTempFlags
 };
 
 namespace Utilities {

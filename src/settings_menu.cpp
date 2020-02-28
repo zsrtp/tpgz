@@ -5,16 +5,16 @@
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 3
+#define LINES 4
 
 static int cursor = 2;
 bool g_reload_temp_flags;
-bool g_reload_position;
 
 Line lines[LINES] = {
     {"settings", 0, "", false},
     {"", 1, "", false},
-    {"log level:", 2, "changes log level for debugging", false}};
+    {"log level:", 2, "changes log level for debugging", false},
+    {"reload temp flags", 3, "resets temp flags when using area reload cheat", true};
 
 void SettingsMenu::render(Font& font) {
     if (button_is_down(Controller::B) && !button_is_held(Controller::B)) {
@@ -38,10 +38,6 @@ void SettingsMenu::render(Font& font) {
             }
             case RELOAD_TEMP_FLAGS_INDEX: {
                 g_reload_temp_flags = !g_reload_temp_flags;
-                break;
-            }
-            case RELOAD_POSITION_INDEX: {
-                g_reload_position = !g_reload_position;
                 break;
             }
         }

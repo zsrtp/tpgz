@@ -39,7 +39,6 @@ extern bool cheats_visible;
 #define RELOAD_POSITION_INDEX 4
 extern bool settings_visible;
 extern bool g_reload_temp_flags;
-extern bool g_reload_position;
 
 // tools
 #define INPUT_VIEWER_INDEX 2
