@@ -1,10 +1,10 @@
 #pragma once
 
-#include "controller.h"
-#include "font.h"
-#include "menu.h"
-#include "cheats.h"
-#include "save_injector.h"
+#include "tpgz/controller.h"
+#include "tpgz/font.h"
+#include "menus/menu.h"
+#include "tpgz/cheats.h"
+#include "tpgz/save_injector.h"
 
 extern bool loading_initiated;
 extern bool trigger_menu_anim;

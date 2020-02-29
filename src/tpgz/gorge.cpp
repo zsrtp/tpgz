@@ -1,13 +1,13 @@
 #include <stdio.h>
-#include "gorge.h"
+#include "tpgz/gorge.h"
 #include <string.h>
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/controller.h"
-#include "fifo_queue.h"
-#include "controller.h"
-#include "log.h"
-#include "utils.h"
+#include "tpgz/fifo_queue.h"
+#include "tpgz/controller.h"
+#include "tpgz/log.h"
+#include "tpgz/utils.h"
 #define WARP_CS_FRAMES 132
 bool g_gorge_active;
 

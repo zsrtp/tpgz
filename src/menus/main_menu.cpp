@@ -1,11 +1,11 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
-#include "fifo_queue.h"
-#include "menu.h"
-#include "controller.h"
-#include "utils.h"
+#include "tpgz/fifo_queue.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/utils.h"
 #include <stdio.h>
-#include "log.h"
+#include "tpgz/log.h"
 #define LINES 9
 
 static int cursor = 2;
@@ -20,8 +20,6 @@ Line lines[LINES] = {
     {"practice", 6, "practice tools for various categories", false},
     {"tools", 7, "various tools for practice and testing", false},
     {"settings", 8, "configure settings", false}};
-
-void transition_into(){};
 
 void MainMenu::render(Font& font) {
 

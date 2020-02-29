@@ -1,6 +1,6 @@
 #ifndef __CONSOLAS_H_
 #define __CONSOLAS_H_
-#include "font.h"
+#include "tpgz/font.h"
 
 //extern char _consolas_start;
 //extern char _consolas_end;

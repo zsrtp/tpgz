@@ -1,5 +1,5 @@
 #include "libtp_c/include/system.h"
-#include "font.h"
+#include "tpgz/font.h"
 
 void PositionedGlyph::render(uint32_t color) {
     GX_Begin(GX_QUADS, GX_VTXFMT0, 4);

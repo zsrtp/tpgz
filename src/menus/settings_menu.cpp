@@ -1,10 +1,10 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
-#include "menu.h"
-#include "controller.h"
-#include "utils.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/utils.h"
 #include <stdio.h>
-#include "log.h"
+#include "tpgz/log.h"
 #define LINES 5
 
 static int cursor = 2;

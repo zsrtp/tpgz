@@ -1,5 +1,7 @@
-#include "font.h"
-#include "menu.h"
+#include "tpgz/font.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/utils.h"
 
 #define LINES 3
 
@@ -18,6 +20,5 @@ void WarpingMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-
     Utilities::render_lines(font, lines, cursor, LINES);
 }

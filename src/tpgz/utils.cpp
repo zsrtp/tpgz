@@ -1,9 +1,9 @@
-#include "utils.h"
+#include "tpgz/utils.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "save_injector.h"
-#include "commands.h"
-#include "log.h"
+#include "tpgz/save_injector.h"
+#include "tpgz/commands.h"
+#include "tpgz/log.h"
 
 bool loading_initiated = false;
 

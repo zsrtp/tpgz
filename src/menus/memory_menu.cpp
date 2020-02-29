@@ -1,5 +1,7 @@
-#include "font.h"
-#include "menu.h"
+#include "tpgz/font.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/utils.h"
 
 #define LINES 3
 
@@ -9,8 +11,6 @@ Line lines[LINES] = {
     {"memory", 0, "", false},
     {"", 1, "", false},
     {"TBD", 2, "TBD", false}};
-
-void transition_into(){};
 
 void MemoryMenu::render(Font& font) {
 

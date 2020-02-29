@@ -1,7 +1,9 @@
-#include "font.h"
-#include "menu.h"
+#include "tpgz/font.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/utils.h"
 
-#define LINES 3
+#define LINES 4
 
 static int cursor = 2;
 

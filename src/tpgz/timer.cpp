@@ -1,7 +1,7 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "font.h"
-#include "timer.h"
+#include "tpgz/font.h"
+#include "tpgz/timer.h"
 
 namespace Timer {
     static int timer_frame = 0;

@@ -2,10 +2,10 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
-#include "controller.h"
-#include "fifo_queue.h"
-#include "rollcheck.h"
-#include "log.h"
+#include "tpgz/controller.h"
+#include "tpgz/fifo_queue.h"
+#include "tpgz/rollcheck.h"
+#include "tpgz/log.h"
 #include <stdio.h>
 #define ROLL_FRAMES 20
 

@@ -1,7 +1,7 @@
-#include "commands.h"
-#include "menu.h"
-#include "utils.h"
-#include "timer.h"
+#include "tpgz/commands.h"
+#include "menus/menu.h"
+#include "tpgz/utils.h"
+#include "tpgz/timer.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 

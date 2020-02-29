@@ -1,7 +1,7 @@
 #include "libtp_c/include/system.h"
-#include "fifo_queue.h"
+#include "tpgz/fifo_queue.h"
 #include "fonts/consolas.h"
-#include "font.h"
+#include "tpgz/font.h"
 #include <string.h>
 
 static Font Consolas;

@@ -4,11 +4,11 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/link.h"
 #include "libtp_c/include/system.h"
-#include "menu.h"
-#include "controller.h"
-#include "cheats.h"
-#include "commands.h"
-#include "utils.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/cheats.h"
+#include "tpgz/commands.h"
+#include "tpgz/utils.h"
 #include <string.h>
 #define LINES 13
 

@@ -1,17 +1,16 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/controller.h"
-#include "menu.h"
-#include "controller.h"
-#include "fifo_queue.h"
-#include "utils.h"
-#include "gorge.h"
-#include "rollcheck.h"
-#include "save_injector.h"
+#include "menus/menu.h"
+#include "tpgz/controller.h"
+#include "tpgz/fifo_queue.h"
+#include "tpgz/utils.h"
+#include "tpgz/gorge.h"
+#include "tpgz/rollcheck.h"
+#include "tpgz/save_injector.h"
 #include "save_files/norgor.h"
-#include "log.h"
+#include "tpgz/log.h"
 #define LINES 3
-
 
 static int cursor = 2;
 

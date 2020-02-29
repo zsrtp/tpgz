@@ -1,8 +1,8 @@
 #include "libtp_c/include/controller.h"
-#include "cheats.h"
-#include "controller.h"
-#include "menu.h"
-#include "commands.h"
+#include "tpgz/cheats.h"
+#include "tpgz/controller.h"
+#include "menus/menu.h"
+#include "tpgz/commands.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 

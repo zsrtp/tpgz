@@ -1,5 +1,5 @@
-#include "log.h"
-#include "fifo_queue.h"
+#include "tpgz/log.h"
+#include "tpgz/fifo_queue.h"
 #include <stdio.h>
 
 int g_log_level;

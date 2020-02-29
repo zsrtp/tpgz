@@ -1,5 +1,5 @@
 #pragma once
-#include "font.h"
+#include "tpgz/font.h"
 #include <string.h>
 
 // main menu
@@ -103,21 +103,21 @@ class InventoryMenu : public Menu {
    public:
     InventoryMenu() : Menu() {}
     void transition_into(){};
-    static void render(Font& Font);
+    static void render(Font& font);
 };
 
 class PauseMenu : public Menu {
    public:
     PauseMenu() : Menu() {}
     void transition_into(){};
-    static void render(Font& Font);
+    static void render(Font& font);
 };
 
 class ItemWheelMenu : public Menu {
    public:
     ItemWheelMenu() : Menu() {}
     void transition_into(){};
-    static void render(Font& Font);
+    static void render(Font& font);
 };
 
 class CheatsMenu : public Menu {
@@ -131,7 +131,7 @@ class WarpingMenu : public Menu {
    public:
     WarpingMenu() : Menu() {}
     void transition_into(){};
-    static void render(Font& font)
+    static void render(Font& font);
 };
 
 class MemoryMenu : public Menu {

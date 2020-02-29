@@ -1,8 +1,8 @@
-#include "save_injector.h"
+#include "tpgz/save_injector.h"
 #include "libtp_c/include/tp.h"
-#include "log.h"
-#include "utils.h"
-#include "menu.h"
+#include "tpgz/log.h"
+#include "tpgz/utils.h"
+#include "menus/menu.h"
 #include <string.h>
 
 bool inject_save_flag = false;

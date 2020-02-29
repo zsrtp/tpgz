@@ -1,5 +1,5 @@
 #pragma once
-#include "font.h"
+#include "tpgz/font.h"
 
 extern bool timer_visible;
 extern bool timer_started;
