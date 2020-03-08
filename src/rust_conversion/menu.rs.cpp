@@ -3,7 +3,11 @@
 #include "rust_conversion/lib.h"
 
 Menu Menu::New(float x, float y) {
-    // finish
+    Menu menu;
+    menu.x = x;
+    menu.y = y;
+    //..Self::default() // not sure what this does...
+    return menu;
 }
 
 void Line::push_str(Line line, const char* string) {
