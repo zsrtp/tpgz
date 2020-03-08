@@ -114,69 +114,69 @@ class Menu {
 class MainMenu : public Menu {
    public:
     MainMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class InventoryMenu : public Menu {
    public:
     InventoryMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class PauseMenu : public Menu {
    public:
     PauseMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class ItemWheelMenu : public Menu {
    public:
     ItemWheelMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class CheatsMenu : public Menu {
    public:
     CheatsMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class WarpingMenu : public Menu {
    public:
     WarpingMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class MemoryMenu : public Menu {
    public:
     MemoryMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class PracticeMenu : public Menu {
    public:
     PracticeMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class SettingsMenu : public Menu {
    public:
     SettingsMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
 
 class ToolsMenu : public Menu {
    public:
     ToolsMenu() : Menu() {}
-    void transition_into(){};
+    static void transition_into(){};
     static void render(Font& font);
 };
