@@ -1,5 +1,6 @@
 #include "save_injector.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "log.h"
 #include "utils.h"
 #include "menu.h"
@@ -8,34 +9,46 @@
 
 namespace SaveInjector {
 
-    // fetches current temp flags from RAM into practice file object
-    void get_temp_flags(PracticeFile& practice_file) {
-        memcpy(&practice_file.options.temp_flags, &tp_gameInfo.temp_flags, 40);
-    };
-
-    // sets arbitrary flags to practice file object
-    void set_temp_flags(uint8_t temp_flags[40]) {
-        memcpy(&practice_file.options.temp_flags, &temp_flags, 40);
-    };
+    static Log log;
 
     // inject qlog bytes into RAM
     void inject_save() {
         //change to gameinfo later
-        memcpy((void*)0x804061C0, (void*)practice_file.qlog_bytes, 2700);
+        memcpy((void*)0x804061C0, (void*)practice_file.qlog_bytes, 2388);
     };
 
-    // inject temp flags into RAM
-    void inject_temp_flags() {
-        memcpy(&tp_gameInfo.temp_flags, &practice_file.options.temp_flags, 40);
+    void inject_default_before() {
+        inject_save();
     }
 
-    // inject position into RAM
-    void inject_position() {
-        tp_zelAudio.link_debug_ptr->position = practice_file.options.position;
-    }
+    void no_op() { }
 
-    // load area
-    void load_area() {
+    void inject_default_during() {
+
+        int spawn = practice_file.qlog_bytes[SPAWN_INDEX];
+        int room = practice_file.qlog_bytes[ROOM_INDEX];
+        char stage[8];
+        log.PrintLog("Copying stage to load from practice file obj", DEBUG);
+        for (int i = 0; i < 8; i++) {
+            stage[i] = practice_file.qlog_bytes[STAGE_INDEX + i];
+        }
+        int state = tp_getLayerNo(stage, room, 0xFF);
+        log.PrintLog("Setting spawn to: %d", spawn, DEBUG);
+        tp_gameInfo.warp.entrance.spawn = spawn;
+        log.PrintLog("Setting room to: %d", room, DEBUG);
+        tp_gameInfo.warp.entrance.room = room;
+        log.PrintLog("Setting stage to: %s", stage, DEBUG);
+        strcpy((char*)tp_gameInfo.warp.entrance.stage, stage);
+        log.PrintLog("Setting state to: %d", state, DEBUG);
+        tp_gameInfo.warp.entrance.state = state;
         
+        // fixes some bug causing link to auto drown, figure out later
+        tp_gameInfo.link_air_meter = 600;
+        tp_gameInfo.link_air_meter_2 = 600;
+        tp_gameInfo.link_max_air_meter = 600;
+    }
+
+    void inject_default_after() {
+
     }
 }  // namespace SaveInjector

@@ -47,30 +47,21 @@ void init() {
 void game_loop() {
     using namespace Controller::Pad;
 
-    if (tp_mPadStatus.sval == (Y | X)) {
-        tp_osReport("g spawn");
-        spawn("Grass");
-    }
-
     if (tp_mPadStatus.sval == (L | R | DPAD_DOWN)) {
         mm_visible = true;
         fifo_visible = false;
     }
 
-    if (inject_save_flag) {
-        Utilities::trigger_load(SaveInjection);
-    }
     RollIndicator::run();
     GorgeVoidIndicator::run();
-    if (reload_area_flag) {
-        Utilities::trigger_load(AreaReload);
+
+    if (inject_save_flag) {
+        Utilities::trigger_load();
     }
-    if (g_reset_temp_flags) {
-        Utilities::trigger_load(SaveTempFlags);
-    }
-    if (inject_gorge_flag) {
-        Utilities::trigger_load(Gorge);
-    }
+
+    // if (tp_fopScnRq.isLoading) {
+    //     g_load_happened = true;
+    // }
 }
 
 void draw() {
@@ -97,7 +88,7 @@ void draw() {
         MemoryMenu::render(Consolas);
     }
     if (prac_visible) {
-        PracticeMenu::render(Consolas);
+        PracticeMenu::PracticeMenu::render(Consolas);
     }
     if (cheats_visible) {
         CheatsMenu::render(Consolas);

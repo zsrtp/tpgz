@@ -44,6 +44,11 @@ void ToolsMenu::render(Font& font) {
             }
             case GORGE_INDEX: {
                 g_gorge_active = !g_gorge_active;
+                if (g_gorge_active) {
+                    Commands::enable_command(Commands::GORGE_VOID);
+                } else {
+                    Commands::disable_command(Commands::GORGE_VOID);
+                }
                 break;
             }
             case ROLL_INDEX: {

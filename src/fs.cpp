@@ -30,7 +30,7 @@ void loadFile(const char* filePath, FileReadCallback callback) {
         if (bytesRead > 0) {
             DVDClose(&fileInfo);
             log.PrintLog("bytes read - %d", bytesRead, DEBUG);
-            callback(practice_file.qlog_bytes, bytesRead); 
+            callback(practice_file.qlog_bytes, bytesRead);
         } else {
             callback(nullptr,bytesRead);
         }

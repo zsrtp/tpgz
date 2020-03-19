@@ -7,38 +7,22 @@
 #define ROOM_INDEX 97
 #define STAGE_INDEX 88
 
-struct CameraMatrix {
-    float camera0;
-    float camera1;
-    float camera2;
-    float camera3;
-    float camera4;
-    float camera5;
-    float camera6;
-    float camera7;
-};
-
-struct Options {
-    uint8_t temp_flags[40];
-    Vec3 position;
-    uint16_t angle;
-    CameraMatrix camera_matrix;
-};
-
 struct PracticeFile {
     uint8_t qlog_bytes[2720] __attribute__ ((aligned (32)));
-    Options options;
-    bool inject_options;
+    void (*inject_options_before_load)();
+    void (*inject_options_during_load)();
+    void (*inject_options_after_load)();
+    int inject_options_after_counter = 0;
 };
 
-extern bool execute_injection_loading_prep;
 extern PracticeFile practice_file;
 
 namespace SaveInjector {
-    void get_temp_flags();
-    void set_temp_flags(uint8_t temp_flags[40]);
+
     void inject_save();
-    void inject_temp_flags();
-    void inject_position();
-    void load_area();
+    void inject_default_before();
+    void inject_default_during();
+    void inject_default_after();
+    void no_op();
+
 }  // namespace SaveInjector

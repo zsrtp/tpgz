@@ -21,6 +21,8 @@ Line lines[LINES] = {
     {"tools", 7, "various tools for practice and testing", false},
     {"settings", 8, "configure settings", false}};
 
+void transition_into() { }
+
 void MainMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {

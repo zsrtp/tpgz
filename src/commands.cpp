@@ -2,6 +2,8 @@
 #include "menu.h"
 #include "utils.h"
 #include "timer.h"
+#include "gorge.h"
+#include "fs.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
@@ -73,8 +75,20 @@ namespace Commands {
     }
 
     void reload_area() {
-        reload_area_flag = true;
-    };
+        practice_file.inject_options_before_load = SaveInjector::no_op;
+        practice_file.inject_options_during_load = SaveInjector::no_op;
+        practice_file.inject_options_after_load = SaveInjector::no_op;
+        inject_save_flag = true;
+    }  // namespace Commands
+
+    void gorge_void() {
+        if (button_this_frame == 0x0050 && button_last_frame != 0x0050) {
+            loadFile("tpgz/save_files/gorge_void.bin");
+            practice_file.inject_options_during_load = GorgeVoidIndicator::warp_to_gorge;
+            practice_file.inject_options_after_load = GorgeVoidIndicator::prep_rupee_roll;
+            inject_save_flag = true;
+        }
+    }
 
     struct Command {
         bool active;
@@ -82,13 +96,14 @@ namespace Commands {
         void (*command)();
     };
 
-    static Command Commands[6] = {
-        {true, 0x0028, store_position},
-        {true, 0x0024, load_position},
-        {true, 0x0120, moon_jump},
-        {true, 0x1160, reload_area},
-        {true, 0x0110, toggle_timer},
-        {true, 0x0210, hit_reset}};
+    static Command Commands[7] = {
+        {false, 0x0028, store_position},
+        {false, 0x0024, load_position},
+        {false, 0x0120, moon_jump},
+        {false, 0x1160, reload_area},
+        {false, 0x0110, toggle_timer},
+        {false, 0x0210, hit_reset},
+        {false, 0x0050, gorge_void}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;
