@@ -37,7 +37,7 @@ Line lines[LINES] = {
     {"deku toad", TOAD_INDEX, "the miniboss of lakebed temple"},
     {"kargorok flight", KARG_INDEX, "clip oob with trumpet bird"},
     {"eldin twilight", ELDIN_TWILIGHT_INDEX, "eldin twilight tears"},
-    {"eldin twilight", LANAYRU_TWILIGHT_INDEX, "lanayru twilight tears"},
+    {"lanayru twilight", LANAYRU_TWILIGHT_INDEX, "lanayru twilight tears"},
     {"boss bug", BOSS_BUG_INDEX, "lanyru twilight boss bug"},
     {"iza", IZA_INDEX, "steal iza's bomb bag"},
     {"norgor", NORGOR_INDEX, "goron bomb bag without water bombs"},
@@ -280,7 +280,11 @@ namespace PracticeMenu {
                     break;
                 }
                 case IZA_INDEX: {
-                    
+                    loadFile("tpgz/save_files/iza.bin");
+                    default_load();
+                    angle = 10114;
+                    position = {5979.97217f,150.0f,-2748.34155f};
+                    practice_file.inject_options_after_load = set_angle_position;
                     break;
                 }
                 case NORGOR_INDEX: {
@@ -291,15 +295,38 @@ namespace PracticeMenu {
                     break;
                 }
                 case SPR_WARP_SKIP_INDEX: {
+                    loadFile("tpgz/save_files/spr_warp.bin");
+                    default_load();
+                    camera = {-9294.2207f,1180.0f,-11692.3945f,-9309.65137f,1280.4469f,-12130.7695f,1.13141331f,450.0f};
+                    angle = 346;
+                    position = {-9294.87988f,980.0f,-11712.3838f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
+                    practice_file.inject_options_after_counter = 10;
                     break;
                 }
                 case SPR_INDEX: {
+                    loadFile("tpgz/save_files/spr.bin");
+                    default_load();
+                    angle = 33768;
+                    position = {0.0f,-150.0f,6000.0f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
                     break;
                 }
                 case DARK_HAMMER_INDEX: {
+                    loadFile("tpgz/save_files/darkhammer.bin");
+                    default_load();
+                    TP::set_boss_flags();
                     break;
                 }
                 case LAKEBED_2_INDEX: {
+                    loadFile("tpgz/save_files/lakebed_2.bin");
+                    default_load();
+                    camera = {-8.74227766f, 1337.22534f, 14499.0f, -87.9447556f, 1414.24292f, 14741.0518f, 0.0f, 221.340179f};
+                    angle = 32768;
+                    position = {0.0f, 1240.29333f, 14500.0f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
+                    practice_file.inject_options_after_counter = 15;
+                    break;
                     break;
                 }
                 case LAKEBED_BK_SKIP_INDEX: {

@@ -44,3 +44,7 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/save_files/lanayru_gate_clip.bin" = "res/save_files/lanayru_gate_clip.bin"
 "tpgz/save_files/karg.bin" = "res/save_files/karg.bin"
 "tpgz/save_files/eldin_twilight.bin" = "res/save_files/eldin_twilight.bin"
+"tpgz/save_files/iza.bin" = "res/save_files/iza.bin"
+"tpgz/save_files/spr_warp.bin" = "res/save_files/spr_warp.bin"
+"tpgz/save_files/spr.bin" = "res/save_files/spr.bin"
+"tpgz/save_files/lakebed_2.bin" = "res/save_files/lakebed_2.bin"

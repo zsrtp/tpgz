@@ -14,7 +14,7 @@ namespace SaveInjector {
     // inject qlog bytes into RAM
     void inject_save() {
         //change to gameinfo later
-        memcpy((void*)0x804061C0, (void*)practice_file.qlog_bytes, 2388);
+        memcpy((void*)0x804061C0, (void*)practice_file.qlog_bytes, 2700); //2388
     };
 
     void inject_default_before() {
