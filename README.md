@@ -1,11 +1,11 @@
-# <img src="./res/icon.jpg" height="42" width="45" align="top"/>tpgz</h1>
+# <img src="./res/icons/icon.jpg" height="42" width="45" align="top"/>tpgz</h1>
 
 ## About
 
 tpgz is a rom hack of the game Twilight Princess geared towards enhancing practice and testing for speedrunning. 
 
 <p align="center">
-  <img src="./res/giphy.gif?raw=true" />
+  <img src="./res/icons/giphy.gif?raw=true" />
 </p>
 
 The current build supports a wide variety of features including the following:
@@ -41,25 +41,25 @@ You will need the **Twilight Princess ISO** -- currently only the US version is 
 ```
 tpgz
 ├───.github
-│   └───workflows - github action(s) used to test code compilation
-├───external - external libraries and programs consumed by tpgz
-│   ├───fonts - small rust program to generate raw bytes and c code for utilizing true-type fonts in game
-│   │   ├───fonts - ttf files
-│   │   └───src - source code for fonts
-│   ├───gcn_c - game independent gamecube apis to link to
-│   │   ├───include - header files for gcn_c
-│   │   └───src - source code for gcn_c
-│   └───libtp_c - game bindings for twilight princess
+│   └───workflows         // github action(s) used to test code compilation
+├───external              // external libraries and programs consumed by tpgz
+│   ├───fonts             // small rust program to generate raw bytes and c code for utilizing true-type fonts in game
+│   │   ├───fonts         // ttf files
+│   │   └───src           // source code for fonts
+│   ├───gcn_c             // game independent gamecube apis to link to
+│   │   ├───include       // header files for gcn_c
+│   │   └───src           // source code for gcn_c
+│   └───libtp_c           // game bindings for twilight princess
 │       ├───.github
-│       │   └───workflows - github action(s) used to test code compilation
-│       ├───include - header files for libtp_c
-│       └───src - source code for libtp_c
-├───include - header files for tpgz
-│   └───fonts - individual font properties such as width, height, glyphs, etc.
-├───res - external resources to be consumed
-│   └───save_files - raw quest log bytes to be injected at compile time
-└───src - source code for tpgz
-    └───fonts - raw bytes for fonts
+│       │   └───workflows // github action(s) used to test code compilation
+│       ├───include       // header files for libtp_c
+│       └───src           // source code for libtp_c
+├───include               // header files for tpgz
+│   └───fonts             // individual font properties such as width, height, glyphs, etc.
+├───res                   // external resources to be consumed
+│   └───save_files        // raw quest log bytes to be injected at compile time
+└───src                   // source code for tpgz
+    └───fonts             // raw bytes for fonts
 ```
 
 ## Building

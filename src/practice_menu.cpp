@@ -99,19 +99,6 @@ namespace PracticeMenu {
         tp_zelAudio.link_debug_ptr->position = position;
     }
 
-    void norgor() {
-        tp_matrixInfo.matrix_info->camera0 = 174.411758f;
-        tp_matrixInfo.matrix_info->camera1 = -70.5306549f;
-        tp_matrixInfo.matrix_info->camera2 = -3668.91406f;
-        tp_matrixInfo.matrix_info->camera3 = 501.768982f;
-        tp_matrixInfo.matrix_info->camera4 = -5.045784f;
-        tp_matrixInfo.matrix_info->camera5 = -3586.1145f;
-        tp_matrixInfo.matrix_info->camera6 = -1.88999606f;
-        tp_matrixInfo.matrix_info->camera7 = 280.0f;
-        tp_zelAudio.link_debug_ptr->facing = 46568;
-        tp_zelAudio.link_debug_ptr->position = {173.71f, -186.52f, -3633.71f};
-    }
-
     void hugo() {
         SaveInjector::inject_default_during();
         tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 128;  // midna trigger off
@@ -124,6 +111,12 @@ namespace PracticeMenu {
         angle = 10754;
         position = {-1193.0f, -23999.0f, -770.0f};
         set_angle_position();
+    }
+
+    void stallord() {
+        SaveInjector::inject_default_during();
+        tp_gameInfo.ag_flags.flags_1 = 48; // turn off intro cs, start fight
+        tp_gameInfo.warp.entrance.spawn = 0x01; // spawn at in front of stally
     }
 
     void lakebed_bk_skip_during() {
@@ -268,7 +261,6 @@ namespace PracticeMenu {
                     break;
                 }
                 case LANAYRU_TWILIGHT_INDEX: {
-
                     break;
                 }
                 case BOSS_BUG_INDEX: {
@@ -290,7 +282,10 @@ namespace PracticeMenu {
                 case NORGOR_INDEX: {
                     loadFile("tpgz/save_files/norgor.bin");
                     default_load();
-                    practice_file.inject_options_after_load = norgor;
+                    camera = {174.411758f,-70.5306549f,-3668.91406f,501.768982f,-5.045784f,-3586.1145f,-1.88999606f,280.0f};
+                    angle = 46568;
+                    position = {173.71f, -186.52f, -3633.71f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
                     practice_file.inject_options_after_counter = 15;
                     break;
                 }
@@ -347,6 +342,8 @@ namespace PracticeMenu {
                     break;
                 }
                 case MDH_TOWER_INDEX: {
+                    loadFile("tpgz/save_files/mdh_tower.bin");
+                    default_load();
                     break;
                 }
                 case MDH_BRIDGE_INDEX: {
@@ -360,11 +357,18 @@ namespace PracticeMenu {
                     break;
                 }
                 case AG_INDEX: {
+                    loadFile("tpgz/save_files/ag.bin");
+                    default_load();
                     break;
                 }
                 case POE_1_SKIP_INDEX: {
                     loadFile("tpgz/save_files/poe_1_skip.bin");
                     default_load();
+                    camera = {-2047.97168f, 130.16568f, -587.317139f, -1779.00293f, 213.707397f, -584.686768f, 0.0f, 280.0f};
+                    angle = 49030;
+                    position = {-2046.97168f, 0.0f, -587.304871f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
+                    practice_file.inject_options_after_counter = 10;
                     break;
                 }
                 case DSS_INDEX: {
@@ -375,6 +379,7 @@ namespace PracticeMenu {
                 case STALLORD_INDEX: {
                     loadFile("tpgz/save_files/stallord.bin");
                     default_load();
+                    practice_file.inject_options_during_load = stallord;
                     break;
                 }
                 case CITS_EARLY_INDEX: {

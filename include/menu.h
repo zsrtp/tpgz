@@ -26,17 +26,6 @@ extern bool item_wheel_visible;
 extern bool pause_visible;
 
 // cheats
-#define INVINCIBLE_INDEX 0
-#define INVINCIBLE_ENEMIES_INDEX 1
-#define INFINITE_AIR_INDEX 2
-#define INFINITE_OIL_INDEX 3
-#define INFINITE_BOMBS_INDEX 4
-#define INFINITE_RUPEES_INDEX 5
-#define INFINITE_ARROWS_INDEX 6
-#define MOON_JUMP_INDEX 7
-#define TELEPORT_INDEX 8
-#define RELOAD_AREA_INDEX 9
-#define FAST_MOVEMENT_INDEX 10
 extern bool cheats_visible;
 
 // warping
@@ -105,6 +94,9 @@ extern bool g_load_happened;
 #define TIMER_INDEX 3
 #define ROLL_INDEX 4
 #define GORGE_INDEX 5
+#define FREEZE_ACTOR_INDEX 6
+#define HIDE_ACTOR_INDEX 7
+#define FREEZE_CAMERA_INDEX 8
 extern bool tools_visible;
 
 // settings

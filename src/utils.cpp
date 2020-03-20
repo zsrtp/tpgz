@@ -82,54 +82,6 @@ namespace Utilities {
         };
     }  // namespace Utilities
 
-    // hacky, rework into one render_lines
-    // for this to work correctly, Cheat Items[] should be in the same order as Line lines[], minus the menu title and space in lines[]
-    void render_lines_with_items(Font& font, Line input_lines[], int cursor, int LINES, Cheats::Cheat Items[]) {
-        font.renderChars("tpgz v0.1", 13.0f, 15.0f, 0x008080FF);
-
-        for (int i = 0; i < LINES; i++) {
-            float offset = (60.0f + ((float)i * 20.0f));
-            int cursor_color = 0xFFFFFF00;
-            int description_color = 0xFFFFFF00;
-            int cursor_alpha = 0xFF;
-            int description_alpha = 0xFF;
-            int drop_shadows_color = 0x00000080;
-            if (input_lines[i].idx != cursor) {
-                cursor_alpha = 0x80;
-            }
-            if (input_lines[i].idx != cursor) {
-                description_alpha = 0x00;
-            }
-
-            cursor_color |= cursor_alpha;
-            description_color |= description_alpha;
-            if (input_lines[i].toggleable) {
-                char toggleline[54];
-                for (int j = 0; j < 50; j++) {
-                    toggleline[j] = input_lines[i].line[j];
-                }
-                if (Items[i - 2].active) {
-                    strcat(toggleline, " [X]");
-                } else {
-                    strcat(toggleline, " [ ]");
-                }
-                font.renderChars(toggleline, 15.0f, offset, cursor_color);
-                if (g_drop_shadows) {
-                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
-                };
-            } else {
-                font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
-                if (g_drop_shadows) {
-                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
-                };
-            }
-            font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
-            if (g_drop_shadows && input_lines[i].idx == cursor) {
-                font.renderChars(input_lines[i].description, 15.0f + 2.0f, 440.f + 2.0f, drop_shadows_color);
-            }
-        };
-    }
-
     void trigger_load() {
         // trigger loading
         if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {

@@ -2,8 +2,10 @@
 #define LIB_TP_CHEATS
 
 namespace Cheats {
-    const int CHEAT_AMNT = 11;
+    const int CHEAT_AMNT = 15;
     enum CheatId {
+        Blank,
+        Blank2,
         Invincible,
         InvincibleEnemies,
         InfiniteAir,
@@ -13,8 +15,10 @@ namespace Cheats {
         InfiniteArrows,
         MoonJump,
         Teleport,
+        SandHeightLoss,
         ReloadArea,
-        FastRolling
+        FastMovement,
+        FastBonk
     };
 
     struct Cheat {
