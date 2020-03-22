@@ -33,7 +33,7 @@ void MainMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
     
-    if (button_is_pressed(Controller::A)) {
+    if (current_input == 256 && a_held == false) {
         switch (cursor) {
             case MEMORY_INDEX: {
                 memory_visible = true;

@@ -110,10 +110,10 @@ namespace Commands {
         for (auto c : Commands) {
             if (c.active == true && tp_mPadStatus.sval == c.buttons) {
                 c.command();
-                // Controller::set_buttons_down(0x0);
-                // Controller::set_buttons_pressed(0x0);
-                // tp_mPadButton.sval = 0x0;
-                // tp_mPadStatus.sval = 0x0;
+                Controller::set_buttons_down(0x0);
+                Controller::set_buttons_pressed(0x0);
+                tp_mPadButton.sval = 0x0;
+                tp_mPadStatus.sval = 0x0;
             };
         };
         button_last_frame = button_this_frame;

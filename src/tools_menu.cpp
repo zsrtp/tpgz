@@ -13,6 +13,7 @@
 static int cursor = 2;
 bool g_roll_check_active;
 bool g_gorge_active;
+bool init_once = false;
 
 Line lines[LINES] = {
     {"tools", 0, "", false},
@@ -20,22 +21,25 @@ Line lines[LINES] = {
     {"input viewer", INPUT_VIEWER_INDEX, "show current inputs (buttons only for now)", true, &iv_visible},
     {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &timer_visible},
     {"roll check", ROLL_INDEX, "see how bad you are at chaining rolls", true, &g_roll_check_active},
-    {"gorge void", GORGE_INDEX, "gv practice - use L + Z to warp to to kak gorge", true, &g_gorge_active},
+    {"gorge void indicator", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &g_gorge_active},
     {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &tp_actor.freeze},
-    {"hide actors", HIDE_ACTOR_INDEX, "hides actors", true, &tp_stopstatus.hide_actors},
+    {"hide actors", HIDE_ACTOR_INDEX, "hides actors (except link)", true, &tp_stopstatus.hide_actors},
     {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &tp_gameInfo.lock_camera}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         tools_visible = false;
         mm_visible = true;
+        init_once = false;
         return;
     };
+
+    if (!init_once) {current_input = 0;init_once = true;}
 
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor, LINES);
 
-    if (button_is_pressed(Controller::A)) {
+    if (current_input == 256 && a_held == false) {
         switch (cursor) {
             case INPUT_VIEWER_INDEX: {
                 iv_visible = !iv_visible;

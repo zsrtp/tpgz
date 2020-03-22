@@ -1,33 +1,37 @@
+#include "libtp_c/include/system.h"
 #include "libtp_c/include/tp.h"
-#include "libtp_c/include/controller.h"
-#include "menu.h"
 #include "controller.h"
+#include "menu.h"
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 5
+#define LINES 4
 
 static int cursor = 2;
 bool g_reset_temp_flags;
 bool g_drop_shadows = true;
+bool init_once = false;
+
 
 Line lines[LINES] = {
     {"settings", 0, "", false},
     {"", 1, "", false},
     {"log level:", 2, "changes log level for debugging", false},
-    {"reload temp flags", 3, "resets temp flags when using area reload cheat", true, &g_reset_temp_flags},
-    {"drop shadows", 4, "adds shadows to all font letters", true, &g_drop_shadows}};
+    {"drop shadows", 3, "adds shadows to all font letters", true, &g_drop_shadows}};
 
 void SettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
+        init_once = false;
         settings_visible = false;
         mm_visible = true;
         return;
     };
 
+    if (!init_once) {current_input = 0;init_once = true;}
+
     Utilities::move_cursor(cursor, LINES);
 
-    if (button_is_pressed(Controller::A)) {
+    if (current_input == 256 && a_held == false) {
         switch (cursor) {
             case LOG_LEVEL_INDEX: {
                 if (g_log_level < 2) {
@@ -37,10 +41,6 @@ void SettingsMenu::render(Font& font) {
                     g_log_level = 0;
                     break;
                 }
-            }
-            case RESET_TEMP_FLAGS_INDEX: {
-                g_reset_temp_flags = !g_reset_temp_flags;
-                break;
             }
             case DROP_SHADOWS_INDEX: {
                 g_drop_shadows = !g_drop_shadows;

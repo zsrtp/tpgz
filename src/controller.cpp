@@ -13,6 +13,9 @@
 static uint16_t sButtons_down_last_frame = 0;
 static uint16_t sButtons_down = 0;
 static uint16_t sButtons_pressed = 0;
+bool a_held = true;
+bool a_held_last_frame = true;
+uint16_t current_input = 0x0000;
 
 struct ButtonState {
     uint16_t button;
@@ -57,6 +60,15 @@ extern "C" uint32_t read_controller() {
     if (mm_visible|| prac_visible || settings_visible || cheats_visible || 
                     tools_visible || inventory_visible || item_wheel_visible || 
                     pause_visible || memory_visible || warping_visible) {
+        // hack until menu rework is done
+        a_held = true;
+        current_input = Controller::get_current_inputs();
+        a_held = current_input == 0x0100 && a_held_last_frame == true;
+        if (current_input == 0x0100) { a_held_last_frame = true;}
+        else {
+            a_held_last_frame = false;
+        }
+        
         Controller::set_buttons_down(0x0);
         Controller::set_buttons_pressed(0x0);
         tp_mPadStatus.sval = 0x0;
@@ -88,7 +100,7 @@ namespace Controller {
         return down && (just_clicked || is_repeat_frame);
     }
 
-    uint32_t get_current_inputs() {
+    uint16_t get_current_inputs() {
         return tp_mPadStatus.sval;
     }
 

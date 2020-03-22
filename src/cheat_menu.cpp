@@ -10,9 +10,10 @@
 #include "commands.h"
 #include "utils.h"
 #include <string.h>
-#define LINES 15
+#define LINES 17
 
 static int cursor = 2;
+bool init_once = false;
 using namespace Cheats;
 
 static Cheats::Cheat CheatItems[CHEAT_AMNT] = {
@@ -30,25 +31,30 @@ static Cheats::Cheat CheatItems[CHEAT_AMNT] = {
         {SandHeightLoss, false},
         {ReloadArea, false},
         {FastMovement, false},
-        {FastBonk, false}};
+        {FastBonk, false},
+        {SuperClawshot, false},
+        {SuperSpinner, false}};
 
 
 Line lines[LINES] = {
     {"cheats", 0, "", false},
     {"", 1, "", false},
     {"invincible", Invincible, "makes link invincible", true, &CheatItems[Invincible].active},
-    {"invincible enemies", InvincibleEnemies, "makes some enemies invicible (area reload required)", true,&CheatItems[InvincibleEnemies].active},
+    {"invincible enemies", InvincibleEnemies, "makes some enemies invicible", true,&CheatItems[InvincibleEnemies].active},
     {"infinite air", InfiniteAir, "gives link infinite air underwater", true,&CheatItems[InfiniteAir].active},
     {"infinite oil", InfiniteOil, "gives link infinite lantern oil", true,&CheatItems[InfiniteOil].active},
     {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
     {"infinite rupees", InfiniteRupees, "link will always have 1000 rupees", true,&CheatItems[InfiniteRupees].active},
     {"infinite arrows", InfiniteArrows, "gives link 99 arrows", true,&CheatItems[InfiniteArrows].active},
     {"moon jump", MoonJump, "hold R+A to moon jump", true,&CheatItems[MoonJump].active},
-    {"teleport", Teleport, "use dpad+up to set position, use dpad+down to load position", true,&CheatItems[Teleport].active},
+    {"teleport", Teleport, "dpad+up to set, dpad+down to load ", true,&CheatItems[Teleport].active},
     {"no sinking in sand",SandHeightLoss, "link won't sink in sand", true,&CheatItems[SandHeightLoss].active},
     {"area reload", ReloadArea, "use L+R+Start+A to reload current area", true,&CheatItems[ReloadArea].active},
     {"fast movement", FastMovement, "link's movement is much faster", true,&CheatItems[FastMovement].active},
-    {"fast bonk recovery", FastBonk, "reduces bonk animation significantly", true,&CheatItems[FastBonk].active}};
+    {"fast bonk recovery", FastBonk, "reduces bonk animation significantly", true,&CheatItems[FastBonk].active},
+    {"super clawshot", SuperClawshot, "clawshot is long and can grab most things", true,&CheatItems[SuperClawshot].active},
+    {"super spinner", SuperSpinner, "spinner is very fast and can hover", true,&CheatItems[SuperSpinner].active}
+};
 
 namespace Cheats {
     using namespace Controller;
@@ -118,9 +124,22 @@ namespace Cheats {
                     case FastBonk: {
                         tp_link_frontroll.bonk_recoil_anim_speed = 50.0f;
                         tp_link_frontroll.bonk_recovery_anim_factor = 0.0f;
+                        break;
                     }
                     case SandHeightLoss: {
                         tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                        break;
+                    }
+                    case SuperClawshot: {
+                        tp_clawshot.speed = 2870.0f;
+                        tp_clawshot.extension_rate = 69120.0f;
+                        tp_clawshot.retraction_rate = 2870.0f;
+                        tp_clawshot.pull_rate = 500.0f;
+                        break;
+                    }
+                    case SuperSpinner: {
+                        
+                        break;
                     }
                     default: {}
                 }
@@ -160,6 +179,13 @@ namespace Cheats {
                         tp_link_frontroll.bonk_recovery_anim_factor = 0.800000012f;
                         break;
                     }
+                    case SuperClawshot: {
+                        tp_clawshot.speed = 100.0f;
+                        tp_clawshot.extension_rate = 2000.0f;
+                        tp_clawshot.retraction_rate = 150.0f;
+                        tp_clawshot.pull_rate = 60.0f;
+                        break;
+                    }
                     default: {}
                 }
             }
@@ -169,14 +195,17 @@ namespace Cheats {
 
 void CheatsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
+        init_once = false;
         cheats_visible = false;
         mm_visible = true;
         return;
     };
 
+    if (!init_once) {current_input = 0;init_once = true;}
+
     Utilities::move_cursor(cursor, LINES);
 
-    if (button_is_pressed(Controller::A)) {
+    if (current_input == 256 && a_held == false) {
         switch (cursor) {
             case Invincible: {
                 CheatItems[Invincible].active = !(CheatItems[Invincible].active);
@@ -228,6 +257,14 @@ void CheatsMenu::render(Font& font) {
             }
             case FastBonk: {
                 CheatItems[FastBonk].active = !CheatItems[FastBonk].active;
+                break;
+            }
+            case SuperSpinner: {
+                CheatItems[SuperSpinner].active = !CheatItems[SuperSpinner].active;
+                break;
+            }
+            case SuperClawshot: {
+                CheatItems[SuperClawshot].active = !CheatItems[SuperClawshot].active;
                 break;
             }
         }

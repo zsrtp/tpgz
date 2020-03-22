@@ -12,11 +12,12 @@
 #include "fs.h"
 #define LINES 50
 
-static int cursor = 1;
+static int cursor = 2;
 static CameraMatrix camera = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool g_load_happened;
+bool init_once = false;
 
 Line lines[LINES] = {
     {"practice", 0, ""},
@@ -51,9 +52,9 @@ Line lines[LINES] = {
     {"mdh bridge", MDH_BRIDGE_INDEX, "the falling bridge on castle rooftops"},
     {"bulblin camp", BULBLIN_CAMP_INDEX, "the area before arbiter's grounds"},
     {"arbiter's grounds", AG_INDEX, "the arbiter's grounds segment"},
-    {"poe 1 skip", POE_1_SKIP_INDEX, "the pillar jump in arbiter's grounds"},  // fix
+    {"poe 1 skip", POE_1_SKIP_INDEX, "the pillar jump in arbiter's grounds"},
     {"death sword", DSS_INDEX, "the arbiter's grounds miniboss"},
-    {"stallord", STALLORD_INDEX, "the arbiter's grounds boss"},  // fix
+    {"stallord", STALLORD_INDEX, "the arbiter's grounds boss"},
     {"city in the sky early", CITS_EARLY_INDEX, "clip to the canon early"},
     {"city in the sky 1", CITS_1_INDEX, "the first city in the sky segment"},
     {"aeralfos skip", AERALFOS_SKIP_INDEX, "the city in the sky miniboss"},
@@ -64,6 +65,7 @@ Line lines[LINES] = {
     {"palace of twilight 2", PALACE_2_INDEX, "the second palace of twilight segment"},
     {"early platform", EARLY_PLATFORM_INDEX, "early platform in palace of twilight"},
     {"hyrule castle", HC_INDEX, "the hyrule castle segment"},
+    {"zant", ZANT_INDEX, "the palace of twilight boss"},
     {"darknut fight", DARKNUT_INDEX, "the darknut fight in hyrule castle"},
     {"final tower climb", HC_TOWER_INDEX, "the tower climb before the final boss fights"},
     {"beast ganon", BEAST_GANON_INDEX, "the beast ganon fight"},
@@ -78,7 +80,7 @@ namespace PracticeMenu {
         fifo_visible = true;
         prac_visible = false;
         mm_visible = false;
-        cursor = 1;
+        init_once = false;
     }
 
     void set_camera_angle_position() {
@@ -115,8 +117,17 @@ namespace PracticeMenu {
 
     void stallord() {
         SaveInjector::inject_default_during();
-        tp_gameInfo.ag_flags.flags_1 = 48; // turn off intro cs, start fight
+        tp_gameInfo.boss_room_event_flags = 48; // turn off intro cs, start fight
         tp_gameInfo.warp.entrance.spawn = 0x01; // spawn at in front of stally
+    }
+
+    void argorok() {
+        SaveInjector::inject_default_during();
+        tp_gameInfo.boss_room_event_flags = 1;
+    }
+    
+    void palace2() {
+        tp_zelAudio.link_debug_ptr->current_item = 3; // master sword
     }
 
     void lakebed_bk_skip_during() {
@@ -129,11 +140,13 @@ namespace PracticeMenu {
         if (button_is_pressed(Controller::B)) {
             prac_visible = false;
             mm_visible = true;
-            cursor = 1;
+            init_once = false;
             return;
         };
 
-        if (button_is_pressed(Controller::A)) {
+        if (!init_once) {current_input = 0;init_once = true;}
+
+        if (current_input == 256 && a_held == false) {
             switch (cursor) {
                 case ORDON_GATE_CLIP_INDEX: {
                     loadFile("tpgz/save_files/ordon_gate_clip.bin");
@@ -208,11 +221,11 @@ namespace PracticeMenu {
                     break;
                 }
                 case RUPEE_ROLL_INDEX: {
-                    loadFile("tpgz/save_files/rupee_roll.bin");
+                    loadFile("tpgz/save_files/gorge_void.bin");
                     default_load();
-                    camera = {-11802.0088f, -5607.06787f, 56613.2188f, -11934.2266f, -5517.06885f, 56735.3594f, 0.0f, 0.5f};
-                    angle = 24169;
-                    position = {-11850.834f, -5700.0f, 56658.3672f};
+                    camera = {-11124.4697f, -5589.99902f, 56373.5195f, -11178.1504f, -5506.71338f, 56843.1797f, 0.0f, 280.0f};
+                    angle = 31571;
+                    position = {-11130.208f, -5700.0f, 56423.1953f};
                     practice_file.inject_options_after_load = set_camera_angle_position;
                     practice_file.inject_options_after_counter = 15;
                     break;
@@ -261,6 +274,8 @@ namespace PracticeMenu {
                     break;
                 }
                 case LANAYRU_TWILIGHT_INDEX: {
+                    loadFile("tpgz/save_files/lanayru_twilight.bin");
+                    default_load();
                     break;
                 }
                 case BOSS_BUG_INDEX: {
@@ -322,7 +337,6 @@ namespace PracticeMenu {
                     practice_file.inject_options_after_load = set_camera_angle_position;
                     practice_file.inject_options_after_counter = 15;
                     break;
-                    break;
                 }
                 case LAKEBED_BK_SKIP_INDEX: {
                     loadFile("tpgz/save_files/lakebed_bk_skip.bin");
@@ -383,9 +397,18 @@ namespace PracticeMenu {
                     break;
                 }
                 case CITS_EARLY_INDEX: {
+                    loadFile("tpgz/save_files/cits_early.bin");
+                    default_load();
                     break;
                 }
                 case CITS_1_INDEX: {
+                    loadFile("tpgz/save_files/cits_1.bin");
+                    default_load();
+                    camera = {1313.54285f, -234.203003f, 5545.16846f, 1027.53259f, -108.096123f, 5605.23047f, 0.0f, 318.295868f};
+                    angle = 16384;
+                    position = {1309.60645f, -240.0f, 5533.43848f};
+                    practice_file.inject_options_after_load = set_camera_angle_position;
+                    practice_file.inject_options_after_counter = 10;
                     break;
                 }
                 case AERALFOS_SKIP_INDEX: {
@@ -394,6 +417,8 @@ namespace PracticeMenu {
                     break;
                 }
                 case CITS_2_INDEX: {
+                    loadFile("tpgz/save_files/cits_2.bin");
+                    default_load();
                     break;
                 }
                 case FAN_TOWER_INDEX: {
@@ -402,6 +427,20 @@ namespace PracticeMenu {
                     break;
                 }
                 case ARGOROK_INDEX: {
+                    loadFile("tpgz/save_files/argorok.bin");
+                    default_load();
+                    practice_file.inject_options_during_load = argorok;
+                    break;
+                }
+                case PALACE_1_INDEX: {
+                    loadFile("tpgz/save_files/palace_1.bin");
+                    default_load();
+                    break;
+                }
+                case PALACE_2_INDEX: {
+                    loadFile("tpgz/save_files/palace_2.bin");
+                    default_load();
+                    practice_file.inject_options_after_load = palace2;
                     break;
                 }
                 case EARLY_PLATFORM_INDEX: {
@@ -409,19 +448,34 @@ namespace PracticeMenu {
                     default_load();
                     break;
                 }
+                case ZANT_INDEX: {
+                    loadFile("tpgz/save_files/zant.bin");
+                    default_load();
+                    break;
+                }
                 case HC_INDEX: {
+                    loadFile("tpgz/save_files/hc.bin");
+                    default_load();
                     break;
                 }
                 case DARKNUT_INDEX: {
+                    loadFile("tpgz/save_files/darknut.bin");
+                    default_load();
                     break;
                 }
                 case HC_TOWER_INDEX: {
+                    loadFile("tpgz/save_files/hc_tower.bin");
+                    default_load();
                     break;
                 }
                 case BEAST_GANON_INDEX: {
+                    loadFile("tpgz/save_files/beast_ganon.bin");
+                    default_load();
                     break;
                 }
                 case HORSEBACK_GANON_INDEX: {
+                    loadFile("tpgz/save_files/horseback_ganon.bin");
+                    default_load();
                     break;
                 }
             }

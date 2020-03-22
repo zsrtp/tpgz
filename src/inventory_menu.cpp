@@ -6,6 +6,7 @@
 #define LINES 4
 
 static int cursor = 2;
+bool init_once = false;
 
 Line lines[LINES] = {
     {"inventory", 0, "", false},
@@ -16,12 +17,15 @@ Line lines[LINES] = {
 void InventoryMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {
+        init_once = false;
         inventory_visible = false;
         mm_visible = true;
         return;
     };
+
+    if (!init_once) {current_input = 0;init_once = true;}
     
-    if (button_is_pressed(Controller::A)) {
+    if (current_input == 256 && a_held == false) {
         switch (cursor) {
             case ITEM_WHEEL_INDEX: {
                 inventory_visible = false;

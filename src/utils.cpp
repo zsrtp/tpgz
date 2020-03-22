@@ -34,7 +34,7 @@ namespace Utilities {
     }
 
     void render_lines(Font& font, Line input_lines[], int cursor, int LINES) {
-        font.renderChars("tpgz v0.1", 13.0f, 15.0f, 0x008080FF);
+        font.renderChars("tpgz v0.1a", 13.0f, 15.0f, 0x00CC00FF);
 
         for (int i = 0; i < LINES; i++) {
             float offset = (60.0f + ((float)i * 20.0f));
