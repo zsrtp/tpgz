@@ -8,11 +8,16 @@
 #include "commands.h"
 #include "gorge.h"
 #include "rollcheck.h"
-#define LINES 9
+#define LINES 11
 
 static int cursor = 2;
 bool g_roll_check_active;
 bool g_gorge_active;
+bool g_hide_actors;
+bool g_freeze_actors;
+bool g_lock_camera;
+bool g_hide_hud;
+int g_tunic_color;
 bool init_once = false;
 
 Line lines[LINES] = {
@@ -22,9 +27,11 @@ Line lines[LINES] = {
     {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &timer_visible},
     {"roll check", ROLL_INDEX, "see how bad you are at chaining rolls", true, &g_roll_check_active},
     {"gorge void indicator", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &g_gorge_active},
-    {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &tp_actor.freeze},
-    {"hide actors", HIDE_ACTOR_INDEX, "hides actors (except link)", true, &tp_stopstatus.hide_actors},
-    {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &tp_gameInfo.lock_camera}};
+    {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &g_freeze_actors},
+    {"hide actors", HIDE_ACTOR_INDEX, "hides actors (except link)", true, &g_hide_actors},
+    {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &g_lock_camera},
+    {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &g_hide_hud},
+    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -34,7 +41,10 @@ void ToolsMenu::render(Font& font) {
         return;
     };
 
-    if (!init_once) {current_input = 0;init_once = true;}
+    if (!init_once) {
+        current_input = 0;
+        init_once = true;
+    }
 
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor, LINES);
@@ -65,16 +75,29 @@ void ToolsMenu::render(Font& font) {
                 break;
             }
             case FREEZE_ACTOR_INDEX: {
-                tp_actor.freeze = !tp_actor.freeze;
+                g_freeze_actors = !g_freeze_actors;
                 break;
             }
             case HIDE_ACTOR_INDEX: {
-                tp_stopstatus.hide_actors = !tp_stopstatus.hide_actors;
+                g_hide_actors = !g_hide_actors;
                 break;
             }
             case FREEZE_CAMERA_INDEX: {
-                tp_gameInfo.lock_camera = !tp_gameInfo.lock_camera;
+                g_lock_camera = !g_lock_camera;
                 break;
+            }
+            case HIDE_HUD_INDEX: {
+                g_hide_hud = !g_hide_hud;
+                break;
+            }
+            case TUNIC_COLOR_INDEX: {
+                if (g_tunic_color < 1) {
+                    g_tunic_color++;
+                    break;
+                } else {
+                    g_tunic_color = 0;
+                    break;
+                }
             }
         }
     }

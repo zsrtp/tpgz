@@ -35,7 +35,7 @@ namespace GorgeVoidIndicator {
 
     void warp_to_gorge() {
         Log log;
-
+        
         // set gorge map info
         tp_gameInfo.warps.kak_gorge_warp = 0;
         tp_gameInfo.temp_flags.temp_flag_bit_field_13 = 0;
@@ -67,10 +67,12 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.respawn_angle = 24169;
         log.PrintLog("Clearing rupee flags", DEBUG);
         Inventory::clear_rupee_flags();
+
+        
     }
     void run() {
         Log log;
-
+        
         // reset counters on load
         if (tp_fopScnRq.isLoading == 1) {
             counter_difference = 0;

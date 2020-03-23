@@ -68,6 +68,18 @@ namespace Utilities {
                 if (g_drop_shadows) {
                     font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
+            } else if (input_lines[i].is_list) {
+                char final_line[50];
+                char list_line[MAX_LIST_MEMBER_LENGTH];
+                sprintf(list_line, input_lines[i].list_member[*input_lines[i].list_member_idx].member);
+                sprintf(final_line, input_lines[i].line);
+                strcat(final_line, " ");
+                strcat(final_line, list_line);
+                //auto newline = strcat(input_lines[i].line, list_line);
+                font.renderChars(final_line, 15.0f, offset, cursor_color);
+                if (g_drop_shadows) {
+                    font.renderChars(final_line, 15.0f+2.0f, offset+2.0f, 0x00000080);
+                }
             } else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
                 if (g_drop_shadows) {
@@ -84,21 +96,27 @@ namespace Utilities {
 
     void trigger_load() {
         // trigger loading
+
         if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {
             log.PrintLog("Initiating warp", INFO);
-            practice_file.inject_options_before_load();
+            if (practice_file.inject_options_before_load) {
+                practice_file.inject_options_before_load();
+            }
             tp_gameInfo.warp.enabled = true;
         }
 
         if (tp_fopScnRq.isLoading == 1) {
-            practice_file.inject_options_during_load();
+            if (practice_file.inject_options_during_load) {
+                practice_file.inject_options_during_load();
+            }
             loading_initiated = true;
         }
 
         if (loading_initiated == true) {
             if (tp_fopScnRq.isLoading == 0) {
-                practice_file.inject_options_after_load();
-                tp_osReport("%d", apply_after_counter);
+                if (practice_file.inject_options_after_load) {
+                    practice_file.inject_options_after_load();
+                }
                 if (practice_file.inject_options_after_counter == apply_after_counter) {
                     apply_after_counter = 0;
                     practice_file.inject_options_after_counter = 0;
@@ -110,4 +128,24 @@ namespace Utilities {
             }
         }
     }
+
+    void change_tunic_color() {
+    if (tp_gameInfo.link_tunic_ptr) {
+        if (g_tunic_color == 0) {
+            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+        } else {
+            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0xFF;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
+            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0xFF;
+        }
+    }
+}
 }  // namespace Utilities

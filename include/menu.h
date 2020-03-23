@@ -100,21 +100,40 @@ extern bool g_load_happened;
 #define FREEZE_ACTOR_INDEX 6
 #define HIDE_ACTOR_INDEX 7
 #define FREEZE_CAMERA_INDEX 8
+#define HIDE_HUD_INDEX 9
+#define TUNIC_COLOR_INDEX 10
 extern bool tools_visible;
+extern bool g_freeze_actors;
+extern bool g_hide_actors;
+extern bool g_lock_camera;
+extern bool g_hide_hud;
+extern int g_tunic_color;
 
 // settings
 #define LOG_LEVEL_INDEX 2
 #define DROP_SHADOWS_INDEX 3
 extern bool settings_visible;
-extern bool g_reset_temp_flags;
 extern bool g_drop_shadows;
 
+#define MAX_LIST_MEMBER_LENGTH 20
+
+struct ListMember {
+    char member[MAX_LIST_MEMBER_LENGTH];
+};
+
+#define MAX_LIST_ITEMS 15
+#define MAX_LINE_LENGTH 50
+#define MAX_DESCRIPTION_LENGTH 100
+
 struct Line {
-    char line[50];
+    char line[MAX_LINE_LENGTH];
     const int idx;
-    char description[100];
+    char description[MAX_DESCRIPTION_LENGTH];
     bool toggleable = false;
     bool* activation_flag;
+    bool is_list = false;
+    ListMember list_member[MAX_LIST_ITEMS];
+    int* list_member_idx;
 };
 
 class Menu {

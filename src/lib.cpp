@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "utils.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/link.h"
 #include "libtp_c/include/tp.h"
@@ -9,14 +10,12 @@
 #include "fifo_queue.h"
 #include "menu.h"
 #include "input_viewer.h"
-#include "gorge.h"
 #include "log.h"
-#include "rollcheck.h"
 #include "save_injector.h"
-#include "utils.h"
 #include "commands.h"
 #include "timer.h"
 #include "spawning.h"
+#include "flags.h"
 
 static Font Consolas;
 bool mm_visible = false;
@@ -32,7 +31,6 @@ bool pause_visible = false;
 bool inventory_visible = false;
 bool memory_visible = false;
 bool warping_visible = false;
-bool inject_save_flag = false;
 // static bool jump_to_quest_log_screen;
 // static bool was_loading_title_screen = false;
 _FIFOQueue Queue;
@@ -52,16 +50,16 @@ void game_loop() {
         fifo_visible = false;
     }
 
-    RollIndicator::run();
-    GorgeVoidIndicator::run();
-
-    if (inject_save_flag) {
-        Utilities::trigger_load();
-    }
-
-    // if (tp_fopScnRq.isLoading) {
-    //     g_load_happened = true;
-    // }
+    // temp
+    memset((void *)0x801244a4,0x60,1);
+    memset((void *)0x801244a5,0x00,3);
+    memset((void *)0x801244a8,0x60,1);
+    memset((void *)0x801244a9,0x00,3);
+    memset((void *)0x801244ac,0x60,1);
+    memset((void *)0x801244ad,0x00,3);
+    Utilities::change_tunic_color();
+    
+    Flags::apply_active_flags();
 }
 
 void draw() {
