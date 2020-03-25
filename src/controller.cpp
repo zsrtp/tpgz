@@ -60,7 +60,8 @@ extern "C" uint32_t read_controller() {
     if (mm_visible|| prac_visible || settings_visible || cheats_visible || 
                     tools_visible || inventory_visible || item_wheel_visible || 
                     pause_visible || memory_visible || warping_visible) {
-        // hack until menu rework is done
+
+        // temp until menu rework is done
         a_held = true;
         current_input = Controller::get_current_inputs();
         a_held = current_input == 0x0100 && a_held_last_frame == true;

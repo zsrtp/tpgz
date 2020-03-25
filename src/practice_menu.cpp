@@ -71,417 +71,418 @@ Line lines[LINES] = {
     {"beast ganon", BEAST_GANON_INDEX, "the beast ganon fight"},
     {"horseback ganon", HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
-namespace PracticeMenu {
-    void default_load() {
-        practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-        practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-        practice_file.inject_options_after_load = SaveInjector::inject_default_after;
-        inject_save_flag = true;
-        fifo_visible = true;
+void default_load() {
+    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
+    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
+    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
+    inject_save_flag = true;
+    fifo_visible = true;
+    prac_visible = false;
+    mm_visible = false;
+    init_once = false;
+}
+
+void set_camera_angle_position() {
+    tp_matrixInfo.matrix_info->camera0 = camera.c0;
+    tp_matrixInfo.matrix_info->camera1 = camera.c1;
+    tp_matrixInfo.matrix_info->camera2 = camera.c2;
+    tp_matrixInfo.matrix_info->camera3 = camera.c3;
+    tp_matrixInfo.matrix_info->camera4 = camera.c4;
+    tp_matrixInfo.matrix_info->camera5 = camera.c5;
+    tp_matrixInfo.matrix_info->camera6 = camera.c6;
+    tp_matrixInfo.matrix_info->camera7 = camera.c7;
+    tp_zelAudio.link_debug_ptr->facing = angle;
+    tp_zelAudio.link_debug_ptr->position = position;
+}
+
+void set_angle_position() {
+    tp_zelAudio.link_debug_ptr->facing = angle;
+    tp_zelAudio.link_debug_ptr->position = position;
+}
+
+void hugo() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 128;  // midna trigger off
+    tp_gameInfo.temp_flags.temp_flag_bit_field_17 = 0;    // hugo alive
+}
+
+void morpheel() {
+    tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
+    tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
+    angle = 10754;
+    position = {-1193.0f, -23999.0f, -770.0f};
+    set_angle_position();
+}
+
+void stallord() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
+    tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
+}
+
+void argorok() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.boss_room_event_flags = 1;
+}
+
+void palace2() {
+    tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
+}
+
+void lakebed_bk_skip_during() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.temp_flags.temp_flag_bit_field_16 = 18;   // bridge turned
+    tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
+}
+
+void PracticeMenu::render(Font& font) {
+    if (button_is_pressed(Controller::B)) {
         prac_visible = false;
-        mm_visible = false;
+        mm_visible = true;
         init_once = false;
+        return;
+    };
+
+    if (!init_once) {
+        current_input = 0;
+        init_once = true;
     }
 
-    void set_camera_angle_position() {
-        tp_matrixInfo.matrix_info->camera0 = camera.c0;
-        tp_matrixInfo.matrix_info->camera1 = camera.c1;
-        tp_matrixInfo.matrix_info->camera2 = camera.c2;
-        tp_matrixInfo.matrix_info->camera3 = camera.c3;
-        tp_matrixInfo.matrix_info->camera4 = camera.c4;
-        tp_matrixInfo.matrix_info->camera5 = camera.c5;
-        tp_matrixInfo.matrix_info->camera6 = camera.c6;
-        tp_matrixInfo.matrix_info->camera7 = camera.c7;
-        tp_zelAudio.link_debug_ptr->facing = angle;
-        tp_zelAudio.link_debug_ptr->position = position;
-    }
-
-    void set_angle_position() {
-        tp_zelAudio.link_debug_ptr->facing = angle;
-        tp_zelAudio.link_debug_ptr->position = position;
-    }
-
-    void hugo() {
-        SaveInjector::inject_default_during();
-        tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 128;  // midna trigger off
-        tp_gameInfo.temp_flags.temp_flag_bit_field_17 = 0;    // hugo alive
-    }
-
-    void morpheel() {
-        tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
-        tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
-        angle = 10754;
-        position = {-1193.0f, -23999.0f, -770.0f};
-        set_angle_position();
-    }
-
-    void stallord() {
-        SaveInjector::inject_default_during();
-        tp_gameInfo.boss_room_event_flags = 48; // turn off intro cs, start fight
-        tp_gameInfo.warp.entrance.spawn = 0x01; // spawn at in front of stally
-    }
-
-    void argorok() {
-        SaveInjector::inject_default_during();
-        tp_gameInfo.boss_room_event_flags = 1;
-    }
-    
-    void palace2() {
-        tp_zelAudio.link_debug_ptr->current_item = 3; // master sword
-    }
-
-    void lakebed_bk_skip_during() {
-        SaveInjector::inject_default_during();
-        tp_gameInfo.temp_flags.temp_flag_bit_field_16 = 18;   // bridge turned
-        tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
-    }
-
-    void PracticeMenu::render(Font& font) {
-        if (button_is_pressed(Controller::B)) {
-            prac_visible = false;
-            mm_visible = true;
-            init_once = false;
-            return;
-        };
-
-        if (!init_once) {current_input = 0;init_once = true;}
-
-        if (current_input == 256 && a_held == false) {
-            switch (cursor) {
-                case ORDON_GATE_CLIP_INDEX: {
-                    loadFile("tpgz/save_files/ordon_gate_clip.bin");
-                    default_load();
-                    camera = {827.497559f, 329.622986f, -4532.90723f, 833.467468f, 477.604675f, -4241.97266f, 1.26012994f, 280.0f};
-                    angle = 498;
-                    position = {827.450012f, 216.490097f, -4533.90625f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case BACK_IN_TIME_INDEX: {
-                    loadFile("tpgz/save_files/ordon_gate_clip.bin");
-                    default_load();
-                    camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
-                    angle = 52540;
-                    position = {466.622467f, 319.770752f, -11651.3867f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case GOATS_INDEX: {
-                    loadFile("tpgz/save_files/goats.bin");
-                    default_load();
-                    break;
-                }
-                case HUGO_INDEX: {
-                    loadFile("tpgz/save_files/hugo.bin");
-                    default_load();
-                    camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
-                    angle = 63622;
-                    position = {701.797302f, 85.5212784f, -5299.6123f};
-                    practice_file.inject_options_during_load = hugo;
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    break;
-                }
-                case EMS_INDEX: {
-                    loadFile("tpgz/save_files/ems.bin");
-                    default_load();
-                    break;
-                }
-                case MIST_INDEX: {
-                    loadFile("tpgz/save_files/purple_mist.bin");
-                    default_load();
-                    angle = 40758;
-                    position = {-23524.6152f, 250.0f, -16220.166f};
-                    practice_file.inject_options_after_load = set_angle_position;
-                    practice_file.inject_options_after_counter = 30;
-                    break;
-                }
-                case FRST_BIT_INDEX: {
-                    loadFile("tpgz/save_files/forest_bit.bin");
-                    default_load();
-                    break;
-                }
-                case FRST_ESCAPE_INDEX: {
-                    loadFile("tpgz/save_files/forest_escape.bin");
-                    default_load();
-                    camera = {-12433.2979f, -106.667023f, -17104.9512f, -12552.8252f, -53.5801048f, -16729.5313f, -5.31691198f, 280.0f};
-                    angle = 29553;
-                    position = {-12433.6016f, -235.969193f, -17103.998f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 30;
-                    break;
-                }
-                case GORGE_VOID_INDEX: {
-                    loadFile("tpgz/save_files/gorge_void.bin");
-                    default_load();
-                    angle = 54288;
-                    position = {-9704.47266f, -7200.0f, 58475.5195f};
-                    practice_file.inject_options_after_load = set_angle_position;
-                    break;
-                }
-                case RUPEE_ROLL_INDEX: {
-                    loadFile("tpgz/save_files/gorge_void.bin");
-                    default_load();
-                    camera = {-11124.4697f, -5589.99902f, 56373.5195f, -11178.1504f, -5506.71338f, 56843.1797f, 0.0f, 280.0f};
-                    angle = 31571;
-                    position = {-11130.208f, -5700.0f, 56423.1953f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 15;
-                    break;
-                }
-                case LANAYRU_GATE_CLIP_INDEX: {
-                    loadFile("tpgz/save_files/lanayru_gate_clip.bin");
-                    default_load();
-                    camera = {-63064.2148f, -8969.97656f, 71661.0781f, -62655.8125f, -8900.91309f, 71903.6328f, -1.30928958f, 280.000092f};
-                    angle = 44248;
-                    position = {-63026.2852f, -9065.92578f, 71680.3438f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 15;
-                    break;
-                }
-                case PILLAR_CLIP_INDEX: {
-                    loadFile("tpgz/save_files/pillar_clip.bin");
-                    default_load();
-                    break;
-                }
-                case LAKEBED_1_INDEX: {
-                    loadFile("tpgz/save_files/lakebed_1.bin");
-                    default_load();
-                    break;
-                }
-                case TOAD_INDEX: {
-                    loadFile("tpgz/save_files/deku_toad.bin");
-                    default_load();
-                    break;
-                }
-                case KARG_INDEX: {
-                    loadFile("tpgz/save_files/karg.bin");
-                    default_load();
-                    angle = 0;
-                    position = {-43655.6133f, -20923.0078f, 31594.4121f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    break;
-                }
-                case ELDIN_TWILIGHT_INDEX: {
-                    loadFile("tpgz/save_files/eldin_twilight.bin");
-                    default_load();
-                    camera = {482.515137f,-39.9999771f,11558.5283f,219.367218f,-20.1253014f,11157.582f,-3.81633819f,280.000092f};
-                    angle = 6058;
-                    position = {455.088379f,-150.0f,11516.7227f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case LANAYRU_TWILIGHT_INDEX: {
-                    loadFile("tpgz/save_files/lanayru_twilight.bin");
-                    default_load();
-                    break;
-                }
-                case BOSS_BUG_INDEX: {
-                    loadFile("tpgz/save_files/boss_bug.bin");
-                    default_load();
-                    angle = 21504;
-                    position = {-89100.00f, -18811.2363f, 39410.00f};
-                    practice_file.inject_options_after_load = set_angle_position;
-                    break;
-                }
-                case IZA_INDEX: {
-                    loadFile("tpgz/save_files/iza.bin");
-                    default_load();
-                    angle = 10114;
-                    position = {5979.97217f,150.0f,-2748.34155f};
-                    practice_file.inject_options_after_load = set_angle_position;
-                    break;
-                }
-                case NORGOR_INDEX: {
-                    loadFile("tpgz/save_files/norgor.bin");
-                    default_load();
-                    camera = {174.411758f,-70.5306549f,-3668.91406f,501.768982f,-5.045784f,-3586.1145f,-1.88999606f,280.0f};
-                    angle = 46568;
-                    position = {173.71f, -186.52f, -3633.71f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 15;
-                    break;
-                }
-                case SPR_WARP_SKIP_INDEX: {
-                    loadFile("tpgz/save_files/spr_warp.bin");
-                    default_load();
-                    camera = {-9294.2207f,1180.0f,-11692.3945f,-9309.65137f,1280.4469f,-12130.7695f,1.13141331f,450.0f};
-                    angle = 346;
-                    position = {-9294.87988f,980.0f,-11712.3838f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case SPR_INDEX: {
-                    loadFile("tpgz/save_files/spr.bin");
-                    default_load();
-                    angle = 33768;
-                    position = {0.0f,-150.0f,6000.0f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    break;
-                }
-                case DARK_HAMMER_INDEX: {
-                    loadFile("tpgz/save_files/darkhammer.bin");
-                    default_load();
-                    TP::set_boss_flags();
-                    break;
-                }
-                case LAKEBED_2_INDEX: {
-                    loadFile("tpgz/save_files/lakebed_2.bin");
-                    default_load();
-                    camera = {-8.74227766f, 1337.22534f, 14499.0f, -87.9447556f, 1414.24292f, 14741.0518f, 0.0f, 221.340179f};
-                    angle = 32768;
-                    position = {0.0f, 1240.29333f, 14500.0f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 15;
-                    break;
-                }
-                case LAKEBED_BK_SKIP_INDEX: {
-                    loadFile("tpgz/save_files/lakebed_bk_skip.bin");
-                    default_load();
-                    camera = {71.9835968f, 1660.0f, 2839.01587f, 71.9835968f, 1719.93542f, 2969.04565f, 0.0f, 0.5f};
-                    angle = 32767;
-                    position = {71.9835968f, 1500.00f, 2839.01587f};
-                    practice_file.inject_options_during_load = lakebed_bk_skip_during;
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 30;
-                    break;
-                }
-                case ONEBOMB_INDEX: {
-                    loadFile("tpgz/save_files/onebomb.bin");
-                    default_load();
-                    practice_file.inject_options_after_load = morpheel;
-                    break;
-                }
-                case MDH_TOWER_INDEX: {
-                    loadFile("tpgz/save_files/mdh_tower.bin");
-                    default_load();
-                    break;
-                }
-                case MDH_BRIDGE_INDEX: {
-                    loadFile("tpgz/save_files/mdh_bridge.bin");
-                    default_load();
-                    break;
-                }
-                case BULBLIN_CAMP_INDEX: {
-                    loadFile("tpgz/save_files/camp.bin");
-                    default_load();
-                    break;
-                }
-                case AG_INDEX: {
-                    loadFile("tpgz/save_files/ag.bin");
-                    default_load();
-                    break;
-                }
-                case POE_1_SKIP_INDEX: {
-                    loadFile("tpgz/save_files/poe_1_skip.bin");
-                    default_load();
-                    camera = {-2047.97168f, 130.16568f, -587.317139f, -1779.00293f, 213.707397f, -584.686768f, 0.0f, 280.0f};
-                    angle = 49030;
-                    position = {-2046.97168f, 0.0f, -587.304871f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case DSS_INDEX: {
-                    loadFile("tpgz/save_files/death_sword_skip.bin");
-                    default_load();
-                    break;
-                }
-                case STALLORD_INDEX: {
-                    loadFile("tpgz/save_files/stallord.bin");
-                    default_load();
-                    practice_file.inject_options_during_load = stallord;
-                    break;
-                }
-                case CITS_EARLY_INDEX: {
-                    loadFile("tpgz/save_files/cits_early.bin");
-                    default_load();
-                    break;
-                }
-                case CITS_1_INDEX: {
-                    loadFile("tpgz/save_files/cits_1.bin");
-                    default_load();
-                    camera = {1313.54285f, -234.203003f, 5545.16846f, 1027.53259f, -108.096123f, 5605.23047f, 0.0f, 318.295868f};
-                    angle = 16384;
-                    position = {1309.60645f, -240.0f, 5533.43848f};
-                    practice_file.inject_options_after_load = set_camera_angle_position;
-                    practice_file.inject_options_after_counter = 10;
-                    break;
-                }
-                case AERALFOS_SKIP_INDEX: {
-                    loadFile("tpgz/save_files/aeralfos_skip.bin");
-                    default_load();
-                    break;
-                }
-                case CITS_2_INDEX: {
-                    loadFile("tpgz/save_files/cits_2.bin");
-                    default_load();
-                    break;
-                }
-                case FAN_TOWER_INDEX: {
-                    loadFile("tpgz/save_files/fan_tower.bin");
-                    default_load();
-                    break;
-                }
-                case ARGOROK_INDEX: {
-                    loadFile("tpgz/save_files/argorok.bin");
-                    default_load();
-                    practice_file.inject_options_during_load = argorok;
-                    break;
-                }
-                case PALACE_1_INDEX: {
-                    loadFile("tpgz/save_files/palace_1.bin");
-                    default_load();
-                    break;
-                }
-                case PALACE_2_INDEX: {
-                    loadFile("tpgz/save_files/palace_2.bin");
-                    default_load();
-                    practice_file.inject_options_after_load = palace2;
-                    break;
-                }
-                case EARLY_PLATFORM_INDEX: {
-                    loadFile("tpgz/save_files/early_platform.bin");
-                    default_load();
-                    break;
-                }
-                case ZANT_INDEX: {
-                    loadFile("tpgz/save_files/zant.bin");
-                    default_load();
-                    break;
-                }
-                case HC_INDEX: {
-                    loadFile("tpgz/save_files/hc.bin");
-                    default_load();
-                    break;
-                }
-                case DARKNUT_INDEX: {
-                    loadFile("tpgz/save_files/darknut.bin");
-                    default_load();
-                    break;
-                }
-                case HC_TOWER_INDEX: {
-                    loadFile("tpgz/save_files/hc_tower.bin");
-                    default_load();
-                    break;
-                }
-                case BEAST_GANON_INDEX: {
-                    loadFile("tpgz/save_files/beast_ganon.bin");
-                    default_load();
-                    break;
-                }
-                case HORSEBACK_GANON_INDEX: {
-                    loadFile("tpgz/save_files/horseback_ganon.bin");
-                    default_load();
-                    break;
-                }
+    if (current_input == 256 && a_held == false) {
+        switch (cursor) {
+            case ORDON_GATE_CLIP_INDEX: {
+                loadFile("tpgz/save_files/ordon_gate_clip.bin");
+                default_load();
+                camera = {827.497559f, 329.622986f, -4532.90723f, 833.467468f, 477.604675f, -4241.97266f, 1.26012994f, 280.0f};
+                angle = 498;
+                position = {827.450012f, 216.490097f, -4533.90625f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case BACK_IN_TIME_INDEX: {
+                loadFile("tpgz/save_files/ordon_gate_clip.bin");
+                default_load();
+                camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
+                angle = 52540;
+                position = {466.622467f, 319.770752f, -11651.3867f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case GOATS_INDEX: {
+                loadFile("tpgz/save_files/goats.bin");
+                default_load();
+                break;
+            }
+            case HUGO_INDEX: {
+                loadFile("tpgz/save_files/hugo.bin");
+                default_load();
+                camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
+                angle = 63622;
+                position = {701.797302f, 85.5212784f, -5299.6123f};
+                practice_file.inject_options_during_load = hugo;
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                break;
+            }
+            case EMS_INDEX: {
+                loadFile("tpgz/save_files/ems.bin");
+                default_load();
+                break;
+            }
+            case MIST_INDEX: {
+                loadFile("tpgz/save_files/purple_mist.bin");
+                default_load();
+                angle = 40758;
+                position = {-23524.6152f, 250.0f, -16220.166f};
+                practice_file.inject_options_after_load = set_angle_position;
+                practice_file.inject_options_after_counter = 30;
+                break;
+            }
+            case FRST_BIT_INDEX: {
+                loadFile("tpgz/save_files/forest_bit.bin");
+                default_load();
+                break;
+            }
+            case FRST_ESCAPE_INDEX: {
+                loadFile("tpgz/save_files/forest_escape.bin");
+                default_load();
+                camera = {-12433.2979f, -106.667023f, -17104.9512f, -12552.8252f, -53.5801048f, -16729.5313f, -5.31691198f, 280.0f};
+                angle = 29553;
+                position = {-12433.6016f, -235.969193f, -17103.998f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 30;
+                break;
+            }
+            case GORGE_VOID_INDEX: {
+                loadFile("tpgz/save_files/gorge_void.bin");
+                default_load();
+                angle = 54288;
+                position = {-9704.47266f, -7200.0f, 58475.5195f};
+                practice_file.inject_options_after_load = set_angle_position;
+                break;
+            }
+            case RUPEE_ROLL_INDEX: {
+                loadFile("tpgz/save_files/gorge_void.bin");
+                default_load();
+                camera = {-11124.4697f, -5589.99902f, 56373.5195f, -11178.1504f, -5506.71338f, 56843.1797f, 0.0f, 280.0f};
+                angle = 31571;
+                position = {-11130.208f, -5700.0f, 56423.1953f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 15;
+                break;
+            }
+            case LANAYRU_GATE_CLIP_INDEX: {
+                loadFile("tpgz/save_files/lanayru_gate_clip.bin");
+                default_load();
+                camera = {-63064.2148f, -8969.97656f, 71661.0781f, -62655.8125f, -8900.91309f, 71903.6328f, -1.30928958f, 280.000092f};
+                angle = 44248;
+                position = {-63026.2852f, -9065.92578f, 71680.3438f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 15;
+                break;
+            }
+            case PILLAR_CLIP_INDEX: {
+                loadFile("tpgz/save_files/pillar_clip.bin");
+                default_load();
+                break;
+            }
+            case LAKEBED_1_INDEX: {
+                loadFile("tpgz/save_files/lakebed_1.bin");
+                default_load();
+                break;
+            }
+            case TOAD_INDEX: {
+                loadFile("tpgz/save_files/deku_toad.bin");
+                default_load();
+                break;
+            }
+            case KARG_INDEX: {
+                loadFile("tpgz/save_files/karg.bin");
+                default_load();
+                angle = 0;
+                position = {-43655.6133f, -20923.0078f, 31594.4121f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                break;
+            }
+            case ELDIN_TWILIGHT_INDEX: {
+                loadFile("tpgz/save_files/eldin_twilight.bin");
+                default_load();
+                camera = {482.515137f, -39.9999771f, 11558.5283f, 219.367218f, -20.1253014f, 11157.582f, -3.81633819f, 280.000092f};
+                angle = 6058;
+                position = {455.088379f, -150.0f, 11516.7227f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case LANAYRU_TWILIGHT_INDEX: {
+                loadFile("tpgz/save_files/lanayru_twilight.bin");
+                default_load();
+                break;
+            }
+            case BOSS_BUG_INDEX: {
+                loadFile("tpgz/save_files/boss_bug.bin");
+                default_load();
+                angle = 21504;
+                position = {-89100.00f, -18811.2363f, 39410.00f};
+                practice_file.inject_options_after_load = set_angle_position;
+                break;
+            }
+            case IZA_INDEX: {
+                loadFile("tpgz/save_files/iza.bin");
+                default_load();
+                angle = 10114;
+                position = {5979.97217f, 150.0f, -2748.34155f};
+                practice_file.inject_options_after_load = set_angle_position;
+                break;
+            }
+            case NORGOR_INDEX: {
+                loadFile("tpgz/save_files/norgor.bin");
+                default_load();
+                camera = {174.411758f, -70.5306549f, -3668.91406f, 501.768982f, -5.045784f, -3586.1145f, -1.88999606f, 280.0f};
+                angle = 46568;
+                position = {173.71f, -186.52f, -3633.71f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 15;
+                break;
+            }
+            case SPR_WARP_SKIP_INDEX: {
+                loadFile("tpgz/save_files/spr_warp.bin");
+                default_load();
+                camera = {-9294.2207f, 1180.0f, -11692.3945f, -9309.65137f, 1280.4469f, -12130.7695f, 1.13141331f, 450.0f};
+                angle = 346;
+                position = {-9294.87988f, 980.0f, -11712.3838f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case SPR_INDEX: {
+                loadFile("tpgz/save_files/spr.bin");
+                default_load();
+                angle = 33768;
+                position = {0.0f, -150.0f, 6000.0f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                break;
+            }
+            case DARK_HAMMER_INDEX: {
+                loadFile("tpgz/save_files/darkhammer.bin");
+                default_load();
+                TP::set_boss_flags();
+                break;
+            }
+            case LAKEBED_2_INDEX: {
+                loadFile("tpgz/save_files/lakebed_2.bin");
+                default_load();
+                camera = {-8.74227766f, 1337.22534f, 14499.0f, -87.9447556f, 1414.24292f, 14741.0518f, 0.0f, 221.340179f};
+                angle = 32768;
+                position = {0.0f, 1240.29333f, 14500.0f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 15;
+                break;
+            }
+            case LAKEBED_BK_SKIP_INDEX: {
+                loadFile("tpgz/save_files/lakebed_bk_skip.bin");
+                default_load();
+                camera = {71.9835968f, 1660.0f, 2839.01587f, 71.9835968f, 1719.93542f, 2969.04565f, 0.0f, 0.5f};
+                angle = 32767;
+                position = {71.9835968f, 1500.00f, 2839.01587f};
+                practice_file.inject_options_during_load = lakebed_bk_skip_during;
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 30;
+                break;
+            }
+            case ONEBOMB_INDEX: {
+                loadFile("tpgz/save_files/onebomb.bin");
+                default_load();
+                practice_file.inject_options_after_load = morpheel;
+                break;
+            }
+            case MDH_TOWER_INDEX: {
+                loadFile("tpgz/save_files/mdh_tower.bin");
+                default_load();
+                break;
+            }
+            case MDH_BRIDGE_INDEX: {
+                loadFile("tpgz/save_files/mdh_bridge.bin");
+                default_load();
+                break;
+            }
+            case BULBLIN_CAMP_INDEX: {
+                loadFile("tpgz/save_files/camp.bin");
+                default_load();
+                break;
+            }
+            case AG_INDEX: {
+                loadFile("tpgz/save_files/ag.bin");
+                default_load();
+                break;
+            }
+            case POE_1_SKIP_INDEX: {
+                loadFile("tpgz/save_files/poe_1_skip.bin");
+                default_load();
+                camera = {-2047.97168f, 130.16568f, -587.317139f, -1779.00293f, 213.707397f, -584.686768f, 0.0f, 280.0f};
+                angle = 49030;
+                position = {-2046.97168f, 0.0f, -587.304871f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case DSS_INDEX: {
+                loadFile("tpgz/save_files/death_sword_skip.bin");
+                default_load();
+                break;
+            }
+            case STALLORD_INDEX: {
+                loadFile("tpgz/save_files/stallord.bin");
+                default_load();
+                practice_file.inject_options_during_load = stallord;
+                break;
+            }
+            case CITS_EARLY_INDEX: {
+                loadFile("tpgz/save_files/cits_early.bin");
+                default_load();
+                break;
+            }
+            case CITS_1_INDEX: {
+                loadFile("tpgz/save_files/cits_1.bin");
+                default_load();
+                camera = {1313.54285f, -234.203003f, 5545.16846f, 1027.53259f, -108.096123f, 5605.23047f, 0.0f, 318.295868f};
+                angle = 16384;
+                position = {1309.60645f, -240.0f, 5533.43848f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 10;
+                break;
+            }
+            case AERALFOS_SKIP_INDEX: {
+                loadFile("tpgz/save_files/aeralfos_skip.bin");
+                default_load();
+                break;
+            }
+            case CITS_2_INDEX: {
+                loadFile("tpgz/save_files/cits_2.bin");
+                default_load();
+                break;
+            }
+            case FAN_TOWER_INDEX: {
+                loadFile("tpgz/save_files/fan_tower.bin");
+                default_load();
+                break;
+            }
+            case ARGOROK_INDEX: {
+                loadFile("tpgz/save_files/argorok.bin");
+                default_load();
+                practice_file.inject_options_during_load = argorok;
+                break;
+            }
+            case PALACE_1_INDEX: {
+                loadFile("tpgz/save_files/palace_1.bin");
+                default_load();
+                break;
+            }
+            case PALACE_2_INDEX: {
+                loadFile("tpgz/save_files/palace_2.bin");
+                default_load();
+                practice_file.inject_options_after_load = palace2;
+                break;
+            }
+            case EARLY_PLATFORM_INDEX: {
+                loadFile("tpgz/save_files/early_platform.bin");
+                default_load();
+                break;
+            }
+            case ZANT_INDEX: {
+                loadFile("tpgz/save_files/zant.bin");
+                default_load();
+                break;
+            }
+            case HC_INDEX: {
+                loadFile("tpgz/save_files/hc.bin");
+                default_load();
+                break;
+            }
+            case DARKNUT_INDEX: {
+                loadFile("tpgz/save_files/darknut.bin");
+                default_load();
+                break;
+            }
+            case HC_TOWER_INDEX: {
+                loadFile("tpgz/save_files/hc_tower.bin");
+                default_load();
+                break;
+            }
+            case BEAST_GANON_INDEX: {
+                loadFile("tpgz/save_files/beast_ganon.bin");
+                default_load();
+                break;
+            }
+            case HORSEBACK_GANON_INDEX: {
+                loadFile("tpgz/save_files/horseback_ganon.bin");
+                default_load();
+                break;
             }
         }
+    }
 
-        Utilities::move_cursor(cursor, LINES);
-        Utilities::render_lines(font, lines, cursor, LINES);
-    };
-};  // namespace PracticeMenu
+    Utilities::move_cursor(cursor, LINES);
+    Utilities::render_lines(font, lines, cursor, LINES);
+};

@@ -30,7 +30,7 @@ void Log::PrintLog(const char *msg, int log_level) {
 
 void Log::PrintLog(const char *strformat,const char *string, int log_level) {
     
-    char tempbuf[100];
+    char tempbuf[90];
     if (g_log_level == INFO) {
         if (log_level == INFO) {
             sprintf(tempbuf, strformat, string);
@@ -54,7 +54,7 @@ void Log::PrintLog(const char *strformat,const char *string, int log_level) {
 
 void Log::PrintLog(const char *strformat,int value, int log_level) {
     
-    char tempbuf[100];
+    char tempbuf[90];
     if (g_log_level == INFO) {
         if (log_level == INFO) {
             sprintf(tempbuf, strformat, value);

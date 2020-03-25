@@ -10,17 +10,18 @@
 #include "commands.h"
 #include "utils.h"
 #include <string.h>
-#define LINES 17
+#define LINES 18
 
 static int cursor = 2;
 bool init_once = false;
 using namespace Cheats;
 
-static Cheats::Cheat CheatItems[CHEAT_AMNT] = {
+static Cheats::Cheat CheatItems[LINES] = {
         {Blank, false},
         {Blank2, false},
         {Invincible, false},
         {InvincibleEnemies, false},
+        {InfiniteHearts, false},
         {InfiniteAir, false},
         {InfiniteOil, false},
         {InfiniteBombs, false},
@@ -41,6 +42,7 @@ Line lines[LINES] = {
     {"", 1, "", false},
     {"invincible", Invincible, "makes link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "makes some enemies invicible", true,&CheatItems[InvincibleEnemies].active},
+    {"infinite hearts", InfiniteHearts, "link will always have full hearts", true,&CheatItems[InfiniteHearts].active},
     {"infinite air", InfiniteAir, "gives link infinite air underwater", true,&CheatItems[InfiniteAir].active},
     {"infinite oil", InfiniteOil, "gives link infinite lantern oil", true,&CheatItems[InfiniteOil].active},
     {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
@@ -79,12 +81,16 @@ namespace Cheats {
                         break;
                     }
                     case Invincible: {
-                        link->heart_quarters = (link->heart_pieces / 5) * 4;
+                        tp_gameInfo.link_collision_ptr->invincibility_timer = 5;
                         break;
                     }
                     case InvincibleEnemies: {
                         break;
                         // libtp::system::memory::write::<u32>(0x8008_7F28, 0x4BF7_D158);
+                    }
+                    case InfiniteHearts: {
+                        link->heart_quarters = (link->heart_pieces / 5) * 4;
+                        break;
                     }
                     case InfiniteAir: {
                         *(Link::get_air()) = 600;

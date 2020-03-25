@@ -12,4 +12,8 @@ namespace Utilities {
     void render_lines(Font& font, Line lines[], int cursor, int LINES);
     void trigger_load();
     void change_tunic_color();
+    void disable_bg_music();
+    void enable_bg_music();
+    void disable_sfx();
+    void enable_sfx();
 }  // namespace Utilities

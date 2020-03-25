@@ -1,5 +1,7 @@
 #pragma once
 #include "font.h"
+#include "timer.h"
+#include "input_viewer.h"
 #include <string.h>
 
 // main menu
@@ -93,21 +95,40 @@ extern bool inject_save_flag;
 extern bool g_load_happened;
 
 // tools
-#define INPUT_VIEWER_INDEX 2
-#define TIMER_INDEX 3
-#define ROLL_INDEX 4
-#define GORGE_INDEX 5
-#define FREEZE_ACTOR_INDEX 6
-#define HIDE_ACTOR_INDEX 7
-#define FREEZE_CAMERA_INDEX 8
-#define HIDE_HUD_INDEX 9
-#define TUNIC_COLOR_INDEX 10
+enum ToolsIndex {
+    INPUT_VIEWER_INDEX = 2,
+    TIMER_INDEX,
+    ROLL_INDEX,
+    GORGE_INDEX,
+    FREEZE_ACTOR_INDEX,
+    HIDE_ACTOR_INDEX,
+    DISABLE_BG_INDEX,
+    DISABLE_SFX_INDEX,
+    FREEZE_CAMERA_INDEX,
+    HIDE_HUD_INDEX,
+    TUNIC_COLOR_INDEX
+};
+
 extern bool tools_visible;
 extern bool g_freeze_actors;
 extern bool g_hide_actors;
 extern bool g_lock_camera;
 extern bool g_hide_hud;
 extern int g_tunic_color;
+extern bool g_tunic_color_flag;
+extern bool g_disable_bg_music;
+extern bool g_disable_sfx;
+
+enum tunic_color {
+    GREEN,
+    BLUE,
+    RED,
+    ORANGE,
+    YELLOW,
+    WHITE,
+    CYCLE,
+    TUNIC_COLOR_COUNT
+};
 
 // settings
 #define LOG_LEVEL_INDEX 2
@@ -137,92 +158,96 @@ struct Line {
 };
 
 class Menu {
-   protected:
-    // char MenuName[32];
-    // int MenuId;
-    // char MenuDescription[32];
-
    public:
     Menu() {}
-    // Menu(const char* _MenuName, int _MenuId, const char* _MenuDescription) {
-    //     strcpy(MenuName, _MenuName);
-    //     strcpy(MenuDescription, _MenuDescription);
-    //     MenuId = _MenuId;
-    // }
-    virtual void transition_into() = 0;
     virtual void render() = 0;
 };
 
 class MainMenu : public Menu {
    public:
     MainMenu() : Menu(){};
-    void transition_into();
     static void render(Font& font);
 };
 
 class InventoryMenu : public Menu {
    public:
     InventoryMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class PauseMenu : public Menu {
    public:
     PauseMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class ItemWheelMenu : public Menu {
    public:
     ItemWheelMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class CheatsMenu : public Menu {
    public:
     CheatsMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class WarpingMenu : public Menu {
    public:
     WarpingMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class MemoryMenu : public Menu {
    public:
     MemoryMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
-namespace PracticeMenu {
-
-    void inject_default_during();
-    void inject_default_after();
-    class PracticeMenu : public Menu {
-       public:
-        PracticeMenu() : Menu() {}
-        void transition_into(){};
-        static void render(Font& font);
-    };
-};  // namespace PracticeMenu
+class PracticeMenu : public Menu {
+   public:
+    PracticeMenu() : Menu() {}
+    static void render(Font& font);
+};
 
 class SettingsMenu : public Menu {
    public:
     SettingsMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
 
 class ToolsMenu : public Menu {
    public:
     ToolsMenu() : Menu() {}
-    void transition_into(){};
     static void render(Font& font);
 };
+
+#define MAX_MENU_RENDER_FLAGS 11
+
+struct MenuRenderFlag {
+    bool* activation_flag;
+    void (*render_function)(Font& font);
+};
+
+MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
+    {&mm_visible, MainMenu::render},
+    {&inventory_visible, InventoryMenu::render},
+    {&item_wheel_visible, ItemWheelMenu::render},
+    {&warping_visible, WarpingMenu::render},
+    {&memory_visible, MemoryMenu::render},
+    {&prac_visible, PracticeMenu::render},
+    {&cheats_visible, CheatsMenu::render},
+    {&settings_visible, SettingsMenu::render},
+    {&tools_visible, ToolsMenu::render},
+    {&iv_visible, InputViewer::render},
+    {&timer_visible, Timer::render}};
+
+namespace MenuRendering {
+    void render_active_menus(Font& font) {
+        for (int i = 0; i < MAX_MENU_RENDER_FLAGS; i++) {
+            if (*MenuRenderFlags[i].activation_flag) {
+                MenuRenderFlags[i].render_function(font);
+            }
+        }
+    }
+};  // namespace MenuRendering

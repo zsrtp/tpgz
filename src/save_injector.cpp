@@ -19,6 +19,7 @@ namespace SaveInjector {
 
     void inject_default_before() {
         inject_save();
+        tp_gameInfo.loading_animation = 13; // instant load
     }
 
     void no_op() { }
@@ -41,6 +42,7 @@ namespace SaveInjector {
         strcpy((char*)tp_gameInfo.warp.entrance.stage, stage);
         log.PrintLog("Setting state to: %d", state, DEBUG);
         tp_gameInfo.warp.entrance.state = state;
+        tp_gameInfo.respawn_animation = 0x00;
         
         // fixes some bug causing link to auto drown, figure out later
         tp_gameInfo.link_air_meter = 600;

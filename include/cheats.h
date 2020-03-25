@@ -2,12 +2,12 @@
 #define LIB_TP_CHEATS
 
 namespace Cheats {
-    const int CHEAT_AMNT = 17;
     enum CheatId {
         Blank,
         Blank2,
         Invincible,
         InvincibleEnemies,
+        InfiniteHearts,
         InfiniteAir,
         InfiniteOil,
         InfiniteBombs,

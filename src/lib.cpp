@@ -50,15 +50,6 @@ void game_loop() {
         fifo_visible = false;
     }
 
-    // temp
-    memset((void *)0x801244a4,0x60,1);
-    memset((void *)0x801244a5,0x00,3);
-    memset((void *)0x801244a8,0x60,1);
-    memset((void *)0x801244a9,0x00,3);
-    memset((void *)0x801244ac,0x60,1);
-    memset((void *)0x801244ad,0x00,3);
-    Utilities::change_tunic_color();
-    
     Flags::apply_active_flags();
 }
 
@@ -67,41 +58,6 @@ void draw() {
     if (fifo_visible) {
         FIFOQueue::renderItems(Queue, Consolas);
     }
-    if (mm_visible) {
-        MainMenu::render(Consolas);
-    }
-    if (inventory_visible) {
-        InventoryMenu::render(Consolas);
-    }
-    if (pause_visible) {
-        PauseMenu::render(Consolas);
-    }
-    if (item_wheel_visible) {
-        ItemWheelMenu::render(Consolas);
-    }
-    if (warping_visible) {
-        WarpingMenu::render(Consolas);
-    }
-    if (memory_visible) {
-        MemoryMenu::render(Consolas);
-    }
-    if (prac_visible) {
-        PracticeMenu::PracticeMenu::render(Consolas);
-    }
-    if (cheats_visible) {
-        CheatsMenu::render(Consolas);
-    }
-    if (settings_visible) {
-        SettingsMenu::render(Consolas);
-    }
-    if (tools_visible) {
-        ToolsMenu::render(Consolas);
-    }
-    if (iv_visible) {
-        InputViewer::render(Consolas);
-    }
-    if (timer_visible) {
-        Timer::render(Consolas);
-    }
+    MenuRendering::render_active_menus(Consolas);
 }
 }

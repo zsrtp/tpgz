@@ -8,7 +8,7 @@
 #include "commands.h"
 #include "gorge.h"
 #include "rollcheck.h"
-#define LINES 11
+#define LINES 13
 
 static int cursor = 2;
 bool g_roll_check_active;
@@ -19,6 +19,9 @@ bool g_lock_camera;
 bool g_hide_hud;
 int g_tunic_color;
 bool init_once = false;
+bool g_tunic_color_flag;
+bool g_disable_bg_music;
+bool g_disable_sfx;
 
 Line lines[LINES] = {
     {"tools", 0, "", false},
@@ -29,9 +32,11 @@ Line lines[LINES] = {
     {"gorge void indicator", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &g_gorge_active},
     {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &g_freeze_actors},
     {"hide actors", HIDE_ACTOR_INDEX, "hides actors (except link)", true, &g_hide_actors},
+    {"disabled bg music", DISABLE_BG_INDEX,"disables background and enemy music", true, &g_disable_bg_music},
+    {"disable sfx", DISABLE_SFX_INDEX,"disables item, weather, etc. sound effects", true, &g_disable_sfx},
     {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &g_lock_camera},
     {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &g_hide_hud},
-    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue"}, &g_tunic_color}};
+    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "black", "white","cycle"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -91,13 +96,22 @@ void ToolsMenu::render(Font& font) {
                 break;
             }
             case TUNIC_COLOR_INDEX: {
-                if (g_tunic_color < 1) {
+                if (g_tunic_color < TUNIC_COLOR_COUNT-1) {
                     g_tunic_color++;
+                    g_tunic_color_flag = true;
                     break;
                 } else {
-                    g_tunic_color = 0;
+                    g_tunic_color = GREEN;
+                    g_tunic_color_flag = false;
                     break;
                 }
+            }
+            case DISABLE_SFX_INDEX: {
+                g_disable_sfx = !g_disable_sfx;
+                break;
+            }
+            case DISABLE_BG_INDEX: {
+                g_disable_bg_music = !g_disable_bg_music;
             }
         }
     }

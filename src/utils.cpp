@@ -11,11 +11,14 @@
 
 bool loading_initiated = false;
 int apply_after_counter = 0;
+uint8_t red;
+uint8_t green;
+uint8_t blue;
 
 namespace Utilities {
     static Log log;
 
-    void move_cursor(int& cursor, int LINES) {
+    void move_cursor(int &cursor, int LINES) {
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             if (cursor < LINES - 1) {
                 cursor++;
@@ -33,7 +36,7 @@ namespace Utilities {
         };
     }
 
-    void render_lines(Font& font, Line input_lines[], int cursor, int LINES) {
+    void render_lines(Font &font, Line input_lines[], int cursor, int LINES) {
         font.renderChars("tpgz v0.1a", 13.0f, 15.0f, 0x00CC00FF);
 
         for (int i = 0; i < LINES; i++) {
@@ -78,7 +81,7 @@ namespace Utilities {
                 //auto newline = strcat(input_lines[i].line, list_line);
                 font.renderChars(final_line, 15.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(final_line, 15.0f+2.0f, offset+2.0f, 0x00000080);
+                    font.renderChars(final_line, 15.0f + 2.0f, offset + 2.0f, 0x00000080);
                 }
             } else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
@@ -130,22 +133,150 @@ namespace Utilities {
     }
 
     void change_tunic_color() {
-    if (tp_gameInfo.link_tunic_ptr) {
-        if (g_tunic_color == 0) {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
-        } else {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0xFF;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0xFF;
+        
+
+        // patch out part of setWaterDropEffect's code
+        memset((void *)0x801244a4, 0x60, 1);
+        memset((void *)0x801244a5, 0x00, 3);
+        memset((void *)0x801244a8, 0x60, 1);
+        memset((void *)0x801244a9, 0x00, 3);
+        memset((void *)0x801244ac, 0x60, 1);
+        memset((void *)0x801244ad, 0x00, 3);
+
+        if (tp_gameInfo.link_tunic_ptr) {
+            switch (g_tunic_color) {
+                case GREEN: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+                    break;
+                }
+                case BLUE: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x20;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x80;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x20;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x80;
+                    break;
+                }
+                case RED: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x80;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x80;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+                    break;
+                }
+                case ORANGE: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0xDC;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x14;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0xDC;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x14;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+                    break;
+                }
+                case YELLOW: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+                    break;
+                }
+                case WHITE: {
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x30;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x30;
+                    break;
+                }
+                case CYCLE: {
+                    if (red < 0x0040 && (green == 0x0000 && blue == 0x0000)) {
+                        red += 0x0002;
+                    }
+                    else if (green < 0x0040 && (blue == 0x0000 && red == 0x0040)) {
+                        green += 0x0002;
+                    }
+                    else if (blue < 0x0040 && (green == 0x0040 && red == 0x0040)) {
+                        blue += 0x0002;
+                    }
+                    else if (red > 0x0000 && (green == 0x0040 && blue == 0x0040)) {
+                        red -= 0x0002;
+                    }
+                    else if (green > 0x0000 && (blue == 0x0040 && red == 0x0000)) {
+                        green -= 0x0002;
+                    }
+                    else {
+                        blue -= 0x0002;
+                    }
+                    tp_gameInfo.link_tunic_ptr->tunic_top_red = red;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_green = green;
+                    tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green;
+                    tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue;
+                    break;
+                }
+            }
         }
     }
-}
+
+    void disable_bg_music() {
+        tp_zelAudio.bg_audio = 0.0f;
+        tp_zelAudio.enemy_bg_music_volume = 0.0f;
+    }
+
+    void enable_bg_music() {
+        tp_zelAudio.bg_audio = 1.0f;
+        tp_zelAudio.enemy_bg_music_volume = 1.0f;
+    }
+
+    void disable_sfx() {
+        tp_zelAudio.enemy_sfx_volume = 0.0f;
+        tp_zelAudio.env_sfx_volume = 0.0f;
+        tp_zelAudio.item_recoil_sfx_volume = 0.0f;
+        tp_zelAudio.item_sfx_volume = 0.0f;
+        tp_zelAudio.link_idle_sfx_volume = 0.0f;
+        tp_zelAudio.link_voice_volume = 0.0f;
+        tp_zelAudio.menu_sfx_volume = 0.0f;
+        tp_zelAudio.midna_sfx_volume = 0.0f;
+        tp_zelAudio.npc_volume = 0.0f;
+        tp_zelAudio.pause_button_volume = 0.0f;
+    }
+    void enable_sfx() {
+        tp_zelAudio.enemy_sfx_volume = 1.0f;
+        tp_zelAudio.env_sfx_volume = 1.0f;
+        tp_zelAudio.item_recoil_sfx_volume = 1.0f;
+        tp_zelAudio.item_sfx_volume = 1.0f;
+        tp_zelAudio.link_idle_sfx_volume = 1.0f;
+        tp_zelAudio.link_voice_volume = 1.0f;
+        tp_zelAudio.menu_sfx_volume = 1.0f;
+        tp_zelAudio.midna_sfx_volume = 1.0f;
+        tp_zelAudio.npc_volume = 1.0f;
+        tp_zelAudio.pause_button_volume = 1.0f;
+    }
 }  // namespace Utilities
+
+// temp - 
+// patch setWaterDropEffect back to it's original code
+// memset((void *)0x801244a4, 0xB0, 1);
+// memset((void *)0x801244a5, 0x03, 1);
+// memset((void *)0x801244a6, 0x32, 1);
+// memset((void *)0x801244a7, 0xA0, 1);
+// memset((void *)0x801244a8, 0xB0, 1);
+// memset((void *)0x801244a9, 0x03, 1);
+// memset((void *)0x801244aa, 0x32, 1);
+// memset((void *)0x801244ab, 0xA2, 1);
+// memset((void *)0x801244ac, 0xB0, 1);
+// memset((void *)0x801244ad, 0x03, 1);
+// memset((void *)0x801244ae, 0x32, 1);
+// memset((void *)0x801244af, 0xA4, 1);
