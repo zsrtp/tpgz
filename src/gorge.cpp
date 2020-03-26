@@ -82,6 +82,7 @@ namespace GorgeVoidIndicator {
         }
 
         current_counter = TP::get_frame_count();
+        
         // situation specific frame counters
         if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
             start_timer = true;

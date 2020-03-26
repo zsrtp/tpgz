@@ -222,7 +222,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 11
+#define MAX_MENU_RENDER_FLAGS 12
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -240,7 +240,8 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&iv_visible, InputViewer::render},
-    {&timer_visible, Timer::render}};
+    {&timer_visible, Timer::render},
+    {&pause_visible, PauseMenu::render}};
 
 namespace MenuRendering {
     void render_active_menus(Font& font) {

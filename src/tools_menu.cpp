@@ -36,7 +36,7 @@ Line lines[LINES] = {
     {"disable sfx", DISABLE_SFX_INDEX,"disables item, weather, etc. sound effects", true, &g_disable_sfx},
     {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &g_lock_camera},
     {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &g_hide_hud},
-    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "black", "white","cycle"}, &g_tunic_color}};
+    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white","cycle"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {

@@ -13,7 +13,7 @@ namespace System {
 
     void unlock_camera() {
         if (camera_run_once) {
-            tp_gameInfo.lock_camera = true;
+            tp_gameInfo.lock_camera = false;
             camera_run_once = false;
         }
     }

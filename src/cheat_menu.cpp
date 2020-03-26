@@ -221,6 +221,10 @@ void CheatsMenu::render(Font& font) {
                 CheatItems[InvincibleEnemies].active = !CheatItems[InvincibleEnemies].active;
                 break;
             }
+            case InfiniteHearts: {
+                CheatItems[InfiniteHearts].active = !CheatItems[InfiniteHearts].active;
+                break;
+            }
             case InfiniteAir: {
                 CheatItems[InfiniteAir].active = !CheatItems[InfiniteAir].active;
                 break;
