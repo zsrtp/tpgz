@@ -88,6 +88,8 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
+                        uint32_t patch = 0x20038000;
+                        memcpy((void *)0x80087F2C, (void *)&patch, 4);
                         break;
                         
                     }
@@ -171,8 +173,9 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
+                        uint32_t unpatch = 0x7C030050;
+                        memcpy((void *)0x80087F2C, (void *)&unpatch, 4);
                         break;
-                        //libtp::system::memory::write::<u32>(0x8008_7F28, 0xA81B_0562);
                     }
                     case FastMovement: {
                         tp_link_frontroll.roll_factor = 1.3;
