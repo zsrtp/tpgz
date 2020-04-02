@@ -5,6 +5,7 @@
 #include <string.h>
 
 static Font Consolas;
+bool fifo_visible;
 
 void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
     for (int i = 0; i < MAX_MESSAGES; i++) {

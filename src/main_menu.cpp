@@ -9,6 +9,7 @@
 #define LINES 9
 
 static int cursor = 2;
+bool mm_visible;
 
 Line lines[LINES] = {
     {"main menu", 0, "", false},

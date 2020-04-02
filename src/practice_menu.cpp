@@ -18,6 +18,8 @@ static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool g_load_happened;
 bool init_once = false;
+bool prac_visible;
+PracticeFile practice_file;
 
 Line lines[LINES] = {
     {"practice", 0, ""},

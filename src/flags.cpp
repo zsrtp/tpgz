@@ -10,16 +10,16 @@
 bool inject_save_flag = false;
 
 MenuFlag MenuFlags[MAX_MENU_FLAGS] = {
-    {&g_gorge_active, GorgeVoidIndicator::run},
-    {&g_roll_check_active, RollIndicator::run},
+    {&ToolItems[Tools::GORGE_INDEX].active, GorgeVoidIndicator::run},
+    {&ToolItems[Tools::ROLL_INDEX].active, RollIndicator::run},
     {&inject_save_flag, Utilities::trigger_load},
-    {&g_freeze_actors, Actor::freeze_actors, Actor::unfreeze_actors},
-    {&g_hide_actors, Actor::hide_actors, Actor::show_actors},
-    {&g_lock_camera, System::lock_camera, System::unlock_camera},
-    {&g_hide_hud, System::hide_hud, System::show_hud},
+    {&ToolItems[Tools::FREEZE_ACTOR_INDEX].active, Actor::freeze_actors, Actor::unfreeze_actors},
+    {&ToolItems[Tools::HIDE_ACTOR_INDEX].active, Actor::hide_actors, Actor::show_actors},
+    {&ToolItems[Tools::FREEZE_CAMERA_INDEX].active, System::lock_camera, System::unlock_camera},
+    {&ToolItems[Tools::HIDE_HUD_INDEX].active, System::hide_hud, System::show_hud},
     {&g_tunic_color_flag, Utilities::change_tunic_color, Utilities::change_tunic_color},
-    {&g_disable_bg_music, Utilities::disable_bg_music, Utilities::enable_bg_music},
-    {&g_disable_sfx, Utilities::disable_sfx, Utilities::enable_sfx}};
+    {&ToolItems[Tools::DISABLE_BG_INDEX].active, Utilities::disable_bg_music, Utilities::enable_bg_music},
+    {&ToolItems[Tools::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx}};
 
 namespace Flags {
     void apply_active_flags() {

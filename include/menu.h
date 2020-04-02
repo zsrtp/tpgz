@@ -2,6 +2,7 @@
 #include "font.h"
 #include "timer.h"
 #include "input_viewer.h"
+#include "cheats.h"
 #include <string.h>
 
 // main menu
@@ -95,7 +96,9 @@ extern bool inject_save_flag;
 extern bool g_load_happened;
 
 // tools
-enum ToolsIndex {
+#define TOOL_AMNT 13
+namespace Tools {
+    enum ToolsIndex {
     INPUT_VIEWER_INDEX = 2,
     TIMER_INDEX,
     ROLL_INDEX,
@@ -109,15 +112,25 @@ enum ToolsIndex {
     TUNIC_COLOR_INDEX
 };
 
+    struct Tool {
+        enum ToolsIndex id;
+        bool active;
+    };
+
+    void apply_cheats();
+};  // namespace Cheats
+
+extern Tools::Tool ToolItems[TOOL_AMNT];
+
 extern bool tools_visible;
-extern bool g_freeze_actors;
-extern bool g_hide_actors;
-extern bool g_lock_camera;
-extern bool g_hide_hud;
+// extern bool g_freeze_actors;
+// extern bool g_hide_actors;
+// extern bool g_lock_camera;
+// extern bool g_hide_hud;
 extern int g_tunic_color;
 extern bool g_tunic_color_flag;
-extern bool g_disable_bg_music;
-extern bool g_disable_sfx;
+// extern bool g_disable_bg_music;
+// extern bool g_disable_sfx;
 
 enum tunic_color {
     GREEN,
@@ -131,20 +144,28 @@ enum tunic_color {
 };
 
 // settings
-#define LOG_LEVEL_INDEX 2
-#define DROP_SHADOWS_INDEX 3
+enum SettingsIndex {
+    LOG_LEVEL_INDEX = 2,
+    DROP_SHADOWS_INDEX,
+    SAVE_CARD,
+    LOAD_CARD
+};
 extern bool settings_visible;
 extern bool g_drop_shadows;
 
+struct SaveLayout {
+    Cheats::Cheat CheatItems[CHEAT_AMNT];
+    Tools::Tool ToolItems[TOOL_AMNT];
+}__attribute__ ((aligned (32)));
+
 #define MAX_LIST_MEMBER_LENGTH 20
+#define MAX_LIST_ITEMS 15
+#define MAX_LINE_LENGTH 50
+#define MAX_DESCRIPTION_LENGTH 100
 
 struct ListMember {
     char member[MAX_LIST_MEMBER_LENGTH];
 };
-
-#define MAX_LIST_ITEMS 15
-#define MAX_LINE_LENGTH 50
-#define MAX_DESCRIPTION_LENGTH 100
 
 struct Line {
     char line[MAX_LINE_LENGTH];
@@ -239,8 +260,8 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&cheats_visible, CheatsMenu::render},
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
-    {&iv_visible, InputViewer::render},
-    {&timer_visible, Timer::render},
+    {&ToolItems[Tools::INPUT_VIEWER_INDEX].active, InputViewer::render},
+    {&ToolItems[Tools::TIMER_INDEX].active, Timer::render},
     {&pause_visible, PauseMenu::render}};
 
 namespace MenuRendering {

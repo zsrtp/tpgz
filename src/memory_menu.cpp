@@ -6,6 +6,7 @@
 #define LINES 3
 
 static int cursor = 2;
+bool memory_visible;
 
 Line lines[LINES] = {
     {"memory", 0, "", false},

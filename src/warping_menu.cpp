@@ -6,6 +6,7 @@
 #define LINES 3
 
 static int cursor = 2;
+bool warping_visible;
 
 Line lines[LINES] = {
     {"warping", 0, "", false},

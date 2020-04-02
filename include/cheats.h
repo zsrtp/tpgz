@@ -1,6 +1,8 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
+#define CHEAT_AMNT 19
+
 namespace Cheats {
     enum CheatId {
         Blank,
@@ -13,6 +15,7 @@ namespace Cheats {
         InfiniteBombs,
         InfiniteRupees,
         InfiniteArrows,
+        InfiniteSlingshot,
         MoonJump,
         Teleport,
         SandHeightLoss,
@@ -27,8 +30,12 @@ namespace Cheats {
         enum CheatId id;
         bool active;
     };
-    
+
     void apply_cheats();
 };  // namespace Cheats
+
+extern Cheats::Cheat CheatItems[CHEAT_AMNT];
+
+//static Cheats::Cheat CheatItems[CHEAT_AMNT];
 
 #endif

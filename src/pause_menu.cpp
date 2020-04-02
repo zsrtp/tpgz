@@ -6,6 +6,7 @@
 #define LINES 3
 
 static int cursor = 2;
+bool pause_visible;
 
 Line lines[LINES] = {
     {"pause menu", 0, "", false},

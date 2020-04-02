@@ -78,7 +78,6 @@ namespace Utilities {
                 sprintf(final_line, input_lines[i].line);
                 strcat(final_line, " ");
                 strcat(final_line, list_line);
-                //auto newline = strcat(input_lines[i].line, list_line);
                 font.renderChars(final_line, 15.0f, offset, cursor_color);
                 if (g_drop_shadows) {
                     font.renderChars(final_line, 15.0f + 2.0f, offset + 2.0f, 0x00000080);
@@ -133,8 +132,6 @@ namespace Utilities {
     }
 
     void change_tunic_color() {
-        
-
         // patch out part of setWaterDropEffect's code
         memset((void *)0x801244a4, 0x60, 1);
         memset((void *)0x801244a5, 0x00, 3);
@@ -202,20 +199,15 @@ namespace Utilities {
                 case CYCLE: {
                     if (red < 0x0040 && (green == 0x0000 && blue == 0x0000)) {
                         red += 0x0002;
-                    }
-                    else if (green < 0x0040 && (blue == 0x0000 && red == 0x0040)) {
+                    } else if (green < 0x0040 && (blue == 0x0000 && red == 0x0040)) {
                         green += 0x0002;
-                    }
-                    else if (blue < 0x0040 && (green == 0x0040 && red == 0x0040)) {
+                    } else if (blue < 0x0040 && (green == 0x0040 && red == 0x0040)) {
                         blue += 0x0002;
-                    }
-                    else if (red > 0x0000 && (green == 0x0040 && blue == 0x0040)) {
+                    } else if (red > 0x0000 && (green == 0x0040 && blue == 0x0040)) {
                         red -= 0x0002;
-                    }
-                    else if (green > 0x0000 && (blue == 0x0040 && red == 0x0000)) {
+                    } else if (green > 0x0000 && (blue == 0x0040 && red == 0x0000)) {
                         green -= 0x0002;
-                    }
-                    else {
+                    } else {
                         blue -= 0x0002;
                     }
                     tp_gameInfo.link_tunic_ptr->tunic_top_red = red;
@@ -233,11 +225,13 @@ namespace Utilities {
     void disable_bg_music() {
         tp_zelAudio.bg_audio = 0.0f;
         tp_zelAudio.enemy_bg_music_volume = 0.0f;
+        tp_zelAudio.hyrule_castle_bg_music_volume = 0.0f;
     }
 
     void enable_bg_music() {
         tp_zelAudio.bg_audio = 1.0f;
         tp_zelAudio.enemy_bg_music_volume = 1.0f;
+        tp_zelAudio.hyrule_castle_bg_music_volume = 1.0f;
     }
 
     void disable_sfx() {
@@ -266,7 +260,7 @@ namespace Utilities {
     }
 }  // namespace Utilities
 
-// temp - 
+// temp -
 // patch setWaterDropEffect back to it's original code
 // memset((void *)0x801244a4, 0xB0, 1);
 // memset((void *)0x801244a5, 0x03, 1);

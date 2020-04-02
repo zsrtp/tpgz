@@ -7,6 +7,7 @@
 
 static int cursor = 2;
 bool init_once = false;
+bool inventory_visible;
 
 Line lines[LINES] = {
     {"inventory", 0, "", false},

@@ -6,6 +6,7 @@
 #define LINES 3
 
 static int cursor = 2;
+bool item_wheel_visible;
 
 Line lines[LINES] = {
     {"item wheel", 0, "", false},

@@ -10,13 +10,14 @@
 #include "commands.h"
 #include "utils.h"
 #include <string.h>
-#define LINES 18
+#define LINES CHEAT_AMNT
 
 static int cursor = 2;
 bool init_once = false;
+bool cheats_visible;
 using namespace Cheats;
 
-static Cheats::Cheat CheatItems[LINES] = {
+Cheat CheatItems[CHEAT_AMNT] = {
         {Blank, false},
         {Blank2, false},
         {Invincible, false},
@@ -27,6 +28,7 @@ static Cheats::Cheat CheatItems[LINES] = {
         {InfiniteBombs, false},
         {InfiniteRupees, false},
         {InfiniteArrows, false},
+        {InfiniteSlingshot, false},
         {MoonJump, false},
         {Teleport, false},
         {SandHeightLoss, false},
@@ -35,7 +37,7 @@ static Cheats::Cheat CheatItems[LINES] = {
         {FastBonk, false},
         {SuperClawshot, false},
         {SuperSpinner, false}};
-
+    
 
 Line lines[LINES] = {
     {"cheats", 0, "", false},
@@ -48,6 +50,7 @@ Line lines[LINES] = {
     {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
     {"infinite rupees", InfiniteRupees, "link will always have 1000 rupees", true,&CheatItems[InfiniteRupees].active},
     {"infinite arrows", InfiniteArrows, "gives link 99 arrows", true,&CheatItems[InfiniteArrows].active},
+    {"infinite slingshot pellets", InfiniteSlingshot, "gives link 99 slingshot pellets", true,&CheatItems[InfiniteSlingshot].active},
     {"moon jump", MoonJump, "hold R+A to moon jump", true,&CheatItems[MoonJump].active},
     {"teleport", Teleport, "dpad+up to set, dpad+down to load ", true,&CheatItems[Teleport].active},
     {"no sinking in sand",SandHeightLoss, "link won't sink in sand", true,&CheatItems[SandHeightLoss].active},
@@ -86,7 +89,7 @@ namespace Cheats {
                     }
                     case InvincibleEnemies: {
                         break;
-                        // libtp::system::memory::write::<u32>(0x8008_7F28, 0x4BF7_D158);
+                        
                     }
                     case InfiniteHearts: {
                         link->heart_quarters = (link->heart_pieces / 5) * 4;
@@ -113,6 +116,9 @@ namespace Cheats {
                     case InfiniteArrows: {
                         inventory->arrow_count = 99;
                         break;
+                    }
+                    case InfiniteSlingshot: {
+                        inventory->slingshot_count = 99;
                     }
                     case FastMovement: {
                         tp_link_frontroll.roll_factor = 3.0f;
@@ -212,72 +218,7 @@ void CheatsMenu::render(Font& font) {
     Utilities::move_cursor(cursor, LINES);
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor) {
-            case Invincible: {
-                CheatItems[Invincible].active = !(CheatItems[Invincible].active);
-                break;
-            }
-            case InvincibleEnemies: {
-                CheatItems[InvincibleEnemies].active = !CheatItems[InvincibleEnemies].active;
-                break;
-            }
-            case InfiniteHearts: {
-                CheatItems[InfiniteHearts].active = !CheatItems[InfiniteHearts].active;
-                break;
-            }
-            case InfiniteAir: {
-                CheatItems[InfiniteAir].active = !CheatItems[InfiniteAir].active;
-                break;
-            }
-            case InfiniteOil: {
-                CheatItems[InfiniteOil].active = !CheatItems[InfiniteOil].active;
-                break;
-            }
-            case InfiniteBombs: {
-                CheatItems[InfiniteBombs].active = !CheatItems[InfiniteBombs].active;
-                break;
-            }
-            case InfiniteRupees: {
-                CheatItems[InfiniteRupees].active = !CheatItems[InfiniteRupees].active;
-                break;
-            }
-            case InfiniteArrows: {
-                CheatItems[InfiniteArrows].active = !CheatItems[InfiniteArrows].active;
-                break;
-            }
-            case MoonJump: {
-                CheatItems[MoonJump].active = !CheatItems[MoonJump].active;
-                break;
-            }
-            case Teleport: {
-                CheatItems[Teleport].active = !CheatItems[Teleport].active;
-                break;
-            }
-            case ReloadArea: {
-                CheatItems[ReloadArea].active = !CheatItems[ReloadArea].active;
-                break;
-            }
-            case FastMovement: {
-                CheatItems[FastMovement].active = !CheatItems[FastMovement].active;
-                break;
-            }
-            case SandHeightLoss: {
-                CheatItems[SandHeightLoss].active = !CheatItems[SandHeightLoss].active;
-                break;
-            }
-            case FastBonk: {
-                CheatItems[FastBonk].active = !CheatItems[FastBonk].active;
-                break;
-            }
-            case SuperSpinner: {
-                CheatItems[SuperSpinner].active = !CheatItems[SuperSpinner].active;
-                break;
-            }
-            case SuperClawshot: {
-                CheatItems[SuperClawshot].active = !CheatItems[SuperClawshot].active;
-                break;
-            }
-        }
+        CheatItems[cursor].active = !(CheatItems[cursor].active);
     }
 
     Utilities::render_lines(font, lines, cursor, LINES);
