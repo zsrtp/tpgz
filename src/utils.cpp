@@ -38,24 +38,49 @@ namespace Utilities {
 
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES) {
         font.renderChars("tpgz v0.1a", 13.0f, 15.0f, 0x00CC00FF);
-
+        float offset = 0.0f;
         for (int i = 0; i < LINES; i++) {
-            float offset = (60.0f + ((float)i * 20.0f));
+
+            // don't draw past line 15/cursor
+            if (LINES > 15 && i > 15 && cursor < i){
+                if (i == LINES-1 && cursor < LINES){
+                    font.renderChars("______", 15.0f, 380.0f, 0xFFFFFF80);
+                }
+                continue; 
+            };
+
+            // initiate scroll
+            if (cursor > 15) {
+                if (i == 0 || i == 1) {
+                    offset = (60.0f + (i * 20.0f));
+                }
+                else if ((i > 1) && (i < (cursor - 13))) {
+                    continue;
+                } else {
+                    offset = (60.0f + (i - (cursor - 15)) * 20.0f);
+                }
+            } 
+            // normal line rendering offset
+            else {
+                offset = (60.0f + (i * 20.0f));
+            }
+
             int cursor_color = 0xFFFFFF00;
             int description_color = 0xFFFFFF00;
             int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
             int drop_shadows_color = 0x00000080;
 
+            // fade line/hide descriptions for lines the cursor isn't on
             if (input_lines[i].idx != cursor) {
                 cursor_alpha = 0x80;
-            }
-            if (input_lines[i].idx != cursor) {
                 description_alpha = 0x00;
             }
+
             cursor_color |= cursor_alpha;
             description_color |= description_alpha;
 
+            // logic for lines that are toggleable
             if (input_lines[i].toggleable) {
                 char toggleline[54];
                 for (int j = 0; j < 50; j++) {
@@ -71,7 +96,9 @@ namespace Utilities {
                 if (g_drop_shadows) {
                     font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
-            } else if (input_lines[i].is_list) {
+            }
+            // logic for lines that are lists
+            else if (input_lines[i].is_list) {
                 char final_line[50];
                 char list_line[MAX_LIST_MEMBER_LENGTH];
                 sprintf(list_line, input_lines[i].list_member[*input_lines[i].list_member_idx].member);
@@ -82,23 +109,24 @@ namespace Utilities {
                 if (g_drop_shadows) {
                     font.renderChars(final_line, 15.0f + 2.0f, offset + 2.0f, 0x00000080);
                 }
-            } else {
+            } 
+            // logic for normal lines
+            else {
                 font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
                 if (g_drop_shadows) {
                     font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             }
 
-            font.renderChars(input_lines[i].description, 200.0f, 440.f, description_color);
+            // render line descriptions
+            font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
             if (g_drop_shadows && input_lines[i].idx == cursor) {
-                font.renderChars(input_lines[i].description, 200.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
+                font.renderChars(input_lines[i].description, 15.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
             };
         };
     }  // namespace Utilities
 
     void trigger_load() {
-        // trigger loading
-
         if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {
             log.PrintLog("Initiating warp", INFO);
             if (practice_file.inject_options_before_load) {
