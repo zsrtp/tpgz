@@ -29,6 +29,10 @@ Tool ToolItems[TOOL_AMNT] = {
     {FREEZE_CAMERA_INDEX, false},
     {HIDE_HUD_INDEX, false}};
 
+ListMember colors[MAX_LIST_ITEMS] = {
+    
+};
+
 Line lines[LINES] = {
     {"tools", 0, "", false},
     {"", 1, "", false},
@@ -42,7 +46,8 @@ Line lines[LINES] = {
     {"disable sfx", DISABLE_SFX_INDEX, "disables item, weather, etc. sound effects", true, &ToolItems[DISABLE_SFX_INDEX].active},
     {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &ToolItems[FREEZE_CAMERA_INDEX].active},
     {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &ToolItems[HIDE_HUD_INDEX].active},
-    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
+    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}
+};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {

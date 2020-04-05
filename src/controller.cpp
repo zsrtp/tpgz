@@ -39,18 +39,13 @@ static ButtonState buttonStates[BUTTON_STATES] = {
 
 extern "C" uint32_t read_controller() {
     sButtons_down_last_frame = sButtons_down;
-    // 0x0100 down last frame
     sButtons_down = tp_mPadStatus.sval;
-    // sButtons_down = 0x0200 down this frame
     sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
-    // sButtons_pressed = 0x0200 & 0xFEFF
-    // sButtons_pressed = 0xFCFF
     
 
     uint8_t idx = 0;
     for (; idx < BUTTON_STATES; idx++) {
         buttonStates[idx].is_down = (buttonStates[idx].button & sButtons_down) != 0;
-        // AND with anything other than itself results in 0, so must be down
         if ((buttonStates[idx].button & sButtons_pressed) != 0) {
             buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
         }
@@ -61,7 +56,6 @@ extern "C" uint32_t read_controller() {
                     tools_visible || inventory_visible || item_wheel_visible || 
                     pause_visible || memory_visible || warping_visible) {
 
-        // temp until menu rework is done
         a_held = true;
         current_input = Controller::get_current_inputs();
         a_held = current_input == 0x0100 && a_held_last_frame == true;
@@ -88,16 +82,11 @@ namespace Controller {
     }
 
     bool button_is_pressed(int idx) {
-        // delta between when you pressed idx button now and before
         auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
-        // just clicked is true if you pressed it on this frame
         auto just_clicked = delta == 0;
-        // after 10 frames, it's considered held down long enough
         auto held_down_long_enough = delta > REPEAT_DELAY;
-        // if held for more than 10f and 
         auto is_repeat_frame = held_down_long_enough && delta % REPEAT_TIME == 0;
         auto down = button_is_down(idx);
-
         return down && (just_clicked || is_repeat_frame);
     }
 
