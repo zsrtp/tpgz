@@ -13,12 +13,15 @@ namespace SaveInjector {
 
     // inject qlog bytes into RAM
     void inject_save() {
-        //change to gameinfo later
-        memcpy((void*)0x804061C0, (void*)practice_file.qlog_bytes, 2700); //2388
+        // copy out scratchpad
+        memcpy((void*)&tp_gameInfo, (void*)practice_file.qlog_bytes, 2392);
     };
 
     void inject_default_before() {
+        tp_putSave(&tp_gameInfo,tp_gameInfo.area_id);
         inject_save();
+        tp_getSave(&tp_gameInfo,tp_gameInfo.area_id);
+        tp_gameInfo.spawn_speed = 0.0f;
         tp_gameInfo.loading_animation = 13; // instant load
     }
 
@@ -42,7 +45,7 @@ namespace SaveInjector {
         strcpy((char*)tp_gameInfo.warp.entrance.stage, stage);
         log.PrintLog("Setting state to: %d", state, DEBUG);
         tp_gameInfo.warp.entrance.state = state;
-        tp_gameInfo.respawn_animation = 0x00;
+        tp_gameInfo.respawn_animation = 0x0;
         
         // fixes some bug causing link to auto drown, figure out later
         tp_gameInfo.link_air_meter = 600;

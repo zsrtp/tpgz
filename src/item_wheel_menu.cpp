@@ -446,7 +446,7 @@ void ItemWheelMenu::render(Font& font) {
                 sprintf(lines[i].line, "slot %d: %s", default_items[i - 2].slot_id, lookup_table[j].item_description);
             }
             if (lookup_table[j].item_id == default_items[i - 2].item_id) {
-                sprintf(lines[i].description, "slot %d default item: %s. Press Z to set to default.", i - 2, lookup_table[j].item_description);
+                sprintf(lines[i].description, "slot %d default item: %s. press Z to set to default", i - 2, lookup_table[j].item_description);
             } else {
                 continue;
             }

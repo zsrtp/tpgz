@@ -193,7 +193,7 @@ extern bool inject_save_flag;
 extern bool g_load_happened;
 
 // tools
-#define TOOL_AMNT 13
+#define TOOL_AMNT 15
 namespace Tools {
     enum ToolsIndex {
         INPUT_VIEWER_INDEX = 2,
@@ -206,6 +206,8 @@ namespace Tools {
         DISABLE_SFX_INDEX,
         FREEZE_CAMERA_INDEX,
         HIDE_HUD_INDEX,
+        TIME_HOURS_INDEX,
+        TIME_MINUTES_INDEX,
         TUNIC_COLOR_INDEX
     };
 
@@ -238,11 +240,16 @@ enum tunic_color {
 enum SettingsIndex {
     LOG_LEVEL_INDEX = 2,
     DROP_SHADOWS_INDEX,
-    SAVE_CARD,
-    LOAD_CARD
+    SAVE_CARD_INDEX,
+    LOAD_CARD_INDEX,
+    AREA_RELOAD_BEHAVIOR_INDEX
 };
 extern bool settings_visible;
 extern bool g_drop_shadows;
+extern int g_area_reload_behavior;
+extern bool g_autoload_card;
+#define LOAD_AREA 0
+#define LOAD_FILE 1
 
 struct SaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];
@@ -250,8 +257,8 @@ struct SaveLayout {
 } __attribute__((aligned(32)));
 
 #define MAX_LIST_MEMBER_LENGTH 40
-#define MAX_LIST_ITEMS 100
-#define MAX_LINE_LENGTH 100
+#define MAX_LIST_ITEMS 20
+#define MAX_LINE_LENGTH 50
 #define MAX_DESCRIPTION_LENGTH 100
 
 struct ListMember {

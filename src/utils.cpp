@@ -1,6 +1,7 @@
 #include "utils.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
+#include "gcn_c/include/card.h"
 #include "controller.h"
 #include "save_injector.h"
 #include "commands.h"
@@ -37,29 +38,27 @@ namespace Utilities {
     }
 
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES) {
-        font.renderChars("tpgz v0.1a", 13.0f, 15.0f, 0x00CC00FF);
+        font.renderChars("tpgz v0.1a", 25.0f, 25.0f, 0x00CC00FF);
         float offset = 0.0f;
         for (int i = 0; i < LINES; i++) {
-
             // don't draw past line 15/cursor
-            if (LINES > 15 && i > 15 && cursor < i){
-                if (i == LINES-1 && cursor < LINES){
-                    font.renderChars("______", 15.0f, 380.0f, 0xFFFFFF80);
+            if (LINES > 15 && i > 15 && cursor < i) {
+                if (i == LINES - 1 && cursor < LINES) {
+                    font.renderChars("______", 25.0f, 380.0f, 0xFFFFFF80);
                 }
-                continue; 
+                continue;
             };
 
             // initiate scroll
             if (cursor > 15) {
                 if (i == 0 || i == 1) {
                     offset = (60.0f + (i * 20.0f));
-                }
-                else if ((i > 1) && (i < (cursor - 13))) {
+                } else if ((i > 1) && (i < (cursor - 13))) {
                     continue;
                 } else {
                     offset = (60.0f + (i - (cursor - 15)) * 20.0f);
                 }
-            } 
+            }
             // normal line rendering offset
             else {
                 offset = (60.0f + (i * 20.0f));
@@ -92,9 +91,9 @@ namespace Utilities {
                     strcat(toggleline, " [ ]");
                 }
 
-                font.renderChars(toggleline, 15.0f, offset, cursor_color);
+                font.renderChars(toggleline, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(toggleline, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
+                    font.renderChars(toggleline, 25.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             }
             // logic for lines that are lists
@@ -105,23 +104,23 @@ namespace Utilities {
                 sprintf(final_line, input_lines[i].line);
                 strcat(final_line, " ");
                 strcat(final_line, list_line);
-                font.renderChars(final_line, 15.0f, offset, cursor_color);
+                font.renderChars(final_line, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(final_line, 15.0f + 2.0f, offset + 2.0f, 0x00000080);
+                    font.renderChars(final_line, 25.0f + 2.0f, offset + 2.0f, 0x00000080);
                 }
-            } 
+            }
             // logic for normal lines
             else {
-                font.renderChars(input_lines[i].line, 15.0f, offset, cursor_color);
+                font.renderChars(input_lines[i].line, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(input_lines[i].line, 15.0f + 2.0f, offset + 2.0f, drop_shadows_color);
+                    font.renderChars(input_lines[i].line, 25.0f + 2.0f, offset + 2.0f, drop_shadows_color);
                 };
             }
 
             // render line descriptions
-            font.renderChars(input_lines[i].description, 15.0f, 440.f, description_color);
+            font.renderChars(input_lines[i].description, 25.0f, 440.f, description_color);
             if (g_drop_shadows && input_lines[i].idx == cursor) {
-                font.renderChars(input_lines[i].description, 15.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
+                font.renderChars(input_lines[i].description, 25.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
             };
         };
     }  // namespace Utilities
@@ -256,11 +255,32 @@ namespace Utilities {
         tp_zelAudio.hyrule_castle_bg_music_volume = 0.0f;
     }
 
+    void load_mem_card(MemCard::Card &card, SaveLayout &save_layout) {
+        card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
+        if (card.card_result == Ready) {
+            card.card_result = CARDRead(&card.card_info, &save_layout, 512, 0x0000);
+            if (card.card_result == Ready) {
+                tp_osReport("loaded card!");
+                memcpy(CheatItems, save_layout.CheatItems, sizeof(save_layout.CheatItems));
+                memcpy(ToolItems, save_layout.ToolItems, sizeof(save_layout.ToolItems));
+            } else {
+                tp_osReport("failed to load");
+            }
+            card.card_result = CARDClose(&card.card_info);
+        }
+    }
+
     void enable_bg_music() {
         tp_zelAudio.bg_audio = 1.0f;
         tp_zelAudio.enemy_bg_music_volume = 1.0f;
         tp_zelAudio.hyrule_castle_bg_music_volume = 1.0f;
     }
+
+    // void change_font(Font& font, const _Font& font_bytes, const char* font_texture_data ) {
+    //     memset(&font._texobj, 0x0, sizeof(GXTexObj));
+    //     GX_InitTexObj(&font._texobj, (void*)font_texture_data, font_bytes.width, font_bytes.height, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    //     font.font = &font_bytes;
+    // }
 
     void disable_sfx() {
         tp_zelAudio.enemy_sfx_volume = 0.0f;
@@ -285,6 +305,23 @@ namespace Utilities {
         tp_zelAudio.midna_sfx_volume = 1.0f;
         tp_zelAudio.npc_volume = 1.0f;
         tp_zelAudio.pause_button_volume = 1.0f;
+    }
+    void load_gz_card(bool &card_load) {
+        uint8_t frame_count = TP::get_frame_count();
+        if (card_load && frame_count > 200) {
+            static SaveLayout save_layout;
+            static MemCard::Card card;
+            card.file_name = "tpgz01";
+            card.sector_size = SECTOR_SIZE;
+            sprintf(card.file_name_buffer, card.file_name);
+            card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
+            if (card.card_result == Ready) {
+                Utilities::load_mem_card(card, save_layout);
+                card_load = false;
+            } else {
+                card_load = false;
+            }
+        }
     }
 }  // namespace Utilities
 

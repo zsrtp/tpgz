@@ -76,6 +76,11 @@ namespace Commands {
 
     void reload_area() {
         inject_save_flag = true;
+        if (g_area_reload_behavior == LOAD_AREA) {
+            practice_file.inject_options_before_load = SaveInjector::inject_default_before;
+            practice_file.inject_options_during_load = nullptr;
+            practice_file.inject_options_after_load = nullptr;
+        }
     }  // namespace Commands
 
     void gorge_void() {

@@ -1,5 +1,6 @@
 #include "libtp_c/include/actor.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "menu.h"
 #include "input_viewer.h"
 #include "controller.h"
@@ -30,7 +31,7 @@ Tool ToolItems[TOOL_AMNT] = {
     {HIDE_HUD_INDEX, false}};
 
 ListMember colors[MAX_LIST_ITEMS] = {
-    
+
 };
 
 Line lines[LINES] = {
@@ -38,16 +39,17 @@ Line lines[LINES] = {
     {"", 1, "", false},
     {"input viewer", INPUT_VIEWER_INDEX, "show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
     {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
-    {"roll check", ROLL_INDEX, "see how bad you are at chaining rolls", true, &ToolItems[ROLL_INDEX].active},
+    {"roll check", ROLL_INDEX, "frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
     {"gorge void indicator", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &ToolItems[GORGE_INDEX].active},
     {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &ToolItems[FREEZE_ACTOR_INDEX].active},
-    {"hide actors", HIDE_ACTOR_INDEX, "hides actors (except link)", true, &ToolItems[HIDE_ACTOR_INDEX].active},
+    {"hide actors", HIDE_ACTOR_INDEX, "hides actors", true, &ToolItems[HIDE_ACTOR_INDEX].active},
     {"disabled bg music", DISABLE_BG_INDEX, "disables background and enemy music", true, &ToolItems[DISABLE_BG_INDEX].active},
     {"disable sfx", DISABLE_SFX_INDEX, "disables item, weather, etc. sound effects", true, &ToolItems[DISABLE_SFX_INDEX].active},
     {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &ToolItems[FREEZE_CAMERA_INDEX].active},
     {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &ToolItems[HIDE_HUD_INDEX].active},
-    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}
-};
+    {"", TIME_HOURS_INDEX, "the current in game hour", false},
+    {"", TIME_MINUTES_INDEX, "the current in game minutes", false},
+    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -61,6 +63,11 @@ void ToolsMenu::render(Font& font) {
         current_input = 0;
         init_once = true;
     }
+    int current_hour = (int)tp_gameInfo.raw_game_time/15;
+    int current_minute = (int)((4.0f*tp_gameInfo.raw_game_time) - current_hour*60);
+
+    sprintf(lines[TIME_HOURS_INDEX].line, "time (hours): %d", current_hour);
+    sprintf(lines[TIME_MINUTES_INDEX].line, "time (minutes): %d", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor, LINES);
@@ -91,6 +98,12 @@ void ToolsMenu::render(Font& font) {
                     g_tunic_color_flag = false;
                     break;
                 }
+            }
+            case TIME_HOURS_INDEX : {
+                tp_gameInfo.raw_game_time += 14.75f;
+            }
+            case TIME_MINUTES_INDEX : {
+                tp_gameInfo.raw_game_time += 0.25f;
             }
         }
     }

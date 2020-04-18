@@ -84,7 +84,9 @@ namespace Cheats {
                         break;
                     }
                     case Invincible: {
-                        tp_gameInfo.link_collision_ptr->invincibility_timer = 5;
+                        if (tp_gameInfo.link_collision_ptr != nullptr) {
+                            tp_gameInfo.link_collision_ptr->invincibility_timer = 5;
+                        }
                         break;
                     }
                     case InvincibleEnemies: {

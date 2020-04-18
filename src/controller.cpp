@@ -41,7 +41,6 @@ extern "C" uint32_t read_controller() {
     sButtons_down_last_frame = sButtons_down;
     sButtons_down = tp_mPadStatus.sval;
     sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
-    
 
     uint8_t idx = 0;
     for (; idx < BUTTON_STATES; idx++) {
