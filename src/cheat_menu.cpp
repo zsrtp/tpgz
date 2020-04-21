@@ -35,8 +35,7 @@ Cheat CheatItems[CHEAT_AMNT] = {
         {ReloadArea, false},
         {FastMovement, false},
         {FastBonk, false},
-        {SuperClawshot, false},
-        {SuperSpinner, false}};
+        {SuperClawshot, false}};
     
 
 Line lines[LINES] = {
@@ -58,7 +57,6 @@ Line lines[LINES] = {
     {"fast movement", FastMovement, "link's movement is much faster", true,&CheatItems[FastMovement].active},
     {"fast bonk recovery", FastBonk, "reduces bonk animation significantly", true,&CheatItems[FastBonk].active},
     {"super clawshot", SuperClawshot, "clawshot is long and can grab most things", true,&CheatItems[SuperClawshot].active},
-    {"super spinner", SuperSpinner, "spinner is very fast and can hover", true,&CheatItems[SuperSpinner].active}
 };
 
 namespace Cheats {
@@ -125,21 +123,26 @@ namespace Cheats {
                         inventory->slingshot_count = 99;
                     }
                     case FastMovement: {
-                        tp_link_frontroll.roll_factor = 3.0f;
-                        //tp_link_swim.swim_up_max_speed = 50;
-                        tp_link_swim.swim_up_speed = 50;
-                        tp_link_swim.back_swim_speed = 50;
-                        tp_link_swim.side_swim_speed = 50;
-                        tp_link_swim.dash_swim_max_speed = 50;
-                        tp_link_swim.forward_swim_speed = 50;
-                        tp_link_swim.ib_swim_speed = 50;
-                        tp_link_swim.sinking_speed = -50;
-                        tp_link_swim.initial_sinking_speed = -50;
+                        tp_link_human_frontroll.roll_factor = 3.0f;
+                        tp_link_human_swim.swim_up_speed = 50;
+                        tp_link_human_swim.back_swim_speed = 50;
+                        tp_link_human_swim.side_swim_speed = 50;
+                        tp_link_human_swim.dash_swim_max_speed = 50;
+                        tp_link_human_swim.forward_swim_speed = 50;
+                        tp_link_human_swim.ib_swim_speed = 50;
+                        tp_link_human_swim.sinking_speed = -50;
+                        tp_link_human_swim.initial_sinking_speed = -50;
+                        tp_link_wolf_general.dash_initial_speed_large_area = 100;
+                        tp_link_wolf_general.dash_speed_large_area = 100;
+                        tp_link_wolf_general.dash_initial_speed_small_area = 70;
+                        tp_link_wolf_general.dash_speed_small_area = 70;
+                        tp_link_wolf_swim.dash_swim_speed = 50;
+                        tp_link_wolf_swim.swim_speed = 50;
                         break;
                     }
                     case FastBonk: {
-                        tp_link_frontroll.bonk_recoil_anim_speed = 50.0f;
-                        tp_link_frontroll.bonk_recovery_anim_factor = 0.0f;
+                        tp_link_human_frontroll.bonk_recoil_anim_speed = 50.0f;
+                        tp_link_human_frontroll.bonk_recovery_anim_factor = 0.0f;
                         break;
                     }
                     case SandHeightLoss: {
@@ -151,10 +154,6 @@ namespace Cheats {
                         tp_clawshot.extension_rate = 69120.0f;
                         tp_clawshot.retraction_rate = 2870.0f;
                         tp_clawshot.pull_rate = 500.0f;
-                        break;
-                    }
-                    case SuperSpinner: {
-                        
                         break;
                     }
                     default: {}
@@ -180,20 +179,26 @@ namespace Cheats {
                         break;
                     }
                     case FastMovement: {
-                        tp_link_frontroll.roll_factor = 1.3;
-                        tp_link_swim.swim_up_speed = 12;
-                        tp_link_swim.forward_swim_speed = 8;
-                        tp_link_swim.back_swim_speed = 6;
-                        tp_link_swim.side_swim_speed = 8;
-                        tp_link_swim.dash_swim_max_speed = 13;
-                        tp_link_swim.ib_swim_speed = 8;
-                        tp_link_swim.sinking_speed = -20;
-                        tp_link_swim.initial_sinking_speed = -0.699999988;
+                        tp_link_human_frontroll.roll_factor = 1.3;
+                        tp_link_human_swim.swim_up_speed = 12;
+                        tp_link_human_swim.forward_swim_speed = 8;
+                        tp_link_human_swim.back_swim_speed = 6;
+                        tp_link_human_swim.side_swim_speed = 8;
+                        tp_link_human_swim.dash_swim_max_speed = 13;
+                        tp_link_human_swim.ib_swim_speed = 8;
+                        tp_link_human_swim.sinking_speed = -20;
+                        tp_link_human_swim.initial_sinking_speed = -0.699999988;
+                        tp_link_wolf_general.dash_initial_speed_large_area = 65;
+                        tp_link_wolf_general.dash_speed_large_area = 45;
+                        tp_link_wolf_general.dash_initial_speed_small_area = 35;
+                        tp_link_wolf_general.dash_speed_small_area = 33;
+                        tp_link_wolf_swim.dash_swim_speed = 20;
+                        tp_link_wolf_swim.swim_speed = 9;
                         break;
                     }
                     case FastBonk: {
-                        tp_link_frontroll.bonk_recoil_anim_speed = 3.0f;
-                        tp_link_frontroll.bonk_recovery_anim_factor = 0.800000012f;
+                        tp_link_human_frontroll.bonk_recoil_anim_speed = 3.0f;
+                        tp_link_human_frontroll.bonk_recovery_anim_factor = 0.800000012f;
                         break;
                     }
                     case SuperClawshot: {

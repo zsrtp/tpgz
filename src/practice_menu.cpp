@@ -16,13 +16,12 @@ static int cursor = 2;
 static CameraMatrix camera = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
-bool g_load_happened;
 bool init_once = false;
 bool prac_visible;
 PracticeFile practice_file;
 
 Line lines[LINES] = {
-    {"practice", 0, ""},
+    {"any%", 0, ""},
     {"", 1, ""},
     {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "gate clip outside ordon spring"},
     {"back in time", BACK_IN_TIME_INDEX, "back in time off the ordon spring bridge"},

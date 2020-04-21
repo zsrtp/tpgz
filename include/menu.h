@@ -4,6 +4,8 @@
 #include "input_viewer.h"
 #include "cheats.h"
 #include <string.h>
+#define DROP_SHADOWS_RGBA 0x00000080
+#define CURSOR_RGBA 0x00CC00FF
 
 // main menu
 #define INVENTORY_INDEX 2
@@ -136,6 +138,28 @@ extern bool warping_visible;
 #define stuff 2
 extern bool memory_visible;
 
+enum MemoryType {
+    u8,
+    i8,
+    u16,
+    i16,
+    u32,
+    i32,
+    f32,
+    string
+};
+
+struct MemoryWatch {
+    uint32_t address = 0x80000000;
+    float x = 100.0f;
+    float y = 100.0f;
+    bool hex = false;
+    MemoryType type = u32;
+    uint16_t offset = 0x0000;
+    uint32_t value;
+    bool visible = false;
+};
+
 // practice
 enum PracticeIndex {
     ORDON_GATE_CLIP_INDEX = 2,
@@ -190,7 +214,6 @@ enum PracticeIndex {
 
 extern bool prac_visible;
 extern bool inject_save_flag;
-extern bool g_load_happened;
 
 // tools
 #define TOOL_AMNT 15

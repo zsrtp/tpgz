@@ -64,6 +64,7 @@ void ToolsMenu::render(Font& font) {
         init_once = true;
     }
     int current_hour = (int)tp_gameInfo.raw_game_time/15;
+    if (current_hour > 23) { current_hour = 0;}
     int current_minute = (int)((4.0f*tp_gameInfo.raw_game_time) - current_hour*60);
 
     sprintf(lines[TIME_HOURS_INDEX].line, "time (hours): %d", current_hour);

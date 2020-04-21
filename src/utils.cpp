@@ -68,7 +68,6 @@ namespace Utilities {
             int description_color = 0xFFFFFF00;
             int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
-            int drop_shadows_color = 0x00000080;
 
             // fade line/hide descriptions for lines the cursor isn't on
             if (input_lines[i].idx != cursor) {
@@ -93,7 +92,7 @@ namespace Utilities {
 
                 font.renderChars(toggleline, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(toggleline, 25.0f + 2.0f, offset + 2.0f, drop_shadows_color);
+                    font.renderChars(toggleline, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
                 };
             }
             // logic for lines that are lists
@@ -106,21 +105,21 @@ namespace Utilities {
                 strcat(final_line, list_line);
                 font.renderChars(final_line, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(final_line, 25.0f + 2.0f, offset + 2.0f, 0x00000080);
+                    font.renderChars(final_line, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
                 }
             }
             // logic for normal lines
             else {
                 font.renderChars(input_lines[i].line, 25.0f, offset, cursor_color);
                 if (g_drop_shadows) {
-                    font.renderChars(input_lines[i].line, 25.0f + 2.0f, offset + 2.0f, drop_shadows_color);
+                    font.renderChars(input_lines[i].line, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
                 };
             }
 
             // render line descriptions
             font.renderChars(input_lines[i].description, 25.0f, 440.f, description_color);
             if (g_drop_shadows && input_lines[i].idx == cursor) {
-                font.renderChars(input_lines[i].description, 25.0f + 2.0f, 440.0f + 2.0f, drop_shadows_color);
+                font.renderChars(input_lines[i].description, 25.0f + 2.0f, 440.0f + 2.0f, DROP_SHADOWS_RGBA);
             };
         };
     }  // namespace Utilities
