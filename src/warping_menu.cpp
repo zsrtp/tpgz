@@ -3,15 +3,13 @@
 #include "controller.h"
 #include "utils.h"
 
-#define LINES 3
+#define LINES 1
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool warping_visible;
 
 Line lines[LINES] = {
-    {"warping", 0, "", false},
-    {"", 1, "", false},
-    {"TBD", 2, "TBD", false}};
+    {"TBD", 0, "TBD", false}};
 
 void WarpingMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -21,5 +19,5 @@ void WarpingMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 }

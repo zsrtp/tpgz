@@ -19,22 +19,52 @@ uint8_t blue;
 namespace Utilities {
     static Log log;
 
-    void move_cursor(int &cursor, int LINES) {
-        if (button_is_pressed(Controller::DPAD_DOWN)) {
-            if (cursor < LINES - 1) {
-                cursor++;
-            } else if (cursor == LINES - 1) {
-                cursor = 2;
-            }
-        };
-
+    void move_cursor(Cursor &cursor, int max_cursor_x_value) {
         if (button_is_pressed(Controller::DPAD_UP)) {
-            if (cursor > 2) {
-                cursor--;
-            } else if (cursor == 2) {
-                cursor = LINES - 1;
+            if (cursor.x > 0) {
+                cursor.x -= 1;
+            } else {
+                cursor.x = max_cursor_x_value - 1;
             }
-        };
+        }
+        if (button_is_pressed(Controller::DPAD_DOWN)) {
+            if (cursor.x < max_cursor_x_value - 1) {
+                cursor.x += 1;
+            } else {
+                cursor.x = 0;
+            }
+        }
+    }
+
+    void move_cursor(Cursor &cursor, int max_cursor_x_value, int max_cursor_y_value) {
+        if (button_is_pressed(Controller::DPAD_UP)) {
+            if (cursor.x > 0) {
+                cursor.x -= 1;
+            } else {
+                cursor.x = max_cursor_x_value - 1;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_DOWN)) {
+            if (cursor.x < max_cursor_x_value - 1) {
+                cursor.x += 1;
+            } else {
+                cursor.x = 0;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_RIGHT)) {
+            if (cursor.y < max_cursor_y_value - 1) {
+                cursor.y += 1;
+            } else {
+                cursor.y = 0;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_LEFT)) {
+            if (cursor.y > 0) {
+                cursor.y -= 1;
+            } else {
+                cursor.y = max_cursor_y_value - 1;
+            }
+        }
     }
 
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES) {
@@ -64,18 +94,15 @@ namespace Utilities {
                 offset = (60.0f + (i * 20.0f));
             }
 
-            int cursor_color = 0xFFFFFF00;
+            int cursor_color = 0x00CC00FF;
             int description_color = 0xFFFFFF00;
-            int cursor_alpha = 0xFF;
             int description_alpha = 0xFF;
 
             // fade line/hide descriptions for lines the cursor isn't on
             if (input_lines[i].idx != cursor) {
-                cursor_alpha = 0x80;
+                cursor_color = 0xFFFFFFFF;
                 description_alpha = 0x00;
             }
-
-            cursor_color |= cursor_alpha;
             description_color |= description_alpha;
 
             // logic for lines that are toggleable

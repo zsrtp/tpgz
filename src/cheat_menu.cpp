@@ -12,14 +12,12 @@
 #include <string.h>
 #define LINES CHEAT_AMNT
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool init_once = false;
 bool cheats_visible;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
-        {Blank, false},
-        {Blank2, false},
         {Invincible, false},
         {InvincibleEnemies, false},
         {InfiniteHearts, false},
@@ -39,8 +37,6 @@ Cheat CheatItems[CHEAT_AMNT] = {
     
 
 Line lines[LINES] = {
-    {"cheats", 0, "", false},
-    {"", 1, "", false},
     {"invincible", Invincible, "makes link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "makes some enemies invicible", true,&CheatItems[InvincibleEnemies].active},
     {"infinite hearts", InfiniteHearts, "link will always have full hearts", true,&CheatItems[InfiniteHearts].active},
@@ -228,8 +224,8 @@ void CheatsMenu::render(Font& font) {
     Utilities::move_cursor(cursor, LINES);
 
     if (current_input == 256 && a_held == false) {
-        CheatItems[cursor].active = !(CheatItems[cursor].active);
+        CheatItems[cursor.x].active = !(CheatItems[cursor.x].active);
     }
 
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };

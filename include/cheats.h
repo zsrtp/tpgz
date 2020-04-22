@@ -1,12 +1,10 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
-#define CHEAT_AMNT 18
+#define CHEAT_AMNT 16
 
 namespace Cheats {
     enum CheatId {
-        Blank,
-        Blank2,
         Invincible,
         InvincibleEnemies,
         InfiniteHearts,

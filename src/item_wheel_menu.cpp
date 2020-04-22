@@ -5,11 +5,11 @@
 #include "controller.h"
 #include "utils.h"
 
-#define LINES 26
 #define ITEM_WHEEL_SLOTS 24
+#define LINES ITEM_WHEEL_SLOTS
 #define TOTAL_ITEMS 58
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 int listIdx = 0;
 int new_int_item_id;
 bool init_once = false;
@@ -390,32 +390,30 @@ const ItemLookup lookup_table[TOTAL_ITEMS] = {
     {NO_ITEM, "no item"}};
 
 Line lines[LINES] = {
-    {"item wheel", 0, "", false, nullptr, false},
-    {"", 1, "", false, nullptr, false},
-    {"", 2, "", false, nullptr, false},
-    {"", 3, "", false, nullptr, false},
-    {"", 4, "", false, nullptr, false},
-    {"", 5, "", false, nullptr, false},
-    {"", 6, "", false, nullptr, false},
-    {"", 7, "", false, nullptr, false},
-    {"", 8, "", false, nullptr, false},
-    {"", 9, "", false, nullptr, false},
-    {"", 10, "", false, nullptr, false},
-    {"", 11, "", false, nullptr, false},
-    {"", 12, "", false, nullptr, false},
-    {"", 13, "", false, nullptr, false},
-    {"", 14, "", false, nullptr, false},
-    {"", 15, "", false, nullptr, false},
-    {"", 16, "", false, nullptr, false},
-    {"", 17, "", false, nullptr, false},
-    {"", 18, "", false, nullptr, false},
-    {"", 19, "", false, nullptr, false},
-    {"", 20, "", false, nullptr, false},
-    {"", 21, "", false, nullptr, false},
-    {"", 22, "", false, nullptr, false},
-    {"", 23, "", false, nullptr, false},
-    {"", 24, "", false, nullptr, false},
-    {"", 25, "", false, nullptr, false}};
+    {"", SLOT_0, "", false, nullptr, false},
+    {"", SLOT_1, "", false, nullptr, false},
+    {"", SLOT_2, "", false, nullptr, false},
+    {"", SLOT_3, "", false, nullptr, false},
+    {"", SLOT_4, "", false, nullptr, false},
+    {"", SLOT_5, "", false, nullptr, false},
+    {"", SLOT_6, "", false, nullptr, false},
+    {"", SLOT_7, "", false, nullptr, false},
+    {"", SLOT_8, "", false, nullptr, false},
+    {"", SLOT_9, "", false, nullptr, false},
+    {"", SLOT_10, "", false, nullptr, false},
+    {"", SLOT_11, "", false, nullptr, false},
+    {"", SLOT_12, "", false, nullptr, false},
+    {"", SLOT_13, "", false, nullptr, false},
+    {"", SLOT_14, "", false, nullptr, false},
+    {"", SLOT_15, "", false, nullptr, false},
+    {"", SLOT_16, "", false, nullptr, false},
+    {"", SLOT_17, "", false, nullptr, false},
+    {"", SLOT_18, "", false, nullptr, false},
+    {"", SLOT_19, "", false, nullptr, false},
+    {"", SLOT_20, "", false, nullptr, false},
+    {"", SLOT_21, "", false, nullptr, false},
+    {"", SLOT_22, "", false, nullptr, false},
+    {"", SLOT_23, "", false, nullptr, false}};
 
 void ItemWheelMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -432,21 +430,18 @@ void ItemWheelMenu::render(Font& font) {
 
     // populate the default line name and description
     for (int i = 0; i < LINES; i++) {
-        if (i == 0 || i == 1) {
-            continue;
-        }  //skip title and space (hacky)
         for (int k = 0; k < ITEM_WHEEL_SLOTS; k++) {
             // find the right slot to pull the value from
-            if (slot_items[k].slot_id == i - 2) {
+            if (slot_items[k].slot_id == i) {
                 new_int_item_id = slot_items[k].item_id;
             }
         }
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                sprintf(lines[i].line, "slot %d: %s", default_items[i - 2].slot_id, lookup_table[j].item_description);
+                sprintf(lines[i].line, "slot %d: %s", default_items[i].slot_id, lookup_table[j].item_description);
             }
-            if (lookup_table[j].item_id == default_items[i - 2].item_id) {
-                sprintf(lines[i].description, "slot %d default item: %s. press Z to set to default", i - 2, lookup_table[j].item_description);
+            if (lookup_table[j].item_id == default_items[i].item_id) {
+                sprintf(lines[i].description, "slot %d default item: %s. press Z to set to default", i, lookup_table[j].item_description);
             } else {
                 continue;
             }
@@ -454,7 +449,7 @@ void ItemWheelMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 
     // update to current items
     slot_items[0].item_id = tp_gameInfo.inventory.item_values.gale_boomerang_id;
@@ -483,7 +478,7 @@ void ItemWheelMenu::render(Font& font) {
     slot_items[23].item_id = tp_gameInfo.inventory.item_values.slingshot_id;
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor - 2) {
+        switch (cursor.x) {
             uint8_t current_internal_item_id;
             case SLOT_0: {
                 increment_slot_item(current_internal_item_id,SLOT_0);
@@ -633,7 +628,7 @@ void ItemWheelMenu::render(Font& font) {
     }
 
     if (current_input == 16) {
-        switch (cursor - 2) {
+        switch (cursor.x) {
             case SLOT_0: {
                 tp_gameInfo.inventory.item_values.gale_boomerang_id = GALE_BOOMERANG;
                 set_slot_to_item_id(SLOT_0, GALE_BOOMERANG);

@@ -3,15 +3,13 @@
 #include "controller.h"
 #include "utils.h"
 
-#define LINES 3
+#define LINES 1
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool pause_visible;
 
 Line lines[LINES] = {
-    {"pause menu", 0, "", false},
-    {"", 1, "", false},
-    {"TBD", 2, "TBD", false}};
+    {"TBD", 0, "TBD", false}};
 
 void PauseMenu::render(Font& font) {
 
@@ -22,5 +20,5 @@ void PauseMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };

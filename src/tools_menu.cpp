@@ -12,7 +12,7 @@
 #define LINES TOOL_AMNT
 using namespace Tools;
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 int g_tunic_color;
 bool init_once = false;
 bool g_tunic_color_flag;
@@ -35,8 +35,6 @@ ListMember colors[MAX_LIST_ITEMS] = {
 };
 
 Line lines[LINES] = {
-    {"tools", 0, "", false},
-    {"", 1, "", false},
     {"input viewer", INPUT_VIEWER_INDEX, "show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
     {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
     {"roll check", ROLL_INDEX, "frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
@@ -71,11 +69,11 @@ void ToolsMenu::render(Font& font) {
     sprintf(lines[TIME_MINUTES_INDEX].line, "time (minutes): %d", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 
     if (current_input == 256 && a_held == false) {
-        ToolItems[cursor].active = !ToolItems[cursor].active;
-        switch (cursor) {
+        ToolItems[cursor.x].active = !ToolItems[cursor.x].active;
+        switch (cursor.x) {
             case TIMER_INDEX: {
                 Commands::enable_command(Commands::TIMER_TOGGLE);
                 Commands::enable_command(Commands::TIMER_RESET);

@@ -6,17 +6,15 @@
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 7
+#define LINES 5
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool g_drop_shadows = true;
 bool init_once = false;
 bool settings_visible;
 int g_area_reload_behavior;
 
 Line lines[LINES] = {
-    {"settings", 0, "", false},
-    {"", 1, "", false},
     {"log level:", LOG_LEVEL_INDEX, "changes log level for debugging", false, nullptr, true, {"NONE", "INFO", "DEBUG"}, &g_log_level},
     {"drop shadows", DROP_SHADOWS_INDEX, "adds shadows to all font letters", true, &g_drop_shadows},
     {"save card", SAVE_CARD_INDEX, "save settings to memory card"},
@@ -39,7 +37,7 @@ void SettingsMenu::render(Font& font) {
     Utilities::move_cursor(cursor, LINES);
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor) {
+        switch (cursor.x) {
             case LOG_LEVEL_INDEX: {
                 if (g_log_level < 2) {
                     g_log_level++;
@@ -102,5 +100,5 @@ void SettingsMenu::render(Font& font) {
         }
     }
 
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };

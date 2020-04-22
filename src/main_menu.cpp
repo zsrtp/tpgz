@@ -6,21 +6,19 @@
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 9
+#define LINES 7
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool mm_visible;
 
 Line lines[LINES] = {
-    {"main menu", 0, "", false},
-    {"", 1, "", false},
-    {"inventory", 2, "set link's items and equipment", false},
-    {"cheats", 3, "turn cheats on/off", false},
-    {"warping", 4, "warp to dungeons, towns, grottos, etc.", false},
-    {"memory", 5, "add memory watches to the screen", false},
-    {"practice", 6, "practice tools for various categories", false},
-    {"tools", 7, "various tools for practice and testing", false},
-    {"settings", 8, "configure settings", false}};
+    {"inventory", 0, "set link's items and equipment", false},
+    {"cheats", 1, "turn cheats on/off", false},
+    {"warping", 2, "warp to dungeons, towns, grottos, etc.", false},
+    {"memory", 3, "add memory watches to the screen", false},
+    {"practice", 4, "practice tools for various categories", false},
+    {"tools", 5, "various tools for practice and testing", false},
+    {"settings", 6, "configure settings", false}};
 
 void transition_into() { }
 
@@ -35,7 +33,7 @@ void MainMenu::render(Font& font) {
     Utilities::move_cursor(cursor, LINES);
     
     if (current_input == 256 && a_held == false) {
-        switch (cursor) {
+        switch (cursor.x) {
             case MEMORY_INDEX: {
                 memory_visible = true;
                 mm_visible = false;
@@ -73,5 +71,5 @@ void MainMenu::render(Font& font) {
             }
         }
     }
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };

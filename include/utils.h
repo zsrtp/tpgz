@@ -8,7 +8,9 @@
 #include "gcn_c/include/card.h"
 
 namespace Utilities {
-    void move_cursor(int& cursor, int LINES);
+    void move_cursor(Cursor& cursor, int max_cursor_x_value);
+    void move_cursor(Cursor& cursor, int max_cursor_x_value, int max_cursor_y_value);
+    void move_cursor(Cursor& cursor, int LINES);
     void menu_anim(Font& font, int idx);
     void render_lines(Font& font, Line lines[], int cursor, int LINES);
     void trigger_load();

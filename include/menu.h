@@ -7,19 +7,24 @@
 #define DROP_SHADOWS_RGBA 0x00000080
 #define CURSOR_RGBA 0x00CC00FF
 
+struct Cursor {
+    int y = 0;
+    int x = 0;
+};
+
 // main menu
-#define INVENTORY_INDEX 2
-#define CHEAT_INDEX 3
-#define WARPING_INDEX 4
-#define MEMORY_INDEX 5
-#define PRACTICE_INDEX 6
-#define TOOLS_INDEX 7
-#define SETTINGS_INDEX 8
+#define INVENTORY_INDEX 0
+#define CHEAT_INDEX 1
+#define WARPING_INDEX 2
+#define MEMORY_INDEX 3
+#define PRACTICE_INDEX 4
+#define TOOLS_INDEX 5
+#define SETTINGS_INDEX 6
 extern bool mm_visible;
 
 // inventory
-#define ITEM_WHEEL_INDEX 2
-#define PAUSE_MENU_INDEX 3
+#define ITEM_WHEEL_INDEX 0
+#define PAUSE_MENU_INDEX 1
 extern bool inventory_visible;
 
 // item wheel
@@ -149,6 +154,15 @@ enum MemoryType {
     string
 };
 
+enum MemoryColumns {
+    WatchAddress,
+    WatchX,
+    WatchY,
+    WatchHex,
+    WatchType,
+    WatchOffset
+};
+
 struct MemoryWatch {
     uint32_t address = 0x80000000;
     float x = 100.0f;
@@ -158,11 +172,12 @@ struct MemoryWatch {
     uint16_t offset = 0x0000;
     uint32_t value;
     bool visible = false;
+    bool line_selected = false;
 };
 
 // practice
 enum PracticeIndex {
-    ORDON_GATE_CLIP_INDEX = 2,
+    ORDON_GATE_CLIP_INDEX,
     BACK_IN_TIME_INDEX,
     GOATS_INDEX,
     HUGO_INDEX,
@@ -216,10 +231,10 @@ extern bool prac_visible;
 extern bool inject_save_flag;
 
 // tools
-#define TOOL_AMNT 15
+#define TOOL_AMNT 13
 namespace Tools {
     enum ToolsIndex {
-        INPUT_VIEWER_INDEX = 2,
+        INPUT_VIEWER_INDEX,
         TIMER_INDEX,
         ROLL_INDEX,
         GORGE_INDEX,
@@ -261,7 +276,7 @@ enum tunic_color {
 
 // settings
 enum SettingsIndex {
-    LOG_LEVEL_INDEX = 2,
+    LOG_LEVEL_INDEX,
     DROP_SHADOWS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,

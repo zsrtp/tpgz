@@ -8,7 +8,7 @@ tpgz is a rom hack of the game Twilight Princess geared towards enhancing practi
   <img src="./res/icons/giphy.gif?raw=true" />
 </p>
 
-FEATURES:
+## Features
 
 ```
 inventory menu:
@@ -64,7 +64,7 @@ settings menu:
 - area reload behavior          // load area = reload last area, load file = reload last file
 ```
 
-KNOWN BUGS:
+## Known Bugs
 
 ```
 - invicible enemies cheat can't be turned off once turned on
@@ -74,7 +74,7 @@ KNOWN BUGS:
 ```
 
 
-PLANNED FEATURES:
+## Planned Features
 
 ```
 - free cam

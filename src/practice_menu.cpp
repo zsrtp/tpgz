@@ -10,9 +10,9 @@
 #include "save_injector.h"
 #include "log.h"
 #include "fs.h"
-#define LINES 50
+#define LINES 48
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 static CameraMatrix camera = {0, 0, 0, 0, 0, 0, 0, 0};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
@@ -21,8 +21,6 @@ bool prac_visible;
 PracticeFile practice_file;
 
 Line lines[LINES] = {
-    {"any%", 0, ""},
-    {"", 1, ""},
     {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "gate clip outside ordon spring"},
     {"back in time", BACK_IN_TIME_INDEX, "back in time off the ordon spring bridge"},
     {"goats", GOATS_INDEX, "goat herding 2"},
@@ -150,7 +148,7 @@ void PracticeMenu::render(Font& font) {
     }
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor) {
+        switch (cursor.x) {
             case ORDON_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/ordon_gate_clip.bin");
                 default_load();
@@ -485,5 +483,5 @@ void PracticeMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };

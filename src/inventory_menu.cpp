@@ -3,17 +3,15 @@
 #include "controller.h"
 #include "utils.h"
 
-#define LINES 4
+#define LINES 2
 
-static int cursor = 2;
+static Cursor cursor = {0,0};
 bool init_once = false;
 bool inventory_visible;
 
 Line lines[LINES] = {
-    {"inventory", 0, "", false},
-    {"", 1, "", false},
-    {"item wheel", 2, "modify the item wheel items", false},
-    {"pause menu", 3, "modify the pause menu items", false}};
+    {"item wheel", ITEM_WHEEL_INDEX, "modify the item wheel items", false},
+    {"pause menu", PAUSE_MENU_INDEX, "modify the pause menu items", false}};
 
 void InventoryMenu::render(Font& font) {
 
@@ -27,7 +25,7 @@ void InventoryMenu::render(Font& font) {
     if (!init_once) {current_input = 0;init_once = true;}
     
     if (current_input == 256 && a_held == false) {
-        switch (cursor) {
+        switch (cursor.x) {
             case ITEM_WHEEL_INDEX: {
                 inventory_visible = false;
                 item_wheel_visible = true;
@@ -43,7 +41,5 @@ void InventoryMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
     
-    
-    
-    Utilities::render_lines(font, lines, cursor, LINES);
+    Utilities::render_lines(font, lines, cursor.x, LINES);
 };
