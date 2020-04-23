@@ -51,6 +51,9 @@ void draw() {
     if (fifo_visible) {
         FIFOQueue::renderItems(Queue, default_font);
     }
+    if (ToolItems[Tools::LINK_DEBUG_INDEX].active) {
+        Utilities::show_link_debug_info(default_font);
+    }
     MenuRendering::render_active_menus(default_font);
 }
 }

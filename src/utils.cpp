@@ -9,6 +9,7 @@
 #include "log.h"
 #include "fs.h"
 #include "menu.h"
+#include "font.h"
 
 bool loading_initiated = false;
 int apply_after_counter = 0;
@@ -18,6 +19,35 @@ uint8_t blue;
 
 namespace Utilities {
     static Log log;
+
+    void show_link_debug_info(Font &font) {
+        if (tp_zelAudio.link_debug_ptr) {
+            char link_angle[12];
+            //char vspeed[4];
+            char link_speed[12];
+            char link_x[12];
+            char link_y[12];
+            char link_z[12];
+
+            sprintf(link_angle, "%d", tp_zelAudio.link_debug_ptr->facing);
+            sprintf(link_speed, "%.4f", tp_zelAudio.link_debug_ptr->speed);
+            sprintf(link_x, "%.4f", tp_zelAudio.link_debug_ptr->position.x);
+            sprintf(link_y, "%.4f", tp_zelAudio.link_debug_ptr->position.y);
+            sprintf(link_z, "%.4f", tp_zelAudio.link_debug_ptr->position.z);
+
+            font.gz_renderChars(link_angle, 500.0f, 200.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_speed, 500.0f, 220.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_x, 500.0f, 240.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_y, 500.0f, 260.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_z, 500.0f, 280.0f, 0xFFFFFFFF, g_drop_shadows);
+        } else {
+            font.gz_renderChars("N/A", 500.0f, 200.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("N/A", 500.0f, 220.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("N/A", 500.0f, 240.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("N/A", 500.0f, 260.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("N/A", 500.0f, 280.0f, 0xFFFFFFFF, g_drop_shadows);
+        }
+    }
 
     void move_cursor(Cursor &cursor, int max_cursor_x_value) {
         if (button_is_pressed(Controller::DPAD_UP)) {
@@ -67,23 +97,21 @@ namespace Utilities {
         }
     }
 
-    void render_lines(Font &font, Line input_lines[], int cursor, int LINES) {
-        font.renderChars("tpgz v0.1a", 25.0f, 25.0f, 0x00CC00FF);
+    void render_lines(Font &font, Line input_lines[], int cursor, int LINES, float menu_toggle_switch_x_offset) {
+        font.gz_renderChars("tpgz v0.1a", 25.0f, 25.0f, 0x00CC00FF, g_drop_shadows);
         float offset = 0.0f;
         for (int i = 0; i < LINES; i++) {
             // don't draw past line 15/cursor
             if (LINES > 15 && i > 15 && cursor < i) {
                 if (i == LINES - 1 && cursor < LINES) {
-                    font.renderChars("______", 25.0f, 380.0f, 0xFFFFFF80);
+                    font.gz_renderChars("______", 25.0f, 380.0f, 0xFFFFFF80, g_drop_shadows);
                 }
                 continue;
             };
 
             // initiate scroll
             if (cursor > 15) {
-                if (i == 0 || i == 1) {
-                    offset = (60.0f + (i * 20.0f));
-                } else if ((i > 1) && (i < (cursor - 13))) {
+                if (i < (cursor - 15)) {
                     continue;
                 } else {
                     offset = (60.0f + (i - (cursor - 15)) * 20.0f);
@@ -107,20 +135,17 @@ namespace Utilities {
 
             // logic for lines that are toggleable
             if (input_lines[i].toggleable) {
-                char toggleline[54];
-                for (int j = 0; j < 50; j++) {
-                    toggleline[j] = input_lines[i].line[j];
-                }
+                // char toggleline[54];
+                // for (int j = 0; j < 50; j++) {
+                //     toggleline[j] = input_lines[i].line[j];
+                // }
                 if (*input_lines[i].activation_flag) {
-                    strcat(toggleline, " [X]");
+                    font.gz_renderChars(" [X]", menu_toggle_switch_x_offset, offset, cursor_color, g_drop_shadows);
                 } else {
-                    strcat(toggleline, " [ ]");
+                    font.gz_renderChars(" [ ]", menu_toggle_switch_x_offset, offset, cursor_color, g_drop_shadows);
                 }
 
-                font.renderChars(toggleline, 25.0f, offset, cursor_color);
-                if (g_drop_shadows) {
-                    font.renderChars(toggleline, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
-                };
+                font.gz_renderChars(input_lines[i].line, 25.0f, offset, cursor_color, g_drop_shadows);
             }
             // logic for lines that are lists
             else if (input_lines[i].is_list) {
@@ -130,26 +155,17 @@ namespace Utilities {
                 sprintf(final_line, input_lines[i].line);
                 strcat(final_line, " ");
                 strcat(final_line, list_line);
-                font.renderChars(final_line, 25.0f, offset, cursor_color);
-                if (g_drop_shadows) {
-                    font.renderChars(final_line, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
-                }
+                font.gz_renderChars(final_line, 25.0f, offset, cursor_color, g_drop_shadows);
             }
             // logic for normal lines
             else {
-                font.renderChars(input_lines[i].line, 25.0f, offset, cursor_color);
-                if (g_drop_shadows) {
-                    font.renderChars(input_lines[i].line, 25.0f + 2.0f, offset + 2.0f, DROP_SHADOWS_RGBA);
-                };
+                font.gz_renderChars(input_lines[i].line, 25.0f, offset, cursor_color, g_drop_shadows);
             }
 
             // render line descriptions
-            font.renderChars(input_lines[i].description, 25.0f, 440.f, description_color);
-            if (g_drop_shadows && input_lines[i].idx == cursor) {
-                font.renderChars(input_lines[i].description, 25.0f + 2.0f, 440.0f + 2.0f, DROP_SHADOWS_RGBA);
-            };
+            font.gz_renderChars(input_lines[i].description, 25.0f, 440.f, description_color, false);
         };
-    }  // namespace Utilities
+    }
 
     void trigger_load() {
         if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {

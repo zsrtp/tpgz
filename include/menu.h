@@ -4,7 +4,6 @@
 #include "input_viewer.h"
 #include "cheats.h"
 #include <string.h>
-#define DROP_SHADOWS_RGBA 0x00000080
 #define CURSOR_RGBA 0x00CC00FF
 
 struct Cursor {
@@ -231,22 +230,28 @@ extern bool prac_visible;
 extern bool inject_save_flag;
 
 // tools
-#define TOOL_AMNT 13
+#define TOOL_AMNT 19
 namespace Tools {
     enum ToolsIndex {
-        INPUT_VIEWER_INDEX,
-        TIMER_INDEX,
-        ROLL_INDEX,
-        GORGE_INDEX,
-        FREEZE_ACTOR_INDEX,
-        HIDE_ACTOR_INDEX,
+        RELOAD_AREA_INDEX,
         DISABLE_BG_INDEX,
         DISABLE_SFX_INDEX,
+        FAST_BONK_INDEX,
+        FAST_MOVEMENT_INDEX,
+        FREEZE_ACTOR_INDEX,
         FREEZE_CAMERA_INDEX,
+        GORGE_INDEX,
+        HIDE_ACTOR_INDEX,
         HIDE_HUD_INDEX,
+        INPUT_VIEWER_INDEX,
+        LINK_DEBUG_INDEX,
+        SAND_INDEX,
+        ROLL_INDEX,
+        TELEPORT_INDEX,
+        TIMER_INDEX,
         TIME_HOURS_INDEX,
         TIME_MINUTES_INDEX,
-        TUNIC_COLOR_INDEX
+        TUNIC_COLOR_INDEX,
     };
 
     struct Tool {

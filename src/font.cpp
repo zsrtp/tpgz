@@ -72,6 +72,13 @@ void Font::renderChars(const char* str, float x, float y, uint32_t color) {
     }
 }
 
+void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows) {
+    this->renderChars(str, x, y, color);
+    if (drop_shadows) {
+        this->renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA);
+    }
+}
+
 void Font::setupRendering() {
     GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
 

@@ -5,6 +5,7 @@
 #include "gcn_c/include/gfx.h"
 
 #define MAX_GLYPHS 94
+#define DROP_SHADOWS_RGBA 0x00000060
 struct _Glyph {
     float descender, minX, minY, maxX, maxY;
 };
@@ -46,5 +47,6 @@ class Font {
     bool lookupGlyph(char c, DecodedGlyph& glyph);
     float renderChar(char c, float x, float y, uint32_t color);
     void renderChars(const char* str, float x, float y, uint32_t color);
+    void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows);
     void setupRendering();
 };

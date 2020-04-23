@@ -1,7 +1,7 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
-#define CHEAT_AMNT 16
+#define CHEAT_AMNT 10
 
 namespace Cheats {
     enum CheatId {
@@ -15,11 +15,6 @@ namespace Cheats {
         InfiniteArrows,
         InfiniteSlingshot,
         MoonJump,
-        Teleport,
-        SandHeightLoss,
-        ReloadArea,
-        FastMovement,
-        FastBonk,
         SuperClawshot,
         SuperSpinner
     };
