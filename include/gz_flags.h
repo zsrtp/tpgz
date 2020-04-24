@@ -1,13 +1,13 @@
 #pragma once
 #include "font.h"
-#define MAX_MENU_FLAGS 10
+#define MAX_GZ_FLAGS 10
 
-struct MenuFlag {
+struct GZFlag {
     bool* activation_flag;
     void (*flag_active_function)();
     void (*flag_deactive_function)();
 };
 
-namespace Flags {
+namespace GZFlags {
     void apply_active_flags();
 }

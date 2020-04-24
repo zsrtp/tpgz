@@ -19,7 +19,7 @@
 #include "cheats.h"
 #include "timer.h"
 #include "spawning.h"
-#include "flags.h"
+#include "gz_flags.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
@@ -42,7 +42,7 @@ void game_loop() {
         fifo_visible = false;
     }
 
-    Flags::apply_active_flags();
+    GZFlags::apply_active_flags();
 }
 
 void draw() {

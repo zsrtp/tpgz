@@ -6,21 +6,20 @@
 #include "utils.h"
 #include <stdio.h>
 #include "log.h"
-#define LINES 7
+#define LINES 8
 
 static Cursor cursor = {0,0};
 bool mm_visible;
 
 Line lines[LINES] = {
-    {"inventory", 0, "set link's items and equipment", false},
-    {"cheats", 1, "turn cheats on/off", false},
-    {"warping", 2, "warp to dungeons, towns, grottos, etc.", false},
-    {"memory", 3, "add memory watches to the screen", false},
-    {"practice", 4, "practice tools for various categories", false},
-    {"tools", 5, "various tools for practice and testing", false},
-    {"settings", 6, "configure settings", false}};
-
-void transition_into() { }
+    {"cheats", CHEAT_INDEX, "turn cheats on/off", false},
+    {"flags", FLAGS_INDEX, "turn in game flags on/off", false},
+    {"inventory", INVENTORY_INDEX, "set link's items and equipment", false},
+    {"memory", MEMORY_INDEX, "add memory watches to the screen", false},
+    {"practice", PRACTICE_INDEX, "practice tools for various categories", false},
+    {"settings", SETTINGS_INDEX, "configure settings", false},
+    {"tools", TOOLS_INDEX, "various tools for practice and testing", false},
+    {"warping", WARPING_INDEX, "warp to dungeons, towns, grottos, etc.", false}};
 
 void MainMenu::render(Font& font) {
 
@@ -68,6 +67,10 @@ void MainMenu::render(Font& font) {
                 mm_visible = false;
                 prac_visible = true;
                 return;
+            }
+            case FLAGS_INDEX: {
+                mm_visible = false;
+                flags_menu_visible = true;
             }
         }
     }

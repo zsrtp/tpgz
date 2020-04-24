@@ -53,7 +53,7 @@ extern "C" uint32_t read_controller() {
     Cheats::apply_cheats();
     if (mm_visible|| prac_visible || settings_visible || cheats_visible || 
                     tools_visible || inventory_visible || item_wheel_visible || 
-                    pause_visible || memory_visible || warping_visible) {
+                    pause_visible || memory_visible || warping_visible || flags_menu_visible) {
 
         a_held = true;
         current_input = Controller::get_current_inputs();

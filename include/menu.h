@@ -12,13 +12,16 @@ struct Cursor {
 };
 
 // main menu
-#define INVENTORY_INDEX 0
-#define CHEAT_INDEX 1
-#define WARPING_INDEX 2
-#define MEMORY_INDEX 3
-#define PRACTICE_INDEX 4
-#define TOOLS_INDEX 5
-#define SETTINGS_INDEX 6
+enum MainMenuIndex {
+    CHEAT_INDEX,
+    FLAGS_INDEX,
+    INVENTORY_INDEX,
+    MEMORY_INDEX,
+    PRACTICE_INDEX,
+    SETTINGS_INDEX,
+    TOOLS_INDEX,
+    WARPING_INDEX,
+};
 extern bool mm_visible;
 
 // inventory
@@ -173,6 +176,22 @@ struct MemoryWatch {
     bool visible = false;
     bool line_selected = false;
 };
+
+// flags
+
+enum FlagsIndex {
+    BOSS_FLAG_INDEX,
+    EPONA_STOLEN_INDEX,
+    EPONA_TAMED_INDEX,
+    MAP_WARPING_INDEX,
+    MIDNA_CHARGE_INDEX,
+    MIDNA_HEALTHY,
+    MIDNA_ON_BACK,
+    MIDNA_Z_INDEX,
+    TRANSFORM_WARP_INDEX,
+    WOLF_SENSE_INDEX
+};
+extern bool flags_menu_visible;
 
 // practice
 enum PracticeIndex {
@@ -366,6 +385,12 @@ class MemoryMenu : public Menu {
     MemoryMenu() : Menu() {}
     static void render(Font& font);
 };
+class FlagsMenu : public Menu {
+   public:
+    FlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class PracticeMenu : public Menu {
    public:
     PracticeMenu() : Menu() {}
@@ -384,7 +409,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 12
+#define MAX_MENU_RENDER_FLAGS 13
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -397,6 +422,7 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&item_wheel_visible, ItemWheelMenu::render},
     {&warping_visible, WarpingMenu::render},
     {&memory_visible, MemoryMenu::render},
+    {&flags_menu_visible, FlagsMenu::render},
     {&prac_visible, PracticeMenu::render},
     {&cheats_visible, CheatsMenu::render},
     {&settings_visible, SettingsMenu::render},

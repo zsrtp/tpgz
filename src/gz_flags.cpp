@@ -1,4 +1,4 @@
-#include "flags.h"
+#include "gz_flags.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "utils.h"
@@ -9,7 +9,7 @@
 
 bool inject_save_flag = false;
 
-MenuFlag MenuFlags[MAX_MENU_FLAGS] = {
+GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
     {&ToolItems[Tools::GORGE_INDEX].active, GorgeVoidIndicator::run},
     {&ToolItems[Tools::ROLL_INDEX].active, RollIndicator::run},
     {&inject_save_flag, Utilities::trigger_load},
@@ -21,13 +21,13 @@ MenuFlag MenuFlags[MAX_MENU_FLAGS] = {
     {&ToolItems[Tools::DISABLE_BG_INDEX].active, Utilities::disable_bg_music, Utilities::enable_bg_music},
     {&ToolItems[Tools::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx}};
 
-namespace Flags {
+namespace GZFlags {
     void apply_active_flags() {
-        for (int i = 0; i < MAX_MENU_FLAGS; i++) {
-            if (*MenuFlags[i].activation_flag) {
-                MenuFlags[i].flag_active_function();
-            } else if (MenuFlags[i].flag_deactive_function) {
-                MenuFlags[i].flag_deactive_function();
+        for (int i = 0; i < MAX_GZ_FLAGS; i++) {
+            if (*GZ_Flags[i].activation_flag) {
+                GZ_Flags[i].flag_active_function();
+            } else if (GZ_Flags[i].flag_deactive_function) {
+                GZ_Flags[i].flag_deactive_function();
             }
         }
     }
