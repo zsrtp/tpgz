@@ -18,6 +18,7 @@ enum MainMenuIndex {
     INVENTORY_INDEX,
     MEMORY_INDEX,
     PRACTICE_INDEX,
+    SCENE_INDEX,
     SETTINGS_INDEX,
     TOOLS_INDEX,
     WARPING_INDEX,
@@ -248,28 +249,42 @@ enum PracticeIndex {
 extern bool prac_visible;
 extern bool inject_save_flag;
 
+// scene
+extern bool scene_menu_visible;
+#define SCENE_AMNT 8
+namespace Scene {
+    enum SceneIndex {
+        DISABLE_BG_INDEX,
+        DISABLE_SFX_INDEX,
+        FREEZE_ACTOR_INDEX,
+        FREEZE_CAMERA_INDEX,
+        HIDE_ACTOR_INDEX,
+        HIDE_HUD_INDEX,
+        TIME_HOURS_INDEX,
+        TIME_MINUTES_INDEX
+    };
+
+    struct SceneItem {
+        enum SceneIndex id;
+        bool active;
+    };
+}
+extern Scene::SceneItem SceneItems[SCENE_AMNT];
+
 // tools
-#define TOOL_AMNT 19
+#define TOOL_AMNT 11
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
-        DISABLE_BG_INDEX,
-        DISABLE_SFX_INDEX,
         FAST_BONK_INDEX,
         FAST_MOVEMENT_INDEX,
-        FREEZE_ACTOR_INDEX,
-        FREEZE_CAMERA_INDEX,
         GORGE_INDEX,
-        HIDE_ACTOR_INDEX,
-        HIDE_HUD_INDEX,
         INPUT_VIEWER_INDEX,
         LINK_DEBUG_INDEX,
         SAND_INDEX,
         ROLL_INDEX,
         TELEPORT_INDEX,
         TIMER_INDEX,
-        TIME_HOURS_INDEX,
-        TIME_MINUTES_INDEX,
         TUNIC_COLOR_INDEX,
     };
 
@@ -297,6 +312,14 @@ enum tunic_color {
     CYCLE,
     TUNIC_COLOR_COUNT
 };
+
+struct TunicColor {
+    char name[7];
+    bool active;
+};
+
+#define TUNIC_COLOR_AMNT 7
+extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 
 // settings
 enum SettingsIndex {
@@ -397,6 +420,12 @@ class PracticeMenu : public Menu {
     static void render(Font& font);
 };
 
+class SceneMenu : public Menu {
+   public:
+    SceneMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class SettingsMenu : public Menu {
    public:
     SettingsMenu() : Menu() {}
@@ -409,7 +438,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 13
+#define MAX_MENU_RENDER_FLAGS 14
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -425,6 +454,7 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&flags_menu_visible, FlagsMenu::render},
     {&prac_visible, PracticeMenu::render},
     {&cheats_visible, CheatsMenu::render},
+    {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&ToolItems[Tools::INPUT_VIEWER_INDEX].active, InputViewer::render},
@@ -436,6 +466,14 @@ namespace MenuRendering {
         for (int i = 0; i < MAX_MENU_RENDER_FLAGS; i++) {
             if (*MenuRenderFlags[i].activation_flag) {
                 MenuRenderFlags[i].render_function(font);
+            }
+        }
+    }
+
+    void close_active_menus() {
+        for (int i = 0; i < MAX_MENU_RENDER_FLAGS; i++) {
+            if (*MenuRenderFlags[i].activation_flag) {
+                *MenuRenderFlags[i].activation_flag = false;
             }
         }
     }

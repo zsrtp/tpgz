@@ -21,31 +21,34 @@ namespace Utilities {
     static Log log;
 
     void show_link_debug_info(Font &font) {
+#define LINK_DEBUG_X_OFFSET 450.0f
+#define LINK_DEBUG_Y_OFFSET 200.0f
+
         if (tp_zelAudio.link_debug_ptr) {
-            char link_angle[12];
+            char link_angle[20];
             //char vspeed[4];
-            char link_speed[12];
-            char link_x[12];
-            char link_y[12];
-            char link_z[12];
+            char link_speed[20];
+            char link_x[20];
+            char link_y[20];
+            char link_z[20];
 
-            sprintf(link_angle, "%d", tp_zelAudio.link_debug_ptr->facing);
-            sprintf(link_speed, "%.4f", tp_zelAudio.link_debug_ptr->speed);
-            sprintf(link_x, "%.4f", tp_zelAudio.link_debug_ptr->position.x);
-            sprintf(link_y, "%.4f", tp_zelAudio.link_debug_ptr->position.y);
-            sprintf(link_z, "%.4f", tp_zelAudio.link_debug_ptr->position.z);
+            sprintf(link_angle, "angle: %d", tp_zelAudio.link_debug_ptr->facing);
+            sprintf(link_speed, "speed: %.4f", tp_zelAudio.link_debug_ptr->speed);
+            sprintf(link_x, "x-pos: %.4f", tp_zelAudio.link_debug_ptr->position.x);
+            sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
+            sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
 
-            font.gz_renderChars(link_angle, 500.0f, 200.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_speed, 500.0f, 220.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_x, 500.0f, 240.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_y, 500.0f, 260.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_z, 500.0f, 280.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_angle, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_speed, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_x, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_y, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(link_z, LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         } else {
-            font.gz_renderChars("N/A", 500.0f, 200.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("N/A", 500.0f, 220.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("N/A", 500.0f, 240.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("N/A", 500.0f, 260.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("N/A", 500.0f, 280.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("angle: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("speed: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("x-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("y-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars("z-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         }
     }
 
@@ -135,10 +138,6 @@ namespace Utilities {
 
             // logic for lines that are toggleable
             if (input_lines[i].toggleable) {
-                // char toggleline[54];
-                // for (int j = 0; j < 50; j++) {
-                //     toggleline[j] = input_lines[i].line[j];
-                // }
                 if (*input_lines[i].activation_flag) {
                     font.gz_renderChars(" [X]", menu_toggle_switch_x_offset, offset, cursor_color, g_drop_shadows);
                 } else {
@@ -149,6 +148,7 @@ namespace Utilities {
             }
             // logic for lines that are lists
             else if (input_lines[i].is_list) {
+                // need to simplify this logic
                 char final_line[50];
                 char list_line[MAX_LIST_MEMBER_LENGTH];
                 sprintf(list_line, input_lines[i].list_member[*input_lines[i].list_member_idx].member);

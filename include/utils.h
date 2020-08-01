@@ -10,7 +10,6 @@
 namespace Utilities {
     void move_cursor(Cursor& cursor, int max_cursor_x_value);
     void move_cursor(Cursor& cursor, int max_cursor_x_value, int max_cursor_y_value);
-    void move_cursor(Cursor& cursor, int LINES);
     void menu_anim(Font& font, int idx);
     void render_lines(Font& font, Line lines[], int cursor, int LINES, float menu_toggle_switch_x_offset = 200.0f);
     void trigger_load();

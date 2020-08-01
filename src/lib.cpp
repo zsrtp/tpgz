@@ -37,9 +37,12 @@ void game_loop() {
     // check and load gz settings card if found
     // Utilities::load_gz_card(card_load);
 
-    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN)) {
+    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1) {
         mm_visible = true;
         fifo_visible = false;
+    }
+    if (tp_fopScnRq.isLoading == 1) {
+        MenuRendering::close_active_menus();
     }
 
     GZFlags::apply_active_flags();

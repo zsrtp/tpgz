@@ -5,15 +5,15 @@
 
 namespace Cheats {
     enum CheatId {
+        InfiniteAir,
+        InfiniteArrows,
+        InfiniteBombs,
+        InfiniteHearts,
+        InfiniteOil,
+        InfiniteRupees,
+        InfiniteSlingshot,
         Invincible,
         InvincibleEnemies,
-        InfiniteHearts,
-        InfiniteAir,
-        InfiniteOil,
-        InfiniteBombs,
-        InfiniteRupees,
-        InfiniteArrows,
-        InfiniteSlingshot,
         MoonJump,
         SuperClawshot,
         SuperSpinner

@@ -19,47 +19,38 @@ bool g_tunic_color_flag;
 bool tools_visible;
 
 Tool ToolItems[TOOL_AMNT] = {
-    {LINK_DEBUG_INDEX, true},
-    {INPUT_VIEWER_INDEX, false},
-    {TIMER_INDEX, false},
-    {ROLL_INDEX, false},
-    {GORGE_INDEX, false},
-    {FREEZE_ACTOR_INDEX, false},
-    {HIDE_ACTOR_INDEX, false},
-    {DISABLE_BG_INDEX, false},
-    {DISABLE_SFX_INDEX, false},
-    {FREEZE_CAMERA_INDEX, false},
-    {HIDE_HUD_INDEX, false},
-    {TELEPORT_INDEX, false},
-    {SAND_INDEX, false},
     {RELOAD_AREA_INDEX, false},
+    {FAST_BONK_INDEX, false},
     {FAST_MOVEMENT_INDEX, false},
-    {FAST_BONK_INDEX, false}};
+    {GORGE_INDEX, false},
+    {INPUT_VIEWER_INDEX, false},
+    {LINK_DEBUG_INDEX, false},
+    {SAND_INDEX, false},
+    {ROLL_INDEX, false},
+    {TELEPORT_INDEX, false},
+    {TIMER_INDEX, false}};
 
-ListMember colors[MAX_LIST_ITEMS] = {
-
-};
+TunicColor TunicColors[TUNIC_COLOR_AMNT] = {
+    {"green", false},
+    {"blue", false},
+    {"red", false},
+    {"orange", false},
+    {"yellow", false},
+    {"white", false},
+    {"cycle", false}};
 
 Line lines[LINES] = {
     {"area reload", RELOAD_AREA_INDEX, "use L+R+Start+A to reload current area", true, &ToolItems[RELOAD_AREA_INDEX].active},
-    {"disable bg music", DISABLE_BG_INDEX, "disables background and enemy music", true, &ToolItems[DISABLE_BG_INDEX].active},
-    {"disable sfx", DISABLE_SFX_INDEX, "disables item, weather, etc. sound effects", true, &ToolItems[DISABLE_SFX_INDEX].active},
     {"fast bonk recovery", FAST_BONK_INDEX, "reduces bonk animation significantly", true, &ToolItems[FAST_BONK_INDEX].active},
     {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true, &ToolItems[FAST_MOVEMENT_INDEX].active},
-    {"freeze actors", FREEZE_ACTOR_INDEX, "freezes actors", true, &ToolItems[FREEZE_ACTOR_INDEX].active},
-    {"freeze camera", FREEZE_CAMERA_INDEX, "locks the camera in place", true, &ToolItems[FREEZE_CAMERA_INDEX].active},
     {"gorge checker", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &ToolItems[GORGE_INDEX].active},
-    {"hide actors", HIDE_ACTOR_INDEX, "hides actors", true, &ToolItems[HIDE_ACTOR_INDEX].active},
-    {"hide hud", HIDE_HUD_INDEX, "hides the heads up display", true, &ToolItems[HIDE_HUD_INDEX].active},
     {"input viewer", INPUT_VIEWER_INDEX, "show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
     {"link debug info", LINK_DEBUG_INDEX, "show link's position, angle and speed", true, &ToolItems[LINK_DEBUG_INDEX].active},
     {"no sinking in sand", SAND_INDEX, "link won't sink in sand", true, &ToolItems[SAND_INDEX].active},
     {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
     {"teleport", TELEPORT_INDEX, "dpad+up to set, dpad+down to load ", true, &ToolItems[TELEPORT_INDEX].active},
     {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
-    {"", TIME_HOURS_INDEX, "the current in game hour", false},
-    {"", TIME_MINUTES_INDEX, "the current in game minutes", false},
-    {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
+    {"link tunic color:   ", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -73,14 +64,12 @@ void ToolsMenu::render(Font& font) {
         current_input = 0;
         init_once = true;
     }
-    int current_hour = (int)tp_gameInfo.raw_game_time / 15;
-    if (current_hour > 23) {
-        current_hour = 0;
-    }
-    int current_minute = (int)((4.0f * tp_gameInfo.raw_game_time) - current_hour * 60);
 
-    sprintf(lines[TIME_HOURS_INDEX].line, "time (hours):         %d", current_hour);
-    sprintf(lines[TIME_MINUTES_INDEX].line, "time (minutes):       %d", current_minute);
+    // for (int i = 0; i < TUNIC_COLORS; i++) {
+    //     if (TunicColors[i].active) {
+    //         sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color: <%s>", TunicColors[i].name);
+    //     }
+    // }
 
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor.x, LINES);
@@ -148,12 +137,18 @@ void ToolsMenu::render(Font& font) {
                         g_tunic_color_flag = false;
                         break;
                     }
-                }
-                case TIME_HOURS_INDEX: {
-                    tp_gameInfo.raw_game_time += 14.75f;
-                }
-                case TIME_MINUTES_INDEX: {
-                    tp_gameInfo.raw_game_time += 0.25f;
+                    // for (int i = 0; i < TUNIC_COLORS; i++) {
+                    //     if (TunicColors[i].active) {
+                    //         TunicColors[i].active = false;
+                    //         if (i == TUNIC_COLORS - 1) {
+                    //             TunicColors[0].active = true;
+                    //         } else {
+                    //             TunicColors[i+1].active = true;
+                    //         }
+                    //     }
+                    // }
+                    
+                    //TunicColors[cursor.x+1].active = true;
                 }
             }
         } else {

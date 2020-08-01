@@ -18,28 +18,28 @@ bool cheats_visible;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
-        {Invincible, false},
-        {InvincibleEnemies, false},
-        {InfiniteHearts, false},
-        {InfiniteAir, false},
-        {InfiniteOil, false},
-        {InfiniteBombs, false},
-        {InfiniteRupees, false},
-        {InfiniteArrows, false},
-        {InfiniteSlingshot, false},
-        {MoonJump, false}};
+        {InfiniteAir,false},
+        {InfiniteArrows,false},
+        {InfiniteBombs,false},
+        {InfiniteHearts,false},
+        {InfiniteOil,false},
+        {InfiniteRupees,false},
+        {InfiniteSlingshot,false},
+        {Invincible,false},
+        {InvincibleEnemies,false},
+        {MoonJump,false}};
     
 
 Line lines[LINES] = {
+    {"infinite air", InfiniteAir, "gives link infinite air underwater", true,&CheatItems[InfiniteAir].active},
+    {"infinite arrows", InfiniteArrows, "gives link 99 arrows", true,&CheatItems[InfiniteArrows].active},
+    {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
+    {"infinite hearts", InfiniteHearts, "link will always have full hearts", true,&CheatItems[InfiniteHearts].active},
+    {"infinite oil", InfiniteOil, "gives link infinite lantern oil", true,&CheatItems[InfiniteOil].active},
+    {"infinite rupees", InfiniteRupees, "link will always have 1000 rupees", true,&CheatItems[InfiniteRupees].active},
+    {"infinite slingshot", InfiniteSlingshot, "gives link 99 slingshot pellets", true,&CheatItems[InfiniteSlingshot].active},
     {"invincible", Invincible, "makes link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "makes some enemies invicible", true,&CheatItems[InvincibleEnemies].active},
-    {"infinite hearts", InfiniteHearts, "link will always have full hearts", true,&CheatItems[InfiniteHearts].active},
-    {"infinite air", InfiniteAir, "gives link infinite air underwater", true,&CheatItems[InfiniteAir].active},
-    {"infinite oil", InfiniteOil, "gives link infinite lantern oil", true,&CheatItems[InfiniteOil].active},
-    {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
-    {"infinite rupees", InfiniteRupees, "link will always have 1000 rupees", true,&CheatItems[InfiniteRupees].active},
-    {"infinite arrows", InfiniteArrows, "gives link 99 arrows", true,&CheatItems[InfiniteArrows].active},
-    {"infinite slingshot", InfiniteSlingshot, "gives link 99 slingshot pellets", true,&CheatItems[InfiniteSlingshot].active},
     {"moon jump", MoonJump, "hold R+A to moon jump", true,&CheatItems[MoonJump].active}};
 
 namespace Cheats {
@@ -76,7 +76,7 @@ namespace Cheats {
                         break;
                     }
                     case InfiniteOil: {
-                        link->lamp_fuel = 0x5460;
+                        link->current_lantern_oil = 0x5460;
                         break;
                     }
                     case InfiniteBombs: {
