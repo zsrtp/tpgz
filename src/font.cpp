@@ -1,4 +1,4 @@
-
+#include "libtp_c/include/system.h"
 #include "font.h"
 
 void PositionedGlyph::render(uint32_t color) {
@@ -69,6 +69,13 @@ void Font::renderChars(const char* str, float x, float y, uint32_t color) {
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
         x = renderChar(str[i], x, y, color);
+    }
+}
+
+void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows) {
+    this->renderChars(str, x, y, color);
+    if (drop_shadows) {
+        this->renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA);
     }
 }
 
