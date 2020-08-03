@@ -31,16 +31,16 @@ Cheat CheatItems[CHEAT_AMNT] = {
     
 
 Line lines[LINES] = {
-    {"infinite air", InfiniteAir, "gives link infinite air underwater", true,&CheatItems[InfiniteAir].active},
-    {"infinite arrows", InfiniteArrows, "gives link 99 arrows", true,&CheatItems[InfiniteArrows].active},
-    {"infinite bombs", InfiniteBombs, "gives link 99 bombs in all bags", true,&CheatItems[InfiniteBombs].active},
-    {"infinite hearts", InfiniteHearts, "link will always have full hearts", true,&CheatItems[InfiniteHearts].active},
-    {"infinite oil", InfiniteOil, "gives link infinite lantern oil", true,&CheatItems[InfiniteOil].active},
-    {"infinite rupees", InfiniteRupees, "link will always have 1000 rupees", true,&CheatItems[InfiniteRupees].active},
-    {"infinite slingshot", InfiniteSlingshot, "gives link 99 slingshot pellets", true,&CheatItems[InfiniteSlingshot].active},
-    {"invincible", Invincible, "makes link invincible", true, &CheatItems[Invincible].active},
-    {"invincible enemies", InvincibleEnemies, "makes some enemies invicible", true,&CheatItems[InvincibleEnemies].active},
-    {"moon jump", MoonJump, "hold R+A to moon jump", true,&CheatItems[MoonJump].active}};
+    {"infinite air", InfiniteAir, "Gives Link infinite air underwater", true, &CheatItems[InfiniteAir].active},
+    {"infinite arrows", InfiniteArrows, "Gives Link 99 arrows", true, &CheatItems[InfiniteArrows].active},
+    {"infinite bombs", InfiniteBombs, "Gives Link 99 bombs in all bags", true, &CheatItems[InfiniteBombs].active},
+    {"infinite hearts", InfiniteHearts, "Link will always have full hearts", true, &CheatItems[InfiniteHearts].active},
+    {"infinite oil", InfiniteOil, "Gives Link infinite lantern oil", true, &CheatItems[InfiniteOil].active},
+    {"infinite rupees", InfiniteRupees, "Link will always have 1000 rupees", true, &CheatItems[InfiniteRupees].active},
+    {"infinite slingshot", InfiniteSlingshot, "Gives Link 99 slingshot pellets", true, &CheatItems[InfiniteSlingshot].active},
+    {"invincible", Invincible, "Makes Link invincible", true, &CheatItems[Invincible].active},
+    {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true, &CheatItems[InvincibleEnemies].active},
+    {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active}};
 
 namespace Cheats {
     using namespace Controller;

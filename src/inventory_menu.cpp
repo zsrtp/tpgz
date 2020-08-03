@@ -10,8 +10,8 @@ bool init_once = false;
 bool inventory_visible;
 
 Line lines[LINES] = {
-    {"item wheel", ITEM_WHEEL_INDEX, "modify the item wheel items", false},
-    {"pause menu", PAUSE_MENU_INDEX, "modify the pause menu items", false}};
+    {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
+    {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false}};
 
 void InventoryMenu::render(Font& font) {
 

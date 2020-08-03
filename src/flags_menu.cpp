@@ -22,16 +22,16 @@ bool midna_on_back;
 bool wolf_sense;
 
 Line lines[LINES] = {
-    {"boss flag", BOSS_FLAG_INDEX, "set the boss flag value. press a to lock the value", true, &boss_flag},
-    {"epona stolen", EPONA_STOLEN_INDEX, "toggle flag for epona being stolen", true, &epona_stolen},
-    {"epona tamed", EPONA_TAMED_INDEX, "toggle flag for epona being stolen", true, &epona_tamed},
-    {"map warping", MAP_WARPING_INDEX, "toggle flag for having map warping", true, &map_warping},
-    {"midna charge", MIDNA_CHARGE_INDEX, "toggle flag for midna charge", true, &midna_charge},
-    {"midna healthy", MIDNA_HEALTHY, "toggle flag for heaving midna being healthy/sick", true, &midna_healthy},
-    {"midna on back", MIDNA_ON_BACK, "toggle flag for midna appearing on wolf link's back", true, &midna_on_back},
-    {"midna on z", MIDNA_Z_INDEX, "toggle flag for being able to use midna", true, &midna_on_z},
-    {"transform/warp", TRANSFORM_WARP_INDEX, "toggle flag for transforming/warping", true, &transform_warp},
-    {"wolf sense", WOLF_SENSE_INDEX, "toggle flag for having wolf sense", true, &wolf_sense}};
+    {"boss flag", BOSS_FLAG_INDEX, "Set the boss flag value. Press A to lock the value", true, &boss_flag},
+    {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true, &epona_stolen},
+    {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true, &epona_tamed},
+    {"map warping", MAP_WARPING_INDEX, "Toggle flag for having map warping", true, &map_warping},
+    {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true, &midna_charge},
+    {"midna healthy", MIDNA_HEALTHY, "Toggle flag for Midna being healthy/sick", true, &midna_healthy},
+    {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true, &midna_on_back},
+    {"midna on z", MIDNA_Z_INDEX, "Toggle flag for being able to use Midna", true, &midna_on_z},
+    {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true, &transform_warp},
+    {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for having wolf sense", true, &wolf_sense}};
 
 void FlagsMenu::render(Font& font) {
 

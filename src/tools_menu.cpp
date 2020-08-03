@@ -40,17 +40,17 @@ TunicColor TunicColors[TUNIC_COLOR_AMNT] = {
     {"cycle", false}};
 
 Line lines[LINES] = {
-    {"area reload", RELOAD_AREA_INDEX, "use L+R+Start+A to reload current area", true, &ToolItems[RELOAD_AREA_INDEX].active},
-    {"fast bonk recovery", FAST_BONK_INDEX, "reduces bonk animation significantly", true, &ToolItems[FAST_BONK_INDEX].active},
-    {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true, &ToolItems[FAST_MOVEMENT_INDEX].active},
-    {"gorge checker", GORGE_INDEX, "use L + Z to warp to to kak gorge", true, &ToolItems[GORGE_INDEX].active},
-    {"input viewer", INPUT_VIEWER_INDEX, "show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
-    {"link debug info", LINK_DEBUG_INDEX, "show link's position, angle and speed", true, &ToolItems[LINK_DEBUG_INDEX].active},
-    {"no sinking in sand", SAND_INDEX, "link won't sink in sand", true, &ToolItems[SAND_INDEX].active},
-    {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
-    {"teleport", TELEPORT_INDEX, "dpad+up to set, dpad+down to load ", true, &ToolItems[TELEPORT_INDEX].active},
-    {"timer", TIMER_INDEX, "frame timer - Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
-    {"link tunic color:   ", TUNIC_COLOR_INDEX, "changes link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
+    {"area reload", RELOAD_AREA_INDEX, "Use L+R+Start+A to reload current area", true, &ToolItems[RELOAD_AREA_INDEX].active},
+    {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true, &ToolItems[FAST_BONK_INDEX].active},
+    {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true, &ToolItems[FAST_MOVEMENT_INDEX].active},
+    {"gorge checker", GORGE_INDEX, "Use L+Z to warp to Kakariko Gorge", true, &ToolItems[GORGE_INDEX].active},
+    {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
+    {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true, &ToolItems[LINK_DEBUG_INDEX].active},
+    {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true, &ToolItems[SAND_INDEX].active},
+    {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
+    {"teleport", TELEPORT_INDEX, "dpadUp to set, dpadDown to load", true, &ToolItems[TELEPORT_INDEX].active},
+    {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
+    {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
