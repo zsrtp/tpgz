@@ -15,11 +15,11 @@ bool settings_visible;
 int g_area_reload_behavior;
 
 Line lines[LINES] = {
-    {"log level:", LOG_LEVEL_INDEX, "changes log level for debugging", false, nullptr, true, {"NONE", "INFO", "DEBUG"}, &g_log_level},
-    {"drop shadows", DROP_SHADOWS_INDEX, "adds shadows to all font letters", true, &g_drop_shadows},
-    {"save card", SAVE_CARD_INDEX, "save settings to memory card"},
-    {"load card", LOAD_CARD_INDEX, "load settings from memory card"},
-    {"area reload behavior:",AREA_RELOAD_BEHAVIOR_INDEX,"load area = reload last area, load file = reload last file", false, nullptr, true, {"load area","load file"}, &g_area_reload_behavior}};
+    {"log level:", LOG_LEVEL_INDEX, "Changes log level for debugging", false, nullptr, true, {"NONE", "INFO", "DEBUG"}, &g_log_level},
+    {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
+    {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
+    {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
+    {"area reload behavior:",AREA_RELOAD_BEHAVIOR_INDEX,"load area = Reload last area; load file = Reload last file", false, nullptr, true, {"load area","load file"}, &g_area_reload_behavior}};
 
 // Log log;
 void SettingsMenu::render(Font& font) {        
