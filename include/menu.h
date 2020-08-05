@@ -182,6 +182,7 @@ struct MemoryWatch {
 
 enum FlagsIndex {
     BOSS_FLAG_INDEX,
+	RUPEE_CS_FLAG_INDEX,
     EPONA_STOLEN_INDEX,
     EPONA_TAMED_INDEX,
     MAP_WARPING_INDEX,

@@ -26,72 +26,72 @@ Line lines[LINES] = {
     {"goats 2", HND_GOATS_2_INDEX, "goat herding 2"},
     {"faron twilight", HND_FARON_TWILIGHT_INDEX, "faron twilight tears"},
     {"early master sword", HND_EMS_INDEX, "super jump to early sacred grove"},
-    {"purple mist", HND_MIST_INDEX, "purple mist in faron woods (post EMS)"},  
+    {"purple mist", HND_MIST_INDEX, "purple mist in faron woods (post EMS)"},
     {"forest bit", HND_FRST_BIT_INDEX, "back in time in forest temple"},
     {"forest temple 2", HND_FRST_2_INDEX, "the forest temple segment after boomerang"},
     {"diababa", HND_OOKLESS_INDEX, "the forest temple boss"},
     {"eldin twilight", HND_ELDIN_TWILIGHT_INDEX, "eldin twilight tears"},
-    {"lanayru gate clip", HND_LANAYRU_GATE_CLIP_INDEX, "gate clip outside lake hylia"},  
+    {"lanayru gate clip", HND_LANAYRU_GATE_CLIP_INDEX, "gate clip outside lake hylia"},
     {"pillar clip", HND_PILLAR_CLIP_INDEX, "pillar clip in lake hylia (low water)"},
     {"lakebed 1", HND_LAKEBED_1_INDEX, "the first lakebed segment"},
-    {"deku toad", HND_TOAD_INDEX, "the miniboss of lakebed temple"},    
-    {"kargorok flight", HND_KARG_INDEX, "clip oob with trumpet bird"},  
+    {"deku toad", HND_TOAD_INDEX, "the miniboss of lakebed temple"},
+    {"kargorok flight", HND_KARG_INDEX, "clip oob with trumpet bird"},
     {"lanayru twilight", HND_LANAYRU_TWILIGHT_INDEX, "lanayru twilight tears"},
-    {"boss bug", HND_BOSS_BUG_INDEX, "lanayru twilight boss bug"},  
+    {"boss bug", HND_BOSS_BUG_INDEX, "lanayru twilight boss bug"},
     {"king bulblin 2 skip", HND_KB_2_INDEX, "clip to skip king bulblin 2"},
     {"wagon escort", HND_ESCORT_INDEX, "telma wagon escort segment"},
     {"coro td", HND_COROTD_INDEX, "text displacement with coro"},
     {"goron mines", HND_GM_INDEX, "the goron mines segment"},
-    {"dangoro", HND_DANGORO_INDEX, "the goron mines miniboss"},      
-    {"king bulblin 1", HND_KB_1_INDEX, "the king bulblin 1 fight"},  
+    {"dangoro", HND_DANGORO_INDEX, "the goron mines miniboss"},
+    {"king bulblin 1", HND_KB_1_INDEX, "the king bulblin 1 fight"},
     {"lakebed bk skip", HND_LAKEBED_BK_SKIP_INDEX, "boss key skip in lakebed main room"},
-    {"morpheel", HND_MORPHEEL_INDEX, "the lakebed temple boss"},  
-    {"star 1", HND_STAR_1_INDEX, "the first STAR minigame"},                        
-    {"mdh tower", HND_MDH_TOWER_INDEX, "mdh tower climb before castle rooftops"},   
-    {"mdh bridge", HND_MDH_BRIDGE_INDEX, "the falling bridge on castle rooftops"}, 
+    {"morpheel", HND_MORPHEEL_INDEX, "the lakebed temple boss"},
+    {"star 1", HND_STAR_1_INDEX, "the first STAR minigame"},
+    {"mdh tower", HND_MDH_TOWER_INDEX, "mdh tower climb before castle rooftops"},
+    {"mdh bridge", HND_MDH_BRIDGE_INDEX, "the falling bridge on castle rooftops"},
     {"post mdh", HND_POST_MDH_INDEX, "the beginning of the first collection cycle"},
-    {"mountain climb", HND_MOUNTAIN_INDEX, "the climb up snowpeak"},  
+    {"mountain climb", HND_MOUNTAIN_INDEX, "the climb up snowpeak"},
     {"iza 1 skip", HND_IZA_1_SKIP_INDEX, "plumm oob clip to skip iza boat ride"},
-    {"iza 2", HND_IZA_2_INDEX, "the iza minigame"},  
+    {"iza 2", HND_IZA_2_INDEX, "the iza minigame"},
     {"lake hylia cave", HND_LH_CAVE_INDEX, "the lake hylia dark cave"},
     {"bulblin camp", HND_BULBLIN_CAMP_INDEX, "the area before arbiter's grounds"},
     {"arbiter's grounds", HND_AG_INDEX, "the arbiter's grounds segment"},
-    {"poe 1 skip", HND_POE_1_SKIP_INDEX, "the pillar jump in arbiter's grounds"},  
-    {"death sword", HND_DSS_INDEX, "the arbiter's grounds miniboss"},              
-    {"stallord", HND_STALLORD_INDEX, "the arbiter's grounds boss"},                
+    {"poe 1 skip", HND_POE_1_SKIP_INDEX, "the pillar jump in arbiter's grounds"},
+    {"death sword", HND_DSS_INDEX, "the arbiter's grounds miniboss"},
+    {"stallord", HND_STALLORD_INDEX, "the arbiter's grounds boss"},
     {"gorge arc", HND_GORGE_INDEX, "the collection cycle from gorge to snowpeak"},
     {"snowpeak", HND_SPR_INDEX, "the snowpeak dungeon segment"},
-    {"darkhammer", HND_DARK_HAMMER_INDEX, "The snowpeak miniboss"},                           
-    {"spr superjump", HND_SPR_SUPERJUMP_INDEX, "the snowpeak superjump to second floor"},     
-    {"spr boss key lja", HND_SPR_BK_LJA_INDEX, "the lja to get to snowpeak boss key early"},  
-    {"spr boss key room", HND_SPR_BK_ROOM_INDEX, "the snowpeak boss key room"},  
-    {"blizzeta", HND_BLIZZETA_INDEX, "the snowpeak ruins boss"},                              
+    {"darkhammer", HND_DARK_HAMMER_INDEX, "The snowpeak miniboss"},
+    {"spr superjump", HND_SPR_SUPERJUMP_INDEX, "the snowpeak superjump to second floor"},
+    {"spr boss key lja", HND_SPR_BK_LJA_INDEX, "the lja to get to snowpeak boss key early"},
+    {"spr boss key room", HND_SPR_BK_ROOM_INDEX, "the snowpeak boss key room"},
+    {"blizzeta", HND_BLIZZETA_INDEX, "the snowpeak ruins boss"},
     {"faron bomb boost", HND_BOMB_BOOST_INDEX, "the bomb boost to sacred grove"},
-    {"grove 2", HND_GROVE_2_INDEX, "the second skull kid chase"},  
+    {"grove 2", HND_GROVE_2_INDEX, "the second skull kid chase"},
     {"temple of time", HND_TOT_INDEX, "the temple of time segment"},
-    {"tot early poe", HND_EARLY_POE_INDEX, "early first poe in temple of time"},       
-    {"tot statue throws", HND_STATUE_THROWS_INDEX, "temple of time statue throws"},    
-    {"tot early hp", HND_EARLY_HP_INDEX, "temple of time bomb boost to heart piece"},  
-    {"tot darknut", HND_DARKNUT_INDEX, "the temple of time miniboss"},                 
+    {"tot early poe", HND_EARLY_POE_INDEX, "early first poe in temple of time"},
+    {"tot statue throws", HND_STATUE_THROWS_INDEX, "temple of time statue throws"},
+    {"tot early hp", HND_EARLY_HP_INDEX, "temple of time bomb boost to heart piece"},
+    {"tot darknut", HND_DARKNUT_INDEX, "the temple of time miniboss"},
     {"dot skip", HND_DOT_SKIP_INDEX, "statue clip through door of time"},
-    {"armogohma", HND_ARMOGOHMA_INDEX, "the temple of time boss"},  
+    {"armogohma", HND_ARMOGOHMA_INDEX, "the temple of time boss"},
     {"post tot", HND_POST_TOT_INDEX, "the collection cycle after temple of time"},
     {"hotspring minigame", HND_HOTSPRING_INDEX, "the goron hotspring water minigame"},
     {"silver rupee", HND_BELL_INDEX, "kakariko silver rupee collection"},
-    {"rupee isle", HND_FBF_INDEX, "the rupee isle collection"},  
+    {"rupee isle", HND_FBF_INDEX, "the rupee isle collection"},
     {"ice puzzle", HND_PUZZLE_INDEX, "the ice puzzle segment"},
     {"hugo archery", HND_ARCHERY_INDEX, "the first hidden village trip"},
-    {"city in the sky early", HND_CITY_EARLY_INDEX, "clip to the canon early"},  
+    {"city in the sky early", HND_CITY_EARLY_INDEX, "clip to the canon early"},
     {"city in the sky 1", HND_CITY_1_INDEX, "the first city in the sky segment"},
     {"aeralfos skip", HND_AERALFOS_INDEX, "the city in the sky miniboss"},
     {"city in the sky 2", HND_CITY_2_INDEX, "the second city in the sky segment"},
-    {"early poe cycle", HND_POE_CYCLE_INDEX, "early poe cycle segment"},           
-    {"fan tower", HND_FAN_TOWER_INDEX, "final fan room in city before the boss"},  
+    {"early poe cycle", HND_POE_CYCLE_INDEX, "early poe cycle segment"},
+    {"fan tower", HND_FAN_TOWER_INDEX, "final fan room in city before the boss"},
     {"argorok", HND_ARGOROK_INDEX, "the city in the sky boss"},
-    {"star 2", HND_STAR_2_INDEX, "the second STAR minigame"},  
+    {"star 2", HND_STAR_2_INDEX, "the second STAR minigame"},
     {"palace of twilight 1", HND_PALACE_1_INDEX, "the first palace of twilight segment"},
     {"palace of twilight 2", HND_PALACE_2_INDEX, "the second palace of twilight segment"},
-    {"early platform cycle", HND_EARLY_PLATFORM_INDEX, "early platform in palace of twilight"},  
+    {"early platform cycle", HND_EARLY_PLATFORM_INDEX, "early platform in palace of twilight"},
     {"zant", HND_ZANT_INDEX, "the palace of twilight boss"},
     {"cave of ordeals", HND_COO_INDEX, "the cave of ordeals segment"},
     {"coo floor 10", HND_COO_10_INDEX, "cave of ordeals floor 10"},
@@ -99,10 +99,10 @@ Line lines[LINES] = {
     {"coo floor 30", HND_COO_30_INDEX, "cave of ordeals floor 30"},
     {"cats minigame", HND_CATS_INDEX, "hidden village cats minigame"},
     {"hyrule castle", HND_HYRULE_INDEX, "the hyrule castle segment"},
-    {"darknut skip", HND_DARKNUT_SKIP_INDEX, "hyrule castle darknut skip"},                  
-    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss fights"},  
-    {"beast ganon", HND_BEAST_GANON_INDEX, "the beast ganon fight"},                         
-    {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};            
+    {"darknut skip", HND_DARKNUT_SKIP_INDEX, "hyrule castle darknut skip"},
+    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss fights"},
+    {"beast ganon", HND_BEAST_GANON_INDEX, "the beast ganon fight"},
+    {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
 void default_load() {
     practice_file.inject_options_before_load = SaveInjector::inject_default_before;
@@ -171,6 +171,33 @@ void spr_bosskey() {
     tp_gameInfo.warp.entrance.spawn = 0x00;  //default spawn
 }
 
+void tot_early_poe() {
+    SaveInjector::inject_default_during();
+    angle = 49299;
+    position = {-2462.85f, 2750.0f, -7.10f};
+    set_angle_position();
+}
+
+void tot_early_hp() {
+    SaveInjector::inject_default_during();
+    angle = 49152;
+    position = {-8000.50f, 5100.0f, -3226.17f};
+    set_angle_position();
+}
+
+void hugo_archery() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.temp_flags.temp_flag_bit_field_19 ^= 0xC0; //start archery minigame
+}
+
+void cits_poe_cycle() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.warp.entrance.spawn = 0x0;
+    angle = 71;
+    position = {-14005.31f, 3000.0f, -15854.05f};
+    set_angle_position();
+}
+
 void argorok() {
     SaveInjector::inject_default_during();
     tp_gameInfo.boss_room_event_flags = 1;
@@ -178,6 +205,10 @@ void argorok() {
 
 void palace2() {
     tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
+    SaveInjector::inject_default_during();
+    angle = 32731;
+    position = {251.83f, -200.0f, 10993.50f};
+    set_angle_position();
 }
 
 void lakebed_bk_skip_during() {
@@ -404,6 +435,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_IZA_1_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/iza_1_skip.bin");
                 default_load();
+                //should be a way to spawn into karg flight directly, needs more research
                 break;
             }
             case HND_IZA_2_INDEX: {
@@ -460,7 +492,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_DARK_HAMMER_INDEX: {
                 loadFile("tpgz/save_files/hundo/darkhammer.bin");
                 default_load();
-				//figure out how to disable armor sets then load in with boss flag for instant fight
+                //figure out how to disable armor sets then load in with boss flag for instant fight
                 break;
             }
             case HND_SPR_SUPERJUMP_INDEX: {
@@ -510,6 +542,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_EARLY_POE_INDEX: {
                 loadFile("tpgz/save_files/hundo/tot_early_poe.bin");
                 default_load();
+                practice_file.inject_options_during_load = tot_early_poe;
                 break;
             }
             case HND_STATUE_THROWS_INDEX: {
@@ -520,6 +553,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_EARLY_HP_INDEX: {
                 loadFile("tpgz/save_files/hundo/tot_early_hp.bin");
                 default_load();
+                practice_file.inject_options_during_load = tot_early_hp;
                 break;
             }
             case HND_DARKNUT_INDEX: {
@@ -530,6 +564,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_DOT_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/dot_skip.bin");
                 default_load();
+                //find statue pointer so can auto place statue in corner
                 break;
             }
             case HND_ARMOGOHMA_INDEX: {
@@ -565,11 +600,20 @@ void HundoSavesMenu::render(Font& font) {
             case HND_ARCHERY_INDEX: {
                 loadFile("tpgz/save_files/hundo/hv_archery.bin");
                 default_load();
+                angle = 64520;
+                position = {3125.57f, -62.16f, -9360.22f};
+                practice_file.inject_options_after_load = set_angle_position;
+                practice_file.inject_options_after_counter = 30;
                 break;
             }
             case HND_CITY_EARLY_INDEX: {
                 loadFile("tpgz/save_files/hundo/cits_early.bin");
                 default_load();
+                angle = 21207;
+                position = {220.75f, -769.96f, -3299.14f};
+                practice_file.inject_options_during_load = hugo_archery;
+                practice_file.inject_options_after_load = set_angle_position;
+                practice_file.inject_options_after_counter = 30;
                 break;
             }
             case HND_CITY_1_INDEX: {
@@ -595,6 +639,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_POE_CYCLE_INDEX: {
                 loadFile("tpgz/save_files/hundo/cits_poe_cycle.bin");
                 default_load();
+                practice_file.inject_options_during_load = cits_poe_cycle;
                 break;
             }
             case HND_FAN_TOWER_INDEX: {
@@ -657,6 +702,11 @@ void HundoSavesMenu::render(Font& font) {
             case HND_CATS_INDEX: {
                 loadFile("tpgz/save_files/hundo/cats.bin");
                 default_load();
+                camera = {5309.32373f, 160.1f, -3581.83423f, 4893.25391f, 160.117676f, -3524.51245f, 0.0f, 0.5f};
+                angle = 17282;
+                position = {5238.59f, 0.00f, -3575.74f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 30;
                 break;
             }
             case HND_HYRULE_INDEX: {
