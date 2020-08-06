@@ -47,7 +47,7 @@ memory menu:
 - Add memory watches to the screen (not implemented yet)
 
 practice menu:
-- Load practice files* (only supports popular any% locations currently)
+- Load practice files* (supports popular any% and 100% locations)
 
 scene menu:
 - disable bg music*             // Disables background and enemy music
