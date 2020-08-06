@@ -18,7 +18,6 @@ static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
 bool any_saves_visible;
-PracticeFile practice_file;
 
 Line lines[LINES] = {
     {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "gate clip outside ordon spring"},

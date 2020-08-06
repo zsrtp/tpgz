@@ -18,7 +18,6 @@ static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
 bool hundo_saves_visible;
-PracticeFile practice_file;
 
 Line lines[LINES] = {
     {"goats 1", HND_GOATS_1_INDEX, "goat herding 1"},

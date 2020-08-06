@@ -8,6 +8,7 @@
 static Cursor cursor = {0,0};
 bool init_once = false;
 bool prac_visible;
+PracticeFile practice_file;
 
 Line lines[LINES] = {
 	{"any%", ANY_INDEX, "any% practice saves", false},
