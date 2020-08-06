@@ -13,8 +13,8 @@ bool mm_visible;
 
 Line lines[LINES] = {
     {"cheats", CHEAT_INDEX, "Turn cheats on/off", false},
-    {"flags", FLAGS_INDEX, "Turn in-game flags on/off", false},
-    {"inventory", INVENTORY_INDEX, "Set Link's items and equipment", false},
+    {"flags", FLAGS_INDEX, "Turn in game flags on/off", false},
+    {"inventory", INVENTORY_INDEX, "Set link's items and equipment", false},
     {"memory", MEMORY_INDEX, "Add memory watches to the screen", false},
     {"practice", PRACTICE_INDEX, "Load practice files", false},
     {"scene", SCENE_INDEX, "Adjust the scene's state", false},
