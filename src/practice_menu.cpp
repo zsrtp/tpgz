@@ -11,7 +11,7 @@ bool prac_visible;
 PracticeFile practice_file;
 
 Line lines[LINES] = {
-	{"any%", ANY_INDEX, "any% practice saves", false},
+	{"any%", ANY_INDEX, "Any% practice saves", false},
 	{"100%", HUNDO_INDEX, "100% practice saves", false}};
 
 void PracticeMenu::render(Font& font) {
