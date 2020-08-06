@@ -215,6 +215,14 @@ void lakebed_bk_skip_during() {
     tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
 }
 
+void cave_of_ordeals() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.floors.floor_01_08 = 0; // reset all CoO doors on load 
+    tp_gameInfo.floors.floor_09_17 = 0;
+    tp_gameInfo.floors.floor_18_26 = 0;
+    tp_gameInfo.floors.floor_27_34 = 0;
+}
+
 void HundoSavesMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         hundo_saves_visible = false;
@@ -681,21 +689,25 @@ void HundoSavesMenu::render(Font& font) {
             case HND_COO_INDEX: {
                 loadFile("tpgz/save_files/hundo/coo.bin");
                 default_load();
+                practice_file.inject_options_during_load = cave_of_ordeals;
                 break;
             }
             case HND_COO_10_INDEX: {
                 loadFile("tpgz/save_files/hundo/coo_10.bin");
                 default_load();
+                practice_file.inject_options_during_load = cave_of_ordeals;
                 break;
             }
             case HND_COO_20_INDEX: {
                 loadFile("tpgz/save_files/hundo/coo_20.bin");
                 default_load();
+                practice_file.inject_options_during_load = cave_of_ordeals;
                 break;
             }
             case HND_COO_30_INDEX: {
                 loadFile("tpgz/save_files/hundo/coo_30.bin");
                 default_load();
+                practice_file.inject_options_during_load = cave_of_ordeals;
                 break;
             }
             case HND_CATS_INDEX: {
