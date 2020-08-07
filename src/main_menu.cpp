@@ -8,13 +8,13 @@
 #include "log.h"
 #define LINES 9
 
-static Cursor cursor = {0,0};
+static Cursor cursor = {0, 0};
 bool mm_visible;
 
 Line lines[LINES] = {
     {"cheats", CHEAT_INDEX, "Turn cheats on/off", false},
-    {"flags", FLAGS_INDEX, "Turn in game flags on/off", false},
-    {"inventory", INVENTORY_INDEX, "Set link's items and equipment", false},
+    {"flags", FLAGS_INDEX, "Turn in-game flags on/off", false},
+    {"inventory", INVENTORY_INDEX, "Set Link's items and equipment", false},
     {"memory", MEMORY_INDEX, "Add memory watches to the screen", false},
     {"practice", PRACTICE_INDEX, "Load practice files", false},
     {"scene", SCENE_INDEX, "Adjust the scene's state", false},
@@ -23,7 +23,6 @@ Line lines[LINES] = {
     {"warping", WARPING_INDEX, "Warp to dungeons, towns, grottos, etc.", false}};
 
 void MainMenu::render(Font& font) {
-
     if (button_is_pressed(Controller::B)) {
         mm_visible = false;
         fifo_visible = true;
@@ -31,17 +30,17 @@ void MainMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-    
-    if (current_input == 256 && a_held == false) {
+
+    if (current_input == 256 && !a_held) {
         switch (cursor.x) {
             case MEMORY_INDEX: {
-                memory_visible = true;
                 mm_visible = false;
+                memory_visible = true;
                 return;
             }
             case INVENTORY_INDEX: {
-                inventory_visible = true;
                 mm_visible = false;
+                inventory_visible = true;
                 return;
             }
             case CHEAT_INDEX: {
@@ -60,8 +59,8 @@ void MainMenu::render(Font& font) {
                 return;
             }
             case WARPING_INDEX: {
-                warping_visible = true;
                 mm_visible = false;
+                warping_visible = true;
                 return;
             }
             case PRACTICE_INDEX: {
@@ -70,8 +69,8 @@ void MainMenu::render(Font& font) {
                 return;
             }
             case SCENE_INDEX: {
-                scene_menu_visible = true;
                 mm_visible = false;
+                scene_menu_visible = true;
                 return;
             }
             case FLAGS_INDEX: {
@@ -80,5 +79,6 @@ void MainMenu::render(Font& font) {
             }
         }
     }
+
     Utilities::render_lines(font, lines, cursor.x, LINES);
 };
