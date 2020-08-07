@@ -105,6 +105,12 @@ void hugo() {
     tp_gameInfo.temp_flags.temp_flag_bit_field_17 = 0;    // hugo alive
 }
 
+void karg_oob() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
+    tp_gameInfo.link.is_wolf = false;
+}
+
 void morpheel() {
     tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
     tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
@@ -260,9 +266,7 @@ void AnySavesMenu::render(Font& font) {
             case KARG_INDEX: {
                 loadFile("tpgz/save_files/any/karg.bin");
                 default_load();
-                angle = 0;
-                position = {-43655.6133f, -20923.0078f, 31594.4121f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_during_load = karg_oob;
                 break;
             }
             case ELDIN_TWILIGHT_INDEX: {

@@ -147,7 +147,7 @@ void escort() {
 
 void dangoro() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 32;  //turn off intro cs, start fight
+    tp_gameInfo.boss_room_event_flags = 32;  // turn off intro cs, start fight
 }
 
 void morpheel() {
@@ -158,6 +158,21 @@ void morpheel() {
     set_angle_position();
 }
 
+void karg_oob() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.respawn_animation = 0xA;    // spawn on kargorok
+    tp_gameInfo.link.is_wolf = false;
+}
+
+void iza_1_skip() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
+    strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112"); // set stage to river
+    tp_gameInfo.warp.entrance.room = 0x1;
+    tp_gameInfo.warp.entrance.spawn = 0x0;
+    tp_gameInfo.warp.entrance.state = 0x4;
+}
+
 void stallord() {
     SaveInjector::inject_default_during();
     tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
@@ -166,8 +181,8 @@ void stallord() {
 
 void spr_bosskey() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xB;    //boss key room
-    tp_gameInfo.warp.entrance.spawn = 0x00;  //default spawn
+    tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
+    tp_gameInfo.warp.entrance.spawn = 0x00;  // default spawn
 }
 
 void tot_early_poe() {
@@ -342,9 +357,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_KARG_INDEX: {
                 loadFile("tpgz/save_files/hundo/karg.bin");
                 default_load();
-                angle = 0;
-                position = {-43655.6133f, -20923.0078f, 31594.4121f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_during_load = karg_oob;
                 break;
             }
             case HND_LANAYRU_TWILIGHT_INDEX: {
@@ -442,7 +455,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_IZA_1_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/iza_1_skip.bin");
                 default_load();
-                //should be a way to spawn into karg flight directly, needs more research
+                practice_file.inject_options_during_load = iza_1_skip;
                 break;
             }
             case HND_IZA_2_INDEX: {
