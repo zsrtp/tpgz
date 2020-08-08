@@ -94,7 +94,7 @@ void SettingsMenu::render(Font& font) {
 
     ListMember log_level_options[MAX_LOG_LEVEL_OPTIONS] = {
         "none",
-        "error",
+        "info",
         "debug"};
 
     // handle list rendering
