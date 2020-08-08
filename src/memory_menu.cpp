@@ -78,7 +78,7 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
         sprintf(watch_visible, "%s", Watches[i].visible ? "[X]" : "[ ]");
 
         if (Watches[i].line_selected) {
-            switch (cursor.y) {
+            switch (cursor.x) {
                 case WatchAddress: {
                     font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
@@ -149,7 +149,7 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                     watch_type,
                     watch_offset,
                     watch_visible);
-            font.gz_renderChars(watch_line, 25.0f, (80.0f + (i * 20.0f)), (cursor.x == i ? CURSOR_RGBA : 0xFFFFFFFF), g_drop_shadows);
+            font.gz_renderChars(watch_line, 25.0f, (80.0f + (i * 20.0f)), (cursor.y == i ? CURSOR_RGBA : 0xFFFFFFFF), g_drop_shadows);
         }
     }
 }
@@ -176,7 +176,7 @@ void MemoryMenu::render(Font& font) {
             for (int i = 0; i < MAX_WATCHES; i++) {
                 Watches[i].line_selected = false;
             }
-            Watches[cursor.x].line_selected = false;
+            Watches[cursor.y].line_selected = false;
         } else {
             init_once = false;
             memory_visible = false;
@@ -189,11 +189,11 @@ void MemoryMenu::render(Font& font) {
 
     if (current_input == 256 && a_held == false) {
         // finish
-        Watches[cursor.x].line_selected = true;
+        Watches[cursor.y].line_selected = true;
     }
 
     if (button_is_pressed(Controller::Z)) {
-        Watches[cursor.x].visible = !Watches[cursor.x].visible;
+        Watches[cursor.y].visible = !Watches[cursor.y].visible;
     }
 
 

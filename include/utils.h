@@ -19,7 +19,8 @@ namespace Utilities {
     void disable_sfx();
     void enable_sfx();
     void show_link_debug_info(Font& font);
-    void load_gz_card(bool &card_load);
+    void load_gz_card(bool& card_load);
     void change_font(Font& font, const _Font& font_bytes, const char* font_texture_data);
-    void load_mem_card(MemCard::Card &card, SaveLayout &save_layout);
+    void render_list(Line& line, int cursor_x, ListMember list_members[]);
+    void load_mem_card(MemCard::Card& card, SaveLayout& save_layout);
 }  // namespace Utilities

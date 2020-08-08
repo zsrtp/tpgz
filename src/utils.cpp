@@ -52,50 +52,54 @@ namespace Utilities {
         }
     }
 
-    void move_cursor(Cursor &cursor, int max_cursor_x_value) {
+    void move_cursor(Cursor &cursor, int max_cursor_y_value) {
         if (button_is_pressed(Controller::DPAD_UP)) {
-            if (cursor.x > 0) {
-                cursor.x -= 1;
+            if (cursor.y > 0) {
+                cursor.y -= 1;
             } else {
-                cursor.x = max_cursor_x_value - 1;
+                cursor.y = max_cursor_y_value - 1;
             }
         }
         if (button_is_pressed(Controller::DPAD_DOWN)) {
-            if (cursor.x < max_cursor_x_value - 1) {
-                cursor.x += 1;
-            } else {
-                cursor.x = 0;
-            }
-        }
-    }
-
-    void move_cursor(Cursor &cursor, int max_cursor_x_value, int max_cursor_y_value) {
-        if (button_is_pressed(Controller::DPAD_UP)) {
-            if (cursor.x > 0) {
-                cursor.x -= 1;
-            } else {
-                cursor.x = max_cursor_x_value - 1;
-            }
-        }
-        if (button_is_pressed(Controller::DPAD_DOWN)) {
-            if (cursor.x < max_cursor_x_value - 1) {
-                cursor.x += 1;
-            } else {
-                cursor.x = 0;
-            }
-        }
-        if (button_is_pressed(Controller::DPAD_RIGHT)) {
             if (cursor.y < max_cursor_y_value - 1) {
                 cursor.y += 1;
             } else {
                 cursor.y = 0;
             }
         }
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
+    }
+
+    void move_cursor(Cursor &cursor, int max_cursor_y_value, int max_cursor_x_value) {
+        if (button_is_pressed(Controller::DPAD_UP)) {
+            // reset so other lines aren't affected
+            cursor.x = 0;
             if (cursor.y > 0) {
                 cursor.y -= 1;
             } else {
                 cursor.y = max_cursor_y_value - 1;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_DOWN)) {
+            // reset so other lines aren't affected
+            cursor.x = 0;
+            if (cursor.y < max_cursor_y_value - 1) {
+                cursor.y += 1;
+            } else {
+                cursor.y = 0;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_RIGHT)) {
+            if (cursor.x < max_cursor_x_value - 1) {
+                cursor.x += 1;
+            } else {
+                cursor.x = 0;
+            }
+        }
+        if (button_is_pressed(Controller::DPAD_LEFT)) {
+            if (cursor.x > 0) {
+                cursor.x -= 1;
+            } else {
+                cursor.x = max_cursor_x_value - 1;
             }
         }
     }
@@ -147,16 +151,16 @@ namespace Utilities {
                 font.gz_renderChars(input_lines[i].line, 25.0f, offset, cursor_color, g_drop_shadows);
             }
             // logic for lines that are lists
-            else if (input_lines[i].is_list) {
-                // need to simplify this logic
-                char final_line[50];
-                char list_line[MAX_LIST_MEMBER_LENGTH];
-                sprintf(list_line, input_lines[i].list_member[*input_lines[i].list_member_idx].member);
-                sprintf(final_line, input_lines[i].line);
-                strcat(final_line, " ");
-                strcat(final_line, list_line);
-                font.gz_renderChars(final_line, 25.0f, offset, cursor_color, g_drop_shadows);
-            }
+            // else if (input_lines[i].is_list) {
+            //     // need to simplify this logic
+            //     char final_line[50];
+            //     char list_line[MAX_LIST_MEMBER_LENGTH];
+            //     sprintf(list_line, input_lines[i].list_member[*input_lines[i].list_member_idx].member);
+            //     sprintf(final_line, input_lines[i].line);
+            //     strcat(final_line, " ");
+            //     strcat(final_line, list_line);
+            //     font.gz_renderChars(final_line, 25.0f, offset, cursor_color, g_drop_shadows);
+            // }
             // logic for normal lines
             else {
                 font.gz_renderChars(input_lines[i].line, 25.0f, offset, cursor_color, g_drop_shadows);
@@ -348,6 +352,12 @@ namespace Utilities {
         tp_zelAudio.npc_volume = 1.0f;
         tp_zelAudio.pause_button_volume = 1.0f;
     }
+    // void render_list(Line &line, int cursor_x, ListMember list_members[]) {
+    //     char buf[50];
+    //     sprintf(line.line + strlen(line.line), "<%s>", list_members[cursor_x].member);
+        
+    // }
+
     void load_gz_card(bool &card_load) {
         uint8_t frame_count = TP::get_frame_count();
         if (card_load && frame_count > 200) {

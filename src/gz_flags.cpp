@@ -1,7 +1,7 @@
+#include "utils.h"
 #include "gz_flags.h"
 #include "gorge.h"
 #include "rollcheck.h"
-#include "utils.h"
 #include "menu.h"
 #include "actor.h"
 #include "system.h"

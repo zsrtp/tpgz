@@ -238,7 +238,7 @@ void HundoSavesMenu::render(Font& font) {
     }
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             case HND_GOATS_1_INDEX: {
                 loadFile("tpgz/save_files/hundo/goats.bin");
                 default_load();
@@ -749,5 +749,5 @@ void HundoSavesMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 };

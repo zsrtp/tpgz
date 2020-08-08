@@ -19,5 +19,5 @@ void WarpingMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 }
