@@ -4,25 +4,27 @@
 #include "utils.h"
 #include "libtp_c/include/flag.h"
 
-#define LINES 10
+#define LINES 11
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
 bool flags_menu_visible;
 
 bool boss_flag;
+bool rupee_flag;
 bool midna_charge;
 bool transform_warp;
 bool midna_on_z;
 bool epona_stolen;
 bool epona_tamed;
-bool map_warping; 
+bool map_warping;
 bool midna_healthy;
 bool midna_on_back;
 bool wolf_sense;
 
 Line lines[LINES] = {
     {"boss flag", BOSS_FLAG_INDEX, "Set the boss flag value. Press A to lock the value", true, &boss_flag},
+    {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle flag for rupee cutscenes being enabled", true, &rupee_flag},
     {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true, &epona_stolen},
     {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true, &epona_tamed},
     {"map warping", MAP_WARPING_INDEX, "Toggle flag for having map warping", true, &map_warping},
@@ -34,9 +36,9 @@ Line lines[LINES] = {
     {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for having wolf sense", true, &wolf_sense}};
 
 void FlagsMenu::render(Font& font) {
-
     // update flags
     boss_flag = (TP::get_boss_flags() > 0x00);
+    rupee_flag = (tp_gameInfo.inventory.rupee_cs_flags & (1 << 0));
     midna_charge = (tp_gameInfo.epona_stolen_and_midna_charge_flag & (1 << 0));
     transform_warp = (tp_gameInfo.transform_flag & (1 << 2));
     midna_on_z = (tp_gameInfo.midna_on_z & (1 << 4));
@@ -63,11 +65,19 @@ void FlagsMenu::render(Font& font) {
         switch (cursor.x) {
             case BOSS_FLAG_INDEX: {
                 if (boss_flag) {
-                    tp_bossFlags = 0x00;    
+                    tp_bossFlags = 0x00;
                 } else {
                     tp_bossFlags = 0xFF;
                 }
                 break;
+            }
+            case RUPEE_CS_FLAG_INDEX: {
+                if (rupee_flag) {
+                    tp_gameInfo.inventory.rupee_cs_flags = 0x00;
+                } else {
+                    tp_gameInfo.inventory.rupee_cs_flags = 0xFF;
+		}
+		break;
             }
             case EPONA_STOLEN_INDEX: {
                 tp_gameInfo.epona_stolen_and_midna_charge_flag ^= 0x80;
@@ -101,12 +111,11 @@ void FlagsMenu::render(Font& font) {
                 tp_gameInfo.have_sense_flag ^= 0x08;
                 break;
             }
-            
+
             case MIDNA_CHARGE_INDEX: {
                 tp_gameInfo.epona_stolen_and_midna_charge_flag ^= 0x01;
                 break;
             }
-            
         }
     }
 
