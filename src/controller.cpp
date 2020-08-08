@@ -17,6 +17,9 @@ bool a_held = true;
 bool a_held_last_frame = true;
 uint16_t current_input = 0x0000;
 
+bool can_move_cursor = false;
+static uint16_t sNum_frames_cursor_buffer = 0;
+
 struct ButtonState {
     uint16_t button;
     uint32_t pressed_frame;
@@ -49,26 +52,40 @@ extern "C" uint32_t read_controller() {
             buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
         }
     }
-    
-    Cheats::apply_cheats();
-    if (mm_visible|| prac_visible || settings_visible || cheats_visible || 
-                    tools_visible || inventory_visible || item_wheel_visible || 
-                    pause_visible || memory_visible || warping_visible || flags_menu_visible || scene_menu_visible || any_saves_visible || hundo_saves_visible) {
 
-        a_held = true;
+    Cheats::apply_cheats();
+    if (mm_visible || prac_visible || settings_visible || cheats_visible ||
+        tools_visible || inventory_visible || item_wheel_visible || pause_visible ||
+        memory_visible || warping_visible || flags_menu_visible ||
+        scene_menu_visible || any_saves_visible || hundo_saves_visible) {
         current_input = Controller::get_current_inputs();
-        a_held = current_input == 0x0100 && a_held_last_frame == true;
-        if (current_input == 0x0100) { a_held_last_frame = true;}
-        else {
-            a_held_last_frame = false;
+        a_held = a_held_last_frame && current_input == 0x0100;
+        a_held_last_frame = current_input == 0x0100;
+
+        // prevent accidentally moving cursor down when opening menu
+        if (!can_move_cursor) {
+            if (current_input & Controller::Pad::DPAD_UP) {
+                can_move_cursor = true;
+            } else if (current_input & (Controller::Pad::L | Controller::Pad::R)) {
+                sNum_frames_cursor_buffer = 0;
+            } else if (sNum_frames_cursor_buffer < 1) {
+                sNum_frames_cursor_buffer = 1;
+            }
+
+            if (sNum_frames_cursor_buffer >= 4) {
+                can_move_cursor = true;
+            } else if (sNum_frames_cursor_buffer > 0) {
+                sNum_frames_cursor_buffer++;
+            }
         }
-        
+
         Controller::set_buttons_down(0x0);
         Controller::set_buttons_pressed(0x0);
         tp_mPadStatus.sval = 0x0;
         tp_mPadButton.sval = 0x0;
-    }
-    else {
+    } else {
+        can_move_cursor = false;
+        sNum_frames_cursor_buffer = 0;
         Commands::process_inputs();
     }
     return 0x80000000;
@@ -97,8 +114,7 @@ namespace Controller {
         auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame + 1;
         if (delta != 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
