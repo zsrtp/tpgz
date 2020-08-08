@@ -51,8 +51,10 @@ namespace Utilities {
             font.gz_renderChars("z-pos: n/a", LINK_DEBUG_X_OFFSET, LINK_DEBUG_Y_OFFSET + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         }
     }
-
     void move_cursor(Cursor &cursor, int max_cursor_y_value) {
+        if (!can_move_cursor) {
+            return;
+        }
         if (button_is_pressed(Controller::DPAD_UP)) {
             if (cursor.y > 0) {
                 cursor.y -= 1;
@@ -70,6 +72,9 @@ namespace Utilities {
     }
 
     void move_cursor(Cursor &cursor, int max_cursor_y_value, int max_cursor_x_value) {
+        if (!can_move_cursor) {
+            return;
+        }
         if (button_is_pressed(Controller::DPAD_UP)) {
             // reset so other lines aren't affected
             cursor.x = 0;

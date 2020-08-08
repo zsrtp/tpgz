@@ -133,9 +133,25 @@ void set_angle_position() {
     tp_zelAudio.link_debug_ptr->position = position;
 }
 
+void goats_1() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.warp.entrance.state = 0x5;
+}
+
+void goats_2() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.warp.entrance.state = 0x4;
+}
+
+void purple_mist() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.link.is_wolf = false;
+}
+
 void kb2_skip() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x3;
+    tp_gameInfo.epona_debug_ptr->position = {-92098.1797, -5563.54883, 22599.9102};  // spawn near clip spot
+    tp_gameInfo.warp.entrance.state = 0x3;  
 }
 
 void escort() {
@@ -143,11 +159,12 @@ void escort() {
     tp_gameInfo.warp.entrance.room = 0xD;
     tp_gameInfo.warp.entrance.spawn = 0x62;
     tp_gameInfo.warp.entrance.state = 0x2;
+    tp_gameInfo.temp_flags.temp_flag_bit_field_33 = 2;  // give 2 keys for field gates
 }
 
 void dangoro() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 32;  //turn off intro cs, start fight
+    tp_gameInfo.boss_room_event_flags = 32;  // turn off intro cs, start fight
 }
 
 void morpheel() {
@@ -158,6 +175,21 @@ void morpheel() {
     set_angle_position();
 }
 
+void karg_oob() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
+    tp_gameInfo.link.is_wolf = false;
+}
+
+void iza_1_skip() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.respawn_animation = 0xA;                        // spawn on kargorok
+    strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
+    tp_gameInfo.warp.entrance.room = 0x1;
+    tp_gameInfo.warp.entrance.spawn = 0x0;
+    tp_gameInfo.warp.entrance.state = 0x4;
+}
+
 void stallord() {
     SaveInjector::inject_default_during();
     tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
@@ -166,8 +198,8 @@ void stallord() {
 
 void spr_bosskey() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xB;    //boss key room
-    tp_gameInfo.warp.entrance.spawn = 0x00;  //default spawn
+    tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
+    tp_gameInfo.warp.entrance.spawn = 0x00;  // default spawn
 }
 
 void tot_early_poe() {
@@ -186,7 +218,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_19 ^= 0xC0; //start archery minigame
+    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
@@ -217,7 +249,7 @@ void lakebed_bk_skip_during() {
 
 void cave_of_ordeals() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.floors.floor_01_08 = 0; // reset all CoO doors on load 
+    tp_gameInfo.floors.floor_01_08 = 0;  // reset all CoO doors on load
     tp_gameInfo.floors.floor_09_17 = 0;
     tp_gameInfo.floors.floor_18_26 = 0;
     tp_gameInfo.floors.floor_27_34 = 0;
@@ -242,10 +274,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_GOATS_1_INDEX: {
                 loadFile("tpgz/save_files/hundo/goats.bin");
                 default_load();
-                angle = 7196;
-                position = {-8616.21f, 15014.50f, -21347.94f};  //these pos vars don't apply when on epona, need to find actual ones
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 30;
+                practice_file.inject_options_during_load = goats_1;
                 break;
             }
 
@@ -263,10 +292,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_GOATS_2_INDEX: {
                 loadFile("tpgz/save_files/hundo/goats_2.bin");
                 default_load();
-                angle = 51795;
-                position = {-9512.06f, 15000.00f, -21498.89f};
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 30;
+                practice_file.inject_options_during_load = goats_2;
                 break;
             }
 
@@ -287,6 +313,7 @@ void HundoSavesMenu::render(Font& font) {
                 angle = 40758;
                 position = {-23524.6152f, 250.0f, -16220.166f};
                 practice_file.inject_options_after_load = set_angle_position;
+                practice_file.inject_options_during_load = purple_mist;
                 practice_file.inject_options_after_counter = 30;
                 break;
             }
@@ -342,9 +369,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_KARG_INDEX: {
                 loadFile("tpgz/save_files/hundo/karg.bin");
                 default_load();
-                angle = 0;
-                position = {-43655.6133f, -20923.0078f, 31594.4121f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_during_load = karg_oob;
                 break;
             }
             case HND_LANAYRU_TWILIGHT_INDEX: {
@@ -363,7 +388,11 @@ void HundoSavesMenu::render(Font& font) {
             case HND_KB_2_INDEX: {
                 loadFile("tpgz/save_files/hundo/kb2.bin");
                 default_load();
+                camera = {-92098.1797f, -5398.54883f, 22599.9102f, -92795.1328f, -5302.87988f, 22505.3359f, 0.0f, 0.5f};
+                angle = 14957;
+                practice_file.inject_options_after_load = set_camera_angle_position;
                 practice_file.inject_options_during_load = kb2_skip;
+                practice_file.inject_options_after_counter = 30;
                 break;
             }
             case HND_ESCORT_INDEX: {
@@ -422,6 +451,11 @@ void HundoSavesMenu::render(Font& font) {
             case HND_MDH_TOWER_INDEX: {
                 loadFile("tpgz/save_files/hundo/mdh_tower.bin");
                 default_load();
+                camera = {25256.7285f, -2919.95215f, 2839.01587f, 10193.6064f, 25254.7852f, -2874.2627f, -2.0f, 200.0f};
+                angle = 32025;
+                position = {25254.6875f, -3031.50854f, 10222.1445f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 15;
                 break;
             }
             case HND_MDH_BRIDGE_INDEX: {
@@ -442,7 +476,7 @@ void HundoSavesMenu::render(Font& font) {
             case HND_IZA_1_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/iza_1_skip.bin");
                 default_load();
-                //should be a way to spawn into karg flight directly, needs more research
+                practice_file.inject_options_during_load = iza_1_skip;
                 break;
             }
             case HND_IZA_2_INDEX: {
@@ -505,9 +539,10 @@ void HundoSavesMenu::render(Font& font) {
             case HND_SPR_SUPERJUMP_INDEX: {
                 loadFile("tpgz/save_files/hundo/spr_superjump.bin");
                 default_load();
+                camera = {1529.35425f, 466.16306f, 3684.08252f, 1765.20581f, 691.830688f, 3662.42749f, 3.7f, 280.0f};
                 angle = 50120;
                 position = {1530.35f, 359.56f, 3683.99f};
-                practice_file.inject_options_after_load = set_angle_position;
+                practice_file.inject_options_after_load = set_camera_angle_position;
                 practice_file.inject_options_after_counter = 30;
                 break;
             }
@@ -571,6 +606,11 @@ void HundoSavesMenu::render(Font& font) {
             case HND_DOT_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/dot_skip.bin");
                 default_load();
+                camera = {1361.59766f, -33.1954155f, -1090.47632f, 1396.36316f, 9.51973343f, -719.644531f, -1.7f, 220.0f};
+                angle = 33673;
+                position = {1361.68408f, -143.56076f, -1089.4801f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 30;
                 //find statue pointer so can auto place statue in corner
                 break;
             }
@@ -592,6 +632,11 @@ void HundoSavesMenu::render(Font& font) {
             case HND_BELL_INDEX: {
                 loadFile("tpgz/save_files/hundo/silver_rupee.bin");
                 default_load();
+                camera = {961.308044f, 203.885788f, 4184.82471f, 1220.0835f, 320.043884f, 4269.48779f, 2.7f, 280.0f};
+                angle = 45836;
+                position = {962.257813f, 100.0f, 4185.1377f};
+                practice_file.inject_options_after_load = set_camera_angle_position;
+                practice_file.inject_options_after_counter = 30;
                 break;
             }
             case HND_FBF_INDEX: {
