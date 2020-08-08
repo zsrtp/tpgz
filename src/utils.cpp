@@ -357,11 +357,6 @@ namespace Utilities {
         tp_zelAudio.npc_volume = 1.0f;
         tp_zelAudio.pause_button_volume = 1.0f;
     }
-    // void render_list(Line &line, int cursor_x, ListMember list_members[]) {
-    //     char buf[50];
-    //     sprintf(line.line + strlen(line.line), "<%s>", list_members[cursor_x].member);
-        
-    // }
 
     void load_gz_card(bool &card_load) {
         uint8_t frame_count = TP::get_frame_count();
