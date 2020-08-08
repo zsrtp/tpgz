@@ -53,7 +53,7 @@ namespace Utilities {
     }
 
     void move_cursor(Cursor &cursor, int max_cursor_x_value) {
-        if (!can_cursor_move) {
+        if (!can_move_cursor) {
             return;
         }
         if (button_is_pressed(Controller::DPAD_UP)) {
@@ -73,7 +73,7 @@ namespace Utilities {
     }
 
     void move_cursor(Cursor &cursor, int max_cursor_x_value, int max_cursor_y_value) {
-        if (!can_cursor_move) {
+        if (!can_move_cursor) {
             return;
         }
         if (button_is_pressed(Controller::DPAD_UP)) {

@@ -17,7 +17,7 @@ bool a_held = true;
 bool a_held_last_frame = true;
 uint16_t current_input = 0x0000;
 
-bool can_cursor_move = false;
+bool can_move_cursor = false;
 static uint16_t sNum_frames_cursor_buffer = 0;
 
 struct ButtonState {
@@ -62,9 +62,9 @@ extern "C" uint32_t read_controller() {
         a_held_last_frame = current_input == 0x0100;
 
         // prevent accidentally moving cursor down when opening menu
-        if (!can_cursor_move) {
+        if (!can_move_cursor) {
             if (current_input & Controller::Pad::DPAD_UP) {
-                can_cursor_move = true;
+                can_move_cursor = true;
             } else if (current_input & (Controller::Pad::L | Controller::Pad::R)) {
                 sNum_frames_cursor_buffer = 0;
             } else if (sNum_frames_cursor_buffer < 1) {
@@ -72,7 +72,7 @@ extern "C" uint32_t read_controller() {
             }
 
             if (sNum_frames_cursor_buffer >= 4) {
-                can_cursor_move = true;
+                can_move_cursor = true;
             } else if (sNum_frames_cursor_buffer > 0) {
                 sNum_frames_cursor_buffer++;
             }
@@ -83,7 +83,7 @@ extern "C" uint32_t read_controller() {
         tp_mPadStatus.sval = 0x0;
         tp_mPadButton.sval = 0x0;
     } else {
-        can_cursor_move = false;
+        can_move_cursor = false;
         sNum_frames_cursor_buffer = 0;
         Commands::process_inputs();
     }
