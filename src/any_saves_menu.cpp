@@ -143,7 +143,7 @@ void lakebed_bk_skip_during() {
 void AnySavesMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         any_saves_visible = false;
-	    prac_visible = true;
+	      prac_visible = true;
         mm_visible = false;
         init_once = false;
         return;
