@@ -10,6 +10,7 @@ struct Cursor {
     int y = 0;
     int x = 0;
 };
+extern bool can_cursor_move;
 
 // main menu
 enum MainMenuIndex {
