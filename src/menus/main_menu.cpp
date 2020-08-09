@@ -3,7 +3,8 @@
 #include "fifo_queue.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include <stdio.h>
 #include "log.h"
 #define LINES 9

@@ -1,8 +1,10 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include "libtp_c/include/flag.h"
+#include "libtp_c/include/tp.h"
 
 #define LINES 11
 

@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include <stdio.h>
 #include "libtp_c/include/tp.h"
 #define LINES SCENE_AMNT

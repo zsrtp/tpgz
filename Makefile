@@ -17,7 +17,7 @@ include $(DEVKITPPC)/gamecube_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	src src/fonts
+SOURCES		:=	src src/fonts src/utils src/menus
 EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external

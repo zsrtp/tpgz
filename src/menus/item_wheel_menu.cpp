@@ -3,7 +3,8 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 
 #define ITEM_WHEEL_SLOTS 24
 #define LINES ITEM_WHEEL_SLOTS

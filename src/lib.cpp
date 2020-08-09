@@ -1,24 +1,10 @@
-#include <stdio.h>
-#include <stdint.h>
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/link.h"
-#include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
-#include "gcn_c/include/card.h"
-#include "controller.h"
+#include "libtp_c/include/tp.h"
+#include "utils/link.hpp"
 #include "fonts/consolas.h"
-#include "font.h"
 #include "fifo_queue.h"
+#include "font.h"
 #include "menu.h"
-#include "fs.h"
-#include "input_viewer.h"
-#include "log.h"
-#include "utils.h"
-#include "save_injector.h"
-#include "commands.h"
-#include "cheats.h"
-#include "timer.h"
-#include "spawning.h"
 #include "gz_flags.h"
 
 _FIFOQueue Queue;

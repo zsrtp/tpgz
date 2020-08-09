@@ -1,7 +1,9 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
+#include <stdio.h>
 
 #define MAX_WATCHES 10
 #define WATCH_COLUMNS 6

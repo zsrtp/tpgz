@@ -8,7 +8,8 @@
 #include "controller.h"
 #include "cheats.h"
 #include "commands.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include <string.h>
 #define LINES CHEAT_AMNT
 

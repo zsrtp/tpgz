@@ -1,4 +1,6 @@
-#include "utils.h"
+#include "utils/link.hpp"
+#include "utils/audio.hpp"
+#include "utils/loading.hpp"
 #include "gz_flags.h"
 #include "gorge.h"
 #include "rollcheck.h"

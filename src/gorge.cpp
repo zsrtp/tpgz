@@ -7,7 +7,6 @@
 #include "fifo_queue.h"
 #include "controller.h"
 #include "log.h"
-#include "utils.h"
 #include "fs.h"
 #define WARP_CS_FRAMES 132
 
