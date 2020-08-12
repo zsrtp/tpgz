@@ -57,6 +57,9 @@ void draw() {
     if (ToolItems[Tools::LINK_DEBUG_INDEX].active) {
         Utilities::show_link_debug_info(default_font);
     }
+    if (ToolItems[Tools::INPUT_VIEWER_INDEX].active) {
+        InputViewer::render(default_font);
+    }
     MenuRendering::render_active_menus(default_font);
 }
 }
