@@ -10,6 +10,7 @@ struct Cursor {
     int y = 0;
     int x = 0;
 };
+extern bool can_move_cursor;
 
 // main menu
 enum MainMenuIndex {
@@ -544,7 +545,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 16
+#define MAX_MENU_RENDER_FLAGS 15
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -563,7 +564,6 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
-    {&ToolItems[Tools::INPUT_VIEWER_INDEX].active, InputViewer::render},
     {&ToolItems[Tools::TIMER_INDEX].active, Timer::render},
     {&pause_visible, PauseMenu::render},
     {&any_saves_visible, AnySavesMenu::render},
