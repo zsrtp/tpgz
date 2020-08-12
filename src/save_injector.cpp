@@ -2,7 +2,6 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "log.h"
-#include "utils.h"
 #include "menu.h"
 #include <string.h>
 #include "fs.h"
@@ -41,6 +40,7 @@ namespace SaveInjector {
         int state = tp_getLayerNo(stage, room, 0xFF);
         log.PrintLog("Setting spawn to: %d", spawn, DEBUG);
         tp_gameInfo.warp.entrance.spawn = spawn;
+        tp_gameInfo.special_spawn_id = spawn;
         log.PrintLog("Setting room to: %d", room, DEBUG);
         tp_gameInfo.warp.entrance.room = room;
         log.PrintLog("Setting stage to: %s", stage, DEBUG);

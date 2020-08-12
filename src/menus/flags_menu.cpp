@@ -1,8 +1,10 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include "libtp_c/include/flag.h"
+#include "libtp_c/include/tp.h"
 
 #define LINES 11
 
@@ -62,7 +64,7 @@ void FlagsMenu::render(Font& font) {
     }
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             case BOSS_FLAG_INDEX: {
                 if (boss_flag) {
                     tp_bossFlags = 0x00;
@@ -120,5 +122,5 @@ void FlagsMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES, 150.0f);
+    Utilities::render_lines(font, lines, cursor.y, LINES, 150.0f);
 }

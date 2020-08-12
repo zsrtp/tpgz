@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include <stdio.h>
 #include "libtp_c/include/tp.h"
 #define LINES SCENE_AMNT
@@ -52,12 +53,12 @@ void SceneMenu::render(Font& font) {
     sprintf(lines[TIME_MINUTES_INDEX].line, "time (mins):     %d", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES, 160.0f);
+    Utilities::render_lines(font, lines, cursor.y, LINES, 160.0f);
 
     if (current_input == 256 && a_held == false) {
-        SceneItems[cursor.x].active = !SceneItems[cursor.x].active;
-        if (SceneItems[cursor.x].active) {
-            switch (cursor.x) {
+        SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
+        if (SceneItems[cursor.y].active) {
+            switch (cursor.y) {
                 case TIME_HOURS_INDEX: {
                     tp_gameInfo.raw_game_time += 14.75f;
                 }

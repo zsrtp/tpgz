@@ -1,7 +1,8 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 
 #define LINES 2
 
@@ -25,7 +26,7 @@ void InventoryMenu::render(Font& font) {
     if (!init_once) {current_input = 0;init_once = true;}
     
     if (current_input == 256 && a_held == false) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             case ITEM_WHEEL_INDEX: {
                 inventory_visible = false;
                 item_wheel_visible = true;
@@ -41,5 +42,5 @@ void InventoryMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
     
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 };

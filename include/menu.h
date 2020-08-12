@@ -6,12 +6,6 @@
 #include <string.h>
 #define CURSOR_RGBA 0x00CC00FF
 
-struct Cursor {
-    int y = 0;
-    int x = 0;
-};
-extern bool can_move_cursor;
-
 // main menu
 enum MainMenuIndex {
     CHEAT_INDEX,
@@ -451,9 +445,7 @@ struct Line {
     char description[MAX_DESCRIPTION_LENGTH];
     bool toggleable = false;
     bool* activation_flag;
-    bool is_list = false;
-    ListMember list_member[MAX_LIST_ITEMS];
-    int* list_member_idx;
+    uint8_t max_y_cursor_options;
 };
 
 class Menu {
