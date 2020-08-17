@@ -44,7 +44,7 @@ inventory menu:
 - pause menu (TBD)              // Can modify the pause menu collection (not implemented yet)
 
 memory menu:
-- Add memory watches to the screen (not implemented yet)
+- Add memory watches to the screen
 
 practice menu:
 - Load practice files* (supports popular Any% and 100% locations)
