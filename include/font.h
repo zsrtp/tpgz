@@ -47,6 +47,7 @@ class Font {
     bool lookupGlyph(char c, DecodedGlyph& glyph);
     float renderChar(char c, float x, float y, uint32_t color);
     void renderChars(const char* str, float x, float y, uint32_t color);
+    void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows);
     void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows);
     void setupRendering();
 };

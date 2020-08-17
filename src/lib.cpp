@@ -1,6 +1,7 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "utils/link.hpp"
+#include "utils/memory.hpp"
 #include "fonts/consolas.h"
 #include "fifo_queue.h"
 #include "font.h"
@@ -44,5 +45,6 @@ void draw() {
         Utilities::show_link_debug_info(default_font);
     }
     MenuRendering::render_active_menus(default_font);
+    Utilities::render_active_watches(default_font);
 }
 }
