@@ -4,16 +4,19 @@
 #include "menu.h"
 #include "input_viewer.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include "timer.h"
 #include "commands.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #define LINES TOOL_AMNT
+#define MAX_TUNIC_COLORS 7
 using namespace Tools;
 
 static Cursor cursor = {0, 0};
 int g_tunic_color;
+uint8_t tunic_color_index = 0;
 bool init_once = false;
 bool g_tunic_color_flag;
 bool tools_visible;
@@ -30,15 +33,6 @@ Tool ToolItems[TOOL_AMNT] = {
     {TELEPORT_INDEX, false},
     {TIMER_INDEX, false}};
 
-TunicColor TunicColors[TUNIC_COLOR_AMNT] = {
-    {"green", false},
-    {"blue", false},
-    {"red", false},
-    {"orange", false},
-    {"yellow", false},
-    {"white", false},
-    {"cycle", false}};
-
 Line lines[LINES] = {
     {"area reload", RELOAD_AREA_INDEX, "Use L+R+Start+A to reload current area", true, &ToolItems[RELOAD_AREA_INDEX].active},
     {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true, &ToolItems[FAST_BONK_INDEX].active},
@@ -50,7 +44,7 @@ Line lines[LINES] = {
     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
     {"teleport", TELEPORT_INDEX, "dpadUp to set, dpadDown to load", true, &ToolItems[TELEPORT_INDEX].active},
     {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
-    {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, true, {"green", "blue", "red", "orange", "yellow", "white", "cycle"}, &g_tunic_color}};
+    {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -65,19 +59,32 @@ void ToolsMenu::render(Font& font) {
         init_once = true;
     }
 
-    // for (int i = 0; i < TUNIC_COLORS; i++) {
-    //     if (TunicColors[i].active) {
-    //         sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color: <%s>", TunicColors[i].name);
-    //     }
-    // }
+    ListMember tunic_color_options[MAX_TUNIC_COLORS] = {
+        "green",
+        "blue",
+        "red",
+        "orange",
+        "yellow",
+        "white",
+        "cycle"};
 
-    Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    if (cursor.y == TUNIC_COLOR_INDEX) {
+        cursor.x = tunic_color_index;
+        Utilities::move_cursor(cursor, LINES, MAX_TUNIC_COLORS);
+        if (cursor.y == TUNIC_COLOR_INDEX) {
+            tunic_color_index = cursor.x;
+        }
+        g_tunic_color = tunic_color_index;
+    } else {
+        Utilities::move_cursor(cursor, LINES);
+    }
+    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:    <%s>", tunic_color_options[tunic_color_index].member);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 
     if (current_input == 256 && a_held == false) {
-        ToolItems[cursor.x].active = !ToolItems[cursor.x].active;
-        if (ToolItems[cursor.x].active) {
-            switch (cursor.x) {
+        ToolItems[cursor.y].active = !ToolItems[cursor.y].active;
+        if (ToolItems[cursor.y].active) {
+            switch (cursor.y) {
                 case TIMER_INDEX: {
                     Commands::enable_command(Commands::TIMER_TOGGLE);
                     Commands::enable_command(Commands::TIMER_RESET);
@@ -127,32 +134,9 @@ void ToolsMenu::render(Font& font) {
                     tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
                     break;
                 }
-                case TUNIC_COLOR_INDEX: {
-                    if (g_tunic_color < TUNIC_COLOR_COUNT - 1) {
-                        g_tunic_color++;
-                        g_tunic_color_flag = true;
-                        break;
-                    } else {
-                        g_tunic_color = GREEN;
-                        g_tunic_color_flag = false;
-                        break;
-                    }
-                    // for (int i = 0; i < TUNIC_COLORS; i++) {
-                    //     if (TunicColors[i].active) {
-                    //         TunicColors[i].active = false;
-                    //         if (i == TUNIC_COLORS - 1) {
-                    //             TunicColors[0].active = true;
-                    //         } else {
-                    //             TunicColors[i+1].active = true;
-                    //         }
-                    //     }
-                    // }
-                    
-                    //TunicColors[cursor.x+1].active = true;
-                }
             }
         } else {
-            switch (cursor.x) {
+            switch (cursor.y) {
                 case TELEPORT_INDEX: {
                     Commands::disable_command(Commands::STORE_POSITION);
                     Commands::disable_command(Commands::LOAD_POSITION);

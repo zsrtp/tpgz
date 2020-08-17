@@ -6,11 +6,6 @@
 #include <string.h>
 #define CURSOR_RGBA 0x00CC00FF
 
-struct Cursor {
-    int y = 0;
-    int x = 0;
-};
-
 // main menu
 enum MainMenuIndex {
     CHEAT_INDEX,
@@ -132,18 +127,16 @@ struct ItemLookup {
 };
 
 // pause menu
-#define stuff 2
 extern bool pause_visible;
 
 // cheats
 extern bool cheats_visible;
 
 // warping
-#define stuff 2
 extern bool warping_visible;
 
 // memory
-#define stuff 2
+#define MAX_WATCHES 10
 extern bool memory_visible;
 
 enum MemoryType {
@@ -168,18 +161,20 @@ enum MemoryColumns {
 
 struct MemoryWatch {
     uint32_t address = 0x80000000;
-    float x = 100.0f;
+    float x = 400.0f;
     float y = 100.0f;
     bool hex = false;
-    MemoryType type = u32;
+    uint8_t type = string;
     uint16_t offset = 0x0000;
     uint32_t value;
     bool visible = false;
     bool line_selected = false;
+    bool value_selected = false;
 };
 
-// flags
+extern MemoryWatch Watches[MAX_WATCHES];
 
+// flags
 enum FlagsIndex {
     BOSS_FLAG_INDEX,
     RUPEE_CS_FLAG_INDEX,
@@ -450,9 +445,7 @@ struct Line {
     char description[MAX_DESCRIPTION_LENGTH];
     bool toggleable = false;
     bool* activation_flag;
-    bool is_list = false;
-    ListMember list_member[MAX_LIST_ITEMS];
-    int* list_member_idx;
+    uint8_t max_y_cursor_options;
 };
 
 class Menu {

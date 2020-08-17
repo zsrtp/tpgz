@@ -7,7 +7,6 @@
 #include "fifo_queue.h"
 #include "controller.h"
 #include "log.h"
-#include "utils.h"
 #include "fs.h"
 #define WARP_CS_FRAMES 132
 
@@ -60,7 +59,7 @@ namespace GorgeVoidIndicator {
 
         // trigger loading, convert some of these to const later
         log.PrintLog("Setting respawn id to 2", DEBUG);
-        tp_gameInfo.respawn_next_spawn_id = 2;
+        tp_gameInfo.special_spawn_id = 2;
         log.PrintLog("Setting respawn position: {-11856.857f, -5700.0f, 56661.5}", DEBUG);
         tp_gameInfo.respawn_position = {-11856.857f, -5700.0f, 56661.5};
         log.PrintLog("Setting respawn angle: 24169", DEBUG);

@@ -1,7 +1,8 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 
 #define LINES 1
 
@@ -20,5 +21,5 @@ void PauseMenu::render(Font& font) {
     };
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 };

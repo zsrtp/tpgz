@@ -3,7 +3,8 @@
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 
 #define ITEM_WHEEL_SLOTS 24
 #define LINES ITEM_WHEEL_SLOTS
@@ -449,7 +450,7 @@ void ItemWheelMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 
     // update to current items
     slot_items[0].item_id = tp_gameInfo.inventory.item_values.gale_boomerang_id;
@@ -478,7 +479,7 @@ void ItemWheelMenu::render(Font& font) {
     slot_items[23].item_id = tp_gameInfo.inventory.item_values.slingshot_id;
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             uint8_t current_internal_item_id;
             case SLOT_0: {
                 increment_slot_item(current_internal_item_id,SLOT_0);
@@ -628,7 +629,7 @@ void ItemWheelMenu::render(Font& font) {
     }
 
     if (current_input == 16) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             case SLOT_0: {
                 tp_gameInfo.inventory.item_values.gale_boomerang_id = GALE_BOOMERANG;
                 set_slot_to_item_id(SLOT_0, GALE_BOOMERANG);

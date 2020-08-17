@@ -4,7 +4,8 @@
 #include "menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "utils.h"
+#include "utils/cursor.hpp"
+#include "utils/lines.hpp"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
@@ -155,7 +156,7 @@ void AnySavesMenu::render(Font& font) {
     }
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor.x) {
+        switch (cursor.y) {
             case ORDON_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/any/ordon_gate_clip.bin");
                 default_load();
@@ -488,5 +489,5 @@ void AnySavesMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.x, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 };
