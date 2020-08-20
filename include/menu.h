@@ -127,6 +127,27 @@ struct ItemLookup {
 };
 
 // pause menu
+enum PauseIndex {
+    ORDON_SWORD_INDEX,
+	MASTER_SWORD_INDEX,
+	WOOD_SHIELD_INDEX,
+	HYLIAN_SHIELD_INDEX,
+	HERO_TUNIC_INDEX,
+	ZORA_ARMOR_INDEX,
+	MAGIC_ARMOR_INDEX,
+	BOMB_CAPACITY_INDEX,
+	WALLET_INDEX,
+	ARROW_CAPACITY_INDEX,
+	ENDING_BLOW_INDEX,
+	SHIELD_BASH_INDEX,
+	BACKSLICE_INDEX,
+	HELM_SPLITTER_INDEX,
+	MORTAL_DRAW_INDEX,
+	JUMP_STRIKE_INDEX,
+	GREAT_SPIN_INDEX
+};
+
+
 extern bool pause_visible;
 
 // cheats
@@ -537,7 +558,7 @@ class ToolsMenu : public Menu {
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 15
+#define MAX_MENU_RENDER_FLAGS 14
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -556,7 +577,6 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
-    {&ToolItems[Tools::TIMER_INDEX].active, Timer::render},
     {&pause_visible, PauseMenu::render},
     {&any_saves_visible, AnySavesMenu::render},
     {&hundo_saves_visible, HundoSavesMenu::render}};
