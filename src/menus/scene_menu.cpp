@@ -93,15 +93,5 @@ void SceneMenu::render(Font& font) {
     
     if (current_input == 256 && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
-        // if (SceneItems[cursor.y].active) {
-        //     switch (cursor.y) {
-        //         case TIME_HOURS_INDEX: {
-        //             tp_gameInfo.raw_game_time += 14.75f;
-        //         }
-        //         case TIME_MINUTES_INDEX: {
-        //             tp_gameInfo.raw_game_time += 0.25f;
-        //         }
-        //     }
-        // }
     }
 }
