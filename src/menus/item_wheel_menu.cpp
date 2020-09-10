@@ -16,319 +16,102 @@ int new_int_item_id;
 bool init_once = false;
 bool item_wheel_visible;
 
+const uint8_t valid_items[] = {
+    OOCCOO_SR,
+    OOCCOO_JR,
+    OOCCOOS_NOTE,
+    HAWKEYE,
+    GALE_BOOMERANG,
+    SPINNER,
+    BALL_AND_CHAIN,
+    HEROS_BOW,
+    CLAWSHOT,
+    IRON_BOOTS,
+    DOMINION_ROD,
+    DOUBLE_CLAWSHOT,
+    LANTERN,
+    MASTER_SWORD,
+    FISHING_ROD,
+    SLINGSHOT,
+    EMPTY_BOMBBAG,
+    ROD_BEE_LARVA,
+    ROD_CORAL_EARRING,
+    ROD_WORM,
+    ROD_CORAL_EARRING_BEE_LARVA,
+    ROD_CORAL_EARRING_WORM,
+    EMPTY_BOTTLE,
+    RED_POTION,
+    MAGIC_POTION,
+    BLUE_POTION,
+    MILK,
+    HALF_MILK,
+    LANTERN_OIL,
+    WATER,
+    NASTY_SOUP,
+    HOT_SPRING_WATER,
+    FAIRY,
+    REGULAR_BOMBS,
+    WATER_BOMBS,
+    BOMBLINGS,
+    FAIRY_TEARS,
+    WORM,
+    BEE_LARVA,
+    RARE_CHU,
+    RED_CHU,
+    BLUE_CHU,
+    GREEN_CHU,
+    YELLOW_CHU,
+    PURPLE_CHU,
+    SIMPLE_SOUP,
+    GOOD_SOUP,
+    SUPERB_SOUP,
+    RENADOS_LETTER,
+    INVOICE,
+    WOODEN_STATUE,
+    ILIAS_CHARM,
+    HORSE_CALL,
+    AURUS_MEMO,
+    ASHEIS_SKETCH,
+    ANCIENT_SKY_BOOK_EMPTY,
+    ANCIENT_SKY_BOOK_PARTIAL,
+    ANCIENT_SKY_BOOK_FILLED,
+    NO_ITEM};
+
 // probably a better way to do this
 bool IsInItemIDEnum(int val) {
-    switch (val) {
-        case OOCCOO_SR: {
+    for (size_t i = 0; i < sizeof(valid_items); ++i) {
+        if (valid_items[i] == val) {
             return true;
-            break;
-        }
-        case OOCCOO_JR: {
-            return true;
-            break;
-        }
-        case OOCCOOS_NOTE: {
-            return true;
-            break;
-        }
-        case HAWKEYE: {
-            return true;
-            break;
-        }
-        case GALE_BOOMERANG: {
-            return true;
-            break;
-        }
-        case SPINNER: {
-            return true;
-            break;
-        }
-        case BALL_AND_CHAIN: {
-            return true;
-            break;
-        }
-        case HEROS_BOW: {
-            return true;
-            break;
-        }
-        case CLAWSHOT: {
-            return true;
-            break;
-        }
-        case IRON_BOOTS: {
-            return true;
-            break;
-        }
-        case DOMINION_ROD: {
-            return true;
-            break;
-        }
-        case DOUBLE_CLAWSHOT: {
-            return true;
-            break;
-        }
-        case LANTERN: {
-            return true;
-            break;
-        }
-        case SLINGSHOT: {
-            return true;
-            break;
-        }
-        case FISHING_ROD: {
-            return true;
-            break;
-        }
-        case EMPTY_BOMBBAG: {
-            return true;
-            break;
-        }
-        case ROD_BEE_LARVA: {
-            return true;
-            break;
-        }
-        case ROD_CORAL_EARRING: {
-            return true;
-            break;
-        }
-        case ROD_WORM: {
-            return true;
-            break;
-        }
-        case ROD_CORAL_EARRING_BEE_LARVA: {
-            return true;
-            break;
-        }
-        case ROD_CORAL_EARRING_WORM: {
-            return true;
-            break;
-        }
-        case EMPTY_BOTTLE: {
-            return true;
-            break;
-        }
-        case RED_POTION: {
-            return true;
-            break;
-        }
-        case MAGIC_POTION: {
-            return true;
-            break;
-        }
-        case BLUE_POTION: {
-            return true;
-            break;
-        }
-        case MILK: {
-            return true;
-            break;
-        }
-        case HALF_MILK: {
-            return true;
-            break;
-        }
-        case LANTERN_OIL: {
-            return true;
-            break;
-        }
-        case WATER: {
-            return true;
-            break;
-        }
-        case NASTY_SOUP: {
-            return true;
-            break;
-        }
-        case HOT_SPRING_WATER: {
-            return true;
-            break;
-        }
-        case FAIRY: {
-            return true;
-            break;
-        }
-        case REGULAR_BOMBS: {
-            return true;
-            break;
-        }
-        case WATER_BOMBS: {
-            return true;
-            break;
-        }
-        case BOMBLINGS: {
-            return true;
-            break;
-        }
-        case FAIRY_TEARS: {
-            return true;
-            break;
-        }
-        case WORM: {
-            return true;
-            break;
-        }
-        case BEE_LARVA: {
-            return true;
-            break;
-        }
-        case RARE_CHU: {
-            return true;
-            break;
-        }
-        case RED_CHU: {
-            return true;
-            break;
-        }
-        case BLUE_CHU: {
-            return true;
-            break;
-        }
-        case GREEN_CHU: {
-            return true;
-            break;
-        }
-        case YELLOW_CHU: {
-            return true;
-            break;
-        }
-        case PURPLE_CHU: {
-            return true;
-            break;
-        }
-        case SIMPLE_SOUP: {
-            return true;
-            break;
-        }
-        case GOOD_SOUP: {
-            return true;
-            break;
-        }
-        case SUPERB_SOUP: {
-            return true;
-            break;
-        }
-        case RENADOS_LETTER: {
-            return true;
-            break;
-        }
-        case INVOICE: {
-            return true;
-            break;
-        }
-        case WOODEN_STATUE: {
-            return true;
-            break;
-        }
-        case ILIAS_CHARM: {
-            return true;
-            break;
-        }
-        case HORSE_CALL: {
-            return true;
-            break;
-        }
-        case AURUS_MEMO: {
-            return true;
-            break;
-        }
-        case ASHEIS_SKETCH: {
-            return true;
-            break;
-        }
-        case ANCIENT_SKY_BOOK_EMPTY: {
-            return true;
-            break;
-        }
-        case ANCIENT_SKY_BOOK_PARTIAL: {
-            return true;
-            break;
-        }
-        case ANCIENT_SKY_BOOK_FILLED: {
-            return true;
-            break;
-        }
-        case NO_ITEM: {
-            return true;
-            break;
-        }
-        default: {
-            return false;
-            break;
         }
     }
+    return false;
 }
 
-const SlotItem default_items[ITEM_WHEEL_SLOTS] = {
-    {SLOT_0, GALE_BOOMERANG},
-    {SLOT_1, LANTERN},
-    {SLOT_2, SPINNER},
-    {SLOT_3, IRON_BOOTS},
-    {SLOT_4, HEROS_BOW},
-    {SLOT_5, HAWKEYE},
-    {SLOT_6, BALL_AND_CHAIN},
-    {SLOT_7, NO_ITEM},
-    {SLOT_8, DOMINION_ROD},
-    {SLOT_9, CLAWSHOT},
-    {SLOT_10, DOUBLE_CLAWSHOT},
-    {SLOT_11, EMPTY_BOTTLE},
-    {SLOT_12, EMPTY_BOTTLE},
-    {SLOT_13, EMPTY_BOTTLE},
-    {SLOT_14, EMPTY_BOTTLE},
-    {SLOT_15, EMPTY_BOMBBAG},
-    {SLOT_16, EMPTY_BOMBBAG},
-    {SLOT_17, EMPTY_BOMBBAG},
-    {SLOT_18, OOCCOO_SR},
-    {SLOT_19, AURUS_MEMO},
-    {SLOT_20, FISHING_ROD},
-    {SLOT_21, HORSE_CALL},
-    {SLOT_22, ANCIENT_SKY_BOOK_EMPTY},
-    {SLOT_23, SLINGSHOT}};
-
-SlotItem slot_items[ITEM_WHEEL_SLOTS] = {
-    {SLOT_0, tp_gameInfo.inventory.item_values.gale_boomerang_id},
-    {SLOT_1, tp_gameInfo.inventory.item_values.lantern_id},
-    {SLOT_2, tp_gameInfo.inventory.item_values.spinner_id},
-    {SLOT_3, tp_gameInfo.inventory.item_values.iron_boots_id},
-    {SLOT_4, tp_gameInfo.inventory.item_values.hero_s_bow_id},
-    {SLOT_5, tp_gameInfo.inventory.item_values.hawkeye_id},
-    {SLOT_6, tp_gameInfo.inventory.item_values.ball_and_chain_id},
-    {SLOT_7, tp_gameInfo.inventory.item_values._unk_0},
-    {SLOT_8, tp_gameInfo.inventory.item_values.dominion_rod_id},
-    {SLOT_9, tp_gameInfo.inventory.item_values.clawshot_id},
-    {SLOT_10, tp_gameInfo.inventory.item_values.double_clawshot_id},
-    {SLOT_11, tp_gameInfo.inventory.item_values.bottle_1_id},
-    {SLOT_12, tp_gameInfo.inventory.item_values.bottle_2_id},
-    {SLOT_13, tp_gameInfo.inventory.item_values.bottle_3_id},
-    {SLOT_14, tp_gameInfo.inventory.item_values.bottle_4_id},
-    {SLOT_15, tp_gameInfo.inventory.item_values.bomb_bag_1_id},
-    {SLOT_16, tp_gameInfo.inventory.item_values.bomb_bag_2_id},
-    {SLOT_17, tp_gameInfo.inventory.item_values.bomb_bag_3_id},
-    {SLOT_18, tp_gameInfo.inventory.item_values.ooccoo_id},
-    {SLOT_19, tp_gameInfo.inventory.item_values.auru_s_memo_ashei_s_sketch_id},
-    {SLOT_20, tp_gameInfo.inventory.item_values.fishing_rod_earring_id},
-    {SLOT_21, tp_gameInfo.inventory.item_values.horse_call_id},
-    {SLOT_22, tp_gameInfo.inventory.item_values.ancient_sky_book_id},
-    {SLOT_23, tp_gameInfo.inventory.item_values.slingshot_id}};
-
-void set_slot_to_item_id(int slot_id, int item_id) {
-    // find the right slot
-    for (int i = 0; i < ITEM_WHEEL_SLOTS; i++) {
-        if (slot_items[i].slot_id == slot_id) {
-            // set it to the new item id passed in
-            slot_items[i].item_id = item_id;
-        } else {
-            continue;
-        }
-    }
-}
-
-void increment_slot_item(uint8_t& current_internal_item_id, int slot_id) {
-    current_internal_item_id = slot_items[slot_id].item_id;
-    do {
-        current_internal_item_id++;
-    } while (IsInItemIDEnum(current_internal_item_id) == false);
-    set_slot_to_item_id(slot_id, current_internal_item_id);
-}
+const uint8_t default_items[ITEM_WHEEL_SLOTS] = {
+    GALE_BOOMERANG,
+    LANTERN,
+    SPINNER,
+    IRON_BOOTS,
+    HEROS_BOW,
+    HAWKEYE,
+    BALL_AND_CHAIN,
+    NO_ITEM,
+    DOMINION_ROD,
+    CLAWSHOT,
+    DOUBLE_CLAWSHOT,
+    EMPTY_BOTTLE,
+    EMPTY_BOTTLE,
+    EMPTY_BOTTLE,
+    EMPTY_BOTTLE,
+    EMPTY_BOMBBAG,
+    EMPTY_BOMBBAG,
+    EMPTY_BOMBBAG,
+    OOCCOO_SR,
+    AURUS_MEMO,
+    FISHING_ROD,
+    HORSE_CALL,
+    ANCIENT_SKY_BOOK_EMPTY,
+    SLINGSHOT};
 
 const ItemLookup lookup_table[TOTAL_ITEMS] = {
     {OOCCOO_SR, "ooccoo sr."},
@@ -416,6 +199,77 @@ Line lines[LINES] = {
     {"", SLOT_22, "", false, nullptr, false},
     {"", SLOT_23, "", false, nullptr, false}};
 
+void increment_slot_item(int slot_id) {
+    uint8_t current_internal_item_id = tp_gameInfo.inventory.item_values.value[slot_id];
+    do {
+        current_internal_item_id++;
+    } while (IsInItemIDEnum(current_internal_item_id) == false);
+    tp_gameInfo.inventory.item_values.value[slot_id] = current_internal_item_id;
+}
+
+void decrement_slot_item(int slot_id) {
+    uint8_t current_internal_item_id = tp_gameInfo.inventory.item_values.value[slot_id];
+    do {
+        --current_internal_item_id;
+    } while (IsInItemIDEnum(current_internal_item_id) == false);
+    tp_gameInfo.inventory.item_values.value[slot_id] = current_internal_item_id;
+}
+
+uint8_t find_next_empty_slot() {
+    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
+        if (tp_gameInfo.inventory.item_wheel.slot[i] == 0xFF) {
+            return i;
+        }
+    }
+    return 0xFF;
+}
+
+void try_add_item(uint8_t inventory_slot) {
+    auto item_wheel = tp_gameInfo.inventory.item_wheel.slot;
+    uint8_t slot = 0xFF;
+    bool item_already_in_wheel = false;
+    if (inventory_slot >= ITEM_WHEEL_SLOTS) {
+        return;
+    }
+    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
+        if (slot == 0xFF && item_wheel[i] == 0xFF) {
+            slot = i;
+        }
+        if (item_wheel[i] == inventory_slot) {
+            item_already_in_wheel = true;
+            break;
+        }
+    }
+    if (!item_already_in_wheel && slot != 0xFF) {
+        item_wheel[slot] = inventory_slot;
+    }
+}
+
+void try_remove_item(uint8_t inventory_slot) {
+    auto item_wheel = tp_gameInfo.inventory.item_wheel.slot;
+    uint8_t slot = 0xFF;
+    if (inventory_slot >= ITEM_WHEEL_SLOTS) {
+        return;
+    }
+    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
+        if (item_wheel[i] == inventory_slot) {
+            slot = i;
+            break;
+        }
+    }
+    if (slot != 0xFF) {
+        uint8_t last_slot = find_next_empty_slot();
+        if (last_slot > ITEM_WHEEL_SLOTS) {
+            last_slot = ITEM_WHEEL_SLOTS;
+        }
+        if (last_slot > 0) {
+            last_slot--;
+        }
+        item_wheel[slot] = item_wheel[last_slot];
+        item_wheel[last_slot] = 0xFF;
+    }
+}
+
 void ItemWheelMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         item_wheel_visible = false;
@@ -431,18 +285,14 @@ void ItemWheelMenu::render(Font& font) {
 
     // populate the default line name and description
     for (int i = 0; i < LINES; i++) {
-        for (int k = 0; k < ITEM_WHEEL_SLOTS; k++) {
-            // find the right slot to pull the value from
-            if (slot_items[k].slot_id == i) {
-                new_int_item_id = slot_items[k].item_id;
-            }
-        }
+        new_int_item_id = tp_gameInfo.inventory.item_values.value[i];
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                sprintf(lines[i].line, "slot %d: %s", default_items[i].slot_id, lookup_table[j].item_description);
+                sprintf(lines[i].line, "Slot %d: <%s>", i,
+                        new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "");
             }
-            if (lookup_table[j].item_id == default_items[i].item_id) {
-                sprintf(lines[i].description, "slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
+            if (lookup_table[j].item_id == default_items[i]) {
+                sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
             } else {
                 continue;
             }
@@ -452,303 +302,32 @@ void ItemWheelMenu::render(Font& font) {
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor.y, LINES);
 
-    // update to current items
-    slot_items[0].item_id = tp_gameInfo.inventory.item_values.gale_boomerang_id;
-    slot_items[1].item_id = tp_gameInfo.inventory.item_values.lantern_id;
-    slot_items[2].item_id = tp_gameInfo.inventory.item_values.spinner_id;
-    slot_items[3].item_id = tp_gameInfo.inventory.item_values.iron_boots_id;
-    slot_items[4].item_id = tp_gameInfo.inventory.item_values.hero_s_bow_id;
-    slot_items[5].item_id = tp_gameInfo.inventory.item_values.hawkeye_id;
-    slot_items[6].item_id = tp_gameInfo.inventory.item_values.ball_and_chain_id;
-    slot_items[7].item_id = tp_gameInfo.inventory.item_values._unk_0;
-    slot_items[8].item_id = tp_gameInfo.inventory.item_values.dominion_rod_id;
-    slot_items[9].item_id = tp_gameInfo.inventory.item_values.clawshot_id;
-    slot_items[10].item_id = tp_gameInfo.inventory.item_values.double_clawshot_id;
-    slot_items[11].item_id = tp_gameInfo.inventory.item_values.bottle_1_id;
-    slot_items[12].item_id = tp_gameInfo.inventory.item_values.bottle_2_id;
-    slot_items[13].item_id = tp_gameInfo.inventory.item_values.bottle_3_id;
-    slot_items[14].item_id = tp_gameInfo.inventory.item_values.bottle_4_id;
-    slot_items[15].item_id = tp_gameInfo.inventory.item_values.bomb_bag_1_id;
-    slot_items[16].item_id = tp_gameInfo.inventory.item_values.bomb_bag_2_id;
-    slot_items[17].item_id = tp_gameInfo.inventory.item_values.bomb_bag_3_id;
-    slot_items[18].item_id = tp_gameInfo.inventory.item_values.ooccoo_id;
-    slot_items[19].item_id = tp_gameInfo.inventory.item_values.auru_s_memo_ashei_s_sketch_id;
-    slot_items[20].item_id = tp_gameInfo.inventory.item_values.fishing_rod_earring_id;
-    slot_items[21].item_id = tp_gameInfo.inventory.item_values.horse_call_id;
-    slot_items[22].item_id = tp_gameInfo.inventory.item_values.ancient_sky_book_id;
-    slot_items[23].item_id = tp_gameInfo.inventory.item_values.slingshot_id;
+    // check selected slot
+    uint8_t current_item_slot = ITEM_WHEEL_SLOTS;
+    if (cursor.y >= 0 && cursor.y < ITEM_WHEEL_SLOTS) {
+        current_item_slot = cursor.y;
+    }
 
-    if (current_input == 256 && a_held == false) {
-        switch (cursor.y) {
-            uint8_t current_internal_item_id;
-            case SLOT_0: {
-                increment_slot_item(current_internal_item_id,SLOT_0);
-                tp_gameInfo.inventory.item_values.gale_boomerang_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[6] = SLOT_0;
-                break;
-            }
-            case SLOT_1: {
-                increment_slot_item(current_internal_item_id,SLOT_1);
-                tp_gameInfo.inventory.item_values.lantern_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[7] = SLOT_1;
-                break;
-            }
-            case SLOT_2: {
-                increment_slot_item(current_internal_item_id,SLOT_2);
-                tp_gameInfo.inventory.item_values.spinner_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[3] = SLOT_2;
-                break;
-            }
-            case SLOT_3: {
-                increment_slot_item(current_internal_item_id,SLOT_3);
-                tp_gameInfo.inventory.item_values.iron_boots_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[5] = SLOT_3;
-                break;
-            }
-            case SLOT_4: {
-                increment_slot_item(current_internal_item_id,SLOT_4);
-                tp_gameInfo.inventory.item_values.hero_s_bow_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[4] = SLOT_4;
-                break;
-            }
-            case SLOT_5: {
-                increment_slot_item(current_internal_item_id,SLOT_5);
-                tp_gameInfo.inventory.item_values.hawkeye_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[10] = SLOT_5;
-                break;
-            }
-            case SLOT_6: {
-                increment_slot_item(current_internal_item_id,SLOT_6);
-                tp_gameInfo.inventory.item_values.ball_and_chain_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[2] = SLOT_6;
-                break;
-            }
-            case SLOT_7: {
-                increment_slot_item(current_internal_item_id,SLOT_7);
-                tp_gameInfo.inventory.item_values._unk_0 = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[23] = SLOT_7;
-                break;
-            }
-            case SLOT_8: {
-                increment_slot_item(current_internal_item_id,SLOT_8);
-                tp_gameInfo.inventory.item_values.dominion_rod_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[1] = SLOT_8;
-                break;
-            }
-            case SLOT_9: {
-                increment_slot_item(current_internal_item_id,SLOT_9);
-                tp_gameInfo.inventory.item_values.clawshot_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[20] = SLOT_9;
-                break;
-            }
-            case SLOT_10: {
-                increment_slot_item(current_internal_item_id,SLOT_10);
-                tp_gameInfo.inventory.item_values.double_clawshot_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[0] = SLOT_10;
-                break;
-            }
-            case SLOT_11: {
-                increment_slot_item(current_internal_item_id,SLOT_11);
-                tp_gameInfo.inventory.item_values.bottle_1_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[14] = SLOT_11;
-                break;
-            }
-            case SLOT_12: {
-                increment_slot_item(current_internal_item_id,SLOT_12);
-                tp_gameInfo.inventory.item_values.bottle_2_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[15] = SLOT_12;
-                break;
-            }
-            case SLOT_13: {
-                increment_slot_item(current_internal_item_id,SLOT_13);
-                tp_gameInfo.inventory.item_values.bottle_3_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[16] = SLOT_13;
-                break;
-            }
-            case SLOT_14: {
-                increment_slot_item(current_internal_item_id,SLOT_14);
-                tp_gameInfo.inventory.item_values.bottle_4_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[17] = SLOT_14;
-                break;
-            }
-            case SLOT_15: {
-                increment_slot_item(current_internal_item_id,SLOT_15);
-                tp_gameInfo.inventory.item_values.bomb_bag_1_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[11] = SLOT_15;
-                break;
-            }
-            case SLOT_16: {
-                increment_slot_item(current_internal_item_id,SLOT_16);
-                tp_gameInfo.inventory.item_values.bomb_bag_2_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[12] = SLOT_16;
-                break;
-            }
-            case SLOT_17: {
-                increment_slot_item(current_internal_item_id,SLOT_17);
-                tp_gameInfo.inventory.item_values.bomb_bag_3_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[13] = SLOT_17;
-                break;
-            }
-            case SLOT_18: {
-                increment_slot_item(current_internal_item_id,SLOT_18);
-                tp_gameInfo.inventory.item_values.ooccoo_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[22] = SLOT_18;
-                break;
-            }
-            case SLOT_19: {
-                increment_slot_item(current_internal_item_id,SLOT_19);
-                tp_gameInfo.inventory.item_values.auru_s_memo_ashei_s_sketch_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[21] = SLOT_19;
-                break;
-            }
-            case SLOT_20: {
-                increment_slot_item(current_internal_item_id,SLOT_20);
-                tp_gameInfo.inventory.item_values.fishing_rod_earring_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[9] = SLOT_20;
-                break;
-            }
-            case SLOT_21: {
-                increment_slot_item(current_internal_item_id,SLOT_21);
-                tp_gameInfo.inventory.item_values.horse_call_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[19] = SLOT_21;
-                break;
-            }
-            case SLOT_22: {
-                increment_slot_item(current_internal_item_id,SLOT_22);
-                tp_gameInfo.inventory.item_values.ancient_sky_book_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[18] = SLOT_22;
-                break;
-            }
-            case SLOT_23: {
-                increment_slot_item(current_internal_item_id,SLOT_23);
-                tp_gameInfo.inventory.item_values.slingshot_id = current_internal_item_id;
-                tp_gameInfo.inventory.item_wheel.slot[8] = SLOT_23;
-                break;
+    if (Controller::button_is_pressed(Controller::DPAD_RIGHT)
+        || Controller::button_is_pressed(Controller::DPAD_LEFT)) {
+        auto change_slot_item = Controller::button_is_pressed(Controller::DPAD_RIGHT) ? increment_slot_item : decrement_slot_item;
+        if (current_item_slot < ITEM_WHEEL_SLOTS) {
+            change_slot_item(current_item_slot);
+            if (tp_gameInfo.inventory.item_values.value[current_item_slot] != 0xFF) {
+                try_add_item(current_item_slot);
+            } else {
+                try_remove_item(current_item_slot);
             }
         }
     }
 
-    if (current_input == 16) {
-        switch (cursor.y) {
-            case SLOT_0: {
-                tp_gameInfo.inventory.item_values.gale_boomerang_id = GALE_BOOMERANG;
-                set_slot_to_item_id(SLOT_0, GALE_BOOMERANG);
-                break;
-            }
-            case SLOT_1: {
-                tp_gameInfo.inventory.item_values.lantern_id = LANTERN;
-                set_slot_to_item_id(SLOT_1, LANTERN);
-                break;
-            }
-            case SLOT_2: {
-                tp_gameInfo.inventory.item_values.spinner_id = SPINNER;
-                set_slot_to_item_id(SLOT_2, SPINNER);
-                break;
-            }
-            case SLOT_3: {
-                tp_gameInfo.inventory.item_values.iron_boots_id = IRON_BOOTS;
-                set_slot_to_item_id(SLOT_3, IRON_BOOTS);
-                break;
-            }
-            case SLOT_4: {
-                tp_gameInfo.inventory.item_values.hero_s_bow_id = HEROS_BOW;
-                set_slot_to_item_id(SLOT_4, HEROS_BOW);
-                break;
-            }
-            case SLOT_5: {
-                tp_gameInfo.inventory.item_values.hawkeye_id = HAWKEYE;
-                set_slot_to_item_id(SLOT_5, HAWKEYE);
-                break;
-            }
-            case SLOT_6: {
-                tp_gameInfo.inventory.item_values.ball_and_chain_id = BALL_AND_CHAIN;
-                set_slot_to_item_id(SLOT_6, BALL_AND_CHAIN);
-                break;
-            }
-            case SLOT_7: {
-                tp_gameInfo.inventory.item_values._unk_0 = NO_ITEM;
-                set_slot_to_item_id(SLOT_7, NO_ITEM);
-                break;
-            }
-            case SLOT_8: {
-                tp_gameInfo.inventory.item_values.dominion_rod_id = DOMINION_ROD;
-                set_slot_to_item_id(SLOT_8, DOMINION_ROD);
-                break;
-            }
-            case SLOT_9: {
-                tp_gameInfo.inventory.item_values.clawshot_id = CLAWSHOT;
-                set_slot_to_item_id(SLOT_9, CLAWSHOT);
-                break;
-            }
-            case SLOT_10: {
-                tp_gameInfo.inventory.item_values.double_clawshot_id = DOUBLE_CLAWSHOT;
-                set_slot_to_item_id(SLOT_10, DOUBLE_CLAWSHOT);
-                break;
-            }
-            case SLOT_11: {
-                tp_gameInfo.inventory.item_values.bottle_1_id = EMPTY_BOTTLE;
-                set_slot_to_item_id(SLOT_11, EMPTY_BOTTLE);
-                break;
-            }
-            case SLOT_12: {
-                tp_gameInfo.inventory.item_values.bottle_2_id = EMPTY_BOTTLE;
-                set_slot_to_item_id(SLOT_12, EMPTY_BOTTLE);
-                break;
-            }
-            case SLOT_13: {
-                tp_gameInfo.inventory.item_values.bottle_3_id = EMPTY_BOTTLE;
-                set_slot_to_item_id(SLOT_13, EMPTY_BOTTLE);
-                break;
-            }
-            case SLOT_14: {
-                tp_gameInfo.inventory.item_values.bottle_4_id = EMPTY_BOTTLE;
-                set_slot_to_item_id(SLOT_14, EMPTY_BOTTLE);
-                break;
-            }
-            case SLOT_15: {
-                tp_gameInfo.inventory.item_values.bomb_bag_1_id = EMPTY_BOMBBAG;
-                set_slot_to_item_id(SLOT_15, EMPTY_BOMBBAG);
-                break;
-            }
-            case SLOT_16: {
-                tp_gameInfo.inventory.item_values.bomb_bag_2_id = EMPTY_BOMBBAG;
-                set_slot_to_item_id(SLOT_16, EMPTY_BOMBBAG);
-                break;
-            }
-            case SLOT_17: {
-                tp_gameInfo.inventory.item_values.bomb_bag_3_id = EMPTY_BOMBBAG;
-                set_slot_to_item_id(SLOT_17, EMPTY_BOMBBAG);
-                break;
-            }
-            case SLOT_18: {
-                tp_gameInfo.inventory.item_values.ooccoo_id = OOCCOO_SR;
-                set_slot_to_item_id(SLOT_18, OOCCOO_SR);
-                break;
-            }
-            case SLOT_19: {
-                tp_gameInfo.inventory.item_values.auru_s_memo_ashei_s_sketch_id = AURUS_MEMO;
-                set_slot_to_item_id(SLOT_19, AURUS_MEMO);
-                break;
-            }
-            case SLOT_20: {
-                tp_gameInfo.inventory.item_values.fishing_rod_earring_id = FISHING_ROD;
-                set_slot_to_item_id(SLOT_20, FISHING_ROD);
-                break;
-            }
-            case SLOT_21: {
-                tp_gameInfo.inventory.item_values.horse_call_id = HORSE_CALL;
-                set_slot_to_item_id(SLOT_21, HORSE_CALL);
-                break;
-            }
-            case SLOT_22: {
-                tp_gameInfo.inventory.item_values.ancient_sky_book_id = ANCIENT_SKY_BOOK_EMPTY;
-                set_slot_to_item_id(SLOT_22, ANCIENT_SKY_BOOK_EMPTY);
-                break;
-            }
-            case SLOT_23: {
-                tp_gameInfo.inventory.item_values.slingshot_id = SLINGSHOT;
-                set_slot_to_item_id(SLOT_23, SLINGSHOT);
-                break;
+    if (Controller::button_is_down(Controller::Z) && !Controller::button_is_held(Controller::Z)) {
+        if (current_item_slot < ITEM_WHEEL_SLOTS) {
+            tp_gameInfo.inventory.item_values.value[current_item_slot] = default_items[current_item_slot];
+            if (default_items[current_item_slot] != 0xFF) {
+                try_add_item(current_item_slot);
+            } else {
+                try_remove_item(current_item_slot);
             }
         }
     }

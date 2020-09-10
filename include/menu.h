@@ -116,11 +116,6 @@ enum Slot {
     SLOT_23
 };
 
-struct SlotItem {
-    enum Slot slot_id;
-    int item_id;
-};
-
 struct ItemLookup {
     enum ItemID item_id;
     char item_description[40];
