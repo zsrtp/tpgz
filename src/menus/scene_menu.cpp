@@ -17,7 +17,8 @@ SceneItem SceneItems[SCENE_AMNT] = {
     {DISABLE_BG_INDEX, false},
     {DISABLE_SFX_INDEX, false},
     {FREEZE_CAMERA_INDEX, false},
-    {HIDE_HUD_INDEX, false}};
+    {HIDE_HUD_INDEX, false},
+    {FREEZE_TIME_INDEX, false}};
 
 Line lines[LINES] = {
     {"disable bg music", DISABLE_BG_INDEX, "Disables background and enemy music", true, &SceneItems[DISABLE_BG_INDEX].active},
@@ -26,11 +27,11 @@ Line lines[LINES] = {
     {"freeze camera", FREEZE_CAMERA_INDEX, "Locks the camera in place", true, &SceneItems[FREEZE_CAMERA_INDEX].active},
     {"hide actors", HIDE_ACTOR_INDEX, "Hides actors", true, &SceneItems[HIDE_ACTOR_INDEX].active},
     {"hide hud", HIDE_HUD_INDEX, "Hides the heads-up display", true, &SceneItems[HIDE_HUD_INDEX].active},
+    {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true, &SceneItems[FREEZE_TIME_INDEX].active}, 
     {"", TIME_HOURS_INDEX, "The current in-game hour", false},
     {"", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
 
 void SceneMenu::render(Font& font) {
-
     if (button_is_pressed(Controller::B)) {
         scene_menu_visible = false;
         mm_visible = true;

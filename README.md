@@ -23,10 +23,16 @@ cheats menu:
 - invincible                    // Makes Link invincible (no hurtbox, but can still take fall damage and drown)
 - invincible enemies*           // Makes some enemies invincible (infinite health)
 - moon jump                     // Hold R+A to moon jump
+- door storage                  // Toggle door storage collision
 - super clawshot (TBD)          // Clawshot is long and can grab most things (not implemented yet)
 - super spinner (TBD)           // Spinner is very fast and can hover (not implemented yet)
 
 flags menu:
+- general flags                 // Toggle various general flags
+- dungeon flags                 // Toggle various dungeon flags
+- portal flags                  // Toggle warp portal flags
+
+general flags menu:
 - boss flag                     // Set the boss flag value. Press A to lock the value
 - epona stolen                  // Toggle flag for Epona being stolen
 - epona tamed                   // Toggle flag for Epona being tamed
@@ -38,9 +44,19 @@ flags menu:
 - transform/warp                // Toggle flag for transforming/warping
 - wolf sense                    // Toggle flag for having wolf sense
 
+dungeon flags menu:
+- have map                      // Toggle dungeon map for current dungeon
+- have compass                  // Toggle compass for current dungeon
+- have boss key                 // Toggle boss key for current dungeon
+- have small keys               // Toggle small keys for current dungeon
+- miniboss dead                 // Toggle miniboss defeated state
+- boss dead                     // Toggle boss defeated state
+- clear flags*                  // Clear all dungeon flags
+
 inventory menu:
-- item wheel                    // Can set the 24 item wheel slots to any item
-- pause menu (TBD)              // Can modify the pause menu collection (not implemented yet)
+- item wheel                    // Set the 24 item wheel slots to any item
+- pause menu                    // Modify the pause menu collection
+- amounts menu                  // Modify ammo / collectible amounts
 
 memory menu:
 - Add memory watches to the screen
@@ -88,6 +104,7 @@ warping menu:
 - invincible enemies cheat can't be turned off once turned on
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
+- clear dungeon flags only works when not in the selected dungeon
 ```
 
 ### Planned Features

@@ -4,7 +4,7 @@
 #include "input_viewer.h"
 #include "cheats.h"
 #include <string.h>
-#define CURSOR_RGBA 0x00CC00FF
+#define CURSOR_RGBA cursor_rgba
 
 // main menu
 enum MainMenuIndex {
@@ -23,6 +23,7 @@ extern bool mm_visible;
 // inventory
 #define ITEM_WHEEL_INDEX 0
 #define PAUSE_MENU_INDEX 1
+#define AMOUNTS_MENU_INDEX 2
 extern bool inventory_visible;
 
 // item wheel
@@ -124,26 +125,39 @@ struct ItemLookup {
 // pause menu
 enum PauseIndex {
     ORDON_SWORD_INDEX,
-	MASTER_SWORD_INDEX,
-	WOOD_SHIELD_INDEX,
-	HYLIAN_SHIELD_INDEX,
-	HERO_TUNIC_INDEX,
-	ZORA_ARMOR_INDEX,
-	MAGIC_ARMOR_INDEX,
-	BOMB_CAPACITY_INDEX,
-	WALLET_INDEX,
-	ARROW_CAPACITY_INDEX,
-	ENDING_BLOW_INDEX,
-	SHIELD_BASH_INDEX,
-	BACKSLICE_INDEX,
-	HELM_SPLITTER_INDEX,
-	MORTAL_DRAW_INDEX,
-	JUMP_STRIKE_INDEX,
-	GREAT_SPIN_INDEX
+    MASTER_SWORD_INDEX,
+    WOOD_SHIELD_INDEX,
+    HYLIAN_SHIELD_INDEX,
+    HERO_TUNIC_INDEX,
+    ZORA_ARMOR_INDEX,
+    MAGIC_ARMOR_INDEX,
+    BOMB_CAPACITY_INDEX,
+    WALLET_INDEX,
+    ARROW_CAPACITY_INDEX,
+    ENDING_BLOW_INDEX,
+    SHIELD_BASH_INDEX,
+    BACKSLICE_INDEX,
+    HELM_SPLITTER_INDEX,
+    MORTAL_DRAW_INDEX,
+    JUMP_STRIKE_INDEX,
+    GREAT_SPIN_INDEX
 };
 
-
 extern bool pause_visible;
+
+// amounts menu
+enum AmountsIndex {
+    ARROW_AMMO_INDEX,
+    BOMB_BAG_1_AMMO_INDEX,
+    BOMB_BAG_2_AMMO_INDEX,
+    BOMB_BAG_3_AMMO_INDEX,
+    SLINGSHOT_AMMO_INDEX,
+    HEART_PIECE_COUNT_INDEX,
+    POE_COUNT_INDEX,
+    RUPEE_COUNT_INDEX
+};
+
+extern bool amounts_visible;
 
 // cheats
 extern bool cheats_visible;
@@ -191,7 +205,12 @@ struct MemoryWatch {
 extern MemoryWatch Watches[MAX_WATCHES];
 
 // flags
-enum FlagsIndex {
+#define GENERAL_FLAGS_INDEX 0
+#define DUNGEON_FLAGS_INDEX 1
+#define PORTAL_FLAGS_INDEX 2
+extern bool flags_menu_visible;
+
+enum GeneralFlagsIndex {
     BOSS_FLAG_INDEX,
     RUPEE_CS_FLAG_INDEX,
     EPONA_STOLEN_INDEX,
@@ -204,7 +223,41 @@ enum FlagsIndex {
     TRANSFORM_WARP_INDEX,
     WOLF_SENSE_INDEX
 };
-extern bool flags_menu_visible;
+
+extern bool general_flags_visible;
+
+enum DungeonFlagsIndex {
+    SELECT_DUNGEON_INDEX,
+    MAP_FLAG_INDEX,
+    COMPASS_FLAG_INDEX,
+    BOSS_KEY_FLAG_INDEX,
+    SMALL_KEY_FLAG_INDEX,
+    DEFEAT_MINIBOSS_FLAG_INDEX,
+    DEFEAT_BOSS_FLAG_INDEX,
+    CLEAR_DUNGEON_FLAGS_INDEX
+};
+
+extern bool dungeon_flags_visible;
+
+enum PortalFlagsIndex {
+    SPRING_WARP_INDEX,
+    S_FARON_WARP_INDEX,
+    N_FARON_WARP_INDEX,
+    GROVE_WARP_INDEX,
+    GORGE_WARP_INDEX,
+    KAKARIKO_WARP_INDEX,
+    MOUNTAIN_WARP_INDEX,
+    BRIDGE_WARP_INDEX,
+    TOWN_WARP_INDEX,
+    LAKE_WARP_INDEX,
+    DOMAIN_WARP_INDEX,
+    UZR_WARP_INDEX,
+    SNOWPEAK_WARP_INDEX,
+    MESA_WARP_INDEX,
+    MIRROR_WARP_INDEX
+};
+
+extern bool portal_flags_visible;
 
 // practice
 #define ANY_INDEX 0
@@ -356,7 +409,7 @@ extern bool hundo_saves_visible;
 
 // scene
 extern bool scene_menu_visible;
-#define SCENE_AMNT 8
+#define SCENE_AMNT 9
 namespace Scene {
     enum SceneIndex {
         DISABLE_BG_INDEX,
@@ -365,6 +418,7 @@ namespace Scene {
         FREEZE_CAMERA_INDEX,
         HIDE_ACTOR_INDEX,
         HIDE_HUD_INDEX,
+		FREEZE_TIME_INDEX,
         TIME_HOURS_INDEX,
         TIME_MINUTES_INDEX
     };
@@ -377,7 +431,7 @@ namespace Scene {
 extern Scene::SceneItem SceneItems[SCENE_AMNT];
 
 // tools
-#define TOOL_AMNT 11
+#define TOOL_AMNT 14
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -390,7 +444,10 @@ namespace Tools {
         ROLL_INDEX,
         TELEPORT_INDEX,
         TIMER_INDEX,
-        TUNIC_COLOR_INDEX,
+		LOAD_TIMER_INDEX,
+		IGT_TIMER_INDEX,
+		FREE_CAM_INDEX,
+        TUNIC_COLOR_INDEX
     };
 
     struct Tool {
@@ -432,14 +489,42 @@ enum SettingsIndex {
     DROP_SHADOWS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
-    AREA_RELOAD_BEHAVIOR_INDEX
+    AREA_RELOAD_BEHAVIOR_INDEX,
+	CURSOR_COLOR_INDEX,
+	POS_SETTINGS_MENU_INDEX
 };
 extern bool settings_visible;
+extern bool pos_settings_visible;
 extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
 extern bool g_autoload_card;
+extern int g_cursor_color;
+extern bool g_cursor_color_flag;
+extern int cursor_rgba;
 #define LOAD_AREA 0
 #define LOAD_FILE 1
+
+enum cursor_colors {
+	CURSOR_GREEN,
+	CURSOR_BLUE,
+	CURSOR_RED,
+	CURSOR_ORANGE,
+	CURSOR_YELLOW,
+	CURSOR_PURPLE
+};
+
+extern float menu_x_offset;
+extern float menu_y_offset;
+extern float viewer_x_offset;
+extern float viewer_y_offset;
+extern float debug_info_x_offset;
+extern float debug_info_y_offset;
+extern float timer_x_offset;
+extern float timer_y_offset;
+extern float load_timer_x_offset;
+extern float load_timer_y_offset;
+extern float igt_timer_x_offset;
+extern float igt_timer_y_offset;
 
 struct SaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];
@@ -494,6 +579,12 @@ class ItemWheelMenu : public Menu {
     static void render(Font& font);
 };
 
+class AmountsMenu : public Menu {
+   public:
+    AmountsMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class CheatsMenu : public Menu {
    public:
     CheatsMenu() : Menu() {}
@@ -514,6 +605,21 @@ class MemoryMenu : public Menu {
 class FlagsMenu : public Menu {
    public:
     FlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class GeneralFlagsMenu : public Menu {
+   public:
+    GeneralFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class DungeonFlagsMenu : public Menu {
+   public:
+    DungeonFlagsMenu() : Menu() {}
+    static void render(Font& font);
+};
+class PortalFlagsMenu : public Menu {
+   public:
+    PortalFlagsMenu() : Menu() {}
     static void render(Font& font);
 };
 
@@ -547,13 +653,19 @@ class SettingsMenu : public Menu {
     static void render(Font& font);
 };
 
+class PosSettingsMenu : public Menu {
+   public:
+    PosSettingsMenu() : Menu() {}
+    static void render(Font& font);
+};
+
 class ToolsMenu : public Menu {
    public:
     ToolsMenu() : Menu() {}
     static void render(Font& font);
 };
 
-#define MAX_MENU_RENDER_FLAGS 14
+#define MAX_MENU_RENDER_FLAGS 19
 
 struct MenuRenderFlag {
     bool* activation_flag;
@@ -567,12 +679,17 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&warping_visible, WarpingMenu::render},
     {&memory_visible, MemoryMenu::render},
     {&flags_menu_visible, FlagsMenu::render},
+    {&general_flags_visible, GeneralFlagsMenu::render},
+    {&dungeon_flags_visible, DungeonFlagsMenu::render},
+    {&portal_flags_visible, PortalFlagsMenu::render},
     {&prac_visible, PracticeMenu::render},
     {&cheats_visible, CheatsMenu::render},
     {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
+    {&pos_settings_visible, PosSettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&pause_visible, PauseMenu::render},
+    {&amounts_visible, AmountsMenu::render},
     {&any_saves_visible, AnySavesMenu::render},
     {&hundo_saves_visible, HundoSavesMenu::render}};
 
@@ -591,5 +708,19 @@ namespace MenuRendering {
                 *MenuRenderFlags[i].activation_flag = false;
             }
         }
+    }
+
+    bool is_menu_open() {
+        int menus_open = 0;
+        for (int i = 0; i < MAX_MENU_RENDER_FLAGS; i++) {
+            if (*MenuRenderFlags[i].activation_flag) {
+                menus_open++;
+            }
+        }
+        if (menus_open > 0) {
+            return true;
+        } else {
+            return false;
+		}
     }
 };  // namespace MenuRendering

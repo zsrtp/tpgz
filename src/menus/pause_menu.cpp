@@ -277,13 +277,13 @@ void set_equipment() {
 
 void PauseMenu::render(Font& font) {
 	// update hidden skill flags
-    ending_blow = (tp_gameInfo.hidden_skills_flags & (1 << 10));
-    shield_bash = (tp_gameInfo.hidden_skills_flags & (1 << 11));
-    backslice = (tp_gameInfo.hidden_skills_flags & (1 << 9));
-    helm_splitter = (tp_gameInfo.hidden_skills_flags & (1 << 8));
-    mortal_draw = (tp_gameInfo.hidden_skills_flags & (1 << 7));
-    jump_strike = (tp_gameInfo.hidden_skills_flags & (1 << 6));
-    great_spin = (tp_gameInfo.hidden_skills_flags & (1 << 5));
+    ending_blow = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 10));
+    shield_bash = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 11));
+    backslice = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 9));
+    helm_splitter = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 8));
+    mortal_draw = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 7));
+    jump_strike = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 6));
+    great_spin = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 5));
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -445,31 +445,31 @@ void PauseMenu::render(Font& font) {
 	if (current_input == 256 && a_held == false) {
 		switch (cursor.y) {
             case ENDING_BLOW_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 10;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 10;
                 break;
 			}
             case SHIELD_BASH_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 11;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 11;
                 break;
             }
             case BACKSLICE_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 9;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 9;
                 break;
             }
             case HELM_SPLITTER_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 8;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 8;
                 break;
             }
             case MORTAL_DRAW_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 7;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 7;
                 break;
             }
             case JUMP_STRIKE_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 6;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 6;
                 break;
             }
             case GREAT_SPIN_INDEX: {
-                tp_gameInfo.hidden_skills_flags ^= 1UL << 5;
+                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 5;
                 break;
             }
 		}

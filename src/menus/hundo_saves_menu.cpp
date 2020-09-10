@@ -117,12 +117,8 @@ void default_load() {
 }
 
 void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->camera0 = camera.c0;
-    tp_matrixInfo.matrix_info->camera1 = camera.c1;
-    tp_matrixInfo.matrix_info->camera2 = camera.c2;
-    tp_matrixInfo.matrix_info->camera3 = camera.c3;
-    tp_matrixInfo.matrix_info->camera4 = camera.c4;
-    tp_matrixInfo.matrix_info->camera5 = camera.c5;
+    tp_matrixInfo.matrix_info->target = {camera.c0, camera.c1, camera.c2};
+    tp_matrixInfo.matrix_info->pos = {camera.c3, camera.c4, camera.c5};
     tp_matrixInfo.matrix_info->camera6 = camera.c6;
     tp_matrixInfo.matrix_info->camera7 = camera.c7;
     tp_zelAudio.link_debug_ptr->facing = angle;
@@ -405,10 +401,10 @@ void HundoSavesMenu::render(Font& font) {
             case HND_COROTD_INDEX: {
                 loadFile("tpgz/save_files/hundo/corotd.bin");
                 default_load();
-                angle = 27714;
+                /*angle = 27714;
                 position = {-13715.0712f, 0.00f, -14238.0654f};
                 practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 60;
+                practice_file.inject_options_after_counter = 60;*/ // temporary disable since it crashes often for some reason
                 break;
             }
             case HND_GM_INDEX: {

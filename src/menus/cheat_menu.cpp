@@ -11,24 +11,27 @@
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include <string.h>
+
 #define LINES CHEAT_AMNT
 
 static Cursor cursor = {0,0};
 bool init_once = false;
 bool cheats_visible;
+bool chest_collision = false;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
-        {InfiniteAir,false},
-        {InfiniteArrows,false},
-        {InfiniteBombs,false},
-        {InfiniteHearts,false},
-        {InfiniteOil,false},
-        {InfiniteRupees,false},
-        {InfiniteSlingshot,false},
-        {Invincible,false},
-        {InvincibleEnemies,false},
-        {MoonJump,false}};
+    {InfiniteAir, false},
+    {InfiniteArrows, false},
+    {InfiniteBombs, false},
+    {InfiniteHearts, false},
+    {InfiniteOil, false},
+    {InfiniteRupees, false},
+    {InfiniteSlingshot, false},
+    {Invincible, false},
+    {InvincibleEnemies, false},
+    {MoonJump, false},
+    {DoorStorage, false}};
     
 
 Line lines[LINES] = {
@@ -41,7 +44,8 @@ Line lines[LINES] = {
     {"infinite slingshot", InfiniteSlingshot, "Gives Link 99 slingshot pellets", true, &CheatItems[InfiniteSlingshot].active},
     {"invincible", Invincible, "Makes Link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true, &CheatItems[InvincibleEnemies].active},
-    {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active}};
+    {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active},
+    {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active}};
 
 namespace Cheats {
     using namespace Controller;
@@ -104,6 +108,14 @@ namespace Cheats {
                         tp_clawshot.pull_rate = 500.0f;
                         break;
                     }
+                    case DoorStorage: {
+                        if (tp_gameInfo.link_collision_ptr != nullptr) {
+                            tp_gameInfo.link_collision_ptr->chest_collision = 0xE4;
+                            tp_gameInfo.link_collision_ptr->door_collision = 0x40;
+                            chest_collision = true;
+                        }
+                        break;
+					}
                     default: {}
                 }
             } else {
@@ -122,6 +134,14 @@ namespace Cheats {
                         tp_clawshot.extension_rate = 2000.0f;
                         tp_clawshot.retraction_rate = 150.0f;
                         tp_clawshot.pull_rate = 60.0f;
+                        break;
+                    }
+                    case DoorStorage: {
+                        if (tp_gameInfo.link_collision_ptr != nullptr && chest_collision == true) {
+                            tp_gameInfo.link_collision_ptr->chest_collision = 0xE0;
+                            tp_gameInfo.link_collision_ptr->door_collision = 0x20;
+                            chest_collision = false;
+                        }
                         break;
                     }
                     default: {}

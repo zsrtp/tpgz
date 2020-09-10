@@ -17,12 +17,8 @@ namespace Commands {
     static float saved_y = 0.0f;
     static float saved_z = 0.0f;
     static uint16_t saved_angle = 0;
-    static float saved_c0 = 0.0f;
-    static float saved_c1 = 0.0f;
-    static float saved_c2 = 0.0f;
-    static float saved_c3 = 0.0f;
-    static float saved_c4 = 0.0f;
-    static float saved_c5 = 0.0f;
+    static Vec3 saved_pos = {0.0f, 0.0f, 0.0f};
+    static Vec3 saved_target = {0.0f, 0.0f, 0.0f};
     static float saved_c6 = 0.0f;
     static float saved_c7 = 0.0f;
     static int button_last_frame;
@@ -33,12 +29,8 @@ namespace Commands {
         saved_y = tp_zelAudio.link_debug_ptr->position.y;
         saved_z = tp_zelAudio.link_debug_ptr->position.z;
         saved_angle = tp_zelAudio.link_debug_ptr->facing;
-        saved_c0 = tp_matrixInfo.matrix_info->camera0;
-        saved_c1 = tp_matrixInfo.matrix_info->camera1;
-        saved_c2 = tp_matrixInfo.matrix_info->camera2;
-        saved_c3 = tp_matrixInfo.matrix_info->camera3;
-        saved_c4 = tp_matrixInfo.matrix_info->camera4;
-        saved_c5 = tp_matrixInfo.matrix_info->camera5;
+        saved_pos = tp_matrixInfo.matrix_info->pos;
+        saved_target = tp_matrixInfo.matrix_info->target;
         saved_c6 = tp_matrixInfo.matrix_info->camera6;
         saved_c7 = tp_matrixInfo.matrix_info->camera7;
     }
@@ -48,12 +40,8 @@ namespace Commands {
         tp_zelAudio.link_debug_ptr->position.y = saved_y;
         tp_zelAudio.link_debug_ptr->position.z = saved_z;
         tp_zelAudio.link_debug_ptr->facing = saved_angle;
-        tp_matrixInfo.matrix_info->camera0 = saved_c0;
-        tp_matrixInfo.matrix_info->camera1 = saved_c1;
-        tp_matrixInfo.matrix_info->camera2 = saved_c2;
-        tp_matrixInfo.matrix_info->camera3 = saved_c3;
-        tp_matrixInfo.matrix_info->camera4 = saved_c4;
-        tp_matrixInfo.matrix_info->camera5 = saved_c5;
+        tp_matrixInfo.matrix_info->pos = saved_pos;
+        tp_matrixInfo.matrix_info->target = saved_target;
         tp_matrixInfo.matrix_info->camera6 = saved_c6;
         tp_matrixInfo.matrix_info->camera7 = saved_c7;
     }

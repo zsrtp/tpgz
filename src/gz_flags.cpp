@@ -1,4 +1,5 @@
 #include "utils/link.hpp"
+#include "utils/lines.hpp"
 #include "utils/audio.hpp"
 #include "utils/loading.hpp"
 #include "gz_flags.h"
@@ -8,6 +9,7 @@
 #include "actor.h"
 #include "system.h"
 #include "fifo_queue.h"
+#include "time.h"
 
 bool inject_save_flag = false;
 
@@ -19,7 +21,9 @@ GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
     {&SceneItems[Scene::HIDE_ACTOR_INDEX].active, Actor::hide_actors, Actor::show_actors},
     {&SceneItems[Scene::FREEZE_CAMERA_INDEX].active, System::lock_camera, System::unlock_camera},
     {&SceneItems[Scene::HIDE_HUD_INDEX].active, System::hide_hud, System::show_hud},
+    {&SceneItems[Scene::FREEZE_TIME_INDEX].active, Utilities::freeze_time},
     {&g_tunic_color_flag, Utilities::change_tunic_color, Utilities::change_tunic_color},
+    {&g_cursor_color_flag, Utilities::change_cursor_color, Utilities::change_cursor_color},
     {&SceneItems[Scene::DISABLE_BG_INDEX].active, Utilities::disable_bg_music, Utilities::enable_bg_music},
     {&SceneItems[Scene::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx}};
 

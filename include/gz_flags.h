@@ -1,6 +1,6 @@
 #pragma once
 #include "font.h"
-#define MAX_GZ_FLAGS 10
+#define MAX_GZ_FLAGS 12
 
 struct GZFlag {
     bool* activation_flag;
