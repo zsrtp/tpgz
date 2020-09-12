@@ -7,7 +7,7 @@
 #include "utils/lines.hpp"
 #include <stdio.h>
 #include "log.h"
-#define LINES 7
+#define LINES 5
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_LOG_LEVEL_OPTIONS 3
 #define MAX_CURSOR_COLOR_OPTIONS 6
@@ -24,12 +24,12 @@ int g_cursor_color;
 bool g_cursor_color_flag;
 
 Line lines[LINES] = {
-    {"log level:", LOG_LEVEL_INDEX, "Changes log level for debugging", false, nullptr, MAX_LOG_LEVEL_OPTIONS},
-    {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
-    {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
-    {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
     {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr, MAX_CURSOR_COLOR_OPTIONS},
+    {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
+    {"log level:", LOG_LEVEL_INDEX, "Changes log level for debugging", false, nullptr, MAX_LOG_LEVEL_OPTIONS},
+    // {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
+    // {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX, "Change menu object positions", false}};
 
 // Log log;
@@ -152,8 +152,8 @@ void SettingsMenu::render(Font& font) {
         }
     }
     sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].line, "area reload behavior: <%s>", reload_options[reload_behavior_index].member);
-    sprintf(lines[LOG_LEVEL_INDEX].line, "log level: <%s>", log_level_options[log_level_index].member);
-    sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color: <%s>", cursor_color_options[cursor_color_index].member);
+    sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color:         <%s>", cursor_color_options[cursor_color_index].member);
+    sprintf(lines[LOG_LEVEL_INDEX].line, "log level:            <%s>", log_level_options[log_level_index].member);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES, 130.0f);
+    Utilities::render_lines(font, lines, cursor.y, LINES, 210.0f);
 };

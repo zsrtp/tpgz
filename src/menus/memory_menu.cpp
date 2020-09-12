@@ -26,43 +26,6 @@ uint8_t watch_address_index = 3;
 uint8_t offset_index = 2;
 MemoryWatch Watches[MAX_WATCHES] = {};
 
-// void increment_type_enum(MemoryType& current_type) {
-//     switch (current_type) {
-//         case u8: {
-//             current_type = u16;
-//             break;
-//         }
-//         case u16: {
-//             current_type = u32;
-//             break;
-//         }
-//         case u32: {
-//             current_type = i8;
-//             break;
-//         }
-//         case i8: {
-//             current_type = i16;
-//             break;
-//         }
-//         case i16: {
-//             current_type = i32;
-//             break;
-//         }
-//         case i32: {
-//             current_type = f32;
-//             break;
-//         }
-
-//         case f32: {
-//             current_type = string;
-//             break;
-//         }
-//         case string: {
-//             current_type = u8;
-//         }
-//     }
-// }
-
 void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
     font.gz_renderChars("Address     X   Y   Hex Type Offset Visible", 25.0f, 60.0f, 0xFFFFFFFF, g_drop_shadows);
     for (int i = 0; i < MAX_WATCHES; i++) {
@@ -459,7 +422,6 @@ bool check_if_any_memory_line_is_selected(MemoryWatch Watches[]) {
             return_value = true;
         }
     }
-
     return return_value;
 }
 

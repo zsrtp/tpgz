@@ -1,6 +1,7 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/flag.h"
+#include "libtp_c/include/system.h"
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
@@ -47,17 +48,16 @@ bool great_spin;
 bool init_once = false;
 
 Line lines[LINES] = {
-    {"Ordon Sword:", ORDON_SWORD_INDEX, "Wooden Sword / Ordon Sword", false, nullptr, MAX_ORDON_SWORD_OPTIONS},
-    {"Master Sword:", MASTER_SWORD_INDEX, "Master Sword / Light Sword", false, nullptr, MAX_MASTER_SWORD_OPTIONS},
-    {"Wooden Shield:", WOOD_SHIELD_INDEX, "Ordon Shield / Wooden Shield", false, nullptr, MAX_WOOD_SHIELD_OPTIONS},
-    {"Hylian Shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr, MAX_HYLIAN_SHIELD_OPTIONS},
-    {"Hero's Tunic:", HERO_TUNIC_INDEX, "Hero's Tunic", false, nullptr, MAX_HERO_TUNIC_OPTIONS},
-    {"Zora Armor:", ZORA_ARMOR_INDEX, "Zora Armor", false, nullptr, MAX_ZORA_ARMOR_OPTIONS},
-    {"Magic Armor:", MAGIC_ARMOR_INDEX, "Magic Armor", false, nullptr, MAX_MAGIC_ARMOR_OPTIONS},
-    {"Bomb Capacity:", BOMB_CAPACITY_INDEX, "Bomb Bag Capacity", false, nullptr, MAX_BOMB_CAPACITY_OPTIONS},
-    {"Wallet Upgrade:", WALLET_INDEX, "Wallet Capacity", false, nullptr, MAX_WALLET_OPTIONS},
-    {"Arrow Capacity:", ARROW_CAPACITY_INDEX, "Arrow Quiver Capacity", false, nullptr, MAX_ARROW_CAPACITY_OPTIONS},
-
+    {"ordon sword:", ORDON_SWORD_INDEX, "Wooden Sword / Ordon Sword", false, nullptr, MAX_ORDON_SWORD_OPTIONS},
+    {"master sword:", MASTER_SWORD_INDEX, "Master Sword / Light Sword", false, nullptr, MAX_MASTER_SWORD_OPTIONS},
+    {"wooden shield:", WOOD_SHIELD_INDEX, "Ordon Shield / Wooden Shield", false, nullptr, MAX_WOOD_SHIELD_OPTIONS},
+    {"hylian shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr, MAX_HYLIAN_SHIELD_OPTIONS},
+    {"hero's tunic:", HERO_TUNIC_INDEX, "Hero's Tunic", false, nullptr, MAX_HERO_TUNIC_OPTIONS},
+    {"zora armor:", ZORA_ARMOR_INDEX, "Zora Armor", false, nullptr, MAX_ZORA_ARMOR_OPTIONS},
+    {"magic armor:", MAGIC_ARMOR_INDEX, "Magic Armor", false, nullptr, MAX_MAGIC_ARMOR_OPTIONS},
+    {"bomb capacity:", BOMB_CAPACITY_INDEX, "Bomb Bag Capacity", false, nullptr, MAX_BOMB_CAPACITY_OPTIONS},
+    {"wallet upgrade:", WALLET_INDEX, "Wallet Capacity", false, nullptr, MAX_WALLET_OPTIONS},
+    {"arrow capacity:", ARROW_CAPACITY_INDEX, "Arrow Quiver Capacity", false, nullptr, MAX_ARROW_CAPACITY_OPTIONS},
     {"ending blow:", ENDING_BLOW_INDEX, "Ending Blow", true, &ending_blow},
     {"shield bash:", SHIELD_BASH_INDEX, "Shield Bash", true, &shield_bash},
     {"backslice:", BACKSLICE_INDEX, "Backslice", true, &backslice},
@@ -300,35 +300,35 @@ void PauseMenu::render(Font& font) {
     }
 
     ListMember ordon_sword_options[MAX_ORDON_SWORD_OPTIONS] = {
-        "",
-        "Wooden Sword",
-        "Ordon Sword"};
+        "none",
+        "wooden sword",
+        "ordon sword"};
 
     ListMember master_sword_options[MAX_MASTER_SWORD_OPTIONS] = {
-        "",
-        "Master Sword",
-        "Light Sword"};
+        "none",
+        "master sword",
+        "light sword"};
 
     ListMember wood_shield_options[MAX_WOOD_SHIELD_OPTIONS] = {
-        "",
-        "Ordon Shield",
-        "Wooden Shield"};
+        "none",
+        "ordon shield",
+        "wooden shield"};
 
     ListMember hylian_shield_options[MAX_HYLIAN_SHIELD_OPTIONS] = {
-        "",
-        "Hylian Shield"};
+        "none",
+        "hylian shield"};
 
     ListMember hero_tunic_options[MAX_HERO_TUNIC_OPTIONS] = {
-        "",
-        "Hero's Tunic"};
+        "none",
+        "hero's tunic"};
 
     ListMember zora_armor_options[MAX_ZORA_ARMOR_OPTIONS] = {
-        "",
-        "Zora Armor"};
+        "none",
+        "zora armor"};
 
     ListMember magic_armor_options[MAX_MAGIC_ARMOR_OPTIONS] = {
-        "",
-        "Magic Armor"};
+        "none",
+        "magic armor"};
 
     ListMember bomb_capacity_options[MAX_BOMB_CAPACITY_OPTIONS] = {
         "30/15/10",
@@ -477,16 +477,20 @@ void PauseMenu::render(Font& font) {
 
     set_equipment();
 
-    sprintf(lines[ORDON_SWORD_INDEX].line, "ordon sword: <%s>", ordon_sword_options[ordon_sword_index].member);
-    sprintf(lines[MASTER_SWORD_INDEX].line, "master sword: <%s>", master_sword_options[master_sword_index].member);
-    sprintf(lines[WOOD_SHIELD_INDEX].line, "wooden shield: <%s>", wood_shield_options[wood_shield_index].member);
-    sprintf(lines[HYLIAN_SHIELD_INDEX].line, "hylian shield: <%s>", hylian_shield_options[hylian_shield_index].member);
-    sprintf(lines[HERO_TUNIC_INDEX].line, "hero tunic: <%s>", hero_tunic_options[hero_tunic_index].member);
-    sprintf(lines[ZORA_ARMOR_INDEX].line, "zora armor: <%s>", zora_armor_options[zora_armor_index].member);
-    sprintf(lines[MAGIC_ARMOR_INDEX].line, "magic armor: <%s>", magic_armor_options[magic_armor_index].member);
-    sprintf(lines[BOMB_CAPACITY_INDEX].line, "bomb capacity: <%s>", bomb_capacity_options[bomb_capacity_index].member);
-    sprintf(lines[WALLET_INDEX].line, "wallet size: <%s>", wallet_options[wallet_index].member);
-    sprintf(lines[ARROW_CAPACITY_INDEX].line, "arrow capacity: <%s>", arrow_capacity_options[arrow_capacity_index].member);
+    tp_osReport("0x%08X",&tp_gameInfo.event_flags.hidden_skills_flags);
+    tp_osReport("%d",tp_gameInfo.event_flags.hidden_skills_flags);
+    tp_osReport("ok 0x%08X",&tp_gameInfo.event_flags.dominion_rod_state);
+
+    sprintf(lines[ORDON_SWORD_INDEX].line, "ordon sword:       <%s>", ordon_sword_options[ordon_sword_index].member);
+    sprintf(lines[MASTER_SWORD_INDEX].line, "master sword:      <%s>", master_sword_options[master_sword_index].member);
+    sprintf(lines[WOOD_SHIELD_INDEX].line, "wooden shield:      <%s>", wood_shield_options[wood_shield_index].member);
+    sprintf(lines[HYLIAN_SHIELD_INDEX].line, "hylian shield:      <%s>", hylian_shield_options[hylian_shield_index].member);
+    sprintf(lines[HERO_TUNIC_INDEX].line, "hero tunic:         <%s>", hero_tunic_options[hero_tunic_index].member);
+    sprintf(lines[ZORA_ARMOR_INDEX].line, "zora armor:        <%s>", zora_armor_options[zora_armor_index].member);
+    sprintf(lines[MAGIC_ARMOR_INDEX].line, "magic armor:       <%s>", magic_armor_options[magic_armor_index].member);
+    sprintf(lines[BOMB_CAPACITY_INDEX].line, "bomb capacity:       <%s>", bomb_capacity_options[bomb_capacity_index].member);
+    sprintf(lines[WALLET_INDEX].line, "wallet size:        <%s>", wallet_options[wallet_index].member);
+    sprintf(lines[ARROW_CAPACITY_INDEX].line, "arrow capacity:     <%s>", arrow_capacity_options[arrow_capacity_index].member);
 
     Utilities::render_lines(font, lines, cursor.y, LINES);
 };

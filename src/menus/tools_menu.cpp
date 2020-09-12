@@ -49,8 +49,8 @@ Line lines[LINES] = {
     {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[TIMER_INDEX].active},
     {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: Z+B to reset", true, &ToolItems[LOAD_TIMER_INDEX].active},
     {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[IGT_TIMER_INDEX].active},
-    {"free cam", FREE_CAM_INDEX, "Control stick to move, C stick to rotate", true, &ToolItems[FREE_CAM_INDEX].active},
-    {"link tunic color:   ", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
+    {"free cam", FREE_CAM_INDEX, "Control stick to move, C stick to rotate, L to speed up", true, &ToolItems[FREE_CAM_INDEX].active},
+    {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -84,7 +84,7 @@ void ToolsMenu::render(Font& font) {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:    <%s>", tunic_color_options[tunic_color_index].member);
+    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:     <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(font, lines, cursor.y, LINES);
 
     if (current_input == 256 && a_held == false) {
