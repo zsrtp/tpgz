@@ -131,14 +131,14 @@ void AmountsMenu::render(Font & font) {
         }
     }
 
-	sprintf(lines[ARROW_AMMO_INDEX].line, "arrow ammo: <%d>", arrow_ammo);
-	sprintf(lines[BOMB_BAG_1_AMMO_INDEX].line, "bomb bag 1 ammo: <%d>", bomb_bag_1_ammo);
-	sprintf(lines[BOMB_BAG_2_AMMO_INDEX].line, "bomb bag 2 ammo: <%d>", bomb_bag_2_ammo);
-	sprintf(lines[BOMB_BAG_3_AMMO_INDEX].line, "bomb bag 3 ammo: <%d>", bomb_bag_3_ammo);
-	sprintf(lines[SLINGSHOT_AMMO_INDEX].line, "slingshot ammo: <%d>", slingshot_ammo);
-	sprintf(lines[HEART_PIECE_COUNT_INDEX].line, "heart pieces: <%d>", hp_count);
-	sprintf(lines[POE_COUNT_INDEX].line, "poes: <%d>", poe_count);
-	sprintf(lines[RUPEE_COUNT_INDEX].line, "rupees: <%d>", rupee_count);
+	sprintf(lines[ARROW_AMMO_INDEX].line, "arrow ammo:      <%d>", arrow_ammo);
+	sprintf(lines[BOMB_BAG_1_AMMO_INDEX].line, "bomb bag 1 ammo:  <%d>", bomb_bag_1_ammo);
+	sprintf(lines[BOMB_BAG_2_AMMO_INDEX].line, "bomb bag 2 ammo:  <%d>", bomb_bag_2_ammo);
+	sprintf(lines[BOMB_BAG_3_AMMO_INDEX].line, "bomb bag 3 ammo:  <%d>", bomb_bag_3_ammo);
+	sprintf(lines[SLINGSHOT_AMMO_INDEX].line, "slingshot ammo:   <%d>", slingshot_ammo);
+	sprintf(lines[HEART_PIECE_COUNT_INDEX].line, "heart pieces:      <%d>", hp_count);
+	sprintf(lines[POE_COUNT_INDEX].line, "poes:            <%d>", poe_count);
+	sprintf(lines[RUPEE_COUNT_INDEX].line, "rupees:           <%d>", rupee_count);
 
 	Utilities::move_cursor(cursor, LINES);
 	Utilities::render_lines(font, lines, cursor.y, LINES);
