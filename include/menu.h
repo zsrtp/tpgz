@@ -513,18 +513,22 @@ enum cursor_colors {
 	CURSOR_PURPLE
 };
 
-extern float menu_x_offset;
-extern float menu_y_offset;
-extern float viewer_x_offset;
-extern float viewer_y_offset;
-extern float debug_info_x_offset;
-extern float debug_info_y_offset;
-extern float timer_x_offset;
-extern float timer_y_offset;
-extern float load_timer_x_offset;
-extern float load_timer_y_offset;
-extern float igt_timer_x_offset;
-extern float igt_timer_y_offset;
+#define SPRITES_AMNT 6
+enum SpritesIndex {
+    MENU_INDEX = 0,
+    VIEWER_INDEX = 1,
+    DEBUG_INFO_INDEX = 2,
+    TIMER_SPR_INDEX = 3,
+    LOAD_TIMER_SPR_INDEX = 4,
+    IGT_TIMER_SPR_INDEX = 5,
+};
+
+// TODO Move this into libtp_c
+struct Vec2 {
+    float x, y;
+};
+
+extern Vec2 sprite_offsets[SPRITES_AMNT];
 
 struct SaveLayout {
     Cheats::Cheat CheatItems[CHEAT_AMNT];

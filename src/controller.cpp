@@ -94,13 +94,17 @@ namespace Controller {
         return buttonStates[idx].is_down;
     }
 
-    bool button_is_pressed(int idx) {
+    bool button_is_pressed_time(int idx, uint16_t repeat_time) {
         auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
         auto just_clicked = delta == 0;
         auto held_down_long_enough = delta > REPEAT_DELAY;
-        auto is_repeat_frame = held_down_long_enough && delta % REPEAT_TIME == 0;
+        auto is_repeat_frame = held_down_long_enough && delta % repeat_time == 0;
         auto down = button_is_down(idx);
         return down && (just_clicked || is_repeat_frame);
+    }
+
+    bool button_is_pressed(int idx) {
+        return button_is_pressed_time(idx, REPEAT_TIME);
     }
 
     uint16_t get_current_inputs() {
