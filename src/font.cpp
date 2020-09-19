@@ -55,6 +55,7 @@ bool Font::lookupGlyph(char c, DecodedGlyph& glyph) {
 }
 
 float Font::renderChar(char c, float x, float y, uint32_t color) {
+    GX_LoadTexObj(&_texobj, (uint8_t)GX_TEXMAP0);
     DecodedGlyph glyph;
     if (lookupGlyph(c, glyph)) {
         auto positioned = glyph.position(x, y);
@@ -107,5 +108,4 @@ void Font::setupRendering() {
     GX_SetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
 
     GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
-    GX_LoadTexObj(&_texobj, (uint8_t)GX_TEXMAP0);
 }

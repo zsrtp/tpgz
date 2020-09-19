@@ -5,5 +5,6 @@ extern bool iv_visible;
 
 namespace InputViewer {
 
+    void init();
     void render(Font& font);
 }
