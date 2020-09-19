@@ -85,7 +85,7 @@ void default_load() {
 void set_camera_angle_position() {
     tp_matrixInfo.matrix_info->target = {camera.c0, camera.c1, camera.c2};
     tp_matrixInfo.matrix_info->pos = {camera.c3, camera.c4, camera.c5};
-    tp_matrixInfo.matrix_info->camera6 = camera.c6;
+    tp_matrixInfo.matrix_info->camera6 = *((uint16_t*)&camera.c6);
     tp_matrixInfo.matrix_info->camera7 = camera.c7;
     tp_zelAudio.link_debug_ptr->facing = angle;
     tp_zelAudio.link_debug_ptr->position = position;

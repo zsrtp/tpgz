@@ -92,6 +92,7 @@ tools menu:
 - roll checker                  // Frame counter for chaining rolls
 - teleport                      // dpadUp to set, dpadDown to load
 - timer                         // Frame timer: Z+A to start/stop, Z+B to reset
+- free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed
 - link tunic color:             // Changes Link's tunic color (green, blue, red, orange, yellow, white, or cycle)
 
 warping menu:
@@ -110,7 +111,6 @@ warping menu:
 ### Planned Features
 
 ```
-- free cam
 - actor spawner
 - frame advance
 - collision viewer

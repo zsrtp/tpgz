@@ -11,7 +11,8 @@ namespace Commands {
         RELOAD_AREA = 3,
         TIMER_TOGGLE = 4,
         TIMER_RESET = 5,
-        GORGE_VOID = 6
+        GORGE_VOID = 6,
+        FREE_CAM = 7
     };
 
     void process_inputs();
