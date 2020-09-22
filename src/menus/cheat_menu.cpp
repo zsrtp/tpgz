@@ -31,7 +31,8 @@ Cheat CheatItems[CHEAT_AMNT] = {
     {Invincible, false},
     {InvincibleEnemies, false},
     {MoonJump, false},
-    {DoorStorage, false}};
+    {DoorStorage, false},
+    {SuperClawshot, false}};
     
 
 Line lines[LINES] = {
@@ -45,7 +46,8 @@ Line lines[LINES] = {
     {"invincible", Invincible, "Makes Link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true, &CheatItems[InvincibleEnemies].active},
     {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active},
-    {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active}};
+    {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active},
+    {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active}};
 
 namespace Cheats {
     using namespace Controller;

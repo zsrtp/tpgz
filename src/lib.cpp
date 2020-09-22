@@ -1,5 +1,6 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
+#include "utils/hook.h"
 #include "utils/link.hpp"
 #include "utils/memory.hpp"
 #include "fonts/consolas.h"
@@ -20,6 +21,7 @@ extern "C" {
 void init() {
     default_font = Font(f_Consolas, consolas_bytes);
     InputViewer::init();
+    Hook::apply_hooks();
 }
 
 void game_loop() {

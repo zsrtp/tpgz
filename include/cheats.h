@@ -1,7 +1,7 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
-#define CHEAT_AMNT 11
+#define CHEAT_AMNT 12
 
 namespace Cheats {
     enum CheatId {
