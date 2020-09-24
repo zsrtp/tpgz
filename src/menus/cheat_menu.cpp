@@ -14,7 +14,7 @@
 
 #define LINES CHEAT_AMNT
 
-static Cursor cursor = {0,0};
+static Cursor cursor = {0, 0};
 bool init_once = false;
 bool cheats_visible;
 bool chest_collision = false;
@@ -32,8 +32,9 @@ Cheat CheatItems[CHEAT_AMNT] = {
     {InvincibleEnemies, false},
     {MoonJump, false},
     {DoorStorage, false},
-    {SuperClawshot, false}};
-    
+    {SuperClawshot, false},
+    {UnrestrictedItems, false},
+    {TransformAnywhere, false}};
 
 Line lines[LINES] = {
     {"infinite air", InfiniteAir, "Gives Link infinite air underwater", true, &CheatItems[InfiniteAir].active},
@@ -47,7 +48,9 @@ Line lines[LINES] = {
     {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true, &CheatItems[InvincibleEnemies].active},
     {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active},
     {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active},
-    {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active}};
+    {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active},
+    {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true, &CheatItems[UnrestrictedItems].active},
+    {"transform anywhere", TransformAnywhere, "Transform at any location", true, &CheatItems[TransformAnywhere].active}};
 
 namespace Cheats {
     using namespace Controller;
@@ -67,12 +70,6 @@ namespace Cheats {
                             tp_gameInfo.link_collision_ptr->invincibility_timer = 5;
                         }
                         break;
-                    }
-                    case InvincibleEnemies: {
-                        uint32_t patch = 0x20038000;
-                        memcpy((void *)0x80087F2C, (void *)&patch, 4);
-                        break;
-                        
                     }
                     case InfiniteHearts: {
                         link->heart_quarters = (link->heart_pieces / 5) * 4;
@@ -117,18 +114,13 @@ namespace Cheats {
                             chest_collision = true;
                         }
                         break;
-					}
+                    }
                     default: {}
                 }
             } else {
                 switch (cheat.id) {
                     case MoonJump: {
                         Commands::disable_command(Commands::MOON_JUMP);
-                        break;
-                    }
-                    case InvincibleEnemies: {
-                        uint32_t unpatch = 0x7C030050;
-                        memcpy((void *)0x80087F2C, (void *)&unpatch, 4);
                         break;
                     }
                     case SuperClawshot: {
@@ -153,7 +145,7 @@ namespace Cheats {
     };
 }  // namespace Cheats
 
-void CheatsMenu::render(Font& font) {
+void CheatsMenu::render(Font &font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
         cheats_visible = false;
@@ -161,7 +153,10 @@ void CheatsMenu::render(Font& font) {
         return;
     };
 
-    if (!init_once) {current_input = 0;init_once = true;}
+    if (!init_once) {
+        current_input = 0;
+        init_once = true;
+    }
 
     Utilities::move_cursor(cursor, LINES);
 

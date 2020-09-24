@@ -14,7 +14,7 @@
 #define LINES 82
 
 static Cursor cursor = {0, 0};
-static CameraMatrix camera = {0, 0, 0, 0, 0, 0, 0, 0};
+static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
@@ -117,10 +117,10 @@ void default_load() {
 }
 
 void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = {camera.c0, camera.c1, camera.c2};
-    tp_matrixInfo.matrix_info->pos = {camera.c3, camera.c4, camera.c5};
-    tp_matrixInfo.matrix_info->camera6 = *((uint16_t*)&camera.c6);
-    tp_matrixInfo.matrix_info->camera7 = camera.c7;
+    tp_matrixInfo.matrix_info->target = camera.target;
+    tp_matrixInfo.matrix_info->pos = camera.pos;
+    //tp_matrixInfo.matrix_info->camera6 = *((uint16_t*)&camera.c6);
+    //tp_matrixInfo.matrix_info->camera7 = camera.c7;
     tp_zelAudio.link_debug_ptr->facing = angle;
     tp_zelAudio.link_debug_ptr->position = position;
 }
@@ -156,7 +156,7 @@ void escort() {
     tp_gameInfo.warp.entrance.room = 0xD;
     tp_gameInfo.warp.entrance.spawn = 0x62;
     tp_gameInfo.warp.entrance.state = 0x2;
-    tp_gameInfo.temp_flags.temp_flag_bit_field_33 = 2;  // give 2 keys for field gates
+    tp_gameInfo.temp_flags.flags[28] = 2;  // give 2 keys for field gates
 }
 
 void dangoro() {
@@ -215,7 +215,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 0xC0;  // start archery minigame
+    tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
@@ -241,7 +241,7 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
+    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void cave_of_ordeals() {
@@ -278,7 +278,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_ORDON_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/ordon_gate_clip.bin");
                 default_load();
-                camera = {827.497559f, 329.622986f, -4532.90723f, 833.467468f, 477.604675f, -4241.97266f, 1.26012994f, 280.0f};
+                camera.target = {827.497559f, 329.622986f, -4532.90723f};
+                camera.pos = {833.467468f, 477.604675f, -4241.97266f};
                 angle = 498;
                 position = {827.450012f, 216.490097f, -4533.90625f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -341,7 +342,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_LANAYRU_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/lanayru_gate_clip.bin");
                 default_load();
-                camera = {-63064.2148f, -8969.97656f, 71661.0781f, -62655.8125f, -8900.91309f, 71903.6328f, -1.30928958f, 280.000092f};
+                camera.target = {-63064.2148f, -8969.97656f, 71661.0781f};
+                camera.pos = {-62655.8125f, -8900.91309f, 71903.6328f};
                 angle = 44248;
                 position = {-63026.2852f, -9065.92578f, 71680.3438f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -385,7 +387,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_KB_2_INDEX: {
                 loadFile("tpgz/save_files/hundo/kb2.bin");
                 default_load();
-                camera = {-92098.1797f, -5398.54883f, 22599.9102f, -92795.1328f, -5302.87988f, 22505.3359f, 0.0f, 0.5f};
+                camera.target = {-92098.1797f, -5398.54883f, 22599.9102f};
+                camera.pos = {-92795.1328f, -5302.87988f, 22505.3359f};
                 angle = 14957;
                 practice_file.inject_options_after_load = set_camera_angle_position;
                 practice_file.inject_options_during_load = kb2_skip;
@@ -426,7 +429,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_LAKEBED_BK_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/lakebed_bk_skip.bin");
                 default_load();
-                camera = {71.9835968f, 1660.0f, 2839.01587f, 71.9835968f, 1719.93542f, 2969.04565f, 0.0f, 0.5f};
+                camera.target = {71.9835968f, 1660.0f, 2839.01587f};
+                camera.pos = {71.9835968f, 1719.93542f, 2969.04565f};
                 angle = 32767;
                 position = {71.9835968f, 1500.00f, 2839.01587f};
                 practice_file.inject_options_during_load = lakebed_bk_skip_during;
@@ -448,7 +452,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_MDH_TOWER_INDEX: {
                 loadFile("tpgz/save_files/hundo/mdh_tower.bin");
                 default_load();
-                camera = {25256.7285f, -2919.95215f, 2839.01587f, 10193.6064f, 25254.7852f, -2874.2627f, -2.0f, 200.0f};
+                camera.target = {25256.7285f, -2919.95215f, 2839.01587f};
+                camera.pos = {10193.6064f, 25254.7852f, -2874.2627f};
                 angle = 32025;
                 position = {25254.6875f, -3031.50854f, 10222.1445f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -499,7 +504,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_POE_1_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/poe_1_skip.bin");
                 default_load();
-                camera = {-2047.97168f, 130.16568f, -587.317139f, -1779.00293f, 213.707397f, -584.686768f, 0.0f, 280.0f};
+                camera.target = {-2047.97168f, 130.16568f, -587.317139f};
+                camera.pos = {-1779.00293f, 213.707397f, -584.686768f};
                 angle = 49030;
                 position = {-2046.97168f, 0.0f, -587.304871f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -536,7 +542,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_SPR_SUPERJUMP_INDEX: {
                 loadFile("tpgz/save_files/hundo/spr_superjump.bin");
                 default_load();
-                camera = {1529.35425f, 466.16306f, 3684.08252f, 1765.20581f, 691.830688f, 3662.42749f, 3.7f, 280.0f};
+                camera.target = {1529.35425f, 466.16306f, 3684.08252f};
+                camera.pos = {1765.20581f, 691.830688f, 3662.42749f};
                 angle = 50120;
                 position = {1530.35f, 359.56f, 3683.99f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -603,7 +610,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_DOT_SKIP_INDEX: {
                 loadFile("tpgz/save_files/hundo/dot_skip.bin");
                 default_load();
-                camera = {1361.59766f, -33.1954155f, -1090.47632f, 1396.36316f, 9.51973343f, -719.644531f, -1.7f, 220.0f};
+                camera.target = {1361.59766f, -33.1954155f, -1090.47632f};
+                camera.pos = {1396.36316f, 9.51973343f, -719.644531f};
                 angle = 33673;
                 position = {1361.68408f, -143.56076f, -1089.4801f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -629,7 +637,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_BELL_INDEX: {
                 loadFile("tpgz/save_files/hundo/silver_rupee.bin");
                 default_load();
-                camera = {961.308044f, 203.885788f, 4184.82471f, 1220.0835f, 320.043884f, 4269.48779f, 2.7f, 280.0f};
+                camera.target = {961.308044f, 203.885788f, 4184.82471f};
+                camera.pos = {1220.0835f, 320.043884f, 4269.48779f};
                 angle = 45836;
                 position = {962.257813f, 100.0f, 4185.1377f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -668,7 +677,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_CITY_1_INDEX: {
                 loadFile("tpgz/save_files/hundo/cits_1.bin");
                 default_load();
-                camera = {1313.54285f, -234.203003f, 5545.16846f, 1027.53259f, -108.096123f, 5605.23047f, 0.0f, 318.295868f};
+                camera.target = {1313.54285f, -234.203003f, 5545.16846f};
+                camera.pos = {1027.53259f, -108.096123f, 5605.23047f};
                 angle = 16384;
                 position = {1309.60645f, -240.0f, 5533.43848f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -755,7 +765,8 @@ void HundoSavesMenu::render(Font& font) {
             case HND_CATS_INDEX: {
                 loadFile("tpgz/save_files/hundo/cats.bin");
                 default_load();
-                camera = {5309.32373f, 160.1f, -3581.83423f, 4893.25391f, 160.117676f, -3524.51245f, 0.0f, 0.5f};
+                camera.target = {5309.32373f, 160.1f, -3581.83423f};
+                camera.pos = {4893.25391f, 160.117676f, -3524.51245f};
                 angle = 17282;
                 position = {5238.59f, 0.00f, -3575.74f};
                 practice_file.inject_options_after_load = set_camera_angle_position;

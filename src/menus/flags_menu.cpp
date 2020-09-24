@@ -6,7 +6,7 @@
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 
-#define LINES 3
+#define LINES 4
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -15,7 +15,8 @@ bool flags_menu_visible;
 Line lines[LINES] = {
     {"general flags", GENERAL_FLAGS_INDEX, "general flags", false},
     {"dungeon flags", DUNGEON_FLAGS_INDEX, "dungeon related flags", false},
-    {"portal flags", PORTAL_FLAGS_INDEX, "warp portal flags", false}};
+    {"portal flags", PORTAL_FLAGS_INDEX, "warp portal flags", false},
+    {"temp flags", TEMP_FLAGS_INDEX, "local area temp flags", false}};
 
 void FlagsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
@@ -45,6 +46,11 @@ void FlagsMenu::render(Font& font) {
             case PORTAL_FLAGS_INDEX: {
                 flags_menu_visible = false;
                 portal_flags_visible = true;
+                return;
+            }
+            case TEMP_FLAGS_INDEX: {
+                flags_menu_visible = false;
+                temp_flags_visible = true;
                 return;
             }
         }

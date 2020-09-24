@@ -26,7 +26,7 @@ namespace GorgeVoidIndicator {
     void prep_rupee_roll() {
         Log log;
         log.PrintLog("Saving temp flag #14 to 0x20", DEBUG);
-        tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0x20;
+        tp_gameInfo.temp_flags.flags[9] = 0x20;
         log.PrintLog("Setting cs_val to 0x900", DEBUG);
         tp_gameInfo.cs_val = 0x900;
         inject_gorge_flag = false;
@@ -36,10 +36,10 @@ namespace GorgeVoidIndicator {
         Log log;
         
         // set gorge map info
-        tp_gameInfo.overworld_flags.hyrule_field_flags.flags_9 = 0;
-        tp_gameInfo.temp_flags.temp_flag_bit_field_13 = 0;
-        tp_gameInfo.temp_flags.temp_flag_bit_field_14 = 0;
-        tp_gameInfo.overworld_flags.hyrule_field_flags.flags_8 = 0;
+        tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] = 0;
+        tp_gameInfo.temp_flags.flags[8] = 0;
+        tp_gameInfo.temp_flags.flags[9] = 0;
+        tp_gameInfo.overworld_flags.hyrule_field_flags.flags[8] = 0;
 
         // change form to wolf
         tp_gameInfo.link.is_wolf = true;

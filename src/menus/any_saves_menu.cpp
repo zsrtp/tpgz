@@ -14,7 +14,7 @@
 #define LINES 48
 
 static Cursor cursor = {0, 0};
-static CameraMatrix camera = {0, 0, 0, 0, 0, 0, 0, 0};
+static CameraMatrix camera = {{0,0,0}, {0,0,0}};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
@@ -83,10 +83,10 @@ void default_load() {
 }
 
 void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = {camera.c0, camera.c1, camera.c2};
-    tp_matrixInfo.matrix_info->pos = {camera.c3, camera.c4, camera.c5};
-    tp_matrixInfo.matrix_info->camera6 = *((uint16_t*)&camera.c6);
-    tp_matrixInfo.matrix_info->camera7 = camera.c7;
+    tp_matrixInfo.matrix_info->target = camera.target;
+    tp_matrixInfo.matrix_info->pos = camera.pos;
+    //tp_matrixInfo.matrix_info->camera6 = *((uint16_t*)&camera[6]);
+   // tp_matrixInfo.matrix_info->camera7 = camera[7];
     tp_zelAudio.link_debug_ptr->facing = angle;
     tp_zelAudio.link_debug_ptr->position = position;
 }
@@ -98,8 +98,8 @@ void set_angle_position() {
 
 void hugo() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_19 = 128;  // midna trigger off
-    tp_gameInfo.temp_flags.temp_flag_bit_field_17 = 0;    // hugo alive
+    tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
+    tp_gameInfo.temp_flags.flags[12] = 0;    // hugo alive
 }
 
 void karg_oob() {
@@ -133,8 +133,8 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.temp_flag_bit_field_16 = 18;   // bridge turned
-    tp_gameInfo.temp_flags.temp_flag_bit_field_25 = 223;  // dungeon intro cs off
+    tp_gameInfo.temp_flags.flags[11] = 18;   // bridge turned
+    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void AnySavesMenu::render(Font& font) {
@@ -156,7 +156,8 @@ void AnySavesMenu::render(Font& font) {
             case ORDON_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/any/ordon_gate_clip.bin");
                 default_load();
-                camera = {827.497559f, 329.622986f, -4532.90723f, 833.467468f, 477.604675f, -4241.97266f, 1.26012994f, 280.0f};
+                camera.target = {827.497559f, 329.622986f, -4532.90723f};
+                camera.pos = {833.467468f, 477.604675f, -4241.97266f};
                 angle = 498;
                 position = {827.450012f, 216.490097f, -4533.90625f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -166,7 +167,8 @@ void AnySavesMenu::render(Font& font) {
             case BACK_IN_TIME_INDEX: {
                 loadFile("tpgz/save_files/any/ordon_gate_clip.bin");
                 default_load();
-                camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
+                camera.target = {465.674622f, 421.052704f, -11651.0684f};
+                camera.pos = {735.525391f, 524.418701f, -11576.4746f};
                 angle = 52540;
                 position = {466.622467f, 319.770752f, -11651.3867f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -181,7 +183,8 @@ void AnySavesMenu::render(Font& font) {
             case HUGO_INDEX: {
                 loadFile("tpgz/save_files/any/hugo.bin");
                 default_load();
-                camera = {465.674622f, 421.052704f, -11651.0684f, 735.525391f, 524.418701f, -11576.4746f, 1.36201766f, 280.0f};
+                camera.target = {465.674622f, 421.052704f, -11651.0684f};
+                camera.pos = {735.525391f, 524.418701f, -11576.4746f};
                 angle = 63622;
                 position = {701.797302f, 85.5212784f, -5299.6123f};
                 practice_file.inject_options_during_load = hugo;
@@ -210,7 +213,8 @@ void AnySavesMenu::render(Font& font) {
             case FRST_ESCAPE_INDEX: {
                 loadFile("tpgz/save_files/any/forest_escape.bin");
                 default_load();
-                camera = {-12433.2979f, -106.667023f, -17104.9512f, -12552.8252f, -53.5801048f, -16729.5313f, -5.31691198f, 280.0f};
+                camera.target = {-12433.2979f, -106.667023f, -17104.9512f};
+                camera.pos = {-12552.8252f, -53.5801048f, -16729.5313f};
                 angle = 29553;
                 position = {-12433.6016f, -235.969193f, -17103.998f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -228,7 +232,8 @@ void AnySavesMenu::render(Font& font) {
             case RUPEE_ROLL_INDEX: {
                 loadFile("tpgz/save_files/any/gorge_void.bin");
                 default_load();
-                camera = {-11124.4697f, -5589.99902f, 56373.5195f, -11178.1504f, -5506.71338f, 56843.1797f, 0.0f, 280.0f};
+                camera.target = {-11124.4697f, -5589.99902f, 56373.5195f};
+                camera.pos = {-11178.1504f, -5506.71338f, 56843.1797f};
                 angle = 31571;
                 position = {-11130.208f, -5700.0f, 56423.1953f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -238,7 +243,8 @@ void AnySavesMenu::render(Font& font) {
             case LANAYRU_GATE_CLIP_INDEX: {
                 loadFile("tpgz/save_files/any/lanayru_gate_clip.bin");
                 default_load();
-                camera = {-63064.2148f, -8969.97656f, 71661.0781f, -62655.8125f, -8900.91309f, 71903.6328f, -1.30928958f, 280.000092f};
+                camera.target = {-63064.2148f, -8969.97656f, 71661.0781f};
+                camera.pos = {-62655.8125f, -8900.91309f, 71903.6328f};
                 angle = 44248;
                 position = {-63026.2852f, -9065.92578f, 71680.3438f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -269,7 +275,8 @@ void AnySavesMenu::render(Font& font) {
             case ELDIN_TWILIGHT_INDEX: {
                 loadFile("tpgz/save_files/any/eldin_twilight.bin");
                 default_load();
-                camera = {482.515137f, -39.9999771f, 11558.5283f, 219.367218f, -20.1253014f, 11157.582f, -3.81633819f, 280.000092f};
+                camera.target = {482.515137f, -39.9999771f, 11558.5283f};
+                camera.pos = {219.367218f, -20.1253014f, 11157.582f};
                 angle = 6058;
                 position = {455.088379f, -150.0f, 11516.7227f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -300,7 +307,8 @@ void AnySavesMenu::render(Font& font) {
             case NORGOR_INDEX: {
                 loadFile("tpgz/save_files/any/norgor.bin");
                 default_load();
-                camera = {174.411758f, -70.5306549f, -3668.91406f, 501.768982f, -5.045784f, -3586.1145f, -1.88999606f, 280.0f};
+                camera.target = {174.411758f, -70.5306549f, -3668.91406f};
+                camera.pos = {501.768982f, -5.045784f, -3586.1145f};
                 angle = 46568;
                 position = {173.71f, -186.52f, -3633.71f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -310,7 +318,8 @@ void AnySavesMenu::render(Font& font) {
             case SPR_WARP_SKIP_INDEX: {
                 loadFile("tpgz/save_files/any/spr_warp.bin");
                 default_load();
-                camera = {-9294.2207f, 1180.0f, -11692.3945f, -9309.65137f, 1280.4469f, -12130.7695f, 1.13141331f, 450.0f};
+                camera.target = {-9294.2207f, 1180.0f, -11692.3945f};
+                camera.pos = {-9309.65137f, 1280.4469f, -12130.7695f};
                 angle = 346;
                 position = {-9294.87988f, 980.0f, -11712.3838f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -334,7 +343,8 @@ void AnySavesMenu::render(Font& font) {
             case LAKEBED_2_INDEX: {
                 loadFile("tpgz/save_files/any/lakebed_2.bin");
                 default_load();
-                camera = {-8.74227766f, 1337.22534f, 14499.0f, -87.9447556f, 1414.24292f, 14741.0518f, 0.0f, 221.340179f};
+                camera.target = {-8.74227766f, 1337.22534f, 14499.0f,};
+                camera.pos = {-87.9447556f, 1414.24292f, 14741.0518f};
                 angle = 32768;
                 position = {0.0f, 1240.29333f, 14500.0f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -344,7 +354,8 @@ void AnySavesMenu::render(Font& font) {
             case LAKEBED_BK_SKIP_INDEX: {
                 loadFile("tpgz/save_files/any/lakebed_bk_skip.bin");
                 default_load();
-                camera = {71.9835968f, 1660.0f, 2839.01587f, 71.9835968f, 1719.93542f, 2969.04565f, 0.0f, 0.5f};
+                camera.target = {71.9835968f, 1660.0f, 2839.01587f};
+                camera.pos = {71.9835968f, 1719.93542f, 2969.04565f};
                 angle = 32767;
                 position = {71.9835968f, 1500.00f, 2839.01587f};
                 practice_file.inject_options_during_load = lakebed_bk_skip_during;
@@ -381,7 +392,8 @@ void AnySavesMenu::render(Font& font) {
             case POE_1_SKIP_INDEX: {
                 loadFile("tpgz/save_files/any/poe_1_skip.bin");
                 default_load();
-                camera = {-2047.97168f, 130.16568f, -587.317139f, -1779.00293f, 213.707397f, -584.686768f, 0.0f, 280.0f};
+                camera.target = {-2047.97168f, 130.16568f, -587.317139f};
+                camera.pos = {-1779.00293f, 213.707397f, -584.686768f};
                 angle = 49030;
                 position = {-2046.97168f, 0.0f, -587.304871f};
                 practice_file.inject_options_after_load = set_camera_angle_position;
@@ -407,7 +419,8 @@ void AnySavesMenu::render(Font& font) {
             case CITS_1_INDEX: {
                 loadFile("tpgz/save_files/any/cits_1.bin");
                 default_load();
-                camera = {1313.54285f, -234.203003f, 5545.16846f, 1027.53259f, -108.096123f, 5605.23047f, 0.0f, 318.295868f};
+                camera.target = {1313.54285f, -234.203003f, 5545.16846f};
+                camera.pos = {1027.53259f, -108.096123f, 5605.23047f};
                 angle = 16384;
                 position = {1309.60645f, -240.0f, 5533.43848f};
                 practice_file.inject_options_after_load = set_camera_angle_position;

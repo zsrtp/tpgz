@@ -1,7 +1,7 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
-#define CHEAT_AMNT 12
+#define CHEAT_AMNT 14
 
 namespace Cheats {
     enum CheatId {
@@ -17,6 +17,8 @@ namespace Cheats {
         MoonJump,
         DoorStorage,
         SuperClawshot,
+		UnrestrictedItems,
+		TransformAnywhere,
         SuperSpinner
     };
 

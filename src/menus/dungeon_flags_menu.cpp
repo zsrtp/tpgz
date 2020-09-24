@@ -110,45 +110,45 @@ void DungeonFlagsMenu::render(Font& font) {
     }
 
     // update flags
-    map_flag = (dungeon_node->flags_29 & (1 << 0));
-    compass_flag = (dungeon_node->flags_29 & (1 << 1));
-    boss_key_flag = (dungeon_node->flags_29 & (1 << 2));
-    small_keys_flag = dungeon_node->flags_28;
-    miniboss_flag = (dungeon_node->flags_29 & (1 << 7));
-    boss_flag = (dungeon_node->flags_29 & (1 << 3));
+    map_flag = (dungeon_node->flags[29] & (1 << 0));
+    compass_flag = (dungeon_node->flags[29] & (1 << 1));
+    boss_key_flag = (dungeon_node->flags[29] & (1 << 2));
+    small_keys_flag = dungeon_node->flags[28];
+    miniboss_flag = (dungeon_node->flags[29] & (1 << 7));
+    boss_flag = (dungeon_node->flags[29] & (1 << 3));
 
     if (current_input == 256 && a_held == false) {
         switch (cursor.y) {
             case MAP_FLAG_INDEX: {
-                dungeon_node->flags_29 ^= 1UL << 0;
+                dungeon_node->flags[29] ^= 1UL << 0;
                 break;
             }
             case COMPASS_FLAG_INDEX: {
-                dungeon_node->flags_29 ^= 1UL << 1;
+                dungeon_node->flags[29] ^= 1UL << 1;
                 break;
             }
             case BOSS_KEY_FLAG_INDEX: {
-                dungeon_node->flags_29 ^= 1UL << 2;
+                dungeon_node->flags[29] ^= 1UL << 2;
                 break;
             }
             case SMALL_KEY_FLAG_INDEX: {
                 if (small_keys_flag) {
-                    dungeon_node->flags_28 = 0x00;
+                    dungeon_node->flags[28] = 0x00;
                 } else {
-                    dungeon_node->flags_28 = 0x05;
+                    dungeon_node->flags[28] = 0x05;
                 }
                 break;
             }
             case DEFEAT_MINIBOSS_FLAG_INDEX: {
-                dungeon_node->flags_29 ^= 1UL << 7;
+                dungeon_node->flags[29] ^= 1UL << 7;
                 break;
             }
             case DEFEAT_BOSS_FLAG_INDEX: {
-                dungeon_node->flags_29 ^= 1UL << 3;
+                dungeon_node->flags[29] ^= 1UL << 3;
                 break;
             }
             case CLEAR_DUNGEON_FLAGS_INDEX: {
-                dungeon_node->flags_0 = 0;  // is there a better way to do this
+                /*dungeon_node->flags_0 = 0;  // is there a better way to do this
                 dungeon_node->flags_1 = 0;
                 dungeon_node->flags_2 = 0;
                 dungeon_node->flags_3 = 0;
@@ -179,13 +179,13 @@ void DungeonFlagsMenu::render(Font& font) {
                 dungeon_node->flags_28 = 0;
                 dungeon_node->flags_29 = 0;
                 dungeon_node->flags_30 = 0;
-                dungeon_node->flags_31 = 0;
+                dungeon_node->flags_31 = 0;*/
                 break;
             }
         }
     }
-    tp_gameInfo.temp_flags.temp_flag_bit_field_34 = dungeon_node->flags_29;  // need to add condition here to only update temp flags if in a dungeon
-    tp_gameInfo.temp_flags.temp_flag_bit_field_33 = dungeon_node->flags_28;
+    tp_gameInfo.temp_flags.flags[29] = dungeon_node->flags[29];  // need to add condition here to only update temp flags if in a dungeon
+    tp_gameInfo.temp_flags.flags[28] = dungeon_node->flags[28];
 
     sprintf(lines[SELECT_DUNGEON_INDEX].line, "dungeon: <%s>", dungeon_options[select_dungeon_index].member);
 

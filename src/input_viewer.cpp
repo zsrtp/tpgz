@@ -10,15 +10,6 @@
 #include "menu.h"
 #include "gcn_c/include/gfx.h"
 
-// TODO Transfert these into libtp_c as the floating point version of the one already in libtp_c.
-#define tp_mPadATriggers (*(Triggers*)(0x80434430))
-#define tp_mPadAStick (*(Vec2*)(0x804344E0))
-#define tp_mPadACStick (*(Vec2*)(0x80434520))
-struct Triggers {
-    float l, r;
-};
-
-
 bool iv_visible;
 GXTexObj _ivTexObj;
 const char _iv_text_data[1] __attribute__ ((aligned (32))) = {0xff};

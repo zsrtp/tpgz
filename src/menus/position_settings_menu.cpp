@@ -3,6 +3,7 @@
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
+#include "fifo_queue.h"
 #include <cstdio>
 
 #define LINES SPRITES_AMNT
@@ -29,7 +30,8 @@ Line lines[LINES] = {
     {"link debug info", SpritesIndex::DEBUG_INFO_INDEX, "Change link debug info position", false},
     {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
     {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
-    {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false}};
+    {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
+    {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
 
 void PosSettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {

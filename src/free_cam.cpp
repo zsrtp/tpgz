@@ -42,7 +42,7 @@ namespace FreeCam {
             double dx = tp_mPadSticks.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadSticks.control_x * tp_sin(yaw);
             double dz = tp_mPadSticks.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadSticks.control_x * tp_cos(yaw);
 
-			auto speed = (tp_mPadButton.buttons & Controller::Pad::Z) != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
+            auto speed = (tp_mPadButton.buttons & Controller::Pad::Z) != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
             // Apply the translation with a speed factor
             cam_pos.x += speed * dx;
             cam_pos.y += speed * dy;
@@ -65,4 +65,4 @@ namespace FreeCam {
             }
         }
     }
-} // namespace FreeCam
+}  // namespace FreeCam

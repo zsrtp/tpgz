@@ -277,13 +277,13 @@ void set_equipment() {
 
 void PauseMenu::render(Font& font) {
 	// update hidden skill flags
-    ending_blow = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 10));
-    shield_bash = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 11));
-    backslice = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 9));
-    helm_splitter = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 8));
-    mortal_draw = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 7));
-    jump_strike = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 6));
-    great_spin = (tp_gameInfo.event_flags.hidden_skills_flags & (1 << 5));
+    ending_blow = (tp_gameInfo.event_flags.flags[0x29] & (1 << 2));
+    shield_bash = (tp_gameInfo.event_flags.flags[0x29] & (1 << 3));
+    backslice = (tp_gameInfo.event_flags.flags[0x29] & (1 << 1));
+    helm_splitter = (tp_gameInfo.event_flags.flags[0x29] & (1 << 0));
+    mortal_draw = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 7));
+    jump_strike = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 6));
+    great_spin = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 5));
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -445,31 +445,31 @@ void PauseMenu::render(Font& font) {
 	if (current_input == 256 && a_held == false) {
 		switch (cursor.y) {
             case ENDING_BLOW_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 10;
+                tp_gameInfo.event_flags.flags[0x29] ^= 1 << 2;
                 break;
 			}
             case SHIELD_BASH_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 11;
+                tp_gameInfo.event_flags.flags[0x29] ^= 1 << 3;
                 break;
             }
             case BACKSLICE_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 9;
+                tp_gameInfo.event_flags.flags[0x29] ^= 1 << 1;
                 break;
             }
             case HELM_SPLITTER_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 8;
+                tp_gameInfo.event_flags.flags[0x29] ^= 1 << 0;
                 break;
             }
             case MORTAL_DRAW_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 7;
+                tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 7;
                 break;
             }
             case JUMP_STRIKE_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 6;
+                tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 6;
                 break;
             }
             case GREAT_SPIN_INDEX: {
-                tp_gameInfo.event_flags.hidden_skills_flags ^= 1 << 5;
+                tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 5;
                 break;
             }
 		}
@@ -477,9 +477,9 @@ void PauseMenu::render(Font& font) {
 
     set_equipment();
 
-    tp_osReport("0x%08X",&tp_gameInfo.event_flags.hidden_skills_flags);
-    tp_osReport("%d",tp_gameInfo.event_flags.hidden_skills_flags);
-    tp_osReport("ok 0x%08X",&tp_gameInfo.event_flags.dominion_rod_state);
+    tp_osReport("0x%08X",&tp_gameInfo.event_flags.flags[0x29]);
+    tp_osReport("%d",tp_gameInfo.event_flags.flags[0x29]);
+    //tp_osReport("ok 0x%08X",&tp_gameInfo.event_flags.dominion_rod_state);
 
     sprintf(lines[ORDON_SWORD_INDEX].line, "ordon sword:       <%s>", ordon_sword_options[ordon_sword_index].member);
     sprintf(lines[MASTER_SWORD_INDEX].line, "master sword:      <%s>", master_sword_options[master_sword_index].member);
