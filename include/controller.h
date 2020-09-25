@@ -21,7 +21,7 @@ namespace Controller {
         START = 11,
     };
     bool button_is_pressed(int idx);
-    bool button_is_pressed_time(int idx, uint16_t repeat_time);
+    bool button_is_pressed(int idx, uint16_t repeat_time);
     bool button_is_down(int idx);
     bool button_is_held(int idx);
     uint16_t get_current_inputs();

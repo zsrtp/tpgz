@@ -9,6 +9,7 @@
 #include "menu.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
+#include "utils/draw.h"
 #include "timer.h"
 #include "free_cam.h"
 #include "movelink.h"
@@ -21,7 +22,7 @@ extern "C" {
 
 void init() {
     default_font = Font(f_Consolas, consolas_bytes);
-    InputViewer::init();
+    Draw::init();
     Hook::apply_hooks();
 }
 

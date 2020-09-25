@@ -20,8 +20,6 @@ namespace Commands {
     static uint16_t saved_angle = 0;
     static Vec3 saved_pos = {0.0f, 0.0f, 0.0f};
     static Vec3 saved_target = {0.0f, 0.0f, 0.0f};
-    static uint16_t saved_c6 = 0;
-    static float saved_c7 = 0.0f;
     static int button_last_frame;
     static int button_this_frame;
 
@@ -32,8 +30,6 @@ namespace Commands {
         saved_angle = tp_zelAudio.link_debug_ptr->facing;
         saved_pos = tp_matrixInfo.matrix_info->pos;
         saved_target = tp_matrixInfo.matrix_info->target;
-        saved_c6 = tp_matrixInfo.matrix_info->camera6;
-        saved_c7 = tp_matrixInfo.matrix_info->camera7;
     }
 
     void load_position() {
@@ -43,8 +39,6 @@ namespace Commands {
         tp_zelAudio.link_debug_ptr->facing = saved_angle;
         tp_matrixInfo.matrix_info->pos = saved_pos;
         tp_matrixInfo.matrix_info->target = saved_target;
-        tp_matrixInfo.matrix_info->camera6 = saved_c6;
-        tp_matrixInfo.matrix_info->camera7 = saved_c7;
     }
 
     void moon_jump() {

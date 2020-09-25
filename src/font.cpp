@@ -30,13 +30,13 @@ PositionedGlyph DecodedGlyph::position(float _x, float _y) {
 }
 
 Font::Font(const _Font& _font) {
-    memset(&_texobj, 0x0, sizeof(GXTexObj));
+    tp_memset(&_texobj, 0x0, sizeof(GXTexObj));
     GX_InitTexObj(&_texobj, _font._start, _font.width, _font.height, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     font = &_font;
 }
 
 Font::Font(const _Font& _font, const char* data) {
-    memset(&_texobj, 0x0, sizeof(GXTexObj));
+    tp_memset(&_texobj, 0x0, sizeof(GXTexObj));
     GX_InitTexObj(&_texobj, (void*)data, _font.width, _font.height, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
     font = &_font;
 }

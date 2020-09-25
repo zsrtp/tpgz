@@ -56,16 +56,16 @@ void PosSettingsMenu::render(Font& font) {
     }
 
     if (selected_item != NO_SELECTION && selected_item < SPRITES_AMNT) {
-        if (button_is_pressed_time(Controller::DPAD_RIGHT, 3)) {
+        if (button_is_pressed(Controller::DPAD_RIGHT, 3)) {
             sprite_offsets[selected_item].x += speed;
         }
-        if (button_is_pressed_time(Controller::DPAD_LEFT, 3)) {
+        if (button_is_pressed(Controller::DPAD_LEFT, 3)) {
             sprite_offsets[selected_item].x -= speed;
         }
-        if (button_is_pressed_time(Controller::DPAD_UP, 3)) {
+        if (button_is_pressed(Controller::DPAD_UP, 3)) {
             sprite_offsets[selected_item].y -= speed;
         }
-        if (button_is_pressed_time(Controller::DPAD_DOWN, 3)) {
+        if (button_is_pressed(Controller::DPAD_DOWN, 3)) {
             sprite_offsets[selected_item].y += speed;
         }
     }

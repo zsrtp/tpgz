@@ -1,5 +1,6 @@
 #include "utils/link.hpp"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "menu.h"
 #include <stdio.h>
 
@@ -38,12 +39,12 @@ namespace Utilities {
     }
     void change_tunic_color() {
         // patch out part of setWaterDropEffect's code
-        memset((void *)0x801244a4, 0x60, 1);
-        memset((void *)0x801244a5, 0x00, 3);
-        memset((void *)0x801244a8, 0x60, 1);
-        memset((void *)0x801244a9, 0x00, 3);
-        memset((void *)0x801244ac, 0x60, 1);
-        memset((void *)0x801244ad, 0x00, 3);
+        tp_memset((void *)0x801244a4, 0x60, 1);
+        tp_memset((void *)0x801244a5, 0x00, 3);
+        tp_memset((void *)0x801244a8, 0x60, 1);
+        tp_memset((void *)0x801244a9, 0x00, 3);
+        tp_memset((void *)0x801244ac, 0x60, 1);
+        tp_memset((void *)0x801244ad, 0x00, 3);
 
         if (tp_gameInfo.link_tunic_ptr) {
             switch (g_tunic_color) {
@@ -130,15 +131,15 @@ namespace Utilities {
 
 // temp -
 // patch setWaterDropEffect back to it's original code
-// memset((void *)0x801244a4, 0xB0, 1);
-// memset((void *)0x801244a5, 0x03, 1);
-// memset((void *)0x801244a6, 0x32, 1);
-// memset((void *)0x801244a7, 0xA0, 1);
-// memset((void *)0x801244a8, 0xB0, 1);
-// memset((void *)0x801244a9, 0x03, 1);
-// memset((void *)0x801244aa, 0x32, 1);
-// memset((void *)0x801244ab, 0xA2, 1);
-// memset((void *)0x801244ac, 0xB0, 1);
-// memset((void *)0x801244ad, 0x03, 1);
-// memset((void *)0x801244ae, 0x32, 1);
-// memset((void *)0x801244af, 0xA4, 1);
+// tp_memset((void *)0x801244a4, 0xB0, 1);
+// tp_memset((void *)0x801244a5, 0x03, 1);
+// tp_memset((void *)0x801244a6, 0x32, 1);
+// tp_memset((void *)0x801244a7, 0xA0, 1);
+// tp_memset((void *)0x801244a8, 0xB0, 1);
+// tp_memset((void *)0x801244a9, 0x03, 1);
+// tp_memset((void *)0x801244aa, 0x32, 1);
+// tp_memset((void *)0x801244ab, 0xA2, 1);
+// tp_memset((void *)0x801244ac, 0xB0, 1);
+// tp_memset((void *)0x801244ad, 0x03, 1);
+// tp_memset((void *)0x801244ae, 0x32, 1);
+// tp_memset((void *)0x801244af, 0xA4, 1);

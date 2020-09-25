@@ -4,14 +4,9 @@
 #include "libtp_c/include/controller.h"
 #include "menu.h"
 
-#define M_PI ((double)3.141592653589793238462643383279502884e+00)
-
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
 #define FREECAM_SPEED (0.2)
-
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 bool free_cam_active;
 
