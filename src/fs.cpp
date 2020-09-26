@@ -2,6 +2,7 @@
 #include "save_injector.h"
 #include "log.h"
 #include "font.h"
+#include "libtp_c/include/system.h"
 
 typedef struct {
     uint8_t quest_log[0xABC];
@@ -36,5 +37,23 @@ void loadFile(const char* filePath, FileReadCallback callback, int bytes) {
         } else {
             callback(nullptr,bytesRead);
         }
+    }
+}
+
+bool loadFile(const char* filePath, void* buffer, int length, int offset) {
+    DVDFile fileInfo;
+    if (DVDOpen(filePath, &fileInfo)) {
+        int bytesRead = DVDReadPrio(&fileInfo, buffer, length, offset, 2);
+        if (bytesRead > 0) {
+            DVDClose(&fileInfo);
+            tp_osReport("read bytes: %d", bytesRead);
+            return true;
+        } else {
+            tp_osReport("no bytes read!");
+            return false;
+        }
+    } else {
+        tp_osReport("failed to open file %s",filePath);
+        return false;
     }
 }
