@@ -4,7 +4,7 @@ int cursor_rgba;
 
 namespace Utilities {
     void render_lines(Font &font, Line input_lines[], int cursor, int LINES, float menu_toggle_switch_x_offset) {
-        float x_offset = 25.0f + sprite_offsets[MENU_INDEX].x;
+        float x_offset = sprite_offsets[MENU_INDEX].x;
         float y_offset = 0.0f;
 		font.gz_renderChars("tpgz v0.1a", x_offset, 25.0f, cursor_rgba, g_drop_shadows);
 
@@ -22,12 +22,12 @@ namespace Utilities {
                 if (i < (cursor - 15)) {
                     continue;
                 } else {
-                    y_offset = ((60.0f + (sprite_offsets[MENU_INDEX].y)) + (i - (cursor - 15)) * 20.0f);
+                    y_offset = (sprite_offsets[MENU_INDEX].y + (i - (cursor - 15)) * 20.0f);
                 }
             }
             // normal line rendering offset
             else {
-                y_offset = ((60.0f + (sprite_offsets[MENU_INDEX].y)) + (i * 20.0f));
+                y_offset = (sprite_offsets[MENU_INDEX].y + (i * 20.0f));
             }
 
             //int cursor_color = 0x00CC00FF;

@@ -48,8 +48,8 @@ namespace Timer {
             sprintf(timer, "%d", timer_frame);
             sprintf(timerS, "%.2f", timer_seconds);
             previous_frame = current_frame;
-            font.renderChars(timer, 525.0f + (sprite_offsets[TIMER_SPR_INDEX].x), 420.0f + (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF);
-            font.renderChars(timerS, 525.0f + (sprite_offsets[TIMER_SPR_INDEX].x), 435.0f + (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF);
+            font.gz_renderChars(timer, (sprite_offsets[TIMER_SPR_INDEX].x), (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF, g_drop_shadows);
+            font.gz_renderChars(timerS, (sprite_offsets[TIMER_SPR_INDEX].x), 15.0f + (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF, g_drop_shadows);
 		}
             
 		if (ToolItems[Tools::LOAD_TIMER_INDEX].active) {
@@ -65,7 +65,7 @@ namespace Timer {
             }
             sprintf(load_timerS, "%.2f", load_timer_seconds);
             previous_frame = current_frame;
-            font.renderChars(load_timerS, 525.0f + (sprite_offsets[LOAD_TIMER_SPR_INDEX].x), 30.0f + (sprite_offsets[LOAD_TIMER_SPR_INDEX].y), 0XFFFFFFFF);
+            font.gz_renderChars(load_timerS, sprite_offsets[LOAD_TIMER_SPR_INDEX].x, sprite_offsets[LOAD_TIMER_SPR_INDEX].y, 0XFFFFFFFF, g_drop_shadows);
 		}
 
 		if (ToolItems[Tools::IGT_TIMER_INDEX].active) {
@@ -94,7 +94,7 @@ namespace Timer {
             }
             sprintf(igt_timer, "%02d:%02d:%05.2f", igt_timer_hours, igt_timer_minutes, igt_timer_seconds);
             previous_frame = current_frame;
-            font.renderChars(igt_timer, 35.0f + (sprite_offsets[IGT_TIMER_SPR_INDEX].x), 30.0f + (sprite_offsets[IGT_TIMER_SPR_INDEX].y), 0XFFFFFFFF);
+            font.gz_renderChars(igt_timer, sprite_offsets[IGT_TIMER_SPR_INDEX].x, sprite_offsets[IGT_TIMER_SPR_INDEX].y, 0XFFFFFFFF, g_drop_shadows);
 		}
         
 
