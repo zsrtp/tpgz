@@ -97,7 +97,7 @@ namespace InputViewer {
     }
 
     void render(Font& font) {
-        Vec2 pos = {220.f, 380.f};
+        Vec2 pos = {0.f, 0.f};
         pos.x += sprite_offsets[VIEWER_INDEX].x;
         pos.y += sprite_offsets[VIEWER_INDEX].y;
         float scale = 1.0f;

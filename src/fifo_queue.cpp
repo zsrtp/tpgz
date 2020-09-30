@@ -13,7 +13,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
         if (Queue.messages[i].ttl > 0){
             Queue.messages[i].ttl--;
         }
-        float offset = (440.0f - (float)i * 14.0f);
+        float offset = (-(float)i * 14.0f);
         int color = Queue.messages[i].RGBA;
         int alpha = 0xFF;
         if (Queue.messages[i].ttl < 30) {
@@ -22,7 +22,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
         }
         color |= alpha;
         if (fifo_visible) {
-            font.renderChars(Queue.messages[i].msg, 5.0f + (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
+            font.renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
         }
     }
 };

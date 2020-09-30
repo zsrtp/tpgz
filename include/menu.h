@@ -695,6 +695,7 @@ class PosSettingsMenu : public Menu {
    public:
     PosSettingsMenu() : Menu() {}
     static void render(Font& font);
+    static void initDefaults();
 };
 
 class ToolsMenu : public Menu {
@@ -727,12 +728,12 @@ MenuRenderFlag MenuRenderFlags[MAX_MENU_RENDER_FLAGS] = {
     {&cheats_visible, CheatsMenu::render},
     {&scene_menu_visible, SceneMenu::render},
     {&settings_visible, SettingsMenu::render},
-    {&pos_settings_visible, PosSettingsMenu::render},
     {&tools_visible, ToolsMenu::render},
     {&pause_visible, PauseMenu::render},
     {&amounts_visible, AmountsMenu::render},
     {&any_saves_visible, AnySavesMenu::render},
-    {&hundo_saves_visible, HundoSavesMenu::render}};
+    {&hundo_saves_visible, HundoSavesMenu::render},
+    {&pos_settings_visible, PosSettingsMenu::render}};
 
 namespace MenuRendering {
     void render_active_menus(Font& font) {

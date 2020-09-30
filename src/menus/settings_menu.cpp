@@ -30,7 +30,7 @@ Line lines[LINES] = {
     {"log level:", LOG_LEVEL_INDEX, "Changes log level for debugging", false, nullptr, MAX_LOG_LEVEL_OPTIONS},
     // {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     // {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
-    {"menu positions", POS_SETTINGS_MENU_INDEX, "Change menu object positions", false}};
+    {"menu positions", POS_SETTINGS_MENU_INDEX, "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
 // Log log;
 void SettingsMenu::render(Font& font) {

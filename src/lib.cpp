@@ -28,6 +28,7 @@ void apply_lib_hooks() {
 
 void init() {
     default_font = Font(f_Consolas, consolas_bytes);
+    PosSettingsMenu::initDefaults();
     Draw::init();
 }
 

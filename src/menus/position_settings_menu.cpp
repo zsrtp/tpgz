@@ -1,9 +1,11 @@
+#include "libtp_c/include/tp.h"
 #include "font.h"
 #include "menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include "fifo_queue.h"
+#include "utils/draw.h"
 #include <cstdio>
 
 #define LINES SPRITES_AMNT
@@ -33,18 +35,31 @@ Line lines[LINES] = {
     {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
     {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
 
+void draw_cursor(Vec2 pos) {
+    bool cycle = (TP::get_frame_count() / 8) % 2;
+    if (g_drop_shadows) {
+        Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x - 10 + 1, pos.y + 1}, {20, 0}, 0xA);
+        Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x + 1, pos.y - 10 + 1}, {0, 20}, 0xA);
+    }
+    Draw::draw_rect_outline(cycle ? cursor_rgba : 0xFFFFFFFF, {pos.x - 10, pos.y}, {20, 0}, 0xA);
+    Draw::draw_rect_outline(cycle ? cursor_rgba : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
+}
+
 void PosSettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        init_once = false;
-        pos_settings_visible = false;
-        settings_visible = true;
-        mm_visible = false;
-
-        selected_item = NO_SELECTION;
-        return;
+        if (selected_item != NO_SELECTION) {
+            selected_item = NO_SELECTION;
+        } else {
+            init_once = false;
+            pos_settings_visible = false;
+            settings_visible = true;
+            mm_visible = false;
+            return;
+        }
     };
 
     if (!init_once) {
+        selected_item = NO_SELECTION;
         current_input = 0;
         init_once = true;
     }
@@ -68,6 +83,8 @@ void PosSettingsMenu::render(Font& font) {
         if (button_is_pressed(Controller::DPAD_DOWN, 3)) {
             sprite_offsets[selected_item].y += speed;
         }
+        // Draw visual cursor
+        draw_cursor(sprite_offsets[selected_item]);
     }
 
     if (button_is_down(Controller::DPAD_RIGHT) ||
@@ -87,4 +104,14 @@ void PosSettingsMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES, 1, selected_item != NO_SELECTION, selected_item != NO_SELECTION);
     Utilities::render_lines(font, lines, cursor.y, LINES);
-};
+}
+
+void PosSettingsMenu::initDefaults() {
+    sprite_offsets[VIEWER_INDEX] = {220.f, 380.f};
+    sprite_offsets[MENU_INDEX] = {25.f, 60.f};
+    sprite_offsets[DEBUG_INFO_INDEX] = {450.0f, 200.f};
+    sprite_offsets[TIMER_SPR_INDEX] = {525.0f, 420.f};
+    sprite_offsets[LOAD_TIMER_SPR_INDEX] = {525.0f, 30.f};
+    sprite_offsets[IGT_TIMER_SPR_INDEX] = {35.0f, 30.f};
+    sprite_offsets[FIFO_SPR_INDEX] = {5.0f, 440.f};
+}
