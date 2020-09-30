@@ -23,7 +23,6 @@ void loadFile(const char* filePath, void* buffer, signed long length, signed lon
         int bytesRead = DVDReadPrio(&fileInfo, buffer, length, offset, 2);
         if (bytesRead > 0) {
             DVDClose(&fileInfo);
-            tp_osReport("read bytes: %d", bytesRead);
         } else {
             tp_osReport("no bytes read!");
         }
