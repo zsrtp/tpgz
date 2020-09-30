@@ -4,6 +4,7 @@
 #include "save_injector.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
+#include "libtp_c/include/tp.h"
 
 #define LINES 2
 

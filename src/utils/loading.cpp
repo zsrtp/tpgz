@@ -9,7 +9,7 @@ int apply_after_counter = 0;
 
 namespace Utilities {
     static Log log;
-        void trigger_load() {
+    void trigger_load() {
         if (tp_fopScnRq.isLoading == 0 && !loading_initiated) {
             log.PrintLog("Initiating warp", INFO);
             if (practice_file.inject_options_before_load) {
@@ -41,4 +41,4 @@ namespace Utilities {
             }
         }
     }
-}
+}  // namespace Utilities

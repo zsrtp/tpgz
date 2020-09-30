@@ -23,6 +23,5 @@ namespace SaveInjector {
     void inject_default_before();
     void inject_default_during();
     void inject_default_after();
-    void no_op();
 
 }  // namespace SaveInjector

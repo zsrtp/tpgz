@@ -26,8 +26,6 @@ namespace SaveInjector {
         tp_gameInfo.warp.entrance.void_flag = 0;
     }
 
-    void no_op() { }
-
     void inject_default_during() {
 
         int spawn = practice_file.qlog_bytes[SPAWN_INDEX];
