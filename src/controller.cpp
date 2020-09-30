@@ -40,7 +40,7 @@ static ButtonState buttonStates[BUTTON_STATES] = {
     {Controller::Pad::Y, 0xFFFFFFFF, false},
     {Controller::Pad::START, 0xFFFFFFFF, false}};
 
-extern "C" uint32_t read_controller() {
+extern "C" void read_controller() {
     sButtons_down_last_frame = sButtons_down;
     sButtons_down = tp_mPadStatus.sval;
     sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
@@ -85,7 +85,6 @@ extern "C" uint32_t read_controller() {
         sNum_frames_cursor_buffer = 0;
         Commands::process_inputs();
     }
-    return 0x80000000;
 }
 
 namespace Controller {

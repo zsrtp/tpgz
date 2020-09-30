@@ -14,7 +14,7 @@ map = "build/GZ2E01.map"
 iso = "build/tpgz.iso"
 
 [link]
-entries = ["game_loop", "read_controller", "draw", "init"]
+entries = ["apply_lib_hooks"]
 base = "0x8046_0000"
 libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 
