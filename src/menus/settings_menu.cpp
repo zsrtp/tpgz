@@ -6,10 +6,9 @@
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include <stdio.h>
-#include "log.h"
-#define LINES 5
+
+#define LINES 4
 #define MAX_RELOAD_OPTIONS 2
-#define MAX_LOG_LEVEL_OPTIONS 3
 #define MAX_CURSOR_COLOR_OPTIONS 6
 
 static Cursor cursor = {0, 0};
@@ -17,7 +16,6 @@ bool g_drop_shadows = true;
 bool init_once = false;
 bool settings_visible;
 static uint8_t reload_behavior_index = 0;
-static uint8_t log_level_index = 0;
 static uint8_t cursor_color_index = 0;
 int g_area_reload_behavior;
 int g_cursor_color;
@@ -27,12 +25,10 @@ Line lines[LINES] = {
     {"", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
     {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr, MAX_CURSOR_COLOR_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
-    {"log level:", LOG_LEVEL_INDEX, "Changes log level for debugging", false, nullptr, MAX_LOG_LEVEL_OPTIONS},
     // {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     // {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX, "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
-// Log log;
 void SettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -77,10 +73,8 @@ void SettingsMenu::render(Font& font) {
                 //             if (card.card_result == Ready) {
                 //                 card.card_result = CARDWrite(&card.card_info, &save_layout, 0, 0);
                 //                 if (card.card_result == Ready) {
-                //                     // log.PrintLog("saved card!", DEBUG);
                 //                     tp_osReport("saved card!");
                 //                 } else {
-                //                     // log.PrintLog("failed to save!", DEBUG);
                 //                     tp_osReport("failed to save");
                 //                 }
                 //                 card.card_result = CARDClose(&card.card_info);
@@ -104,18 +98,13 @@ void SettingsMenu::render(Font& font) {
         "load area",
         "load file"};
 
-    ListMember log_level_options[MAX_LOG_LEVEL_OPTIONS] = {
-        "none",
-        "info",
-        "debug"};
-
-	ListMember cursor_color_options[MAX_CURSOR_COLOR_OPTIONS] = {
+    ListMember cursor_color_options[MAX_CURSOR_COLOR_OPTIONS] = {
         "green",
         "blue",
         "red",
-	    "orange",
-	    "yellow",
-	    "purple"};
+        "orange",
+        "yellow",
+        "purple"};
 
     // handle list rendering
     switch (cursor.y) {
@@ -128,15 +117,7 @@ void SettingsMenu::render(Font& font) {
             g_area_reload_behavior = reload_behavior_index;
             break;
         }
-        case LOG_LEVEL_INDEX: {
-            cursor.x = log_level_index;
-            Utilities::move_cursor(cursor, LINES, MAX_LOG_LEVEL_OPTIONS);
-            if (cursor.y == LOG_LEVEL_INDEX) {
-                log_level_index = cursor.x;
-            }
-            g_log_level = log_level_index;
-            break;
-        }
+
         case CURSOR_COLOR_INDEX: {
             cursor.x = cursor_color_index;
             Utilities::move_cursor(cursor, LINES, MAX_CURSOR_COLOR_OPTIONS);
@@ -153,7 +134,6 @@ void SettingsMenu::render(Font& font) {
     }
     sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].line, "area reload behavior: <%s>", reload_options[reload_behavior_index].member);
     sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color:         <%s>", cursor_color_options[cursor_color_index].member);
-    sprintf(lines[LOG_LEVEL_INDEX].line, "log level:            <%s>", log_level_options[log_level_index].member);
 
     Utilities::render_lines(font, lines, cursor.y, LINES, 210.0f);
 };

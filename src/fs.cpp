@@ -1,6 +1,5 @@
 #include "fs.h"
 #include "save_injector.h"
-#include "log.h"
 #include "font.h"
 #include "libtp_c/include/system.h"
 #include "gcn_c/include/dvd.h"

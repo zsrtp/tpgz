@@ -1,7 +1,7 @@
 #include "save_injector.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "log.h"
+
 #include "menu.h"
 #include <string.h>
 #include "fs.h"

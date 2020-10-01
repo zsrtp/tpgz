@@ -10,7 +10,7 @@
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
-#include "log.h"
+
 #include "fs.h"
 #define LINES 48
 

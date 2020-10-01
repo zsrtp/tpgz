@@ -5,7 +5,7 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "rollcheck.h"
-#include "log.h"
+
 #include <stdio.h>
 #define ROLL_FRAMES 19
 
@@ -19,7 +19,6 @@ namespace RollIndicator {
     static bool start_counter = false;
     static bool missed_pressed_a = false;
     uint16_t action_id = 0x0000;
-    Log log;
 
     void run() {
         // if normal human link gameplay
@@ -46,13 +45,9 @@ namespace RollIndicator {
             }
 
             sprintf(buf, "counter: %d", counter_difference);
-            log.PrintLog(buf, DEBUG);
             sprintf(buf, "missed: %d", missed_counter);
-            log.PrintLog(buf, DEBUG);
             sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
-            log.PrintLog(buf, DEBUG);
             sprintf(buf, "action: %d", action_id);
-            log.PrintLog(buf, DEBUG);
 
             if (action_id == 14) {
                 if (counter_difference > 20) {
