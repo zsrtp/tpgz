@@ -8,3 +8,4 @@ build/
 !.vscode/c_cpp_properties.json
 external/fonts/target
 external/fonts/build
+Updater.log
