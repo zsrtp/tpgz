@@ -8,7 +8,7 @@
 #define STAGE_INDEX 88
 
 struct PracticeFile {
-    uint8_t qlog_bytes[2700] __attribute__ ((aligned (32)));
+    uint8_t qlog_bytes[2392] __attribute__ ((aligned (32)));
     void (*inject_options_before_load)();
     void (*inject_options_during_load)();
     void (*inject_options_after_load)();

@@ -9,7 +9,7 @@ void loadFile(const char* filePath) {
     Log log;
     DVDFileInfo fileInfo;
     if (DVDOpen(filePath, &fileInfo)) {
-        int bytesRead = DVDReadPrio(&fileInfo, &practice_file.qlog_bytes, 2720, 0, 2);
+        int bytesRead = DVDReadPrio(&fileInfo, &practice_file.qlog_bytes, 2400, 0, 2);
         if (bytesRead > 0) {
             DVDClose(&fileInfo);
             log.PrintLog("bytes read - %d", bytesRead, DEBUG);
