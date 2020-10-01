@@ -6,10 +6,11 @@
 #include "fifo_queue.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
+#include "utils/loading.hpp"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
-#include "log.h"
+
 #include "fs.h"
 #define LINES 48
 
@@ -152,7 +153,7 @@ void AnySavesMenu::render(Font& font) {
     if (current_input == 256 && a_held == false) {
         switch (cursor.y) {
             case ORDON_GATE_CLIP_INDEX: {
-                loadFile("tpgz/save_files/any/ordon_gate_clip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
                 default_load();
                 camera.target = {827.497559f, 329.622986f, -4532.90723f};
                 camera.pos = {833.467468f, 477.604675f, -4241.97266f};
@@ -163,7 +164,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case BACK_IN_TIME_INDEX: {
-                loadFile("tpgz/save_files/any/ordon_gate_clip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
                 default_load();
                 camera.target = {465.674622f, 421.052704f, -11651.0684f};
                 camera.pos = {735.525391f, 524.418701f, -11576.4746f};
@@ -174,12 +175,12 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case GOATS_INDEX: {
-                loadFile("tpgz/save_files/any/goats.bin");
+                Utilities::load_save_file("tpgz/save_files/any/goats.bin");
                 default_load();
                 break;
             }
             case HUGO_INDEX: {
-                loadFile("tpgz/save_files/any/hugo.bin");
+                Utilities::load_save_file("tpgz/save_files/any/hugo.bin");
                 default_load();
                 camera.target = {465.674622f, 421.052704f, -11651.0684f};
                 camera.pos = {735.525391f, 524.418701f, -11576.4746f};
@@ -190,12 +191,12 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case EMS_INDEX: {
-                loadFile("tpgz/save_files/any/ems.bin");
+                Utilities::load_save_file("tpgz/save_files/any/ems.bin");
                 default_load();
                 break;
             }
             case MIST_INDEX: {
-                loadFile("tpgz/save_files/any/purple_mist.bin");
+                Utilities::load_save_file("tpgz/save_files/any/purple_mist.bin");
                 default_load();
                 angle = 40758;
                 position = {-23524.6152f, 250.0f, -16220.166f};
@@ -204,12 +205,12 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case FRST_BIT_INDEX: {
-                loadFile("tpgz/save_files/any/forest_bit.bin");
+                Utilities::load_save_file("tpgz/save_files/any/forest_bit.bin");
                 default_load();
                 break;
             }
             case FRST_ESCAPE_INDEX: {
-                loadFile("tpgz/save_files/any/forest_escape.bin");
+                Utilities::load_save_file("tpgz/save_files/any/forest_escape.bin");
                 default_load();
                 camera.target = {-12433.2979f, -106.667023f, -17104.9512f};
                 camera.pos = {-12552.8252f, -53.5801048f, -16729.5313f};
@@ -220,7 +221,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case GORGE_VOID_INDEX: {
-                loadFile("tpgz/save_files/any/gorge_void.bin");
+                Utilities::load_save_file("tpgz/save_files/any/gorge_void.bin");
                 default_load();
                 angle = 54288;
                 position = {-9704.47266f, -7200.0f, 58475.5195f};
@@ -228,7 +229,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case RUPEE_ROLL_INDEX: {
-                loadFile("tpgz/save_files/any/gorge_void.bin");
+                Utilities::load_save_file("tpgz/save_files/any/gorge_void.bin");
                 default_load();
                 camera.target = {-11124.4697f, -5589.99902f, 56373.5195f};
                 camera.pos = {-11178.1504f, -5506.71338f, 56843.1797f};
@@ -239,7 +240,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case LANAYRU_GATE_CLIP_INDEX: {
-                loadFile("tpgz/save_files/any/lanayru_gate_clip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/lanayru_gate_clip.bin");
                 default_load();
                 camera.target = {-63064.2148f, -8969.97656f, 71661.0781f};
                 camera.pos = {-62655.8125f, -8900.91309f, 71903.6328f};
@@ -250,28 +251,28 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case PILLAR_CLIP_INDEX: {
-                loadFile("tpgz/save_files/any/pillar_clip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/pillar_clip.bin");
                 default_load();
                 break;
             }
             case LAKEBED_1_INDEX: {
-                loadFile("tpgz/save_files/any/lakebed_1.bin");
+                Utilities::load_save_file("tpgz/save_files/any/lakebed_1.bin");
                 default_load();
                 break;
             }
             case TOAD_INDEX: {
-                loadFile("tpgz/save_files/any/deku_toad.bin");
+                Utilities::load_save_file("tpgz/save_files/any/deku_toad.bin");
                 default_load();
                 break;
             }
             case KARG_INDEX: {
-                loadFile("tpgz/save_files/any/karg.bin");
+                Utilities::load_save_file("tpgz/save_files/any/karg.bin");
                 default_load();
                 practice_file.inject_options_during_load = karg_oob;
                 break;
             }
             case ELDIN_TWILIGHT_INDEX: {
-                loadFile("tpgz/save_files/any/eldin_twilight.bin");
+                Utilities::load_save_file("tpgz/save_files/any/eldin_twilight.bin");
                 default_load();
                 camera.target = {482.515137f, -39.9999771f, 11558.5283f};
                 camera.pos = {219.367218f, -20.1253014f, 11157.582f};
@@ -282,12 +283,12 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case LANAYRU_TWILIGHT_INDEX: {
-                loadFile("tpgz/save_files/any/lanayru_twilight.bin");
+                Utilities::load_save_file("tpgz/save_files/any/lanayru_twilight.bin");
                 default_load();
                 break;
             }
             case BOSS_BUG_INDEX: {
-                loadFile("tpgz/save_files/any/boss_bug.bin");
+                Utilities::load_save_file("tpgz/save_files/any/boss_bug.bin");
                 default_load();
                 angle = 21504;
                 position = {-89100.00f, -18811.2363f, 39410.00f};
@@ -295,7 +296,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case IZA_INDEX: {
-                loadFile("tpgz/save_files/any/iza.bin");
+                Utilities::load_save_file("tpgz/save_files/any/iza.bin");
                 default_load();
                 angle = 10114;
                 position = {5979.97217f, 150.0f, -2748.34155f};
@@ -303,7 +304,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case NORGOR_INDEX: {
-                loadFile("tpgz/save_files/any/norgor.bin");
+                Utilities::load_save_file("tpgz/save_files/any/norgor.bin");
                 default_load();
                 camera.target = {174.411758f, -70.5306549f, -3668.91406f};
                 camera.pos = {501.768982f, -5.045784f, -3586.1145f};
@@ -314,7 +315,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case SPR_WARP_SKIP_INDEX: {
-                loadFile("tpgz/save_files/any/spr_warp.bin");
+                Utilities::load_save_file("tpgz/save_files/any/spr_warp.bin");
                 default_load();
                 camera.target = {-9294.2207f, 1180.0f, -11692.3945f};
                 camera.pos = {-9309.65137f, 1280.4469f, -12130.7695f};
@@ -325,7 +326,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case SPR_INDEX: {
-                loadFile("tpgz/save_files/any/spr.bin");
+                Utilities::load_save_file("tpgz/save_files/any/spr.bin");
                 default_load();
                 angle = 33768;
                 position = {0.0f, -150.0f, 6000.0f};
@@ -333,13 +334,13 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case DARK_HAMMER_INDEX: {
-                loadFile("tpgz/save_files/any/darkhammer.bin");
+                Utilities::load_save_file("tpgz/save_files/any/darkhammer.bin");
                 default_load();
                 TP::set_boss_flags();
                 break;
             }
             case LAKEBED_2_INDEX: {
-                loadFile("tpgz/save_files/any/lakebed_2.bin");
+                Utilities::load_save_file("tpgz/save_files/any/lakebed_2.bin");
                 default_load();
                 camera.target = {-8.74227766f, 1337.22534f, 14499.0f,};
                 camera.pos = {-87.9447556f, 1414.24292f, 14741.0518f};
@@ -350,7 +351,7 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case LAKEBED_BK_SKIP_INDEX: {
-                loadFile("tpgz/save_files/any/lakebed_bk_skip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/lakebed_bk_skip.bin");
                 default_load();
                 camera.target = {71.9835968f, 1660.0f, 2839.01587f};
                 camera.pos = {71.9835968f, 1719.93542f, 2969.04565f};
@@ -362,33 +363,33 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case ONEBOMB_INDEX: {
-                loadFile("tpgz/save_files/any/onebomb.bin");
+                Utilities::load_save_file("tpgz/save_files/any/onebomb.bin");
                 default_load();
                 practice_file.inject_options_after_load = morpheel;
                 break;
             }
             case MDH_TOWER_INDEX: {
-                loadFile("tpgz/save_files/any/mdh_tower.bin");
+                Utilities::load_save_file("tpgz/save_files/any/mdh_tower.bin");
                 default_load();
                 break;
             }
             case MDH_BRIDGE_INDEX: {
-                loadFile("tpgz/save_files/any/mdh_bridge.bin");
+                Utilities::load_save_file("tpgz/save_files/any/mdh_bridge.bin");
                 default_load();
                 break;
             }
             case BULBLIN_CAMP_INDEX: {
-                loadFile("tpgz/save_files/any/camp.bin");
+                Utilities::load_save_file("tpgz/save_files/any/camp.bin");
                 default_load();
                 break;
             }
             case AG_INDEX: {
-                loadFile("tpgz/save_files/any/ag.bin");
+                Utilities::load_save_file("tpgz/save_files/any/ag.bin");
                 default_load();
                 break;
             }
             case POE_1_SKIP_INDEX: {
-                loadFile("tpgz/save_files/any/poe_1_skip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/poe_1_skip.bin");
                 default_load();
                 camera.target = {-2047.97168f, 130.16568f, -587.317139f};
                 camera.pos = {-1779.00293f, 213.707397f, -584.686768f};
@@ -399,23 +400,23 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case DSS_INDEX: {
-                loadFile("tpgz/save_files/any/death_sword_skip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/death_sword_skip.bin");
                 default_load();
                 break;
             }
             case STALLORD_INDEX: {
-                loadFile("tpgz/save_files/any/stallord.bin");
+                Utilities::load_save_file("tpgz/save_files/any/stallord.bin");
                 default_load();
                 practice_file.inject_options_during_load = stallord;
                 break;
             }
             case CITS_EARLY_INDEX: {
-                loadFile("tpgz/save_files/any/cits_early.bin");
+                Utilities::load_save_file("tpgz/save_files/any/cits_early.bin");
                 default_load();
                 break;
             }
             case CITS_1_INDEX: {
-                loadFile("tpgz/save_files/any/cits_1.bin");
+                Utilities::load_save_file("tpgz/save_files/any/cits_1.bin");
                 default_load();
                 camera.target = {1313.54285f, -234.203003f, 5545.16846f};
                 camera.pos = {1027.53259f, -108.096123f, 5605.23047f};
@@ -426,69 +427,69 @@ void AnySavesMenu::render(Font& font) {
                 break;
             }
             case AERALFOS_SKIP_INDEX: {
-                loadFile("tpgz/save_files/any/aeralfos_skip.bin");
+                Utilities::load_save_file("tpgz/save_files/any/aeralfos_skip.bin");
                 default_load();
                 break;
             }
             case CITS_2_INDEX: {
-                loadFile("tpgz/save_files/any/cits_2.bin");
+                Utilities::load_save_file("tpgz/save_files/any/cits_2.bin");
                 default_load();
                 break;
             }
             case FAN_TOWER_INDEX: {
-                loadFile("tpgz/save_files/any/fan_tower.bin");
+                Utilities::load_save_file("tpgz/save_files/any/fan_tower.bin");
                 default_load();
                 break;
             }
             case ARGOROK_INDEX: {
-                loadFile("tpgz/save_files/any/argorok.bin");
+                Utilities::load_save_file("tpgz/save_files/any/argorok.bin");
                 default_load();
                 practice_file.inject_options_during_load = argorok;
                 break;
             }
             case PALACE_1_INDEX: {
-                loadFile("tpgz/save_files/any/palace_1.bin");
+                Utilities::load_save_file("tpgz/save_files/any/palace_1.bin");
                 default_load();
                 break;
             }
             case PALACE_2_INDEX: {
-                loadFile("tpgz/save_files/any/palace_2.bin");
+                Utilities::load_save_file("tpgz/save_files/any/palace_2.bin");
                 default_load();
                 practice_file.inject_options_after_load = palace2;
                 break;
             }
             case EARLY_PLATFORM_INDEX: {
-                loadFile("tpgz/save_files/any/early_platform.bin");
+                Utilities::load_save_file("tpgz/save_files/any/early_platform.bin");
                 default_load();
                 break;
             }
             case ZANT_INDEX: {
-                loadFile("tpgz/save_files/any/zant.bin");
+                Utilities::load_save_file("tpgz/save_files/any/zant.bin");
                 default_load();
                 break;
             }
             case HC_INDEX: {
-                loadFile("tpgz/save_files/any/hc.bin");
+                Utilities::load_save_file("tpgz/save_files/any/hc.bin");
                 default_load();
                 break;
             }
             case DARKNUT_INDEX: {
-                loadFile("tpgz/save_files/any/darknut.bin");
+                Utilities::load_save_file("tpgz/save_files/any/darknut.bin");
                 default_load();
                 break;
             }
             case HC_TOWER_INDEX: {
-                loadFile("tpgz/save_files/any/hc_tower.bin");
+                Utilities::load_save_file("tpgz/save_files/any/hc_tower.bin");
                 default_load();
                 break;
             }
             case BEAST_GANON_INDEX: {
-                loadFile("tpgz/save_files/any/beast_ganon.bin");
+                Utilities::load_save_file("tpgz/save_files/any/beast_ganon.bin");
                 default_load();
                 break;
             }
             case HORSEBACK_GANON_INDEX: {
-                loadFile("tpgz/save_files/any/horseback_ganon.bin");
+                Utilities::load_save_file("tpgz/save_files/any/horseback_ganon.bin");
                 default_load();
                 break;
             }

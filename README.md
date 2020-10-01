@@ -82,7 +82,6 @@ settings menu:
 - area reload behavior          // load area = Reload last area; load file = Reload last file
 - cursor color                  // Changes the color of the cursor in TPGZ's menus (green, blue, red, orange, yellow, purple)
 - drop shadows                  // Adds shadows to all font letters
-- log level                     // Changes log level for debugging
 - menu position                 // Changes the position of various menus and tools from TPGZ
 - save card (TBD)               // Save settings to memory card (not yet implemented)
 - load card (TBD)               // Load settings from memory card (not yet implemented)

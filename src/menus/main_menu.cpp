@@ -6,7 +6,7 @@
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include <stdio.h>
-#include "log.h"
+
 #define LINES 9
 
 static Cursor cursor = {0, 0};

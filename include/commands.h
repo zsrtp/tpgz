@@ -18,4 +18,5 @@ namespace Commands {
     void process_inputs();
     void enable_command(int idx);
     void disable_command(int idx);
+    void reload_area();
 }  // namespace Commands
