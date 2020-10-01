@@ -5,18 +5,6 @@
 #include "libtp_c/include/system.h"
 #include "gcn_c/include/dvd.h"
 
-void loadFile(const char* filePath) {
-    Log log;
-    DVDFileInfo fileInfo;
-    if (DVDOpen(filePath, &fileInfo)) {
-        int bytesRead = DVDReadPrio(&fileInfo, &practice_file.qlog_bytes, 2400, 0, 2);
-        if (bytesRead > 0) {
-            DVDClose(&fileInfo);
-            log.PrintLog("bytes read - %d", bytesRead, DEBUG);
-        }
-    }
-}
-
 void loadFile(const char* filePath, void* buffer, signed long length, signed long offset) {
     DVDFileInfo fileInfo;
     if (DVDOpen(filePath, &fileInfo)) {
