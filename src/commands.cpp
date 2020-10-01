@@ -8,7 +8,7 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "utils\loading.hpp"
+#include "utils/loading.hpp"
 
 bool reload_area_flag = false;
 bool timer_started = false;
