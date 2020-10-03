@@ -3,6 +3,7 @@
 #include "utils/hook.h"
 #include "utils/link.hpp"
 #include "utils/memory.hpp"
+#include "utils/card.hpp"
 #include "fonts/consolas.h"
 #include "fifo_queue.h"
 #include "font.h"
@@ -30,13 +31,14 @@ void init() {
     default_font = Font(f_Consolas, consolas_bytes);
     PosSettingsMenu::initDefaults();
     Draw::init();
+    fifo_visible = true;
 }
 
 void game_loop() {
     using namespace Controller::Pad;
     
     // check and load gz settings card if found
-    // Utilities::load_gz_card(card_load);
+    Utilities::load_gz_card(card_load);
 
     if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1) {
         mm_visible = true;
