@@ -369,6 +369,18 @@ enum AnyPracticeIndex {
     HORSEBACK_GANON_INDEX
 };
 
+struct PracticeSaveInfo {
+    uint8_t requirements;
+    uint8_t _p0[1];
+    uint16_t angle;
+    Vec3 position;
+    Vec3 cam_pos;
+    Vec3 cam_target;
+    uint32_t counter;
+    char filename[32];
+    uint8_t _p1[4];
+} __attribute__((packed));
+
 extern bool any_saves_visible;
 
 // hundo saves

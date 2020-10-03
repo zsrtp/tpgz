@@ -14,6 +14,9 @@
 #include "fs.h"
 #define LINES 82
 
+#define REQ_POS 1
+#define REQ_CAM 2
+
 static Cursor cursor = {0, 0};
 static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
 static uint16_t angle = 0;
@@ -192,6 +195,10 @@ void stallord() {
     tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
 }
 
+void dark_hammer() {
+    //figure out how to disable armor sets then load in with boss flag for instant fight
+}
+
 void spr_bosskey() {
     SaveInjector::inject_default_during();
     tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
@@ -251,6 +258,57 @@ void cave_of_ordeals() {
     tp_gameInfo.floors.floor_27_34 = 0;
 }
 
+struct {
+    int idx;
+    void (*cb_during)(void);
+    void (*cb_after)(void);
+} specials[] = {
+    {HND_GOATS_1_INDEX, goats_1, nullptr},
+    {HND_GOATS_2_INDEX, goats_2, nullptr},
+    {HND_MIST_INDEX, purple_mist, nullptr},
+    {HND_KARG_INDEX, karg_oob, nullptr},
+    {HND_KB_2_INDEX, kb2_skip, nullptr},
+    {HND_ESCORT_INDEX, escort, nullptr},
+    {HND_DANGORO_INDEX, dangoro, nullptr},
+    {HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr},
+    {HND_MORPHEEL_INDEX, nullptr, morpheel},
+    {HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr},
+    {HND_STALLORD_INDEX, stallord, nullptr},
+    {HND_DARK_HAMMER_INDEX, nullptr, nullptr}, // place dark_hammer() where ever when it is implemented
+    {HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr},
+    {HND_EARLY_POE_INDEX, tot_early_poe, nullptr},
+    {HND_EARLY_HP_INDEX, tot_early_hp, nullptr},
+    {HND_CITY_EARLY_INDEX, hugo_archery, nullptr},
+    {HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr},
+    {HND_ARGOROK_INDEX, argorok, nullptr},
+    {HND_PALACE_2_INDEX, nullptr, palace2},
+    {HND_COO_INDEX, cave_of_ordeals, nullptr},
+    {HND_COO_10_INDEX, cave_of_ordeals, nullptr},
+    {HND_COO_20_INDEX, cave_of_ordeals, nullptr},
+    {HND_COO_30_INDEX, cave_of_ordeals, nullptr},
+};
+
+void load_save(uint32_t id) {
+    PracticeSaveInfo saveinfo __attribute__ ((aligned (32)));
+    loadFile("tpgz/save_files/hundo.bin", &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
+    char buf[80];
+    sprintf(buf, "tpgz/save_files/hundo/%s.bin", saveinfo.filename);
+    Utilities::load_save_file(buf);
+    default_load();
+    if (saveinfo.requirements & REQ_CAM) {
+        camera.target = saveinfo.cam_target;
+        camera.pos = saveinfo.cam_pos;
+    }
+    if (saveinfo.requirements & REQ_POS) {
+        angle = saveinfo.angle;
+        position = saveinfo.position;
+    }
+    if (saveinfo.requirements != 0) {
+        practice_file.inject_options_after_load = saveinfo.requirements & REQ_CAM ? set_camera_angle_position : set_angle_position;
+    }
+    practice_file.inject_options_after_counter = saveinfo.counter;
+}
+
 void HundoSavesMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         hundo_saves_visible = false;
@@ -266,536 +324,15 @@ void HundoSavesMenu::render(Font& font) {
     }
 
     if (current_input == 256 && a_held == false) {
-        switch (cursor.y) {
-            case HND_GOATS_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/goats.bin");
-                default_load();
-                practice_file.inject_options_during_load = goats_1;
-                break;
-            }
-
-            case HND_ORDON_GATE_CLIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/ordon_gate_clip.bin");
-                default_load();
-                camera.target = {827.497559f, 329.622986f, -4532.90723f};
-                camera.pos = {833.467468f, 477.604675f, -4241.97266f};
-                angle = 498;
-                position = {827.450012f, 216.490097f, -4533.90625f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 10;
-                break;
-            }
-
-            case HND_GOATS_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/goats_2.bin");
-                default_load();
-                practice_file.inject_options_during_load = goats_2;
-                break;
-            }
-
-            case HND_FARON_TWILIGHT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/faron_twilight.bin");
-                default_load();
-                break;
-            }
-
-            case HND_EMS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/ems.bin");
-                default_load();
-                break;
-            }
-            case HND_MIST_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/purple_mist.bin");
-                default_load();
-                angle = 40758;
-                position = {-23524.6152f, 250.0f, -16220.166f};
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_during_load = purple_mist;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_FRST_BIT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/forest_bit.bin");
-                default_load();
-                break;
-            }
-
-            case HND_FRST_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/forest_2.bin");
-                default_load();
-                break;
-            }
-
-            case HND_OOKLESS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/ookless.bin");
-                default_load();
-                break;
-            }
-
-            case HND_ELDIN_TWILIGHT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/eldin_twilight.bin");
-                default_load();
-                break;
-            }
-
-            case HND_LANAYRU_GATE_CLIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/lanayru_gate_clip.bin");
-                default_load();
-                camera.target = {-63064.2148f, -8969.97656f, 71661.0781f};
-                camera.pos = {-62655.8125f, -8900.91309f, 71903.6328f};
-                angle = 44248;
-                position = {-63026.2852f, -9065.92578f, 71680.3438f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 15;
-                break;
-            }
-            case HND_PILLAR_CLIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/pillar_clip.bin");
-                default_load();
-                break;
-            }
-            case HND_LAKEBED_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/lakebed_1.bin");
-                default_load();
-                break;
-            }
-            case HND_TOAD_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/deku_toad.bin");
-                default_load();
-                break;
-            }
-            case HND_KARG_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/karg.bin");
-                default_load();
-                practice_file.inject_options_during_load = karg_oob;
-                break;
-            }
-            case HND_LANAYRU_TWILIGHT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/lanayru_twilight.bin");
-                default_load();
-                break;
-            }
-            case HND_BOSS_BUG_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/boss_bug.bin");
-                default_load();
-                angle = 21504;
-                position = {-89100.00f, -18811.2363f, 39410.00f};
-                practice_file.inject_options_after_load = set_angle_position;
-                break;
-            }
-            case HND_KB_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/kb2.bin");
-                default_load();
-                camera.target = {-92098.1797f, -5398.54883f, 22599.9102f};
-                camera.pos = {-92795.1328f, -5302.87988f, 22505.3359f};
-                angle = 14957;
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_during_load = kb2_skip;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_ESCORT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/kb2.bin");
-                default_load();
-                practice_file.inject_options_during_load = escort;
-                break;
-            }
-            case HND_COROTD_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/corotd.bin");
-                default_load();
-                /*angle = 27714;
-                position = {-13715.0712f, 0.00f, -14238.0654f};
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 60;*/ // temporary disable since it crashes often for some reason
-                break;
-            }
-            case HND_GM_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/gm.bin");
-                default_load();
-                break;
-            }
-            case HND_DANGORO_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/dangoro.bin");
-                default_load();
-                practice_file.inject_options_during_load = dangoro;
-                break;
-            }
-            case HND_KB_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/kb1.bin");
-                default_load();
-                break;
-            }
-            case HND_LAKEBED_BK_SKIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/lakebed_bk_skip.bin");
-                default_load();
-                camera.target = {71.9835968f, 1660.0f, 2839.01587f};
-                camera.pos = {71.9835968f, 1719.93542f, 2969.04565f};
-                angle = 32767;
-                position = {71.9835968f, 1500.00f, 2839.01587f};
-                practice_file.inject_options_during_load = lakebed_bk_skip_during;
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_MORPHEEL_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/morpheel.bin");
-                default_load();
-                practice_file.inject_options_after_load = morpheel;
-                break;
-            }
-            case HND_STAR_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/star_1.bin");
-                default_load();
-                break;
-            }
-            case HND_MDH_TOWER_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/mdh_tower.bin");
-                default_load();
-                camera.target = {25256.7285f, -2919.95215f, 2839.01587f};
-                camera.pos = {10193.6064f, 25254.7852f, -2874.2627f};
-                angle = 32025;
-                position = {25254.6875f, -3031.50854f, 10222.1445f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 15;
-                break;
-            }
-            case HND_MDH_BRIDGE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/mdh_bridge.bin");
-                default_load();
-                break;
-            }
-            case HND_POST_MDH_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/post_mdh.bin");
-                default_load();
-                break;
-            }
-            case HND_MOUNTAIN_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/mountain.bin");
-                default_load();
-                break;
-            }
-            case HND_IZA_1_SKIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/iza_1_skip.bin");
-                default_load();
-                practice_file.inject_options_during_load = iza_1_skip;
-                break;
-            }
-            case HND_IZA_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/iza_2.bin");
-                default_load();
-                break;
-            }
-            case HND_LH_CAVE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/lh_cave.bin");
-                default_load();
-                break;
-            }
-            case HND_BULBLIN_CAMP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/camp.bin");
-                default_load();
-                break;
-            }
-            case HND_AG_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/ag.bin");
-                default_load();
-                break;
-            }
-            case HND_POE_1_SKIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/poe_1_skip.bin");
-                default_load();
-                camera.target = {-2047.97168f, 130.16568f, -587.317139f};
-                camera.pos = {-1779.00293f, 213.707397f, -584.686768f};
-                angle = 49030;
-                position = {-2046.97168f, 0.0f, -587.304871f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 10;
-                break;
-            }
-            case HND_DSS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/death_sword_skip.bin");
-                default_load();
-                break;
-            }
-            case HND_STALLORD_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/stallord.bin");
-                default_load();
-                practice_file.inject_options_during_load = stallord;
-                break;
-            }
-            case HND_GORGE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/gorge_arc.bin");
-                default_load();
-                break;
-            }
-            case HND_SPR_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/spr.bin");
-                default_load();
-                break;
-            }
-            case HND_DARK_HAMMER_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/darkhammer.bin");
-                default_load();
-                //figure out how to disable armor sets then load in with boss flag for instant fight
-                break;
-            }
-            case HND_SPR_SUPERJUMP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/spr_superjump.bin");
-                default_load();
-                camera.target = {1529.35425f, 466.16306f, 3684.08252f};
-                camera.pos = {1765.20581f, 691.830688f, 3662.42749f};
-                angle = 50120;
-                position = {1530.35f, 359.56f, 3683.99f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_SPR_BK_LJA_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/spr_bk_lja.bin");
-                default_load();
-                angle = 32887;
-                position = {-2171.19f, 973.96f, -2384.89f};
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_SPR_BK_ROOM_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/spr_bk_lja.bin");
-                default_load();
-                practice_file.inject_options_during_load = spr_bosskey;
-                break;
-            }
-            case HND_BLIZZETA_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/blizzeta.bin");
-                default_load();
-                break;
-            }
-            case HND_BOMB_BOOST_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/nf_bomb_boost.bin");
-                default_load();
-                break;
-            }
-            case HND_GROVE_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/grove_2.bin");
-                default_load();
-                break;
-            }
-            case HND_TOT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/tot.bin");
-                default_load();
-                break;
-            }
-            case HND_EARLY_POE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/tot_early_poe.bin");
-                default_load();
-                practice_file.inject_options_during_load = tot_early_poe;
-                break;
-            }
-            case HND_STATUE_THROWS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/tot_statue_throws.bin");
-                default_load();
-                break;
-            }
-            case HND_EARLY_HP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/tot_early_hp.bin");
-                default_load();
-                practice_file.inject_options_during_load = tot_early_hp;
-                break;
-            }
-            case HND_DARKNUT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/tot_darknut.bin");
-                default_load();
-                break;
-            }
-            case HND_DOT_SKIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/dot_skip.bin");
-                default_load();
-                camera.target = {1361.59766f, -33.1954155f, -1090.47632f};
-                camera.pos = {1396.36316f, 9.51973343f, -719.644531f};
-                angle = 33673;
-                position = {1361.68408f, -143.56076f, -1089.4801f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                //find statue pointer so can auto place statue in corner
-                break;
-            }
-            case HND_ARMOGOHMA_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/armogohma.bin");
-                default_load();
-                break;
-            }
-            case HND_POST_TOT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/post_tot.bin");
-                default_load();
-                break;
-            }
-            case HND_HOTSPRING_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/hotspring.bin");
-                default_load();
-                break;
-            }
-            case HND_BELL_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/silver_rupee.bin");
-                default_load();
-                camera.target = {961.308044f, 203.885788f, 4184.82471f};
-                camera.pos = {1220.0835f, 320.043884f, 4269.48779f};
-                angle = 45836;
-                position = {962.257813f, 100.0f, 4185.1377f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_FBF_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/fbf.bin");
-                default_load();
-                break;
-            }
-            case HND_PUZZLE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/ice_puzzle.bin");
-                default_load();
-                break;
-            }
-            case HND_ARCHERY_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/hv_archery.bin");
-                default_load();
-                angle = 64520;
-                position = {3125.57f, -62.16f, -9360.22f};
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_CITY_EARLY_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/cits_early.bin");
-                default_load();
-                angle = 21207;
-                position = {220.75f, -769.96f, -3299.14f};
-                practice_file.inject_options_during_load = hugo_archery;
-                practice_file.inject_options_after_load = set_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_CITY_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/cits_1.bin");
-                default_load();
-                camera.target = {1313.54285f, -234.203003f, 5545.16846f};
-                camera.pos = {1027.53259f, -108.096123f, 5605.23047f};
-                angle = 16384;
-                position = {1309.60645f, -240.0f, 5533.43848f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 10;
-                break;
-            }
-            case HND_AERALFOS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/aeralfos_skip.bin");
-                default_load();
-                break;
-            }
-            case HND_CITY_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/cits_2.bin");
-                default_load();
-                break;
-            }
-            case HND_POE_CYCLE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/cits_poe_cycle.bin");
-                default_load();
-                practice_file.inject_options_during_load = cits_poe_cycle;
-                break;
-            }
-            case HND_FAN_TOWER_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/fan_tower.bin");
-                default_load();
-                break;
-            }
-            case HND_ARGOROK_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/argorok.bin");
-                default_load();
-                practice_file.inject_options_during_load = argorok;
-                break;
-            }
-            case HND_STAR_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/star_2.bin");
-                default_load();
-                break;
-            }
-            case HND_PALACE_1_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/palace_1.bin");
-                default_load();
-                break;
-            }
-            case HND_PALACE_2_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/palace_2.bin");
-                default_load();
-                practice_file.inject_options_after_load = palace2;
-                break;
-            }
-            case HND_EARLY_PLATFORM_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/early_platform.bin");
-                default_load();
-                break;
-            }
-            case HND_ZANT_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/zant.bin");
-                default_load();
-                break;
-            }
-            case HND_COO_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/coo.bin");
-                default_load();
-                practice_file.inject_options_during_load = cave_of_ordeals;
-                break;
-            }
-            case HND_COO_10_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/coo_10.bin");
-                default_load();
-                practice_file.inject_options_during_load = cave_of_ordeals;
-                break;
-            }
-            case HND_COO_20_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/coo_20.bin");
-                default_load();
-                practice_file.inject_options_during_load = cave_of_ordeals;
-                break;
-            }
-            case HND_COO_30_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/coo_30.bin");
-                default_load();
-                practice_file.inject_options_during_load = cave_of_ordeals;
-                break;
-            }
-            case HND_CATS_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/cats.bin");
-                default_load();
-                camera.target = {5309.32373f, 160.1f, -3581.83423f};
-                camera.pos = {4893.25391f, 160.117676f, -3524.51245f};
-                angle = 17282;
-                position = {5238.59f, 0.00f, -3575.74f};
-                practice_file.inject_options_after_load = set_camera_angle_position;
-                practice_file.inject_options_after_counter = 30;
-                break;
-            }
-            case HND_HYRULE_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/hc.bin");
-                default_load();
-                break;
-            }
-            case HND_DARKNUT_SKIP_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/hc_darknut.bin");
-                default_load();
-                break;
-            }
-            case HND_FINAL_TOWER_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/hc_tower.bin");
-                default_load();
-                break;
-            }
-            case HND_BEAST_GANON_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/beast_ganon.bin");
-                default_load();
-                break;
-            }
-            case HND_HORSEBACK_GANON_INDEX: {
-                Utilities::load_save_file("tpgz/save_files/hundo/horseback_ganon.bin");
-                default_load();
-                break;
+        load_save(cursor.y);
+        for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
+            if (cursor.y == specials[i].idx) {
+                if (specials[i].cb_during != nullptr) {
+                    practice_file.inject_options_during_load = specials[i].cb_during;
+                }
+                if (specials[i].cb_after != nullptr) {
+                    practice_file.inject_options_after_load = specials[i].cb_after;
+                }
             }
         }
     }

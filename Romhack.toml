@@ -19,6 +19,7 @@ base = "0x8046_0000"
 libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 
 [files]
+"tpgz/save_files/any.bin" = "res/save_files/any.bin"
 "tpgz/save_files/any/aeralfos_skip.bin" = "res/save_files/any/aeralfos_skip.bin"
 "tpgz/save_files/any/boss_bug.bin" = "res/save_files/any/boss_bug.bin"
 "tpgz/save_files/any/camp.bin" = "res/save_files/any/camp.bin"
@@ -65,6 +66,7 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/save_files/any/beast_ganon.bin" = "res/save_files/any/beast_ganon.bin"
 "tpgz/save_files/any/horseback_ganon.bin" = "res/save_files/any/horseback_ganon.bin"
 "tpgz/save_files/any/lanayru_twilight.bin" = "res/save_files/any/lanayru_twilight.bin"
+"tpgz/save_files/hundo.bin" = "res/save_files/hundo.bin"
 "tpgz/save_files/hundo/aeralfos_skip.bin" = "res/save_files/hundo/aeralfos_skip.bin"
 "tpgz/save_files/hundo/boss_bug.bin" = "res/save_files/hundo/boss_bug.bin"
 "tpgz/save_files/hundo/camp.bin" = "res/save_files/hundo/camp.bin"
