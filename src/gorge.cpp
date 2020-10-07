@@ -29,7 +29,6 @@ namespace GorgeVoidIndicator {
     }
 
     void warp_to_gorge() {
-        
         // set gorge map info
         tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] = 0;
         tp_gameInfo.temp_flags.flags[8] = 0;
@@ -57,11 +56,8 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.respawn_position = {-11856.857f, -5700.0f, 56661.5};
         tp_gameInfo.respawn_angle = 24169;
         Inventory::clear_rupee_flags();
-
-        
     }
     void run() {
-        
         // reset counters on load
         if (tp_fopScnRq.isLoading == 1) {
             counter_difference = 0;
@@ -71,7 +67,7 @@ namespace GorgeVoidIndicator {
         }
 
         current_counter = TP::get_frame_count();
-        
+
         // situation specific frame counters
         if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
             start_timer = true;

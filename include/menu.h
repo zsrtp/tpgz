@@ -245,6 +245,7 @@ struct MemoryLine {
 };
 
 extern bool memory_editor_visible;
+extern uint32_t address_index;
 
 // flags
 #define GENERAL_FLAGS_INDEX 0

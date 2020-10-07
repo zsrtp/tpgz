@@ -10,7 +10,7 @@ bool fifo_visible;
 
 void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
     for (int i = 0; i < MAX_MESSAGES; i++) {
-        if (Queue.messages[i].ttl > 0){
+        if (Queue.messages[i].ttl > 0) {
             Queue.messages[i].ttl--;
         }
         float offset = (-(float)i * 14.0f);

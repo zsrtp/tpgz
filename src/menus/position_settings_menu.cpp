@@ -90,8 +90,8 @@ void PosSettingsMenu::render(Font& font) {
     if (button_is_down(Controller::DPAD_RIGHT) ||
         button_is_down(Controller::DPAD_LEFT) ||
         button_is_down(Controller::DPAD_UP) ||
-        button_is_down(Controller::DPAD_DOWN))
-    {
+        button_is_down(Controller::DPAD_DOWN)) 
+	{
         if (speed < MAX_SPEED) {
             speed *= INCREMENT_FACTOR;
         }

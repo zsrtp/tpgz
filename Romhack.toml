@@ -450,7 +450,6 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/stage_info/F_SP117/02/spawns.bin" = "res/stage_info/F_SP117/02/spawns.bin"
 "tpgz/stage_info/F_SP117/03/spawns.bin" = "res/stage_info/F_SP117/03/spawns.bin"
 "tpgz/stage_info/F_SP118/rooms.bin" = "res/stage_info/F_SP118/rooms.bin"
-"tpgz/stage_info/F_SP118/00/spawns.bin" = "res/stage_info/F_SP118/00/spawns.bin"
 "tpgz/stage_info/F_SP118/01/spawns.bin" = "res/stage_info/F_SP118/01/spawns.bin"
 "tpgz/stage_info/F_SP118/02/spawns.bin" = "res/stage_info/F_SP118/02/spawns.bin"
 "tpgz/stage_info/F_SP118/03/spawns.bin" = "res/stage_info/F_SP118/03/spawns.bin"

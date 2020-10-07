@@ -487,7 +487,14 @@ void WatchesMenu::render(Font& font) {
         Watches[cursor.y].visible = !Watches[cursor.y].visible;
     }
 
+    if (button_is_pressed(Controller::Y)) {
+        address_index = Watches[cursor.y].address;
+        init_once = false;
+        watches_visible = false;
+        memory_editor_visible = true;
+    }
+
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);
-    font.gz_renderChars("Press z to enable/disable watch", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
+    font.gz_renderChars("Press z to enable/disable watch. Y to jump to editor address", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
     render_memory_lines(font, Watches, cursor);
 };

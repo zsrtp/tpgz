@@ -14,4 +14,4 @@ enum HookIndex {
 
 namespace Hook {
     void apply_hooks();
-} // namespace Hook
+}  // namespace Hook

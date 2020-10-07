@@ -54,7 +54,7 @@ namespace InputViewer {
                 dx2 = -dy2;
                 dy2 = tmp;
             }
-            Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
+        Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
         Draw::end();
     }
 

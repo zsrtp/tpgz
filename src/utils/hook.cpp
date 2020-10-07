@@ -5,9 +5,9 @@
 #include "cheats.h"
 #include "movelink.h"
 
-#define HOOK_DEF(rettype, name, params)\
-typedef rettype (*tp_ ## name ## _t)params;\
-tp_ ## name ## _t name ## Trampoline;
+#define HOOK_DEF(rettype, name, params)     \
+    typedef rettype(*tp_##name##_t) params; \
+    tp_##name##_t name##Trampoline;
 
 HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
@@ -87,10 +87,8 @@ namespace Hook {
         }
     }
 
-
-
     void apply_hooks() {
-#define APPLY_HOOK(name, addr, idx, func) name ## Trampoline = hookFunction((tp_ ## name ## _t)addr, trampolines[idx].a, func)
+#define APPLY_HOOK(name, addr, idx, func) name##Trampoline = hookFunction((tp_##name##_t)addr, trampolines[idx].a, func)
         APPLY_HOOK(cDyl_InitAsync, 0x80018764, HK_LIB_INIT_INDEX, initHook);
         APPLY_HOOK(fapGm_Execute, 0x80018a6c, HK_LIB_GAME_LOOP_INDEX, gameLoopHook);
         APPLY_HOOK(draw, 0x802e8384, HK_LIB_DRAW_INDEX, drawHook);
@@ -102,4 +100,4 @@ namespace Hook {
         APPLY_HOOK(cc_at_check, 0x80087c04, HK_INVINCIBLE_ENEMIES_INDEX, invincibleEnemiesHook);
 #undef APPLY_HOOK
     }
-} // namespace Hook
+}  // namespace Hook

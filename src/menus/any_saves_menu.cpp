@@ -18,7 +18,7 @@
 #define REQ_CAM 2
 
 static Cursor cursor = {0, 0};
-static CameraMatrix camera = {{0,0,0}, {0,0,0}};
+static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
@@ -154,7 +154,7 @@ struct {
 };
 
 void load_save(uint32_t id) {
-    PracticeSaveInfo saveinfo __attribute__ ((aligned (32)));
+    PracticeSaveInfo saveinfo __attribute__((aligned(32)));
     loadFile("tpgz/save_files/any.bin", &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
     char buf[80];
     sprintf(buf, "tpgz/save_files/any/%s.bin", saveinfo.filename);

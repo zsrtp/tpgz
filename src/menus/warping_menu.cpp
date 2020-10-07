@@ -155,6 +155,9 @@ void WarpingMenu::render(Font& font) {
 
     if (!init_once) {
         current_input = 0;
+        load_default_stage();
+        load_default_room();
+        load_default_spawn();
         init_once = true;
     }
 

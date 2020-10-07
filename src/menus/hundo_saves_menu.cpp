@@ -150,7 +150,7 @@ void purple_mist() {
 void kb2_skip() {
     SaveInjector::inject_default_during();
     tp_gameInfo.epona_debug_ptr->position = {-92098.1797, -5563.54883, 22599.9102};  // spawn near clip spot
-    tp_gameInfo.warp.entrance.state = 0x3;  
+    tp_gameInfo.warp.entrance.state = 0x3;
 }
 
 void escort() {
@@ -274,7 +274,7 @@ struct {
     {HND_MORPHEEL_INDEX, nullptr, morpheel},
     {HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr},
     {HND_STALLORD_INDEX, stallord, nullptr},
-    {HND_DARK_HAMMER_INDEX, nullptr, nullptr}, // place dark_hammer() where ever when it is implemented
+    {HND_DARK_HAMMER_INDEX, nullptr, nullptr},  // place dark_hammer() where ever when it is implemented
     {HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr},
     {HND_EARLY_POE_INDEX, tot_early_poe, nullptr},
     {HND_EARLY_HP_INDEX, tot_early_hp, nullptr},
@@ -289,7 +289,7 @@ struct {
 };
 
 void load_save(uint32_t id) {
-    PracticeSaveInfo saveinfo __attribute__ ((aligned (32)));
+    PracticeSaveInfo saveinfo __attribute__((aligned(32)));
     loadFile("tpgz/save_files/hundo.bin", &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
     char buf[80];
     sprintf(buf, "tpgz/save_files/hundo/%s.bin", saveinfo.filename);
