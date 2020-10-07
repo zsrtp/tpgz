@@ -54,44 +54,8 @@ void SceneMenu::render(Font& font) {
     sprintf(lines[TIME_HOURS_INDEX].line, "time (hrs):        <%d>", current_hour);
     sprintf(lines[TIME_MINUTES_INDEX].line, "time (mins):       <%d>", current_minute);
 
-    switch (cursor.y) {
-        case TIME_HOURS_INDEX: {
-            if (button_is_pressed(Controller::DPAD_RIGHT)) {
-                tp_gameInfo.raw_game_time += 15.0f;
-                if (tp_gameInfo.raw_game_time >= 360.0f) {
-                    tp_gameInfo.raw_game_time = 0.0f;
-                }
-            } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-                if ((tp_gameInfo.raw_game_time - 15.0f) > 0) {
-                    tp_gameInfo.raw_game_time -= 15.0f;
-                } else {
-                    tp_gameInfo.raw_game_time = 359.75f;
-                }
-                //tp_gameInfo.raw_game_time -= 15.0f;
-            }
-            break;
-        }
-        case TIME_MINUTES_INDEX: {
-            if (button_is_pressed(Controller::DPAD_RIGHT)) {
-                tp_gameInfo.raw_game_time += 0.25f;
-                if (tp_gameInfo.raw_game_time >= 360.0f) {
-                    tp_gameInfo.raw_game_time = 0.0f;
-                }
-            } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-                if (tp_gameInfo.raw_game_time > 0) {
-                    tp_gameInfo.raw_game_time -= 0.25f;
-                } else {
-                    tp_gameInfo.raw_game_time = 359.75f;
-                }
-            }
-            break;
-        }
-    }
-    
-    
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(font, lines, cursor.y, LINES, 160.0f);
-
     
     if (current_input == 256 && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;

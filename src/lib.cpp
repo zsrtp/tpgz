@@ -37,6 +37,12 @@ void init() {
 void game_loop() {
     using namespace Controller::Pad;
     
+    // Button combo to bypass the automatic loading of the save file
+    // in case of crash cause by the load.
+    if (tp_mPadStatus.sval == (L | R | B) && card_load) {
+        card_load = false;
+    }
+
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
