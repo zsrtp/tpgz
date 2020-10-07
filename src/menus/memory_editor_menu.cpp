@@ -1,5 +1,6 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/memory_editor_menu.h"
+#include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -14,7 +15,6 @@
 #define LINE_BYTE_OFFSET 100.0f
 
 static Cursor cursor = {0, 0};
-bool memory_editor_visible;
 bool init_once = false;
 bool lock_cursor_y = false;
 bool lock_cursor_x = false;
@@ -235,9 +235,7 @@ void MemoryEditorMenu::render(Font& font) {
             lock_cursor_y = false;
         } else {
             init_once = false;
-            memory_editor_visible = false;
-            memory_visible = true;
-            mm_visible = false;
+		    MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     }

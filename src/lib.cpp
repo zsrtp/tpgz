@@ -8,6 +8,9 @@
 #include "fifo_queue.h"
 #include "font.h"
 #include "menu.h"
+#include "menus/main_menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/tools_menu.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
 #include "utils/draw.h"
@@ -47,7 +50,7 @@ void game_loop() {
     Utilities::load_gz_card(card_load);
 
     if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1) {
-        mm_visible = true;
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
     if (tp_fopScnRq.isLoading == 1) {

@@ -4,7 +4,7 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/link.h"
 #include "libtp_c/include/system.h"
-#include "menu.h"
+#include "menus/cheats_menu.h"
 #include "controller.h"
 #include "cheats.h"
 #include "commands.h"
@@ -16,7 +16,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool cheats_visible;
 bool chest_collision = false;
 using namespace Cheats;
 
@@ -148,8 +147,7 @@ namespace Cheats {
 void CheatsMenu::render(Font &font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        cheats_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 

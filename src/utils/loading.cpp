@@ -2,7 +2,7 @@
 #include "libtp_c/include/tp.h"
 #include "save_injector.h"
 #include "fs.h"
-#include "menu.h"
+#include "menus/practice_menu.h"
 
 bool loading_initiated = false;
 int apply_after_counter = 0;

@@ -1,4 +1,6 @@
 #include "utils/lines.hpp"
+#include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
 
 int cursor_rgba;
 

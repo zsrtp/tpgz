@@ -1,5 +1,5 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/practice_menu.h"
 #include "controller.h"
 #include "save_injector.h"
 #include "utils/cursor.hpp"
@@ -10,40 +10,36 @@
 
 static Cursor cursor = {0,0};
 bool init_once = false;
-bool prac_visible;
 PracticeFile practice_file;
 
 Line lines[LINES] = {
-	{"any%", ANY_INDEX, "Any% practice saves", false},
-	{"100%", HUNDO_INDEX, "100% practice saves", false}};
+    {"any%", ANY_INDEX, "Any% practice saves", false},
+    {"100%", HUNDO_INDEX, "100% practice saves", false}};
 
 void PracticeMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        prac_visible = false;
-        mm_visible = true;
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
-	if (!init_once) {current_input = 0;init_once = true;}
+    if (!init_once) {current_input = 0;init_once = true;}
 
-	if (current_input == 256 && a_held == false) {
-		switch (cursor.y) {
-			case ANY_INDEX: {
-				prac_visible = false;
-				any_saves_visible = true;
-				return;
-			}
-			case HUNDO_INDEX: {
-				prac_visible = false;
-				hundo_saves_visible = true;
-				return;
-			}
-		}
-	}
+    if (current_input == 256 && a_held == false) {
+        switch (cursor.y) {
+            case ANY_INDEX: {
+                MenuRendering::set_menu(MN_ANY_SAVES_INDEX);
+                return;
+            }
+            case HUNDO_INDEX: {
+                MenuRendering::set_menu(MN_HUNDO_SAVES_INDEX);
+                return;
+            }
+        }
+    }
 
-	Utilities::move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES);
 
-	Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(font, lines, cursor.y, LINES);
 };

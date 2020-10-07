@@ -2,7 +2,9 @@
 #include "libtp_c/include/system.h"
 #include "font.h"
 #include "timer.h"
-#include "menu.h"
+#include "menus/tools_menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
 
 #define FRAME_RATE 29.97
 

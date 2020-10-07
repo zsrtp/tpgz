@@ -1,6 +1,7 @@
 #include "libtp_c/include/tp.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -17,7 +18,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool pos_settings_visible;
 
 float speed;
 bool was_pressed;
@@ -51,9 +51,7 @@ void PosSettingsMenu::render(Font& font) {
             selected_item = NO_SELECTION;
         } else {
             init_once = false;
-            pos_settings_visible = false;
-            settings_visible = true;
-            mm_visible = false;
+		    MenuRendering::set_menu(MN_SETTINGS_INDEX);
             return;
         }
     };

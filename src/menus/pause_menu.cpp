@@ -3,7 +3,7 @@
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/system.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/pause_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -25,7 +25,6 @@
 #define MAX_HIDDEN_SKILL_OPTIONS 2
 
 static Cursor cursor = {0, 0};
-bool pause_visible;
 static uint8_t ordon_sword_index = 0;
 static uint8_t master_sword_index = 0;
 static uint8_t wood_shield_index = 0;
@@ -287,8 +286,7 @@ void PauseMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		pause_visible = false;
-        inventory_visible = true;
+        MenuRendering::set_menu(MN_INVENTORY_INDEX);
         reset_index();
         return;
     };

@@ -2,7 +2,7 @@
 #include "fifo_queue.h"
 #include "fonts/consolas.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/position_settings_menu.h"
 #include <string.h>
 
 static Font Consolas;

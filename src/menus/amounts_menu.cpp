@@ -2,7 +2,7 @@
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/flag.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/amounts_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -12,7 +12,6 @@
 
 static Cursor cursor = { 0, 0 };
 bool init_once = false;
-bool amounts_visible;
 
 static uint8_t arrow_ammo;
 static uint8_t bomb_bag_1_ammo = 0;
@@ -46,8 +45,7 @@ void AmountsMenu::render(Font & font) {
 
 	if (button_is_pressed(Controller::B)) {
 		init_once = false;
-		amounts_visible = false;
-		inventory_visible = true;
+        MenuRendering::set_menu(MN_INVENTORY_INDEX);
 		return;
 	};
 

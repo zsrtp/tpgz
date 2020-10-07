@@ -1,5 +1,6 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/temp_flags_menu.h"
+#include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -12,7 +13,6 @@
 #define WHITE_RGBA 0xFFFFFFFF
 
 static Cursor cursor = { 0, 0 };
-bool temp_flags_visible;
 bool init_once = false;
 bool lock_cursor_y = false;
 bool lock_cursor_x = false;
@@ -175,9 +175,7 @@ void TempFlagsMenu::render(Font& font) {
             lock_cursor_y = false;
         } else {
             init_once = false;
-            temp_flags_visible = false;
-            flags_menu_visible = true;
-            mm_visible = false;
+			MenuRendering::set_menu(MN_FLAGS_INDEX);
             return;
         }
     }

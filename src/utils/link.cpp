@@ -1,7 +1,9 @@
 #include "utils/link.hpp"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
+#include "menus/tools_menu.h"
 #include <stdio.h>
 
 uint8_t red;

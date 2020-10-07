@@ -1,7 +1,7 @@
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/tp.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/flags_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -9,7 +9,6 @@
 #define LINES 11
 
 static Cursor cursor = { 0, 0 };
-bool general_flags_visible;
 bool init_once = false;
 
 bool boss_flag;
@@ -53,9 +52,7 @@ void GeneralFlagsMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        general_flags_visible = false;
-        flags_menu_visible = true;
-        mm_visible = false;
+		MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 

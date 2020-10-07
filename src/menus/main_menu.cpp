@@ -1,7 +1,7 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "fifo_queue.h"
-#include "menu.h"
+#include "menus/main_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -10,7 +10,6 @@
 #define LINES 9
 
 static Cursor cursor = {0, 0};
-bool mm_visible;
 
 Line lines[LINES] = {
     {"cheats", CHEAT_INDEX, "Turn cheats on/off", false},
@@ -25,7 +24,7 @@ Line lines[LINES] = {
 
 void MainMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        mm_visible = false;
+        MenuRendering::set_menu(MN_NONE_INDEX);
         fifo_visible = true;
         return;
     };
@@ -35,48 +34,40 @@ void MainMenu::render(Font& font) {
     if (current_input == 256 && !a_held) {
         switch (cursor.y) {
             case MEMORY_INDEX: {
-                mm_visible = false;
-                memory_visible = true;
+                MenuRendering::set_menu(MN_MEMORY_INDEX);
                 return;
             }
             case INVENTORY_INDEX: {
-                mm_visible = false;
-                inventory_visible = true;
+                MenuRendering::set_menu(MN_INVENTORY_INDEX);
                 return;
             }
             case CHEAT_INDEX: {
-                mm_visible = false;
-                cheats_visible = true;
+                MenuRendering::set_menu(MN_CHEAT_INDEX);
                 return;
             }
             case TOOLS_INDEX: {
-                mm_visible = false;
-                tools_visible = true;
+                MenuRendering::set_menu(MN_TOOLS_INDEX);
                 return;
             }
             case SETTINGS_INDEX: {
-                mm_visible = false;
-                settings_visible = true;
+                MenuRendering::set_menu(MN_SETTINGS_INDEX);
                 return;
             }
             case WARPING_INDEX: {
-                mm_visible = false;
-                warping_visible = true;
+                MenuRendering::set_menu(MN_WARPING_INDEX);
                 return;
             }
             case PRACTICE_INDEX: {
-                mm_visible = false;
-                prac_visible = true;
+                MenuRendering::set_menu(MN_PRACTICE_INDEX);
                 return;
             }
             case SCENE_INDEX: {
-                mm_visible = false;
-                scene_menu_visible = true;
+                MenuRendering::set_menu(MN_SCENE_INDEX);
                 return;
             }
             case FLAGS_INDEX: {
-                mm_visible = false;
-                flags_menu_visible = true;
+                MenuRendering::set_menu(MN_FLAGS_INDEX);
+                return;
             }
         }
     }

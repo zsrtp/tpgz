@@ -1,5 +1,5 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/flags_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -13,7 +13,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool dungeon_flags_visible;
 
 bool map_flag;
 bool compass_flag;
@@ -38,9 +37,7 @@ Line lines[LINES] = {
 void DungeonFlagsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        dungeon_flags_visible = false;
-        flags_menu_visible = true;
-        mm_visible = false;
+		MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 

@@ -1,5 +1,7 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/memory_menu.h"
+#include "menus/memory_editor_menu.h"
+#include "menus/settings_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -18,7 +20,6 @@
 
 Cursor cursor;
 
-bool watches_visible;
 bool init_once = false;
 bool lock_cursor_y = false;
 bool lock_cursor_x = false;
@@ -457,9 +458,7 @@ void WatchesMenu::render(Font& font) {
             lock_cursor_y = false;
         } else {
             init_once = false;
-            watches_visible = false;
-            memory_visible = true;
-            mm_visible = false;
+		    MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     };
@@ -490,8 +489,7 @@ void WatchesMenu::render(Font& font) {
     if (button_is_pressed(Controller::Y)) {
         address_index = Watches[cursor.y].address;
         init_once = false;
-        watches_visible = false;
-        memory_editor_visible = true;
+        MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);

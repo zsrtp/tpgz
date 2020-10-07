@@ -1,5 +1,5 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/warping_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -21,7 +21,6 @@
 static Cursor cursor = {0, 0};
 uint8_t layer = 0xFF;
 bool init_once = false;
-bool warping_visible;
 bool file;
 int stage_type_counter = 0;
 signed long stage_counter = 0;
@@ -148,8 +147,7 @@ void load_default_spawn() {
 void WarpingMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        warping_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
@@ -253,7 +251,7 @@ void WarpingMenu::render(Font& font) {
                 tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
                 tp_gameInfo.warp.entrance.state = layer;
                 init_once = false;
-                warping_visible = false;
+		        MenuRendering::set_menu(MN_NONE_INDEX);
                 tp_gameInfo.loading_animation = 13;  // instant load
                 tp_gameInfo.warp.enabled = true;
                 break;

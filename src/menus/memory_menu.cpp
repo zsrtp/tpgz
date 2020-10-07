@@ -1,6 +1,6 @@
 #include "libtp_c/include/tp.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/memory_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -9,7 +9,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool memory_visible;
 
 Line lines[LINES] = {
     {"watches", 0, "Manage memory watches", false},
@@ -18,8 +17,7 @@ Line lines[LINES] = {
 void MemoryMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        memory_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -31,13 +29,11 @@ void MemoryMenu::render(Font& font) {
     if (current_input == 256 && a_held == false) {
         switch (cursor.y) {
             case 0: {
-                memory_visible = false;
-                watches_visible = true;
+		        MenuRendering::set_menu(MN_WATCHES_INDEX);
                 return;
             }
             case 1: {
-                memory_visible = false;
-                memory_editor_visible = true;
+		        MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
                 return;
             }
         }

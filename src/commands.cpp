@@ -1,5 +1,6 @@
 #include "commands.h"
-#include "menu.h"
+#include "menus/practice_menu.h"
+#include "menus/settings_menu.h"
 #include "save_injector.h"
 #include "timer.h"
 #include "gorge.h"

@@ -1,6 +1,7 @@
 #include "utils/card.hpp"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
+#include "saves.h"
 #include "fifo_queue.h"
 
 namespace Utilities {

@@ -1,6 +1,7 @@
 #include "utils/memory.hpp"
 #include "libtp_c/include/system.h"
-#include "menu.h"
+#include "menus/memory_menu.h"
+#include "menus/settings_menu.h"
 
 namespace Utilities {
     void render_active_watches(Font &font) {

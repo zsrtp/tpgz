@@ -1,7 +1,8 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/controller.h"
-#include "menu.h"
+#include "menus/any_saves_menu.h"
+#include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
 #include "utils/cursor.hpp"
@@ -22,7 +23,6 @@ static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
 static uint16_t angle = 0;
 static Vec3 position = {0, 0, 0};
 bool init_once = false;
-bool any_saves_visible;
 
 Line lines[LINES] = {
     {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
@@ -80,9 +80,7 @@ void default_load() {
     practice_file.inject_options_after_load = SaveInjector::inject_default_after;
     inject_save_flag = true;
     fifo_visible = true;
-    prac_visible = false;
-    any_saves_visible = false;
-    mm_visible = false;
+    MenuRendering::set_menu(MN_NONE_INDEX);
     init_once = false;
 }
 
@@ -176,9 +174,7 @@ void load_save(uint32_t id) {
 
 void AnySavesMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        any_saves_visible = false;
-        prac_visible = true;
-        mm_visible = false;
+		MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
         return;
     };

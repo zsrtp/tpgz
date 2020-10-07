@@ -2,7 +2,7 @@
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/tp.h"
 #include "controller.h"
-#include "menu.h"
+#include "menus/settings_menu.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
 #include "utils/card.hpp"
@@ -16,7 +16,6 @@
 static Cursor cursor = {0, 0};
 bool g_drop_shadows = true;
 bool init_once = false;
-bool settings_visible;
 int g_area_reload_behavior;
 int g_cursor_color;
 bool g_cursor_color_flag;
@@ -32,8 +31,7 @@ Line lines[LINES] = {
 void SettingsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        settings_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
@@ -51,8 +49,7 @@ void SettingsMenu::render(Font& font) {
                 break;
             };
             case POS_SETTINGS_MENU_INDEX: {
-                settings_visible = false;
-                pos_settings_visible = true;
+		        MenuRendering::set_menu(MN_POS_SETTINGS_INDEX);
                 return;
             };
             case SAVE_CARD_INDEX: {

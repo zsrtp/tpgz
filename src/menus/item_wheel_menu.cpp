@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "libtp_c/include/system.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/item_wheel_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -14,7 +14,6 @@ static Cursor cursor = {0,0};
 int listIdx = 0;
 int new_int_item_id;
 bool init_once = false;
-bool item_wheel_visible;
 
 const uint8_t valid_items[] = {
     OOCCOO_SR,
@@ -272,8 +271,7 @@ void try_remove_item(uint8_t inventory_slot) {
 
 void ItemWheelMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        item_wheel_visible = false;
-        inventory_visible = true;
+        MenuRendering::set_menu(MN_INVENTORY_INDEX);
         init_once = false;
         return;
     };

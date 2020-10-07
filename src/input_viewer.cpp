@@ -6,7 +6,8 @@
 #include "controller.h"
 #include "font.h"
 #include "input_viewer.h"
-#include "menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
 #include "utils/draw.h"
 #include "libtp_c/include/math.h"
 

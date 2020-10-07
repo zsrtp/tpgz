@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/scene_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -9,7 +9,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool scene_menu_visible;
 using namespace Scene;
 
 SceneItem SceneItems[SCENE_AMNT] = {
@@ -34,8 +33,7 @@ Line lines[LINES] = {
 
 void SceneMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-        scene_menu_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
         return;
     };

@@ -1,7 +1,7 @@
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/tp.h"
 #include "font.h"
-#include "menu.h"
+#include "menus/flags_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -10,7 +10,6 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool flags_menu_visible;
 
 Line lines[LINES] = {
     {"general flags", GENERAL_FLAGS_INDEX, "general flags", false},
@@ -21,8 +20,7 @@ Line lines[LINES] = {
 void FlagsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        flags_menu_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -34,23 +32,19 @@ void FlagsMenu::render(Font& font) {
     if (current_input == 256 && a_held == false) {
         switch (cursor.y) {
             case GENERAL_FLAGS_INDEX: {
-                flags_menu_visible = false;
-                general_flags_visible = true;
+		        MenuRendering::set_menu(MN_GENERAL_FLAGS_INDEX);
                 return;
             }
             case DUNGEON_FLAGS_INDEX: {
-                flags_menu_visible = false;
-                dungeon_flags_visible = true;
+		        MenuRendering::set_menu(MN_DUNGEON_FLAGS_INDEX);
                 return;
             }
             case PORTAL_FLAGS_INDEX: {
-                flags_menu_visible = false;
-                portal_flags_visible = true;
+		        MenuRendering::set_menu(MN_PORTAL_FLAGS_INDEX);
                 return;
             }
             case TEMP_FLAGS_INDEX: {
-                flags_menu_visible = false;
-                temp_flags_visible = true;
+		        MenuRendering::set_menu(MN_TEMP_FLAGS_INDEX);
                 return;
             }
         }

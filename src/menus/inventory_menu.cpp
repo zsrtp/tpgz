@@ -1,5 +1,5 @@
 #include "font.h"
-#include "menu.h"
+#include "menus/inventory_menu.h"
 #include "controller.h"
 #include "utils/cursor.hpp"
 #include "utils/lines.hpp"
@@ -8,7 +8,6 @@
 
 static Cursor cursor = {0,0};
 bool init_once = false;
-bool inventory_visible;
 
 Line lines[LINES] = {
     {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
@@ -19,8 +18,7 @@ void InventoryMenu::render(Font& font) {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-        inventory_visible = false;
-        mm_visible = true;
+		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
@@ -29,18 +27,15 @@ void InventoryMenu::render(Font& font) {
     if (current_input == 256 && a_held == false) {
         switch (cursor.y) {
             case ITEM_WHEEL_INDEX: {
-                inventory_visible = false;
-                item_wheel_visible = true;
+		        MenuRendering::set_menu(MN_ITEM_WHELL_INDEX);
                 return;
             }
             case PAUSE_MENU_INDEX: {
-                inventory_visible = false;
-                pause_visible = true;
+		        MenuRendering::set_menu(MN_PAUSE_INDEX);
                 return;
             }
             case AMOUNTS_MENU_INDEX: {
-                inventory_visible = false;
-                amounts_visible = true;
+		        MenuRendering::set_menu(MN_AMOUNTS_INDEX);
                 return;
             }
         }
