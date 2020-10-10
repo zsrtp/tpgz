@@ -61,7 +61,7 @@ namespace Cheats {
             if (cheat.active) {
                 switch (cheat.id) {
                     case MoonJump: {
-                        Commands::enable_command(Commands::MOON_JUMP);
+                        Commands::enable_command(Commands::CMD_MOON_JUMP);
                         break;
                     }
                     case Invincible: {
@@ -119,7 +119,7 @@ namespace Cheats {
             } else {
                 switch (cheat.id) {
                     case MoonJump: {
-                        Commands::disable_command(Commands::MOON_JUMP);
+                        Commands::disable_command(Commands::CMD_MOON_JUMP);
                         break;
                     }
                     case SuperClawshot: {

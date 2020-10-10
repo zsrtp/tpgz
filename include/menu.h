@@ -3,6 +3,7 @@
 #include "timer.h"
 #include "input_viewer.h"
 #include "cheats.h"
+#include "commands.h"
 #include "libtp_c/include/utils.h"
 #include <string.h>
 

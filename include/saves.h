@@ -7,7 +7,7 @@
 #include "menus/memory_menu.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
-#define GZ_SAVE_ENTRIES_AMNT 8
+#define GZ_SAVE_ENTRIES_AMNT 9
 
 // These numbers can only change when we change the GZ_SAVE_VERSION_NUMBER,
 // otherwise, only new entries can be added.
@@ -20,6 +20,7 @@ enum GZSaveIndex {
     SV_DROP_SHADOW_INDEX = 5,
     SV_AREA_RELOAD_INDEX = 6,
     SV_CURSOR_COLOR_INDEX = 7,
+    SV_COMMANDS = 8,
 };
 
 struct GZSaveHeader {
@@ -35,6 +36,7 @@ struct GZSaveLayout {
     Scene::SceneItem SceneItems[SCENE_AMNT];
     MemoryWatch Watches[MAX_WATCHES];
     Vec2 sprite_offsets[SPRITES_AMNT];
+    bool commands_states[COMMANDS_AMNT];
     bool g_drop_shadows;
     int g_area_reload_behavior;
     int g_cursor_color;

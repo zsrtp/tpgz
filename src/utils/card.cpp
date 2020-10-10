@@ -2,6 +2,7 @@
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
 #include "saves.h"
+#include "commands.h"
 #include "fifo_queue.h"
 
 namespace Utilities {
@@ -11,6 +12,7 @@ namespace Utilities {
     int32_t card_write(CardInfo* card_info, void* data, int32_t size, int32_t offset, int32_t sector_size) {
         uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
         int32_t result = Ready;
+        int32_t read_bytes = 0;
 
         while (result == Ready && size > 0) {
             result = CARDRead(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
@@ -18,8 +20,9 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(buf + (offset & (sector_size - 1)), data, size > rem_size ? rem_size : size);
+            tp_memcpy(buf + (offset & (sector_size - 1)), (void*)((uint32_t)data + read_bytes), MIN(rem_size, size));
             result = CARDWrite(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
+            read_bytes += MIN(rem_size, size);
             size -= rem_size;
             offset += rem_size;
         }
@@ -33,6 +36,7 @@ namespace Utilities {
     int32_t card_read(CardInfo* card_info, void* data, int32_t size, int32_t offset, int32_t sector_size) {
         uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
         int32_t result = Ready;
+        int32_t read_bytes = 0;
 
         while (result == Ready && size > 0) {
             result = CARDRead(card_info, buf, sector_size, (offset & ~(sector_size - 1)));
@@ -40,7 +44,8 @@ namespace Utilities {
                 break;
             }
             int32_t rem_size = sector_size - (offset & (sector_size - 1));
-            tp_memcpy(data, buf + (offset & (sector_size - 1)), size > rem_size ? rem_size : size);
+            tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (sector_size - 1)), MIN(rem_size, size));
+            read_bytes += MIN(rem_size, size);
             size -= rem_size;
             offset += rem_size;
         }
@@ -54,6 +59,7 @@ namespace Utilities {
         tp_memcpy(save_layout.SceneItems, SceneItems, sizeof(SceneItems));
         tp_memcpy(save_layout.Watches, Watches, sizeof(Watches));
         tp_memcpy(save_layout.sprite_offsets, sprite_offsets, sizeof(sprite_offsets));
+        tp_memcpy(save_layout.commands_states, commands_states, sizeof(commands_states));
         save_layout.g_drop_shadows = g_drop_shadows;
         save_layout.g_area_reload_behavior = g_area_reload_behavior;
         save_layout.g_cursor_color = g_cursor_color;
@@ -65,6 +71,7 @@ namespace Utilities {
         tp_memcpy(SceneItems, save_layout.SceneItems, sizeof(SceneItems));
         tp_memcpy(Watches, save_layout.Watches, sizeof(Watches));
         tp_memcpy(sprite_offsets, save_layout.sprite_offsets, sizeof(sprite_offsets));
+        tp_memcpy(commands_states, save_layout.commands_states, sizeof(commands_states));
         g_drop_shadows = save_layout.g_drop_shadows;
         g_area_reload_behavior = save_layout.g_area_reload_behavior;
         g_cursor_color = save_layout.g_cursor_color;
@@ -84,6 +91,7 @@ namespace Utilities {
         set_entry(SV_SCENE_INDEX, SceneItems);
         set_entry(SV_WATCHES_INDEX, Watches);
         set_entry(SV_SPRITES_INDEX, sprite_offsets);
+        set_entry(SV_COMMANDS, commands_states);
         set_entry(SV_DROP_SHADOW_INDEX, g_drop_shadows);
         set_entry(SV_AREA_RELOAD_INDEX, g_area_reload_behavior);
         set_entry(SV_CURSOR_COLOR_INDEX, g_cursor_color);
@@ -115,6 +123,7 @@ namespace Utilities {
         assert_read_entry(SV_SCENE_INDEX, save_file.data.SceneItems, sizeof(save_file.data.SceneItems));
         assert_read_entry(SV_WATCHES_INDEX, save_file.data.Watches, sizeof(save_file.data.Watches));
         assert_read_entry(SV_SPRITES_INDEX, save_file.data.sprite_offsets, sizeof(save_file.data.sprite_offsets));
+        assert_read_entry(SV_COMMANDS, save_file.data.commands_states, sizeof(save_file.data.commands_states));
         assert_read_entry(SV_DROP_SHADOW_INDEX, &save_file.data.g_drop_shadows, sizeof(save_file.data.g_drop_shadows));
         assert_read_entry(SV_AREA_RELOAD_INDEX, &save_file.data.g_area_reload_behavior, sizeof(save_file.data.g_area_reload_behavior));
         assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.g_cursor_color, sizeof(save_file.data.g_cursor_color));
@@ -128,8 +137,9 @@ namespace Utilities {
         GZSaveFile save_file;
         Utilities::setup_save_file(save_file);
         Utilities::store_save_layout(save_file.data);
+        uint32_t file_size = (uint32_t)(tp_ceil((double)sizeof(save_file) / (double)card.sector_size) * card.sector_size);
         card.card_result = CARDDelete(0, card.file_name_buffer);
-        card.card_result = CARDCreate(0, card.file_name_buffer, card.sector_size, &card.card_info);
+        card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
         if (card.card_result == Ready || card.card_result == Exist) {
             card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
             if (card.card_result == Ready) {
