@@ -5,6 +5,10 @@
 #include "gcn_c/include/dvd.h"
 #include "utils/texture.h"
 
+enum TexFmt {
+    RGB8 = 0,
+    CMPR = 1,
+};
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,6 +37,18 @@ int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offse
     return read_bytes;
 }
 
+uint32_t get_size(uint32_t format, uint32_t width, uint32_t height) {
+    switch(format) {
+        case TexFmt::CMPR: {
+            return width * height / 2;
+        }
+        case TexFmt::RGB8:
+        default: {
+            return 4 * width * height;
+        }
+    }
+}
+
 int32_t load_texture(const char* path, Texture* tex) {
     DVDFileInfo fileInfo;
     int32_t readsize;
@@ -49,16 +65,13 @@ int32_t load_texture(const char* path, Texture* tex) {
     }
 
     uint8_t fmt = GX_TF_I8;
-    switch (tex->header.channels) {
-        case 1: {
-            fmt = GX_TF_I8;
+    switch (tex->header.format) {
+        case TexFmt::RGB8: {
+            fmt = GX_TF_RGBA8;
             break;
         }
-        case 2: {
-            fmt = GX_TF_RGB565; // Doesn't work atm
-        }
-        case 4: {
-            fmt = GX_TF_RGBA8;
+        case TexFmt::CMPR: {
+            fmt = GX_TF_CMPR;
             break;
         }
         default: {
@@ -68,7 +81,7 @@ int32_t load_texture(const char* path, Texture* tex) {
         }
     }
 
-    uint32_t size = tex->header.channels * tex->header.width * tex->header.height;
+    uint32_t size = get_size(tex->header.format, tex->header.width, tex->header.height);
     tex->data = (uint8_t*)tp_memalign(-32, size);
     if (tex->data == nullptr) {
         DVDClose(&fileInfo);
