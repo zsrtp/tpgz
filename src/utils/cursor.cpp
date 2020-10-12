@@ -2,8 +2,8 @@
 #include "controller.h"
 
 namespace Utilities {
-    void move_cursor(Cursor &cursor, int max_cursor_y_value, int max_cursor_x_value, bool lock_x, bool lock_y) {
-        if (!can_move_cursor) {
+    void move_cursor(Cursor &cursor, int max_cursor_y_value, int max_cursor_x_value, bool lock_x, bool lock_y, bool unrestricted) {
+        if (!can_move_cursor && !unrestricted) {
             return;
         }
         if (button_is_pressed(Controller::DPAD_UP) && !lock_y) {

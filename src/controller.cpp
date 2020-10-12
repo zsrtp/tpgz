@@ -54,7 +54,7 @@ extern "C" void read_controller() {
     }
 
     Cheats::apply_cheats();
-    if (MenuRendering::is_menu_open() == true) {
+    if (MenuRendering::is_menu_open()) {
         current_input = Controller::get_current_inputs();
         a_held = a_held_last_frame && current_input == 0x0100;
         a_held_last_frame = current_input == 0x0100;

@@ -6,6 +6,7 @@
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
+#include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
@@ -90,6 +91,12 @@ namespace Commands {
         }
     }
 
+    void toggle_move_link() {
+        if (button_this_frame == 0x0860 && button_last_frame != 0x0860) {
+            move_link_active = !move_link_active;
+        }
+    }
+
     struct Command {
         bool& active;
         uint16_t buttons;
@@ -104,7 +111,8 @@ namespace Commands {
         {commands_states[CMD_TIMER_TOGGLE], 0x0110, toggle_timer},
         {commands_states[CMD_TIMER_RESET], 0x0210, hit_reset},
         {commands_states[CMD_GORGE_VOID], 0x0050, gorge_void},
-        {commands_states[CMD_FREE_CAM], 0x0310, toggle_free_cam}};
+        {commands_states[CMD_FREE_CAM], 0x0310, toggle_free_cam},
+        {commands_states[CMD_MOVE_LINK], 0x0860, toggle_move_link}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;

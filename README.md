@@ -54,7 +54,7 @@ dungeon flags menu:
 - have small keys               // Toggle small keys for current dungeon
 - miniboss dead                 // Toggle miniboss defeated state
 - boss dead                     // Toggle boss defeated state
-- clear flags*                  // Clear all dungeon flags
+- clear flags                   // Clear all dungeon flags
 
 inventory menu:
 - item wheel                    // Set the 24 item wheel slots to any item
@@ -83,8 +83,8 @@ settings menu:
 - cursor color                  // Changes the color of the cursor in TPGZ's menus (green, blue, red, orange, yellow, purple)
 - drop shadows                  // Adds shadows to all font letters
 - menu position                 // Changes the position of various menus and tools from TPGZ
-- save card (TBD)               // Save settings to memory card (not yet implemented)
-- load card (TBD)               // Load settings from memory card (not yet implemented)
+- save card                     // Save settings to memory card
+- load card                     // Load settings from memory card
 
 tools menu:
 - area reload                   // Use L+R+Start+A to reload current area
@@ -104,7 +104,7 @@ tools menu:
 - link tunic color:             // Changes Link's tunic color (green, blue, red, orange, yellow, white, or cycle)
 
 warping menu:
-- warp to dungeons, towns, grottos, etc. (not implemented yet)
+- warp to dungeons, towns, grottos, etc.
 ```
 
 ### Known Issues
@@ -112,8 +112,7 @@ warping menu:
 ```
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
-- clear dungeon flags only works when not in the selected dungeon
-- to be able to move link vertically, he must get off from a ledge
+- to be able to move link vertically, he must enter a falling state
 ```
 
 ### Planned Features

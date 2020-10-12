@@ -49,7 +49,7 @@ void game_loop() {
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
-    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1) {
+    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1 && !move_link_active) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
@@ -77,6 +77,9 @@ void draw() {
     if (ToolItems[Tools::TIMER_INDEX].active || ToolItems[Tools::LOAD_TIMER_INDEX].active || ToolItems[Tools::IGT_TIMER_INDEX].active) {
         Timer::render(default_font);
     }
+    if (move_link_active) {
+        MoveLink::render_info_input(default_font);
+	}
     MenuRendering::render_active_menus(default_font);
     Utilities::render_active_watches(default_font);
 }

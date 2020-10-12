@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-#define COMMANDS_AMNT 8
+#define COMMANDS_AMNT 9
 
 extern bool reload_area_flag;
 
@@ -16,7 +16,8 @@ namespace Commands {
         CMD_TIMER_TOGGLE = 4,
         CMD_TIMER_RESET = 5,
         CMD_GORGE_VOID = 6,
-        CMD_FREE_CAM = 7
+        CMD_FREE_CAM = 7,
+        CMD_MOVE_LINK = 8
     };
 
     void process_inputs();
