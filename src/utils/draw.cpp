@@ -1,17 +1,19 @@
 #include "utils/draw.h"
+#include "utils/texture.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/addrs.h"
 #include "gcn_c/include/gfx.h"
 
 #define DEFAULT_WIDTH 0x06
 
-GXTexObj _blankTexObj;
-const char _blank_tex_data[1] __attribute__ ((aligned (32))) = {0xff};
+Texture blankTex;
 
 namespace Draw {
     void init() {
-        tp_memset(&_blankTexObj, 0x0, sizeof(GXTexObj));
-        GX_InitTexObj(&_blankTexObj, (void*)_blank_tex_data, 1, 1, GX_TF_I8, GX_CLAMP, GX_CLAMP, GX_FALSE);
+        load_texture("tpgz/tex/blank.tex", &blankTex);
+        if (blankTex.loadCode != TexCode::TEX_OK) {
+            tp_osReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
+        }
     }
 
     void begin(uint16_t n) {
@@ -19,7 +21,15 @@ namespace Draw {
     }
 
     void begin(uint16_t n, uint8_t primitive) {
-        GX_LoadTexObj(&_blankTexObj, (uint8_t)GX_TEXMAP0);
+        begin(n, primitive, &blankTex._texObj);
+    }
+
+    void begin(uint16_t n, GXTexObj* tex) {
+        begin(n, GX_TRIANGLESTRIP, tex);
+    }
+
+    void begin(uint16_t n, uint8_t primitive, GXTexObj* tex) {
+        GX_LoadTexObj(tex, (uint8_t)GX_TEXMAP0);
         GX_Begin(primitive, GX_VTXFMT0, n);
     }
 
@@ -28,7 +38,7 @@ namespace Draw {
     }
 
     void begin_outline(uint16_t n, uint8_t width) {
-        GX_LoadTexObj(&_blankTexObj, (uint8_t)GX_TEXMAP0);
+        GX_LoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
         GX_SetLineWidth(width, GX_TO_ZERO);
         GX_Begin(GX_LINESTRIP, GX_VTXFMT0, n);
     }
@@ -48,7 +58,11 @@ namespace Draw {
     }
 
     void draw_quad(uint32_t color, Vec2 p[4]) {
-        begin(4);
+        draw_quad(color, p, &blankTex._texObj);
+    }
+
+    void draw_quad(uint32_t color, Vec2 p[4], GXTexObj* texture) {
+        begin(4, texture);
             add_vertex(color, p[0], {0.0, 0.0});
             add_vertex(color, p[1], {1.0, 0.0});
             add_vertex(color, p[3], {0.0, 1.0});
@@ -71,12 +85,16 @@ namespace Draw {
     }
 
     void draw_rect(uint32_t color, Vec2 pos, Vec2 dim) {
+        draw_rect(color, pos, dim, &blankTex._texObj);
+    }
+
+    void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
         Vec2 vertices[4] = {
             {pos.x, pos.y},
             {pos.x + dim.x, pos.y},
             {pos.x + dim.x, pos.y + dim.y},
             {pos.x, pos.y + dim.y}};
-        draw_quad(color, vertices);
+        draw_quad(color, vertices, texture);
     }
 
     void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim) {

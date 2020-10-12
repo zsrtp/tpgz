@@ -37,7 +37,7 @@ Line lines[LINES] = {
 void DungeonFlagsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_FLAGS_INDEX);
+        MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -117,15 +117,15 @@ void DungeonFlagsMenu::render(Font& font) {
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case MAP_FLAG_INDEX: {
-                dungeon_node->flags[29] ^= 1UL << 0;
+                dungeon_node->flags[29] ^= 1 << 0;
                 break;
             }
             case COMPASS_FLAG_INDEX: {
-                dungeon_node->flags[29] ^= 1UL << 1;
+                dungeon_node->flags[29] ^= 1 << 1;
                 break;
             }
             case BOSS_KEY_FLAG_INDEX: {
-                dungeon_node->flags[29] ^= 1UL << 2;
+                dungeon_node->flags[29] ^= 1 << 2;
                 break;
             }
             case SMALL_KEY_FLAG_INDEX: {
@@ -137,52 +137,21 @@ void DungeonFlagsMenu::render(Font& font) {
                 break;
             }
             case DEFEAT_MINIBOSS_FLAG_INDEX: {
-                dungeon_node->flags[29] ^= 1UL << 7;
+                dungeon_node->flags[29] ^= 1 << 7;
                 break;
             }
             case DEFEAT_BOSS_FLAG_INDEX: {
-                dungeon_node->flags[29] ^= 1UL << 3;
+                dungeon_node->flags[29] ^= 1 << 3;
                 break;
             }
             case CLEAR_DUNGEON_FLAGS_INDEX: {
-                /*dungeon_node->flags_0 = 0;  // is there a better way to do this
-                dungeon_node->flags_1 = 0;
-                dungeon_node->flags_2 = 0;
-                dungeon_node->flags_3 = 0;
-                dungeon_node->flags_4 = 0;
-                dungeon_node->flags_5 = 0;
-                dungeon_node->flags_6 = 0;
-                dungeon_node->flags_7 = 0;
-                dungeon_node->flags_8 = 0;
-                dungeon_node->flags_9 = 0;
-                dungeon_node->flags_10 = 0;
-                dungeon_node->flags_11 = 0;
-                dungeon_node->flags_12 = 0;
-                dungeon_node->flags_13 = 0;
-                dungeon_node->flags_14 = 0;
-                dungeon_node->flags_15 = 0;
-                dungeon_node->flags_16 = 0;
-                dungeon_node->flags_17 = 0;
-                dungeon_node->flags_18 = 0;
-                dungeon_node->flags_19 = 0;
-                dungeon_node->flags_20 = 0;
-                dungeon_node->flags_21 = 0;
-                dungeon_node->flags_22 = 0;
-                dungeon_node->flags_23 = 0;
-                dungeon_node->flags_24 = 0;
-                dungeon_node->flags_25 = 0;
-                dungeon_node->flags_26 = 0;
-                dungeon_node->flags_27 = 0;
-                dungeon_node->flags_28 = 0;
-                dungeon_node->flags_29 = 0;
-                dungeon_node->flags_30 = 0;
-                dungeon_node->flags_31 = 0;*/
+                for (int i = 0; i < 0x20; i++) {
+                    dungeon_node->flags[i] = 0;
+                }
                 break;
             }
         }
     }
-    tp_gameInfo.temp_flags.flags[29] = dungeon_node->flags[29];  // need to add condition here to only update temp flags if in a dungeon
-    tp_gameInfo.temp_flags.flags[28] = dungeon_node->flags[28];
 
     sprintf(lines[SELECT_DUNGEON_INDEX].line, "dungeon: <%s>", dungeon_options[select_dungeon_index].member);
 

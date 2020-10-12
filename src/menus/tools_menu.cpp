@@ -153,8 +153,9 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case MOVE_LINK_INDEX: {
-                    move_link_active = true;
-                }
+                    Commands::enable_command(Commands::CMD_MOVE_LINK);
+                    move_link_active = false;
+				}
             }
         } else {
             switch (cursor.y) {
@@ -196,6 +197,7 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case MOVE_LINK_INDEX: {
+                    Commands::disable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
                 }
                 case GORGE_INDEX: {

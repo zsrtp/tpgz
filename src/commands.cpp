@@ -6,19 +6,23 @@
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
+#include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "utils/loading.hpp"
 
-#define GORGE_VOID_BUTTONS (Controller::Pad::L | Controller::Pad::Z)
-#define STORE_POSITION_BUTTONS (Controller::Pad::DPAD_UP | Controller::Pad::R)
-#define LOAD_POSITION_BUTTONS (Controller::Pad::DPAD_DOWN | Controller::Pad::R)
-#define MOON_JUMP_BUTTONS (Controller::Pad::R | Controller::Pad::A)
-#define RELOAD_AREA_BUTTONS (Controller::Pad::L | Controller::Pad::R | Controller::Pad::A | Controller::Pad::START)
-#define TIMER_TOGGLE_BUTTONS (Controller::Pad::Z | Controller::Pad::A)
-#define TIMER_RESET_BUTTONS (Controller::Pad::Z | Controller::Pad::B)
-#define FREE_CAM_BUTTONS (Controller::Pad::Z | Controller::Pad::B | Controller::Pad::A)
+using namespace Controller;
+
+#define GORGE_VOID_BUTTONS (Pad::L | Pad::Z)
+#define STORE_POSITION_BUTTONS (Pad::DPAD_UP | Pad::R)
+#define LOAD_POSITION_BUTTONS (Pad::DPAD_DOWN | Pad::R)
+#define MOON_JUMP_BUTTONS (Pad::R | Pad::A)
+#define RELOAD_AREA_BUTTONS (Pad::L | Pad::R | Pad::A | Pad::START)
+#define TIMER_TOGGLE_BUTTONS (Pad::Z | Pad::A)
+#define TIMER_RESET_BUTTONS (Pad::Z | Pad::B)
+#define FREE_CAM_BUTTONS (Pad::Z | Pad::B | Pad::A)
+#define MOVE_LINK_BUTTONS (Pad::L | Pad::R | Pad::Y )
 
 bool reload_area_flag = false;
 bool timer_started = false;
@@ -99,6 +103,12 @@ namespace Commands {
         }
     }
 
+    void toggle_move_link() {
+        if (button_this_frame == 0x0860 && button_last_frame != 0x0860) {
+            move_link_active = !move_link_active;
+        }
+    }
+
     struct Command {
         bool& active;
         uint16_t buttons;
@@ -113,15 +123,16 @@ namespace Commands {
         {commands_states[CMD_TIMER_TOGGLE], TIMER_TOGGLE_BUTTONS, toggle_timer},
         {commands_states[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, hit_reset},
         {commands_states[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, gorge_void},
-        {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam}};
+        {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam},
+        {commands_states[CMD_MOVE_LINK], 0x0860, toggle_move_link}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;
         for (auto c : Commands) {
             if (c.active == true && tp_mPadStatus.sval == c.buttons) {
                 c.command();
-                Controller::set_buttons_down(0x0);
-                Controller::set_buttons_pressed(0x0);
+                set_buttons_down(0x0);
+                set_buttons_pressed(0x0);
                 tp_mPadButton.sval = 0x0;
                 tp_mPadStatus.sval = 0x0;
             };

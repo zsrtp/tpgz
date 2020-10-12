@@ -458,7 +458,7 @@ void WatchesMenu::render(Font& font) {
             lock_cursor_y = false;
         } else {
             init_once = false;
-		    MenuRendering::set_menu(MN_MEMORY_INDEX);
+            MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     };

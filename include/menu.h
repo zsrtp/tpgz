@@ -64,7 +64,7 @@ namespace MenuRendering {
 }  // namespace MenuRendering
 
 class Menu {
-public:
+   public:
     Menu() {}
     virtual void render() = 0;
 };
