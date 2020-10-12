@@ -158,7 +158,7 @@ void CheatsMenu::render(Font &font) {
 
     Utilities::move_cursor(cursor, LINES);
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         CheatItems[cursor.y].active = !(CheatItems[cursor.y].active);
     }
 

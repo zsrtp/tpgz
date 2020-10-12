@@ -26,7 +26,7 @@ void PracticeMenu::render(Font& font) {
 
     if (!init_once) {current_input = 0;init_once = true;}
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case ANY_INDEX: {
                 MenuRendering::set_menu(MN_ANY_SAVES_INDEX);

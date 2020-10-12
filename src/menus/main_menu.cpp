@@ -31,7 +31,7 @@ void MainMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
 
-    if (current_input == 256 && !a_held) {
+    if (current_input == Controller::Pad::A && !a_held) {
         switch (cursor.y) {
             case MEMORY_INDEX: {
                 MenuRendering::set_menu(MN_MEMORY_INDEX);

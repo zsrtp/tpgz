@@ -114,7 +114,7 @@ void DungeonFlagsMenu::render(Font& font) {
     miniboss_flag = (dungeon_node->flags[29] & (1 << 7));
     boss_flag = (dungeon_node->flags[29] & (1 << 3));
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case MAP_FLAG_INDEX: {
                 dungeon_node->flags[29] ^= 1UL << 0;

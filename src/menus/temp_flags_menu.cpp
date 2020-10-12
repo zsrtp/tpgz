@@ -94,7 +94,7 @@ void render_area_flags(Font& font, Cursor cursor) {
 			    	bit_index++;
 			    }
 		    }
-			if (current_input == 256 && a_held == false) {
+			if (current_input == Controller::Pad::A && a_held == false) {
 				switch (bit_index) {
                     case 7: {
                         tp_gameInfo.temp_flags.flags[i] ^= (1 << 7);
@@ -185,7 +185,7 @@ void TempFlagsMenu::render(Font& font) {
         init_once = true;
     } 
 
-    if (!DungeonFlags[cursor.y].line_selected && current_input == 256 && a_held == false) {
+    if (!DungeonFlags[cursor.y].line_selected && current_input == Controller::Pad::A && a_held == false) {
         DungeonFlags[cursor.y].line_selected = true;
 		current_input = 0;
         lock_cursor_y = true;

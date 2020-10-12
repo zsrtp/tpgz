@@ -468,7 +468,7 @@ void WatchesMenu::render(Font& font) {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         // finish
         if (Watches[cursor.y].value_selected) {
             Watches[cursor.y].value_selected = false;

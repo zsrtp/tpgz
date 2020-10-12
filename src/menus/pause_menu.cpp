@@ -440,7 +440,7 @@ void PauseMenu::render(Font& font) {
         }
     }
 
-	if (current_input == 256 && a_held == false) {
+	if (current_input == Controller::Pad::A && a_held == false) {
 		switch (cursor.y) {
             case ENDING_BLOW_INDEX: {
                 tp_gameInfo.event_flags.flags[0x29] ^= 1 << 2;
@@ -474,10 +474,6 @@ void PauseMenu::render(Font& font) {
 	}
 
     set_equipment();
-
-    tp_osReport("0x%08X",&tp_gameInfo.event_flags.flags[0x29]);
-    tp_osReport("%d",tp_gameInfo.event_flags.flags[0x29]);
-    //tp_osReport("ok 0x%08X",&tp_gameInfo.event_flags.dominion_rod_state);
 
     sprintf(lines[ORDON_SWORD_INDEX].line, "ordon sword:       <%s>", ordon_sword_options[ordon_sword_index].member);
     sprintf(lines[MASTER_SWORD_INDEX].line, "master sword:      <%s>", master_sword_options[master_sword_index].member);

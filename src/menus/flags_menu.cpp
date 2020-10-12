@@ -29,7 +29,7 @@ void FlagsMenu::render(Font& font) {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case GENERAL_FLAGS_INDEX: {
 		        MenuRendering::set_menu(MN_GENERAL_FLAGS_INDEX);

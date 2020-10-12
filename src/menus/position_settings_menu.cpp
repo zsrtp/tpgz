@@ -62,7 +62,7 @@ void PosSettingsMenu::render(Font& font) {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         if (cursor.y < SPRITES_AMNT) {
             selected_item = selected_item == cursor.y ? NO_SELECTION : cursor.y;
         }

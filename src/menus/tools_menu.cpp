@@ -57,7 +57,7 @@ Line lines[LINES] = {
 
 void ToolsMenu::render(Font& font) {
     if (button_is_pressed(Controller::B)) {
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
         return;
     };
@@ -89,7 +89,7 @@ void ToolsMenu::render(Font& font) {
     sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:     <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(font, lines, cursor.y, LINES);
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         ToolItems[cursor.y].active = !ToolItems[cursor.y].active;
         if (ToolItems[cursor.y].active) {
             switch (cursor.y) {
@@ -108,11 +108,7 @@ void ToolsMenu::render(Font& font) {
                     break;
                 }
                 case GORGE_INDEX: {
-                    if (ToolItems[GORGE_INDEX].active) {
-                        Commands::enable_command(Commands::CMD_GORGE_VOID);
-                    } else {
-                        Commands::disable_command(Commands::CMD_GORGE_VOID);
-                    }
+                    Commands::enable_command(Commands::CMD_GORGE_VOID);
                     break;
                 }
                 case TELEPORT_INDEX: {
@@ -158,7 +154,7 @@ void ToolsMenu::render(Font& font) {
                 }
                 case MOVE_LINK_INDEX: {
                     move_link_active = true;
-				}
+                }
             }
         } else {
             switch (cursor.y) {
@@ -201,6 +197,10 @@ void ToolsMenu::render(Font& font) {
                 }
                 case MOVE_LINK_INDEX: {
                     move_link_active = false;
+                }
+                case GORGE_INDEX: {
+                    Commands::disable_command(Commands::CMD_GORGE_VOID);
+                    break;
                 }
             }
         }

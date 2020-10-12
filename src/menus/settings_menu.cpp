@@ -42,7 +42,7 @@ void SettingsMenu::render(Font& font) {
 
     //Utilities::move_cursor(cursor, LINES, 2);
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case DROP_SHADOWS_INDEX: {
                 g_drop_shadows = !g_drop_shadows;

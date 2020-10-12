@@ -11,6 +11,15 @@
 #include "libtp_c/include/system.h"
 #include "utils/loading.hpp"
 
+#define GORGE_VOID_BUTTONS (Controller::Pad::L | Controller::Pad::Z)
+#define STORE_POSITION_BUTTONS (Controller::Pad::DPAD_UP | Controller::Pad::R)
+#define LOAD_POSITION_BUTTONS (Controller::Pad::DPAD_DOWN | Controller::Pad::R)
+#define MOON_JUMP_BUTTONS (Controller::Pad::R | Controller::Pad::A)
+#define RELOAD_AREA_BUTTONS (Controller::Pad::L | Controller::Pad::R | Controller::Pad::A | Controller::Pad::START)
+#define TIMER_TOGGLE_BUTTONS (Controller::Pad::Z | Controller::Pad::A)
+#define TIMER_RESET_BUTTONS (Controller::Pad::Z | Controller::Pad::B)
+#define FREE_CAM_BUTTONS (Controller::Pad::Z | Controller::Pad::B | Controller::Pad::A)
+
 bool reload_area_flag = false;
 bool timer_started = false;
 bool reset_timer = false;
@@ -52,7 +61,7 @@ namespace Commands {
     };
 
     void toggle_timer() {
-        if (button_this_frame == 0x0110 && button_last_frame != 0x0110) {
+        if (button_this_frame == TIMER_TOGGLE_BUTTONS && button_last_frame != TIMER_TOGGLE_BUTTONS) {
             timer_started = !timer_started;
         };
     }
@@ -75,7 +84,7 @@ namespace Commands {
     }  // namespace Commands
 
     void gorge_void() {
-        if (button_this_frame == 0x0050 && button_last_frame != 0x0050) {
+        if (button_this_frame == GORGE_VOID_BUTTONS && button_last_frame != GORGE_VOID_BUTTONS) {
             Utilities::load_save_file("tpgz/save_files/any/gorge_void.bin");
             practice_file.inject_options_before_load = SaveInjector::inject_default_before;
             practice_file.inject_options_during_load = GorgeVoidIndicator::warp_to_gorge;
@@ -85,7 +94,7 @@ namespace Commands {
     }
 
     void toggle_free_cam() {
-        if (button_this_frame == 0x0310 && button_last_frame != 0x0310) {
+        if (button_this_frame == FREE_CAM_BUTTONS && button_last_frame != FREE_CAM_BUTTONS) {
             free_cam_active = !free_cam_active;
         }
     }
@@ -97,14 +106,14 @@ namespace Commands {
     };
 
     static Command Commands[COMMANDS_AMNT] = {
-        {commands_states[CMD_STORE_POSITION], 0x0028, store_position},
-        {commands_states[CMD_LOAD_POSITION], 0x0024, load_position},
-        {commands_states[CMD_MOON_JUMP], 0x0120, moon_jump},
-        {commands_states[CMD_RELOAD_AREA], 0x1160, reload_area},
-        {commands_states[CMD_TIMER_TOGGLE], 0x0110, toggle_timer},
-        {commands_states[CMD_TIMER_RESET], 0x0210, hit_reset},
-        {commands_states[CMD_GORGE_VOID], 0x0050, gorge_void},
-        {commands_states[CMD_FREE_CAM], 0x0310, toggle_free_cam}};
+        {commands_states[CMD_STORE_POSITION], STORE_POSITION_BUTTONS, store_position},
+        {commands_states[CMD_LOAD_POSITION], LOAD_POSITION_BUTTONS, load_position},
+        {commands_states[CMD_MOON_JUMP], MOON_JUMP_BUTTONS, moon_jump},
+        {commands_states[CMD_RELOAD_AREA], RELOAD_AREA_BUTTONS, reload_area},
+        {commands_states[CMD_TIMER_TOGGLE], TIMER_TOGGLE_BUTTONS, toggle_timer},
+        {commands_states[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, hit_reset},
+        {commands_states[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, gorge_void},
+        {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;
