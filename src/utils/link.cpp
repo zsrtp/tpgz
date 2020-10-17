@@ -40,14 +40,6 @@ namespace Utilities {
         }
     }
     void change_tunic_color() {
-        // patch out part of setWaterDropEffect's code
-        tp_memset((void *)0x801244a4, 0x60, 1);
-        tp_memset((void *)0x801244a5, 0x00, 3);
-        tp_memset((void *)0x801244a8, 0x60, 1);
-        tp_memset((void *)0x801244a9, 0x00, 3);
-        tp_memset((void *)0x801244ac, 0x60, 1);
-        tp_memset((void *)0x801244ad, 0x00, 3);
-
         if (tp_gameInfo.link_tunic_ptr) {
             switch (g_tunic_color) {
                 case GREEN: {

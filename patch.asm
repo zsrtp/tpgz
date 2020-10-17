@@ -12,3 +12,9 @@ b apply_lib_hooks
 0x803737b4:
 u32 0x9421fff0 ; stwu r1,-0x10(r1)  ; First instruction from original main()
 u32 0x4BC92CA0 ; b main() + 4       ; branch to second instruction of main()
+
+; Patch the setWaterDropEffect function to allow for custom tunic colors
+0x801244a4:
+u32 0x60000000
+u32 0x60000000
+u32 0x60000000
