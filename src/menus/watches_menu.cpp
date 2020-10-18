@@ -17,12 +17,15 @@
 #define WATCH_OFFSET_X_OFFSET 294.5f
 #define WATCH_VISIBLE_X_OFFSET 364.0f
 #define WHITE_RGBA 0xFFFFFFFF
+#define SPEED_THRESHOLD 30
 
 Cursor cursor;
 
 bool init_once = false;
 bool lock_cursor_y = false;
 bool lock_cursor_x = false;
+uint8_t button_held_counter = 0;
+float speed = 1.0f;
 uint8_t watch_address_index = 3;
 uint8_t offset_index = 2;
 MemoryWatch Watches[MAX_WATCHES] = {};
@@ -193,14 +196,20 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                 case WatchX: {
                     if (Watches[i].value_selected) {
                         if (button_is_pressed(Controller::DPAD_RIGHT)) {
-                            if (Watches[i].x >= 0.0f && Watches[i].x < 500.0f) {
-                                Watches[i].x++;
+                            if (Watches[i].x >= 0.0f && Watches[i].x < 600.0f) {
+                                Watches[i].x += speed;
                             }
                         }
                         if (button_is_pressed(Controller::DPAD_LEFT)) {
-                            if (Watches[i].x > 0.0f && Watches[i].x <= 500.0f) {
-                                Watches[i].x--;
+                            if (Watches[i].x > 0.0f && Watches[i].x <= 600.0f) {
+                                Watches[i].x -= speed;
                             }
+                        }
+                        if(Watches[i].x < 0){
+                            Watches[i].x = 0;
+                        }
+                        if(Watches[i].x > 600){
+                            Watches[i].x = 600;
                         }
                         sprintf(watch_x, "<%.0f>", Watches[i].x);
                         font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
@@ -219,13 +228,19 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                     if (Watches[i].value_selected) {
                         if (button_is_pressed(Controller::DPAD_RIGHT)) {
                             if (Watches[i].y >= 0.0f && Watches[i].y < 500.0f) {
-                                Watches[i].y++;
+                                Watches[i].y += speed;
                             }
                         }
                         if (button_is_pressed(Controller::DPAD_LEFT)) {
                             if (Watches[i].y > 0.0f && Watches[i].y <= 500.0f) {
-                                Watches[i].y--;
+                                Watches[i].y -= speed;
                             }
+                        }
+                        if(Watches[i].y < 0){
+                            Watches[i].y = 0;
+                        }
+                        if(Watches[i].y > 500){
+                            Watches[i].y = 500;
                         }
                         sprintf(watch_y, "<%.0f>", Watches[i].y);
                         font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
@@ -490,6 +505,22 @@ void WatchesMenu::render(Font& font) {
         address_index = Watches[cursor.y].address;
         init_once = false;
         MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
+    }
+
+    if (button_is_down(Controller::DPAD_RIGHT) || button_is_down(Controller::DPAD_LEFT)) {
+        button_held_counter++;
+        if (button_held_counter < SPEED_THRESHOLD) {
+            speed = 1.0f;
+        }
+        if (button_held_counter > SPEED_THRESHOLD) {
+            speed = 20.0f;
+        }
+        if(button_held_counter >= 60){
+            button_held_counter = 60;
+        }
+    } else {
+        button_held_counter = 0;
+        speed = 1.0f;
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);

@@ -43,7 +43,7 @@ Line lines[LINES] = {
     {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true, &ToolItems[FAST_BONK_INDEX].active},
     {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true, &ToolItems[FAST_MOVEMENT_INDEX].active},
     {"gorge checker", GORGE_INDEX, "Use L+Z to warp to Kakariko Gorge", true, &ToolItems[GORGE_INDEX].active},
-    {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs (buttons only for now)", true, &ToolItems[INPUT_VIEWER_INDEX].active},
+    {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true, &ToolItems[INPUT_VIEWER_INDEX].active},
     {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true, &ToolItems[LINK_DEBUG_INDEX].active},
     {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true, &ToolItems[SAND_INDEX].active},
     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true, &ToolItems[ROLL_INDEX].active},
@@ -52,7 +52,7 @@ Line lines[LINES] = {
     {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: Z+B to reset", true, &ToolItems[LOAD_TIMER_INDEX].active},
     {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX, "Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed", true, &ToolItems[FREE_CAM_INDEX].active},
-    {"move link", MOVE_LINK_INDEX, "Stick/C-stick to move, C-stick L/R to change angle", true, &ToolItems[MOVE_LINK_INDEX].active},
+    {"move link", MOVE_LINK_INDEX, "L+R+Y to activate. Stick/C to move, C-left/right to change angle", true, &ToolItems[MOVE_LINK_INDEX].active},
     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
