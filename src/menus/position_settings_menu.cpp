@@ -45,7 +45,7 @@ void draw_cursor(Vec2 pos) {
     Draw::draw_rect_outline(cycle ? cursor_rgba : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
 }
 
-void PosSettingsMenu::render(Font& font) {
+void PosSettingsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         if (selected_item != NO_SELECTION) {
             selected_item = NO_SELECTION;
@@ -101,7 +101,7 @@ void PosSettingsMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES, 1, selected_item != NO_SELECTION, selected_item != NO_SELECTION);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 }
 
 void PosSettingsMenu::initDefaults() {

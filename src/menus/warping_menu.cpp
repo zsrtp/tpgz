@@ -144,7 +144,7 @@ void load_default_spawn() {
     load_next_spawn_info();
 }
 
-void WarpingMenu::render(Font& font) {
+void WarpingMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
@@ -279,5 +279,5 @@ void WarpingMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 }

@@ -40,11 +40,11 @@ extern MemoryWatch Watches[MAX_WATCHES];
 class MemoryMenu : public Menu {
 public:
     MemoryMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };
 
 class WatchesMenu : public Menu {
 public:
     WatchesMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

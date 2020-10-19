@@ -54,5 +54,5 @@ enum AnyPracticeIndex {
 class AnySavesMenu : public Menu {
 public:
     AnySavesMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

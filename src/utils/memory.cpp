@@ -4,7 +4,7 @@
 #include "menus/settings_menu.h"
 
 namespace Utilities {
-    void render_active_watches(Font &font) {
+    void render_active_watches() {
         for (int i = 0; i < MAX_WATCHES; i++) {
             if (Watches[i].visible) {
                 char rendered_value[8];
@@ -15,7 +15,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%08X" : "%u", *(uint32_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case u16: {
@@ -24,7 +24,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%04X" : "%u", *(uint16_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case u8: {
@@ -33,7 +33,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%02X" : "%u", *(uint8_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case i32: {
@@ -42,7 +42,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%08X" : "%i", *(int32_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case i16: {
@@ -51,7 +51,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%04X" : "%i", *(int16_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case i8: {
@@ -60,7 +60,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, Watches[i].hex ? "%02X" : "%i", *(int8_t *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case f32: {
@@ -69,7 +69,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, "%.2f", *(float *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                     case string: {
@@ -78,7 +78,7 @@ namespace Utilities {
                         } else {
                             sprintf(rendered_value, "%s", (char *)Watches[i].address);
                         }
-                        font.gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
+                        Font::gz_renderChars(rendered_value, Watches[i].x, Watches[i].y, 0xFFFFFFFF, g_drop_shadows);
                         break;
                     }
                 }

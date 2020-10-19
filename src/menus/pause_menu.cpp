@@ -274,7 +274,7 @@ void set_equipment() {
 
 }
 
-void PauseMenu::render(Font& font) {
+void PauseMenu::render() {
 	// update hidden skill flags
     ending_blow = (tp_gameInfo.event_flags.flags[0x29] & (1 << 2));
     shield_bash = (tp_gameInfo.event_flags.flags[0x29] & (1 << 3));
@@ -490,5 +490,5 @@ void PauseMenu::render(Font& font) {
     sprintf(lines[WALLET_INDEX].line, "wallet size:        <%s>", wallet_options[wallet_index].member);
     sprintf(lines[ARROW_CAPACITY_INDEX].line, "arrow capacity:     <%s>", arrow_capacity_options[arrow_capacity_index].member);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

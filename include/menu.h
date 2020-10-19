@@ -56,7 +56,7 @@ struct Line {
 class Menu;
 
 namespace MenuRendering {
-    void render_active_menus(Font& font);
+    void render_active_menus();
     void set_menu(MenuIndex idx);
     void close_active_menus();
     bool is_menu_open();
@@ -65,5 +65,4 @@ namespace MenuRendering {
 class Menu {
    public:
     Menu() {}
-    virtual void render() = 0;
 };

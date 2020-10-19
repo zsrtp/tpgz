@@ -23,10 +23,14 @@ namespace Draw {
 
     void draw_quad(uint32_t color, Vec2 p[4]);
     void draw_quad(uint32_t color, Vec2 p[4], GXTexObj* texture);
+    void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4]);
+    void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture);
     void draw_quad_outline(uint32_t color, Vec2 p[4]);
     void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width);
     void draw_rect(uint32_t color, Vec2 pos, Vec2 dim);
     void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture);
+    void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]);
+    void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture);
     void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim);
     void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim, uint8_t width);
 }; // namespace Draw

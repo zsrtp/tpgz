@@ -28,7 +28,7 @@ Line lines[LINES] = {
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX, "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
-void SettingsMenu::render(Font& font) {
+void SettingsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
@@ -114,5 +114,5 @@ void SettingsMenu::render(Font& font) {
     sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].line, "area reload behavior: <%s>", reload_options[g_area_reload_behavior].member);
     sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color:         <%s>", cursor_color_options[g_cursor_color].member);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES, 210.0f);
+    Utilities::render_lines(lines, cursor.y, LINES, 210.0f);
 };

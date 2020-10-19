@@ -307,7 +307,7 @@ void load_save(uint32_t id) {
     practice_file.inject_options_after_counter = saveinfo.counter;
 }
 
-void HundoSavesMenu::render(Font& font) {
+void HundoSavesMenu::render() {
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
@@ -334,5 +334,5 @@ void HundoSavesMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

@@ -9,5 +9,5 @@ struct AreaNode {
 class TempFlagsMenu : public Menu {
 public:
     TempFlagsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

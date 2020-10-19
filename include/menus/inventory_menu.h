@@ -7,5 +7,5 @@
 class InventoryMenu : public Menu {
 public:
     InventoryMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

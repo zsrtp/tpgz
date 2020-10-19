@@ -17,5 +17,5 @@ class PosSettingsMenu : public Menu {
    public:
     static void initDefaults();
     PosSettingsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

@@ -22,7 +22,7 @@ Line lines[LINES] = {
     {"tools", TOOLS_INDEX, "Use various tools for practice and testing", false},
     {"warping", WARPING_INDEX, "Warp to dungeons, towns, grottos, etc.", false}};
 
-void MainMenu::render(Font& font) {
+void MainMenu::render() {
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_NONE_INDEX);
         fifo_visible = true;
@@ -72,5 +72,5 @@ void MainMenu::render(Font& font) {
         }
     }
 
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

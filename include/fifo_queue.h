@@ -22,7 +22,7 @@ class FIFOQueue {
 
    public:
     FIFOQueue();
-    static void renderItems(_FIFOQueue& Queue, Font& font);
+    static void renderItems(_FIFOQueue& Queue);
     static void push(const char *msg, _FIFOQueue& Queue);
     static void push(const char *msg, _FIFOQueue& Queue, int RGBA);
 };
