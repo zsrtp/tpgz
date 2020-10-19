@@ -1,5 +1,6 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/system.h"
 #include "utils/hook.h"
 #include "utils/link.hpp"
 #include "utils/memory.hpp"
@@ -10,6 +11,7 @@
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
+#include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
@@ -21,6 +23,7 @@
 _FIFOQueue Queue;
 bool card_load = true;
 Font default_font;
+Texture gzIconTex;
 
 extern "C" {
 
@@ -55,6 +58,7 @@ void game_loop() {
     }
     if (tp_fopScnRq.isLoading == 1) {
         MenuRendering::close_active_menus();
+        move_link_active = false;
     }
 
     GZFlags::apply_active_flags();
@@ -65,6 +69,20 @@ void game_loop() {
 void draw() {
     default_font.setupRendering();
     //Consolas.setupRendering();
+    if(MenuRendering::is_menu_open()){
+        default_font.gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+
+        if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
+            load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
+            if (gzIconTex.loadCode != TexCode::TEX_OK) {
+                tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
+            }
+        }
+
+        if (gzIconTex.loadCode == TexCode::TEX_OK) {
+            Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30}, &gzIconTex._texObj);
+        }
+    }
     if (fifo_visible) {
         FIFOQueue::renderItems(Queue, default_font);
     }

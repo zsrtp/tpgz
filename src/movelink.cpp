@@ -53,8 +53,8 @@ namespace MoveLink {
             tp_gameInfo.lock_camera = true;
             // Set Link momentum to 0
             tp_gameInfo.momentum_ptr->link_momentum = {0.0f, 0.0f, 0.0f};
-            // Disable Link collision
-            tp_gameInfo.link_collision_ptr->no_collision = 0x7F;
+            // Disable Link collision (causes console crash dont use)
+            //tp_gameInfo.link_collision_ptr->no_collision = 0x7F;
 
             if (!init_once) {
                 angle = (float)link_angle / 65536.f * (2 * M_PI);
@@ -94,7 +94,7 @@ namespace MoveLink {
             if (init_once) {
                 tp_gameInfo.freeze_game = false;
                 tp_gameInfo.lock_camera = false;
-                tp_gameInfo.link_collision_ptr->no_collision = 0x80;
+                //tp_gameInfo.link_collision_ptr->no_collision = 0x80;
                 init_once = false;
             }
         }
