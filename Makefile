@@ -15,7 +15,7 @@ include $(DEVKITPPC)/gamecube_rules
 # SOURCES is a list of directories containing source code
 # INCLUDES is a list of directories containing extra header files
 #---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
+TARGET		:=	tpgz
 BUILD		:=	build
 SOURCES		:=	src src/fonts src/utils src/menus
 EXTERNAL    :=  external
