@@ -40,6 +40,8 @@ if __name__ == '__main__':
                         help='Font size (in points)')
     parser.add_argument('-f', '--format', type=str, choices=[name for name, _ in Formats.__members__.items()], 
                         default='I8', help='Format to save the font in')
+    parser.add_argument('-r', '--rescale', type=float, default=1.0,
+                        help='Rescales the apparent size of the font')
     params = parser.parse_args()
 
     if params.format in ["RGBA8"] and (params.size[0] % 4 != 0 or params.size[1] % 4 != 0):
@@ -63,7 +65,7 @@ if __name__ == '__main__':
         bbox = ftf.getbbox(chr(i), anchor="ls")
         glyph_width = bbox[2] - bbox[0]
         glyph_offset = (bbox[0], bbox[1])
-        if pos[0] + glyph_width > params.size[0]:
+        if pos[0] + glyph_width + 1 > params.size[0]:
             pos = (0, pos[1] + asc + dsc + 1)
         if pos[1] + asc + dsc > params.size[1]:
             raise RuntimeError("The resolution is too small to fit all the glyphs! Try to reduce the font size")
@@ -73,13 +75,13 @@ if __name__ == '__main__':
         glyphs[i]['width'] = glyph_width
         glyphs[i]['tex_coords'] = ((pos[0]) / params.size[0], (pos[1] - asc) / params.size[1], (pos[0] + glyph_width) / params.size[0], (pos[1] + dsc) / params.size[1])
 
-        pos = (pos[0] + glyph_width, pos[1])
+        pos = (pos[0] + glyph_width + 1, pos[1])
     font = {
         'metrics': (asc, dsc),
-        'base_size': params.font_size,
+        'base_size': params.font_size / params.rescale,
         'glyphs': [*glyphs],
     }
 
     write_header(params.out_fnt, font)
     write_glyphs(params.out_fnt, font)
-    write_tex(params.out_fnt, image, Formats.RGBA8)
+    write_tex(params.out_fnt, image, Formats[params.format])
