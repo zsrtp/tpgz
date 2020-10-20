@@ -40,6 +40,8 @@ if __name__ == '__main__':
                         help='Font size (in points)')
     parser.add_argument('-f', '--format', type=str, choices=[name for name, _ in Formats.__members__.items()], 
                         default='I8', help='Format to save the font in')
+    parser.add_argument('-r', '--rescale', type=float, default=1.0,
+                        help='Rescales the apparent size of the font')
     params = parser.parse_args()
 
     if params.format in ["RGBA8"] and (params.size[0] % 4 != 0 or params.size[1] % 4 != 0):
@@ -76,7 +78,7 @@ if __name__ == '__main__':
         pos = (pos[0] + glyph_width + 1, pos[1])
     font = {
         'metrics': (asc, dsc),
-        'base_size': params.font_size,
+        'base_size': params.font_size / params.rescale,
         'glyphs': [*glyphs],
     }
 
