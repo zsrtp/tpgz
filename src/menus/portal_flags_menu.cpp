@@ -74,7 +74,7 @@ void PortalFlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case SPRING_WARP_INDEX: {
                 tp_gameInfo.overworld_flags.ordon_flags.flags[13] ^= 1 << 4;

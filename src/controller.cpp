@@ -7,7 +7,7 @@
 #include "libtp_c/include/system.h"
 
 #define BUTTON_STATES 12
-#define REPEAT_TIME 6
+#define REPEAT_TIME 4
 #define REPEAT_DELAY 10
 
 static uint16_t sButtons_down_last_frame = 0;
@@ -40,54 +40,54 @@ static ButtonState buttonStates[BUTTON_STATES] = {
     {Controller::Pad::Y, 0xFFFFFFFF, false},
     {Controller::Pad::START, 0xFFFFFFFF, false}};
 
-extern "C" void read_controller() {
-    sButtons_down_last_frame = sButtons_down;
-    sButtons_down = tp_mPadStatus.sval;
-    sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
-
-    uint8_t idx = 0;
-    for (; idx < BUTTON_STATES; idx++) {
-        buttonStates[idx].is_down = (buttonStates[idx].button & sButtons_down) != 0;
-        if ((buttonStates[idx].button & sButtons_pressed) != 0) {
-            buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
-        }
-    }
-
-    Cheats::apply_cheats();
-    if (MenuRendering::is_menu_open()) {
-        current_input = Controller::get_current_inputs();
-        a_held = a_held_last_frame && current_input == 0x0100;
-        a_held_last_frame = current_input == 0x0100;
-
-        // prevent accidentally moving cursor down when opening menu
-        if (!can_move_cursor) {
-            if (current_input & Controller::Pad::DPAD_UP) {
-                can_move_cursor = true;
-            } else if (current_input & (Controller::Pad::L | Controller::Pad::R)) {
-                sNum_frames_cursor_buffer = 0;
-            } else if (sNum_frames_cursor_buffer < 1) {
-                sNum_frames_cursor_buffer = 1;
-            }
-
-            if (sNum_frames_cursor_buffer >= 4) {
-                can_move_cursor = true;
-            } else if (sNum_frames_cursor_buffer > 0) {
-                sNum_frames_cursor_buffer++;
-            }
-        }
-
-        Controller::set_buttons_down(0x0);
-        Controller::set_buttons_pressed(0x0);
-        tp_mPadStatus.sval = 0x0;
-        tp_mPadButton.sval = 0x0;
-    } else {
-        can_move_cursor = false;
-        sNum_frames_cursor_buffer = 0;
-        Commands::process_inputs();
-    }
-}
-
 namespace Controller {
+
+    void read_controller() {
+        sButtons_down_last_frame = sButtons_down;
+        sButtons_down = tp_mPadStatus.sval;
+        sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
+
+        uint8_t idx = 0;
+        for (; idx < BUTTON_STATES; idx++) {
+            buttonStates[idx].is_down = (buttonStates[idx].button & sButtons_down) != 0;
+            if ((buttonStates[idx].button & sButtons_pressed) != 0) {
+                buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
+            }
+        }
+
+        Cheats::apply_cheats();
+        if (MenuRendering::is_menu_open() == true) {
+            current_input = Controller::get_current_inputs();
+            a_held = a_held_last_frame && current_input == 0x0100;
+            a_held_last_frame = current_input == 0x0100;
+
+            // prevent accidentally moving cursor down when opening menu
+            if (!can_move_cursor) {
+                if (current_input & Controller::Pad::DPAD_UP) {
+                    can_move_cursor = true;
+                } else if (current_input & (Controller::Pad::L | Controller::Pad::R)) {
+                    sNum_frames_cursor_buffer = 0;
+                } else if (sNum_frames_cursor_buffer < 1) {
+                    sNum_frames_cursor_buffer = 1;
+                }
+
+                if (sNum_frames_cursor_buffer >= 4) {
+                    can_move_cursor = true;
+                } else if (sNum_frames_cursor_buffer > 0) {
+                    sNum_frames_cursor_buffer++;
+                }
+            }
+
+            Controller::set_buttons_down(0x0);
+            Controller::set_buttons_pressed(0x0);
+            tp_mPadStatus.sval = 0x0;
+            tp_mPadButton.sval = 0x0;
+        } else {
+            can_move_cursor = false;
+            sNum_frames_cursor_buffer = 0;
+            Commands::process_inputs();
+        }
+    }
 
     bool button_is_down(int idx) {
         return buttonStates[idx].is_down;

@@ -5,6 +5,7 @@
 #include "cheats.h"
 #include "commands.h"
 #include "libtp_c/include/utils.h"
+#include "libtp_c/include/controller.h"
 #include <string.h>
 
 #define MAX_LIST_MEMBER_LENGTH 40

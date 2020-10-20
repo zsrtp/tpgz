@@ -55,7 +55,7 @@ void SceneMenu::render() {
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(lines, cursor.y, LINES, 160.0f);
     
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
     }
     switch (cursor.y) {

@@ -319,7 +319,7 @@ void HundoSavesMenu::render() {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         load_save(cursor.y);
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
             if (cursor.y == specials[i].idx) {

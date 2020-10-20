@@ -61,7 +61,7 @@ void GeneralFlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case BOSS_FLAG_INDEX: {
                 if (boss_flag) {

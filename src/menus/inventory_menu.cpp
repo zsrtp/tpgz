@@ -24,7 +24,7 @@ void InventoryMenu::render() {
 
     if (!init_once) {current_input = 0;init_once = true;}
     
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case ITEM_WHEEL_INDEX: {
 		        MenuRendering::set_menu(MN_ITEM_WHELL_INDEX);

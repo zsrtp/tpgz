@@ -243,7 +243,7 @@ void WarpingMenu::render() {
         }
     }
 
-    if (current_input == 256 && a_held == false) {
+    if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case WARP_BUTTON_INDEX: {
                 memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);

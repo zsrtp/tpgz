@@ -12,6 +12,11 @@
 HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
 HOOK_DEF(void, draw, (void*));
+
+struct PadStatus {
+    uint8_t ok[12];
+};
+
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
 HOOK_DEF(void, setSpecialGravity, (float, float, int));
@@ -92,7 +97,7 @@ namespace Hook {
         APPLY_HOOK(cDyl_InitAsync, 0x80018764, HK_LIB_INIT_INDEX, initHook);
         APPLY_HOOK(fapGm_Execute, 0x80018a6c, HK_LIB_GAME_LOOP_INDEX, gameLoopHook);
         APPLY_HOOK(draw, 0x802e8384, HK_LIB_DRAW_INDEX, drawHook);
-        APPLY_HOOK(PADRead, 0x8034eea0, HK_LIB_READ_CONTROLLER_INDEX, readControllerHook);
+        APPLY_HOOK(PADRead, 0x8034f19c, HK_LIB_READ_CONTROLLER_INDEX, readControllerHook);
         APPLY_HOOK(checkHookshotStickBG, 0x801087b0, HK_SUPER_CLAWSHOT_INDEX, superClawshotHook);
         APPLY_HOOK(setSpecialGravity, 0x800bb770, HK_DISABLE_GRAV_INDEX, disableGravityHook);
         APPLY_HOOK(checkCastleTownUseItem, 0x800c0678, HK_UNRESTRICTED_ITEMS_INDEX, unrestrictedItemsHook);

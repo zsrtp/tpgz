@@ -25,5 +25,5 @@ namespace Controller {
     bool button_is_down(int idx);
     bool button_is_held(int idx);
     uint16_t get_current_inputs();
-    extern "C" void read_controller();
+    void read_controller();
 }  // namespace Controller
