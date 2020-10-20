@@ -12,7 +12,7 @@
 #define LINES 7
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
-#define MAX_FONT_OPTIONS 6
+#define MAX_FONT_OPTIONS 7
 
 static Cursor cursor = {0, 0};
 bool g_drop_shadows = true;
@@ -40,7 +40,8 @@ ListMember font_options[MAX_FONT_OPTIONS] = {
     "lib-sans",
     "lib-sans-bold",
     "lib-serif",
-    "lib-serif-bold"
+    "lib-serif-bold",
+    "press-start-2p"
 };
 
 Line lines[LINES] = {

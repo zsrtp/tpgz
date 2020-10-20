@@ -32,6 +32,7 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/fonts/lib-serif-bold.fnt" = "res/fonts/lib-serif-bold.fnt"
 "tpgz/fonts/lib-sans.fnt" = "res/fonts/lib-sans.fnt"
 "tpgz/fonts/lib-sans-bold.fnt" = "res/fonts/lib-sans-bold.fnt"
+"tpgz/fonts/press-start-2p.fnt" = "res/fonts/press-start-2p.fnt"
 "tpgz/save_files/any.bin" = "res/save_files/any.bin"
 "tpgz/save_files/any/aeralfos_skip.bin" = "res/save_files/any/aeralfos_skip.bin"
 "tpgz/save_files/any/boss_bug.bin" = "res/save_files/any/boss_bug.bin"
