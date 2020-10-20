@@ -9,9 +9,10 @@
 #include <stdio.h>
 #include "fifo_queue.h"
 
-#define LINES 6
+#define LINES 7
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
+#define MAX_FONT_OPTIONS 6
 
 static Cursor cursor = {0, 0};
 bool g_drop_shadows = true;
@@ -19,10 +20,13 @@ bool init_once = false;
 int g_area_reload_behavior;
 int g_cursor_color;
 bool g_cursor_color_flag;
+int g_font;
+bool font_init = false;
 
 Line lines[LINES] = {
     {"", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
     {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr, MAX_CURSOR_COLOR_OPTIONS},
+    {"font:", FONT_INDEX, "Change font", false, nullptr, MAX_FONT_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
     {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
@@ -87,6 +91,15 @@ void SettingsMenu::render() {
         "yellow",
         "purple"};
 
+    ListMember font_options[MAX_FONT_OPTIONS] = {
+        "consola",
+        "calamity-bold",
+        "lib-sans",
+        "lib-sans-bold",
+        "lib-serif",
+        "lib-serif-bold"
+    };
+
     // handle list rendering
     switch (cursor.y) {
         case AREA_RELOAD_BEHAVIOR_INDEX: {
@@ -106,13 +119,101 @@ void SettingsMenu::render() {
             }
             break;
         }
+
+        case FONT_INDEX: {
+            cursor.x = g_font;
+            Utilities::move_cursor(cursor, LINES, MAX_FONT_OPTIONS);
+            if (cursor.y == FONT_INDEX) {
+                g_font = cursor.x;
+            }
+            if (button_is_pressed(Controller::DPAD_RIGHT) || button_is_pressed(Controller::DPAD_LEFT)) {
+                font_init = false;
+            }
+            break;
+        }
+
         default: {
             Utilities::move_cursor(cursor, LINES, 2);
             break;
         }
     }
+
+    switch (g_font) {
+        case 0: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/consola.fnt");
+                font_init = true;
+            }
+            break;
+        }
+        case 1: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/calamity-bold.fnt");
+                font_init = true;
+            }
+            break;
+        }
+        case 2: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/lib-sans.fnt");
+                font_init = true;
+            }
+            break;
+        }
+        case 3: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/lib-sans-bold.fnt");
+                font_init = true;
+            }
+            break;
+        }
+        case 4: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/lib-serif.fnt");
+                font_init = true;
+            }
+            break;
+        }
+        case 5: {
+            if(!font_init){
+                Font::load_font("tpgz/fonts/lib-serif-bold.fnt");
+                font_init = true;
+            }
+            break;
+        }
+    }
     sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].line, "area reload behavior: <%s>", reload_options[g_area_reload_behavior].member);
     sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color:         <%s>", cursor_color_options[g_cursor_color].member);
+    sprintf(lines[FONT_INDEX].line, "font:                 <%s>", font_options[g_font].member);
 
     Utilities::render_lines(lines, cursor.y, LINES, 210.0f);
-};
+}
+
+void SettingsMenu::initFont(){
+    switch (g_font) {
+        case 0: {
+            Font::load_font("tpgz/fonts/consola.fnt");
+            break;
+        }
+        case 1: {
+            Font::load_font("tpgz/fonts/calamity-bold.fnt");
+            break;
+        }
+        case 2: {
+            Font::load_font("tpgz/fonts/lib-sans.fnt");
+            break;
+        }
+        case 3: {
+            Font::load_font("tpgz/fonts/lib-sans-bold.fnt");
+            break;
+        }
+        case 4: {
+            Font::load_font("tpgz/fonts/lib-serif.fnt");
+            break;
+        }
+        case 5: {
+            Font::load_font("tpgz/fonts/lib-serif-bold.fnt");
+            break;
+        }
+    }
+}

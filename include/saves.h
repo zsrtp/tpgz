@@ -7,7 +7,7 @@
 #include "menus/memory_menu.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
-#define GZ_SAVE_ENTRIES_AMNT 9
+#define GZ_SAVE_ENTRIES_AMNT 10
 
 // These numbers can only change when we change the GZ_SAVE_VERSION_NUMBER,
 // otherwise, only new entries can be added.
@@ -21,6 +21,7 @@ enum GZSaveIndex {
     SV_AREA_RELOAD_INDEX = 6,
     SV_CURSOR_COLOR_INDEX = 7,
     SV_COMMANDS = 8,
+    SV_FONT_INDEX = 9,
 };
 
 struct GZSaveHeader {
@@ -40,6 +41,7 @@ struct GZSaveLayout {
     bool g_drop_shadows;
     int g_area_reload_behavior;
     int g_cursor_color;
+    int g_font;
 };
 
 struct GZSaveFile {

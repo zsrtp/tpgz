@@ -63,6 +63,7 @@ namespace Utilities {
         save_layout.g_drop_shadows = g_drop_shadows;
         save_layout.g_area_reload_behavior = g_area_reload_behavior;
         save_layout.g_cursor_color = g_cursor_color;
+        save_layout.g_font = g_font;
     }
 
     void load_save_layout(GZSaveLayout& save_layout) {
@@ -75,6 +76,7 @@ namespace Utilities {
         g_drop_shadows = save_layout.g_drop_shadows;
         g_area_reload_behavior = save_layout.g_area_reload_behavior;
         g_cursor_color = save_layout.g_cursor_color;
+        g_font = save_layout.g_font;
     }
 
     void setup_save_file(GZSaveFile& save_file) {
@@ -95,6 +97,7 @@ namespace Utilities {
         set_entry(SV_DROP_SHADOW_INDEX, g_drop_shadows);
         set_entry(SV_AREA_RELOAD_INDEX, g_area_reload_behavior);
         set_entry(SV_CURSOR_COLOR_INDEX, g_cursor_color);
+        set_entry(SV_FONT_INDEX, g_font);
 #undef set_entry
     }
 
@@ -127,6 +130,7 @@ namespace Utilities {
         assert_read_entry(SV_DROP_SHADOW_INDEX, &save_file.data.g_drop_shadows, sizeof(save_file.data.g_drop_shadows));
         assert_read_entry(SV_AREA_RELOAD_INDEX, &save_file.data.g_area_reload_behavior, sizeof(save_file.data.g_area_reload_behavior));
         assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.g_cursor_color, sizeof(save_file.data.g_cursor_color));
+        assert_read_entry(SV_FONT_INDEX, &save_file.data.g_font, sizeof(save_file.data.g_font));
 #undef assert_read_entry
 #undef assert_result
 
@@ -167,6 +171,7 @@ namespace Utilities {
                 tp_osReport("loaded card!");
                 FIFOQueue::push("loaded card!", Queue);
                 load_save_layout(save_file.data);
+                SettingsMenu::initFont();
             } else {
                 tp_osReport("failed to load");
                 char buff[32];
