@@ -14,5 +14,5 @@ enum AmountsIndex {
 class AmountsMenu : public Menu {
 public:
     AmountsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

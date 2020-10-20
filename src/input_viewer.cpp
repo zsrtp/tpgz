@@ -75,7 +75,7 @@ namespace InputViewer {
         draw_button(Controller::DPAD_DOWN, color, {pos.x + branch_length, pos.y + branch_length + branch_width}, {branch_width, branch_length});
     }
 
-    void draw_input_viewer(Font& font, Vec2 pos, float scale, bool is_shadow) {
+    void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
         draw_button(Controller::A, is_shadow ? 0x00000060 : 0x00FF7fFF, {pos.x + 130.f * scale, pos.y + 30.f * scale}, {30.f * scale, 30.f * scale});
         draw_button(Controller::B, is_shadow ? 0x00000060 : 0xFF0000FF, {pos.x + 108.5f * scale, pos.y + 45.f * scale}, {13.f * scale, 13.f * scale});
         draw_button(Controller::X, is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 167.5f * scale, pos.y + 30.f * scale}, {15.f * scale, 30.f * scale});
@@ -97,13 +97,13 @@ namespace InputViewer {
         Draw::draw_rect(is_shadow ? 0x00000060 : Controller::button_is_down(Controller::R) ? 0x00FF00FF : 0xFFFFFFFF, {pos.x + (45.f + 35.f * (1 - tp_mPadATriggers.r)) * scale, pos.y}, {35.f * tp_mPadATriggers.r * scale, 7.f * scale});
     }
 
-    void render(Font& font) {
+    void render() {
         Vec2 pos = {0.f, 0.f};
         pos.x += sprite_offsets[VIEWER_INDEX].x;
         pos.y += sprite_offsets[VIEWER_INDEX].y;
-        float scale = 1.0f;
-        if (g_drop_shadows) draw_input_viewer(font, {pos.x + 1.f, pos.y + 1.f}, scale, true);
-        draw_input_viewer(font, pos, scale, false);
+        float scale = 1.0f; // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
+        if (g_drop_shadows) draw_input_viewer({pos.x + 1.f, pos.y + 1.f}, scale, true);
+        draw_input_viewer(pos, scale, false);
 
         // stick inputs
         char control_x[5];  // control stick x
@@ -116,9 +116,9 @@ namespace InputViewer {
         sprintf(c_x, "%d", tp_mPadSticks.c_x);
         sprintf(c_y, "%d", tp_mPadSticks.c_y);
 
-        font.gz_renderChars(control_x, pos.x, pos.y + 65.f, 0xFFFFFFFF, g_drop_shadows);
-        font.gz_renderChars(control_y, pos.x + 23.f, pos.y + 65.f, 0xFFFFFFFF, g_drop_shadows);
-        font.gz_renderChars(c_x, pos.x + 45.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
-        font.gz_renderChars(c_y, pos.x + 70.f, pos.y + 65.f, 0xFFD138FF, g_drop_shadows);
+        Font::gz_renderChars(control_x, pos.x, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);
+        Font::gz_renderChars(control_y, pos.x + 23.f * scale, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);
+        Font::gz_renderChars(c_x, pos.x + 45.f * scale, pos.y + 65.f * scale, 0xFFD138FF, g_drop_shadows, 13 * scale);
+        Font::gz_renderChars(c_y, pos.x + 70.f * scale, pos.y + 65.f * scale, 0xFFD138FF, g_drop_shadows, 13 * scale);
     }
 }  // namespace InputViewer

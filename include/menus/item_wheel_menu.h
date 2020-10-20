@@ -97,5 +97,5 @@ struct ItemLookup {
 class ItemWheelMenu : public Menu {
 public:
     ItemWheelMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

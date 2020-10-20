@@ -269,7 +269,7 @@ void try_remove_item(uint8_t inventory_slot) {
     }
 }
 
-void ItemWheelMenu::render(Font& font) {
+void ItemWheelMenu::render() {
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
         init_once = false;
@@ -298,7 +298,7 @@ void ItemWheelMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 
     // check selected slot
     uint8_t current_item_slot = ITEM_WHEEL_SLOTS;

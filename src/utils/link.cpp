@@ -11,7 +11,7 @@ uint8_t green;
 uint8_t blue;
 
 namespace Utilities {
-    void show_link_debug_info(Font &font) {
+    void show_link_debug_info() {
         if (tp_zelAudio.link_debug_ptr) {
             char link_angle[20];
             //char vspeed[4];
@@ -26,17 +26,17 @@ namespace Utilities {
             sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
             sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
 
-            font.gz_renderChars(link_angle, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_speed, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_x, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_y, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars(link_z, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars(link_angle, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars(link_speed, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars(link_x, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars(link_y, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars(link_z, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         } else {
-            font.gz_renderChars("angle: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("speed: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("x-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("y-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
-            font.gz_renderChars("z-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars("angle: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars("speed: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars("x-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars("y-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_drop_shadows);
+            Font::gz_renderChars("z-pos: n/a", sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_drop_shadows);
         }
     }
     void change_tunic_color() {

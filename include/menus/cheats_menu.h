@@ -3,5 +3,5 @@
 class CheatsMenu : public Menu {
 public:
     CheatsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

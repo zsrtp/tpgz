@@ -31,7 +31,7 @@ Line lines[LINES] = {
     {"", TIME_HOURS_INDEX, "The current in-game hour", false},
     {"", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
 
-void SceneMenu::render(Font& font) {
+void SceneMenu::render() {
     if (button_is_pressed(Controller::B)) {
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
@@ -53,7 +53,7 @@ void SceneMenu::render(Font& font) {
     sprintf(lines[TIME_MINUTES_INDEX].line, "time (mins):       <%d>", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES, 160.0f);
+    Utilities::render_lines(lines, cursor.y, LINES, 160.0f);
     
     if (current_input == Controller::Pad::A && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;

@@ -32,7 +32,7 @@ Line lines[LINES] = {
     {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
     {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"}};
 
-void AmountsMenu::render(Font & font) {
+void AmountsMenu::render() {
 	// update amounts
 	arrow_ammo = tp_gameInfo.inventory.arrow_count;
 	bomb_bag_1_ammo = tp_gameInfo.inventory.bomb_bag_1_amnt;
@@ -139,5 +139,5 @@ void AmountsMenu::render(Font & font) {
 	sprintf(lines[RUPEE_COUNT_INDEX].line, "rupees:           <%d>", rupee_count);
 
 	Utilities::move_cursor(cursor, LINES);
-	Utilities::render_lines(font, lines, cursor.y, LINES);
+	Utilities::render_lines(lines, cursor.y, LINES);
 };

@@ -30,5 +30,5 @@ enum cursor_colors {
 class SettingsMenu : public Menu {
 public:
     SettingsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

@@ -35,5 +35,5 @@ struct WarpInfo {
 class WarpingMenu : public Menu {
 public:
     WarpingMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

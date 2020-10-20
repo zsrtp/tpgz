@@ -8,7 +8,7 @@ struct MemoryLine {
 class MemoryEditorMenu : public Menu {
 public:
     MemoryEditorMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };
 
 extern uint32_t address_index;

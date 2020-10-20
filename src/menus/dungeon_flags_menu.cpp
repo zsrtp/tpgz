@@ -34,7 +34,7 @@ Line lines[LINES] = {
     {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true, &boss_flag},
     {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"}};
 
-void DungeonFlagsMenu::render(Font& font) {
+void DungeonFlagsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
         MenuRendering::set_menu(MN_FLAGS_INDEX);
@@ -155,5 +155,5 @@ void DungeonFlagsMenu::render(Font& font) {
 
     sprintf(lines[SELECT_DUNGEON_INDEX].line, "dungeon: <%s>", dungeon_options[select_dungeon_index].member);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES, 150.0f);
+    Utilities::render_lines(lines, cursor.y, LINES, 150.0f);
 };

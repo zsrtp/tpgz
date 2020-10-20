@@ -16,7 +16,7 @@ Line lines[LINES] = {
     {"any%", ANY_INDEX, "Any% practice saves", false},
     {"100%", HUNDO_INDEX, "100% practice saves", false}};
 
-void PracticeMenu::render(Font& font) {
+void PracticeMenu::render() {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -41,5 +41,5 @@ void PracticeMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

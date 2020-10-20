@@ -24,5 +24,5 @@ extern Scene::SceneItem SceneItems[SCENE_AMNT];
 class SceneMenu : public Menu {
 public:
     SceneMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

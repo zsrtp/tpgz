@@ -30,8 +30,8 @@ uint8_t watch_address_index = 3;
 uint8_t offset_index = 2;
 MemoryWatch Watches[MAX_WATCHES] = {};
 
-void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
-    font.gz_renderChars("Address     X   Y   Hex Type Offset Visible", 25.0f, 60.0f, 0xFFFFFFFF, g_drop_shadows);
+void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
+    Font::gz_renderChars("Address     X   Y   Hex Type Offset Visible", 25.0f, 60.0f, 0xFFFFFFFF, g_drop_shadows);
     for (int i = 0; i < MAX_WATCHES; i++) {
 #define LINE_Y_OFFSET (80.0f + (i * 20.0f))
         char watch_address[11];
@@ -172,25 +172,25 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                             }
                         }
 
-                        font.gz_renderChar(watch_address[0], WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[1], WATCH_ADDRESS_X_OFFSET + 10.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[2], WATCH_ADDRESS_X_OFFSET + 20.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[3], WATCH_ADDRESS_X_OFFSET + 28.0f, LINE_Y_OFFSET, watch_address_index == 3 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[4], WATCH_ADDRESS_X_OFFSET + 38.0f, LINE_Y_OFFSET, watch_address_index == 4 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[5], WATCH_ADDRESS_X_OFFSET + 48.0f, LINE_Y_OFFSET, watch_address_index == 5 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[6], WATCH_ADDRESS_X_OFFSET + 58.0f, LINE_Y_OFFSET, watch_address_index == 6 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[7], WATCH_ADDRESS_X_OFFSET + 68.0f, LINE_Y_OFFSET, watch_address_index == 7 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[8], WATCH_ADDRESS_X_OFFSET + 78.0f, LINE_Y_OFFSET, watch_address_index == 8 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_address[9], WATCH_ADDRESS_X_OFFSET + 88.0f, LINE_Y_OFFSET, watch_address_index == 9 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[0], WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[1], WATCH_ADDRESS_X_OFFSET + 10.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[2], WATCH_ADDRESS_X_OFFSET + 20.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[3], WATCH_ADDRESS_X_OFFSET + 28.0f, LINE_Y_OFFSET, watch_address_index == 3 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[4], WATCH_ADDRESS_X_OFFSET + 38.0f, LINE_Y_OFFSET, watch_address_index == 4 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[5], WATCH_ADDRESS_X_OFFSET + 48.0f, LINE_Y_OFFSET, watch_address_index == 5 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[6], WATCH_ADDRESS_X_OFFSET + 58.0f, LINE_Y_OFFSET, watch_address_index == 6 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[7], WATCH_ADDRESS_X_OFFSET + 68.0f, LINE_Y_OFFSET, watch_address_index == 7 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[8], WATCH_ADDRESS_X_OFFSET + 78.0f, LINE_Y_OFFSET, watch_address_index == 8 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_address[9], WATCH_ADDRESS_X_OFFSET + 88.0f, LINE_Y_OFFSET, watch_address_index == 9 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
                     break;
                 }
                 case WatchX: {
@@ -212,16 +212,16 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                             Watches[i].x = 600;
                         }
                         sprintf(watch_x, "<%.0f>", Watches[i].x);
-                        font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
                     break;
                 }
                 case WatchY: {
@@ -243,16 +243,16 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                             Watches[i].y = 500;
                         }
                         sprintf(watch_y, "<%.0f>", Watches[i].y);
-                        font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
 
                     break;
                 }
@@ -265,16 +265,16 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                             Watches[i].hex = !Watches[i].hex;
                         }
                         sprintf(watch_hex, "<%s>", Watches[i].hex ? "true" : "false");
-                        font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
                     break;
                 }
                 case WatchType: {
@@ -327,16 +327,16 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                                 sprintf(watch_type, "<str>");
                             }
                         }
-                        font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
                     break;
                 }
                 case WatchOffset: {
@@ -401,32 +401,32 @@ void render_memory_lines(Font& font, MemoryWatch Watches[MAX_WATCHES], Cursor cu
                                 Watches[i].offset = 0x0000;
                             }
                         }
-                        font.gz_renderChar(watch_offset[0], WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_offset[1], WATCH_OFFSET_X_OFFSET + 10.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_offset[2], WATCH_OFFSET_X_OFFSET + 20.0f, LINE_Y_OFFSET, offset_index == 2 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_offset[3], WATCH_OFFSET_X_OFFSET + 30.0f, LINE_Y_OFFSET, offset_index == 3 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_offset[4], WATCH_OFFSET_X_OFFSET + 40.0f, LINE_Y_OFFSET, offset_index == 4 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
-                        font.gz_renderChar(watch_offset[5], WATCH_OFFSET_X_OFFSET + 50.0f, LINE_Y_OFFSET, offset_index == 5 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[0], WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[1], WATCH_OFFSET_X_OFFSET + 10.0f, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[2], WATCH_OFFSET_X_OFFSET + 20.0f, LINE_Y_OFFSET, offset_index == 2 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[3], WATCH_OFFSET_X_OFFSET + 30.0f, LINE_Y_OFFSET, offset_index == 3 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[4], WATCH_OFFSET_X_OFFSET + 40.0f, LINE_Y_OFFSET, offset_index == 4 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
+                        Font::gz_renderChar(watch_offset[5], WATCH_OFFSET_X_OFFSET + 50.0f, LINE_Y_OFFSET, offset_index == 5 ? CURSOR_RGBA : WHITE_RGBA, g_drop_shadows);
                     } else {
-                        font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
+                        Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     }
-                    font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
-                    font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
+                    Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, WHITE_RGBA, g_drop_shadows);
                     break;
                 }
             }
         } else {
-            font.gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            font.gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_address, WATCH_ADDRESS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_x, WATCH_X_POS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_y, WATCH_Y_POS_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_hex, WATCH_HEX_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_type, WATCH_TYPE_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_offset, WATCH_OFFSET_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(watch_visible, WATCH_VISIBLE_X_OFFSET, LINE_Y_OFFSET, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         }
     }
 }
@@ -452,7 +452,7 @@ bool check_if_any_line_value_is_selected(MemoryWatch Watches[]) {
     return return_value;
 }
 
-void WatchesMenu::render(Font& font) {
+void WatchesMenu::render() {
     if (!init_once) {
         current_input = 0;
         init_once = true;
@@ -524,6 +524,6 @@ void WatchesMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);
-    font.gz_renderChars("Press z to enable/disable watch. Y to jump to editor address", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
-    render_memory_lines(font, Watches, cursor);
+    Font::gz_renderChars("Press z to enable/disable watch. Y to jump to editor address", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
+    render_memory_lines(Watches, cursor);
 };
