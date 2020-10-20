@@ -166,6 +166,7 @@ namespace Utilities {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
             GZSaveFile save_file;
+            store_save_layout(save_file.data);
             card.card_result = read_save_file(&card.card_info, save_file, card.sector_size);
             if (card.card_result == Ready) {
                 tp_osReport("loaded card!");
