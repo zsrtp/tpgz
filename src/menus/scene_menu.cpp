@@ -62,32 +62,24 @@ void SceneMenu::render() {
         case TIME_HOURS_INDEX: {
             if (button_is_pressed(Controller::DPAD_RIGHT)) {
                 tp_gameInfo.raw_game_time += 15.0f;
-                if (tp_gameInfo.raw_game_time >= 360.0f) {
-                    tp_gameInfo.raw_game_time = (tp_gameInfo.raw_game_time - 360.0f);
-                }
             } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-                if ((tp_gameInfo.raw_game_time - 15.0f) > 0) {
-                    tp_gameInfo.raw_game_time -= 15.0f;
-                } else {
-                    tp_gameInfo.raw_game_time = (360.0f - tp_gameInfo.raw_game_time);
-                }
+                tp_gameInfo.raw_game_time -= 15.0f;
             }
             break;
         }
         case TIME_MINUTES_INDEX: {
             if (button_is_pressed(Controller::DPAD_RIGHT)) {
                 tp_gameInfo.raw_game_time += 0.25f;
-                if (tp_gameInfo.raw_game_time >= 360.0f) {
-                    tp_gameInfo.raw_game_time = 0.0f;
-                }
             } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-                if (tp_gameInfo.raw_game_time > 0) {
-                    tp_gameInfo.raw_game_time -= 0.25f;
-                } else {
-                    tp_gameInfo.raw_game_time = 359.75f;
-                }
+                tp_gameInfo.raw_game_time -= 0.25f;
             }
             break;
         }
+    }
+    if (tp_gameInfo.raw_game_time >= 360.0f) {
+        tp_gameInfo.raw_game_time -= 360.0f;
+    }
+    if (tp_gameInfo.raw_game_time < 0) {
+        tp_gameInfo.raw_game_time += 360.0f;
     }
 }
