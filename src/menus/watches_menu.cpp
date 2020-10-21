@@ -134,7 +134,7 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                                 Watches[i].address = 0x81FFFFFF;
                             }
                             if (watch_address_index <= 9 && watch_address_index > 3) {
-                                Watches[i].address += 1 << ((9 - watch_address_index) * 8);
+                                Watches[i].address += 1 << ((9 - watch_address_index) * 4);
                             }
                             if (Watches[i].address > 0x81FFFFFF) {
                                 Watches[i].address = 0x81FFFFFF;
@@ -142,7 +142,7 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                         }
                         if (button_is_pressed(Controller::DPAD_DOWN)) {
                             if (watch_address_index <= 9 && watch_address_index >= 3) {
-                                Watches[i].address -= 1 << ((9 - watch_address_index) * 8);
+                                Watches[i].address -= 1 << ((9 - watch_address_index) * 4);
                             }
                             if (Watches[i].address < 0x80000000) {
                                 Watches[i].address = 0x80000000;

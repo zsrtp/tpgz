@@ -132,7 +132,7 @@ void render_area_flags(Cursor cursor) {
 				}
 		    }
 			Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-			Draw::draw_rect(0x0080FF77, {210.0f - (bit_index * 20.0f), y_offset - 13.0f}, {16,16}); // Flag cursor
+			Draw::draw_rect(0x0080FF77, {temp_flag_offset + ((7 - bit_index) * 20.0f), y_offset - 13.0f}, {16,16}); // Flag cursor
         }else{
 		    Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
 		}
