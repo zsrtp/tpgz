@@ -62,19 +62,21 @@ void render_area_flags(Cursor cursor) {
 		TempFlags[i].bit[6] = (tp_gameInfo.temp_flags.flags[i] & (1 << 6));
 		TempFlags[i].bit[7] = (tp_gameInfo.temp_flags.flags[i] & (1 << 7));
         
-		for (uint8_t j = 0; j < 8; j++){
-            if(TempFlags[i].bit[j] == true){
-                Draw::draw_rect(0xFFFFFFFF, {210.0f - (j * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOnTex._texObj);
-		    }
-		    else{
-		    	Draw::draw_rect(0xFFFFFFFF, {210.0f - (j * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOffTex._texObj);
-		    }
-		}
-		
 		char offset[6];
 
 		sprintf(offset, "0x%02X:", TempFlags[i].offset);
 
+		float temp_flag_offset = LINE_X_OFFSET + Font::get_chars_width(offset);
+
+		for (uint8_t j = 0; j < 8; j++){
+            if(TempFlags[i].bit[j] == true){
+                Draw::draw_rect(0xFFFFFFFF, {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOnTex._texObj);
+		    }
+		    else{
+		    	Draw::draw_rect(0xFFFFFFFF, {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOffTex._texObj);
+		    }
+		}
+		
 		if (TempFlags[i].line_selected) {
             if (button_is_pressed(Controller::DPAD_RIGHT)) {
 			    if (bit_index == 0) {

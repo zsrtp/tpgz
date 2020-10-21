@@ -120,5 +120,5 @@ void GeneralFlagsMenu::render() {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(lines, cursor.y, LINES, 150.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

@@ -8,6 +8,7 @@
 
 #define MAX_GLYPHS 94
 #define DROP_SHADOWS_RGBA 0x000000FF
+#define FONT_DEFAULT_SIZE 17.f
 
 enum FontCode {
     FNT_OK = 1,                     /*<@brief Font loaded successfully */
@@ -66,8 +67,10 @@ class Font {
     static FontCode load_font(const char* path);
     static void free_font();
     static bool lookupGlyph(char c, DecodedGlyph& glyph);
-    static float renderChar(char c, float x, float y, uint32_t color, float size = 17.f);
-    static void renderChars(const char* str, float x, float y, uint32_t color, float size = 17.f);
-    static void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows, float size = 17.f);
-    static void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows, float size = 17.f);
+    static float renderChar(char c, float x, float y, uint32_t color, float size = FONT_DEFAULT_SIZE);
+    static void renderChars(const char* str, float x, float y, uint32_t color, float size = FONT_DEFAULT_SIZE);
+    static void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows, float size = FONT_DEFAULT_SIZE);
+    static void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows, float size = FONT_DEFAULT_SIZE);
+    static float get_char_width(char c, float size = FONT_DEFAULT_SIZE);
+    static float get_chars_width(const char* str, float size = FONT_DEFAULT_SIZE);
 };

@@ -45,7 +45,7 @@ ListMember font_options[MAX_FONT_OPTIONS] = {
 };
 
 Line lines[LINES] = {
-    {"", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
+    {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
     {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr, MAX_CURSOR_COLOR_OPTIONS},
     {"font:", FONT_INDEX, "Change font", false, nullptr, MAX_FONT_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
@@ -143,11 +143,11 @@ void SettingsMenu::render() {
         }
     }
 
-    sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].line, "area reload behavior: <%s>", reload_options[g_area_reload_behavior].member);
-    sprintf(lines[CURSOR_COLOR_INDEX].line, "cursor color:         <%s>", cursor_color_options[g_cursor_color].member);
-    sprintf(lines[FONT_INDEX].line, "font:                 <%s>", font_options[g_font].member);
+    sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_options[g_area_reload_behavior].member);
+    sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursor_color_options[g_cursor_color].member);
+    sprintf(lines[FONT_INDEX].value, " <%s>", font_options[g_font].member);
 
-    Utilities::render_lines(lines, cursor.y, LINES, 210.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 }
 
 void SettingsMenu::initFont(){

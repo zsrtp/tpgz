@@ -173,30 +173,30 @@ const ItemLookup lookup_table[TOTAL_ITEMS] = {
     {NO_ITEM, "no item"}};
 
 Line lines[LINES] = {
-    {"", SLOT_0, "", false, nullptr, false},
-    {"", SLOT_1, "", false, nullptr, false},
-    {"", SLOT_2, "", false, nullptr, false},
-    {"", SLOT_3, "", false, nullptr, false},
-    {"", SLOT_4, "", false, nullptr, false},
-    {"", SLOT_5, "", false, nullptr, false},
-    {"", SLOT_6, "", false, nullptr, false},
-    {"", SLOT_7, "", false, nullptr, false},
-    {"", SLOT_8, "", false, nullptr, false},
-    {"", SLOT_9, "", false, nullptr, false},
-    {"", SLOT_10, "", false, nullptr, false},
-    {"", SLOT_11, "", false, nullptr, false},
-    {"", SLOT_12, "", false, nullptr, false},
-    {"", SLOT_13, "", false, nullptr, false},
-    {"", SLOT_14, "", false, nullptr, false},
-    {"", SLOT_15, "", false, nullptr, false},
-    {"", SLOT_16, "", false, nullptr, false},
-    {"", SLOT_17, "", false, nullptr, false},
-    {"", SLOT_18, "", false, nullptr, false},
-    {"", SLOT_19, "", false, nullptr, false},
-    {"", SLOT_20, "", false, nullptr, false},
-    {"", SLOT_21, "", false, nullptr, false},
-    {"", SLOT_22, "", false, nullptr, false},
-    {"", SLOT_23, "", false, nullptr, false}};
+    {"Slot 0:", SLOT_0, "", false, nullptr, false},
+    {"Slot 1:", SLOT_1, "", false, nullptr, false},
+    {"Slot 2:", SLOT_2, "", false, nullptr, false},
+    {"Slot 3:", SLOT_3, "", false, nullptr, false},
+    {"Slot 4:", SLOT_4, "", false, nullptr, false},
+    {"Slot 5:", SLOT_5, "", false, nullptr, false},
+    {"Slot 6:", SLOT_6, "", false, nullptr, false},
+    {"Slot 7:", SLOT_7, "", false, nullptr, false},
+    {"Slot 8:", SLOT_8, "", false, nullptr, false},
+    {"Slot 9:", SLOT_9, "", false, nullptr, false},
+    {"Slot 10:", SLOT_10, "", false, nullptr, false},
+    {"Slot 11:", SLOT_11, "", false, nullptr, false},
+    {"Slot 12:", SLOT_12, "", false, nullptr, false},
+    {"Slot 13:", SLOT_13, "", false, nullptr, false},
+    {"Slot 14:", SLOT_14, "", false, nullptr, false},
+    {"Slot 15:", SLOT_15, "", false, nullptr, false},
+    {"Slot 16:", SLOT_16, "", false, nullptr, false},
+    {"Slot 17:", SLOT_17, "", false, nullptr, false},
+    {"Slot 18:", SLOT_18, "", false, nullptr, false},
+    {"Slot 19:", SLOT_19, "", false, nullptr, false},
+    {"Slot 20:", SLOT_20, "", false, nullptr, false},
+    {"Slot 21:", SLOT_21, "", false, nullptr, false},
+    {"Slot 22:", SLOT_22, "", false, nullptr, false},
+    {"Slot 23:", SLOT_23, "", false, nullptr, false}};
 
 void increment_slot_item(int slot_id) {
     uint8_t current_internal_item_id = tp_gameInfo.inventory.item_values.value[slot_id];
@@ -286,7 +286,7 @@ void ItemWheelMenu::render() {
         new_int_item_id = tp_gameInfo.inventory.item_values.value[i];
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                sprintf(lines[i].line, "Slot %d: <%s>", i,
+                sprintf(lines[i].value, " <%s>",
                         new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
             }
             if (lookup_table[j].item_id == default_items[i]) {

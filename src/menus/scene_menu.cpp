@@ -28,8 +28,8 @@ Line lines[LINES] = {
     {"hide actors", HIDE_ACTOR_INDEX, "Hides actors", true, &SceneItems[HIDE_ACTOR_INDEX].active},
     {"hide hud", HIDE_HUD_INDEX, "Hides the heads-up display", true, &SceneItems[HIDE_HUD_INDEX].active},
     {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true, &SceneItems[FREEZE_TIME_INDEX].active},
-    {"", TIME_HOURS_INDEX, "The current in-game hour", false},
-    {"", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
+    {"time (hrs):", TIME_HOURS_INDEX, "The current in-game hour", false},
+    {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
 
 void SceneMenu::render() {
     if (button_is_pressed(Controller::B)) {
@@ -49,11 +49,11 @@ void SceneMenu::render() {
     }
     int current_minute = (int)((4.0f * tp_gameInfo.raw_game_time) - current_hour * 60);
 
-    sprintf(lines[TIME_HOURS_INDEX].line, "time (hrs):        <%d>", current_hour);
-    sprintf(lines[TIME_MINUTES_INDEX].line, "time (mins):       <%d>", current_minute);
+    sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
+    sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(lines, cursor.y, LINES, 160.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
     
     if (current_input == Controller::Pad::A && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;

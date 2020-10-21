@@ -263,19 +263,19 @@ void WarpingMenu::render() {
     char tmpbuf[32];
 
     strcpy(tmpbuf, stage_types[stage_type_counter]);
-    sprintf(lines[WARP_TYPE_INDEX].line, "type: <%s>", tmpbuf);
+    sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
 
     strcpy(tmpbuf, warp_info.stage_info.stage_name);
-    sprintf(lines[WARP_STAGE_INDEX].line, "stage: <%s>", tmpbuf);
+    sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
 
     strcpy(tmpbuf, warp_info.room_info.room_name);
-    sprintf(lines[WARP_ROOM_INDEX].line, "room: <%s>", tmpbuf);
+    sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
 
-    sprintf(lines[WARP_SPAWN_INDEX].line, "spawn: <%d>", warp_info.spawn_info.spawn_id[0]);
+    sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", warp_info.spawn_info.spawn_id[0]);
     if (layer == DEFAULT_LAYER) {
-        sprintf(lines[WARP_LAYER_INDEX].line, "layer: <default>");
+        sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
     } else {
-        sprintf(lines[WARP_LAYER_INDEX].line, "layer: <%d>", layer);
+        sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", layer);
     }
 
     Utilities::move_cursor(cursor, LINES);

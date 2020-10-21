@@ -1,5 +1,6 @@
 #include "utils/lines.hpp"
 #include "libtp_c/include/system.h"
+#include "libtp_c/include/math.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "utils/texture.h"
@@ -7,11 +8,20 @@
 
 int cursor_rgba;
 
+float max_value_f(float a, float b) {
+    return MAX(a, b);
+}
+
 namespace Utilities {
-    void render_lines(Line input_lines[], int cursor, int LINES, float menu_toggle_switch_x_offset) {
+    void render_lines(Line input_lines[], int cursor, int LINES) {
         float x_offset = sprite_offsets[MENU_INDEX].x;
         float y_offset = 0.0f;
 		
+        float max_line_width = 0.0f;
+        for (int i = 0; i < LINES; ++i) {
+            max_line_width = max_value_f(max_line_width, Font::get_chars_width(input_lines[i].line));
+        }
+
         for (int i = 0; i < LINES; i++) {
             // don't draw past line 15/cursor
             if (LINES > 15 && i > 15 && cursor < i) {
@@ -49,17 +59,21 @@ namespace Utilities {
             // logic for lines that are toggleable
             if (input_lines[i].toggleable) {
                 if (*input_lines[i].activation_flag) {
-                    Font::gz_renderChars(" [X]", x_offset + menu_toggle_switch_x_offset, y_offset, cursor_color, g_drop_shadows);
+                    Font::gz_renderChars(" [X]", x_offset + max_line_width, y_offset, cursor_color, g_drop_shadows);
                 } else {
-                    Font::gz_renderChars(" [ ]", x_offset + menu_toggle_switch_x_offset, y_offset, cursor_color, g_drop_shadows);
+                    Font::gz_renderChars(" [ ]", x_offset + max_line_width, y_offset, cursor_color, g_drop_shadows);
                 }
 
                 Font::gz_renderChars(input_lines[i].line, x_offset, y_offset, cursor_color, g_drop_shadows);
             } else {
                 Font::gz_renderChars(input_lines[i].line, x_offset, y_offset, cursor_color, g_drop_shadows);
+                Font::gz_renderChars(input_lines[i].value, x_offset + max_line_width, y_offset, cursor_color, g_drop_shadows);
             }
 
             // render line descriptions
+            if (input_lines[i].idx == cursor) {
+                Font::gz_renderChars(input_lines[i].description, x_offset, 440.f, 0x00000000, true);
+            }
             Font::gz_renderChars(input_lines[i].description, x_offset, 440.f, description_color, false);
         };
     }

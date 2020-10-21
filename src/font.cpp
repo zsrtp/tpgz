@@ -101,7 +101,7 @@ float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
         positioned.render(color, &font.texture);
         return positioned.next_x;
     } else {
-        return x + font.glyphs[' '].width;
+        return x + font.glyphs[' '].width * size / font.header.base_size;
     }
 }
 
@@ -124,4 +124,22 @@ void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, boo
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
     renderChars(str, x, y, color, size);
+}
+
+float Font::get_char_width(char c, float size) {
+    DecodedGlyph glyph;
+    if (lookupGlyph(c, glyph)) {
+        return glyph.width * size / font.header.base_size;
+    } else {
+        return font.glyphs[' '].width * size / font.header.base_size;
+    }
+}
+
+float Font::get_chars_width(const char* str, float size) {
+    int len = strlen(str);
+    float str_size = 0.f;
+    for (int i = 0; i < len; i++) {
+        str_size += get_char_width(str[i], size);
+    }
+    return str_size;
 }
