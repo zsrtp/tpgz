@@ -162,5 +162,5 @@ void CheatsMenu::render() {
         CheatItems[cursor.y].active = !(CheatItems[cursor.y].active);
     }
 
-    Utilities::render_lines(lines, cursor.y, LINES, 180.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

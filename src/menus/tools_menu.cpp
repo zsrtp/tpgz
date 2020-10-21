@@ -86,7 +86,7 @@ void ToolsMenu::render() {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:     <%s>", tunic_color_options[tunic_color_index].member);
+    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(lines, cursor.y, LINES);
 
     if (current_input == Controller::Pad::A && a_held == false) {

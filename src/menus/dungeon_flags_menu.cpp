@@ -153,7 +153,7 @@ void DungeonFlagsMenu::render() {
         }
     }
 
-    sprintf(lines[SELECT_DUNGEON_INDEX].line, "dungeon: <%s>", dungeon_options[select_dungeon_index].member);
+    sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dungeon_options[select_dungeon_index].member);
 
-    Utilities::render_lines(lines, cursor.y, LINES, 150.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };
