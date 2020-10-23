@@ -1,4 +1,5 @@
 #include "libtp_c/include/tp.h"
+#include "libtp_c/include/math.h"
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/flag.h"
 #include "font.h"
@@ -32,7 +33,7 @@ Line lines[LINES] = {
     {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
     {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"}};
 
-void AmountsMenu::render(Font & font) {
+void AmountsMenu::render() {
 	// update amounts
 	arrow_ammo = tp_gameInfo.inventory.arrow_count;
 	bomb_bag_1_ammo = tp_gameInfo.inventory.bomb_bag_1_amnt;
@@ -129,15 +130,15 @@ void AmountsMenu::render(Font & font) {
         }
     }
 
-	sprintf(lines[ARROW_AMMO_INDEX].line, "arrow ammo:      <%d>", arrow_ammo);
-	sprintf(lines[BOMB_BAG_1_AMMO_INDEX].line, "bomb bag 1 ammo:  <%d>", bomb_bag_1_ammo);
-	sprintf(lines[BOMB_BAG_2_AMMO_INDEX].line, "bomb bag 2 ammo:  <%d>", bomb_bag_2_ammo);
-	sprintf(lines[BOMB_BAG_3_AMMO_INDEX].line, "bomb bag 3 ammo:  <%d>", bomb_bag_3_ammo);
-	sprintf(lines[SLINGSHOT_AMMO_INDEX].line, "slingshot ammo:   <%d>", slingshot_ammo);
-	sprintf(lines[HEART_PIECE_COUNT_INDEX].line, "heart pieces:      <%d>", hp_count);
-	sprintf(lines[POE_COUNT_INDEX].line, "poes:            <%d>", poe_count);
-	sprintf(lines[RUPEE_COUNT_INDEX].line, "rupees:           <%d>", rupee_count);
+	sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
+	sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
+	sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
+	sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
+	sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
+	sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
+	sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
+	sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
 
 	Utilities::move_cursor(cursor, LINES);
-	Utilities::render_lines(font, lines, cursor.y, LINES);
+	Utilities::render_lines(lines, cursor.y, LINES);
 };

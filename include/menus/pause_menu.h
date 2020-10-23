@@ -23,5 +23,5 @@ enum PauseIndex {
 class PauseMenu : public Menu {
 public:
     PauseMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

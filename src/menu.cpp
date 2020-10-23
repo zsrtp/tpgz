@@ -18,7 +18,7 @@
 #include "menus/tools_menu.h"
 #include "menus/warping_menu.h"
 
-typedef void (*menu_render_t)(Font& font);
+typedef void (*menu_render_t)();
 
 menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
     MainMenu::render,
@@ -47,9 +47,9 @@ menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
 menu_render_t currentMenu = nullptr;
 
 namespace MenuRendering {
-    void render_active_menus(Font& font) {
+    void render_active_menus() {
         if (currentMenu) {
-            currentMenu(font);
+            currentMenu();
         }
     }
 

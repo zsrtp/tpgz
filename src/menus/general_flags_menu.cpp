@@ -36,7 +36,7 @@ Line lines[LINES] = {
 	{"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true, &transform_warp},
 	{"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for having wolf sense", true, &wolf_sense} };
 
-void GeneralFlagsMenu::render(Font& font) {
+void GeneralFlagsMenu::render() {
     // update flags
     boss_flag = (TP::get_boss_flags() > 0x00);
     rupee_flag = tp_gameInfo.inventory.rupee_cs_flags;
@@ -120,5 +120,5 @@ void GeneralFlagsMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES, 150.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

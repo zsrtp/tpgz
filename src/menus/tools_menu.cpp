@@ -58,7 +58,7 @@ Line lines[LINES] = {
     {"frame advance", FRAME_ADVANCE_INDEX, "L+R+X to activate. Press/hold Z to advance frames.", true, &ToolItems[FRAME_ADVANCE_INDEX].active},
     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
-void ToolsMenu::render(Font& font) {
+void ToolsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
@@ -89,8 +89,8 @@ void ToolsMenu::render(Font& font) {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].line, "link tunic color:     <%s>", tunic_color_options[tunic_color_index].member);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
+    Utilities::render_lines(lines, cursor.y, LINES);
 
     if (current_input == Controller::Pad::A && a_held == false) {
         ToolItems[cursor.y].active = !ToolItems[cursor.y].active;

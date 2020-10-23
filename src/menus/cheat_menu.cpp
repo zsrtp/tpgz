@@ -144,7 +144,7 @@ namespace Cheats {
     };
 }  // namespace Cheats
 
-void CheatsMenu::render(Font &font) {
+void CheatsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
@@ -162,5 +162,5 @@ void CheatsMenu::render(Font &font) {
         CheatItems[cursor.y].active = !(CheatItems[cursor.y].active);
     }
 
-    Utilities::render_lines(font, lines, cursor.y, LINES, 180.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

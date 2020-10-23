@@ -17,7 +17,7 @@ Line lines[LINES] = {
     {"portal flags", PORTAL_FLAGS_INDEX, "warp portal flags", false},
     {"temp flags", TEMP_FLAGS_INDEX, "local area temp flags", false}};
 
-void FlagsMenu::render(Font& font) {
+void FlagsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
@@ -51,5 +51,5 @@ void FlagsMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

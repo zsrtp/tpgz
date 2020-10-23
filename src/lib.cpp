@@ -5,7 +5,7 @@
 #include "utils/link.hpp"
 #include "utils/memory.hpp"
 #include "utils/card.hpp"
-#include "fonts/consolas.h"
+#include "utils/texture.h"
 #include "fifo_queue.h"
 #include "font.h"
 #include "controller.h"
@@ -24,7 +24,6 @@
 
 _FIFOQueue Queue;
 bool card_load = true;
-Font default_font;
 Texture gzIconTex;
 // bool inFrameAdvance = false;
 
@@ -41,7 +40,7 @@ void apply_lib_hooks() {
 }
 
 void init() {
-    default_font = Font(f_Consolas, consolas_bytes);
+    Font::load_font("tpgz/fonts/consola.fnt");
     PosSettingsMenu::initDefaults();
     Draw::init();
     fifo_visible = true;
@@ -95,12 +94,10 @@ void game_loop() {
 }
 
 void draw() {
-    default_font.setupRendering();
-    
-    // if ()
-
-    if (MenuRendering::is_menu_open()) {
-        default_font.gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+    setupRendering();
+    //Consolas.setupRendering();
+    if(MenuRendering::is_menu_open()){
+        Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
@@ -114,21 +111,21 @@ void draw() {
         }
     }
     if (fifo_visible) {
-        FIFOQueue::renderItems(Queue, default_font);
+        FIFOQueue::renderItems(Queue);
     }
     if (ToolItems[Tools::LINK_DEBUG_INDEX].active) {
-        Utilities::show_link_debug_info(default_font);
+        Utilities::show_link_debug_info();
     }
     if (ToolItems[Tools::INPUT_VIEWER_INDEX].active) {
-        InputViewer::render(default_font);
+        InputViewer::render();
     }
     if (ToolItems[Tools::TIMER_INDEX].active || ToolItems[Tools::LOAD_TIMER_INDEX].active || ToolItems[Tools::IGT_TIMER_INDEX].active) {
-        Timer::render(default_font);
+        Timer::render();
     }
     if (move_link_active) {
-        MoveLink::render_info_input(default_font);
-    }
-    MenuRendering::render_active_menus(default_font);
-    Utilities::render_active_watches(default_font);
+        MoveLink::render_info_input();
+	}
+    MenuRendering::render_active_menus();
+    Utilities::render_active_watches();
 }
 }

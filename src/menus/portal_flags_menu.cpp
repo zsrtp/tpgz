@@ -45,7 +45,7 @@ Line lines[LINES] = {
     {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, &mirror_warp},
 };
 
-void PortalFlagsMenu::render(Font& font) {
+void PortalFlagsMenu::render() {
     // update flags
     spring_warp = (tp_gameInfo.overworld_flags.ordon_flags.flags[13] & (1 << 4));
     south_faron_warp = (tp_gameInfo.overworld_flags.faron_flags.flags[19] & (1 << 7));
@@ -140,5 +140,5 @@ void PortalFlagsMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES, 150.0f);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

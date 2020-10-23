@@ -1,14 +1,12 @@
 #include "libtp_c/include/system.h"
 #include "fifo_queue.h"
-#include "fonts/consolas.h"
 #include "font.h"
 #include "menus/position_settings_menu.h"
 #include <string.h>
 
-static Font Consolas;
 bool fifo_visible;
 
-void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
+void FIFOQueue::renderItems(_FIFOQueue& Queue) {
     for (int i = 0; i < MAX_MESSAGES; i++) {
         if (Queue.messages[i].ttl > 0) {
             Queue.messages[i].ttl--;
@@ -22,7 +20,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue, Font& font) {
         }
         color |= alpha;
         if (fifo_visible) {
-            font.renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
+            Font::renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
         }
     }
 };

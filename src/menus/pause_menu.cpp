@@ -274,7 +274,7 @@ void set_equipment() {
 
 }
 
-void PauseMenu::render(Font& font) {
+void PauseMenu::render() {
 	// update hidden skill flags
     ending_blow = (tp_gameInfo.event_flags.flags[0x29] & (1 << 2));
     shield_bash = (tp_gameInfo.event_flags.flags[0x29] & (1 << 3));
@@ -475,16 +475,16 @@ void PauseMenu::render(Font& font) {
 
     set_equipment();
 
-    sprintf(lines[ORDON_SWORD_INDEX].line, "ordon sword:       <%s>", ordon_sword_options[ordon_sword_index].member);
-    sprintf(lines[MASTER_SWORD_INDEX].line, "master sword:      <%s>", master_sword_options[master_sword_index].member);
-    sprintf(lines[WOOD_SHIELD_INDEX].line, "wooden shield:      <%s>", wood_shield_options[wood_shield_index].member);
-    sprintf(lines[HYLIAN_SHIELD_INDEX].line, "hylian shield:      <%s>", hylian_shield_options[hylian_shield_index].member);
-    sprintf(lines[HERO_TUNIC_INDEX].line, "hero tunic:         <%s>", hero_tunic_options[hero_tunic_index].member);
-    sprintf(lines[ZORA_ARMOR_INDEX].line, "zora armor:        <%s>", zora_armor_options[zora_armor_index].member);
-    sprintf(lines[MAGIC_ARMOR_INDEX].line, "magic armor:       <%s>", magic_armor_options[magic_armor_index].member);
-    sprintf(lines[BOMB_CAPACITY_INDEX].line, "bomb capacity:       <%s>", bomb_capacity_options[bomb_capacity_index].member);
-    sprintf(lines[WALLET_INDEX].line, "wallet size:        <%s>", wallet_options[wallet_index].member);
-    sprintf(lines[ARROW_CAPACITY_INDEX].line, "arrow capacity:     <%s>", arrow_capacity_options[arrow_capacity_index].member);
+    sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordon_sword_options[ordon_sword_index].member);
+    sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", master_sword_options[master_sword_index].member);
+    sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", wood_shield_options[wood_shield_index].member);
+    sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hylian_shield_options[hylian_shield_index].member);
+    sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", hero_tunic_options[hero_tunic_index].member);
+    sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zora_armor_options[zora_armor_index].member);
+    sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magic_armor_options[magic_armor_index].member);
+    sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bomb_capacity_options[bomb_capacity_index].member);
+    sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_options[wallet_index].member);
+    sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrow_capacity_options[arrow_capacity_index].member);
 
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

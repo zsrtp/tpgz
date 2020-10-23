@@ -19,5 +19,5 @@ struct PracticeSaveInfo {
 class PracticeMenu : public Menu {
 public:
     PracticeMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

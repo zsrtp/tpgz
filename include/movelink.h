@@ -5,5 +5,5 @@ extern bool move_link_active;
 
 namespace MoveLink {
 	void move_link();
-    void render_info_input(Font& font);
+    void render_info_input();
 }  // namespace MoveLink

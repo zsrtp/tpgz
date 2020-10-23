@@ -14,7 +14,7 @@ Line lines[LINES] = {
     {"watches", 0, "Manage memory watches", false},
     {"memory editor", 1, "View/edit memory", false}};
 
-void MemoryMenu::render(Font& font) {
+void MemoryMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
 		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
@@ -40,5 +40,5 @@ void MemoryMenu::render(Font& font) {
     }
 
     Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

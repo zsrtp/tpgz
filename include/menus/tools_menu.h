@@ -56,5 +56,5 @@ extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 class ToolsMenu : public Menu {
 public:
     ToolsMenu() : Menu() {}
-    static void render(Font& font);
+    static void render();
 };

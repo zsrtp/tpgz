@@ -14,7 +14,7 @@ Line lines[LINES] = {
     {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
     {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false}};
 
-void InventoryMenu::render(Font& font) {
+void InventoryMenu::render() {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
@@ -43,5 +43,5 @@ void InventoryMenu::render(Font& font) {
 
     Utilities::move_cursor(cursor, LINES);
     
-    Utilities::render_lines(font, lines, cursor.y, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };
