@@ -16,6 +16,7 @@ static uint16_t sButtons_pressed = 0;
 bool a_held = true;
 bool a_held_last_frame = true;
 uint16_t current_input = 0x0000;
+uint16_t pad_test = 0x0000;
 
 bool can_move_cursor = false;
 static uint16_t sNum_frames_cursor_buffer = 0;
@@ -78,14 +79,20 @@ namespace Controller {
                 }
             }
 
-            Controller::set_buttons_down(0x0);
-            Controller::set_buttons_pressed(0x0);
-            tp_mPadStatus.sval = 0x0;
-            tp_mPadButton.sval = 0x0;
+            //Controller::set_buttons_down(0x0);
+            //Controller::set_buttons_pressed(0x0);
+            //tp_mPadStatus.sval = 0x0;
+            //tp_mPadButton.sval = 0x0;
         } else {
             can_move_cursor = false;
             sNum_frames_cursor_buffer = 0;
             Commands::process_inputs();
+            if (pad_test != 0x0000) {
+                tp_osReport("bt %d", tp_mPadStatus.sval);
+                tp_mPadStatus.sval = pad_test;
+                tp_osReport("at %d", tp_mPadStatus.sval);
+                pad_test = 0x0000;
+            }
         }
     }
 

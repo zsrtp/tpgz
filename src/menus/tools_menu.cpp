@@ -12,6 +12,7 @@
 #include "rollcheck.h"
 #include "free_cam.h"
 #include "movelink.h"
+#include "frame_advance.h"
 #define LINES TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
 using namespace Tools;
@@ -36,7 +37,8 @@ Tool ToolItems[TOOL_AMNT] = {
     {LOAD_TIMER_INDEX, false},
     {IGT_TIMER_INDEX, false},
     {FREE_CAM_INDEX, false},
-    {MOVE_LINK_INDEX, false}};
+    {MOVE_LINK_INDEX, false},
+    {FRAME_ADVANCE_INDEX, false}};
 
 Line lines[LINES] = {
     {"area reload", RELOAD_AREA_INDEX, "Use L+R+Start+A to reload current area", true, &ToolItems[RELOAD_AREA_INDEX].active},
@@ -53,6 +55,7 @@ Line lines[LINES] = {
     {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true, &ToolItems[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX, "Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed", true, &ToolItems[FREE_CAM_INDEX].active},
     {"move link", MOVE_LINK_INDEX, "L+R+Y to activate. Stick/C to move, C-left/right to change angle", true, &ToolItems[MOVE_LINK_INDEX].active},
+    {"frame advance", FRAME_ADVANCE_INDEX, "L+R+X to activate. Press/hold Z to advance frames.", true, &ToolItems[FRAME_ADVANCE_INDEX].active},
     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr, MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render(Font& font) {
@@ -155,7 +158,13 @@ void ToolsMenu::render(Font& font) {
                 case MOVE_LINK_INDEX: {
                     Commands::enable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
+                    break;
 				}
+                case FRAME_ADVANCE_INDEX: {
+                    Commands::enable_command(Commands::CMD_FRAME_ADVANCE);
+                    frame_advance_active = false;
+                    break;
+                }
             }
         } else {
             switch (cursor.y) {
@@ -199,6 +208,12 @@ void ToolsMenu::render(Font& font) {
                 case MOVE_LINK_INDEX: {
                     Commands::disable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
+                    break;
+                }
+                case FRAME_ADVANCE_INDEX: {
+                    Commands::disable_command(Commands::CMD_FRAME_ADVANCE);
+                    frame_advance_active = false;
+                    break;
                 }
                 case GORGE_INDEX: {
                     Commands::disable_command(Commands::CMD_GORGE_VOID);

@@ -8,6 +8,7 @@
 #include "fonts/consolas.h"
 #include "fifo_queue.h"
 #include "font.h"
+#include "controller.h"
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
@@ -18,16 +19,22 @@
 #include "utils/draw.h"
 #include "timer.h"
 #include "free_cam.h"
+#include "frame_advance.h"
 #include "movelink.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
 Font default_font;
 Texture gzIconTex;
+// bool inFrameAdvance = false;
+
+// #define tp_padread_addr 0x802e08e4
+// typedef void (*tp_padread_t)(void);
+// #define tp_padread ((tp_padread_t)tp_padread_addr)
 
 extern "C" {
 
-#define main_tampoline ((void(*)(void))0x803737b4)
+#define main_tampoline ((void (*)(void))0x803737b4)
 void apply_lib_hooks() {
     Hook::apply_hooks();
     main_tampoline();
@@ -42,7 +49,7 @@ void init() {
 
 void game_loop() {
     using namespace Controller::Pad;
-    
+
     // Button combo to bypass the automatic loading of the save file
     // in case of crash cause by the load.
     if (tp_mPadStatus.sval == (L | R | B) && card_load) {
@@ -63,13 +70,36 @@ void game_loop() {
 
     GZFlags::apply_active_flags();
     FreeCam::handle_free_cam();
+    FrameAdvance::handle_frame_advance();
     MoveLink::move_link();
+
+    // if (tp_mPadStatus.sval == 0x10) {
+    //     inFrameAdvance = true;
+    // }
+
+    // tp_osReport("fa: %d", inFrameAdvance);
+    
+    
+    // if (inFrameAdvance) {
+    //     do {
+            
+    //         tp_osReport("in fa loop!");
+    //         tp_padread();
+    //         tp_osReport("ok %d", tp_mPadStatus.sval);
+
+    //         if (tp_mPadStatus.sval == 0x10) {
+    //             inFrameAdvance = false;
+    //         }
+    //     } while (inFrameAdvance);
+    // }
 }
 
 void draw() {
     default_font.setupRendering();
-    //Consolas.setupRendering();
-    if(MenuRendering::is_menu_open()){
+    
+    // if ()
+
+    if (MenuRendering::is_menu_open()) {
         default_font.gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
@@ -97,7 +127,7 @@ void draw() {
     }
     if (move_link_active) {
         MoveLink::render_info_input(default_font);
-	}
+    }
     MenuRendering::render_active_menus(default_font);
     Utilities::render_active_watches(default_font);
 }

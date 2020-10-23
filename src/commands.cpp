@@ -6,6 +6,7 @@
 #include "gorge.h"
 #include "fs.h"
 #include "free_cam.h"
+#include "frame_advance.h"
 #include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
@@ -13,16 +14,6 @@
 #include "utils/loading.hpp"
 
 using namespace Controller;
-
-#define GORGE_VOID_BUTTONS (Pad::L | Pad::Z)
-#define STORE_POSITION_BUTTONS (Pad::DPAD_UP | Pad::R)
-#define LOAD_POSITION_BUTTONS (Pad::DPAD_DOWN | Pad::R)
-#define MOON_JUMP_BUTTONS (Pad::R | Pad::A)
-#define RELOAD_AREA_BUTTONS (Pad::L | Pad::R | Pad::A | Pad::START)
-#define TIMER_TOGGLE_BUTTONS (Pad::Z | Pad::A)
-#define TIMER_RESET_BUTTONS (Pad::Z | Pad::B)
-#define FREE_CAM_BUTTONS (Pad::Z | Pad::B | Pad::A)
-#define MOVE_LINK_BUTTONS (Pad::L | Pad::R | Pad::Y )
 
 bool reload_area_flag = false;
 bool timer_started = false;
@@ -104,8 +95,14 @@ namespace Commands {
     }
 
     void toggle_move_link() {
-        if (button_this_frame == 0x0860 && button_last_frame != 0x0860) {
+        if (button_this_frame == MOVE_LINK_BUTTONS && button_last_frame != MOVE_LINK_BUTTONS) {
             move_link_active = !move_link_active;
+        }
+    }
+
+    void toggle_frame_advance() {
+        if (button_this_frame == FRAME_ADVANCE_BUTTONS && button_last_frame != FRAME_ADVANCE_BUTTONS) {
+            frame_advance_active = !frame_advance_active;
         }
     }
 
@@ -124,17 +121,18 @@ namespace Commands {
         {commands_states[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, hit_reset},
         {commands_states[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, gorge_void},
         {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam},
-        {commands_states[CMD_MOVE_LINK], 0x0860, toggle_move_link}};
+        {commands_states[CMD_MOVE_LINK], MOVE_LINK_BUTTONS, toggle_move_link},
+        {commands_states[CMD_FRAME_ADVANCE], FRAME_ADVANCE_BUTTONS, toggle_frame_advance}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;
         for (auto c : Commands) {
             if (c.active == true && tp_mPadStatus.sval == c.buttons) {
                 c.command();
-                set_buttons_down(0x0);
-                set_buttons_pressed(0x0);
-                tp_mPadButton.sval = 0x0;
-                tp_mPadStatus.sval = 0x0;
+                // set_buttons_down(0x0);
+                // set_buttons_pressed(0x0);
+                // tp_mPadButton.sval = 0x0;
+                // tp_mPadStatus.sval = 0x0;
             };
         };
         button_last_frame = button_this_frame;
