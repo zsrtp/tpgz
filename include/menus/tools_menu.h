@@ -1,6 +1,6 @@
 #include "menu.h"
 
-#define TOOL_AMNT 16
+#define TOOL_AMNT 15
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -17,7 +17,6 @@ namespace Tools {
 		IGT_TIMER_INDEX,
 		FREE_CAM_INDEX,
 		MOVE_LINK_INDEX,
-        FRAME_ADVANCE_INDEX,
         TUNIC_COLOR_INDEX
     };
 
