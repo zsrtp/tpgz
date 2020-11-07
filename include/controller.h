@@ -4,7 +4,6 @@
 
 extern bool a_held;
 extern uint16_t current_input;
-extern uint16_t pad_test;
 
 namespace Controller {
     enum Button {
