@@ -2,12 +2,13 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "utils/hook.h"
-#include "utils/link.hpp"
-#include "utils/memory.hpp"
-#include "utils/card.hpp"
+#include "utils/link.h"
+#include "utils/memory.h"
+#include "utils/card.h"
 #include "utils/texture.h"
 #include "fifo_queue.h"
 #include "font.h"
+#include "controller.h"
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
@@ -26,7 +27,7 @@ Texture gzIconTex;
 
 extern "C" {
 
-#define main_tampoline ((void(*)(void))0x803737b4)
+#define main_tampoline ((void (*)(void))0x803737b4)
 void apply_lib_hooks() {
     Hook::apply_hooks();
     main_tampoline();
@@ -41,7 +42,7 @@ void init() {
 
 void game_loop() {
     using namespace Controller::Pad;
-    
+
     // Button combo to bypass the automatic loading of the save file
     // in case of crash cause by the load.
     if (tp_mPadStatus.sval == (L | R | B) && card_load) {
@@ -68,8 +69,9 @@ void game_loop() {
 void draw() {
     setupRendering();
     //Consolas.setupRendering();
-    if(MenuRendering::is_menu_open()){
+    if (MenuRendering::is_menu_open()) {
         Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+        
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
@@ -96,7 +98,7 @@ void draw() {
     }
     if (move_link_active) {
         MoveLink::render_info_input();
-	}
+    }
     MenuRendering::render_active_menus();
     Utilities::render_active_watches();
 }

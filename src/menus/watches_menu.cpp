@@ -3,20 +3,14 @@
 #include "menus/memory_editor_menu.h"
 #include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
-#include <stdio.h>
+
 
 #define WATCH_COLUMNS 6
 #define WATCH_ADDRESS_X_OFFSET 25.0f
-// #define WATCH_X_POS_X_OFFSET 133.0f
-// #define WATCH_Y_POS_X_OFFSET 171.0f
-// #define WATCH_HEX_X_OFFSET 208.5f
-// #define WATCH_TYPE_X_OFFSET 260.5f
-// #define WATCH_OFFSET_X_OFFSET 300.5f
-// #define WATCH_VISIBLE_X_OFFSET 370.0f
 #define WHITE_RGBA 0xFFFFFFFF
 #define SPEED_THRESHOLD 30
 
@@ -70,46 +64,46 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
         char watch_offset[7];
         char watch_visible[4];
 
-        sprintf(watch_address, "0x%08X", Watches[i].address);
-        sprintf(watch_x, "%.0f", Watches[i].x);
-        sprintf(watch_y, "%.0f", Watches[i].y);
-        sprintf(watch_hex, "%s", Watches[i].hex ? "true" : "false");
+        tp_sprintf(watch_address, "0x%08X", Watches[i].address);
+        tp_sprintf(watch_x, "%.0f", Watches[i].x);
+        tp_sprintf(watch_y, "%.0f", Watches[i].y);
+        tp_sprintf(watch_hex, "%s", Watches[i].hex ? "true" : "false");
         switch (Watches[i].type) {
             case u8: {
-                sprintf(watch_type, "u8");
+                tp_sprintf(watch_type, "u8");
                 break;
             }
             case u16: {
-                sprintf(watch_type, "u16");
+                tp_sprintf(watch_type, "u16");
                 break;
             }
             case u32: {
-                sprintf(watch_type, "u32");
+                tp_sprintf(watch_type, "u32");
                 break;
             }
             case i8: {
-                sprintf(watch_type, "i8");
+                tp_sprintf(watch_type, "i8");
                 break;
             }
             case i16: {
-                sprintf(watch_type, "i16");
+                tp_sprintf(watch_type, "i16");
                 break;
             }
             case i32: {
-                sprintf(watch_type, "i32");
+                tp_sprintf(watch_type, "i32");
                 break;
             }
 
             case f32: {
-                sprintf(watch_type, "f32");
+                tp_sprintf(watch_type, "f32");
                 break;
             }
             case string: {
-                sprintf(watch_type, "str");
+                tp_sprintf(watch_type, "str");
             }
         }
-        sprintf(watch_offset, "0x%04X", Watches[i].offset);
-        sprintf(watch_visible, "%s", Watches[i].visible ? "[X]" : "[ ]");
+        tp_sprintf(watch_offset, "0x%04X", Watches[i].offset);
+        tp_sprintf(watch_visible, "%s", Watches[i].visible ? "[X]" : "[ ]");
 
         if (Watches[i].line_selected) {
             switch (cursor.x) {
@@ -179,7 +173,7 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                         if(Watches[i].x > 600){
                             Watches[i].x = 600;
                         }
-                        sprintf(watch_x, "<%.0f>", Watches[i].x);
+                        tp_sprintf(watch_x, "<%.0f>", Watches[i].x);
                         Font::gz_renderChars(watch_x, watch_x_pos_x_offset - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
                         Font::gz_renderChars(watch_x, watch_x_pos_x_offset, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
@@ -210,7 +204,7 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                         if(Watches[i].y > 500){
                             Watches[i].y = 500;
                         }
-                        sprintf(watch_y, "<%.0f>", Watches[i].y);
+                        tp_sprintf(watch_y, "<%.0f>", Watches[i].y);
                         Font::gz_renderChars(watch_y, watch_y_pos_x_offset - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
                         Font::gz_renderChars(watch_y, watch_y_pos_x_offset, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
@@ -232,7 +226,7 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                         if (button_is_pressed(Controller::DPAD_LEFT)) {
                             Watches[i].hex = !Watches[i].hex;
                         }
-                        sprintf(watch_hex, "<%s>", Watches[i].hex ? "true" : "false");
+                        tp_sprintf(watch_hex, "<%s>", Watches[i].hex ? "true" : "false");
                         Font::gz_renderChars(watch_hex, watch_hex_x_offset - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
                     } else {
                         Font::gz_renderChars(watch_hex, watch_hex_x_offset, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);
@@ -263,36 +257,36 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                         }
                         switch (Watches[i].type) {
                             case u8: {
-                                sprintf(watch_type, "<u8>");
+                                tp_sprintf(watch_type, "<u8>");
                                 break;
                             }
                             case u16: {
-                                sprintf(watch_type, "<u16>");
+                                tp_sprintf(watch_type, "<u16>");
                                 break;
                             }
                             case u32: {
-                                sprintf(watch_type, "<u32>");
+                                tp_sprintf(watch_type, "<u32>");
                                 break;
                             }
                             case i8: {
-                                sprintf(watch_type, "<i8>");
+                                tp_sprintf(watch_type, "<i8>");
                                 break;
                             }
                             case i16: {
-                                sprintf(watch_type, "<i16>");
+                                tp_sprintf(watch_type, "<i16>");
                                 break;
                             }
                             case i32: {
-                                sprintf(watch_type, "<i32>");
+                                tp_sprintf(watch_type, "<i32>");
                                 break;
                             }
 
                             case f32: {
-                                sprintf(watch_type, "<f32>");
+                                tp_sprintf(watch_type, "<f32>");
                                 break;
                             }
                             case string: {
-                                sprintf(watch_type, "<str>");
+                                tp_sprintf(watch_type, "<str>");
                             }
                         }
                         Font::gz_renderChars(watch_type, watch_type_x_offset - 8.0f, LINE_Y_OFFSET, CURSOR_RGBA, g_drop_shadows);

@@ -85,7 +85,6 @@ namespace Controller {
         } else {
             can_move_cursor = false;
             sNum_frames_cursor_buffer = 0;
-            Commands::process_inputs();
         }
     }
 

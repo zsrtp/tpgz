@@ -8,9 +8,9 @@
 #include "controller.h"
 #include "cheats.h"
 #include "commands.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include <string.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
+#include "libtp_c/include/patch.h"
 
 #define LINES CHEAT_AMNT
 
@@ -62,6 +62,12 @@ namespace Cheats {
                 switch (cheat.id) {
                     case MoonJump: {
                         Commands::enable_command(Commands::CMD_MOON_JUMP);
+                        break;
+                    }
+                    case InvincibleEnemies: {
+                        *reinterpret_cast<uint32_t*>(0x80087F2C) = 0x60000000; // nop
+                        gc::os_cache::DCFlushRange((void *)0x80087F2C, sizeof(uint32_t));
+                        gc::os_cache::ICInvalidateRange((void *)0x80087F2C, sizeof(uint32_t));
                         break;
                     }
                     case Invincible: {
@@ -120,6 +126,12 @@ namespace Cheats {
                 switch (cheat.id) {
                     case MoonJump: {
                         Commands::disable_command(Commands::CMD_MOON_JUMP);
+                        break;
+                    }
+                    case InvincibleEnemies: {
+                        *reinterpret_cast<uint32_t*>(0x80087F2C) = 0x7C030050; // sub r0, r0, r3
+                        gc::os_cache::DCFlushRange((void *)0x80087F2C, sizeof(uint32_t));
+                        gc::os_cache::ICInvalidateRange((void *)0x80087F2C, sizeof(uint32_t));
                         break;
                     }
                     case SuperClawshot: {

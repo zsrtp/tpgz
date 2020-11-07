@@ -84,14 +84,6 @@ namespace Hook {
         }
     }
 
-    void* invincibleEnemiesHook(void* p1, int* p2) {
-        if (CheatItems[Cheats::InvincibleEnemies].active) {
-            return cc_at_checkTrampoline(p1, p2 + 0x8000);
-        } else {
-            return cc_at_checkTrampoline(p1, p2);
-        }
-    }
-
     void apply_hooks() {
 #define APPLY_HOOK(name, addr, idx, func) name##Trampoline = hookFunction((tp_##name##_t)addr, trampolines[idx].a, func)
         APPLY_HOOK(cDyl_InitAsync, 0x80018764, HK_LIB_INIT_INDEX, initHook);
@@ -102,7 +94,6 @@ namespace Hook {
         APPLY_HOOK(setSpecialGravity, 0x800bb770, HK_DISABLE_GRAV_INDEX, disableGravityHook);
         APPLY_HOOK(checkCastleTownUseItem, 0x800c0678, HK_UNRESTRICTED_ITEMS_INDEX, unrestrictedItemsHook);
         APPLY_HOOK(query042, 0x8024bfec, HK_TRANSFORM_ANYWHERE_INDEX, transformAnywhereHook);
-        APPLY_HOOK(cc_at_check, 0x80087c04, HK_INVINCIBLE_ENEMIES_INDEX, invincibleEnemiesHook);
 #undef APPLY_HOOK
     }
 }  // namespace Hook

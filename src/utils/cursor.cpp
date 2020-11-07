@@ -1,4 +1,4 @@
-#include "utils/cursor.hpp"
+#include "utils/cursor.h"
 #include "controller.h"
 
 namespace Utilities {

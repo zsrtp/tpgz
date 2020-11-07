@@ -1,4 +1,3 @@
-#include <string.h>
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
@@ -6,7 +5,7 @@
 #include "fifo_queue.h"
 #include "rollcheck.h"
 
-#include <stdio.h>
+
 #define ROLL_FRAMES 19
 
 namespace RollIndicator {
@@ -44,10 +43,10 @@ namespace RollIndicator {
                 }
             }
 
-            sprintf(buf, "counter: %d", counter_difference);
-            sprintf(buf, "missed: %d", missed_counter);
-            sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
-            sprintf(buf, "action: %d", action_id);
+            tp_sprintf(buf, "counter: %d", counter_difference);
+            tp_sprintf(buf, "missed: %d", missed_counter);
+            tp_sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
+            tp_sprintf(buf, "action: %d", action_id);
 
             if (action_id == 14) {
                 if (counter_difference > 20) {
@@ -60,12 +59,12 @@ namespace RollIndicator {
                 }
                 
                 if (counter_difference > 15 && counter_difference < 19 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
-                    sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
+                    tp_sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
                 } else if (counter_difference == 19 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                     FIFOQueue::push("<3", Queue, 0x00CC0000);
                 } else if (missed_counter > 0 && missed_pressed_a == false) {
-                    sprintf(buf, "%df late", missed_counter);
+                    tp_sprintf(buf, "%df late", missed_counter);
                     FIFOQueue::push(buf, Queue, 0x99000000);
                     missed_counter = 0;
                     counter_difference = 0;

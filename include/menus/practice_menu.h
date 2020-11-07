@@ -2,7 +2,14 @@
 
 #define ANY_INDEX 0
 #define HUNDO_INDEX 1
+#define REQ_POS 1
+#define REQ_CAM 2
 extern bool inject_save_flag;
+extern int last_save_index;
+extern char last_category[5];
+CameraMatrix camera;
+uint16_t angle = 0;
+Vec3 position = {0, 0, 0};
 
 struct PracticeSaveInfo {
     uint8_t requirements;

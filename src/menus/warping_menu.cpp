@@ -1,12 +1,12 @@
 #include "font.h"
 #include "menus/warping_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/tp.h"
 #include "commands.h"
 #include "fs.h"
-#include <stdio.h>
+
 #include "libtp_c/include/system.h"
 
 #define LINES 6
@@ -70,23 +70,23 @@ void load_next_info(void* buffer, signed long& counter, signed long length, char
 void set_stage_path(int current_stage_type) {
     switch (current_stage_type) {
         case DUNGEON: {
-            strcpy(file_path, "tpgz/stage_info/dungeon.bin");
+            tp_strcpy(file_path, "tpgz/stage_info/dungeon.bin");
             break;
         }
         case OVERWORLD: {
-            strcpy(file_path, "tpgz/stage_info/overworld.bin");
+            tp_strcpy(file_path, "tpgz/stage_info/overworld.bin");
             break;
         }
         case INTERIOR: {
-            strcpy(file_path, "tpgz/stage_info/interior.bin");
+            tp_strcpy(file_path, "tpgz/stage_info/interior.bin");
             break;
         }
         case CAVE: {
-            strcpy(file_path, "tpgz/stage_info/cave.bin");
+            tp_strcpy(file_path, "tpgz/stage_info/cave.bin");
             break;
         }
         case SPECIAL: {
-            strcpy(file_path, "tpgz/stage_info/special.bin");
+            tp_strcpy(file_path, "tpgz/stage_info/special.bin");
             break;
         }
     }
@@ -99,7 +99,7 @@ void load_previous_stage_info() {
 }
 
 void load_previous_room_info() {
-    sprintf(file_path, "tpgz/stage_info/%s/rooms.bin", warp_info.stage_info.stage_id);
+    tp_sprintf(file_path, "tpgz/stage_info/%s/rooms.bin", warp_info.stage_info.stage_id);
     room_counter -= ROOM_OFFSET;
     load_previous_info(&warp_info.room_info, room_counter, ROOM_READ_LENGTH, warp_info.room_info.num_rooms, ROOM_OFFSET);
 }
@@ -111,19 +111,19 @@ void load_next_stage_info() {
 }
 
 void load_next_room_info() {
-    sprintf(file_path, "tpgz/stage_info/%s/rooms.bin", warp_info.stage_info.stage_id);
+    tp_sprintf(file_path, "tpgz/stage_info/%s/rooms.bin", warp_info.stage_info.stage_id);
     room_counter += ROOM_OFFSET;
     load_next_info(&warp_info.room_info, room_counter, ROOM_READ_LENGTH, warp_info.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void load_next_spawn_info() {
-    sprintf(file_path, "tpgz/stage_info/%s/%02d/spawns.bin", warp_info.stage_info.stage_id, (int)warp_info.room_info.room_id[0]);
+    tp_sprintf(file_path, "tpgz/stage_info/%s/%02d/spawns.bin", warp_info.stage_info.stage_id, (int)warp_info.room_info.room_id[0]);
     spawn_counter += SPAWN_OFFSET;
     load_next_info(&warp_info.spawn_info, spawn_counter, SPAWN_READ_LENGTH, warp_info.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
 void load_previous_spawn_info() {
-    sprintf(file_path, "tpgz/stage_info/%s/%02d/spawns.bin", warp_info.stage_info.stage_id, (int)warp_info.room_info.room_id[0]);
+    tp_sprintf(file_path, "tpgz/stage_info/%s/%02d/spawns.bin", warp_info.stage_info.stage_id, (int)warp_info.room_info.room_id[0]);
     spawn_counter -= SPAWN_OFFSET;
     load_previous_info(&warp_info.spawn_info, spawn_counter, SPAWN_READ_LENGTH, warp_info.spawn_info.num_spawns, SPAWN_OFFSET);
 }
@@ -246,7 +246,7 @@ void WarpingMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case WARP_BUTTON_INDEX: {
-                memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);
+                tp_memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);
                 tp_gameInfo.warp.entrance.room = warp_info.room_info.room_id[0];
                 tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
                 tp_gameInfo.warp.entrance.state = layer;
@@ -259,23 +259,23 @@ void WarpingMenu::render() {
         }
     }
 
-    // temp fix for sprintf warning
+    // temp fix for tp_sprintf warning
     char tmpbuf[32];
 
-    strcpy(tmpbuf, stage_types[stage_type_counter]);
-    sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
+    tp_strcpy(tmpbuf, stage_types[stage_type_counter]);
+    tp_sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
 
-    strcpy(tmpbuf, warp_info.stage_info.stage_name);
-    sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
+    tp_strcpy(tmpbuf, warp_info.stage_info.stage_name);
+    tp_sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
 
-    strcpy(tmpbuf, warp_info.room_info.room_name);
-    sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
+    tp_strcpy(tmpbuf, warp_info.room_info.room_name);
+    tp_sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
 
-    sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", warp_info.spawn_info.spawn_id[0]);
+    tp_sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", warp_info.spawn_info.spawn_id[0]);
     if (layer == DEFAULT_LAYER) {
-        sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
+        tp_sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
     } else {
-        sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", layer);
+        tp_sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", layer);
     }
 
     Utilities::move_cursor(cursor, LINES);

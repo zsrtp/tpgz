@@ -4,8 +4,8 @@
 #include "menus/tools_menu.h"
 #include "input_viewer.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "timer.h"
 #include "commands.h"
 #include "gorge.h"
@@ -86,7 +86,7 @@ void ToolsMenu::render() {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
+    tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(lines, cursor.y, LINES);
 
     if (current_input == Controller::Pad::A && a_held == false) {
@@ -155,6 +155,7 @@ void ToolsMenu::render() {
                 case MOVE_LINK_INDEX: {
                     Commands::enable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
+                    break;
 				}
             }
         } else {
@@ -199,6 +200,7 @@ void ToolsMenu::render() {
                 case MOVE_LINK_INDEX: {
                     Commands::disable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
+                    break;
                 }
                 case GORGE_INDEX: {
                     Commands::disable_command(Commands::CMD_GORGE_VOID);

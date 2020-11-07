@@ -1,10 +1,10 @@
-#include "utils/link.hpp"
+#include "utils/link.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
-#include <stdio.h>
+
 
 uint8_t red;
 uint8_t green;
@@ -20,11 +20,11 @@ namespace Utilities {
             char link_y[20];
             char link_z[20];
 
-            sprintf(link_angle, "angle: %d", tp_zelAudio.link_debug_ptr->facing);
-            sprintf(link_speed, "speed: %.4f", tp_zelAudio.link_debug_ptr->speed);
-            sprintf(link_x, "x-pos: %.4f", tp_zelAudio.link_debug_ptr->position.x);
-            sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
-            sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
+            tp_sprintf(link_angle, "angle: %d", tp_zelAudio.link_debug_ptr->facing);
+            tp_sprintf(link_speed, "speed: %.4f", tp_zelAudio.link_debug_ptr->speed);
+            tp_sprintf(link_x, "x-pos: %.4f", tp_zelAudio.link_debug_ptr->position.x);
+            tp_sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
+            tp_sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
 
             Font::gz_renderChars(link_angle, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
             Font::gz_renderChars(link_speed, sprite_offsets[DEBUG_INFO_INDEX].x, sprite_offsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_drop_shadows);

@@ -1,4 +1,4 @@
-#include "utils/lines.hpp"
+#include "utils/lines.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
 #include "menus/position_settings_menu.h"

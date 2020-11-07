@@ -5,9 +5,9 @@
 #include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include "utils/loading.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
+#include "utils/loading.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
@@ -19,9 +19,6 @@
 #define REQ_CAM 2
 
 static Cursor cursor = {0, 0};
-static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
-static uint16_t angle = 0;
-static Vec3 position = {0, 0, 0};
 bool init_once = false;
 
 Line lines[LINES] = {
@@ -181,7 +178,7 @@ void karg_oob() {
 void iza_1_skip() {
     SaveInjector::inject_default_during();
     tp_gameInfo.respawn_animation = 0xA;                        // spawn on kargorok
-    strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
+    tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
     tp_gameInfo.warp.entrance.room = 0x1;
     tp_gameInfo.warp.entrance.spawn = 0x0;
     tp_gameInfo.warp.entrance.state = 0x4;
@@ -286,27 +283,6 @@ struct {
     {HND_COO_30_INDEX, cave_of_ordeals, nullptr},
 };
 
-void load_save(uint32_t id) {
-    PracticeSaveInfo saveinfo __attribute__((aligned(32)));
-    loadFile("tpgz/save_files/hundo.bin", &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
-    char buf[80];
-    sprintf(buf, "tpgz/save_files/hundo/%s.bin", saveinfo.filename);
-    Utilities::load_save_file(buf);
-    default_load();
-    if (saveinfo.requirements & REQ_CAM) {
-        camera.target = saveinfo.cam_target;
-        camera.pos = saveinfo.cam_pos;
-    }
-    if (saveinfo.requirements & REQ_POS) {
-        angle = saveinfo.angle;
-        position = saveinfo.position;
-    }
-    if (saveinfo.requirements != 0) {
-        practice_file.inject_options_after_load = saveinfo.requirements & REQ_CAM ? set_camera_angle_position : set_angle_position;
-    }
-    practice_file.inject_options_after_counter = saveinfo.counter;
-}
-
 void HundoSavesMenu::render() {
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
@@ -320,7 +296,8 @@ void HundoSavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        load_save(cursor.y);
+        Utilities::load_save(cursor.y,(char*)"hundo");
+        init_once = false;
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
             if (cursor.y == specials[i].idx) {
                 if (specials[i].cb_during != nullptr) {

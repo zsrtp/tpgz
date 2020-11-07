@@ -1,6 +1,5 @@
-#include <stdio.h>
+
 #include "gorge.h"
-#include <string.h>
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/controller.h"
@@ -45,7 +44,7 @@ namespace GorgeVoidIndicator {
         tp_gameInfo.warp.entrance.spawn = 2;
         tp_gameInfo.warp.entrance.room = 3;
         tp_gameInfo.warp.entrance.state = 0xE;
-        strcpy((char *)tp_gameInfo.warp.entrance.stage, "F_SP121");
+        tp_strcpy((char *)tp_gameInfo.warp.entrance.stage, "F_SP121");
 
         // reset health, item
         tp_gameInfo.respawn_item_id = 40;
@@ -69,7 +68,7 @@ namespace GorgeVoidIndicator {
         current_counter = TP::get_frame_count();
 
         // situation specific frame counters
-        if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
+        if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 && tp_strcmp((const char *)tp_gameInfo.current_stage, "F_SP121") == 0) {
             start_timer = true;
             previous_counter = current_counter;
             counter_difference = 0;
@@ -83,8 +82,8 @@ namespace GorgeVoidIndicator {
                 after_cs_val = counter_difference - WARP_CS_FRAMES;
             }
 
-            sprintf(buf, "counter: %d", counter_difference);
-            sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
+            tp_sprintf(buf, "counter: %d", counter_difference);
+            tp_sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
 
             // only care about 10f before and after
             if (counter_difference > 123 && after_cs_val < 10) {
@@ -92,7 +91,7 @@ namespace GorgeVoidIndicator {
                 if (!got_it && !(button_is_held(L) && button_is_held(A)) && (counter_difference < WARP_CS_FRAMES) &&
                     (button_is_down(A) && button_is_down(L))) {
                     int final_val = WARP_CS_FRAMES - counter_difference;
-                    sprintf(buf, "%df early", final_val);
+                    tp_sprintf(buf, "%df early", final_val);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
                 }
 
@@ -106,7 +105,7 @@ namespace GorgeVoidIndicator {
                 // went late
                 else if (!got_it && !(button_is_held(L) && button_is_held(A)) && after_cs_val > 0 &&
                          (button_is_down(A) && button_is_down(L))) {
-                    sprintf(buf, "%df late", after_cs_val);
+                    tp_sprintf(buf, "%df late", after_cs_val);
                     FIFOQueue::push(buf, Queue, 0x99000000);
                 }
             }

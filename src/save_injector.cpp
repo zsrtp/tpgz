@@ -1,17 +1,14 @@
 #include "save_injector.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-
 #include "menu.h"
-#include <string.h>
 #include "fs.h"
 
 namespace SaveInjector {
 
     // inject qlog bytes into RAM
     void inject_save(void* buffer) {
-        tp_putSave(&tp_gameInfo,tp_gameInfo.area_id);
-        memcpy((void*)&tp_gameInfo, buffer, 2392);
+        tp_memcpy((void*)&tp_gameInfo, buffer, 2392);
         tp_getSave(&tp_gameInfo,tp_gameInfo.area_id);
     };
 
@@ -27,7 +24,7 @@ namespace SaveInjector {
         tp_gameInfo.warp.entrance.spawn = tp_gameInfo.player.player_spawn_id;
         tp_gameInfo.special_spawn_id = tp_gameInfo.player.player_spawn_id;
         tp_gameInfo.warp.entrance.room = tp_gameInfo.player.player_room_id;
-        strcpy((char*)tp_gameInfo.warp.entrance.stage, (char*)tp_gameInfo.player.player_stage);
+        tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, (char*)tp_gameInfo.player.player_stage);
         tp_gameInfo.warp.entrance.state = state;
         
         // fixes some bug causing link to auto drown, figure out later

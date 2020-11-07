@@ -5,9 +5,8 @@
 #include "font.h"
 #include "menus/pause_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include <stdio.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
 #define LINES 17
 
@@ -475,16 +474,16 @@ void PauseMenu::render() {
 
     set_equipment();
 
-    sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordon_sword_options[ordon_sword_index].member);
-    sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", master_sword_options[master_sword_index].member);
-    sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", wood_shield_options[wood_shield_index].member);
-    sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hylian_shield_options[hylian_shield_index].member);
-    sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", hero_tunic_options[hero_tunic_index].member);
-    sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zora_armor_options[zora_armor_index].member);
-    sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magic_armor_options[magic_armor_index].member);
-    sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bomb_capacity_options[bomb_capacity_index].member);
-    sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_options[wallet_index].member);
-    sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrow_capacity_options[arrow_capacity_index].member);
+    tp_sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordon_sword_options[ordon_sword_index].member);
+    tp_sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", master_sword_options[master_sword_index].member);
+    tp_sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", wood_shield_options[wood_shield_index].member);
+    tp_sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hylian_shield_options[hylian_shield_index].member);
+    tp_sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", hero_tunic_options[hero_tunic_index].member);
+    tp_sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zora_armor_options[zora_armor_index].member);
+    tp_sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magic_armor_options[magic_armor_index].member);
+    tp_sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bomb_capacity_options[bomb_capacity_index].member);
+    tp_sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_options[wallet_index].member);
+    tp_sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrow_capacity_options[arrow_capacity_index].member);
 
     Utilities::render_lines(lines, cursor.y, LINES);
 };

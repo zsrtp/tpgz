@@ -3,8 +3,8 @@
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "fifo_queue.h"
 #include "utils/draw.h"
 #include <cstdio>
