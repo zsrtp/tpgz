@@ -1,4 +1,4 @@
-#include "utils/card.hpp"
+#include "utils/card.h"
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
 #include "saves.h"
@@ -154,7 +154,7 @@ namespace Utilities {
                 } else {
                     tp_osReport("failed to save");
                     char buff[32];
-                    sprintf(buff, "failed to save: %d", card.card_result);
+                    tp_sprintf(buff, "failed to save: %d", card.card_result);
                     FIFOQueue::push(buff, Queue);
                 }
                 card.card_result = CARDClose(&card.card_info);
@@ -176,7 +176,7 @@ namespace Utilities {
             } else {
                 tp_osReport("failed to load");
                 char buff[32];
-                sprintf(buff, "failed to load: %d", card.card_result);
+                tp_sprintf(buff, "failed to load: %d", card.card_result);
                 FIFOQueue::push(buff, Queue);
             }
             card.card_result = CARDClose(&card.card_info);
@@ -189,7 +189,7 @@ namespace Utilities {
             static Card card;
             card.file_name = "tpgz01";
             card.sector_size = SECTOR_SIZE;
-            sprintf(card.file_name_buffer, card.file_name);
+            tp_sprintf(card.file_name_buffer, (char*)card.file_name);
             card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
             if (card.card_result == Ready) {
                 Utilities::load_mem_card(card);

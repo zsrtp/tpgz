@@ -1,11 +1,12 @@
 #include "font.h"
 #include "menus/flags_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/tp.h"
-#include <stdio.h>
+#include "libtp_c/include/system.h"
+
 #include <stdint.h>
 
 #define LINES 8
@@ -153,7 +154,7 @@ void DungeonFlagsMenu::render() {
         }
     }
 
-    sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dungeon_options[select_dungeon_index].member);
+    tp_sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dungeon_options[select_dungeon_index].member);
 
     Utilities::render_lines(lines, cursor.y, LINES);
 };

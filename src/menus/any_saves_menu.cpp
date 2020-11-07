@@ -5,9 +5,9 @@
 #include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include "utils/loading.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
+#include "utils/loading.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "save_injector.h"
@@ -15,13 +15,7 @@
 #include "fs.h"
 #define LINES 48
 
-#define REQ_POS 1
-#define REQ_CAM 2
-
 static Cursor cursor = {0, 0};
-static CameraMatrix camera = {{0, 0, 0}, {0, 0, 0}};
-static uint16_t angle = 0;
-static Vec3 position = {0, 0, 0};
 bool init_once = false;
 
 Line lines[LINES] = {
@@ -84,18 +78,6 @@ void default_load() {
     init_once = false;
 }
 
-void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = camera.target;
-    tp_matrixInfo.matrix_info->pos = camera.pos;
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
-}
-
-void set_angle_position() {
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
-}
-
 void hugo() {
     SaveInjector::inject_default_during();
     tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
@@ -113,7 +95,7 @@ void morpheel() {
     tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
     angle = 10754;
     position = {-1193.0f, -23999.0f, -770.0f};
-    set_angle_position();
+    Utilities::set_angle_position();
 }
 
 void stallord() {
@@ -151,27 +133,6 @@ struct {
     {PALACE_2_INDEX, nullptr, palace2},
 };
 
-void load_save(uint32_t id) {
-    PracticeSaveInfo saveinfo __attribute__((aligned(32)));
-    loadFile("tpgz/save_files/any.bin", &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
-    char buf[80];
-    sprintf(buf, "tpgz/save_files/any/%s.bin", saveinfo.filename);
-    Utilities::load_save_file(buf);
-    default_load();
-    if (saveinfo.requirements & REQ_CAM) {
-        camera.target = saveinfo.cam_target;
-        camera.pos = saveinfo.cam_pos;
-    }
-    if (saveinfo.requirements & REQ_POS) {
-        angle = saveinfo.angle;
-        position = saveinfo.position;
-    }
-    if (saveinfo.requirements != 0) {
-        practice_file.inject_options_after_load = saveinfo.requirements & REQ_CAM ? set_camera_angle_position : set_angle_position;
-    }
-    practice_file.inject_options_after_counter = saveinfo.counter;
-}
-
 void AnySavesMenu::render() {
     if (button_is_pressed(Controller::B)) {
 		MenuRendering::set_menu(MN_PRACTICE_INDEX);
@@ -185,7 +146,8 @@ void AnySavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        load_save(cursor.y);
+        Utilities::load_save(cursor.y,(char*)"any");
+        init_once = false;
         if (cursor.y == DARK_HAMMER_INDEX) {
             TP::set_boss_flags();
         }

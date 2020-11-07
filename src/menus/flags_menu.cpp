@@ -3,8 +3,8 @@
 #include "font.h"
 #include "menus/flags_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
 #define LINES 4
 

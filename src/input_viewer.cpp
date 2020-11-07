@@ -1,8 +1,9 @@
-﻿#include <stdio.h>
+﻿
 #include "libtp_c/include/utils.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/controller.h"
+#include "libtp_c/include/system.h"
 #include "controller.h"
 #include "font.h"
 #include "input_viewer.h"
@@ -111,10 +112,10 @@ namespace InputViewer {
         char c_x[5];        // c stick x
         char c_y[5];        // c stick y
 
-        sprintf(control_x, "%d", tp_mPadSticks.control_x);
-        sprintf(control_y, "%d", tp_mPadSticks.control_y);
-        sprintf(c_x, "%d", tp_mPadSticks.c_x);
-        sprintf(c_y, "%d", tp_mPadSticks.c_y);
+        tp_sprintf(control_x, "%d", tp_mPadSticks.control_x);
+        tp_sprintf(control_y, "%d", tp_mPadSticks.control_y);
+        tp_sprintf(c_x, "%d", tp_mPadSticks.c_x);
+        tp_sprintf(c_y, "%d", tp_mPadSticks.c_y);
 
         Font::gz_renderChars(control_x, pos.x, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);
         Font::gz_renderChars(control_y, pos.x + 23.f * scale, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);

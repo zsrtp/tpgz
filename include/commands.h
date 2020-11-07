@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-#define COMMANDS_AMNT 10
+#define COMMANDS_AMNT 9
 #define GORGE_VOID_BUTTONS (Pad::L | Pad::Z)
 #define STORE_POSITION_BUTTONS (Pad::DPAD_UP | Pad::R)
 #define LOAD_POSITION_BUTTONS (Pad::DPAD_DOWN | Pad::R)

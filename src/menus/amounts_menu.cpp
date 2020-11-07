@@ -2,12 +2,13 @@
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/inventory.h"
 #include "libtp_c/include/flag.h"
+#include "libtp_c/include/system.h"
 #include "font.h"
 #include "menus/amounts_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include <stdio.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
+
 
 #define LINES 8
 
@@ -130,14 +131,14 @@ void AmountsMenu::render() {
         }
     }
 
-	sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
-	sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
-	sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
-	sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
-	sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
-	sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
-	sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
-	sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
+	tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
+	tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
+	tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
+	tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
+	tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
+	tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
+	tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
+	tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
 
 	Utilities::move_cursor(cursor, LINES);
 	Utilities::render_lines(lines, cursor.y, LINES);

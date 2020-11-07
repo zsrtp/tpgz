@@ -3,10 +3,10 @@
 #include "libtp_c/include/tp.h"
 #include "controller.h"
 #include "menus/settings_menu.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include "utils/card.hpp"
-#include <stdio.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
+#include "utils/card.h"
+
 #include "fifo_queue.h"
 
 #define LINES 7
@@ -81,7 +81,7 @@ void SettingsMenu::render() {
                 static Card card;
                 card.file_name = "tpgz01";
                 card.sector_size = SECTOR_SIZE;
-                sprintf(card.file_name_buffer, card.file_name);
+                tp_sprintf(card.file_name_buffer, card.file_name);
                 card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
                 if (card.card_result == Ready) {
                     Utilities::store_mem_card(card);
@@ -92,7 +92,7 @@ void SettingsMenu::render() {
                 static Card card;
                 card.file_name = "tpgz01";
                 card.sector_size = SECTOR_SIZE;
-                sprintf(card.file_name_buffer, card.file_name);
+                tp_sprintf(card.file_name_buffer, card.file_name);
                 card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
                 Utilities::load_mem_card(card);
                 break;
@@ -130,7 +130,7 @@ void SettingsMenu::render() {
             if (old_font != g_font) {
                 if (g_font >= 0 && g_font < MAX_FONT_OPTIONS) {
                     char buf[80];
-                    sprintf(buf, "tpgz/fonts/%s.fnt", font_options[g_font].member);
+                    tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_options[g_font].member);
                     Font::load_font(buf);
                 }
             }
@@ -143,9 +143,9 @@ void SettingsMenu::render() {
         }
     }
 
-    sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_options[g_area_reload_behavior].member);
-    sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursor_color_options[g_cursor_color].member);
-    sprintf(lines[FONT_INDEX].value, " <%s>", font_options[g_font].member);
+    tp_sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_options[g_area_reload_behavior].member);
+    tp_sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursor_color_options[g_cursor_color].member);
+    tp_sprintf(lines[FONT_INDEX].value, " <%s>", font_options[g_font].member);
 
     Utilities::render_lines(lines, cursor.y, LINES);
 }
@@ -153,7 +153,7 @@ void SettingsMenu::render() {
 void SettingsMenu::initFont(){
     if (g_font >= 0 && g_font < MAX_FONT_OPTIONS) {
         char buf[80];
-        sprintf(buf, "tpgz/fonts/%s.fnt", font_options[g_font].member);
+        tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_options[g_font].member);
         Font::load_font(buf);
     }
 }

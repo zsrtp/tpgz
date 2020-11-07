@@ -2,13 +2,13 @@
 
 #define SPRITES_AMNT 7
 enum SpritesIndex {
-    MENU_INDEX = 0,
-    VIEWER_INDEX = 1,
-    DEBUG_INFO_INDEX = 2,
-    TIMER_SPR_INDEX = 3,
-    LOAD_TIMER_SPR_INDEX = 4,
-    IGT_TIMER_SPR_INDEX = 5,
-    FIFO_SPR_INDEX = 6
+    MENU_INDEX,
+    VIEWER_INDEX,
+    DEBUG_INFO_INDEX,
+    TIMER_SPR_INDEX,
+    LOAD_TIMER_SPR_INDEX,
+    IGT_TIMER_SPR_INDEX,
+    FIFO_SPR_INDEX
 };
 
 extern Vec2 sprite_offsets[SPRITES_AMNT];

@@ -5,13 +5,13 @@
 #include "timer.h"
 #include "gorge.h"
 #include "fs.h"
+#include "lib.h"
 #include "free_cam.h"
-#include "frame_advance.h"
 #include "movelink.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
-#include "utils/loading.hpp"
+#include "utils/loading.h"
 
 using namespace Controller;
 
@@ -100,12 +100,6 @@ namespace Commands {
         }
     }
 
-    void toggle_frame_advance() {
-        if (button_this_frame == FRAME_ADVANCE_BUTTONS && button_last_frame != FRAME_ADVANCE_BUTTONS) {
-            frame_advance_active = !frame_advance_active;
-        }
-    }
-
     struct Command {
         bool& active;
         uint16_t buttons;
@@ -121,18 +115,17 @@ namespace Commands {
         {commands_states[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, hit_reset},
         {commands_states[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, gorge_void},
         {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam},
-        {commands_states[CMD_MOVE_LINK], MOVE_LINK_BUTTONS, toggle_move_link},
-        {commands_states[CMD_FRAME_ADVANCE], FRAME_ADVANCE_BUTTONS, toggle_frame_advance}};
+        {commands_states[CMD_MOVE_LINK], MOVE_LINK_BUTTONS, toggle_move_link}};
 
     void process_inputs() {
         button_this_frame = tp_mPadStatus.sval;
         for (auto c : Commands) {
             if (c.active == true && tp_mPadStatus.sval == c.buttons) {
                 c.command();
-                // set_buttons_down(0x0);
-                // set_buttons_pressed(0x0);
-                // tp_mPadButton.sval = 0x0;
-                // tp_mPadStatus.sval = 0x0;
+                set_buttons_down(0x0);
+                set_buttons_pressed(0x0);
+                tp_mPadButton.sval = 0x0;
+                tp_mPadStatus.sval = 0x0;
             };
         };
         button_last_frame = button_this_frame;

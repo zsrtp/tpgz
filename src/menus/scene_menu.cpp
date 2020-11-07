@@ -1,8 +1,8 @@
 #include "menus/scene_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include <stdio.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
+
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #define LINES SCENE_AMNT
@@ -49,8 +49,8 @@ void SceneMenu::render() {
     }
     int current_minute = (int)((4.0f * tp_gameInfo.raw_game_time) - current_hour * 60);
 
-    sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
-    sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
+    tp_sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
+    tp_sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
 
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(lines, cursor.y, LINES);

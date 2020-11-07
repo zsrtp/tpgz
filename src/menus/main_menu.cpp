@@ -3,9 +3,9 @@
 #include "fifo_queue.h"
 #include "menus/main_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
-#include <stdio.h>
+#include "utils/cursor.h"
+#include "utils/lines.h"
+
 
 #define LINES 9
 

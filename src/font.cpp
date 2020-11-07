@@ -106,7 +106,7 @@ float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
 }
 
 void Font::renderChars(const char* str, float x, float y, uint32_t color, float size) {
-    int len = strlen(str);
+    int len = tp_strlen(str);
     for (int i = 0; i < len; i++) {
         x = renderChar(str[i], x, y, color, size);
     }
@@ -136,7 +136,7 @@ float Font::get_char_width(char c, float size) {
 }
 
 float Font::get_chars_width(const char* str, float size) {
-    int len = strlen(str);
+    int len = tp_strlen(str);
     float str_size = 0.f;
     for (int i = 0; i < len; i++) {
         str_size += get_char_width(str[i], size);

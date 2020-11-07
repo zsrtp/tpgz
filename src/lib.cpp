@@ -2,9 +2,9 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/system.h"
 #include "utils/hook.h"
-#include "utils/link.hpp"
-#include "utils/memory.hpp"
-#include "utils/card.hpp"
+#include "utils/link.h"
+#include "utils/memory.h"
+#include "utils/card.h"
 #include "utils/texture.h"
 #include "fifo_queue.h"
 #include "font.h"
@@ -19,17 +19,11 @@
 #include "utils/draw.h"
 #include "timer.h"
 #include "free_cam.h"
-#include "frame_advance.h"
 #include "movelink.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
 Texture gzIconTex;
-// bool inFrameAdvance = false;
-
-// #define tp_padread_addr 0x802e08e4
-// typedef void (*tp_padread_t)(void);
-// #define tp_padread ((tp_padread_t)tp_padread_addr)
 
 extern "C" {
 
@@ -69,35 +63,15 @@ void game_loop() {
 
     GZFlags::apply_active_flags();
     FreeCam::handle_free_cam();
-    FrameAdvance::handle_frame_advance();
     MoveLink::move_link();
-
-    // if (tp_mPadStatus.sval == 0x10) {
-    //     inFrameAdvance = true;
-    // }
-
-    // tp_osReport("fa: %d", inFrameAdvance);
-    
-    
-    // if (inFrameAdvance) {
-    //     do {
-            
-    //         tp_osReport("in fa loop!");
-    //         tp_padread();
-    //         tp_osReport("ok %d", tp_mPadStatus.sval);
-
-    //         if (tp_mPadStatus.sval == 0x10) {
-    //             inFrameAdvance = false;
-    //         }
-    //     } while (inFrameAdvance);
-    // }
 }
 
 void draw() {
     setupRendering();
     //Consolas.setupRendering();
-    if(MenuRendering::is_menu_open()){
+    if (MenuRendering::is_menu_open()) {
         Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+        
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
@@ -124,7 +98,7 @@ void draw() {
     }
     if (move_link_active) {
         MoveLink::render_info_input();
-	}
+    }
     MenuRendering::render_active_menus();
     Utilities::render_active_watches();
 }

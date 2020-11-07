@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string.h>
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/utils.h"
 #include "gcn_c/include/gfx.h"

@@ -2,8 +2,8 @@
 #include "menus/practice_menu.h"
 #include "controller.h"
 #include "save_injector.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/tp.h"
 
 #define LINES 2

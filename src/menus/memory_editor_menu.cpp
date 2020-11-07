@@ -2,11 +2,12 @@
 #include "menus/memory_editor_menu.h"
 #include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
-#include <stdio.h>
+#include "libtp_c/include/system.h"
+
 
 #define MAX_DISPLAY_LINES 15
 #define WHITE_RGBA 0xFFFFFFFF
@@ -36,7 +37,7 @@ float render_selected_number_selector(const char* str, float x, float y, size_t 
 
 void render_memory(Cursor cursor) {
     char index[9];
-    sprintf(index, "%08X", address_index);
+    tp_sprintf(index, "%08X", address_index);
 
     if (index_selected) {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
@@ -150,15 +151,15 @@ void render_memory(Cursor cursor) {
         char b6[3];
         char b7[3];
 
-        sprintf(address, "%08X ", address_index + (i * 8));
-        sprintf(b0, "%02X", *(uint8_t*)(address_index + (i * 8)));
-        sprintf(b1, "%02X", *(uint8_t*)((address_index + (i * 8)) + 1));
-        sprintf(b2, "%02X", *(uint8_t*)((address_index + (i * 8)) + 2));
-        sprintf(b3, "%02X", *(uint8_t*)((address_index + (i * 8)) + 3));
-        sprintf(b4, "%02X", *(uint8_t*)((address_index + (i * 8)) + 4));
-        sprintf(b5, "%02X", *(uint8_t*)((address_index + (i * 8)) + 5));
-        sprintf(b6, "%02X", *(uint8_t*)((address_index + (i * 8)) + 6));
-        sprintf(b7, "%02X", *(uint8_t*)((address_index + (i * 8)) + 7));
+        tp_sprintf(address, "%08X ", address_index + (i * 8));
+        tp_sprintf(b0, "%02X", *(uint8_t*)(address_index + (i * 8)));
+        tp_sprintf(b1, "%02X", *(uint8_t*)((address_index + (i * 8)) + 1));
+        tp_sprintf(b2, "%02X", *(uint8_t*)((address_index + (i * 8)) + 2));
+        tp_sprintf(b3, "%02X", *(uint8_t*)((address_index + (i * 8)) + 3));
+        tp_sprintf(b4, "%02X", *(uint8_t*)((address_index + (i * 8)) + 4));
+        tp_sprintf(b5, "%02X", *(uint8_t*)((address_index + (i * 8)) + 5));
+        tp_sprintf(b6, "%02X", *(uint8_t*)((address_index + (i * 8)) + 6));
+        tp_sprintf(b7, "%02X", *(uint8_t*)((address_index + (i * 8)) + 7));
 
         float address_offset = Font::get_chars_width(address) + LINE_X_OFFSET;
         float two_numbers_offset = Font::get_chars_width(" 00");

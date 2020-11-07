@@ -2,14 +2,15 @@
 #include "menus/temp_flags_menu.h"
 #include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/math.h"
+#include "libtp_c/include/system.h"
 #include "utils/texture.h"
 #include "utils/draw.h"
-#include <stdio.h>
+
 
 #define MAX_FLAGS 0x20 
 #define WHITE_RGBA 0xFFFFFFFF
@@ -64,7 +65,7 @@ void render_area_flags(Cursor cursor) {
         
 		char offset[6];
 
-		sprintf(offset, "0x%02X:", TempFlags[i].offset);
+		tp_sprintf(offset, "0x%02X:", TempFlags[i].offset);
 
 		float temp_flag_offset = LINE_X_OFFSET + Font::get_chars_width(offset);
 

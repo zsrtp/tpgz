@@ -79,10 +79,10 @@ namespace Controller {
                 }
             }
 
-            //Controller::set_buttons_down(0x0);
-            //Controller::set_buttons_pressed(0x0);
-            //tp_mPadStatus.sval = 0x0;
-            //tp_mPadButton.sval = 0x0;
+            Controller::set_buttons_down(0x0);
+            Controller::set_buttons_pressed(0x0);
+            tp_mPadStatus.sval = 0x0;
+            tp_mPadButton.sval = 0x0;
         } else {
             can_move_cursor = false;
             sNum_frames_cursor_buffer = 0;

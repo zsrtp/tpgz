@@ -3,8 +3,9 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "libtp_c/include/system.h"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "menus/settings_menu.h"
 #include "menu.h"
 #include "controller.h"
@@ -107,10 +108,10 @@ namespace MoveLink {
         char link_z[20];
         uint8_t cursor_x_max = 1;
 
-        sprintf(link_angle, "angle: %05d", tp_zelAudio.link_debug_ptr->facing);
-        sprintf(link_x, "x-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.x);
-        sprintf(link_y, "y-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.y);
-        sprintf(link_z, "z-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.z);
+        tp_sprintf(link_angle, "angle: %05d", tp_zelAudio.link_debug_ptr->facing);
+        tp_sprintf(link_x, "x-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.x);
+        tp_sprintf(link_y, "y-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.y);
+        tp_sprintf(link_z, "z-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.z);
 
         if (link_angle_selected) {
             cursor_x_max = 5;

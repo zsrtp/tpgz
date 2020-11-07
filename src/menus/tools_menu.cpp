@@ -4,15 +4,14 @@
 #include "menus/tools_menu.h"
 #include "input_viewer.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 #include "timer.h"
 #include "commands.h"
 #include "gorge.h"
 #include "rollcheck.h"
 #include "free_cam.h"
 #include "movelink.h"
-#include "frame_advance.h"
 #define LINES TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
 using namespace Tools;
@@ -89,7 +88,7 @@ void ToolsMenu::render() {
     } else {
         Utilities::move_cursor(cursor, LINES);
     }
-    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
+    tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(lines, cursor.y, LINES);
 
     if (current_input == Controller::Pad::A && a_held == false) {
@@ -160,11 +159,6 @@ void ToolsMenu::render() {
                     move_link_active = false;
                     break;
 				}
-                case FRAME_ADVANCE_INDEX: {
-                    Commands::enable_command(Commands::CMD_FRAME_ADVANCE);
-                    frame_advance_active = false;
-                    break;
-                }
             }
         } else {
             switch (cursor.y) {
@@ -208,11 +202,6 @@ void ToolsMenu::render() {
                 case MOVE_LINK_INDEX: {
                     Commands::disable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
-                    break;
-                }
-                case FRAME_ADVANCE_INDEX: {
-                    Commands::disable_command(Commands::CMD_FRAME_ADVANCE);
-                    frame_advance_active = false;
                     break;
                 }
                 case GORGE_INDEX: {

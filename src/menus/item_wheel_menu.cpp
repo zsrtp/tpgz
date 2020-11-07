@@ -1,10 +1,10 @@
-#include <stdio.h>
+
 #include "libtp_c/include/system.h"
 #include "font.h"
 #include "menus/item_wheel_menu.h"
 #include "controller.h"
-#include "utils/cursor.hpp"
-#include "utils/lines.hpp"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
 #define ITEM_WHEEL_SLOTS 24
 #define LINES ITEM_WHEEL_SLOTS
@@ -286,11 +286,11 @@ void ItemWheelMenu::render() {
         new_int_item_id = tp_gameInfo.inventory.item_values.value[i];
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                sprintf(lines[i].value, " <%s>",
+                tp_sprintf(lines[i].value, " <%s>",
                         new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
             }
             if (lookup_table[j].item_id == default_items[i]) {
-                sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
+                tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
             } else {
                 continue;
             }
