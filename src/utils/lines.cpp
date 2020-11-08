@@ -7,6 +7,8 @@
 #include "utils/draw.h"
 
 int cursor_rgba;
+int min_line = 0;
+int max_line = 15;
 
 float max_value_f(float a, float b) {
     return MAX(a, b);
@@ -16,35 +18,27 @@ namespace Utilities {
     void render_lines(Line input_lines[], int cursor, int LINES) {
         float x_offset = sprite_offsets[MENU_INDEX].x;
         float y_offset = 0.0f;
-		
+
         float max_line_width = 0.0f;
         for (int i = 0; i < LINES; ++i) {
             max_line_width = max_value_f(max_line_width, Font::get_chars_width(input_lines[i].line));
         }
 
         for (int i = 0; i < LINES; i++) {
-            // don't draw past line 15/cursor
-            if (LINES > 15 && i > 15 && cursor < i) {
-                if (i == LINES - 1 && cursor < LINES) {
-                    Font::gz_renderChars("______", x_offset, 380.0f, 0xFFFFFF80, g_drop_shadows);
-                }
+            if (cursor > max_line) {
+                max_line = cursor;
+                min_line = max_line - MAX_RENDER_LINES;
+            }
+            if (cursor < min_line) {
+                min_line = cursor;
+                max_line = min_line + MAX_RENDER_LINES;
+            }
+
+            if (i > max_line || i < min_line) {
                 continue;
-            };
-
-            // initiate scroll
-            if (cursor > 15) {
-                if (i < (cursor - 15)) {
-                    continue;
-                } else {
-                    y_offset = (sprite_offsets[MENU_INDEX].y + (i - (cursor - 15)) * 20.0f);
-                }
             }
-            // normal line rendering offset
-            else {
-                y_offset = (sprite_offsets[MENU_INDEX].y + (i * 20.0f));
-            }
+            y_offset = (sprite_offsets[MENU_INDEX].y + (i - min_line) * 20.0f);
 
-            //int cursor_color = 0x00CC00FF;
             int cursor_color = cursor_rgba;
             int description_color = 0xFFFFFF00;
             int description_alpha = 0xFF;
@@ -79,11 +73,11 @@ namespace Utilities {
     }
 
     void change_cursor_color() {
-		switch (g_cursor_color) {
+        switch (g_cursor_color) {
             case CURSOR_GREEN: {
                 cursor_rgba = 0x00CC00FF;
                 break;
-			}
+            }
             case CURSOR_BLUE: {
                 cursor_rgba = 0x0080FFFF;
                 break;
@@ -104,7 +98,7 @@ namespace Utilities {
                 cursor_rgba = 0x6600CCFF;
                 break;
             }
-		}
+        }
     }
 
 }  // namespace Utilities

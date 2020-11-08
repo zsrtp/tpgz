@@ -8,7 +8,7 @@
 
 #define BUTTON_STATES 12
 #define REPEAT_TIME 4
-#define REPEAT_DELAY 10
+#define REPEAT_DELAY 5
 
 static uint16_t sButtons_down_last_frame = 0;
 static uint16_t sButtons_down = 0;
