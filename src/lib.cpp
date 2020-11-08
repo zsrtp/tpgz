@@ -64,6 +64,10 @@ void game_loop() {
     GZFlags::apply_active_flags();
     FreeCam::handle_free_cam();
     MoveLink::move_link();
+
+    if(ToolItems[Tools::TURBO_MODE_INDEX].active){
+        tp_cPadInfo.triggerInput = tp_cPadInfo.input;
+    }
 }
 
 void draw() {
