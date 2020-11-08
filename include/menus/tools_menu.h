@@ -1,6 +1,6 @@
 #include "menu.h"
 
-#define TOOL_AMNT 15
+#define TOOL_AMNT 16
 namespace Tools {
     enum ToolsIndex {
         RELOAD_AREA_INDEX,
@@ -12,6 +12,7 @@ namespace Tools {
         SAND_INDEX,
         ROLL_INDEX,
         TELEPORT_INDEX,
+        TURBO_MODE_INDEX,
         TIMER_INDEX,
 		LOAD_TIMER_INDEX,
 		IGT_TIMER_INDEX,

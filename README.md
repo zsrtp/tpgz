@@ -81,6 +81,7 @@ scene menu:
 settings menu:
 - area reload behavior          // load area = Reload last area; load file = Reload last file
 - cursor color                  // Changes the color of the cursor in TPGZ's menus (green, blue, red, orange, yellow, purple)
+- font                          // Changes TPGZ menu font
 - drop shadows                  // Adds shadows to all font letters
 - menu position                 // Changes the position of various menus and tools from TPGZ
 - save card                     // Save settings to memory card
@@ -91,16 +92,17 @@ tools menu:
 - fast bonk recovery            // Reduces bonk animation significantly
 - fast movement                 // Link's movement is much faster
 - gorge checker                 // Use L+Z to warp to Kakariko Gorge
-- input viewer                  // Show current inputs (buttons only for now)
+- input viewer                  // Show current inputs
 - link debug info               // Show Link's position, angle, and speed
 - no sinking in sand            // Link won't sink in sand
 - roll checker                  // Frame counter for chaining rolls
 - teleport                      // dpadUp to set, dpadDown to load
+- turbo mode                    // Simulates turbo controller inputs
 - timer                         // Frame timer: Z+A to start/stop, Z+B to reset
 - load timer                    // Loading timer: Z+B to reset
 - igt timer                     // In Game Time frame timer: Z+A to start/stop, Z+B to reset
 - free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed
-- move link*                    // Moves link in 3D
+- move link*                    // L+R+Y to activate. Moves Link in 3D
 - link tunic color:             // Changes Link's tunic color (green, blue, red, orange, yellow, white, or cycle)
 
 warping menu:
@@ -121,7 +123,6 @@ warping menu:
 - actor spawner
 - frame advance
 - collision viewer
-- menu font selector
 - lag counter & loading counter
 ```
 
