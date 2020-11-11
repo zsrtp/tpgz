@@ -38,10 +38,8 @@ namespace Utilities {
         PracticeSaveInfo saveinfo __attribute__((aligned(32)));
         char buf[80];
         tp_sprintf(buf, "tpgz/save_files/%s.bin", category);
-        tp_osReport("cat: %s",category);
         loadFile(buf, &saveinfo, sizeof(saveinfo), id * sizeof(saveinfo));
         tp_sprintf(buf, "tpgz/save_files/%s/%s.bin", category, saveinfo.filename);
-        tp_osReport("svi: %s",saveinfo.filename);
         Utilities::load_save_file(buf);
         default_load();
         if (saveinfo.requirements & REQ_CAM) {
@@ -58,7 +56,6 @@ namespace Utilities {
         practice_file.inject_options_after_counter = saveinfo.counter;
         last_save_index = id;
         tp_strcpy(last_category,category);
-        tp_osReport("lc: %s", category);
     }
 
     void load_save_file(const char* fileName) {
