@@ -4,6 +4,7 @@
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/link.h"
 #include "libtp_c/include/system.h"
+#include "libtp_c/include/addrs.h"
 #include "menus/cheats_menu.h"
 #include "controller.h"
 #include "cheats.h"
@@ -65,9 +66,9 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
-                        *reinterpret_cast<uint32_t*>(0x80087F2C) = 0x60000000; // nop
-                        gc::os_cache::DCFlushRange((void *)0x80087F2C, sizeof(uint32_t));
-                        gc::os_cache::ICInvalidateRange((void *)0x80087F2C, sizeof(uint32_t));
+                        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) = 0x60000000; // nop
+                        gc::os_cache::DCFlushRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
+                        gc::os_cache::ICInvalidateRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         break;
                     }
                     case Invincible: {
@@ -129,9 +130,9 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
-                        *reinterpret_cast<uint32_t*>(0x80087F2C) = 0x7C030050; // sub r0, r0, r3
-                        gc::os_cache::DCFlushRange((void *)0x80087F2C, sizeof(uint32_t));
-                        gc::os_cache::ICInvalidateRange((void *)0x80087F2C, sizeof(uint32_t));
+                        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) = 0x7C030050; // sub r0, r0, r3
+                        gc::os_cache::DCFlushRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
+                        gc::os_cache::ICInvalidateRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         break;
                     }
                     case SuperClawshot: {

@@ -78,9 +78,9 @@ namespace MoveLink {
             }
 
             // Calculate the translation
-            double dy = tp_mPadSticks.c_y;
-            double dx = tp_mPadSticks.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadSticks.control_x * tp_sin(yaw);
-            double dz = tp_mPadSticks.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadSticks.control_x * tp_cos(yaw);
+            double dy = tp_mPadStatus.c_y;
+            double dx = tp_mPadStatus.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadStatus.control_x * tp_sin(yaw);
+            double dz = tp_mPadStatus.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadStatus.control_x * tp_cos(yaw);
 
             auto speed = (tp_mPadButton.buttons & Controller::Pad::Z) != 0 ? CAM_FAST_SPEED : CAM_SPEED;
             // Apply the translation with a speed factor
@@ -89,7 +89,7 @@ namespace MoveLink {
             link_pos.z += speed * dz;
 
             // Change facing angle with c stick
-            link_angle -= tp_mPadSticks.c_x * ROTATION_SPEED;
+            link_angle -= tp_mPadStatus.c_x * ROTATION_SPEED;
 
         } else {
             if (init_once) {

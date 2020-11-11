@@ -1,5 +1,6 @@
 #include "utils/hook.h"
 #include "libtp_c/include/patch.h"
+#include "libtp_c/include/addrs.h"
 #include "lib.h"
 #include "controller.h"
 #include "cheats.h"
@@ -86,14 +87,14 @@ namespace Hook {
 
     void apply_hooks() {
 #define APPLY_HOOK(name, addr, idx, func) name##Trampoline = hookFunction((tp_##name##_t)addr, trampolines[idx].a, func)
-        APPLY_HOOK(cDyl_InitAsync, 0x80018764, HK_LIB_INIT_INDEX, initHook);
-        APPLY_HOOK(fapGm_Execute, 0x80018a6c, HK_LIB_GAME_LOOP_INDEX, gameLoopHook);
-        APPLY_HOOK(draw, 0x802e8384, HK_LIB_DRAW_INDEX, drawHook);
-        APPLY_HOOK(PADRead, 0x8034f19c, HK_LIB_READ_CONTROLLER_INDEX, readControllerHook);
-        APPLY_HOOK(checkHookshotStickBG, 0x801087b0, HK_SUPER_CLAWSHOT_INDEX, superClawshotHook);
-        APPLY_HOOK(setSpecialGravity, 0x800bb770, HK_DISABLE_GRAV_INDEX, disableGravityHook);
-        APPLY_HOOK(checkCastleTownUseItem, 0x800c0678, HK_UNRESTRICTED_ITEMS_INDEX, unrestrictedItemsHook);
-        APPLY_HOOK(query042, 0x8024bfec, HK_TRANSFORM_ANYWHERE_INDEX, transformAnywhereHook);
+        APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
+        APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, HK_LIB_GAME_LOOP_INDEX, gameLoopHook);
+        APPLY_HOOK(draw, tp_draw_console_addr, HK_LIB_DRAW_INDEX, drawHook);
+        APPLY_HOOK(PADRead, (tp_PADRead_addr + 0x2FC), HK_LIB_READ_CONTROLLER_INDEX, readControllerHook);
+        APPLY_HOOK(checkHookshotStickBG, tp_clawshot_checkbg_addr, HK_SUPER_CLAWSHOT_INDEX, superClawshotHook);
+        APPLY_HOOK(setSpecialGravity, tp_setSpecialGravity_addr, HK_DISABLE_GRAV_INDEX, disableGravityHook);
+        APPLY_HOOK(checkCastleTownUseItem, tp_checkCastleTownUseItem_addr, HK_UNRESTRICTED_ITEMS_INDEX, unrestrictedItemsHook);
+        APPLY_HOOK(query042, tp_query042_addr, HK_TRANSFORM_ANYWHERE_INDEX, transformAnywhereHook);
 #undef APPLY_HOOK
     }
 }  // namespace Hook

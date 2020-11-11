@@ -33,9 +33,9 @@ namespace FreeCam {
             }
 
             // Calculate the translation
-            double dy = tp_mPadSticks.control_y * tp_sin(pitch) + tp_mPadTriggers.trig_L - tp_mPadTriggers.trig_R;
-            double dx = tp_mPadSticks.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadSticks.control_x * tp_sin(yaw);
-            double dz = tp_mPadSticks.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadSticks.control_x * tp_cos(yaw);
+            double dy = tp_mPadStatus.control_y * tp_sin(pitch) + tp_mPadStatus.trig_L - tp_mPadStatus.trig_R;
+            double dx = tp_mPadStatus.control_y * tp_cos(yaw) * tp_cos(pitch) - tp_mPadStatus.control_x * tp_sin(yaw);
+            double dz = tp_mPadStatus.control_y * tp_sin(yaw) * tp_cos(pitch) + tp_mPadStatus.control_x * tp_cos(yaw);
 
             auto speed = (tp_mPadButton.buttons & Controller::Pad::Z) != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
             // Apply the translation with a speed factor
@@ -49,9 +49,9 @@ namespace FreeCam {
             cam_target.y = cam_pos.y + tp_sin(pitch);
 
             // Update the pitch and yaw
-            yaw += tp_mPadSticks.c_x * ROTATION_SPEED;
+            yaw += tp_mPadStatus.c_x * ROTATION_SPEED;
             yaw = tp_fmod(yaw + 2 * M_PI, 2 * M_PI);
-            pitch = MIN(MAX(pitch + tp_mPadSticks.c_y * ROTATION_SPEED, -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
+            pitch = MIN(MAX(pitch + tp_mPadStatus.c_y * ROTATION_SPEED, -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
         } else {
             if (init_once) {
                 tp_gameInfo.freeze_game = false;
