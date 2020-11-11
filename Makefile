@@ -22,12 +22,13 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
+REGION		?=  "NTSCU"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE)
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(REGION)
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------
@@ -91,6 +92,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
 #---------------------------------------------------------------------------------
 $(BUILD):
+	@external/misc/asm-inject.sh $(REGION)
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` || exit 1; done;
@@ -98,6 +100,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
+	@rm -f patch.asm
 	@rm -fr $(BUILD) $(OUTPUT).o $(OUTPUT).a
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` clean || exit 1; done;
 

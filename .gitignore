@@ -5,6 +5,7 @@ gz2e01.iso
 rzde01.iso
 GZ2E01.map
 RZDE01.map
+patch.asm
 build/
 .vscode/
 !.vscode/c_cpp_properties.json
