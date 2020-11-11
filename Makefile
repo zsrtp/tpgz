@@ -22,7 +22,7 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
-REGION		:=  "NTSCU"
+REGION		?=  "NTSCU"
 
 #---------------------------------------------------------------------------------
 # options for code generation
