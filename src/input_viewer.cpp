@@ -1,5 +1,4 @@
-﻿
-#include "libtp_c/include/utils.h"
+﻿#include "libtp_c/include/utils.h"
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/controller.h"
@@ -88,14 +87,14 @@ namespace InputViewer {
         // analog sticks
         draw_stick_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 17.5f * scale, pos.y + 30.f * scale}, 35.0f * scale);
         draw_stick_outline(is_shadow ? 0x00000060 : 0xFFD138FF, {pos.x + 62.5f * scale, pos.y + 30.f * scale}, 35.0f * scale);
-        draw_stick(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + (17.5f + tp_mPadAStick.x * 10) * scale, pos.y + (30.f - tp_mPadAStick.y * 10) * scale}, 20.0f * scale);
-        draw_stick(is_shadow ? 0x00000060 : 0xFFD138FF, {pos.x + (62.5f + tp_mPadACStick.x * 10) * scale, pos.y + (30.f - tp_mPadACStick.y * 10) * scale}, 20.0f * scale);
+        draw_stick(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + (17.5f + tp_mPadMStick.control_analog.x * 10) * scale, pos.y + (30.f - tp_mPadMStick.control_analog.y * 10) * scale}, 20.0f * scale);
+        draw_stick(is_shadow ? 0x00000060 : 0xFFD138FF, {pos.x + (62.5f + tp_mPadSStick.c_analog.x * 10) * scale, pos.y + (30.f - tp_mPadSStick.c_analog.y * 10) * scale}, 20.0f * scale);
 
         // Analog triggers
         Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y}, {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
-        Draw::draw_rect(is_shadow ? 0x00000060 : Controller::button_is_down(Controller::L) ? 0x00FF00FF : 0xFFFFFFFF, {pos.x, pos.y}, {35.f * tp_mPadATriggers.l * scale, 7.f * scale});
+        Draw::draw_rect(is_shadow ? 0x00000060 : Controller::button_is_down(Controller::L) ? 0x00FF00FF : 0xFFFFFFFF, {pos.x, pos.y}, {35.f * tp_mPadButton.l_analog * scale, 7.f * scale});
         Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 45.f * scale, pos.y}, {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
-        Draw::draw_rect(is_shadow ? 0x00000060 : Controller::button_is_down(Controller::R) ? 0x00FF00FF : 0xFFFFFFFF, {pos.x + (45.f + 35.f * (1 - tp_mPadATriggers.r)) * scale, pos.y}, {35.f * tp_mPadATriggers.r * scale, 7.f * scale});
+        Draw::draw_rect(is_shadow ? 0x00000060 : Controller::button_is_down(Controller::R) ? 0x00FF00FF : 0xFFFFFFFF, {pos.x + (45.f + 35.f * (1 - tp_mPadButton.r_analog)) * scale, pos.y}, {35.f * tp_mPadButton.r_analog * scale, 7.f * scale});
     }
 
     void render() {
@@ -112,10 +111,10 @@ namespace InputViewer {
         char c_x[5];        // c stick x
         char c_y[5];        // c stick y
 
-        tp_sprintf(control_x, "%d", tp_mPadSticks.control_x);
-        tp_sprintf(control_y, "%d", tp_mPadSticks.control_y);
-        tp_sprintf(c_x, "%d", tp_mPadSticks.c_x);
-        tp_sprintf(c_y, "%d", tp_mPadSticks.c_y);
+        tp_sprintf(control_x, "%d", tp_mPadStatus.control_x);
+        tp_sprintf(control_y, "%d", tp_mPadStatus.control_y);
+        tp_sprintf(c_x, "%d", tp_mPadStatus.c_x);
+        tp_sprintf(c_y, "%d", tp_mPadStatus.c_y);
 
         Font::gz_renderChars(control_x, pos.x, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);
         Font::gz_renderChars(control_y, pos.x + 23.f * scale, pos.y + 65.f * scale, 0xFFFFFFFF, g_drop_shadows, 13 * scale);
