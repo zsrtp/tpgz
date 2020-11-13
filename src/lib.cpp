@@ -27,7 +27,16 @@ Texture gzIconTex;
 
 extern "C" {
 
+#if (NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
+#endif
+#if (PAL)
+#define main_tampoline ((void (*)(void))0x803745e4)
+#endif
+#if (NTSCJ)
+#define main_tampoline ((void (*)(void))0x80375c44)
+#endif
+
 void apply_lib_hooks() {
     Hook::apply_hooks();
     main_tampoline();
