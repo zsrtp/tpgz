@@ -93,9 +93,6 @@ void karg_oob() {
 void morpheel() {
     tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
     tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
-    angle = 10754;
-    position = {-1193.0f, -23999.0f, -770.0f};
-    Utilities::set_angle_position();
 }
 
 void stallord() {
@@ -148,8 +145,11 @@ void AnySavesMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         Utilities::load_save(cursor.y,(char*)"any");
         init_once = false;
-        if (cursor.y == DARK_HAMMER_INDEX) {
+        if (cursor.y == DARK_HAMMER_INDEX || (cursor.y >= FRST_ESCAPE_INDEX && cursor.y <= LAKEBED_1_INDEX)) {
             TP::set_boss_flags();
+        }
+        else{
+            tp_bossFlags = 0;
         }
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
             if (cursor.y == specials[i].idx) {
