@@ -113,6 +113,11 @@ any_p[24]["cam"]["pos"] = (71.9835968, 1719.93542, 2969.04565)
 any_p[24]["cam"]["target"] = (71.9835968, 1660.0, 2839.01587)
 any_p[24]["counter"] = 30
 
+any_p[25]["requirements"] = REQ_POS | REQ_CAM
+any_p[25]["pos"] = (-1193.0, -23999.00, -770.0)
+any_p[25]["angle"] = 10754
+any_p[25]["counter"] = 20
+
 any_p[30]["requirements"] = REQ_POS | REQ_CAM
 any_p[30]["pos"] = (-2046.97168, 0.0, -587.304871)
 any_p[30]["angle"] = 49030
