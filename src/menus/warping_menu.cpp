@@ -258,6 +258,8 @@ void WarpingMenu::render() {
                 init_once = false;
 		        MenuRendering::set_menu(MN_NONE_INDEX);
                 tp_gameInfo.loading_animation = 13;  // instant load
+                tp_gameInfo.respawn_animation = 0;
+                tp_gameInfo.warp.entrance.void_flag = 0;
                 tp_gameInfo.warp.enabled = true;
                 break;
             }
