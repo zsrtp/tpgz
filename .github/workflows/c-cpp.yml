@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: pheenoh/devkitppc-gcn:latest
+      image: ghcr.io/pheenoh/devkitppc-gcn
 
     steps:
     - name: Checkout
