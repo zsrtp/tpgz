@@ -1,10 +1,8 @@
 *.dmp
 *.o
 *.a
-gz2e01.iso
-rzde01.iso
-GZ2E01.map
-RZDE01.map
+*.iso
+*.map
 patch.asm
 build/
 .vscode/

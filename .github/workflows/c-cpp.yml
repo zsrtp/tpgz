@@ -21,3 +21,5 @@ jobs:
         submodules: recursive
     - name: Run Make
       run: make
+    - name: Run Romhack
+      run: romhack build --raw
