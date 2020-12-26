@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: pheenoh/devkitppc-gcn:latest
+      image: ghcr.io/pheenoh/devkitppc-gcn
 
     steps:
     - name: Checkout
@@ -21,3 +21,8 @@ jobs:
         submodules: recursive
     - name: Run Make
       run: make
+    - name: Move ISO
+      run: mv /gz2e01.iso ./gz2e01.iso
+      # hacky work around to catch failures since romhack always returns 0 exit code
+    - name: Run Romhack
+      run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi

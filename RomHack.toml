@@ -6,7 +6,7 @@ full-developer-name = "Speedrun Community"
 
 [src]
 iso = "gz2e01.iso"
-patch = "patch.asm"
+patch = "regional-patch.asm"
 map = "map/Final/Release/frameworkF.map"
 
 [build]
