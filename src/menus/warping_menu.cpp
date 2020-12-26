@@ -21,6 +21,7 @@
 static Cursor cursor = {0, 0};
 uint8_t layer = 0xFF;
 bool init_once = false;
+bool data_loaded = false;
 bool file;
 int stage_type_counter = 0;
 signed long stage_counter = 0;
@@ -153,10 +154,14 @@ void WarpingMenu::render() {
 
     if (!init_once) {
         current_input = 0;
+        init_once = true;
+    }
+
+    if(!data_loaded){
         load_default_stage();
         load_default_room();
         load_default_spawn();
-        init_once = true;
+        data_loaded = true;
     }
 
     if (button_is_pressed(Controller::DPAD_RIGHT)) {
@@ -253,6 +258,8 @@ void WarpingMenu::render() {
                 init_once = false;
 		        MenuRendering::set_menu(MN_NONE_INDEX);
                 tp_gameInfo.loading_animation = 13;  // instant load
+                tp_gameInfo.respawn_animation = 0;
+                tp_gameInfo.warp.entrance.void_flag = 0;
                 tp_gameInfo.warp.enabled = true;
                 break;
             }

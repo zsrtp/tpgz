@@ -144,7 +144,6 @@ void purple_mist() {
 
 void kb2_skip() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.epona_debug_ptr->position = {-92098.1797, -5563.54883, 22599.9102};  // spawn near clip spot
     tp_gameInfo.warp.entrance.state = 0x3;
 }
 
@@ -190,10 +189,6 @@ void stallord() {
     tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
 }
 
-void dark_hammer() {
-    //figure out how to disable armor sets then load in with boss flag for instant fight
-}
-
 void spr_bosskey() {
     SaveInjector::inject_default_during();
     tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
@@ -216,7 +211,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
+    //tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
@@ -269,7 +264,7 @@ struct {
     {HND_MORPHEEL_INDEX, nullptr, morpheel},
     {HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr},
     {HND_STALLORD_INDEX, stallord, nullptr},
-    {HND_DARK_HAMMER_INDEX, nullptr, nullptr},  // place dark_hammer() where ever when it is implemented
+    {HND_DARK_HAMMER_INDEX, nullptr, nullptr},
     {HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr},
     {HND_EARLY_POE_INDEX, tot_early_poe, nullptr},
     {HND_EARLY_HP_INDEX, tot_early_hp, nullptr},
@@ -298,6 +293,12 @@ void HundoSavesMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         Utilities::load_save(cursor.y,(char*)"hundo");
         init_once = false;
+        if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX || cursor.y == HND_LAKEBED_1_INDEX) {
+            TP::set_boss_flags();
+        }
+        else{
+            tp_bossFlags = 0;
+        }
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
             if (cursor.y == specials[i].idx) {
                 if (specials[i].cb_during != nullptr) {
