@@ -1,7 +1,7 @@
 #include "utils/draw.h"
-#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/system.h"
+#include "gcn_c/include/gfx.h"
 #include "utils/texture.h"
 
 #define DEFAULT_WIDTH 0x06

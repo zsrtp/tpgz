@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/addrs.h"
+#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/utils.h"
 #include "utils/texture.h"
 

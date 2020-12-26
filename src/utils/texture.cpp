@@ -1,10 +1,10 @@
 #include "utils/texture.h"
-#include "gcn_c/include/dvd.h"
-#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/system.h"
 #include "utils/disc.h"
+#include "gcn_c/include/dvd.h"
+#include "gcn_c/include/gfx.h"
 
 enum TexFmt {
     RGB8 = 0,
