@@ -3,7 +3,7 @@
 *.a
 *.iso
 *.map
-patch.asm
+regional-patch.asm
 build/
 .vscode/
 !.vscode/c_cpp_properties.json

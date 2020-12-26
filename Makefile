@@ -100,6 +100,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
+	@rm -f regional-patch.asm
 	@rm -fr $(BUILD) $(OUTPUT).o $(OUTPUT).a
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` clean || exit 1; done;
 
