@@ -9,7 +9,7 @@ namespace Scene {
         FREEZE_CAMERA_INDEX,
         HIDE_ACTOR_INDEX,
         HIDE_HUD_INDEX,
-		FREEZE_TIME_INDEX,
+        FREEZE_TIME_INDEX,
         TIME_HOURS_INDEX,
         TIME_MINUTES_INDEX
     };
@@ -22,7 +22,7 @@ namespace Scene {
 extern Scene::SceneItem SceneItems[SCENE_AMNT];
 
 class SceneMenu : public Menu {
-public:
+   public:
     SceneMenu() : Menu() {}
     static void render();
 };

@@ -10,8 +10,8 @@
 #define TIMER_TOGGLE_BUTTONS (Pad::Z | Pad::A)
 #define TIMER_RESET_BUTTONS (Pad::Z | Pad::B)
 #define FREE_CAM_BUTTONS (Pad::Z | Pad::B | Pad::A)
-#define MOVE_LINK_BUTTONS (Pad::L | Pad::R | Pad::Y )
-#define FRAME_ADVANCE_BUTTONS (Pad::L | Pad::R | Pad::X )
+#define MOVE_LINK_BUTTONS (Pad::L | Pad::R | Pad::Y)
+#define FRAME_ADVANCE_BUTTONS (Pad::L | Pad::R | Pad::X)
 
 extern bool reload_area_flag;
 

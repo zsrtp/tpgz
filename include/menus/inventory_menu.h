@@ -5,7 +5,7 @@
 #define AMOUNTS_MENU_INDEX 2
 
 class InventoryMenu : public Menu {
-public:
+   public:
     InventoryMenu() : Menu() {}
     static void render();
 };

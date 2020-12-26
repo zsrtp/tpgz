@@ -51,7 +51,7 @@ void PosSettingsMenu::render() {
             selected_item = NO_SELECTION;
         } else {
             init_once = false;
-		    MenuRendering::set_menu(MN_SETTINGS_INDEX);
+            MenuRendering::set_menu(MN_SETTINGS_INDEX);
             return;
         }
     };
@@ -88,8 +88,7 @@ void PosSettingsMenu::render() {
     if (button_is_down(Controller::DPAD_RIGHT) ||
         button_is_down(Controller::DPAD_LEFT) ||
         button_is_down(Controller::DPAD_UP) ||
-        button_is_down(Controller::DPAD_DOWN)) 
-	{
+        button_is_down(Controller::DPAD_DOWN)) {
         if (speed < MAX_SPEED) {
             speed *= INCREMENT_FACTOR;
         }

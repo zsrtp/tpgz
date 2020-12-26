@@ -24,16 +24,16 @@ namespace InputViewer {
         float dy2 = -0.7071f;
         float tmp;
         Draw::begin(8, GX_TRIANGLEFAN);
-            for (uint8_t i = 0; i < 4; ++i) {
-                Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
-                Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
-                tmp = dx1;
-                dx1 = -dy1;
-                dy1 = tmp;
-                tmp = dx2;
-                dx2 = -dy2;
-                dy2 = tmp;
-            }
+        for (uint8_t i = 0; i < 4; ++i) {
+            Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
+            Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
+            tmp = dx1;
+            dx1 = -dy1;
+            dy1 = tmp;
+            tmp = dx2;
+            dx2 = -dy2;
+            dy2 = tmp;
+        }
         Draw::end();
     }
 
@@ -45,16 +45,16 @@ namespace InputViewer {
         float dy2 = -0.7071f;
         float tmp;
         Draw::begin_outline(9, OUTLINE_WIDTH);
-            for (uint8_t i = 0; i < 4; ++i) {
-                Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
-                Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
-                tmp = dx1;
-                dx1 = -dy1;
-                dy1 = tmp;
-                tmp = dx2;
-                dx2 = -dy2;
-                dy2 = tmp;
-            }
+        for (uint8_t i = 0; i < 4; ++i) {
+            Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
+            Draw::add_vertex(color, {pos.x + s2 * dx2, pos.y + s2 * dy2}, {0.5f + dx2, 0.5f + dy2});
+            tmp = dx1;
+            dx1 = -dy1;
+            dy1 = tmp;
+            tmp = dx2;
+            dx2 = -dy2;
+            dy2 = tmp;
+        }
         Draw::add_vertex(color, {pos.x + s2 * dx1, pos.y + s2 * dy1}, {0.5f + dx1, 0.5f + dy1});
         Draw::end();
     }
@@ -101,7 +101,7 @@ namespace InputViewer {
         Vec2 pos = {0.f, 0.f};
         pos.x += sprite_offsets[VIEWER_INDEX].x;
         pos.y += sprite_offsets[VIEWER_INDEX].y;
-        float scale = 1.0f; // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
+        float scale = 1.0f;  // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
         if (g_drop_shadows) draw_input_viewer({pos.x + 1.f, pos.y + 1.f}, scale, true);
         draw_input_viewer(pos, scale, false);
 

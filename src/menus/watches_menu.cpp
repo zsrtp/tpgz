@@ -8,7 +8,6 @@
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/math.h"
 
-
 #define WATCH_COLUMNS 6
 #define WATCH_ADDRESS_X_OFFSET 25.0f
 #define WHITE_RGBA 0xFFFFFFFF
@@ -167,10 +166,10 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                                 Watches[i].x -= speed;
                             }
                         }
-                        if(Watches[i].x < 0){
+                        if (Watches[i].x < 0) {
                             Watches[i].x = 0;
                         }
-                        if(Watches[i].x > 600){
+                        if (Watches[i].x > 600) {
                             Watches[i].x = 600;
                         }
                         tp_sprintf(watch_x, "<%.0f>", Watches[i].x);
@@ -198,10 +197,10 @@ void render_memory_lines(MemoryWatch Watches[MAX_WATCHES], Cursor cursor) {
                                 Watches[i].y -= speed;
                             }
                         }
-                        if(Watches[i].y < 0){
+                        if (Watches[i].y < 0) {
                             Watches[i].y = 0;
                         }
-                        if(Watches[i].y > 500){
+                        if (Watches[i].y > 500) {
                             Watches[i].y = 500;
                         }
                         tp_sprintf(watch_y, "<%.0f>", Watches[i].y);
@@ -472,7 +471,7 @@ void WatchesMenu::render() {
         if (button_held_counter > SPEED_THRESHOLD) {
             speed = 20.0f;
         }
-        if(button_held_counter >= 60){
+        if (button_held_counter >= 60) {
             button_held_counter = 60;
         }
     } else {

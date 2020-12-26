@@ -20,7 +20,7 @@ Line lines[LINES] = {
 void FlagsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -32,19 +32,19 @@ void FlagsMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case GENERAL_FLAGS_INDEX: {
-		        MenuRendering::set_menu(MN_GENERAL_FLAGS_INDEX);
+                MenuRendering::set_menu(MN_GENERAL_FLAGS_INDEX);
                 return;
             }
             case DUNGEON_FLAGS_INDEX: {
-		        MenuRendering::set_menu(MN_DUNGEON_FLAGS_INDEX);
+                MenuRendering::set_menu(MN_DUNGEON_FLAGS_INDEX);
                 return;
             }
             case PORTAL_FLAGS_INDEX: {
-		        MenuRendering::set_menu(MN_PORTAL_FLAGS_INDEX);
+                MenuRendering::set_menu(MN_PORTAL_FLAGS_INDEX);
                 return;
             }
             case TEMP_FLAGS_INDEX: {
-		        MenuRendering::set_menu(MN_TEMP_FLAGS_INDEX);
+                MenuRendering::set_menu(MN_TEMP_FLAGS_INDEX);
                 return;
             }
         }

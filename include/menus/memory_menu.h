@@ -38,13 +38,13 @@ struct MemoryWatch {
 extern MemoryWatch Watches[MAX_WATCHES];
 
 class MemoryMenu : public Menu {
-public:
+   public:
     MemoryMenu() : Menu() {}
     static void render();
 };
 
 class WatchesMenu : public Menu {
-public:
+   public:
     WatchesMenu() : Menu() {}
     static void render();
 };

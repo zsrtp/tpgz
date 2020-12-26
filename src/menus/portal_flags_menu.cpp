@@ -65,7 +65,7 @@ void PortalFlagsMenu::render() {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_FLAGS_INDEX);
+        MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 

@@ -10,12 +10,12 @@
 #define FONT_DEFAULT_SIZE 17.f
 
 enum FontCode {
-    FNT_OK = 1,                     /*<@brief Font loaded successfully */
-    FNT_UNLOADED = 0,               /*<@brief Font hasn't been loaded yet */
-    FNT_ERR_FILE = -1,              /*<@brief Could not open font file */
-    FNT_ERR_READ = -2,              /*<@brief Error occured while reading the font file */
-    FNT_ERR_TEXTURE = -3,               /*<@brief Error occured while reading the texture from the file */
-    FNT_ERR_MEM = -4,               /*<@brief Not enough memory to load the font */
+    FNT_OK = 1,           /*<@brief Font loaded successfully */
+    FNT_UNLOADED = 0,     /*<@brief Font hasn't been loaded yet */
+    FNT_ERR_FILE = -1,    /*<@brief Could not open font file */
+    FNT_ERR_READ = -2,    /*<@brief Error occured while reading the font file */
+    FNT_ERR_TEXTURE = -3, /*<@brief Error occured while reading the texture from the file */
+    FNT_ERR_MEM = -4,     /*<@brief Not enough memory to load the font */
 };
 
 struct _Metrics {
@@ -28,7 +28,7 @@ struct _Glyph {
 
 struct _FontHeader {
     char magic[0x4];
-    float base_size; // in points
+    float base_size;  // in points
     _Metrics metrics;
     uint32_t glyph_count;
 };

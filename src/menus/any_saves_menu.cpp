@@ -132,7 +132,7 @@ struct {
 
 void AnySavesMenu::render() {
     if (button_is_pressed(Controller::B)) {
-		MenuRendering::set_menu(MN_PRACTICE_INDEX);
+        MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
         return;
     };
@@ -143,12 +143,11 @@ void AnySavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        Utilities::load_save(cursor.y,(char*)"any");
+        Utilities::load_save(cursor.y, (char*)"any");
         init_once = false;
         if (cursor.y == DARK_HAMMER_INDEX || (cursor.y >= FRST_ESCAPE_INDEX && cursor.y <= LAKEBED_1_INDEX)) {
             TP::set_boss_flags();
-        }
-        else{
+        } else {
             tp_bossFlags = 0;
         }
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {

@@ -3,12 +3,12 @@
 #include <stdint.h>
 
 enum TexCode {
-    TEX_OK = 1,                     /*<@brief Texture loaded successfully */
-    TEX_UNLOADED = 0,               /*<@brief Texture hasn't been loaded yet */
-    TEX_ERR_FILE = -1,              /*<@brief Could not open texture file */
-    TEX_ERR_READ = -2,              /*<@brief Error occured while reading the texture file */
-    TEX_ERR_INVALID_FORMAT = -3,    /*<@brief The format of the texture file is not supported */
-    TEX_ERR_MEM = -4,               /*<@brief Not enough memory to load the texture */
+    TEX_OK = 1,                  /*<@brief Texture loaded successfully */
+    TEX_UNLOADED = 0,            /*<@brief Texture hasn't been loaded yet */
+    TEX_ERR_FILE = -1,           /*<@brief Could not open texture file */
+    TEX_ERR_READ = -2,           /*<@brief Error occured while reading the texture file */
+    TEX_ERR_INVALID_FORMAT = -3, /*<@brief The format of the texture file is not supported */
+    TEX_ERR_MEM = -4,            /*<@brief Not enough memory to load the texture */
 };
 
 struct TexHeader {

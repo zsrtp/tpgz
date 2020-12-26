@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 uint32_t get_size(uint32_t format, uint32_t width, uint32_t height) {
-    switch(format) {
+    switch (format) {
         case TexFmt::CMPR: {
             return width * height / 2;
         }
@@ -42,7 +42,7 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
         free_texture(tex);
     }
 
-    if(!DVDOpen(path, &fileInfo)) {
+    if (!DVDOpen(path, &fileInfo)) {
         tex->loadCode = TexCode::TEX_ERR_FILE;
         return tex->loadCode;
     }

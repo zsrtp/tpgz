@@ -39,4 +39,4 @@ namespace Utilities {
             }
         }
     }
-} 
+}  // namespace Utilities

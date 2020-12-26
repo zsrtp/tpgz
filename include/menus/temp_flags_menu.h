@@ -7,7 +7,7 @@ struct AreaNode {
 };
 
 class TempFlagsMenu : public Menu {
-public:
+   public:
     TempFlagsMenu() : Menu() {}
     static void render();
 };

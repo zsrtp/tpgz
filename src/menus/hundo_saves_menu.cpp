@@ -176,7 +176,7 @@ void karg_oob() {
 
 void iza_1_skip() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;                        // spawn on kargorok
+    tp_gameInfo.respawn_animation = 0xA;                           // spawn on kargorok
     tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
     tp_gameInfo.warp.entrance.room = 0x1;
     tp_gameInfo.warp.entrance.spawn = 0x0;
@@ -291,12 +291,11 @@ void HundoSavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        Utilities::load_save(cursor.y,(char*)"hundo");
+        Utilities::load_save(cursor.y, (char*)"hundo");
         init_once = false;
         if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX || cursor.y == HND_LAKEBED_1_INDEX) {
             TP::set_boss_flags();
-        }
-        else{
+        } else {
             tp_bossFlags = 0;
         }
         for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {

@@ -8,7 +8,6 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
 
-
 #define MAX_DISPLAY_LINES 15
 #define WHITE_RGBA 0xFFFFFFFF
 #define ADDRESS_RGBA 0xBABABAFF
@@ -241,7 +240,7 @@ void MemoryEditorMenu::render() {
             lock_cursor_y = false;
         } else {
             init_once = false;
-		    MenuRendering::set_menu(MN_MEMORY_INDEX);
+            MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     }

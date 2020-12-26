@@ -148,7 +148,7 @@ void load_default_spawn() {
 void WarpingMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
@@ -157,7 +157,7 @@ void WarpingMenu::render() {
         init_once = true;
     }
 
-    if(!data_loaded){
+    if (!data_loaded) {
         load_default_stage();
         load_default_room();
         load_default_spawn();
@@ -178,7 +178,6 @@ void WarpingMenu::render() {
                 break;
             }
             case WARP_STAGE_INDEX: {
-                
                 load_next_stage_info();
                 load_default_room();
                 load_default_spawn();
@@ -220,7 +219,6 @@ void WarpingMenu::render() {
                 break;
             }
             case WARP_STAGE_INDEX: {
-                
                 load_previous_stage_info();
                 load_default_room();
                 load_default_spawn();
@@ -256,7 +254,7 @@ void WarpingMenu::render() {
                 tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
                 tp_gameInfo.warp.entrance.state = layer;
                 init_once = false;
-		        MenuRendering::set_menu(MN_NONE_INDEX);
+                MenuRendering::set_menu(MN_NONE_INDEX);
                 tp_gameInfo.loading_animation = 13;  // instant load
                 tp_gameInfo.respawn_animation = 0;
                 tp_gameInfo.warp.entrance.void_flag = 0;

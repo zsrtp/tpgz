@@ -115,8 +115,8 @@ namespace MoveLink {
 
         if (link_angle_selected) {
             cursor_x_max = 5;
-            if(button_is_pressed(Controller::DPAD_UP)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_UP)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->facing += 10000;
                         break;
@@ -139,8 +139,8 @@ namespace MoveLink {
                     }
                 }
             }
-            if(button_is_pressed(Controller::DPAD_DOWN)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_DOWN)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->facing -= 10000;
                         break;
@@ -179,18 +179,17 @@ namespace MoveLink {
             Font::gz_renderChar(link_angle[11], LINE_X_OFFSET + 92.0f, 80.0f, (cursor.x == 4 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         } else {
             Font::gz_renderChars(link_angle, LINE_X_OFFSET, 80.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-		}
+        }
 
         if (link_x_selected) {
-            if(tp_zelAudio.link_debug_ptr->position.x <= -999998.99f){
+            if (tp_zelAudio.link_debug_ptr->position.x <= -999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.x = -999998.99f;
-            }
-            else if(tp_zelAudio.link_debug_ptr->position.x >= 999998.99f){
+            } else if (tp_zelAudio.link_debug_ptr->position.x >= 999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.x = 999998.99f;
             }
             cursor_x_max = 9;
-            if(button_is_pressed(Controller::DPAD_UP)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_UP)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.x += 100000.0f;
                         break;
@@ -225,8 +224,8 @@ namespace MoveLink {
                     }
                 }
             }
-            if(button_is_pressed(Controller::DPAD_DOWN)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_DOWN)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.x -= 100000.0f;
                         break;
@@ -282,18 +281,17 @@ namespace MoveLink {
             Font::gz_renderChar(link_x[16], LINE_X_OFFSET + 141.0f, 100.0f, (cursor.x == 8 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         } else {
             Font::gz_renderChars(link_x, LINE_X_OFFSET, 100.0f, (cursor.y == 1 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-		}
- 
+        }
+
         if (link_y_selected) {
-            if(tp_zelAudio.link_debug_ptr->position.y <= -999998.99f){
+            if (tp_zelAudio.link_debug_ptr->position.y <= -999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.y = -999998.99f;
-            }
-            else if(tp_zelAudio.link_debug_ptr->position.y >= 999998.99f){
+            } else if (tp_zelAudio.link_debug_ptr->position.y >= 999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.y = 999998.99f;
             }
             cursor_x_max = 9;
-            if(button_is_pressed(Controller::DPAD_UP)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_UP)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.y += 100000.0f;
                         break;
@@ -328,8 +326,8 @@ namespace MoveLink {
                     }
                 }
             }
-            if(button_is_pressed(Controller::DPAD_DOWN)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_DOWN)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.y -= 100000.0f;
                         break;
@@ -385,18 +383,17 @@ namespace MoveLink {
             Font::gz_renderChar(link_y[16], LINE_X_OFFSET + 141.0f, 120.0f, (cursor.x == 8 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         } else {
             Font::gz_renderChars(link_y, LINE_X_OFFSET, 120.0f, (cursor.y == 2 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-		}
-        
+        }
+
         if (link_z_selected) {
-            if(tp_zelAudio.link_debug_ptr->position.z <= -999998.99f){
+            if (tp_zelAudio.link_debug_ptr->position.z <= -999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.z = -999998.99f;
-            }
-            else if(tp_zelAudio.link_debug_ptr->position.z >= 999998.99f){
+            } else if (tp_zelAudio.link_debug_ptr->position.z >= 999998.99f) {
                 tp_zelAudio.link_debug_ptr->position.z = 999998.99f;
             }
             cursor_x_max = 9;
-            if(button_is_pressed(Controller::DPAD_UP)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_UP)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.z += 100000.0f;
                         break;
@@ -431,8 +428,8 @@ namespace MoveLink {
                     }
                 }
             }
-            if(button_is_pressed(Controller::DPAD_DOWN)){
-                switch(cursor.x){
+            if (button_is_pressed(Controller::DPAD_DOWN)) {
+                switch (cursor.x) {
                     case 0: {
                         tp_zelAudio.link_debug_ptr->position.z -= 100000.0f;
                         break;
@@ -487,8 +484,8 @@ namespace MoveLink {
             Font::gz_renderChar(link_z[15], LINE_X_OFFSET + 131.0f, 140.0f, (cursor.x == 7 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
             Font::gz_renderChar(link_z[16], LINE_X_OFFSET + 141.0f, 140.0f, (cursor.x == 8 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         } else {
-            Font::gz_renderChars(link_z, LINE_X_OFFSET, 140.0f, (cursor.y == 3 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows); 
-		}
+            Font::gz_renderChars(link_z, LINE_X_OFFSET, 140.0f, (cursor.y == 3 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+        }
 
         if (button_is_pressed(Controller::B)) {
             if (link_angle_selected) {

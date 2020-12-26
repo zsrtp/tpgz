@@ -6,5 +6,5 @@
 namespace Utilities {
     void menu_anim(int idx);
     void render_lines(Line lines[], int cursor, int LINES);
-	void change_cursor_color();
+    void change_cursor_color();
 }  // namespace Utilities

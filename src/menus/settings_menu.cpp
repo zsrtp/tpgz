@@ -41,8 +41,7 @@ ListMember font_options[MAX_FONT_OPTIONS] = {
     "lib-sans-bold",
     "lib-serif",
     "lib-serif-bold",
-    "press-start-2p"
-};
+    "press-start-2p"};
 
 Line lines[LINES] = {
     {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX, "load area = Reload last area; load file = Reload last file", false, nullptr, MAX_RELOAD_OPTIONS},
@@ -56,7 +55,7 @@ Line lines[LINES] = {
 void SettingsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 
@@ -74,7 +73,7 @@ void SettingsMenu::render() {
                 break;
             };
             case POS_SETTINGS_MENU_INDEX: {
-		        MenuRendering::set_menu(MN_POS_SETTINGS_INDEX);
+                MenuRendering::set_menu(MN_POS_SETTINGS_INDEX);
                 return;
             };
             case SAVE_CARD_INDEX: {
@@ -150,7 +149,7 @@ void SettingsMenu::render() {
     Utilities::render_lines(lines, cursor.y, LINES);
 }
 
-void SettingsMenu::initFont(){
+void SettingsMenu::initFont() {
     if (g_font >= 0 && g_font < MAX_FONT_OPTIONS) {
         char buf[80];
         tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_options[g_font].member);

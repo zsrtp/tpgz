@@ -9,10 +9,9 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-
 #define LINES 8
 
-static Cursor cursor = { 0, 0 };
+static Cursor cursor = {0, 0};
 bool init_once = false;
 
 static uint8_t arrow_ammo;
@@ -35,26 +34,26 @@ Line lines[LINES] = {
     {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"}};
 
 void AmountsMenu::render() {
-	// update amounts
-	arrow_ammo = tp_gameInfo.inventory.arrow_count;
-	bomb_bag_1_ammo = tp_gameInfo.inventory.bomb_bag_1_amnt;
-	bomb_bag_2_ammo = tp_gameInfo.inventory.bomb_bag_2_amnt;
-	bomb_bag_3_ammo = tp_gameInfo.inventory.bomb_bag_3_amnt;
-	slingshot_ammo = tp_gameInfo.inventory.slingshot_count;
-	poe_count = tp_gameInfo.inventory.poe_count;
-	hp_count = tp_gameInfo.link.heart_pieces;
-	rupee_count = tp_gameInfo.link.rupees;
+    // update amounts
+    arrow_ammo = tp_gameInfo.inventory.arrow_count;
+    bomb_bag_1_ammo = tp_gameInfo.inventory.bomb_bag_1_amnt;
+    bomb_bag_2_ammo = tp_gameInfo.inventory.bomb_bag_2_amnt;
+    bomb_bag_3_ammo = tp_gameInfo.inventory.bomb_bag_3_amnt;
+    slingshot_ammo = tp_gameInfo.inventory.slingshot_count;
+    poe_count = tp_gameInfo.inventory.poe_count;
+    hp_count = tp_gameInfo.link.heart_pieces;
+    rupee_count = tp_gameInfo.link.rupees;
 
-	if (button_is_pressed(Controller::B)) {
-		init_once = false;
+    if (button_is_pressed(Controller::B)) {
+        init_once = false;
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
-		return;
-	};
+        return;
+    };
 
-	if (!init_once) {
-		current_input = 0;
-		init_once = true;
-	}
+    if (!init_once) {
+        current_input = 0;
+        init_once = true;
+    }
 
     switch (cursor.y) {
         case ARROW_AMMO_INDEX: {
@@ -110,7 +109,7 @@ void AmountsMenu::render() {
             }
             tp_gameInfo.link.heart_pieces = hp_count;
             break;
-            }
+        }
         case POE_COUNT_INDEX: {
             if (button_is_pressed(Controller::DPAD_LEFT)) {
                 poe_count--;
@@ -131,15 +130,15 @@ void AmountsMenu::render() {
         }
     }
 
-	tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
-	tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
-	tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
-	tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
-	tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
-	tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
-	tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
-	tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
+    tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
+    tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
+    tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
+    tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
+    tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
+    tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
+    tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
+    tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
 
-	Utilities::move_cursor(cursor, LINES);
-	Utilities::render_lines(lines, cursor.y, LINES);
+    Utilities::move_cursor(cursor, LINES);
+    Utilities::render_lines(lines, cursor.y, LINES);
 };

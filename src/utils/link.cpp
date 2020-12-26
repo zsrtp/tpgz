@@ -5,7 +5,6 @@
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
 
-
 uint8_t red;
 uint8_t green;
 uint8_t blue;

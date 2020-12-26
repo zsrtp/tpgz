@@ -77,10 +77,10 @@ namespace Draw {
 
     void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture) {
         begin(4, texture);
-            add_vertex(color, p[0], tex[0]);
-            add_vertex(color, p[1], tex[1]);
-            add_vertex(color, p[3], tex[3]);
-            add_vertex(color, p[2], tex[2]);
+        add_vertex(color, p[0], tex[0]);
+        add_vertex(color, p[1], tex[1]);
+        add_vertex(color, p[3], tex[3]);
+        add_vertex(color, p[2], tex[2]);
         end();
     }
 
@@ -90,11 +90,11 @@ namespace Draw {
 
     void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width) {
         begin_outline(5, width);
-            add_vertex(color, p[0], {0.0, 0.0});
-            add_vertex(color, p[1], {1.0, 0.0});
-            add_vertex(color, p[2], {1.0, 1.0});
-            add_vertex(color, p[3], {0.0, 1.0});
-            add_vertex(color, p[0], {0.0, 0.0});
+        add_vertex(color, p[0], {0.0, 0.0});
+        add_vertex(color, p[1], {1.0, 0.0});
+        add_vertex(color, p[2], {1.0, 1.0});
+        add_vertex(color, p[3], {0.0, 1.0});
+        add_vertex(color, p[0], {0.0, 0.0});
         end();
     }
 
@@ -138,5 +138,4 @@ namespace Draw {
         draw_quad_outline(color, vertices, width);
     }
 
-
-}; // namespace Draw
+};  // namespace Draw

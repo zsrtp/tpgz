@@ -66,7 +66,7 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
-                        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) = 0x60000000; // nop
+                        *reinterpret_cast<uint32_t *>(tp_cc_at_check_addr + 0x328) = 0x60000000;  // nop
                         gc::os_cache::DCFlushRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         gc::os_cache::ICInvalidateRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         break;
@@ -130,7 +130,7 @@ namespace Cheats {
                         break;
                     }
                     case InvincibleEnemies: {
-                        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) = 0x7C030050; // sub r0, r0, r3
+                        *reinterpret_cast<uint32_t *>(tp_cc_at_check_addr + 0x328) = 0x7C030050;  // sub r0, r0, r3
                         gc::os_cache::DCFlushRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         gc::os_cache::ICInvalidateRange((void *)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
                         break;
@@ -160,7 +160,7 @@ namespace Cheats {
 void CheatsMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     };
 

@@ -30,10 +30,10 @@ struct WarpInfo {
     StageInfo stage_info;
     RoomInfo room_info;
     SpawnInfo spawn_info;
-}__attribute__((aligned(32)));
+} __attribute__((aligned(32)));
 
 class WarpingMenu : public Menu {
-public:
+   public:
     WarpingMenu() : Menu() {}
     static void render();
 };

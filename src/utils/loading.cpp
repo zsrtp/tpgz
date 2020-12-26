@@ -55,7 +55,7 @@ namespace Utilities {
         }
         practice_file.inject_options_after_counter = saveinfo.counter;
         last_save_index = id;
-        tp_strcpy(last_category,category);
+        tp_strcpy(last_category, category);
     }
 
     void load_save_file(const char* fileName) {

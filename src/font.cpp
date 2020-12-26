@@ -12,7 +12,7 @@ FontCode Font::load_font(const char* path) {
         free_font();
     }
 
-    if(!DVDOpen(path, &fileInfo)) {
+    if (!DVDOpen(path, &fileInfo)) {
         font.loadCode = FontCode::FNT_ERR_FILE;
         return font.loadCode;
     }

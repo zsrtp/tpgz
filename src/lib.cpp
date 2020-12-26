@@ -74,7 +74,7 @@ void game_loop() {
     FreeCam::handle_free_cam();
     MoveLink::move_link();
 
-    if(ToolItems[Tools::TURBO_MODE_INDEX].active){
+    if (ToolItems[Tools::TURBO_MODE_INDEX].active) {
         tp_cPadInfo.triggerInput = tp_cPadInfo.input;
     }
 }
@@ -84,7 +84,6 @@ void draw() {
     //Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
         Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
-        
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/tpgz.tex", &gzIconTex);

@@ -14,6 +14,6 @@ void loadFile(const char* filePath, void* buffer, signed long length, signed lon
             tp_osReport("no bytes read!");
         }
     } else {
-        tp_osReport("failed to open file %s",filePath);
+        tp_osReport("failed to open file %s", filePath);
     }
 }

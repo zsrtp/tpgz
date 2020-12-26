@@ -10,22 +10,22 @@
 
 bool timer_visible;
 
-namespace Timer { 
+namespace Timer {
     static int current_frame = 0;
     static int previous_frame = 0;
 
-	//Timer vars
+    //Timer vars
     static int timer_frame = 0;
     static char timer[5];
     static double timer_seconds = 0.0f;
     static char timerS[8];
 
-	//Load timer vars
-	static int load_timer_frame = 0;
+    //Load timer vars
+    static int load_timer_frame = 0;
     static double load_timer_seconds = 0.0f;
     static char load_timerS[8];
 
-	//IGT timer vars
+    //IGT timer vars
     static int igt_timer_frame = 0;
     static int igt_timer_hours = 0;
     static int igt_timer_minutes = 0;
@@ -52,9 +52,9 @@ namespace Timer {
             previous_frame = current_frame;
             Font::gz_renderChars(timer, (sprite_offsets[TIMER_SPR_INDEX].x), (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF, g_drop_shadows);
             Font::gz_renderChars(timerS, (sprite_offsets[TIMER_SPR_INDEX].x), 15.0f + (sprite_offsets[TIMER_SPR_INDEX].y), 0XFFFFFFFF, g_drop_shadows);
-		}
-            
-		if (ToolItems[Tools::LOAD_TIMER_INDEX].active) {
+        }
+
+        if (ToolItems[Tools::LOAD_TIMER_INDEX].active) {
             if (tp_fopScnRq.isLoading == 1) {
                 load_timer_frame += current_frame - previous_frame;
 
@@ -68,23 +68,23 @@ namespace Timer {
             tp_sprintf(load_timerS, "%.2f", load_timer_seconds);
             previous_frame = current_frame;
             Font::gz_renderChars(load_timerS, sprite_offsets[LOAD_TIMER_SPR_INDEX].x, sprite_offsets[LOAD_TIMER_SPR_INDEX].y, 0XFFFFFFFF, g_drop_shadows);
-		}
+        }
 
-		if (ToolItems[Tools::IGT_TIMER_INDEX].active) {
+        if (ToolItems[Tools::IGT_TIMER_INDEX].active) {
             if (timer_started && tp_fopScnRq.isLoading == 0) {
                 igt_timer_frame += current_frame - previous_frame;
 
                 igt_timer_seconds = igt_timer_frame / FRAME_RATE;
 
-				if (igt_timer_seconds >= 60.0f) {
+                if (igt_timer_seconds >= 60.0f) {
                     igt_timer_frame = 0;
-					igt_timer_minutes++;
+                    igt_timer_minutes++;
 
-					if (igt_timer_minutes == 60) {
-						igt_timer_minutes = 0;
-						igt_timer_hours++;
-					}
-				}
+                    if (igt_timer_minutes == 60) {
+                        igt_timer_minutes = 0;
+                        igt_timer_hours++;
+                    }
+                }
             }
             if (reset_timer) {
                 igt_timer_frame = 0;
@@ -97,8 +97,7 @@ namespace Timer {
             tp_sprintf(igt_timer, "%02d:%02d:%05.2f", igt_timer_hours, igt_timer_minutes, igt_timer_seconds);
             previous_frame = current_frame;
             Font::gz_renderChars(igt_timer, sprite_offsets[IGT_TIMER_SPR_INDEX].x, sprite_offsets[IGT_TIMER_SPR_INDEX].y, 0XFFFFFFFF, g_drop_shadows);
-		}
-        
+        }
 
     }  // namespace Timer
 }  // namespace Timer

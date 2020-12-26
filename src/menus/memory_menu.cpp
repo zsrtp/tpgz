@@ -17,7 +17,7 @@ Line lines[LINES] = {
 void MemoryMenu::render() {
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -29,11 +29,11 @@ void MemoryMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
             case 0: {
-		        MenuRendering::set_menu(MN_WATCHES_INDEX);
+                MenuRendering::set_menu(MN_WATCHES_INDEX);
                 return;
             }
             case 1: {
-		        MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
+                MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
                 return;
             }
         }

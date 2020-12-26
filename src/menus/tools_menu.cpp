@@ -158,7 +158,7 @@ void ToolsMenu::render() {
                     Commands::enable_command(Commands::CMD_MOVE_LINK);
                     move_link_active = false;
                     break;
-				}
+                }
             }
         } else {
             switch (cursor.y) {

@@ -76,7 +76,7 @@ namespace Commands {
             practice_file.inject_options_during_load = nullptr;
             practice_file.inject_options_after_load = nullptr;
         } else {
-            Utilities::load_save(last_save_index,last_category);
+            Utilities::load_save(last_save_index, last_category);
         }
     }  // namespace Commands
 

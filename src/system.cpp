@@ -29,4 +29,4 @@ namespace System {
             hud_run_once = false;
         }
     }
-}
+}  // namespace System

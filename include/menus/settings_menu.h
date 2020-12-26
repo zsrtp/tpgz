@@ -9,7 +9,7 @@ enum SettingsIndex {
     DROP_SHADOWS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
-	POS_SETTINGS_MENU_INDEX
+    POS_SETTINGS_MENU_INDEX
 };
 extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
@@ -21,16 +21,16 @@ extern int g_font;
 #define LOAD_FILE 1
 
 enum cursor_colors {
-	CURSOR_GREEN,
-	CURSOR_BLUE,
-	CURSOR_RED,
-	CURSOR_ORANGE,
-	CURSOR_YELLOW,
-	CURSOR_PURPLE
+    CURSOR_GREEN,
+    CURSOR_BLUE,
+    CURSOR_RED,
+    CURSOR_ORANGE,
+    CURSOR_YELLOW,
+    CURSOR_PURPLE
 };
 
 class SettingsMenu : public Menu {
-public:
+   public:
     static void initFont();
     SettingsMenu() : Menu() {}
     static void render();

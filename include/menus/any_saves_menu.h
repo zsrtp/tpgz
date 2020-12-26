@@ -52,7 +52,7 @@ enum AnyPracticeIndex {
 };
 
 class AnySavesMenu : public Menu {
-public:
+   public:
     AnySavesMenu() : Menu() {}
     static void render();
 };

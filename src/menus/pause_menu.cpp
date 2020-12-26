@@ -270,11 +270,10 @@ void set_equipment() {
             break;
         }
     }
-
 }
 
 void PauseMenu::render() {
-	// update hidden skill flags
+    // update hidden skill flags
     ending_blow = (tp_gameInfo.event_flags.flags[0x29] & (1 << 2));
     shield_bash = (tp_gameInfo.event_flags.flags[0x29] & (1 << 3));
     backslice = (tp_gameInfo.event_flags.flags[0x29] & (1 << 1));
@@ -340,7 +339,6 @@ void PauseMenu::render() {
         "30 Arrows",
         "60 Arrows",
         "100 Arrows"};
-
 
     switch (cursor.y) {
         case ORDON_SWORD_INDEX: {
@@ -439,12 +437,12 @@ void PauseMenu::render() {
         }
     }
 
-	if (current_input == Controller::Pad::A && a_held == false) {
-		switch (cursor.y) {
+    if (current_input == Controller::Pad::A && a_held == false) {
+        switch (cursor.y) {
             case ENDING_BLOW_INDEX: {
                 tp_gameInfo.event_flags.flags[0x29] ^= 1 << 2;
                 break;
-			}
+            }
             case SHIELD_BASH_INDEX: {
                 tp_gameInfo.event_flags.flags[0x29] ^= 1 << 3;
                 break;
@@ -469,8 +467,8 @@ void PauseMenu::render() {
                 tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 5;
                 break;
             }
-		}
-	}
+        }
+    }
 
     set_equipment();
 

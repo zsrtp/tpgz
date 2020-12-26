@@ -84,9 +84,9 @@ namespace Utilities {
         save_file.header.entries = GZ_SAVE_ENTRIES_AMNT;
         save_file.header.offsetsLoc = offsetof(GZSaveFile, offsets);
         save_file.header.sizesLoc = offsetof(GZSaveFile, sizes);
-#define set_entry(idx, attr)\
-        save_file.offsets[idx] = offsetof(GZSaveFile, data) + offsetof(GZSaveLayout, attr);\
-        save_file.sizes[idx] = sizeof(save_file.data.attr)
+#define set_entry(idx, attr)                                                            \
+    save_file.offsets[idx] = offsetof(GZSaveFile, data) + offsetof(GZSaveLayout, attr); \
+    save_file.sizes[idx] = sizeof(save_file.data.attr)
 
         set_entry(SV_CHEATS_INDEX, CheatItems);
         set_entry(SV_TOOLS_INDEX, ToolItems);
@@ -103,24 +103,24 @@ namespace Utilities {
 
     int32_t read_save_file(CardInfo* card_info, GZSaveFile& save_file, int32_t sector_size) {
         int32_t result = Ready;
-#define assert_result(stmt)\
-        if ((result = (stmt)) != Ready) {\
-            return result;\
-        }
+#define assert_result(stmt)           \
+    if ((result = (stmt)) != Ready) { \
+        return result;                \
+    }
 
         uint32_t pos = 0;
         assert_result(card_read(card_info, &save_file.header, sizeof(save_file.header), pos, sector_size));
         pos += sizeof(save_file.header);
         if (save_file.header.version != GZ_SAVE_VERSION_NUMBER) {
-            return -30; // Custom error code for "Version" (means a mismatch in the version number).
+            return -30;  // Custom error code for "Version" (means a mismatch in the version number).
         }
         assert_result(card_read(card_info, save_file.offsets, save_file.header.entries * sizeof(save_file.offsets[0]), save_file.header.offsetsLoc, sector_size));
         assert_result(card_read(card_info, save_file.sizes, save_file.header.entries * sizeof(save_file.sizes[0]), save_file.header.sizesLoc, sector_size));
 
-#define assert_read_entry(idx, ptr, size)\
-        if (idx < save_file.header.entries) {\
-            assert_result(card_read(card_info, ptr, MIN(size, save_file.sizes[idx]), save_file.offsets[idx], sector_size));\
-        }
+#define assert_read_entry(idx, ptr, size)                                                                               \
+    if (idx < save_file.header.entries) {                                                                               \
+        assert_result(card_read(card_info, ptr, MIN(size, save_file.sizes[idx]), save_file.offsets[idx], sector_size)); \
+    }
         assert_read_entry(SV_CHEATS_INDEX, save_file.data.CheatItems, sizeof(save_file.data.CheatItems));
         assert_read_entry(SV_TOOLS_INDEX, save_file.data.ToolItems, sizeof(save_file.data.ToolItems));
         assert_read_entry(SV_SCENE_INDEX, save_file.data.SceneItems, sizeof(save_file.data.SceneItems));
@@ -137,7 +137,7 @@ namespace Utilities {
         return result;
     }
 
-    void store_mem_card(Card &card) {
+    void store_mem_card(Card& card) {
         GZSaveFile save_file;
         Utilities::setup_save_file(save_file);
         Utilities::store_save_layout(save_file.data);
@@ -162,7 +162,7 @@ namespace Utilities {
         }
     }
 
-    void load_mem_card(Card &card) {
+    void load_mem_card(Card& card) {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
             GZSaveFile save_file;
@@ -183,7 +183,7 @@ namespace Utilities {
         }
     }
 
-    void load_gz_card(bool &card_load) {
+    void load_gz_card(bool& card_load) {
         uint8_t frame_count = TP::get_frame_count();
         if (card_load && frame_count > 200) {
             static Card card;
@@ -199,4 +199,4 @@ namespace Utilities {
             }
         }
     }
-}
+}  // namespace Utilities

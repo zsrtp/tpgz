@@ -49,25 +49,25 @@ enum PortalFlagsIndex {
 };
 
 class FlagsMenu : public Menu {
-public:
+   public:
     FlagsMenu() : Menu() {}
     static void render();
 };
 
 class GeneralFlagsMenu : public Menu {
-public:
+   public:
     GeneralFlagsMenu() : Menu() {}
     static void render();
 };
 
 class DungeonFlagsMenu : public Menu {
-public:
+   public:
     DungeonFlagsMenu() : Menu() {}
     static void render();
 };
 
 class PortalFlagsMenu : public Menu {
-public:
+   public:
     PortalFlagsMenu() : Menu() {}
     static void render();
 };

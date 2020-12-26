@@ -17,8 +17,8 @@ namespace Cheats {
         MoonJump,
         DoorStorage,
         SuperClawshot,
-		UnrestrictedItems,
-		TransformAnywhere,
+        UnrestrictedItems,
+        TransformAnywhere,
         SuperSpinner
     };
 

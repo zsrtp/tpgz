@@ -95,7 +95,7 @@ struct ItemLookup {
 };
 
 class ItemWheelMenu : public Menu {
-public:
+   public:
     ItemWheelMenu() : Menu() {}
     static void render();
 };

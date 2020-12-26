@@ -39,4 +39,4 @@ namespace GZFlags {
             }
         }
     }
-}  // namespace Flags
+}  // namespace GZFlags

@@ -1,7 +1,7 @@
 #include "menu.h"
 
 class CheatsMenu : public Menu {
-public:
+   public:
     CheatsMenu() : Menu() {}
     static void render();
 };

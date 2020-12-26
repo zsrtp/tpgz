@@ -14,10 +14,10 @@ namespace Tools {
         TELEPORT_INDEX,
         TURBO_MODE_INDEX,
         TIMER_INDEX,
-		LOAD_TIMER_INDEX,
-		IGT_TIMER_INDEX,
-		FREE_CAM_INDEX,
-		MOVE_LINK_INDEX,
+        LOAD_TIMER_INDEX,
+        IGT_TIMER_INDEX,
+        FREE_CAM_INDEX,
+        MOVE_LINK_INDEX,
         TUNIC_COLOR_INDEX
     };
 
@@ -54,7 +54,7 @@ struct TunicColor {
 extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 
 class ToolsMenu : public Menu {
-public:
+   public:
     ToolsMenu() : Menu() {}
     static void render();
 };

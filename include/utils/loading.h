@@ -7,4 +7,4 @@ namespace Utilities {
     void set_camera_angle_position();
     void set_angle_position();
     void trigger_load();
-}
+}  // namespace Utilities

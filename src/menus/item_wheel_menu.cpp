@@ -10,7 +10,7 @@
 #define LINES ITEM_WHEEL_SLOTS
 #define TOTAL_ITEMS 58
 
-static Cursor cursor = {0,0};
+static Cursor cursor = {0, 0};
 int listIdx = 0;
 int new_int_item_id;
 bool init_once = false;
@@ -287,7 +287,7 @@ void ItemWheelMenu::render() {
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
                 tp_sprintf(lines[i].value, " <%s>",
-                        new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
+                           new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
             }
             if (lookup_table[j].item_id == default_items[i]) {
                 tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
@@ -306,8 +306,7 @@ void ItemWheelMenu::render() {
         current_item_slot = cursor.y;
     }
 
-    if (Controller::button_is_pressed(Controller::DPAD_RIGHT)
-        || Controller::button_is_pressed(Controller::DPAD_LEFT)) {
+    if (Controller::button_is_pressed(Controller::DPAD_RIGHT) || Controller::button_is_pressed(Controller::DPAD_LEFT)) {
         auto change_slot_item = Controller::button_is_pressed(Controller::DPAD_RIGHT) ? increment_slot_item : decrement_slot_item;
         if (current_item_slot < ITEM_WHEEL_SLOTS) {
             change_slot_item(current_item_slot);

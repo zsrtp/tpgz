@@ -13,7 +13,7 @@ namespace Actor {
     }
 
     void unfreeze_actors() {
-        if (freeze_run_once){
+        if (freeze_run_once) {
             tp_actor.freeze = false;
             freeze_run_once = false;
         }
@@ -31,6 +31,4 @@ namespace Actor {
         }
     }
 
-}
-
-
+}  // namespace Actor

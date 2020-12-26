@@ -13,7 +13,7 @@ enum MainMenuIndex {
 };
 
 class MainMenu : public Menu {
-public:
+   public:
     MainMenu() : Menu() {}
     static void render();
 };

@@ -5,7 +5,6 @@
 #include "fifo_queue.h"
 #include "rollcheck.h"
 
-
 #define ROLL_FRAMES 19
 
 namespace RollIndicator {
@@ -57,7 +56,7 @@ namespace RollIndicator {
                     previous_counter = current_counter;
                     counter_difference = 0;
                 }
-                
+
                 if (counter_difference > 15 && counter_difference < 19 && Controller::button_is_down(A) && !Controller::button_is_held(A)) {
                     tp_sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
