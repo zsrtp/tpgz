@@ -33,7 +33,7 @@ struct WarpInfo {
 } __attribute__((aligned(32)));
 
 class WarpingMenu : public Menu {
-   public:
+public:
     WarpingMenu() : Menu() {}
     static void render();
 };

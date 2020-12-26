@@ -1,15 +1,15 @@
-#include "font.h"
 #include "menus/temp_flags_menu.h"
-#include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
-#include "libtp_c/include/tp.h"
+#include "font.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/system.h"
-#include "utils/texture.h"
+#include "libtp_c/include/tp.h"
+#include "menus/settings_menu.h"
+#include "utils/cursor.h"
 #include "utils/draw.h"
+#include "utils/lines.h"
+#include "utils/texture.h"
 
 #define MAX_FLAGS 0x20
 #define WHITE_RGBA 0xFFFFFFFF
@@ -68,9 +68,13 @@ void render_area_flags(Cursor cursor) {
 
         for (uint8_t j = 0; j < 8; j++) {
             if (TempFlags[i].bit[j] == true) {
-                Draw::draw_rect(0xFFFFFFFF, {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOnTex._texObj);
+                Draw::draw_rect(0xFFFFFFFF,
+                                {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16},
+                                &gzFlagOnTex._texObj);
             } else {
-                Draw::draw_rect(0xFFFFFFFF, {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16}, &gzFlagOffTex._texObj);
+                Draw::draw_rect(0xFFFFFFFF,
+                                {temp_flag_offset + ((7 - j) * 20.0f), y_offset - 13.0f}, {16, 16},
+                                &gzFlagOffTex._texObj);
             }
         }
 
@@ -91,44 +95,48 @@ void render_area_flags(Cursor cursor) {
             }
             if (current_input == Controller::Pad::A && a_held == false) {
                 switch (bit_index) {
-                    case 7: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 7);
-                        break;
-                    }
-                    case 6: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 6);
-                        break;
-                    }
-                    case 5: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 5);
-                        break;
-                    }
-                    case 4: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 4);
-                        break;
-                    }
-                    case 3: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 3);
-                        break;
-                    }
-                    case 2: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 2);
-                        break;
-                    }
-                    case 1: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 1);
-                        break;
-                    }
-                    case 0: {
-                        tp_gameInfo.temp_flags.flags[i] ^= (1 << 0);
-                        break;
-                    }
+                case 7: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 7);
+                    break;
+                }
+                case 6: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 6);
+                    break;
+                }
+                case 5: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 5);
+                    break;
+                }
+                case 4: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 4);
+                    break;
+                }
+                case 3: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 3);
+                    break;
+                }
+                case 2: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 2);
+                    break;
+                }
+                case 1: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 1);
+                    break;
+                }
+                case 0: {
+                    tp_gameInfo.temp_flags.flags[i] ^= (1 << 0);
+                    break;
+                }
                 }
             }
-            Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Draw::draw_rect(0x0080FF77, {temp_flag_offset + ((7 - bit_index) * 20.0f), y_offset - 13.0f}, {16, 16});  // Flag cursor
+            Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset,
+                                 (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Draw::draw_rect(0x0080FF77,
+                            {temp_flag_offset + ((7 - bit_index) * 20.0f), y_offset - 13.0f},
+                            {16, 16});  // Flag cursor
         } else {
-            Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset, (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset,
+                                 (cursor.y == i ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         }
     }
 }
@@ -173,13 +181,15 @@ void TempFlagsMenu::render() {
         init_once = true;
     }
 
-    if (!TempFlags[cursor.y].line_selected && current_input == Controller::Pad::A && a_held == false) {
+    if (!TempFlags[cursor.y].line_selected && current_input == Controller::Pad::A &&
+        a_held == false) {
         TempFlags[cursor.y].line_selected = true;
         current_input = 0;
         lock_cursor_y = true;
     }
 
     Utilities::move_cursor(cursor, MAX_FLAGS, 1, lock_cursor_x, lock_cursor_y);
-    Font::gz_renderChars("DPad to move/change value, A/B to select/cancel line", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
+    Font::gz_renderChars("DPad to move/change value, A/B to select/cancel line", 25.0f, 440.f,
+                         0xFFFFFFFF, g_drop_shadows);
     render_area_flags(cursor);
 };

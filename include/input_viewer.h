@@ -5,5 +5,5 @@ extern bool iv_visible;
 
 namespace InputViewer {
 
-    void render();
+void render();
 }

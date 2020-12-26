@@ -1,11 +1,11 @@
 #pragma once
-#include "font.h"
-#include "timer.h"
-#include "input_viewer.h"
 #include "cheats.h"
 #include "commands.h"
-#include "libtp_c/include/utils.h"
+#include "font.h"
+#include "input_viewer.h"
 #include "libtp_c/include/controller.h"
+#include "libtp_c/include/utils.h"
+#include "timer.h"
 
 #define MAX_LIST_MEMBER_LENGTH 40
 #define MAX_LIST_ITEMS 20
@@ -57,13 +57,13 @@ struct Line {
 class Menu;
 
 namespace MenuRendering {
-    void render_active_menus();
-    void set_menu(MenuIndex idx);
-    void close_active_menus();
-    bool is_menu_open();
+void render_active_menus();
+void set_menu(MenuIndex idx);
+void close_active_menus();
+bool is_menu_open();
 }  // namespace MenuRendering
 
 class Menu {
-   public:
+public:
     Menu() {}
 };

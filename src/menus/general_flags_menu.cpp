@@ -1,8 +1,8 @@
+#include "controller.h"
+#include "font.h"
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/tp.h"
-#include "font.h"
 #include "menus/flags_menu.h"
-#include "controller.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
@@ -24,16 +24,21 @@ bool midna_on_back;
 bool wolf_sense;
 
 Line lines[LINES] = {
-    {"boss flag", BOSS_FLAG_INDEX, "Set the boss flag value. Press A to lock the value", true, &boss_flag},
-    {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle flag for rupee cutscenes being enabled", true, &rupee_flag},
+    {"boss flag", BOSS_FLAG_INDEX, "Set the boss flag value. Press A to lock the value", true,
+     &boss_flag},
+    {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle flag for rupee cutscenes being enabled", true,
+     &rupee_flag},
     {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true, &epona_stolen},
     {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true, &epona_tamed},
     {"map warping", MAP_WARPING_INDEX, "Toggle flag for having map warping", true, &map_warping},
     {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true, &midna_charge},
-    {"midna healthy", MIDNA_HEALTHY, "Toggle flag for Midna being healthy/sick", true, &midna_healthy},
-    {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true, &midna_on_back},
+    {"midna healthy", MIDNA_HEALTHY, "Toggle flag for Midna being healthy/sick", true,
+     &midna_healthy},
+    {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true,
+     &midna_on_back},
     {"midna on z", MIDNA_Z_INDEX, "Toggle flag for being able to use Midna", true, &midna_on_z},
-    {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true, &transform_warp},
+    {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true,
+     &transform_warp},
     {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for having wolf sense", true, &wolf_sense}};
 
 void GeneralFlagsMenu::render() {
@@ -63,59 +68,59 @@ void GeneralFlagsMenu::render() {
 
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
-            case BOSS_FLAG_INDEX: {
-                if (boss_flag) {
-                    tp_bossFlags = 0x00;
-                } else {
-                    tp_bossFlags = 0xFF;
-                }
-                break;
+        case BOSS_FLAG_INDEX: {
+            if (boss_flag) {
+                tp_bossFlags = 0x00;
+            } else {
+                tp_bossFlags = 0xFF;
             }
-            case RUPEE_CS_FLAG_INDEX: {
-                if (rupee_flag) {
-                    tp_gameInfo.inventory.rupee_cs_flags = 0x00;
-                } else {
-                    tp_gameInfo.inventory.rupee_cs_flags = 0xFF;
-                }
-                break;
+            break;
+        }
+        case RUPEE_CS_FLAG_INDEX: {
+            if (rupee_flag) {
+                tp_gameInfo.inventory.rupee_cs_flags = 0x00;
+            } else {
+                tp_gameInfo.inventory.rupee_cs_flags = 0xFF;
             }
-            case EPONA_STOLEN_INDEX: {
-                tp_gameInfo.event_flags.flags[0x05] ^= 0x80;
-                break;
-            }
-            case EPONA_TAMED_INDEX: {
-                tp_gameInfo.event_flags.flags[0x06] ^= 0x01;
-                break;
-            }
-            case MAP_WARPING_INDEX: {
-                tp_gameInfo.event_flags.flags[0x06] ^= 0x04;
-                break;
-            }
-            case MIDNA_HEALTHY: {
-                tp_gameInfo.event_flags.flags[0x1E] ^= 0x08;
-                break;
-            }
-            case MIDNA_ON_BACK: {
-                tp_gameInfo.midna_on_back_flag ^= 0x08;
-                break;
-            }
-            case MIDNA_Z_INDEX: {
-                tp_gameInfo.event_flags.flags[0x0C] ^= 0x10;
-                break;
-            }
-            case TRANSFORM_WARP_INDEX: {
-                tp_gameInfo.event_flags.flags[0x0D] ^= 0x04;
-                break;
-            }
-            case WOLF_SENSE_INDEX: {
-                tp_gameInfo.event_flags.flags[0x43] ^= 0x08;
-                break;
-            }
+            break;
+        }
+        case EPONA_STOLEN_INDEX: {
+            tp_gameInfo.event_flags.flags[0x05] ^= 0x80;
+            break;
+        }
+        case EPONA_TAMED_INDEX: {
+            tp_gameInfo.event_flags.flags[0x06] ^= 0x01;
+            break;
+        }
+        case MAP_WARPING_INDEX: {
+            tp_gameInfo.event_flags.flags[0x06] ^= 0x04;
+            break;
+        }
+        case MIDNA_HEALTHY: {
+            tp_gameInfo.event_flags.flags[0x1E] ^= 0x08;
+            break;
+        }
+        case MIDNA_ON_BACK: {
+            tp_gameInfo.midna_on_back_flag ^= 0x08;
+            break;
+        }
+        case MIDNA_Z_INDEX: {
+            tp_gameInfo.event_flags.flags[0x0C] ^= 0x10;
+            break;
+        }
+        case TRANSFORM_WARP_INDEX: {
+            tp_gameInfo.event_flags.flags[0x0D] ^= 0x04;
+            break;
+        }
+        case WOLF_SENSE_INDEX: {
+            tp_gameInfo.event_flags.flags[0x43] ^= 0x08;
+            break;
+        }
 
-            case MIDNA_CHARGE_INDEX: {
-                tp_gameInfo.event_flags.flags[0x05] ^= 0x01;
-                break;
-            }
+        case MIDNA_CHARGE_INDEX: {
+            tp_gameInfo.event_flags.flags[0x05] ^= 0x01;
+            break;
+        }
         }
     }
 

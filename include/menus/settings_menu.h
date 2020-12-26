@@ -30,7 +30,7 @@ enum cursor_colors {
 };
 
 class SettingsMenu : public Menu {
-   public:
+public:
     static void initFont();
     SettingsMenu() : Menu() {}
     static void render();

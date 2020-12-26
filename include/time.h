@@ -1,5 +1,5 @@
 #pragma once
 
 namespace Utilities {
-    void freeze_time();
+void freeze_time();
 }

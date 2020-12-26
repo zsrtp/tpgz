@@ -10,7 +10,7 @@ struct QueueMessage {
 
 struct _FIFOQueue {
     // max of 5 messages on the queue at a time
-   public:
+public:
     QueueMessage messages[MAX_MESSAGES];
 };
 
@@ -18,8 +18,8 @@ extern _FIFOQueue Queue;
 extern bool fifo_visible;
 
 class FIFOQueue {
-   private:
-   public:
+private:
+public:
     FIFOQueue();
     static void renderItems(_FIFOQueue& Queue);
     static void push(const char* msg, _FIFOQueue& Queue);

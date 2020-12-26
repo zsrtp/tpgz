@@ -1,8 +1,8 @@
 #pragma once
 
+#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/utils.h"
-#include "gcn_c/include/gfx.h"
 #include "utils/texture.h"
 
 #define MAX_GLYPHS 94
@@ -41,7 +41,7 @@ struct _Font {
 };
 
 class PositionedGlyph {
-   public:
+public:
     Vec2 vertices[4];
     Vec2 tex_coords[4];
     float next_x;
@@ -49,7 +49,7 @@ class PositionedGlyph {
 };
 
 class DecodedGlyph {
-   public:
+public:
     _Glyph* glyph;
     float width;
     float offset;
@@ -59,17 +59,21 @@ class DecodedGlyph {
 };
 
 class Font {
-   private:
+private:
     static _Font font;
 
-   public:
+public:
     static FontCode load_font(const char* path);
     static void free_font();
     static bool lookupGlyph(char c, DecodedGlyph& glyph);
-    static float renderChar(char c, float x, float y, uint32_t color, float size = FONT_DEFAULT_SIZE);
-    static void renderChars(const char* str, float x, float y, uint32_t color, float size = FONT_DEFAULT_SIZE);
-    static void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows, float size = FONT_DEFAULT_SIZE);
-    static void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows, float size = FONT_DEFAULT_SIZE);
+    static float renderChar(char c, float x, float y, uint32_t color,
+                            float size = FONT_DEFAULT_SIZE);
+    static void renderChars(const char* str, float x, float y, uint32_t color,
+                            float size = FONT_DEFAULT_SIZE);
+    static void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows,
+                              float size = FONT_DEFAULT_SIZE);
+    static void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows,
+                               float size = FONT_DEFAULT_SIZE);
     static float get_char_width(char c, float size = FONT_DEFAULT_SIZE);
     static float get_chars_width(const char* str, float size = FONT_DEFAULT_SIZE);
 };

@@ -1,17 +1,17 @@
-#include "utils/link.h"
-#include "utils/lines.h"
-#include "utils/audio.h"
-#include "utils/loading.h"
 #include "gz_flags.h"
+#include "actor.h"
+#include "fifo_queue.h"
 #include "gorge.h"
-#include "rollcheck.h"
-#include "menus/tools_menu.h"
 #include "menus/scene_menu.h"
 #include "menus/settings_menu.h"
-#include "actor.h"
+#include "menus/tools_menu.h"
+#include "rollcheck.h"
 #include "system.h"
-#include "fifo_queue.h"
 #include "time.h"
+#include "utils/audio.h"
+#include "utils/lines.h"
+#include "utils/link.h"
+#include "utils/loading.h"
 
 bool inject_save_flag = false;
 
@@ -26,17 +26,18 @@ GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
     {&SceneItems[Scene::FREEZE_TIME_INDEX].active, Utilities::freeze_time},
     {&g_tunic_color_flag, Utilities::change_tunic_color, Utilities::change_tunic_color},
     {&g_cursor_color_flag, Utilities::change_cursor_color, Utilities::change_cursor_color},
-    {&SceneItems[Scene::DISABLE_BG_INDEX].active, Utilities::disable_bg_music, Utilities::enable_bg_music},
+    {&SceneItems[Scene::DISABLE_BG_INDEX].active, Utilities::disable_bg_music,
+     Utilities::enable_bg_music},
     {&SceneItems[Scene::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx}};
 
 namespace GZFlags {
-    void apply_active_flags() {
-        for (int i = 0; i < MAX_GZ_FLAGS; i++) {
-            if (*GZ_Flags[i].activation_flag) {
-                GZ_Flags[i].flag_active_function();
-            } else if (GZ_Flags[i].flag_deactive_function) {
-                GZ_Flags[i].flag_deactive_function();
-            }
+void apply_active_flags() {
+    for (int i = 0; i < MAX_GZ_FLAGS; i++) {
+        if (*GZ_Flags[i].activation_flag) {
+            GZ_Flags[i].flag_active_function();
+        } else if (GZ_Flags[i].flag_deactive_function) {
+            GZ_Flags[i].flag_deactive_function();
         }
     }
+}
 }  // namespace GZFlags

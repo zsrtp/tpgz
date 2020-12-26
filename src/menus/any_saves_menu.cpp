@@ -1,16 +1,16 @@
-#include "libtp_c/include/tp.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/controller.h"
 #include "menus/any_saves_menu.h"
-#include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
+#include "gorge.h"
+#include "libtp_c/include/controller.h"
+#include "libtp_c/include/system.h"
+#include "libtp_c/include/tp.h"
+#include "menus/practice_menu.h"
+#include "rollcheck.h"
+#include "save_injector.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
-#include "gorge.h"
-#include "rollcheck.h"
-#include "save_injector.h"
 
 #include "fs.h"
 #define LINES 48
@@ -59,7 +59,8 @@ Line lines[LINES] = {
     {"fan tower", FAN_TOWER_INDEX, "Final fan room in CitS before the boss"},
     {"argorok", ARGOROK_INDEX, "The City in the Sky boss"},
     {"palace of twilight 1", PALACE_1_INDEX, "The first Palace of Twilight segment"},
-    {"palace of twilight 2", PALACE_2_INDEX, "The second Palace of Twilight segment (after both Sols)"},
+    {"palace of twilight 2", PALACE_2_INDEX,
+     "The second Palace of Twilight segment (after both Sols)"},
     {"early platform", EARLY_PLATFORM_INDEX, "Early platform in Palace of Twilight"},
     {"zant", ZANT_INDEX, "The Palace of Twilight boss"},
     {"hyrule castle", HC_INDEX, "The Hyrule Castle segment"},
@@ -145,7 +146,8 @@ void AnySavesMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         Utilities::load_save(cursor.y, (char*)"any");
         init_once = false;
-        if (cursor.y == DARK_HAMMER_INDEX || (cursor.y >= FRST_ESCAPE_INDEX && cursor.y <= LAKEBED_1_INDEX)) {
+        if (cursor.y == DARK_HAMMER_INDEX ||
+            (cursor.y >= FRST_ESCAPE_INDEX && cursor.y <= LAKEBED_1_INDEX)) {
             TP::set_boss_flags();
         } else {
             tp_bossFlags = 0;

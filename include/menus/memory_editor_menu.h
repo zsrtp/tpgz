@@ -6,7 +6,7 @@ struct MemoryLine {
 };
 
 class MemoryEditorMenu : public Menu {
-   public:
+public:
     MemoryEditorMenu() : Menu() {}
     static void render();
 };

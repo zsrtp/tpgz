@@ -9,5 +9,5 @@ struct GZFlag {
 };
 
 namespace GZFlags {
-    void apply_active_flags();
+void apply_active_flags();
 }

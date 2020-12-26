@@ -12,7 +12,7 @@ enum AmountsIndex {
 };
 
 class AmountsMenu : public Menu {
-   public:
+public:
     AmountsMenu() : Menu() {}
     static void render();
 };

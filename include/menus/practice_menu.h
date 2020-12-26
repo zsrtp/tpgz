@@ -24,7 +24,7 @@ struct PracticeSaveInfo {
 } __attribute__((packed));
 
 class PracticeMenu : public Menu {
-   public:
+public:
     PracticeMenu() : Menu() {}
     static void render();
 };

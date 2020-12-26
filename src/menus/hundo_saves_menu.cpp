@@ -1,16 +1,16 @@
-#include "libtp_c/include/tp.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/controller.h"
 #include "menus/hundo_saves_menu.h"
-#include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
+#include "gorge.h"
+#include "libtp_c/include/controller.h"
+#include "libtp_c/include/system.h"
+#include "libtp_c/include/tp.h"
+#include "menus/practice_menu.h"
+#include "rollcheck.h"
+#include "save_injector.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
-#include "gorge.h"
-#include "rollcheck.h"
-#include "save_injector.h"
 
 #include "fs.h"
 #define LINES 82
@@ -211,7 +211,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     SaveInjector::inject_default_during();
-    //tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
+    // tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
@@ -293,7 +293,8 @@ void HundoSavesMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         Utilities::load_save(cursor.y, (char*)"hundo");
         init_once = false;
-        if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX || cursor.y == HND_LAKEBED_1_INDEX) {
+        if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX ||
+            cursor.y == HND_LAKEBED_1_INDEX) {
             TP::set_boss_flags();
         } else {
             tp_bossFlags = 0;

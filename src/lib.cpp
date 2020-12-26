@@ -1,25 +1,25 @@
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/tp.h"
-#include "libtp_c/include/system.h"
-#include "utils/hook.h"
-#include "utils/link.h"
-#include "utils/memory.h"
-#include "utils/card.h"
-#include "utils/texture.h"
+#include "controller.h"
 #include "fifo_queue.h"
 #include "font.h"
-#include "controller.h"
+#include "free_cam.h"
+#include "gz_flags.h"
+#include "input_viewer.h"
+#include "libtp_c/include/controller.h"
+#include "libtp_c/include/system.h"
+#include "libtp_c/include/tp.h"
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
-#include "gz_flags.h"
-#include "input_viewer.h"
-#include "utils/draw.h"
-#include "timer.h"
-#include "free_cam.h"
 #include "movelink.h"
+#include "timer.h"
+#include "utils/card.h"
+#include "utils/draw.h"
+#include "utils/hook.h"
+#include "utils/link.h"
+#include "utils/memory.h"
+#include "utils/texture.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
@@ -61,7 +61,8 @@ void game_loop() {
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
-    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1 && !move_link_active) {
+    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1 &&
+        !move_link_active) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
@@ -81,9 +82,10 @@ void game_loop() {
 
 void draw() {
     setupRendering();
-    //Consolas.setupRendering();
+    // Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
-        Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba, g_drop_shadows);
+        Font::gz_renderChars("tpgz v0.1a", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
+                             g_drop_shadows);
 
         if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
@@ -93,7 +95,8 @@ void draw() {
         }
 
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
-            Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30}, &gzIconTex._texObj);
+            Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
+                            &gzIconTex._texObj);
         }
     }
     if (fifo_visible) {
@@ -105,7 +108,8 @@ void draw() {
     if (ToolItems[Tools::INPUT_VIEWER_INDEX].active) {
         InputViewer::render();
     }
-    if (ToolItems[Tools::TIMER_INDEX].active || ToolItems[Tools::LOAD_TIMER_INDEX].active || ToolItems[Tools::IGT_TIMER_INDEX].active) {
+    if (ToolItems[Tools::TIMER_INDEX].active || ToolItems[Tools::LOAD_TIMER_INDEX].active ||
+        ToolItems[Tools::IGT_TIMER_INDEX].active) {
         Timer::render();
     }
     if (move_link_active) {

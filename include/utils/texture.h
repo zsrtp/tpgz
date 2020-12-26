@@ -31,7 +31,7 @@ extern "C" {
 
 /**
  * @brief Loads a texture from a file on the DVD.
- * 
+ *
  * @param[in] path Path to the texture file on the DVD.
  * @param[out] tex Texture object containing the fetched texture.
  * @returns A TexCode code signaling the success/failure of the loading.
@@ -39,7 +39,7 @@ extern "C" {
 TexCode load_texture(const char* path, Texture* tex);
 /**
  * @brief Loads a texture at an offset from a file on the DVD.
- * 
+ *
  * @param[in] path Path to the texture file on the DVD.
  * @param[out] tex Texture object containing the fetched texture.
  * @param[in] offset Offset in the file to start loading the texture from.
