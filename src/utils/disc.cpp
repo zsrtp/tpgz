@@ -1,6 +1,6 @@
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/math.h"
 #include "utils/disc.h"
+#include "libtp_c/include/math.h"
+#include "libtp_c/include/system.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,7 +17,8 @@ int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offse
             break;
         }
         int32_t rem_size = buf_size - (offset & (buf_size - 1));
-        tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (buf_size - 1)), MIN(rem_size, size));
+        tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (buf_size - 1)),
+                  MIN(rem_size, size));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;

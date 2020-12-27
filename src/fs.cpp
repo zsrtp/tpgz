@@ -1,8 +1,8 @@
 #include "fs.h"
-#include "save_injector.h"
 #include "font.h"
-#include "libtp_c/include/system.h"
 #include "gcn_c/include/dvd.h"
+#include "libtp_c/include/system.h"
+#include "save_injector.h"
 
 void loadFile(const char* filePath, void* buffer, signed long length, signed long offset) {
     DVDFileInfo fileInfo;
@@ -14,6 +14,6 @@ void loadFile(const char* filePath, void* buffer, signed long length, signed lon
             tp_osReport("no bytes read!");
         }
     } else {
-        tp_osReport("failed to open file %s",filePath);
+        tp_osReport("failed to open file %s", filePath);
     }
 }

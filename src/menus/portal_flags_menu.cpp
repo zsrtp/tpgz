@@ -1,10 +1,10 @@
-#include "font.h"
-#include "menus/flags_menu.h"
 #include "controller.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
+#include "font.h"
 #include "libtp_c/include/flag.h"
 #include "libtp_c/include/tp.h"
+#include "menus/flags_menu.h"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
 #define LINES 15
 
@@ -65,7 +65,7 @@ void PortalFlagsMenu::render() {
 
     if (button_is_pressed(Controller::B)) {
         init_once = false;
-		MenuRendering::set_menu(MN_FLAGS_INDEX);
+        MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -76,66 +76,66 @@ void PortalFlagsMenu::render() {
 
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
-            case SPRING_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.ordon_flags.flags[13] ^= 1 << 4;
-                break;
-            }
-            case S_FARON_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.faron_flags.flags[19] ^= 1 << 7;
-                break;
-            }
-            case N_FARON_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.faron_flags.flags[11] ^= 1 << 2;
-                break;
-            }
-            case GROVE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.grove_flags.flags[23] ^= 1 << 4;
-                break;
-            }
-            case GORGE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case KAKARIKO_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.eldin_flags.flags[8] ^= 1 << 7;
-                break;
-            }
-            case MOUNTAIN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.eldin_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case BRIDGE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[23] ^= 1 << 3;
-                break;
-            }
-            case TOWN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[11] ^= 1 << 3;
-                break;
-            }
-            case LAKE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[10] ^= 1 << 2;
-                break;
-            }
-            case DOMAIN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[11] ^= 1 << 2;
-                break;
-            }
-            case UZR_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case SNOWPEAK_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.snowpeak_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case MESA_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.desert_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case MIRROR_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.desert_flags.flags[14] ^= 1 << 0;
-                break;
-            }
+        case SPRING_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.ordon_flags.flags[13] ^= 1 << 4;
+            break;
+        }
+        case S_FARON_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.faron_flags.flags[19] ^= 1 << 7;
+            break;
+        }
+        case N_FARON_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.faron_flags.flags[11] ^= 1 << 2;
+            break;
+        }
+        case GROVE_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.grove_flags.flags[23] ^= 1 << 4;
+            break;
+        }
+        case GORGE_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] ^= 1 << 5;
+            break;
+        }
+        case KAKARIKO_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.eldin_flags.flags[8] ^= 1 << 7;
+            break;
+        }
+        case MOUNTAIN_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.eldin_flags.flags[9] ^= 1 << 5;
+            break;
+        }
+        case BRIDGE_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.hyrule_field_flags.flags[23] ^= 1 << 3;
+            break;
+        }
+        case TOWN_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.hyrule_field_flags.flags[11] ^= 1 << 3;
+            break;
+        }
+        case LAKE_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.lanayru_flags.flags[10] ^= 1 << 2;
+            break;
+        }
+        case DOMAIN_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.lanayru_flags.flags[11] ^= 1 << 2;
+            break;
+        }
+        case UZR_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.lanayru_flags.flags[9] ^= 1 << 5;
+            break;
+        }
+        case SNOWPEAK_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.snowpeak_flags.flags[9] ^= 1 << 5;
+            break;
+        }
+        case MESA_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.desert_flags.flags[9] ^= 1 << 5;
+            break;
+        }
+        case MIRROR_WARP_INDEX: {
+            tp_gameInfo.overworld_flags.desert_flags.flags[14] ^= 1 << 0;
+            break;
+        }
         }
     }
 

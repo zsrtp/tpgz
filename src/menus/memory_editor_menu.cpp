@@ -1,13 +1,12 @@
-#include "font.h"
 #include "menus/memory_editor_menu.h"
-#include "menus/settings_menu.h"
 #include "controller.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
-#include "libtp_c/include/tp.h"
+#include "font.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
-
+#include "libtp_c/include/tp.h"
+#include "menus/settings_menu.h"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
 #define MAX_DISPLAY_LINES 15
 #define WHITE_RGBA 0xFFFFFFFF
@@ -26,10 +25,12 @@ uint32_t address_index = 0x80000000;
 MemoryLine memory_lines[MAX_DISPLAY_LINES] = {};
 
 // returns the width of the rendered string
-float render_selected_number_selector(const char* str, float x, float y, size_t selected_char_index, size_t max_char, uint32_t color) {
+float render_selected_number_selector(const char* str, float x, float y, size_t selected_char_index,
+                                      size_t max_char, uint32_t color) {
     float pos = 0.0f;
     for (size_t i = 0; i <= max_char; ++i) {
-        Font::gz_renderChar(str[i], x + pos, y, selected_char_index == i ? CURSOR_RGBA : color, g_drop_shadows);
+        Font::gz_renderChar(str[i], x + pos, y, selected_char_index == i ? CURSOR_RGBA : color,
+                            g_drop_shadows);
         pos += Font::get_char_width(str[i]);
     }
     return pos;
@@ -56,38 +57,38 @@ void render_memory(Cursor cursor) {
         }
         if (button_is_pressed(Controller::DPAD_UP)) {
             switch (index_place) {
-                case 0: {
-                    address_index = 0x81FFFFFF;
-                    break;
-                }
-                case 1: {
-                    address_index += 0x1000000;
-                    break;
-                }
-                case 2: {
-                    address_index += 0x100000;
-                    break;
-                }
-                case 3: {
-                    address_index += 0x10000;
-                    break;
-                }
-                case 4: {
-                    address_index += 0x1000;
-                    break;
-                }
-                case 5: {
-                    address_index += 0x100;
-                    break;
-                }
-                case 6: {
-                    address_index += 0x10;
-                    break;
-                }
-                case 7: {
-                    address_index += 0x1;
-                    break;
-                }
+            case 0: {
+                address_index = 0x81FFFFFF;
+                break;
+            }
+            case 1: {
+                address_index += 0x1000000;
+                break;
+            }
+            case 2: {
+                address_index += 0x100000;
+                break;
+            }
+            case 3: {
+                address_index += 0x10000;
+                break;
+            }
+            case 4: {
+                address_index += 0x1000;
+                break;
+            }
+            case 5: {
+                address_index += 0x100;
+                break;
+            }
+            case 6: {
+                address_index += 0x10;
+                break;
+            }
+            case 7: {
+                address_index += 0x1;
+                break;
+            }
             }
             if (address_index > 0x81FFFFFF) {
                 address_index = 0x81FFFFFF;
@@ -95,38 +96,38 @@ void render_memory(Cursor cursor) {
         }
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             switch (index_place) {
-                case 0: {
-                    address_index -= 0x10000000;
-                    break;
-                }
-                case 1: {
-                    address_index -= 0x1000000;
-                    break;
-                }
-                case 2: {
-                    address_index -= 0x100000;
-                    break;
-                }
-                case 3: {
-                    address_index -= 0x10000;
-                    break;
-                }
-                case 4: {
-                    address_index -= 0x1000;
-                    break;
-                }
-                case 5: {
-                    address_index -= 0x100;
-                    break;
-                }
-                case 6: {
-                    address_index -= 0x10;
-                    break;
-                }
-                case 7: {
-                    address_index -= 0x1;
-                    break;
-                }
+            case 0: {
+                address_index -= 0x10000000;
+                break;
+            }
+            case 1: {
+                address_index -= 0x1000000;
+                break;
+            }
+            case 2: {
+                address_index -= 0x100000;
+                break;
+            }
+            case 3: {
+                address_index -= 0x10000;
+                break;
+            }
+            case 4: {
+                address_index -= 0x1000;
+                break;
+            }
+            case 5: {
+                address_index -= 0x100;
+                break;
+            }
+            case 6: {
+                address_index -= 0x10;
+                break;
+            }
+            case 7: {
+                address_index -= 0x1;
+                break;
+            }
             }
             if (address_index < 0x80000000) {
                 address_index = 0x80000000;
@@ -134,7 +135,8 @@ void render_memory(Cursor cursor) {
         }
         render_selected_number_selector(index, LINE_X_OFFSET, 80.0f, index_place, 7, WHITE_RGBA);
     } else {
-        Font::gz_renderChars(index, LINE_X_OFFSET, 80.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+        Font::gz_renderChars(index, LINE_X_OFFSET, 80.0f,
+                             (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
     }
 
     for (uint8_t i = 0; i < MAX_DISPLAY_LINES; i++) {
@@ -179,25 +181,44 @@ void render_memory(Cursor cursor) {
                 }
             }
 
-            Font::gz_renderChars(address, LINE_X_OFFSET, y_offset, (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b0, address_offset, y_offset, (cursor.x == 0 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b1, address_offset + two_numbers_offset * 1, y_offset, (cursor.x == 1 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b2, address_offset + two_numbers_offset * 2, y_offset, (cursor.x == 2 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b3, address_offset + two_numbers_offset * 3, y_offset, (cursor.x == 3 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b4, address_offset + two_numbers_offset * 4, y_offset, (cursor.x == 4 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b5, address_offset + two_numbers_offset * 5, y_offset, (cursor.x == 5 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b6, address_offset + two_numbers_offset * 6, y_offset, (cursor.x == 6 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b7, address_offset + two_numbers_offset * 7, y_offset, (cursor.x == 7 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(address, LINE_X_OFFSET, y_offset,
+                                 (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA),
+                                 g_drop_shadows);
+            Font::gz_renderChars(b0, address_offset, y_offset,
+                                 (cursor.x == 0 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b1, address_offset + two_numbers_offset * 1, y_offset,
+                                 (cursor.x == 1 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b2, address_offset + two_numbers_offset * 2, y_offset,
+                                 (cursor.x == 2 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b3, address_offset + two_numbers_offset * 3, y_offset,
+                                 (cursor.x == 3 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b4, address_offset + two_numbers_offset * 4, y_offset,
+                                 (cursor.x == 4 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b5, address_offset + two_numbers_offset * 5, y_offset,
+                                 (cursor.x == 5 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b6, address_offset + two_numbers_offset * 6, y_offset,
+                                 (cursor.x == 6 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+            Font::gz_renderChars(b7, address_offset + two_numbers_offset * 7, y_offset,
+                                 (cursor.x == 7 ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
         } else {
-            Font::gz_renderChars(address, LINE_X_OFFSET, y_offset, (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), g_drop_shadows);
+            Font::gz_renderChars(address, LINE_X_OFFSET, y_offset,
+                                 (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA),
+                                 g_drop_shadows);
             Font::gz_renderChars(b0, address_offset, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b1, address_offset + two_numbers_offset * 1, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b2, address_offset + two_numbers_offset * 2, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b3, address_offset + two_numbers_offset * 3, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b4, address_offset + two_numbers_offset * 4, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b5, address_offset + two_numbers_offset * 5, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b6, address_offset + two_numbers_offset * 6, y_offset, WHITE_RGBA, g_drop_shadows);
-            Font::gz_renderChars(b7, address_offset + two_numbers_offset * 7, y_offset, WHITE_RGBA, g_drop_shadows);
+            Font::gz_renderChars(b1, address_offset + two_numbers_offset * 1, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b2, address_offset + two_numbers_offset * 2, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b3, address_offset + two_numbers_offset * 3, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b4, address_offset + two_numbers_offset * 4, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b5, address_offset + two_numbers_offset * 5, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b6, address_offset + two_numbers_offset * 6, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
+            Font::gz_renderChars(b7, address_offset + two_numbers_offset * 7, y_offset, WHITE_RGBA,
+                                 g_drop_shadows);
         }
     }
 }
@@ -241,7 +262,7 @@ void MemoryEditorMenu::render() {
             lock_cursor_y = false;
         } else {
             init_once = false;
-		    MenuRendering::set_menu(MN_MEMORY_INDEX);
+            MenuRendering::set_menu(MN_MEMORY_INDEX);
             return;
         }
     }
@@ -253,10 +274,10 @@ void MemoryEditorMenu::render() {
 
     if (current_input == Controller::Pad::A && a_held == false) {
         switch (cursor.y) {
-            case 0: {
-                lock_cursor_y = true;
-                index_selected = true;
-            }
+        case 0: {
+            lock_cursor_y = true;
+            index_selected = true;
+        }
         }
 
         if (cursor.y > 0) {
@@ -271,6 +292,7 @@ void MemoryEditorMenu::render() {
     }
 
     Utilities::move_cursor(cursor, 1 + MAX_DISPLAY_LINES, 8, lock_cursor_x, lock_cursor_y);
-    Font::gz_renderChars("DPad to move/change value, A/B to select/cancel line/value", 25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
+    Font::gz_renderChars("DPad to move/change value, A/B to select/cancel line/value", 25.0f, 440.f,
+                         0xFFFFFFFF, g_drop_shadows);
     render_memory(cursor);
 };

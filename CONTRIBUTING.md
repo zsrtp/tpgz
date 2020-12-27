@@ -68,9 +68,13 @@ See [BUILDING.md](./BUILDING.md).
 
 ### Linting
 
-There is currently no linter for the project, and style is not strictly enforced.
-To be safe, you should format according to the .clang-format located at the root of the project.
-Code that does not meet the current quality standard will be rejected.
+Please format your files using the .clang-format file. Submodules should **not** be included when formatting, as these will have their own clang-format files.
+
+Example clang-format usage (Ubuntu):
+
+```bash
+find . -type d \( -path ./external/gcn_c -o -path ./external/libtp_c -o \) -prune -false -o -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)' -exec clang-format -style=file -i {} \;
+```
 
 ### Sending a Pull Request
 

@@ -1,10 +1,10 @@
 #include "menu.h"
-#include "menus/settings_menu.h"
-#include "menus/position_settings_menu.h"
 #include "menus/cheats_menu.h"
-#include "menus/tools_menu.h"
-#include "menus/scene_menu.h"
 #include "menus/memory_menu.h"
+#include "menus/position_settings_menu.h"
+#include "menus/scene_menu.h"
+#include "menus/settings_menu.h"
+#include "menus/tools_menu.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
 #define GZ_SAVE_ENTRIES_AMNT 10

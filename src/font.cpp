@@ -1,7 +1,7 @@
-#include "libtp_c/include/system.h"
 #include "font.h"
-#include "utils/draw.h"
+#include "libtp_c/include/system.h"
 #include "utils/disc.h"
+#include "utils/draw.h"
 
 _Font Font::font;
 
@@ -12,7 +12,7 @@ FontCode Font::load_font(const char* path) {
         free_font();
     }
 
-    if(!DVDOpen(path, &fileInfo)) {
+    if (!DVDOpen(path, &fileInfo)) {
         font.loadCode = FontCode::FNT_ERR_FILE;
         return font.loadCode;
     }
@@ -76,10 +76,9 @@ PositionedGlyph DecodedGlyph::position(float _x, float _y, float factor) {
     float trx = glyph->maxX;
     float tlx = glyph->minX;
 
-    return {
-        {{vlx, vty}, {vrx, vty}, {vrx, vby}, {vlx, vby}},
-        {{tlx, tty}, {trx, tty}, {trx, tby}, {tlx, tby}},
-        (_x + width * factor)};
+    return {{{vlx, vty}, {vrx, vty}, {vrx, vby}, {vlx, vby}},
+            {{tlx, tty}, {trx, tty}, {trx, tby}, {tlx, tby}},
+            (_x + width * factor)};
 }
 
 bool Font::lookupGlyph(char c, DecodedGlyph& glyph) {
@@ -119,7 +118,8 @@ void Font::gz_renderChar(char c, float x, float y, uint32_t color, bool drop_sha
     renderChar(c, x, y, color, size);
 }
 
-void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows, float size) {
+void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows,
+                          float size) {
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
