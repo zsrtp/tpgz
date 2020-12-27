@@ -76,7 +76,8 @@ void game_loop() {
 
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && tp_fopScnRq.isLoading != 1) {
-        tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags, sizeof(tp_gameInfo.temp_flags.flags));
+        tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags,
+                  sizeof(tp_gameInfo.temp_flags.flags));
         g_area_reload.tears = tp_gameInfo.inventory.tears;
         last_frame_was_loading = false;
     }
