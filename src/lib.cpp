@@ -18,12 +18,14 @@
 #include "utils/draw.h"
 #include "utils/hook.h"
 #include "utils/link.h"
+#include "utils/loading.h"
 #include "utils/memory.h"
 #include "utils/texture.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
 Texture gzIconTex;
+bool last_frame_was_loading = false;
 
 extern "C" {
 
@@ -69,6 +71,16 @@ void game_loop() {
     if (tp_fopScnRq.isLoading == 1) {
         MenuRendering::close_active_menus();
         move_link_active = false;
+        last_frame_was_loading = true;
+    }
+
+    // save temp flags after every loading zone
+    if (last_frame_was_loading && tp_fopScnRq.isLoading != 1) {
+        tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags, sizeof(tp_gameInfo.temp_flags.flags));
+        g_area_reload.tears = tp_gameInfo.inventory.tears;
+        last_frame_was_loading = false;
+        tp_osReport("%08X", &tp_gameInfo.inventory.tears);
+        tp_osReport("%08X", &tp_gameInfo.inventory.letters);
     }
 
     GZFlags::apply_active_flags();
