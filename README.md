@@ -1,8 +1,9 @@
-# <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
+# <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.png" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
 
 Twilight Princess ROM hack to practice speedrunning.
 
-- [Creating an ISO](./docs/CreatingAnIso.md) - Create your own practice ISO.
+[tpgz.io](https://tpgz.io) - Patch your ISO using our web patcher  
+(For patching offline, follow this [guide](./docs/CreatingAnIso.md))
 
 ⚠️ tpgz is still in early development.<br>
 If you have questions or need help, ask in the [#tools-dev](https://discord.gg/m2vmcyT) channel of the [TP Speedrunning Discord](https://discord.gg/tp).
@@ -23,7 +24,7 @@ cheats menu:
 - invincible                    // Makes Link invincible (no hurtbox, but can still take fall damage and drown)
 - invincible enemies            // Makes some enemies invincible (infinite health)
 - moon jump                     // Hold R+A to moon jump
-- door storage                  // Toggle door storage collision
+- door storage                  // Can walk through most objects/walls
 - super clawshot                // Clawshot is long, fast, and can grab most things
 - unrestricted items            // Link can use any item anywhere
 - transform anywhere            // Link can transform into/from wolf anywhere
@@ -97,16 +98,21 @@ tools menu:
 - no sinking in sand            // Link won't sink in sand
 - roll checker                  // Frame counter for chaining rolls
 - teleport                      // dpadUp to set, dpadDown to load
-- turbo mode                    // Simulates turbo controller inputs
-- timer                         // Frame timer: Z+A to start/stop, Z+B to reset
+- turbo mode                    // Hold an input to continously trigger
+- timer                         // Timer: Z+A to start/stop, Z+B to reset
 - load timer                    // Loading timer: Z+B to reset
-- igt timer                     // In Game Time frame timer: Z+A to start/stop, Z+B to reset
-- free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed
-- move link*                    // L+R+Y to activate. Moves Link in 3D
+- igt timer                     // In-game Time frame timer: Z+A to start/stop, Z+B to reset
+- free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed-up
+- move link*                    // L+R+Y to activate, Stick to move, C-stick to move/change angle, Z to speed-up
 - link tunic color:             // Changes Link's tunic color (green, blue, red, orange, yellow, white, or cycle)
 
 warping menu:
-- warp to dungeons, towns, grottos, etc.
+- type                          // Change stage sort type
+- stage                         // Select stage to load
+- room                          // Select room of stage to load
+- spawn                         // Select Link spawnpoint ID
+- layer                         // Select stage layer (leave as default unless necessary)
+- warp                          // Load selected stage info
 ```
 
 ### Known Issues
@@ -114,7 +120,7 @@ warping menu:
 ```
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
-- to be able to move link vertically, he must enter a falling state
+- using move link tool, link is stuck to the ground unless entering a falling state
 ```
 
 ### Planned Features
@@ -123,7 +129,7 @@ warping menu:
 - actor spawner
 - frame advance
 - collision viewer
-- lag counter & loading counter
+- lag counter
 ```
 
 ## Contributing
