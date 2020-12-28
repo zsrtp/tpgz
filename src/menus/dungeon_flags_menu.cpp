@@ -23,6 +23,7 @@ bool miniboss_flag;
 bool boss_flag;
 
 int select_dungeon_index = 0;
+uint8_t area_id;
 Flags::GlobalFlags* dungeon_node;
 
 Line lines[LINES] = {
@@ -37,6 +38,14 @@ Line lines[LINES] = {
      &miniboss_flag},
     {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true, &boss_flag},
     {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"}};
+
+void copyGlobalFlags(uint8_t id){
+    if(tp_gameInfo.area_id == id){
+        for(uint8_t j = 0; j < 0x20; j++){
+            tp_gameInfo.temp_flags.flags[j] = dungeon_node->flags[j];
+        }
+    }
+}
 
 void DungeonFlagsMenu::render() {
     if (button_is_pressed(Controller::B)) {
@@ -68,38 +77,47 @@ void DungeonFlagsMenu::render() {
     switch (select_dungeon_index) {
     case 0: {
         dungeon_node = &tp_gameInfo.dungeon_flags.forest_temple_flags;
+        area_id = 0x10;
         break;
     }
     case 1: {
         dungeon_node = &tp_gameInfo.dungeon_flags.goron_mines_flags;
+        area_id = 0x11;
         break;
     }
     case 2: {
         dungeon_node = &tp_gameInfo.dungeon_flags.lakebed_flags;
+        area_id = 0x12;
         break;
     }
     case 3: {
         dungeon_node = &tp_gameInfo.dungeon_flags.arbiters_flags;
+        area_id = 0x13;
         break;
     }
     case 4: {
         dungeon_node = &tp_gameInfo.dungeon_flags.snowpeak_ruins_flags;
+        area_id = 0x14;
         break;
     }
     case 5: {
         dungeon_node = &tp_gameInfo.dungeon_flags.temple_of_time_flags;
+        area_id = 0x15;
         break;
     }
     case 6: {
         dungeon_node = &tp_gameInfo.dungeon_flags.cits_flags;
+        area_id = 0x16;
         break;
     }
     case 7: {
         dungeon_node = &tp_gameInfo.dungeon_flags.palace_flags;
+        area_id = 0x17;
         break;
     }
     case 8: {
         dungeon_node = &tp_gameInfo.dungeon_flags.hyrule_castle_flags;
+        area_id = 0x18;
         break;
     }
     }
@@ -116,14 +134,17 @@ void DungeonFlagsMenu::render() {
         switch (cursor.y) {
         case MAP_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 0;
+            copyGlobalFlags(area_id);
             break;
         }
         case COMPASS_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 1;
+            copyGlobalFlags(area_id);
             break;
         }
         case BOSS_KEY_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 2;
+            copyGlobalFlags(area_id);
             break;
         }
         case SMALL_KEY_FLAG_INDEX: {
@@ -132,20 +153,24 @@ void DungeonFlagsMenu::render() {
             } else {
                 dungeon_node->flags[28] = 0x05;
             }
+            copyGlobalFlags(area_id);
             break;
         }
         case DEFEAT_MINIBOSS_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 7;
+            copyGlobalFlags(area_id);
             break;
         }
         case DEFEAT_BOSS_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 3;
+            copyGlobalFlags(area_id);
             break;
         }
         case CLEAR_DUNGEON_FLAGS_INDEX: {
             for (int i = 0; i < 0x20; i++) {
                 dungeon_node->flags[i] = 0;
             }
+            copyGlobalFlags(area_id);
             break;
         }
         }
