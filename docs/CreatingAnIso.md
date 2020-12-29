@@ -20,9 +20,9 @@ The instructions are intentionally detailed to prevent confusion.
 If you are having trouble, please check [Troubleshooting](#troubleshooting).
 
 **You will need a Twilight Princess ISO.**
-_(Only supports US Gamecube version for now.)_
+_(Only supports Gamecube version for now.)_
 
-1. Download the latest release [here](https://github.com/hallcristobal/tpgz/releases).
+1. Download the latest release [here](https://github.com/zsrtp/tpgz/releases).
    _(Feel free to follow the release page instructions instead of these.)_
 
 2. Unzip the downloaded file to create a new folder, then open that folder.<br>
@@ -31,7 +31,7 @@ _(Only supports US Gamecube version for now.)_
    - romhack.exe
    - tpgz.patch
 
-3. Put a copy of your Twilight Princess ISO (NTSC-U) in this folder.
+3. Put a copy of your Twilight Princess ISO (GCN) in this folder.
    The ISO's filename is not important.<br>
    _Example:_
 
@@ -93,10 +93,12 @@ _(Only supports US Gamecube version for now.)_
 
 ### How do I know my ISO is correct?
 
-You need the **US Gamecube ISO (NTSC-U)**.
+You need a **Gamecube ISO**.
 
-The MD5 hash of a correct ISO is:<br>
-**41deff9b1fd2831f48fbfa2dd1054e4d**
+Correct MD5 hashes:<br>
+NTSC-U GCN: **41deff9b1fd2831f48fbfa2dd1054e4d**  
+NTSC-J GCN: **b130d78bb78cd63b501ddff210fde498**  
+PAL GCN:    **798abb94d649f7d117514578b2abfae1**
 
 Determine the MD5 hash of your ISO with the `md5sum` command.
 If your command returns anything other than the above value, you either have the wrong ISO or your ISO was somehow modified.
@@ -122,7 +124,7 @@ Your ISO likely has spaces in the filename and you do not have quotes around it.
 Correct:
 
 ```
-romhack.exe apply tpgz-v0.1a.patch "Twilight Princess (USA).iso" output.iso
+romhack.exe apply tpgz-v0.1a.patch "Twilight Princess.iso" output.iso
                   ^                 ^                            ^
                  [1]               [2]                          [3]
 ```
@@ -130,7 +132,7 @@ romhack.exe apply tpgz-v0.1a.patch "Twilight Princess (USA).iso" output.iso
 Incorrect:
 
 ```
-romhack.exe apply tpgz-v0.1a.patch Twilight Princess (USA).iso output.iso
+romhack.exe apply tpgz-v0.1a.patch Twilight Princess.iso output.iso
                   ^                 ^       ^        ^         ^
                  [1]               [2]     [3]      [4]       [5]
 ```

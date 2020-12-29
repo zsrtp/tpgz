@@ -5,7 +5,7 @@ Here are some ways you can help the project:
 
 ## Reporting Issues
 
-Before opening an issue, please search the [issue tracker](https://github.com/hallcristobal/tpgz/issues) to make sure your issue hasn't already been reported.
+Before opening an issue, please search the [issue tracker](https://github.com/zsrtp/tpgz/issues) to make sure your issue hasn't already been reported.
 
 ### Bug Reports
 
@@ -28,7 +28,7 @@ Include the following in your request, with as much detail as possible:
 
 ## Development
 
-Visit the [issue tracker](https://github.com/hallcristobal/tpgz/issues) to find a list of open issues that need attention.
+Visit the [issue tracker](https://github.com/zsrtp/tpgz/issues) to find a list of open issues that need attention.
 
 Fork, then clone the repo:
 
@@ -49,17 +49,23 @@ tpgz
 │   ├───gcn_c             // game independent gamecube apis to link to
 │   │   ├───include       // header files for gcn_c
 │   │   └───src           // source code for gcn_c
-│   └───libtp_c           // game bindings for twilight princess
-│       ├───.github
-│       │   └───workflows // github action(s) used to test code compilation
-│       ├───include       // header files for libtp_c
-│       └───src           // source code for libtp_c
+│   ├───libtp_c           // game bindings for twilight princess
+│   |   ├───.github
+│   |   │   └───workflows // github action(s) used to test code compilation
+│   |   ├───include       // header files for libtp_c
+│   |   └───src           // source code for libtp_c
+|   └───misc              // misc tools/scripts
 ├───include               // header files for tpgz
-│   └───fonts             // individual font properties such as width, height, glyphs, etc.
+│   ├───menus             // menu header files
+|   └───utils             // utility header files
 ├───res                   // external resources to be consumed
-│   └───save_files        // raw quest log bytes to be injected at compile time
-└───src                   // source code for tpgz
-    └───fonts             // raw bytes for fonts
+│   ├───fonts             // raw font data
+│   ├───save_files        // practice file metadata and raw quest log bytes to be injected at compile time
+|   ├───stage_info        // stage info data for warping menu
+|   └───tex               // custom textures
+├───src                   // source code for tpgz
+|   ├───menus             // menu source code
+|   └───utils             // utility source code
 ```
 
 ### Building
@@ -83,7 +89,7 @@ We don't want you to waste your efforts on a pull request that won't be accepted
 
 In general, the contribution workflow looks like this:
 
-- Open a new issue in the [Issue tracker](https://github.com/hallcristobal/tpgz/issues).
+- Open a new issue in the [Issue tracker](https://github.com/zsrtp/tpgz/issues).
 - Fork the repo.
 - Create a new feature branch based off the master branch.
 - Submit a pull request, referencing any issues it addresses.
