@@ -39,9 +39,9 @@ Line lines[LINES] = {
     {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true, &boss_flag},
     {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"}};
 
-void copyGlobalFlags(uint8_t id){
-    if(tp_gameInfo.area_id == id){
-        for(uint8_t j = 0; j < 0x20; j++){
+void copyGlobalFlags(uint8_t id) {
+    if (tp_gameInfo.area_id == id) {
+        for (uint8_t j = 0; j < 0x20; j++) {
             tp_gameInfo.temp_flags.flags[j] = dungeon_node->flags[j];
         }
     }
