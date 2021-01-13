@@ -29,14 +29,17 @@ bool last_frame_was_loading = false;
 
 extern "C" {
 
-#if (NTSCU)
+#if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
 #endif
-#if (PAL)
+#if (GCN_PAL)
 #define main_tampoline ((void (*)(void))0x803745e4)
 #endif
-#if (NTSCJ)
+#if (GCN_NTSCJ)
 #define main_tampoline ((void (*)(void))0x80375c44)
+#endif
+#if (WII_NTSCU_10)
+#define main_tampoline ((void (*)(void))0x803ce3dc)
 #endif
 
 void apply_lib_hooks() {
