@@ -94,6 +94,7 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 #---------------------------------------------------------------------------------
 $(BUILD):
 	@external/misc/asm-inject.sh $(PLATFORM)_$(REGION)
+	@external/misc/toml-inject.sh $(PLATFORM)_$(REGION)
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` || exit 1; done;

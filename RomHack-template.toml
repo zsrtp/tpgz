@@ -5,17 +5,17 @@ developer-name = "Twilight Princess Community"
 full-developer-name = "Speedrun Community"
 
 [src]
-iso = "gz2e01.iso"
+iso = "@srcIso"
 patch = "regional-patch.asm"
-map = "map/Final/Release/frameworkF.map"
+map = "@srcMap"
 
 [build]
-map = "build/GZ2E01.map"
-iso = "build/tpgz.iso"
+map = "@bldMap"
+iso = "@bldIso"
 
 [link]
 entries = ["apply_lib_hooks"]
-base = "0x8046_0000"
+base = "@linkBase"
 libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 
 [files]
