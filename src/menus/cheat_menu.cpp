@@ -25,7 +25,11 @@ Cheat CheatItems[CHEAT_AMNT] = {
     {InfiniteHearts, false},    {InfiniteOil, false},      {InfiniteRupees, false},
     {InfiniteSlingshot, false}, {Invincible, false},       {InvincibleEnemies, false},
     {MoonJump, false},          {DoorStorage, false},      {SuperClawshot, false},
-    {UnrestrictedItems, false}, {TransformAnywhere, false}};
+    {UnrestrictedItems, false}, {TransformAnywhere, false},
+#ifdef WII_PLATFORM
+    {GaleLJA, false},
+#endif
+};
 
 Line lines[LINES] = {
     {"infinite air", InfiniteAir, "Gives Link infinite air underwater", true,
@@ -45,13 +49,17 @@ Line lines[LINES] = {
     {"invincible", Invincible, "Makes Link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true,
      &CheatItems[InvincibleEnemies].active},
-    {"moon jump", MoonJump, "Hold R+A to moon jump", true, &CheatItems[MoonJump].active},
+    {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true, &CheatItems[MoonJump].active},
     {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active},
     {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active},
     {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true,
      &CheatItems[UnrestrictedItems].active},
     {"transform anywhere", TransformAnywhere, "Transform at any location", true,
-     &CheatItems[TransformAnywhere].active}};
+     &CheatItems[TransformAnywhere].active},
+#ifdef WII_PLATFORM
+    {"gale LJA", GaleLJA, "Yeet everywhere", true, &CheatItems[GaleLJA].active},
+#endif
+};
 
 namespace Cheats {
 using namespace Controller;
@@ -123,6 +131,13 @@ void apply_cheats() {
                 }
                 break;
             }
+#ifdef WII_PLATFORM
+            case GaleLJA: {
+                if (tp_zelAudio.link_debug_ptr != nullptr && tp_zelAudio.link_debug_ptr->current_action_id == 0x60 && tp_zelAudio.link_debug_ptr->current_item == 0xFF) {
+                    tp_zelAudio.link_debug_ptr->current_item = 0x0103;
+                }
+            }
+#endif
             default: {}
             }
         } else {
