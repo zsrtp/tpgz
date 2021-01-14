@@ -146,7 +146,7 @@ void load_default_spawn() {
 }
 
 void WarpingMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -246,7 +246,7 @@ void WarpingMenu::render() {
         }
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case WARP_BUTTON_INDEX: {
             tp_memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);

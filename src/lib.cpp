@@ -55,18 +55,29 @@ void init() {
 }
 
 void game_loop() {
+#ifdef GCN_PLATFORM
     using namespace Controller::Pad;
+#define BUTTONS (tp_mPadStatus.sval)
+#define CANCEL_LOAD_BUTTONS (L | R | B)
+#define SHOW_MENU_BUTTONS (L | R | DPAD_DOWN)
+#endif
+#ifdef WII_PLATFORM
+    using namespace Controller::Mote;
+#define BUTTONS (tp_mPad.buttons)
+#define CANCEL_LOAD_BUTTONS (Z | C | B)
+#define SHOW_MENU_BUTTONS (Z | C | MINUS)
+#endif
 
     // Button combo to bypass the automatic loading of the save file
     // in case of crash cause by the load.
-    if (tp_mPadStatus.sval == (L | R | B) && card_load) {
+    if (BUTTONS == CANCEL_LOAD_BUTTONS && card_load) {
         card_load = false;
     }
 
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
-    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1 &&
+    if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 &&
         !move_link_active) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;

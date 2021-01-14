@@ -16,7 +16,7 @@ Line lines[LINES] = {{"any%", ANY_INDEX, "Any% practice saves", false},
                      {"100%", HUNDO_INDEX, "100% practice saves", false}};
 
 void PracticeMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -27,7 +27,7 @@ void PracticeMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case ANY_INDEX: {
             MenuRendering::set_menu(MN_ANY_SAVES_INDEX);

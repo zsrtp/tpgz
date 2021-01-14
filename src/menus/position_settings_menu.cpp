@@ -46,7 +46,7 @@ void draw_cursor(Vec2 pos) {
 }
 
 void PosSettingsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         if (selected_item != NO_SELECTION) {
             selected_item = NO_SELECTION;
         } else {
@@ -62,7 +62,7 @@ void PosSettingsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         if (cursor.y < SPRITES_AMNT) {
             selected_item = selected_item == cursor.y ? NO_SELECTION : cursor.y;
         }

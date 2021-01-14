@@ -1,7 +1,7 @@
 ; Resize ArenaLo so the hack can be inserted without the game overwriting it
 @arenaLo:
 u32 @arenaLoVal
-u32 0x38631FFF
+u32 0x38637FFF
 
 ; This will hook the main() function
 @main:

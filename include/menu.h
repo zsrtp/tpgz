@@ -14,6 +14,15 @@
 
 #define MAX_MENU_RENDER_FLAGS 22
 
+#ifdef GCN_PLATFORM
+#define SELECTION_BUTTON (Controller::Pad::A)
+#define BACK_BUTTON (Controller::B)
+#endif
+#ifdef WII_PLATFORM
+#define SELECTION_BUTTON (Controller::Mote::A)
+#define BACK_BUTTON (Controller::B)
+#endif
+
 enum MenuIndex {
     MN_NONE_INDEX = -1,
     MN_MAIN_MENU_INDEX = 0,

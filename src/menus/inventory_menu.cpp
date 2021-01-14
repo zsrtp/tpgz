@@ -14,7 +14,7 @@ Line lines[LINES] = {{"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", f
                      {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false}};
 
 void InventoryMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -25,7 +25,7 @@ void InventoryMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case ITEM_WHEEL_INDEX: {
             MenuRendering::set_menu(MN_ITEM_WHELL_INDEX);

@@ -55,7 +55,7 @@ void GeneralFlagsMenu::render() {
     midna_on_back = (tp_gameInfo.midna_on_back_flag & (1 << 3));
     wolf_sense = (tp_gameInfo.event_flags.flags[0x43] & (1 << 3));
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
@@ -66,7 +66,7 @@ void GeneralFlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case BOSS_FLAG_INDEX: {
             if (boss_flag) {

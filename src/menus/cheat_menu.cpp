@@ -162,7 +162,7 @@ void apply_cheats() {
 }  // namespace Cheats
 
 void CheatsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -175,7 +175,7 @@ void CheatsMenu::render() {
 
     Utilities::move_cursor(cursor, LINES);
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         CheatItems[cursor.y].active = !(CheatItems[cursor.y].active);
     }
 

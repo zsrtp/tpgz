@@ -82,6 +82,7 @@ void draw_cross(uint32_t color, Vec2 pos, float size) {
 }
 
 void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
+#ifdef GCN_PLATFORM
     draw_button(Controller::A, is_shadow ? 0x00000060 : 0x00FF7fFF,
                 {pos.x + 130.f * scale, pos.y + 30.f * scale}, {30.f * scale, 30.f * scale});
     draw_button(Controller::B, is_shadow ? 0x00000060 : 0xFF0000FF,
@@ -123,6 +124,7 @@ void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
                                 Controller::button_is_down(Controller::R) ? 0x00FF00FF : 0xFFFFFFFF,
                     {pos.x + (45.f + 35.f * (1 - tp_mPadButton.r_analog)) * scale, pos.y},
                     {35.f * tp_mPadButton.r_analog * scale, 7.f * scale});
+#endif
 }
 
 void render() {

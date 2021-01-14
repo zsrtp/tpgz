@@ -63,7 +63,7 @@ void PortalFlagsMenu::render() {
     mesa_warp = (tp_gameInfo.overworld_flags.desert_flags.flags[9] & (1 << 5));
     mirror_warp = (tp_gameInfo.overworld_flags.desert_flags.flags[14] & (1 << 0));
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
@@ -74,7 +74,7 @@ void PortalFlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case SPRING_WARP_INDEX: {
             tp_gameInfo.overworld_flags.ordon_flags.flags[13] ^= 1 << 4;

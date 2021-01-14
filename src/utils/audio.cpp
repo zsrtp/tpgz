@@ -4,14 +4,18 @@
 namespace Utilities {
 void enable_bg_music() {
     tp_zelAudio.bg_audio = 1.0f;
+#ifndef WII_NTSCU_10
     tp_zelAudio.enemy_bg_music_volume = 1.0f;
     tp_zelAudio.hyrule_castle_bg_music_volume = 1.0f;
+#endif
 }
 
 void disable_bg_music() {
     tp_zelAudio.bg_audio = 0.0f;
+#ifndef WII_NTSCU_10
     tp_zelAudio.enemy_bg_music_volume = 0.0f;
     tp_zelAudio.hyrule_castle_bg_music_volume = 0.0f;
+#endif
 }
 
 void disable_sfx() {

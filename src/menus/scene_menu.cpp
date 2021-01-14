@@ -34,7 +34,7 @@ Line lines[LINES] = {
     {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
 
 void SceneMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
         return;
@@ -57,7 +57,7 @@ void SceneMenu::render() {
     Utilities::move_cursor(cursor, LINES);
     Utilities::render_lines(lines, cursor.y, LINES);
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
     }
     switch (cursor.y) {

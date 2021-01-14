@@ -18,6 +18,13 @@ struct PadStatus {
     uint8_t ok[12];
 };
 
+#ifdef GCN_PLATFORM
+#define PAD_READ_RETURN_OFFSET (0x2FC)
+#endif
+#ifdef WII_PLATFORM
+#define PAD_READ_RETURN_OFFSET (0x2DC)
+#endif
+
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
 HOOK_DEF(void, setSpecialGravity, (float, float, int));
@@ -91,7 +98,7 @@ void apply_hooks() {
     APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
     APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, HK_LIB_GAME_LOOP_INDEX, gameLoopHook);
     APPLY_HOOK(draw, tp_draw_console_addr, HK_LIB_DRAW_INDEX, drawHook);
-    APPLY_HOOK(PADRead, (tp_PADRead_addr + 0x2FC), HK_LIB_READ_CONTROLLER_INDEX,
+    APPLY_HOOK(PADRead, (tp_PADRead_addr + 0), HK_LIB_READ_CONTROLLER_INDEX,
                readControllerHook);
     APPLY_HOOK(checkHookshotStickBG, tp_clawshot_checkbg_addr, HK_SUPER_CLAWSHOT_INDEX,
                superClawshotHook);

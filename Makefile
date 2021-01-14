@@ -7,7 +7,15 @@ ifeq ($(strip $(DEVKITPPC)),)
 $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPro/devkitPPC)
 endif
 
+PLATFORM    :=  $(if $(PLATFORM),$(PLATFORM),GCN)
+REGION		:=  $(if $(REGION),$(REGION),NTSCU)
+
+ifeq ("$(PLATFORM)","GCN")
 include $(DEVKITPPC)/gamecube_rules
+endif
+ifeq ("$(PLATFORM)","WII")
+include $(DEVKITPPC)/wii_rules
+endif
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -22,8 +30,6 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
-REGION		?=  "NTSCU"
-PLATFORM    ?=  "GCN"
 
 #---------------------------------------------------------------------------------
 # options for code generation

@@ -45,7 +45,7 @@ Line lines[LINES] = {
      "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
 void SettingsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -58,7 +58,7 @@ void SettingsMenu::render() {
 
     // Utilities::move_cursor(cursor, LINES, 2);
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case DROP_SHADOWS_INDEX: {
             g_drop_shadows = !g_drop_shadows;
