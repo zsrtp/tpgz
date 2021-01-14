@@ -35,7 +35,7 @@ elif [ $1 == "GCN_PAL" ]; then
     DEBUG_INSTRUCTION="0x48000014"
 elif [ $1 == "WII_NTSCU_10" ]; then
     ARENALO="0x803449dc"
-    ARENALO_VAL="0x3c608059"
+    ARENALO_VAL="0x3c608058"
     MAIN="0x80008cec"
     MAIN_TRAMPOLINE="0x803ce3dc"
     FIRST_INSTRUCTION="0x542b06fe"
