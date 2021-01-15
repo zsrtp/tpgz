@@ -100,7 +100,7 @@ void gorge_void() {
 #ifdef WII_PLATFORM
 void back_in_time() {
     if (button_this_frame == BACK_IN_TIME_BUTTONS && button_last_frame != BACK_IN_TIME_BUTTONS) {
-        Utilities::load_save_file("tpgzw/save_files/any/ordon_gate_clip.bin");
+        Utilities::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
         practice_file.inject_options_before_load = SaveInjector::inject_default_before;
         practice_file.inject_options_during_load = SaveInjector::inject_default_during;
         practice_file.inject_options_after_load = BiTIndicator::set_camera_angle_position;
