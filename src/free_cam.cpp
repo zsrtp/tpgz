@@ -20,13 +20,15 @@ double yaw = 0.0;
 #define VERTICAL_DISPLACEMENT (tp_mPadStatus.trig_L - tp_mPadStatus.trig_R)
 #define SPEED_PREDICATE (tp_mPadButton.buttons & Controller::Pad::Z)
 #define PITCH_CONTROL (tp_mPadStatus.c_y)
+#define YAW_CONTROL (tp_mPadStatus.c_x)
 #endif
 #ifdef WII_PLATFORM
-#define CONTROL_Y (tp_mPad.stick.y)
-#define CONTROL_X (tp_mPad.stick.x)
-#define VERTICAL_DISPLACEMENT 0
+#define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
+#define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
+#define VERTICAL_DISPLACEMENT ((tp_mPad.buttons & Controller::Mote::DPAD_UP ? 75 : 0) - (tp_mPad.buttons & Controller::Mote::DPAD_DOWN ? 75 : 0))
 #define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
-#define PITCH_CONTROL (tp_mPad.vertical)
+#define PITCH_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
+#define YAW_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
 #endif
 
 namespace FreeCam {
@@ -69,10 +71,10 @@ void handle_free_cam() {
         cam_target.y = cam_pos.y + tp_sin(pitch);
 
         // Update the pitch and yaw
-        yaw += tp_mPadStatus.c_x * ROTATION_SPEED;
+        yaw += YAW_CONTROL * ROTATION_SPEED;
         yaw = tp_fmod(yaw + 2 * M_PI, 2 * M_PI);
         pitch =
-            MIN(MAX(pitch + PITCH_CONTROL * ROTATION_SPEED, -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
+            MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
     } else {
         if (init_once) {
             tp_gameInfo.freeze_game = false;

@@ -15,9 +15,11 @@
 
 #ifdef GCN_PLATFORM
 #define MEMORY_BUTTON (Controller::Y)
+#define MEMORY_TEXT "Y"
 #endif
 #ifdef WII_PLATFORM
 #define MEMORY_BUTTON (Controller::ONE)
+#define MEMORY_TEXT "1"
 #endif
 
 Cursor cursor;
@@ -557,7 +559,7 @@ void WatchesMenu::render() {
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);
-    Font::gz_renderChars("Press z to enable/disable watch. Y to jump to editor address", 25.0f,
+    Font::gz_renderChars("Press z to enable/disable watch. " MEMORY_TEXT " to jump to editor address", 25.0f,
                          440.f, 0xFFFFFFFF, g_drop_shadows);
     render_memory_lines(Watches, cursor);
 };

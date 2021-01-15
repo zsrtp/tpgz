@@ -68,10 +68,10 @@ Line lines[LINES] = {{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT 
                       "In-game time timer: Z+A to start/stop, Z+B to reset", true,
                       &ToolItems[IGT_TIMER_INDEX].active},
                      {"free cam", FREE_CAM_INDEX,
-                      FREE_CAM_TEXT " to activate, Stick/L/R to move, C-stick to look, Z to speed", true,
+                      FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT " to view, Z to speed", true,
                       &ToolItems[FREE_CAM_INDEX].active},
                      {"move link", MOVE_LINK_INDEX,
-                      MOVE_LINK_TEXT " to activate. Stick/C to move, C-left/right to change angle", true,
+                      MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT " to move, " MOVE_LINK_ANGLE_TEXT " to change angle", true,
                       &ToolItems[MOVE_LINK_INDEX].active},
                      {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false,
                       nullptr, MAX_TUNIC_COLORS}};

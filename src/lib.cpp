@@ -52,6 +52,12 @@ void init() {
     PosSettingsMenu::initDefaults();
     Draw::init();
     fifo_visible = true;
+    if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {//  || (gzIconTex.loadCode == TexCode::TEX_ERR_MEM && load_attempt_timestamp + 150 < TP::get_frame_count())
+        load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
+        if (gzIconTex.loadCode != TexCode::TEX_OK) {
+            tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
+        }
+    }
 }
 
 void game_loop() {
@@ -111,14 +117,6 @@ void draw() {
     if (MenuRendering::is_menu_open()) {
         Font::gz_renderChars("tpgz v0.1", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
                              g_drop_shadows);
-
-        if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
-            load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
-            if (gzIconTex.loadCode != TexCode::TEX_OK) {
-                tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
-            }
-        }
-
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
                             &gzIconTex._texObj);
