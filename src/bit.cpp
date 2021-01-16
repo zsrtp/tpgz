@@ -1,7 +1,5 @@
 #ifdef WII_PLATFORM
-#include <stdio.h>
 #include "bit.h"
-#include <string.h>
 #include "libtp_c/include/tp.h"
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/controller.h"
@@ -64,15 +62,15 @@ namespace BiTIndicator {
             //     log.PrintLog(buf, DEBUG);
             // }
 
-            if (strcmp((const char *)tp_gameInfo.current_stage, "F_SP104") == 0 && button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
+            if (tp_strcmp((const char *)tp_gameInfo.current_stage, "F_SP104") == 0 && button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
                 if ((int)dt == TARGET_FRAME) {
-                    sprintf(buf, "Got it");
+                    tp_sprintf(buf, "Got it");
                 }
                 if ((int)dt > TARGET_FRAME) {
-                    sprintf(buf, "%d frames early", (int)dt - TARGET_FRAME);
+                    tp_sprintf(buf, "%d frames early", (int)dt - TARGET_FRAME);
                 }
                 if ((int)dt < TARGET_FRAME) {
-                    sprintf(buf, "%d frames late", TARGET_FRAME - (int)dt);
+                    tp_sprintf(buf, "%d frames late", TARGET_FRAME - (int)dt);
                 }
                 FIFOQueue::push(buf, Queue);
             }
