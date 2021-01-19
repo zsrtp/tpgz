@@ -52,7 +52,7 @@ void init() {
     PosSettingsMenu::initDefaults();
     Draw::init();
     fifo_visible = true;
-    if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {//  || (gzIconTex.loadCode == TexCode::TEX_ERR_MEM && load_attempt_timestamp + 150 < TP::get_frame_count())
+    if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
         load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
         if (gzIconTex.loadCode != TexCode::TEX_OK) {
             tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);

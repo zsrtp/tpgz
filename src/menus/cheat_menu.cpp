@@ -15,6 +15,13 @@
 
 #define LINES CHEAT_AMNT
 
+#ifdef GCN_PLATFORM
+#define INVINCIBLE_ENEMIES_OFFSET (0x328)
+#endif
+#ifdef WII_PLATFORM
+#define INVINCIBLE_ENEMIES_OFFSET (0x244)
+#endif
+
 static Cursor cursor = {0, 0};
 bool init_once = false;
 bool chest_collision = false;
@@ -75,9 +82,9 @@ void apply_cheats() {
                 break;
             }
             case InvincibleEnemies: {
-                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) = 0x60000000;  // nop
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + 0x328),
+                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) = 0x60000000;  // nop
+                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
                                                 sizeof(uint32_t));
                 break;
             }
@@ -147,10 +154,10 @@ void apply_cheats() {
                 break;
             }
             case InvincibleEnemies: {
-                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + 0x328) =
+                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x7C030050;  // sub r0, r0, r3
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + 0x328), sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + 0x328),
+                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
                                                 sizeof(uint32_t));
                 break;
             }
