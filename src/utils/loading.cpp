@@ -27,7 +27,6 @@ void set_angle_position() {
 }
 
 void default_load() {
-    //practice_file.inject_options_before_load = SaveInjector::inject_default_before;
     practice_file.inject_options_during_load = SaveInjector::inject_default_during;
     practice_file.inject_options_after_load = SaveInjector::inject_default_after;
     inject_save_flag = true;
@@ -36,7 +35,6 @@ void default_load() {
 }
 
 void load_save(uint32_t id, char* category, special i_specials[], int size) {
-
     SaveInjector::inject_default_before();
     // Load the corresponding file path and properties
     PracticeSaveInfo saveinfo __attribute__((aligned(32)));

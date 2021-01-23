@@ -295,22 +295,6 @@ void HundoSavesMenu::render() {
     if (current_input == Controller::Pad::A && a_held == false) {
         Utilities::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
-        // if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX ||
-        //     cursor.y == HND_LAKEBED_1_INDEX) {
-        //     TP::set_boss_flags();
-        // } else {
-        //     tp_bossFlags = 0;
-        // }
-        // for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
-        //     if (cursor.y == specials[i].idx) {
-        //         if (specials[i].cb_during != nullptr) {
-        //             practice_file.inject_options_during_load = specials[i].cb_during;
-        //         }
-        //         if (specials[i].cb_after != nullptr) {
-        //             practice_file.inject_options_after_load = specials[i].cb_after;
-        //         }
-        //     }
-        // }
     }
 
     Utilities::move_cursor(cursor, LINES);

@@ -58,18 +58,15 @@ typedef void (*LoadingCallback)(void);
 
 class special {
 public:
-special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after) {
-    idx = i_idx;
-    CallbackDuring = cb_during;
-    CallbackAfter = cb_after;
-}
-    // void setIdx(int i_Idx) { idx = i_Idx; }
-    // uint32_t getIdx(void) { return idx; }
-    
+    special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after) {
+        idx = i_idx;
+        CallbackDuring = cb_during;
+        CallbackAfter = cb_after;
+    }
+
     uint32_t idx;
     LoadingCallback CallbackDuring;
     LoadingCallback CallbackAfter;
 
 private:
-    
 };

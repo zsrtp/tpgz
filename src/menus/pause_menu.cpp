@@ -409,7 +409,8 @@ void PauseMenu::render() {
     }
     case ARROW_CAPACITY_INDEX: {
         cursor.x = arrow_capacity_index;
-        Utilities::move_cursor(cursor, LINES, MAX_ARROW_CAPACITY_OPTIONS, false, false, false, true);
+        Utilities::move_cursor(cursor, LINES, MAX_ARROW_CAPACITY_OPTIONS, false, false, false,
+                               true);
         if (cursor.y == ARROW_CAPACITY_INDEX) {
             arrow_capacity_index = cursor.x;
         }

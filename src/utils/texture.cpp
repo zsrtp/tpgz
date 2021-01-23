@@ -25,7 +25,9 @@ uint32_t get_size(uint32_t format, uint32_t width, uint32_t height) {
         return width * height;
     }
     case TexFmt::RGB8:
-    default: { return 4 * width * height; }
+    default: {
+        return 4 * width * height;
+    }
     }
 }
 

@@ -125,15 +125,13 @@ void bossflags() {
 }
 
 void darkhammer() {
-    tp_gameInfo.event_flags.flags[11] = 134; // iza bomb bag stolen
+    tp_gameInfo.event_flags.flags[11] = 134;  // iza bomb bag stolen
 }
 
 void waterfall_sidehop() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.spawn_speed = 10.0f; // link spawns swimming forward
+    tp_gameInfo.spawn_speed = 10.0f;  // link spawns swimming forward
 }
-
-// if (id == DARK_HAMMER_INDEX || (id >= FRST_ESCAPE_INDEX && id <= LAKEBED_1_INDEX))
 
 void AnySavesMenu::render() {
     special AnySpecials[ANY_SPECIALS_AMNT] = {
@@ -152,7 +150,7 @@ void AnySavesMenu::render() {
         special(DARK_HAMMER_INDEX, bossflags, darkhammer),
         special(ARGOROK_INDEX, argorok, nullptr),
         special(PALACE_2_INDEX, nullptr, palace2)};
-        
+
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
