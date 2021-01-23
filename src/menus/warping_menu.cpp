@@ -1,5 +1,6 @@
 #include "menus/warping_menu.h"
 #include "commands.h"
+#include "fifo_queue.h"
 #include "controller.h"
 #include "font.h"
 #include "fs.h"
@@ -253,6 +254,7 @@ void WarpingMenu::render() {
             tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
             tp_gameInfo.warp.entrance.state = layer;
             init_once = false;
+            fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
             tp_gameInfo.loading_animation = 13;  // instant load
             tp_gameInfo.respawn_animation = 0;
