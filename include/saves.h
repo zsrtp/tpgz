@@ -1,3 +1,5 @@
+#pragma once
+
 #include "menu.h"
 #include "menus/cheats_menu.h"
 #include "menus/memory_menu.h"
@@ -5,6 +7,7 @@
 #include "menus/scene_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
+#include "libtp_c/include/system.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
 #define GZ_SAVE_ENTRIES_AMNT 10
@@ -49,4 +52,24 @@ struct GZSaveFile {
     uint32_t offsets[GZ_SAVE_ENTRIES_AMNT];
     uint32_t sizes[GZ_SAVE_ENTRIES_AMNT];
     GZSaveLayout data;
+};
+
+typedef void (*LoadingCallback)(void);
+
+class special {
+public:
+special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after) {
+    idx = i_idx;
+    CallbackDuring = cb_during;
+    CallbackAfter = cb_after;
+}
+    // void setIdx(int i_Idx) { idx = i_Idx; }
+    // uint32_t getIdx(void) { return idx; }
+    
+    uint32_t idx;
+    LoadingCallback CallbackDuring;
+    LoadingCallback CallbackAfter;
+
+private:
+    
 };

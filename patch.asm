@@ -1,7 +1,6 @@
 ; Resize ArenaLo so the hack can be inserted without the game overwriting it
 @arenaLo:
-u32 0x3c60804A
-u32 0x38631FFF
+u32 0x3C60804D
 
 ; This will hook the main() function
 0x80006454:
@@ -17,6 +16,10 @@ u32 @returnMn ; b main() + 4       ; branch to second instruction of main()
 u32 0x60000000
 u32 0x60000000
 u32 0x60000000
+
+; Temporary fix for a save loader bug
+; @setWaterDropColor:
+; u32 0x60000000
 
 ; Enable debug crash screen
 @debug:

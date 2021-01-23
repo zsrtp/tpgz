@@ -1,5 +1,7 @@
 #include "menu.h"
 
+#define ANY_SPECIALS_AMNT 15
+
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,
     BACK_IN_TIME_INDEX,
@@ -18,6 +20,7 @@ enum AnyPracticeIndex {
     KARG_INDEX,
     ELDIN_TWILIGHT_INDEX,
     LANAYRU_TWILIGHT_INDEX,
+    WATERFALL_SIDEHOP_INDEX,
     BOSS_BUG_INDEX,
     IZA_INDEX,
     NORGOR_INDEX,

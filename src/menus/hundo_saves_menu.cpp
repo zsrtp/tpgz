@@ -240,6 +240,11 @@ void lakebed_bk_skip_during() {
     tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
+void bossflags() {
+    SaveInjector::inject_default_during();
+    TP::set_boss_flags();
+}
+
 void cave_of_ordeals() {
     SaveInjector::inject_default_during();
     tp_gameInfo.floors.floor_01_08 = 0;  // reset all CoO doors on load
@@ -248,37 +253,34 @@ void cave_of_ordeals() {
     tp_gameInfo.floors.floor_27_34 = 0;
 }
 
-struct {
-    int idx;
-    void (*cb_during)(void);
-    void (*cb_after)(void);
-} specials[] = {
-    {HND_GOATS_1_INDEX, goats_1, nullptr},
-    {HND_GOATS_2_INDEX, goats_2, nullptr},
-    {HND_MIST_INDEX, purple_mist, nullptr},
-    {HND_KARG_INDEX, karg_oob, nullptr},
-    {HND_KB_2_INDEX, kb2_skip, nullptr},
-    {HND_ESCORT_INDEX, escort, nullptr},
-    {HND_DANGORO_INDEX, dangoro, nullptr},
-    {HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr},
-    {HND_MORPHEEL_INDEX, nullptr, morpheel},
-    {HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr},
-    {HND_STALLORD_INDEX, stallord, nullptr},
-    {HND_DARK_HAMMER_INDEX, nullptr, nullptr},
-    {HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr},
-    {HND_EARLY_POE_INDEX, tot_early_poe, nullptr},
-    {HND_EARLY_HP_INDEX, tot_early_hp, nullptr},
-    {HND_CITY_EARLY_INDEX, hugo_archery, nullptr},
-    {HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr},
-    {HND_ARGOROK_INDEX, argorok, nullptr},
-    {HND_PALACE_2_INDEX, nullptr, palace2},
-    {HND_COO_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_10_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_20_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_30_INDEX, cave_of_ordeals, nullptr},
-};
-
 void HundoSavesMenu::render() {
+    special HundoSpecials[HND_SPECIALS_AMNT] = {
+        special(HND_GOATS_1_INDEX, goats_1, nullptr),
+        special(HND_GOATS_2_INDEX, goats_2, nullptr),
+        special(HND_MIST_INDEX, purple_mist, nullptr),
+        special(HND_KARG_INDEX, karg_oob, nullptr),
+        special(HND_KB_2_INDEX, kb2_skip, nullptr),
+        special(HND_ESCORT_INDEX, escort, nullptr),
+        special(HND_DANGORO_INDEX, dangoro, nullptr),
+        special(HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
+        special(HND_MORPHEEL_INDEX, nullptr, morpheel),
+        special(HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr),
+        special(HND_STALLORD_INDEX, stallord, nullptr),
+        special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
+        special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
+        special(HND_LAKEBED_1_INDEX, bossflags, nullptr),
+        special(HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr),
+        special(HND_EARLY_POE_INDEX, tot_early_poe, nullptr),
+        special(HND_EARLY_HP_INDEX, tot_early_hp, nullptr),
+        special(HND_CITY_EARLY_INDEX, hugo_archery, nullptr),
+        special(HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr),
+        special(HND_ARGOROK_INDEX, argorok, nullptr),
+        special(HND_PALACE_2_INDEX, nullptr, palace2),
+        special(HND_COO_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_10_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_20_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_30_INDEX, cave_of_ordeals, nullptr)};
+
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
@@ -291,24 +293,24 @@ void HundoSavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"hundo");
+        Utilities::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
-        if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX ||
-            cursor.y == HND_LAKEBED_1_INDEX) {
-            TP::set_boss_flags();
-        } else {
-            tp_bossFlags = 0;
-        }
-        for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
-            if (cursor.y == specials[i].idx) {
-                if (specials[i].cb_during != nullptr) {
-                    practice_file.inject_options_during_load = specials[i].cb_during;
-                }
-                if (specials[i].cb_after != nullptr) {
-                    practice_file.inject_options_after_load = specials[i].cb_after;
-                }
-            }
-        }
+        // if (cursor.y == HND_DARK_HAMMER_INDEX || cursor.y == HND_FRST_2_INDEX ||
+        //     cursor.y == HND_LAKEBED_1_INDEX) {
+        //     TP::set_boss_flags();
+        // } else {
+        //     tp_bossFlags = 0;
+        // }
+        // for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
+        //     if (cursor.y == specials[i].idx) {
+        //         if (specials[i].cb_during != nullptr) {
+        //             practice_file.inject_options_during_load = specials[i].cb_during;
+        //         }
+        //         if (specials[i].cb_after != nullptr) {
+        //             practice_file.inject_options_after_load = specials[i].cb_after;
+        //         }
+        //     }
+        // }
     }
 
     Utilities::move_cursor(cursor, LINES);

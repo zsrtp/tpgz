@@ -66,7 +66,7 @@ void DungeonFlagsMenu::render() {
 
     if (cursor.y == SELECT_DUNGEON_INDEX) {
         cursor.x = select_dungeon_index;
-        Utilities::move_cursor(cursor, LINES, MAX_DUNGEON_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_DUNGEON_OPTIONS, false, false, false, true);
         if (cursor.y == SELECT_DUNGEON_INDEX) {
             select_dungeon_index = cursor.x;
         }

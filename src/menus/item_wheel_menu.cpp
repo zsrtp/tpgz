@@ -295,7 +295,7 @@ void ItemWheelMenu::render() {
         }
     }
 
-    Utilities::move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);
 
     // check selected slot

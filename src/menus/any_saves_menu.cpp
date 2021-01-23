@@ -13,7 +13,7 @@
 #include "utils/loading.h"
 
 #include "fs.h"
-#define LINES 48
+#define LINES 49
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -27,7 +27,7 @@ Line lines[LINES] = {
     {"purple mist", MIST_INDEX, "Purple mist in Faron Woods (post-EMS)"},
     {"forest bit", FRST_BIT_INDEX, "Back In Time in Forest Temple"},
     {"forest escape", FRST_ESCAPE_INDEX, "LJA over S Faron exit trigger"},
-    {"gorge void", GORGE_VOID_INDEX, "The worst trick"},
+    {"gorge void", GORGE_VOID_INDEX, "1 frame jump attack into faron gorge"},
     {"rupee roll", RUPEE_ROLL_INDEX, "LJA onto fence + pick up rupee"},
     {"lanayru gate clip", LANAYRU_GATE_CLIP_INDEX, "Gate Clip outside Lake Hylia"},
     {"pillar clip", PILLAR_CLIP_INDEX, "Pillar Clip in Lake Hylia (low water)"},
@@ -36,6 +36,7 @@ Line lines[LINES] = {
     {"kargorok flight", KARG_INDEX, "Clip OoB with trumpet bird"},
     {"eldin twilight", ELDIN_TWILIGHT_INDEX, "Eldin Twilight tears"},
     {"lanayru twilight", LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
+    {"waterfall sidehop", WATERFALL_SIDEHOP_INDEX, "Waterfall sidehop after Rutela skip"},
     {"boss bug", BOSS_BUG_INDEX, "Lanayru Twilight boss bug"},
     {"iza", IZA_INDEX, "Steal Iza's bomb bag"},
     {"norgor", NORGOR_INDEX, "Goron bomb bag without water bombs"},
@@ -86,6 +87,7 @@ void hugo() {
 }
 
 void karg_oob() {
+    practice_file.inject_options_before_load = nullptr;
     SaveInjector::inject_default_during();
     tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
     tp_gameInfo.link.is_wolf = false;
@@ -117,21 +119,40 @@ void lakebed_bk_skip_during() {
     tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
-struct {
-    int idx;
-    void (*cb_during)(void);
-    void (*cb_after)(void);
-} specials[] = {
-    {HUGO_INDEX, hugo, nullptr},
-    {KARG_INDEX, karg_oob, nullptr},
-    {LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr},
-    {ONEBOMB_INDEX, nullptr, morpheel},
-    {STALLORD_INDEX, stallord, nullptr},
-    {ARGOROK_INDEX, argorok, nullptr},
-    {PALACE_2_INDEX, nullptr, palace2},
-};
+void bossflags() {
+    SaveInjector::inject_default_during();
+    TP::set_boss_flags();
+}
+
+void darkhammer() {
+    tp_gameInfo.event_flags.flags[11] = 134; // iza bomb bag stolen
+}
+
+void waterfall_sidehop() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.spawn_speed = 10.0f; // link spawns swimming forward
+}
+
+// if (id == DARK_HAMMER_INDEX || (id >= FRST_ESCAPE_INDEX && id <= LAKEBED_1_INDEX))
 
 void AnySavesMenu::render() {
+    special AnySpecials[ANY_SPECIALS_AMNT] = {
+        special(HUGO_INDEX, hugo, nullptr),
+        special(KARG_INDEX, karg_oob, nullptr),
+        special(LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
+        special(ONEBOMB_INDEX, nullptr, morpheel),
+        special(STALLORD_INDEX, stallord, nullptr),
+        special(FRST_ESCAPE_INDEX, bossflags, nullptr),
+        special(GORGE_VOID_INDEX, bossflags, nullptr),
+        special(RUPEE_ROLL_INDEX, bossflags, nullptr),
+        special(LANAYRU_GATE_CLIP_INDEX, bossflags, nullptr),
+        special(PILLAR_CLIP_INDEX, bossflags, nullptr),
+        special(LAKEBED_1_INDEX, bossflags, nullptr),
+        special(WATERFALL_SIDEHOP_INDEX, waterfall_sidehop, nullptr),
+        special(DARK_HAMMER_INDEX, bossflags, darkhammer),
+        special(ARGOROK_INDEX, argorok, nullptr),
+        special(PALACE_2_INDEX, nullptr, palace2)};
+        
     if (button_is_pressed(Controller::B)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
@@ -144,24 +165,8 @@ void AnySavesMenu::render() {
     }
 
     if (current_input == Controller::Pad::A && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"any");
+        Utilities::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
         init_once = false;
-        if (cursor.y == DARK_HAMMER_INDEX ||
-            (cursor.y >= FRST_ESCAPE_INDEX && cursor.y <= LAKEBED_1_INDEX)) {
-            TP::set_boss_flags();
-        } else {
-            tp_bossFlags = 0;
-        }
-        for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
-            if (cursor.y == specials[i].idx) {
-                if (specials[i].cb_during != nullptr) {
-                    practice_file.inject_options_during_load = specials[i].cb_during;
-                }
-                if (specials[i].cb_after != nullptr) {
-                    practice_file.inject_options_after_load = specials[i].cb_after;
-                }
-            }
-        }
     }
 
     Utilities::move_cursor(cursor, LINES);

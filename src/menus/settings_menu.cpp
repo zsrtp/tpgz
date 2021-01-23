@@ -95,7 +95,7 @@ void SettingsMenu::render() {
     switch (cursor.y) {
     case AREA_RELOAD_BEHAVIOR_INDEX: {
         cursor.x = g_area_reload_behavior;
-        Utilities::move_cursor(cursor, LINES, MAX_RELOAD_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_RELOAD_OPTIONS, false, false, false, true);
         if (cursor.y == AREA_RELOAD_BEHAVIOR_INDEX) {
             g_area_reload_behavior = cursor.x;
         }
@@ -104,7 +104,7 @@ void SettingsMenu::render() {
 
     case CURSOR_COLOR_INDEX: {
         cursor.x = g_cursor_color;
-        Utilities::move_cursor(cursor, LINES, MAX_CURSOR_COLOR_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_CURSOR_COLOR_OPTIONS, false, false, false, true);
         if (cursor.y == CURSOR_COLOR_INDEX) {
             g_cursor_color = cursor.x;
         }
@@ -114,7 +114,7 @@ void SettingsMenu::render() {
     case FONT_INDEX: {
         cursor.x = g_font;
         int old_font = g_font;
-        Utilities::move_cursor(cursor, LINES, MAX_FONT_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_FONT_OPTIONS, false, false, false, true);
         if (cursor.y == FONT_INDEX) {
             g_font = cursor.x;
         }
@@ -129,7 +129,7 @@ void SettingsMenu::render() {
     }
 
     default: {
-        Utilities::move_cursor(cursor, LINES, 2);
+        Utilities::move_cursor(cursor, LINES, 2, false, false, false, true);
         break;
     }
     }

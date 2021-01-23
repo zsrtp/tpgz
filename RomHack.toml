@@ -5,7 +5,7 @@ developer-name = "Twilight Princess Community"
 full-developer-name = "Speedrun Community"
 
 [src]
-iso = "gz2e01.iso"
+iso = "GZ2E01.iso"
 patch = "regional-patch.asm"
 map = "map/Final/Release/frameworkF.map"
 
@@ -64,6 +64,7 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/save_files/any/spr_warp.bin" = "res/save_files/any/spr_warp.bin"
 "tpgz/save_files/any/spr.bin" = "res/save_files/any/spr.bin"
 "tpgz/save_files/any/lakebed_1.bin" = "res/save_files/any/lakebed_1.bin"
+"tpgz/save_files/any/waterfall_sidehop.bin" = "res/save_files/any/waterfall_sidehop.bin"
 "tpgz/save_files/any/lakebed_2.bin" = "res/save_files/any/lakebed_2.bin"
 "tpgz/save_files/any/ag.bin" = "res/save_files/any/ag.bin"
 "tpgz/save_files/any/cits_early.bin" = "res/save_files/any/cits_early.bin"
