@@ -12,5 +12,5 @@ jobs:
       with:
         source: '.'
         extensions: 'h,cpp'
-        clangFormatVersion: 6
+        clangFormatVersion: 10
         exclude: './external/gcn_c ./external/libtp_c'
