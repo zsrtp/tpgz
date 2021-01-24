@@ -54,7 +54,7 @@ void SceneMenu::render() {
     tp_sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
     tp_sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
 
-    Utilities::move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);
 
     if (current_input == Controller::Pad::A && a_held == false) {

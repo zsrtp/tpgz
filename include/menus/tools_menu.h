@@ -1,3 +1,5 @@
+#pragma once
+
 #include "menu.h"
 
 #define TOOL_AMNT 16

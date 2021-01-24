@@ -138,6 +138,6 @@ void AmountsMenu::render() {
     tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
     tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
 
-    Utilities::move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);
 };
