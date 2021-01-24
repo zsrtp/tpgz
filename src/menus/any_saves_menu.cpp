@@ -106,7 +106,7 @@ void stallord() {
 
 void fan_tower() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset city switches
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
 }
 
 void argorok() {
@@ -116,7 +116,7 @@ void argorok() {
 
 void palace1() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset palace switches
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
 }
 
 void palace2() {
