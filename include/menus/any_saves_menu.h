@@ -1,6 +1,6 @@
 #include "menu.h"
 
-#define ANY_SPECIALS_AMNT 15
+#define ANY_SPECIALS_AMNT 17
 
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,

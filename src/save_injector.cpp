@@ -9,7 +9,7 @@ namespace SaveInjector {
 // inject qlog bytes into RAM
 void inject_save(void* buffer) {
     tp_memcpy((void*)&tp_gameInfo, buffer, 2392);
-    tp_getSave(&tp_gameInfo, tp_gameInfo.area_id);
+    tp_getSave(&tp_gameInfo, tp_gameInfo.dungeon_temp_flags.mStageNum);
 };
 
 void inject_default_before() {
