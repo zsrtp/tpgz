@@ -222,9 +222,19 @@ void cits_poe_cycle() {
     set_angle_position();
 }
 
+void fan_tower() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset city switches
+}
+
 void argorok() {
     SaveInjector::inject_default_during();
     tp_gameInfo.boss_room_event_flags = 1;
+}
+
+void palace1() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset palace switches
 }
 
 void palace2() {
@@ -247,10 +257,7 @@ void bossflags() {
 
 void cave_of_ordeals() {
     SaveInjector::inject_default_during();
-    tp_gameInfo.floors.floor_01_08 = 0;  // reset all CoO doors on load
-    tp_gameInfo.floors.floor_09_17 = 0;
-    tp_gameInfo.floors.floor_18_26 = 0;
-    tp_gameInfo.floors.floor_27_34 = 0;
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset all CoO doors
 }
 
 void HundoSavesMenu::render() {
@@ -274,7 +281,9 @@ void HundoSavesMenu::render() {
         special(HND_EARLY_HP_INDEX, tot_early_hp, nullptr),
         special(HND_CITY_EARLY_INDEX, hugo_archery, nullptr),
         special(HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr),
+        special(HND_FAN_TOWER_INDEX, fan_tower, nullptr),
         special(HND_ARGOROK_INDEX, argorok, nullptr),
+        special(HND_PALACE_1_INDEX, palace1, nullptr),
         special(HND_PALACE_2_INDEX, nullptr, palace2),
         special(HND_COO_INDEX, cave_of_ordeals, nullptr),
         special(HND_COO_10_INDEX, cave_of_ordeals, nullptr),

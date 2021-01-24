@@ -40,7 +40,7 @@ Line lines[LINES] = {
     {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"}};
 
 void copyGlobalFlags(uint8_t id) {
-    if (tp_gameInfo.area_id == id) {
+    if (tp_gameInfo.dungeon_temp_flags.mStageNum == id) {
         for (uint8_t j = 0; j < 0x20; j++) {
             tp_gameInfo.temp_flags.flags[j] = dungeon_node->flags[j];
         }

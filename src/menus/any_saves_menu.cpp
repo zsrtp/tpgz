@@ -104,9 +104,19 @@ void stallord() {
     tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
 }
 
+void fan_tower() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset city switches
+}
+
 void argorok() {
     SaveInjector::inject_default_during();
     tp_gameInfo.boss_room_event_flags = 1;
+}
+
+void palace1() {
+    SaveInjector::inject_default_during();
+    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0; // reset palace switches
 }
 
 void palace2() {
@@ -148,7 +158,9 @@ void AnySavesMenu::render() {
         special(LAKEBED_1_INDEX, bossflags, nullptr),
         special(WATERFALL_SIDEHOP_INDEX, waterfall_sidehop, nullptr),
         special(DARK_HAMMER_INDEX, bossflags, darkhammer),
+        special(FAN_TOWER_INDEX, fan_tower, nullptr),
         special(ARGOROK_INDEX, argorok, nullptr),
+        special(PALACE_1_INDEX, palace1, nullptr),
         special(PALACE_2_INDEX, nullptr, palace2)};
 
     if (button_is_pressed(Controller::B)) {
