@@ -49,8 +49,8 @@ void apply_lib_hooks() {
 
 void init() {
     Font::load_font("tpgz/fonts/consola.fnt");
-    PosSettingsMenu::initDefaults();
     Draw::init();
+    PosSettingsMenu::initDefaults();
     fifo_visible = true;
     if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
         load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
@@ -58,6 +58,7 @@ void init() {
             tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
         }
     }
+    Utilities::setup_link_color();
 }
 
 void game_loop() {
@@ -92,6 +93,7 @@ void game_loop() {
         MenuRendering::close_active_menus();
         move_link_active = false;
         last_frame_was_loading = true;
+        free_cam_active = false;
     }
 
     // save temp flags and tears after every loading zone

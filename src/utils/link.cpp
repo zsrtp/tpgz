@@ -58,84 +58,87 @@ void show_link_debug_info() {
 }
 void change_tunic_color() {
     if (tp_gameInfo.link_tunic_ptr) {
+        int16_t red_ = 0;
+        int16_t green_ = 0;
+        int16_t blue_ = 0;
         switch (g_tunic_color) {
-        case GREEN: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+        case GREEN: // passthrough
+        default: {
+            red_ = 0x10;
+            green_ = 0x10;
+            blue_ = 0x10;
             break;
         }
         case BLUE: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x20;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x80;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x20;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x80;
+            red_ = 0x00;
+            green_ = 0x08;
+            blue_ = 0x20;
             break;
         }
         case RED: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x80;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x80;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+            red_ = 0x18;
+            green_ = 0x00;
+            blue_ = 0x00;
             break;
         }
         case ORANGE: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0xDC;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x14;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0xDC;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x14;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+            red_ = 0x20;
+            green_ = 0x10;
+            blue_ = 0x00;
             break;
         }
         case YELLOW: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x00;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x00;
+            red_ = 0x20;
+            green_ = 0x20;
+            blue_ = 0x00;
             break;
         }
         case WHITE: {
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = 0x30;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = 0x30;
+            red_ = 0x20;
+            green_ = 0x1C;
+            blue_ = 0x20;
             break;
         }
         case CYCLE: {
-            if (red < 0x0040 && (green == 0x0000 && blue == 0x0000)) {
-                red += 0x0002;
-            } else if (green < 0x0040 && (blue == 0x0000 && red == 0x0040)) {
-                green += 0x0002;
-            } else if (blue < 0x0040 && (green == 0x0040 && red == 0x0040)) {
-                blue += 0x0002;
-            } else if (red > 0x0000 && (green == 0x0040 && blue == 0x0040)) {
-                red -= 0x0002;
-            } else if (green > 0x0000 && (blue == 0x0040 && red == 0x0000)) {
-                green -= 0x0002;
+            if (red < 0x0010 && (green == 0x0000 && blue == 0x0000)) {
+                red += 0x0001;
+            } else if (green < 0x0010 && (blue == 0x0000 && red == 0x0010)) {
+                green += 0x0001;
+            } else if (blue < 0x0010 && (green == 0x0010 && red == 0x0010)) {
+                blue += 0x0001;
+            } else if (red > 0x0000 && (green == 0x0010 && blue == 0x0010)) {
+                red -= 0x0001;
+            } else if (green > 0x0000 && (blue == 0x0010 && red == 0x0000)) {
+                green -= 0x0001;
             } else {
-                blue -= 0x0002;
+                blue -= 0x0001;
             }
-            tp_gameInfo.link_tunic_ptr->tunic_top_red = red;
-            tp_gameInfo.link_tunic_ptr->tunic_top_green = green;
-            tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green;
-            tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue;
+            red_ = red;
+            green_ = green;
+            blue_ = blue;
             break;
         }
         }
+#ifdef GCN_PLATFORM
+        tp_gameInfo.link_tunic_ptr->tunic_top_red = red_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_top_green = green_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue_ - 0x10;
+#endif
+#ifdef WII_PLATFORM
+        tp_gameInfo.link_tunic_ptr->tunic_top_red = red_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_top_green = green_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green_ - 0x10;
+        tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue_ - 0x10;
+        // tp_gameInfo.link_tunic_ptr->not_tunic_red = 1;
+        // tp_gameInfo.link_tunic_ptr->tunic_red = red_ - 0x10;
+        // tp_gameInfo.link_tunic_ptr->tunic_green = green_ - 0x10;
+        // tp_gameInfo.link_tunic_ptr->tunic_blue = blue_ - 0x10;
+#endif
     }
 }
 }  // namespace Utilities
