@@ -186,62 +186,75 @@ void render_memory(Cursor cursor) {
 
         float address_offset = Font::get_chars_width(address) + LINE_X_OFFSET;
         float two_numbers_offset = Font::get_chars_width(" 00");
-            if (cursor.y == (i + 1) && lock_cursor_x && lock_cursor_y) {
-                if (button_is_pressed(Controller::DPAD_UP)) {
-                    *(uint8_t*)((address_index + (i * 8)) + byte_index) += 0x1;
-                }
-                if (button_is_pressed(Controller::DPAD_DOWN)) {
-                    *(uint8_t*)((address_index + (i * 8)) + byte_index) -= 0x1;
-                }
-                if (button_is_pressed(Controller::DPAD_RIGHT)) {
-                    *(uint8_t*)((address_index + (i * 8)) + byte_index) += 0x10;
-                }
-                if (button_is_pressed(Controller::DPAD_LEFT)) {
-                    *(uint8_t*)((address_index + (i * 8)) + byte_index) -= 0x10;
-                }
+        if (cursor.y == (i + 1) && lock_cursor_x && lock_cursor_y) {
+            if (button_is_pressed(Controller::DPAD_UP)) {
+                *(uint8_t*)((address_index + (i * 8)) + byte_index) += 0x1;
             }
+            if (button_is_pressed(Controller::DPAD_DOWN)) {
+                *(uint8_t*)((address_index + (i * 8)) + byte_index) -= 0x1;
+            }
+            if (button_is_pressed(Controller::DPAD_RIGHT)) {
+                *(uint8_t*)((address_index + (i * 8)) + byte_index) += 0x10;
+            }
+            if (button_is_pressed(Controller::DPAD_LEFT)) {
+                *(uint8_t*)((address_index + (i * 8)) + byte_index) -= 0x10;
+            }
+        }
 
-            //  cycle cursor color when value selected
-            if (lock_cursor_x && lock_cursor_y) {
-                if (red < 0x00A0 && (green == 0x0000 && blue == 0x0000)) {
-                    red += 0x0001;
-                } else if (green < 0x00A0 && (blue == 0x0000 && red == 0x00A0)) {
-                    green += 0x0001;
-                } else if (blue < 0x00A0 && (green == 0x00A0 && red == 0x00A0)) {
-                    blue += 0x0001;
-                } else if (red > 0x0000 && (green == 0x00A0 && blue == 0x00A0)) {
-                    red -= 0x0001;
-                } else if (green > 0x0000 && (blue == 0x00A0 && red == 0x0000)) {
-                    green -= 0x0001;
-                } else {
-                    blue -= 0x0001;
-                }
-
-                mem_cursor_color = (red << 24) | (green << 16) | (blue << 8) | 0xFF;
-
+        //  cycle cursor color when value selected
+        if (lock_cursor_x && lock_cursor_y) {
+            if (red < 0x00A0 && (green == 0x0000 && blue == 0x0000)) {
+                red += 0x0001;
+            } else if (green < 0x00A0 && (blue == 0x0000 && red == 0x00A0)) {
+                green += 0x0001;
+            } else if (blue < 0x00A0 && (green == 0x00A0 && red == 0x00A0)) {
+                blue += 0x0001;
+            } else if (red > 0x0000 && (green == 0x00A0 && blue == 0x00A0)) {
+                red -= 0x0001;
+            } else if (green > 0x0000 && (blue == 0x00A0 && red == 0x0000)) {
+                green -= 0x0001;
             } else {
-                mem_cursor_color = CURSOR_RGBA;
+                blue -= 0x0001;
             }
+            mem_cursor_color = (red << 24) | (green << 16) | (blue << 8) | 0xFF;
+        } else {
+            mem_cursor_color = CURSOR_RGBA;
+        }
 
-            Font::gz_renderChars(address, LINE_X_OFFSET, y_offset,
-                                 (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA),
-                                 g_drop_shadows);
-            Font::gz_renderChars(b0, address_offset, y_offset,
-                                 (byte_index == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b1, address_offset + two_numbers_offset * 1, y_offset,
-                                 (byte_index == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b2, address_offset + two_numbers_offset * 2, y_offset,
-                                 (byte_index == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b3, address_offset + two_numbers_offset * 3, y_offset,
-                                 (byte_index == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b4, address_offset + two_numbers_offset * 4, y_offset,
-                                 (byte_index == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b5, address_offset + two_numbers_offset * 5, y_offset,
-                                 (byte_index == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b6, address_offset + two_numbers_offset * 6, y_offset,
-                                 (byte_index == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
-            Font::gz_renderChars(b7, address_offset + two_numbers_offset * 7, y_offset,
-                                 (byte_index == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA), g_drop_shadows);
+        Font::gz_renderChars(address, LINE_X_OFFSET, y_offset,
+                             (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), g_drop_shadows);
+        Font::gz_renderChars(
+            b0, address_offset, y_offset,
+            (byte_index == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b1, address_offset + two_numbers_offset * 1, y_offset,
+            (byte_index == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b2, address_offset + two_numbers_offset * 2, y_offset,
+            (byte_index == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b3, address_offset + two_numbers_offset * 3, y_offset,
+            (byte_index == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b4, address_offset + two_numbers_offset * 4, y_offset,
+            (byte_index == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b5, address_offset + two_numbers_offset * 5, y_offset,
+            (byte_index == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b6, address_offset + two_numbers_offset * 6, y_offset,
+            (byte_index == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
+        Font::gz_renderChars(
+            b7, address_offset + two_numbers_offset * 7, y_offset,
+            (byte_index == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+            g_drop_shadows);
     }
 }
 
@@ -279,8 +292,9 @@ void MemoryEditorMenu::render() {
         }
     }
 
-    Utilities::move_cursor(cursor, 1 + MAX_DISPLAY_LINES, 8, lock_cursor_x, lock_cursor_y, false, true);
-    Font::gz_renderChars("DPad to move/change value, A/B to select/cancel line/value", 25.0f, 440.f,
+    Utilities::move_cursor(cursor, 1 + MAX_DISPLAY_LINES, 8, lock_cursor_x, lock_cursor_y, false,
+                           true);
+    Font::gz_renderChars("DPad to move/modify value, A/B to (de)select value", 25.0f, 440.f,
                          0xFFFFFFFF, g_drop_shadows);
     render_memory(cursor);
 };

@@ -47,15 +47,14 @@ void render_flag_records(uint8_t record[]) {
         float y_offset;
 #define LINE_X_OFFSET 20.0f
 
-        y_offset = (80.0f + i * 20.0f); 
+        y_offset = (80.0f + i * 20.0f);
 
         char offset[6];
         int idx_num;
 
         if (cursor.y > MAX_DISPLAY_LINES) {
             idx_num = i + (cursor.y - MAX_DISPLAY_LINES);
-        }
-        else {
+        } else {
             idx_num = i;
         }
         tp_sprintf(offset, "0x%02X:", idx_num);
@@ -64,12 +63,10 @@ void render_flag_records(uint8_t record[]) {
 
         for (uint8_t bit = 0; bit < 8; bit++) {
             if (record[idx_num] & (1 << bit)) {
-                Draw::draw_rect(0xFFFFFFFF,
-                                {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
+                Draw::draw_rect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
                                 {16, 16}, &gzFlagOnTex._texObj);
             } else {
-                Draw::draw_rect(0xFFFFFFFF,
-                                {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
+                Draw::draw_rect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
                                 {16, 16}, &gzFlagOffTex._texObj);
             }
         }
@@ -86,7 +83,8 @@ void render_flag_records(uint8_t record[]) {
         }
 
         Font::gz_renderChars(offset, LINE_X_OFFSET, y_offset,
-                             (cursor.y == (idx_num + 1) ? CURSOR_RGBA : WHITE_RGBA), g_drop_shadows);
+                             (cursor.y == (idx_num + 1) ? CURSOR_RGBA : WHITE_RGBA),
+                             g_drop_shadows);
     }
 }
 
@@ -111,10 +109,12 @@ void FlagRecordsMenu::render() {
         init_once = true;
     }
 
-    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"area temp", "event", "minigame", "dungeon"};
+    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"area temp", "event", "minigame",
+                                                          "dungeon"};
     if (cursor.y == FLAG_RECORD_INDEX) {
         cursor.x = record_index;
-        Utilities::move_cursor(cursor, max_flags + 1, MAX_RECORD_OPTIONS, false, false, false, true);
+        Utilities::move_cursor(cursor, max_flags + 1, MAX_RECORD_OPTIONS, false, false, false,
+                               true);
         if (cursor.y == FLAG_RECORD_INDEX) {
             record_index = cursor.x;
         }
@@ -126,30 +126,30 @@ void FlagRecordsMenu::render() {
     Font::gz_renderChars(record_type, 12.0f, 60.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA),
                          g_drop_shadows);
 
-    Font::gz_renderChars("DPad to change record/move cursor, A to toggle flag", 25.0f, 440.f, 0xFFFFFFFF,
-                         g_drop_shadows);
+    Font::gz_renderChars("DPad to change record/move cursor, A to toggle flag", 25.0f, 440.f,
+                         0xFFFFFFFF, g_drop_shadows);
 
     
     switch (record_index) {
-        case 0: {
-            max_flags = 0x20;
-            render_flag_records(tp_gameInfo.temp_flags.flags);
-            break;
-        }
-        case 1: {
-            max_flags = 0x100;
-            render_flag_records(tp_gameInfo.event_flags.flags);
-            break;
-        }
-        case 2: {
-            max_flags = 0x18;
-            render_flag_records(tp_gameInfo.minigame_flags);
-            break;
-        }
-        case 3: {
-            max_flags = 0x18;
-            render_flag_records((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield);
-            break;
-        }
+    case 0: {
+        max_flags = 0x20;
+        render_flag_records(tp_gameInfo.temp_flags.flags);
+        break;
+    }
+    case 1: {
+        max_flags = 0x100;
+        render_flag_records(tp_gameInfo.event_flags.flags);
+        break;
+    }
+    case 2: {
+        max_flags = 0x18;
+        render_flag_records(tp_gameInfo.minigame_flags);
+        break;
+    }
+    case 3: {
+        max_flags = 0x18;
+        render_flag_records((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield);
+        break;
+    }
     }
 };
