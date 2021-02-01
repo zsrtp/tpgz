@@ -184,15 +184,13 @@ void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
     // Analog triggers
     Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y},
                             {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
-    Draw::draw_rect(is_shadow                                 ? 0x00000060 :
-                    Controller::button_is_down(Controller::L) ? 0x00FF00FF :
-                                                                0xFFFFFFFF,
+    Draw::draw_rect(is_shadow ? 0x00000060 :
+                                Controller::button_is_down(Controller::L) ? 0x00FF00FF : 0xFFFFFFFF,
                     {pos.x, pos.y}, {35.f * tp_mPadButton.l_analog * scale, 7.f * scale});
     Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 45.f * scale, pos.y},
                             {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
-    Draw::draw_rect(is_shadow                                 ? 0x00000060 :
-                    Controller::button_is_down(Controller::R) ? 0x00FF00FF :
-                                                                0xFFFFFFFF,
+    Draw::draw_rect(is_shadow ? 0x00000060 :
+                                Controller::button_is_down(Controller::R) ? 0x00FF00FF : 0xFFFFFFFF,
                     {pos.x + (45.f + 35.f * (1 - tp_mPadButton.r_analog)) * scale, pos.y},
                     {35.f * tp_mPadButton.r_analog * scale, 7.f * scale});
 
@@ -270,17 +268,13 @@ void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
     // Analog triggers
     Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y},
                             {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
-    Draw::draw_rect(is_shadow                    ? 0x00000060 :
-                    tp_mPad.nunchuck_shake > 0.2 ? 0x00FF00FF :
-                                                   0xFFFFFFFF,
+    Draw::draw_rect(is_shadow ? 0x00000060 : tp_mPad.nunchuck_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
                     {pos.x, pos.y},
                     {35.f * MIN(1.0f, tp_mPad.nunchuck_shake) * scale, 7.f * scale});
     Draw::draw_rect_outline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 117.5f * scale, pos.y},
                             {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
     Draw::draw_rect(
-        is_shadow                   ? 0x00000060 :
-        tp_mPad.wiimote_shake > 0.2 ? 0x00FF00FF :
-                                      0xFFFFFFFF,
+        is_shadow ? 0x00000060 : tp_mPad.wiimote_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
         {pos.x + (117.5f + 35.f * (1 - MIN(1.0f, tp_mPad.wiimote_shake))) * scale, pos.y},
         {35.f * MIN(1.0f, tp_mPad.wiimote_shake) * scale, 7.f * scale});
 
