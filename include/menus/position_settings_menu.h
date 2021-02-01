@@ -1,3 +1,5 @@
+#pragma once
+
 #include "menu.h"
 
 #define SPRITES_AMNT 7

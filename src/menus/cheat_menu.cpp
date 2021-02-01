@@ -145,7 +145,8 @@ void apply_cheats() {
                 }
             }
 #endif
-            default: {}
+            default: {
+            }
             }
         } else {
             switch (cheat.id) {
@@ -176,7 +177,8 @@ void apply_cheats() {
                 }
                 break;
             }
-            default: {}
+            default: {
+            }
             }
         }
     }

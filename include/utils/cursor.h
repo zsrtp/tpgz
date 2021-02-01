@@ -8,5 +8,6 @@ extern bool can_move_cursor;
 
 namespace Utilities {
 void move_cursor(Cursor& cursor, int max_cursor_x_value, int max_cursor_y_value = 0,
-                 bool lock_x = false, bool lock_y = false, bool unrestricted = false);
+                 bool lock_x = false, bool lock_y = false, bool unrestricted = false,
+                 bool menu_with_list_lines = false);
 }

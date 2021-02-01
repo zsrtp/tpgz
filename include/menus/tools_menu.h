@@ -1,3 +1,5 @@
+#pragma once
+
 #include "menu.h"
 
 #ifdef WII_PLATFORM

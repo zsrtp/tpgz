@@ -20,6 +20,10 @@ u32 0x60000000
 @setWaterDropEffect3:
 u32 0x60000000
 
+; Temporary fix for a save loader bug
+; @setWaterDropColor:
+; u32 0x60000000
+
 ; Enable debug crash screen
 @debug:
 u32 @debugInstruction

@@ -328,7 +328,7 @@ void PauseMenu::render() {
     switch (cursor.y) {
     case ORDON_SWORD_INDEX: {
         cursor.x = ordon_sword_index;
-        Utilities::move_cursor(cursor, LINES, MAX_ORDON_SWORD_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_ORDON_SWORD_OPTIONS, false, false, false, true);
         if (cursor.y == ORDON_SWORD_INDEX) {
             ordon_sword_index = cursor.x;
         }
@@ -337,7 +337,7 @@ void PauseMenu::render() {
     }
     case MASTER_SWORD_INDEX: {
         cursor.x = master_sword_index;
-        Utilities::move_cursor(cursor, LINES, MAX_MASTER_SWORD_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_MASTER_SWORD_OPTIONS, false, false, false, true);
         if (cursor.y == MASTER_SWORD_INDEX) {
             master_sword_index = cursor.x;
         }
@@ -346,7 +346,7 @@ void PauseMenu::render() {
     }
     case WOOD_SHIELD_INDEX: {
         cursor.x = wood_shield_index;
-        Utilities::move_cursor(cursor, LINES, MAX_WOOD_SHIELD_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_WOOD_SHIELD_OPTIONS, false, false, false, true);
         if (cursor.y == WOOD_SHIELD_INDEX) {
             wood_shield_index = cursor.x;
         }
@@ -355,7 +355,7 @@ void PauseMenu::render() {
     }
     case HYLIAN_SHIELD_INDEX: {
         cursor.x = hylian_shield_index;
-        Utilities::move_cursor(cursor, LINES, MAX_HYLIAN_SHIELD_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_HYLIAN_SHIELD_OPTIONS, false, false, false, true);
         if (cursor.y == HYLIAN_SHIELD_INDEX) {
             hylian_shield_index = cursor.x;
         }
@@ -364,7 +364,7 @@ void PauseMenu::render() {
     }
     case HERO_TUNIC_INDEX: {
         cursor.x = hero_tunic_index;
-        Utilities::move_cursor(cursor, LINES, MAX_HERO_TUNIC_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_HERO_TUNIC_OPTIONS, false, false, false, true);
         if (cursor.y == HERO_TUNIC_INDEX) {
             hero_tunic_index = cursor.x;
         }
@@ -373,7 +373,7 @@ void PauseMenu::render() {
     }
     case ZORA_ARMOR_INDEX: {
         cursor.x = zora_armor_index;
-        Utilities::move_cursor(cursor, LINES, MAX_ZORA_ARMOR_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_ZORA_ARMOR_OPTIONS, false, false, false, true);
         if (cursor.y == ZORA_ARMOR_INDEX) {
             zora_armor_index = cursor.x;
         }
@@ -382,7 +382,7 @@ void PauseMenu::render() {
     }
     case MAGIC_ARMOR_INDEX: {
         cursor.x = magic_armor_index;
-        Utilities::move_cursor(cursor, LINES, MAX_MAGIC_ARMOR_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_MAGIC_ARMOR_OPTIONS, false, false, false, true);
         if (cursor.y == MAGIC_ARMOR_INDEX) {
             magic_armor_index = cursor.x;
         }
@@ -391,7 +391,7 @@ void PauseMenu::render() {
     }
     case BOMB_CAPACITY_INDEX: {
         cursor.x = bomb_capacity_index;
-        Utilities::move_cursor(cursor, LINES, MAX_BOMB_CAPACITY_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_BOMB_CAPACITY_OPTIONS, false, false, false, true);
         if (cursor.y == BOMB_CAPACITY_INDEX) {
             bomb_capacity_index = cursor.x;
         }
@@ -400,7 +400,7 @@ void PauseMenu::render() {
     }
     case WALLET_INDEX: {
         cursor.x = wallet_index;
-        Utilities::move_cursor(cursor, LINES, MAX_WALLET_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_WALLET_OPTIONS, false, false, false, true);
         if (cursor.y == WALLET_INDEX) {
             wallet_index = cursor.x;
         }
@@ -409,7 +409,8 @@ void PauseMenu::render() {
     }
     case ARROW_CAPACITY_INDEX: {
         cursor.x = arrow_capacity_index;
-        Utilities::move_cursor(cursor, LINES, MAX_ARROW_CAPACITY_OPTIONS);
+        Utilities::move_cursor(cursor, LINES, MAX_ARROW_CAPACITY_OPTIONS, false, false, false,
+                               true);
         if (cursor.y == ARROW_CAPACITY_INDEX) {
             arrow_capacity_index = cursor.x;
         }

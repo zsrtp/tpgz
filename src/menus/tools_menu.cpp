@@ -93,13 +93,13 @@ void ToolsMenu::render() {
 
     if (cursor.y == TUNIC_COLOR_INDEX) {
         cursor.x = tunic_color_index;
-        Utilities::move_cursor(cursor, LINES, MAX_TUNIC_COLORS);
+        Utilities::move_cursor(cursor, LINES, MAX_TUNIC_COLORS, false, false, false, true);
         if (cursor.y == TUNIC_COLOR_INDEX) {
             tunic_color_index = cursor.x;
         }
         g_tunic_color = tunic_color_index;
     } else {
-        Utilities::move_cursor(cursor, LINES);
+        Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     }
     tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>",
                tunic_color_options[tunic_color_index].member);

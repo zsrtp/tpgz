@@ -284,6 +284,6 @@ void WarpingMenu::render() {
         tp_sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", layer);
     }
 
-    Utilities::move_cursor(cursor, LINES);
+    Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);
 }
