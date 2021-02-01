@@ -62,7 +62,7 @@ void change_tunic_color() {
         int16_t green_ = 0;
         int16_t blue_ = 0;
         switch (g_tunic_color) {
-        case GREEN: // passthrough
+        case GREEN:  // passthrough
         default: {
             red_ = 0x10;
             green_ = 0x10;

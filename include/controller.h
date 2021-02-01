@@ -22,19 +22,19 @@ enum Button {
     START = 11,
 #endif
 #ifdef WII_PLATFORM
-DPAD_LEFT = 0,
-DPAD_RIGHT = 1,
-DPAD_DOWN = 2,
-DPAD_UP = 3,
-PLUS = 4,
-TWO = 5,
-ONE = 6,
-B = 7,
-A = 8,
-MINUS = 9,
-Z = 10,
-C = 11,
-HOME = 12,
+    DPAD_LEFT = 0,
+    DPAD_RIGHT = 1,
+    DPAD_DOWN = 2,
+    DPAD_UP = 3,
+    PLUS = 4,
+    TWO = 5,
+    ONE = 6,
+    B = 7,
+    A = 8,
+    MINUS = 9,
+    Z = 10,
+    C = 11,
+    HOME = 12,
 #endif
 };
 bool button_is_pressed(int idx);

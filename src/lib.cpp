@@ -87,8 +87,7 @@ void game_loop() {
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
-    if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 &&
-        !move_link_active) {
+    if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 && !move_link_active) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }

@@ -25,8 +25,10 @@
 #ifdef WII_PLATFORM
 #define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
 #define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
-#define VERTICAL_DISPLACEMENT ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
-#define HORIZONTAL_DISPLACEMENT ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
+#define VERTICAL_DISPLACEMENT                                                                      \
+    ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
+#define HORIZONTAL_DISPLACEMENT                                                                    \
+    ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
 #define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
 #endif
 
@@ -90,10 +92,8 @@ void move_link() {
 
         // Calculate the translation
         double dy = VERTICAL_DISPLACEMENT;
-        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) -
-                    CONTROL_X * tp_sin(yaw);
-        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) +
-                    CONTROL_X * tp_cos(yaw);
+        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) - CONTROL_X * tp_sin(yaw);
+        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) + CONTROL_X * tp_cos(yaw);
 
         auto speed = SPEED_PREDICATE != 0 ? CAM_FAST_SPEED : CAM_SPEED;
         // Apply the translation with a speed factor

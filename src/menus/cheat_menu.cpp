@@ -28,10 +28,10 @@ bool chest_collision = false;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
-    {InfiniteAir, false},       {InfiniteArrows, false},   {InfiniteBombs, false},
-    {InfiniteHearts, false},    {InfiniteOil, false},      {InfiniteRupees, false},
-    {InfiniteSlingshot, false}, {Invincible, false},       {InvincibleEnemies, false},
-    {MoonJump, false},          {DoorStorage, false},      {SuperClawshot, false},
+    {InfiniteAir, false},       {InfiniteArrows, false},  {InfiniteBombs, false},
+    {InfiniteHearts, false},    {InfiniteOil, false},     {InfiniteRupees, false},
+    {InfiniteSlingshot, false}, {Invincible, false},      {InvincibleEnemies, false},
+    {MoonJump, false},          {DoorStorage, false},     {SuperClawshot, false},
     {UnrestrictedItems, false}, {TransformAnywhere, false},
 #ifdef WII_PLATFORM
     {GaleLJA, false},
@@ -56,7 +56,8 @@ Line lines[LINES] = {
     {"invincible", Invincible, "Makes Link invincible", true, &CheatItems[Invincible].active},
     {"invincible enemies", InvincibleEnemies, "Makes some enemies invincible", true,
      &CheatItems[InvincibleEnemies].active},
-    {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true, &CheatItems[MoonJump].active},
+    {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true,
+     &CheatItems[MoonJump].active},
     {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active},
     {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active},
     {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true,
@@ -82,10 +83,12 @@ void apply_cheats() {
                 break;
             }
             case InvincibleEnemies: {
-                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) = 0x60000000;  // nop
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                                sizeof(uint32_t));
+                *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
+                    0x60000000;  // nop
+                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                           sizeof(uint32_t));
+                gc::os_cache::ICInvalidateRange(
+                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
                 break;
             }
             case Invincible: {
@@ -140,7 +143,9 @@ void apply_cheats() {
             }
 #ifdef WII_PLATFORM
             case GaleLJA: {
-                if (tp_zelAudio.link_debug_ptr != nullptr && tp_zelAudio.link_debug_ptr->current_action_id == 0x60 && tp_zelAudio.link_debug_ptr->current_item == 0xFF) {
+                if (tp_zelAudio.link_debug_ptr != nullptr &&
+                    tp_zelAudio.link_debug_ptr->current_action_id == 0x60 &&
+                    tp_zelAudio.link_debug_ptr->current_item == 0xFF) {
                     tp_zelAudio.link_debug_ptr->current_item = 0x0103;
                 }
             }
@@ -157,9 +162,10 @@ void apply_cheats() {
             case InvincibleEnemies: {
                 *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x7C030050;  // sub r0, r0, r3
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                                sizeof(uint32_t));
+                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                           sizeof(uint32_t));
+                gc::os_cache::ICInvalidateRange(
+                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
                 break;
             }
             case SuperClawshot: {

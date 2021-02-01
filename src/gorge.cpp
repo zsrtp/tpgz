@@ -95,7 +95,8 @@ void run() {
         if (counter_difference > 123 && after_cs_val < 10) {
             // went early
             if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
-                (counter_difference < WARP_CS_FRAMES) && (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
+                (counter_difference < WARP_CS_FRAMES) &&
+                (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
                 int final_val = WARP_CS_FRAMES - counter_difference;
                 tp_sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
@@ -110,8 +111,8 @@ void run() {
             }
 
             // went late
-            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) && after_cs_val > 0 &&
-                     (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
+            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
+                     after_cs_val > 0 && (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
                 tp_sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }

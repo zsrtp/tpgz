@@ -25,7 +25,9 @@ double yaw = 0.0;
 #ifdef WII_PLATFORM
 #define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
 #define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
-#define VERTICAL_DISPLACEMENT ((tp_mPad.buttons & Controller::Mote::DPAD_UP ? 75 : 0) - (tp_mPad.buttons & Controller::Mote::DPAD_DOWN ? 75 : 0))
+#define VERTICAL_DISPLACEMENT                                                                      \
+    ((tp_mPad.buttons & Controller::Mote::DPAD_UP ? 75 : 0) -                                      \
+     (tp_mPad.buttons & Controller::Mote::DPAD_DOWN ? 75 : 0))
 #define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
 #define PITCH_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
 #define YAW_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
@@ -51,15 +53,11 @@ void handle_free_cam() {
         }
 
         // Calculate the translation
-        double dy =
-            CONTROL_Y * tp_sin(pitch) + VERTICAL_DISPLACEMENT;
-        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) -
-                    CONTROL_X * tp_sin(yaw);
-        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) +
-                    CONTROL_X * tp_cos(yaw);
+        double dy = CONTROL_Y * tp_sin(pitch) + VERTICAL_DISPLACEMENT;
+        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) - CONTROL_X * tp_sin(yaw);
+        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) + CONTROL_X * tp_cos(yaw);
 
-        auto speed =
-            SPEED_PREDICATE != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
+        auto speed = SPEED_PREDICATE != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
         // Apply the translation with a speed factor
         cam_pos.x += speed * dx;
         cam_pos.y += speed * dy;
@@ -73,8 +71,7 @@ void handle_free_cam() {
         // Update the pitch and yaw
         yaw += YAW_CONTROL * ROTATION_SPEED;
         yaw = tp_fmod(yaw + 2 * M_PI, 2 * M_PI);
-        pitch =
-            MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
+        pitch = MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
     } else {
         if (init_once) {
             tp_gameInfo.freeze_game = false;
