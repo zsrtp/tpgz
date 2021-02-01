@@ -129,7 +129,6 @@ void FlagRecordsMenu::render() {
     Font::gz_renderChars("DPad to change record/move cursor, A to toggle flag", 25.0f, 440.f,
                          0xFFFFFFFF, g_drop_shadows);
 
-    
     switch (record_index) {
     case 0: {
         max_flags = 0x20;
