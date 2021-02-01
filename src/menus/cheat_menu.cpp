@@ -28,10 +28,10 @@ bool chest_collision = false;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
-    {InfiniteAir, false},       {InfiniteArrows, false},  {InfiniteBombs, false},
-    {InfiniteHearts, false},    {InfiniteOil, false},     {InfiniteRupees, false},
-    {InfiniteSlingshot, false}, {Invincible, false},      {InvincibleEnemies, false},
-    {MoonJump, false},          {DoorStorage, false},     {SuperClawshot, false},
+    {InfiniteAir, false},       {InfiniteArrows, false},    {InfiniteBombs, false},
+    {InfiniteHearts, false},    {InfiniteOil, false},       {InfiniteRupees, false},
+    {InfiniteSlingshot, false}, {Invincible, false},        {InvincibleEnemies, false},
+    {MoonJump, false},          {DoorStorage, false},       {SuperClawshot, false},
     {UnrestrictedItems, false}, {TransformAnywhere, false},
 #ifdef WII_PLATFORM
     {GaleLJA, false},
