@@ -41,6 +41,9 @@ extern "C" {
 #if (WII_NTSCU_10)
 #define main_tampoline ((void (*)(void))0x803ce3dc)
 #endif
+#if (WII_PAL)
+#define main_tampoline ((void (*)(void))0x803b929c)
+#endif
 
 void apply_lib_hooks() {
     Hook::apply_hooks();

@@ -24,6 +24,12 @@ elif [ $1 == "WII_NTSCU_10" ]; then
     BLD_ISO="build/tpgzw.iso"
     BLD_MAP="build/RZDE01.map"
     LINK_BASE="0x8056_0000"
+elif [ $1 == "WII_PAL" ]; then
+    SRC_ISO="rzdp01.iso"
+    SRC_MAP="map/Rfinal/Release/RframeworkF.map"
+    BLD_ISO="build/tpgzw.iso"
+    BLD_MAP="build/RZDP01.map"
+    LINK_BASE="0x8053_8000"
 else 
     echo "Invalid region: $1"
     exit 1
