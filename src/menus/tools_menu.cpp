@@ -166,7 +166,9 @@ void ToolsMenu::render() {
                 break;
             }
             case SAND_INDEX: {
-                tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                if (tp_zelAudio.link_debug_ptr != nullptr) {
+                    tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                }
                 break;
             }
             case FREE_CAM_INDEX: {

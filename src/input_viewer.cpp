@@ -141,15 +141,15 @@ void draw_cross(uint32_t color, Vec2 pos, float size) {
 
 void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
 #ifdef GCN_PLATFORM
-    draw_button(Controller::A, ' ', is_shadow ? 0x00000060 : 0x00FF7fFF,
+    draw_button(Controller::A, 'A', is_shadow ? 0x00000060 : 0x00FF7fFF,
                 {pos.x + 130.f * scale, pos.y + 30.f * scale}, {30.f * scale, 30.f * scale}, 8 * scale);
-    draw_button(Controller::B, ' ', is_shadow ? 0x00000060 : 0xFF0000FF,
+    draw_button(Controller::B, 'B', is_shadow ? 0x00000060 : 0xFF0000FF,
                 {pos.x + 108.5f * scale, pos.y + 45.f * scale}, {13.f * scale, 13.f * scale}, 8 * scale);
-    draw_button(Controller::X, ' ', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    draw_button(Controller::X, 'X', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                 {pos.x + 167.5f * scale, pos.y + 30.f * scale}, {15.f * scale, 30.f * scale}, 8 * scale);
-    draw_button(Controller::Y, ' ', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    draw_button(Controller::Y, 'Y', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                 {pos.x + 130.f * scale, pos.y + 7.5f * scale}, {30.f * scale, 15.f * scale}, 8 * scale);
-    draw_button(Controller::Z, ' ', is_shadow ? 0x00000060 : 0x8A2BE2FF,
+    draw_button(Controller::Z, 'Z', is_shadow ? 0x00000060 : 0x8A2BE2FF,
                 {pos.x + 167.5f * scale, pos.y + 7.5f * scale}, {15.f * scale, 15.f * scale}, 8 * scale);
     draw_button(Controller::START, ' ', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                 {pos.x + 87.5f * scale, pos.y + 40.f * scale}, {10.f * scale, 10.f * scale}, 8 * scale);
@@ -194,13 +194,13 @@ void draw_input_viewer(Vec2 pos, float scale, bool is_shadow) {
     tp_sprintf(c_x, "%d", tp_mPadStatus.c_x);
     tp_sprintf(c_y, "%d", tp_mPadStatus.c_y);
 
-    Font::gz_renderChars(control_x, pos.x, pos.y + 65.f * scale, 0xFFFFFFFF, false,
+    Font::gz_renderChars(control_x, pos.x, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFFFFFFF, false,
                          13 * scale);
-    Font::gz_renderChars(control_y, pos.x + 23.f * scale, pos.y + 65.f * scale, 0xFFFFFFFF,
+    Font::gz_renderChars(control_y, pos.x + 23.f * scale, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFFFFFFF,
                          false, 13 * scale);
-    Font::gz_renderChars(c_x, pos.x + 45.f * scale, pos.y + 65.f * scale, 0xFFD138FF,
+    Font::gz_renderChars(c_x, pos.x + 45.f * scale, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFD138FF,
                          false, 13 * scale);
-    Font::gz_renderChars(c_y, pos.x + 70.f * scale, pos.y + 65.f * scale, 0xFFD138FF,
+    Font::gz_renderChars(c_y, pos.x + 70.f * scale, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFD138FF,
                          false, 13 * scale);
 #endif
 #ifdef WII_PLATFORM
