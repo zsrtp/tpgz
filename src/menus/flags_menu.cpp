@@ -14,7 +14,7 @@ bool init_once = false;
 Line lines[LINES] = {{"general flags", GENERAL_FLAGS_INDEX, "general flags", false},
                      {"dungeon flags", DUNGEON_FLAGS_INDEX, "dungeon related flags", false},
                      {"portal flags", PORTAL_FLAGS_INDEX, "warp portal flags", false},
-                     {"temp flags", TEMP_FLAGS_INDEX, "local area temp flags", false}};
+                     {"flag records", FLAG_RECORDS_INDEX, "view flag records", false}};
 
 void FlagsMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -42,8 +42,8 @@ void FlagsMenu::render() {
             MenuRendering::set_menu(MN_PORTAL_FLAGS_INDEX);
             return;
         }
-        case TEMP_FLAGS_INDEX: {
-            MenuRendering::set_menu(MN_TEMP_FLAGS_INDEX);
+        case FLAG_RECORDS_INDEX: {
+            MenuRendering::set_menu(MN_FLAG_RECORDS_INDEX);
             return;
         }
         }

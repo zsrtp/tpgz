@@ -14,7 +14,7 @@
 #include "menus/practice_menu.h"
 #include "menus/scene_menu.h"
 #include "menus/settings_menu.h"
-#include "menus/temp_flags_menu.h"
+#include "menus/flag_records_menu.h"
 #include "menus/tools_menu.h"
 #include "menus/warping_menu.h"
 
@@ -24,7 +24,7 @@ menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
     MainMenu::render,         InventoryMenu::render,   ItemWheelMenu::render,
     WarpingMenu::render,      MemoryMenu::render,      WatchesMenu::render,
     MemoryEditorMenu::render, FlagsMenu::render,       GeneralFlagsMenu::render,
-    DungeonFlagsMenu::render, PortalFlagsMenu::render, TempFlagsMenu::render,
+    DungeonFlagsMenu::render, PortalFlagsMenu::render, FlagRecordsMenu::render,
     PracticeMenu::render,     CheatsMenu::render,      SceneMenu::render,
     SettingsMenu::render,     ToolsMenu::render,       PauseMenu::render,
     AmountsMenu::render,      AnySavesMenu::render,    HundoSavesMenu::render,

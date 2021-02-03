@@ -3,7 +3,7 @@
 #define GENERAL_FLAGS_INDEX 0
 #define DUNGEON_FLAGS_INDEX 1
 #define PORTAL_FLAGS_INDEX 2
-#define TEMP_FLAGS_INDEX 3
+#define FLAG_RECORDS_INDEX 3
 
 enum GeneralFlagsIndex {
     BOSS_FLAG_INDEX,
