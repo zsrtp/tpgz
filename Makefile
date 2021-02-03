@@ -7,7 +7,15 @@ ifeq ($(strip $(DEVKITPPC)),)
 $(error "Please set DEVKITPPC in your environment. export DEVKITPPC=<path to>devkitPro/devkitPPC)
 endif
 
+PLATFORM    :=  $(if $(PLATFORM),$(PLATFORM),GCN)
+REGION		:=  $(if $(REGION),$(REGION),NTSCU)
+
+ifeq ("$(PLATFORM)","GCN")
 include $(DEVKITPPC)/gamecube_rules
+endif
+ifeq ("$(PLATFORM)","WII")
+include $(DEVKITPPC)/wii_rules
+endif
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -22,13 +30,12 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
-REGION		?=  "NTSCU"
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(REGION)
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------
@@ -92,7 +99,8 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
 #---------------------------------------------------------------------------------
 $(BUILD):
-	@external/misc/asm-inject.sh $(REGION)
+	@external/misc/asm-inject.sh $(PLATFORM)_$(REGION)
+	@external/misc/toml-inject.sh $(PLATFORM)_$(REGION)
 	@[ -d $@ ] || mkdir -p $@
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
 	@for i in $(MAKEFILES); do $(MAKE) --no-print-directory -C `dirname $$i` || exit 1; done;

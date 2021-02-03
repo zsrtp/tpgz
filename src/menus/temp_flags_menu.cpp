@@ -93,7 +93,7 @@ void render_area_flags(Cursor cursor) {
                     bit_index++;
                 }
             }
-            if (current_input == Controller::Pad::A && a_held == false) {
+            if (current_input == SELECTION_BUTTON && a_held == false) {
                 switch (bit_index) {
                 case 7: {
                     tp_gameInfo.temp_flags.flags[i] ^= (1 << 7);
@@ -153,7 +153,7 @@ bool check_offset_line_selected(AreaNode TempFlags[]) {
 }
 
 void TempFlagsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         if (check_offset_line_selected(TempFlags)) {
             for (int i = 0; i < MAX_FLAGS; i++) {
                 TempFlags[i].line_selected = false;
@@ -181,7 +181,7 @@ void TempFlagsMenu::render() {
         init_once = true;
     }
 
-    if (!TempFlags[cursor.y].line_selected && current_input == Controller::Pad::A &&
+    if (!TempFlags[cursor.y].line_selected && current_input == SELECTION_BUTTON &&
         a_held == false) {
         TempFlags[cursor.y].line_selected = true;
         current_input = 0;

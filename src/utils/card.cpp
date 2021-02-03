@@ -154,6 +154,7 @@ int32_t read_save_file(CardInfo* card_info, GZSaveFile& save_file, int32_t secto
 }
 
 void store_mem_card(Card& card) {
+#ifndef WII_PLATFORM
     GZSaveFile save_file;
     Utilities::setup_save_file(save_file);
     Utilities::store_save_layout(save_file.data);
@@ -178,9 +179,11 @@ void store_mem_card(Card& card) {
             card.card_result = CARDClose(&card.card_info);
         }
     }
+#endif
 }
 
 void load_mem_card(Card& card) {
+#ifndef WII_PLATFORM
     card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
     if (card.card_result == Ready) {
         GZSaveFile save_file;
@@ -199,6 +202,7 @@ void load_mem_card(Card& card) {
         }
         card.card_result = CARDClose(&card.card_info);
     }
+#endif
 }
 
 void load_gz_card(bool& card_load) {

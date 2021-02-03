@@ -29,14 +29,20 @@ bool last_frame_was_loading = false;
 
 extern "C" {
 
-#if (NTSCU)
+#if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
 #endif
-#if (PAL)
+#if (GCN_PAL)
 #define main_tampoline ((void (*)(void))0x803745e4)
 #endif
-#if (NTSCJ)
+#if (GCN_NTSCJ)
 #define main_tampoline ((void (*)(void))0x80375c44)
+#endif
+#if (WII_NTSCU_10)
+#define main_tampoline ((void (*)(void))0x803ce3dc)
+#endif
+#if (WII_PAL)
+#define main_tampoline ((void (*)(void))0x803b929c)
 #endif
 
 void apply_lib_hooks() {
@@ -46,25 +52,42 @@ void apply_lib_hooks() {
 
 void init() {
     Font::load_font("tpgz/fonts/consola.fnt");
-    PosSettingsMenu::initDefaults();
     Draw::init();
+    PosSettingsMenu::initDefaults();
     fifo_visible = true;
+    if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
+        load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
+        if (gzIconTex.loadCode != TexCode::TEX_OK) {
+            tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
+        }
+    }
+    Utilities::setup_link_color();
 }
 
 void game_loop() {
+#ifdef GCN_PLATFORM
     using namespace Controller::Pad;
+#define BUTTONS (tp_mPadStatus.sval)
+#define CANCEL_LOAD_BUTTONS (L | R | B)
+#define SHOW_MENU_BUTTONS (L | R | DPAD_DOWN)
+#endif
+#ifdef WII_PLATFORM
+    using namespace Controller::Mote;
+#define BUTTONS (tp_mPad.buttons)
+#define CANCEL_LOAD_BUTTONS (Z | C | B)
+#define SHOW_MENU_BUTTONS (Z | C | MINUS)
+#endif
 
     // Button combo to bypass the automatic loading of the save file
     // in case of crash cause by the load.
-    if (tp_mPadStatus.sval == (L | R | B) && card_load) {
+    if (BUTTONS == CANCEL_LOAD_BUTTONS && card_load) {
         card_load = false;
     }
 
     // check and load gz settings card if found
     Utilities::load_gz_card(card_load);
 
-    if (tp_mPadStatus.sval == (L | R | DPAD_DOWN) && tp_fopScnRq.isLoading != 1 &&
-        !move_link_active) {
+    if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 && !move_link_active) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
@@ -72,6 +95,7 @@ void game_loop() {
         MenuRendering::close_active_menus();
         move_link_active = false;
         last_frame_was_loading = true;
+        free_cam_active = false;
     }
 
     // save temp flags and tears after every loading zone
@@ -97,14 +121,6 @@ void draw() {
     if (MenuRendering::is_menu_open()) {
         Font::gz_renderChars("tpgz v0.2", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
                              g_drop_shadows);
-
-        if (gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
-            load_texture("tpgz/tex/tpgz.tex", &gzIconTex);
-            if (gzIconTex.loadCode != TexCode::TEX_OK) {
-                tp_osReport("Could not load TPGZ's icon texture (Code: %d)", gzIconTex.loadCode);
-            }
-        }
-
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
                             &gzIconTex._texObj);

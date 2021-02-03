@@ -2,13 +2,21 @@
 
 #include "menu.h"
 
+#ifdef WII_PLATFORM
+#define TOOL_AMNT 17
+#endif
+#ifdef GCN_PLATFORM
 #define TOOL_AMNT 16
+#endif
 namespace Tools {
 enum ToolsIndex {
     RELOAD_AREA_INDEX,
     FAST_BONK_INDEX,
     FAST_MOVEMENT_INDEX,
     GORGE_INDEX,
+#ifdef WII_PLATFORM
+    BIT_INDEX,
+#endif
     INPUT_VIEWER_INDEX,
     LINK_DEBUG_INDEX,
     SAND_INDEX,

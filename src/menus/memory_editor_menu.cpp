@@ -246,7 +246,7 @@ bool check_mem_line_value_selected(MemoryLine memory_lines[]) {
 }
 
 void MemoryEditorMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         if (index_selected) {
             lock_cursor_y = false;
             index_selected = false;
@@ -272,7 +272,7 @@ void MemoryEditorMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case 0: {
             lock_cursor_y = true;

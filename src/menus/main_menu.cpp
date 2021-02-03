@@ -21,7 +21,7 @@ Line lines[LINES] = {{"cheats", CHEAT_INDEX, "Turn cheats on/off", false},
                      {"warping", WARPING_INDEX, "Warp to dungeons, towns, grottos, etc.", false}};
 
 void MainMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_NONE_INDEX);
         fifo_visible = true;
         return;
@@ -29,7 +29,7 @@ void MainMenu::render() {
 
     Utilities::move_cursor(cursor, LINES);
 
-    if (current_input == Controller::Pad::A && !a_held) {
+    if (current_input == SELECTION_BUTTON && !a_held) {
         switch (cursor.y) {
         case MEMORY_INDEX: {
             MenuRendering::set_menu(MN_MEMORY_INDEX);

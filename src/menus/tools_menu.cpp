@@ -3,6 +3,9 @@
 #include "controller.h"
 #include "free_cam.h"
 #include "gorge.h"
+#ifdef WII_PLATFORM
+#include "bit.h"
+#endif
 #include "input_viewer.h"
 #include "libtp_c/include/actor.h"
 #include "libtp_c/include/system.h"
@@ -23,50 +26,61 @@ bool init_once = false;
 bool g_tunic_color_flag;
 
 Tool ToolItems[TOOL_AMNT] = {
-    {RELOAD_AREA_INDEX, false}, {FAST_BONK_INDEX, false},    {FAST_MOVEMENT_INDEX, false},
-    {GORGE_INDEX, false},       {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false},
-    {SAND_INDEX, false},        {ROLL_INDEX, false},         {TELEPORT_INDEX, false},
-    {TURBO_MODE_INDEX, false},  {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false},
-    {IGT_TIMER_INDEX, false},   {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
+    {RELOAD_AREA_INDEX, false},  {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
+    {GORGE_INDEX, false},
+#ifdef WII_PLATFORM
+    {BIT_INDEX, false},
+#endif
+    {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false}, {SAND_INDEX, false},
+    {ROLL_INDEX, false},         {TELEPORT_INDEX, false},   {TURBO_MODE_INDEX, false},
+    {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false}, {IGT_TIMER_INDEX, false},
+    {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
 
-Line lines[LINES] = {{"area reload", RELOAD_AREA_INDEX, "Use L+R+Start+A to reload current area",
-                      true, &ToolItems[RELOAD_AREA_INDEX].active},
-                     {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly",
-                      true, &ToolItems[FAST_BONK_INDEX].active},
-                     {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true,
-                      &ToolItems[FAST_MOVEMENT_INDEX].active},
-                     {"gorge checker", GORGE_INDEX, "Use L+Z to warp to Kakariko Gorge", true,
-                      &ToolItems[GORGE_INDEX].active},
-                     {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
-                      &ToolItems[INPUT_VIEWER_INDEX].active},
-                     {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed",
-                      true, &ToolItems[LINK_DEBUG_INDEX].active},
-                     {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true,
-                      &ToolItems[SAND_INDEX].active},
-                     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true,
-                      &ToolItems[ROLL_INDEX].active},
-                     {"teleport", TELEPORT_INDEX, "dpadUp to set, dpadDown to load", true,
-                      &ToolItems[TELEPORT_INDEX].active},
-                     {"turbo mode", TURBO_MODE_INDEX, "Simulates turbo controller inputs", true,
-                      &ToolItems[TURBO_MODE_INDEX].active},
-                     {"timer", TIMER_INDEX, "Frame timer: Z+A to start/stop, Z+B to reset", true,
-                      &ToolItems[TIMER_INDEX].active},
-                     {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: Z+B to reset", true,
-                      &ToolItems[LOAD_TIMER_INDEX].active},
-                     {"igt timer", IGT_TIMER_INDEX,
-                      "In-game time timer: Z+A to start/stop, Z+B to reset", true,
-                      &ToolItems[IGT_TIMER_INDEX].active},
-                     {"free cam", FREE_CAM_INDEX,
-                      "Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed", true,
-                      &ToolItems[FREE_CAM_INDEX].active},
-                     {"move link", MOVE_LINK_INDEX,
-                      "L+R+Y to activate. Stick/C to move, C-left/right to change angle", true,
-                      &ToolItems[MOVE_LINK_INDEX].active},
-                     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false,
-                      nullptr, MAX_TUNIC_COLORS}};
+Line lines[LINES] = {
+    {"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area", true,
+     &ToolItems[RELOAD_AREA_INDEX].active},
+    {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true,
+     &ToolItems[FAST_BONK_INDEX].active},
+    {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true,
+     &ToolItems[FAST_MOVEMENT_INDEX].active},
+    {"gorge checker", GORGE_INDEX, "Use " GORGE_VOID_TEXT " to warp to Kakariko Gorge", true,
+     &ToolItems[GORGE_INDEX].active},
+#ifdef WII_PLATFORM
+    {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
+     &ToolItems[BIT_INDEX].active},
+#endif
+    {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
+     &ToolItems[INPUT_VIEWER_INDEX].active},
+    {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true,
+     &ToolItems[LINK_DEBUG_INDEX].active},
+    {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true,
+     &ToolItems[SAND_INDEX].active},
+    {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true,
+     &ToolItems[ROLL_INDEX].active},
+    {"teleport", TELEPORT_INDEX, STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load",
+     true, &ToolItems[TELEPORT_INDEX].active},
+    {"turbo mode", TURBO_MODE_INDEX, "Simulates turbo controller inputs", true,
+     &ToolItems[TURBO_MODE_INDEX].active},
+    {"timer", TIMER_INDEX,
+     "Frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
+     &ToolItems[TIMER_INDEX].active},
+    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " LOAD_TIMER_TEXT " to reset", true,
+     &ToolItems[LOAD_TIMER_INDEX].active},
+    {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true,
+     &ToolItems[IGT_TIMER_INDEX].active},
+    {"free cam", FREE_CAM_INDEX,
+     FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
+                   " to view, Z to speed",
+     true, &ToolItems[FREE_CAM_INDEX].active},
+    {"move link", MOVE_LINK_INDEX,
+     MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT " to move, " MOVE_LINK_ANGLE_TEXT
+                    " to change angle",
+     true, &ToolItems[MOVE_LINK_INDEX].active},
+    {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr,
+     MAX_TUNIC_COLORS}};
 
 void ToolsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         init_once = false;
         return;
@@ -94,7 +108,7 @@ void ToolsMenu::render() {
                tunic_color_options[tunic_color_index].member);
     Utilities::render_lines(lines, cursor.y, LINES);
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         ToolItems[cursor.y].active = !ToolItems[cursor.y].active;
         if (ToolItems[cursor.y].active) {
             switch (cursor.y) {
@@ -116,6 +130,12 @@ void ToolsMenu::render() {
                 Commands::enable_command(Commands::CMD_GORGE_VOID);
                 break;
             }
+#ifdef WII_PLATFORM
+            case BIT_INDEX: {
+                Commands::enable_command(Commands::CMD_BIT);
+                break;
+            }
+#endif
             case TELEPORT_INDEX: {
                 Commands::enable_command(Commands::CMD_STORE_POSITION);
                 Commands::enable_command(Commands::CMD_LOAD_POSITION);
@@ -149,7 +169,9 @@ void ToolsMenu::render() {
                 break;
             }
             case SAND_INDEX: {
-                tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                if (tp_zelAudio.link_debug_ptr != nullptr) {
+                    tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                }
                 break;
             }
             case FREE_CAM_INDEX: {
@@ -211,6 +233,12 @@ void ToolsMenu::render() {
                 Commands::disable_command(Commands::CMD_GORGE_VOID);
                 break;
             }
+#ifdef WII_PLATFORM
+            case BIT_INDEX: {
+                Commands::disable_command(Commands::CMD_BIT);
+                break;
+            }
+#endif
             }
         }
     }

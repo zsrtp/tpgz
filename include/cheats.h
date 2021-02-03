@@ -1,7 +1,11 @@
 #ifndef LIB_TP_CHEATS
 #define LIB_TP_CHEATS
 
+#ifdef WII_PLATFORM
+#define CHEAT_AMNT 15
+#else
 #define CHEAT_AMNT 14
+#endif
 
 namespace Cheats {
 enum CheatId {
@@ -19,7 +23,10 @@ enum CheatId {
     SuperClawshot,
     UnrestrictedItems,
     TransformAnywhere,
-    SuperSpinner
+#ifdef WII_PLATFORM
+    GaleLJA,
+#endif
+    SuperSpinner,
 };
 
 struct Cheat {

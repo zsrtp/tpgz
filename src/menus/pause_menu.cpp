@@ -288,7 +288,7 @@ void PauseMenu::render() {
     jump_strike = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 6));
     great_spin = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 5));
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
         reset_index();
@@ -423,7 +423,7 @@ void PauseMenu::render() {
     }
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case ENDING_BLOW_INDEX: {
             tp_gameInfo.event_flags.flags[0x29] ^= 1 << 2;

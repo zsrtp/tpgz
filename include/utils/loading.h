@@ -10,14 +10,20 @@ struct AreaReload {
 extern AreaReload g_area_reload;
 AreaReload g_area_reload;
 
-#if (NTSCU)
+#ifdef GCN_NTSCU
 #define sTmpBuf 0x803ecf40
 #endif
-#if (PAL)
+#ifdef GCN_PAL
 #define sTmpBuf 0x803eeee0
 #endif
-#if (NTSCJ)
+#ifdef GCN_NTSCJ
 #define sTmpBuf 0x803e7080
+#endif
+#ifdef WII_NTSCU_10
+#define sTmpBuf 0x8046a3e0
+#endif
+#ifdef WII_PAL
+#define sTmpBuf 0x804522e0
 #endif
 
 namespace Utilities {

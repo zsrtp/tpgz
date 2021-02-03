@@ -14,7 +14,7 @@ Line lines[LINES] = {{"watches", 0, "Manage memory watches", false},
                      {"memory editor", 1, "View/edit memory", false}};
 
 void MemoryMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -25,7 +25,7 @@ void MemoryMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case 0: {
             MenuRendering::set_menu(MN_WATCHES_INDEX);

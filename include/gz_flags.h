@@ -1,6 +1,11 @@
 #pragma once
 #include "font.h"
+#ifdef WII_PLATFORM
+#define MAX_GZ_FLAGS 13
+#endif
+#ifdef GCN_PLATFORM
 #define MAX_GZ_FLAGS 12
+#endif
 
 struct GZFlag {
     bool* activation_flag;

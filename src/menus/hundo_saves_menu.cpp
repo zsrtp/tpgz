@@ -290,7 +290,7 @@ void HundoSavesMenu::render() {
         special(HND_COO_20_INDEX, cave_of_ordeals, nullptr),
         special(HND_COO_30_INDEX, cave_of_ordeals, nullptr)};
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
         return;
@@ -301,7 +301,7 @@ void HundoSavesMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         Utilities::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
     }

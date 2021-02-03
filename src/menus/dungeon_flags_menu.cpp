@@ -48,7 +48,7 @@ void copyGlobalFlags(uint8_t id) {
 }
 
 void DungeonFlagsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
@@ -130,7 +130,7 @@ void DungeonFlagsMenu::render() {
     miniboss_flag = (dungeon_node->flags[29] & (1 << 7));
     boss_flag = (dungeon_node->flags[29] & (1 << 3));
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case MAP_FLAG_INDEX: {
             dungeon_node->flags[29] ^= 1 << 0;
