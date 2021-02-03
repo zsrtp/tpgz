@@ -28,7 +28,7 @@ menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
     PracticeMenu::render,     CheatsMenu::render,      SceneMenu::render,
     SettingsMenu::render,     ToolsMenu::render,       PauseMenu::render,
     AmountsMenu::render,      AnySavesMenu::render,    HundoSavesMenu::render,
-    PosSettingsMenu::render};
+    PosSettingsMenu::render,  FlagLogMenu::render};
 
 menu_render_t currentMenu = nullptr;
 
