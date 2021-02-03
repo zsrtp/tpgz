@@ -155,8 +155,9 @@ void FlagRecordsMenu::render() {
     Font::gz_renderChars(record_type, 12.0f, 60.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA),
                          g_drop_shadows);
 
-    Font::gz_renderChars("DPad/" SCRL_BACK_TEXT "/" SCRL_FORW_TEXT " to move cursor, A to toggle flag, Z to top" , 25.0f, 440.f,
-                         0xFFFFFFFF, g_drop_shadows);
+    Font::gz_renderChars("DPad/" SCRL_BACK_TEXT "/" SCRL_FORW_TEXT
+                         " to move cursor, A to toggle flag, Z to top",
+                         25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
 
     switch (record_index) {
     case 0: {
