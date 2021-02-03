@@ -163,7 +163,7 @@ void AnySavesMenu::render() {
         special(PALACE_1_INDEX, palace1, nullptr),
         special(PALACE_2_INDEX, nullptr, palace2)};
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
         return;
@@ -174,7 +174,7 @@ void AnySavesMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         Utilities::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
         init_once = false;
     }

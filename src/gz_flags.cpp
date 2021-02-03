@@ -2,6 +2,7 @@
 #include "actor.h"
 #include "fifo_queue.h"
 #include "gorge.h"
+#include "bit.h"
 #include "menus/scene_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
@@ -17,6 +18,9 @@ bool inject_save_flag = false;
 
 GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
     {&ToolItems[Tools::GORGE_INDEX].active, GorgeVoidIndicator::run},
+#ifdef WII_PLATFORM
+    {&ToolItems[Tools::BIT_INDEX].active, BiTIndicator::run},
+#endif
     {&ToolItems[Tools::ROLL_INDEX].active, RollIndicator::run},
     {&inject_save_flag, Utilities::trigger_load},
     {&SceneItems[Scene::FREEZE_ACTOR_INDEX].active, Actor::freeze_actors, Actor::unfreeze_actors},

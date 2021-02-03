@@ -13,6 +13,15 @@
 #define WHITE_RGBA 0xFFFFFFFF
 #define SPEED_THRESHOLD 30
 
+#ifdef GCN_PLATFORM
+#define MEMORY_BUTTON (Controller::Y)
+#define MEMORY_TEXT "Y"
+#endif
+#ifdef WII_PLATFORM
+#define MEMORY_BUTTON (Controller::ONE)
+#define MEMORY_TEXT "1"
+#endif
+
 Cursor cursor;
 
 bool init_once = false;
@@ -484,7 +493,7 @@ void WatchesMenu::render() {
         init_once = true;
     }
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         if (check_if_any_line_value_is_selected(Watches)) {
             for (int i = 0; i < MAX_WATCHES; i++) {
                 Watches[i].value_selected = false;
@@ -509,7 +518,7 @@ void WatchesMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         // finish
         if (Watches[cursor.y].value_selected) {
             Watches[cursor.y].value_selected = false;
@@ -527,7 +536,7 @@ void WatchesMenu::render() {
         Watches[cursor.y].visible = !Watches[cursor.y].visible;
     }
 
-    if (button_is_pressed(Controller::Y)) {
+    if (button_is_pressed(MEMORY_BUTTON)) {
         address_index = Watches[cursor.y].address;
         init_once = false;
         MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
@@ -550,7 +559,8 @@ void WatchesMenu::render() {
     }
 
     Utilities::move_cursor(cursor, MAX_WATCHES, WATCH_COLUMNS, lock_cursor_x, lock_cursor_y);
-    Font::gz_renderChars("Press z to enable/disable watch. Y to jump to editor address", 25.0f,
-                         440.f, 0xFFFFFFFF, g_drop_shadows);
+    Font::gz_renderChars("Press z to enable/disable watch. " MEMORY_TEXT
+                         " to jump to editor address",
+                         25.0f, 440.f, 0xFFFFFFFF, g_drop_shadows);
     render_memory_lines(Watches, cursor);
 };

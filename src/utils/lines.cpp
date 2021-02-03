@@ -24,9 +24,9 @@ void render_lines(Line input_lines[], int cursor, int LINES) {
         max_line_width = max_value_f(max_line_width, Font::get_chars_width(input_lines[i].line));
     }
 
-    if (LINES <= 15) {
+    if (LINES <= MAX_RENDER_LINES) {
         min_line = 0;
-        max_line = 15;
+        max_line = MAX_RENDER_LINES;
     }
 
     for (int i = 0; i < LINES; i++) {

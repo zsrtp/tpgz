@@ -267,7 +267,7 @@ void try_remove_item(uint8_t inventory_slot) {
 }
 
 void ItemWheelMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
         init_once = false;
         return;

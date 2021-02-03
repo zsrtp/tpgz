@@ -43,7 +43,7 @@ void AmountsMenu::render() {
     hp_count = tp_gameInfo.link.heart_pieces;
     rupee_count = tp_gameInfo.link.rupees;
 
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
         return;

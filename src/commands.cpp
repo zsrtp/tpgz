@@ -1,7 +1,11 @@
 #include "commands.h"
+#include "controller.h"
 #include "free_cam.h"
 #include "fs.h"
 #include "gorge.h"
+#ifdef WII_PLATFORM
+#include "bit.h"
+#endif
 #include "lib.h"
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/system.h"
@@ -89,6 +93,19 @@ void gorge_void() {
     }
 }
 
+#ifdef WII_PLATFORM
+void back_in_time() {
+    if (button_this_frame == BACK_IN_TIME_BUTTONS && button_last_frame != BACK_IN_TIME_BUTTONS) {
+        Utilities::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
+        practice_file.inject_options_before_load = SaveInjector::inject_default_before;
+        practice_file.inject_options_during_load = SaveInjector::inject_default_during;
+        practice_file.inject_options_after_load = BiTIndicator::set_camera_angle_position;
+        practice_file.inject_options_after_counter = 10;
+        inject_save_flag = true;
+    }
+}
+#endif
+
 void toggle_free_cam() {
     if (button_this_frame == FREE_CAM_BUTTONS && button_last_frame != FREE_CAM_BUTTONS) {
         free_cam_active = !free_cam_active;
@@ -115,13 +132,16 @@ static Command Commands[COMMANDS_AMNT] = {
     {commands_states[CMD_TIMER_TOGGLE], TIMER_TOGGLE_BUTTONS, toggle_timer},
     {commands_states[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, hit_reset},
     {commands_states[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, gorge_void},
+#ifdef WII_PLATFORM
+    {commands_states[CMD_BIT], BACK_IN_TIME_BUTTONS, back_in_time},
+#endif
     {commands_states[CMD_FREE_CAM], FREE_CAM_BUTTONS, toggle_free_cam},
     {commands_states[CMD_MOVE_LINK], MOVE_LINK_BUTTONS, toggle_move_link}};
 
 void process_inputs() {
-    button_this_frame = tp_mPadStatus.sval;
+    button_this_frame = Controller::get_current_inputs();
     for (auto c : Commands) {
-        if (c.active == true && tp_mPadStatus.sval == c.buttons) {
+        if (c.active == true && Controller::get_current_inputs() == c.buttons) {
             c.command();
             set_buttons_down(0x0);
             set_buttons_pressed(0x0);

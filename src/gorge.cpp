@@ -6,6 +6,12 @@
 #include "libtp_c/include/system.h"
 #include "libtp_c/include/tp.h"
 #define WARP_CS_FRAMES 132
+#ifdef WII_PLATFORM
+#define TARGET_BUTTON Z
+#endif
+#ifdef GCN_PLATFORM
+#define TARGET_BUTTON L
+#endif
 
 bool inject_gorge_flag = false;
 
@@ -83,29 +89,30 @@ void run() {
         }
 
         tp_sprintf(buf, "counter: %d", counter_difference);
-        tp_sprintf(buf, "inputs: %d", tp_mPadStatus.sval);
+        tp_sprintf(buf, "inputs: %d", Controller::get_current_inputs());
 
         // only care about 10f before and after
         if (counter_difference > 123 && after_cs_val < 10) {
             // went early
-            if (!got_it && !(button_is_held(L) && button_is_held(A)) &&
-                (counter_difference < WARP_CS_FRAMES) && (button_is_down(A) && button_is_down(L))) {
+            if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
+                (counter_difference < WARP_CS_FRAMES) &&
+                (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
                 int final_val = WARP_CS_FRAMES - counter_difference;
                 tp_sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
             // got it
-            else if (!got_it && !(button_is_held(L) && button_is_held(A)) &&
+            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
                      (counter_difference == WARP_CS_FRAMES) &&
-                     (button_is_down(A) && button_is_down(L))) {
+                     (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
                 FIFOQueue::push("got it", Queue, 0x00CC0000);
                 got_it = true;
             }
 
             // went late
-            else if (!got_it && !(button_is_held(L) && button_is_held(A)) && after_cs_val > 0 &&
-                     (button_is_down(A) && button_is_down(L))) {
+            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
+                     after_cs_val > 0 && (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
                 tp_sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }

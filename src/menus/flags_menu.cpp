@@ -17,7 +17,7 @@ Line lines[LINES] = {{"general flags", GENERAL_FLAGS_INDEX, "general flags", fal
                      {"flag records", FLAG_RECORDS_INDEX, "view flag records", false}};
 
 void FlagsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         return;
@@ -28,7 +28,7 @@ void FlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case GENERAL_FLAGS_INDEX: {
             MenuRendering::set_menu(MN_GENERAL_FLAGS_INDEX);

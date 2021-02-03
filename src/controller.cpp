@@ -6,9 +6,27 @@
 #include "libtp_c/include/tp.h"
 #include "menu.h"
 
+#ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
+#endif
+#ifdef WII_PLATFORM
+#define BUTTON_STATES 13
+#endif
 #define REPEAT_TIME 4
 #define REPEAT_DELAY 5
+
+#ifdef GCN_PLATFORM
+#define buttons_down (tp_mPadStatus.sval)
+#define A_BUTTON (Controller::Pad::A)
+#define ITEM_WHEEL_BUTTON (Controller::Pad::DPAD_DOWN)
+#define TRIGGER_BUTTONS (Controller::Pad::L | Controller::Pad::R)
+#endif
+#ifdef WII_PLATFORM
+#define buttons_down (tp_mPad.buttons)
+#define A_BUTTON (Controller::Mote::A)
+#define ITEM_WHEEL_BUTTON (Controller::Mote::MINUS)
+#define TRIGGER_BUTTONS (Controller::Mote::Z | Controller::Mote::C)
+#endif
 
 static uint16_t sButtons_down_last_frame = 0;
 static uint16_t sButtons_down = 0;
@@ -26,6 +44,7 @@ struct ButtonState {
     bool is_down;
 };
 
+#ifdef GCN_PLATFORM
 static ButtonState buttonStates[BUTTON_STATES] = {{Controller::Pad::DPAD_LEFT, 0xFFFFFFFF, false},
                                                   {Controller::Pad::DPAD_RIGHT, 0xFFFFFFFF, false},
                                                   {Controller::Pad::DPAD_DOWN, 0xFFFFFFFF, false},
@@ -38,12 +57,28 @@ static ButtonState buttonStates[BUTTON_STATES] = {{Controller::Pad::DPAD_LEFT, 0
                                                   {Controller::Pad::X, 0xFFFFFFFF, false},
                                                   {Controller::Pad::Y, 0xFFFFFFFF, false},
                                                   {Controller::Pad::START, 0xFFFFFFFF, false}};
+#endif
+#ifdef WII_PLATFORM
+static ButtonState buttonStates[BUTTON_STATES] = {{Controller::Mote::DPAD_LEFT, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::DPAD_RIGHT, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::DPAD_DOWN, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::DPAD_UP, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::PLUS, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::TWO, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::ONE, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::B, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::A, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::MINUS, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::Z, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::C, 0xFFFFFFFF, false},
+                                                  {Controller::Mote::HOME, 0xFFFFFFFF, false}};
+#endif
 
 namespace Controller {
 
 void read_controller() {
     sButtons_down_last_frame = sButtons_down;
-    sButtons_down = tp_mPadStatus.sval;
+    sButtons_down = buttons_down;
     sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
 
     uint8_t idx = 0;
@@ -57,9 +92,10 @@ void read_controller() {
     Cheats::apply_cheats();
     if (MenuRendering::is_menu_open() == true) {
         current_input = Controller::get_current_inputs();
-        a_held = a_held_last_frame && current_input == 0x0100;
-        a_held_last_frame = current_input == 0x0100;
+        a_held = a_held_last_frame && current_input == A_BUTTON;
+        a_held_last_frame = current_input == A_BUTTON;
 
+#ifdef GCN_PLATFORM
         // prevent accidentally moving cursor down when opening menu
         if (!can_move_cursor) {
             if (current_input & Controller::Pad::DPAD_UP) {
@@ -76,11 +112,16 @@ void read_controller() {
                 sNum_frames_cursor_buffer++;
             }
         }
+#else
+        can_move_cursor = true;
+#endif
 
         Controller::set_buttons_down(0x0);
         Controller::set_buttons_pressed(0x0);
-        tp_mPadStatus.sval = 0x0;
+#ifdef GCN_PLATFORM
+        buttons_down = 0x0;
         tp_mPadButton.sval = 0x0;
+#endif
     } else {
         can_move_cursor = false;
         sNum_frames_cursor_buffer = 0;
@@ -106,7 +147,7 @@ bool button_is_pressed(int idx) {
 }
 
 uint16_t get_current_inputs() {
-    return tp_mPadStatus.sval;
+    return buttons_down;
 }
 
 bool button_is_held(int idx) {
