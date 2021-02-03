@@ -25,6 +25,19 @@ uint8_t record_index = 0;
 Texture gzFlagOnTex;
 Texture gzFlagOffTex;
 
+#ifdef GCN_PLATFORM
+#define SCRL_FORW_BUTTON (Controller::X)
+#define SCRL_BACK_BUTTON (Controller::Y)
+#define SCRL_FORW_TEXT "X"
+#define SCRL_BACK_TEXT "Y"
+#endif
+#ifdef WII_PLATFORM
+#define SCRL_FORW_BUTTON (Controller::TWO)
+#define SCRL_BACK_BUTTON (Controller::ONE)
+#define SCRL_FORW_TEXT "2"
+#define SCRL_BACK_TEXT "1"
+#endif
+
 void render_flag_records(uint8_t record[]) {
     if (cursor.y > 0) {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
@@ -97,6 +110,22 @@ void FlagRecordsMenu::render() {
         return;
     }
 
+    if (button_is_pressed(Controller::Z)) {
+        cursor.y = 0;
+    }
+
+    if (button_is_pressed(SCRL_BACK_BUTTON)) {
+        cursor.y -= 0x10;
+        if (cursor.y < 0) {
+            cursor.y = 0;
+        }
+    } else if (button_is_pressed(SCRL_FORW_BUTTON)) {
+        cursor.y += 0x10;
+        if (cursor.y > max_flags + 1) {
+            cursor.y = max_flags;
+        }
+    }
+
     if (gzFlagOnTex.loadCode == TexCode::TEX_UNLOADED) {
         load_texture("tpgz/tex/flagOn.tex", &gzFlagOnTex);
     }
@@ -126,7 +155,7 @@ void FlagRecordsMenu::render() {
     Font::gz_renderChars(record_type, 12.0f, 60.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA),
                          g_drop_shadows);
 
-    Font::gz_renderChars("DPad to change record/move cursor, A to toggle flag", 25.0f, 440.f,
+    Font::gz_renderChars("DPad/" SCRL_BACK_TEXT "/" SCRL_FORW_TEXT " to move cursor, A to toggle flag, Z to top" , 25.0f, 440.f,
                          0xFFFFFFFF, g_drop_shadows);
 
     switch (record_index) {
