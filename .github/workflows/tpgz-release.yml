@@ -9,9 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Download latest release patches
       run: curl -s https://api.github.com/repos/pheenoh/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/
+    - name: test
+      run: ls -la
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks
