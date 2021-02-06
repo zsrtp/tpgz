@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download latest release patches
-      run: curl -s https://api.github.com/repos/pheenoh/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/
+      run: curl -s https://api.github.com/repos/pheenoh/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/ && ls -la
     - name: test
       run: ls -la
     - uses: jakejarvis/s3-sync-action@master
