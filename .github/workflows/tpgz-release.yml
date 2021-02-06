@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download latest release patches
-      run: mkdir /patches && curl -s https://api.github.com/repos/pheenoh/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix /patches/
+      run: mkdir patches && curl -s https://api.github.com/repos/pheenoh/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/
     - name: test
-      run: ls -la
+      run: ls -la patches/
     - uses: jakejarvis/s3-sync-action@master
       with:
         args: --acl public-read --follow-symlinks
@@ -21,5 +21,5 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-2'
-        SOURCE_DIR: '/patches/'
+        SOURCE_DIR: 'patches/'
         DEST_DIR: 'patches/'
