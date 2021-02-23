@@ -38,7 +38,7 @@ Texture gzFlagOffTex;
 #define SCRL_BACK_TEXT "1"
 #endif
 
-void render_flag_records(uint8_t record[]) {
+void render_flag_records(uint8_t* record) {
     if (cursor.y > 0) {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
             if (bit_index == 0) {
@@ -75,7 +75,7 @@ void render_flag_records(uint8_t record[]) {
         float flag_x_offset = LINE_X_OFFSET + Font::get_chars_width(offset);
 
         for (uint8_t bit = 0; bit < 8; bit++) {
-            if (record[idx_num] & (1 << bit)) {
+            if (*(record + idx_num) & (1 << bit)) {
                 Draw::draw_rect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
                                 {16, 16}, &gzFlagOnTex._texObj);
             } else {
@@ -91,7 +91,7 @@ void render_flag_records(uint8_t record[]) {
         }
         if (current_input == Controller::Pad::A && a_held == false) {
             if (cursor.y == (idx_num + 1)) {
-                record[idx_num] ^= (1 << bit_index);
+                *(record + idx_num) ^= (1 << bit_index);
             }
         }
 

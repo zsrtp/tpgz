@@ -7,14 +7,13 @@
 #include "utils/lines.h"
 #include "flaglog.h"
 
-#define LINES 2
+#define LINES 1
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
 bool g_flag_log_active = false;
 
-Line lines[LINES] = {{"log activated", 0, "start logging flag changes", true, &g_flag_log_active},
-                     {"clear log", 1, "clear flag log", false}};
+Line lines[LINES] = {{"log activated", 0, "toggle flag logger on/off", true, &g_flag_log_active}};
 
 void FlagLogMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -31,11 +30,7 @@ void FlagLogMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case 0: {
-            g_flag_log_active = !g_flag_log_active; // needs to be extern so it stays active outside of menu
-            return;
-        }
-        case 1: {
-            // clear log
+            g_flag_log_active = !g_flag_log_active;
             return;
         }
         }
