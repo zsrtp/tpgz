@@ -42,7 +42,7 @@ Line lines[LINES] = {
     {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
     {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
     {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-    {"set save location", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}
+    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}
 };
 
 void load_previous_info(void* buffer, signed long& counter, signed long length, char max_num,
