@@ -14,7 +14,7 @@ PracticeFile practice_file;
 
 Line lines[LINES] = {{"any%", ANY_INDEX, "Any% practice saves", false},
                      {"100%", HUNDO_INDEX, "100% practice saves", false},
-                     {"All Dungeons", AD_INDEX, "All Dungeons practice saves", false}};
+                     {"all dungeons", AD_INDEX, "All Dungeons practice saves", false}};
 
 void PracticeMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
