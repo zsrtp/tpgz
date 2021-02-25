@@ -6,7 +6,7 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#define LINES 4
+#define LINES 5
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -14,7 +14,8 @@ bool init_once = false;
 Line lines[LINES] = {{"general flags", GENERAL_FLAGS_INDEX, "general flags", false},
                      {"dungeon flags", DUNGEON_FLAGS_INDEX, "dungeon related flags", false},
                      {"portal flags", PORTAL_FLAGS_INDEX, "warp portal flags", false},
-                     {"flag records", FLAG_RECORDS_INDEX, "view flag records", false}};
+                     {"flag records", FLAG_RECORDS_INDEX, "view flag records", false},
+                     {"flag log", FLAG_LOG_INDEX, "view flag log", false}};
 
 void FlagsMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -44,6 +45,10 @@ void FlagsMenu::render() {
         }
         case FLAG_RECORDS_INDEX: {
             MenuRendering::set_menu(MN_FLAG_RECORDS_INDEX);
+            return;
+        }
+        case FLAG_LOG_INDEX: {
+            MenuRendering::set_menu(MN_FLAG_LOG_INDEX);
             return;
         }
         }

@@ -10,7 +10,7 @@
 
 #include "libtp_c/include/system.h"
 
-#define LINES 6
+#define LINES 7
 #define SPAWN_OFFSET 4
 #define SPAWN_READ_LENGTH 32
 #define ROOM_READ_LENGTH 64
@@ -42,7 +42,7 @@ Line lines[LINES] = {
     {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
     {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
     {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-};
+    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}};
 
 void load_previous_info(void* buffer, signed long& counter, signed long length, char max_num,
                         int offset) {
@@ -260,6 +260,12 @@ void WarpingMenu::render() {
             tp_gameInfo.respawn_animation = 0;
             tp_gameInfo.warp.entrance.void_flag = 0;
             tp_gameInfo.warp.enabled = true;
+            break;
+        }
+        case SAVE_LOCATION_INDEX: {
+            tp_memcpy(&tp_gameInfo.player.player_stage, &warp_info.stage_info.stage_id, 8);
+            tp_gameInfo.player.player_room_id = warp_info.room_info.room_id[0];
+            tp_gameInfo.player.player_spawn_id = warp_info.spawn_info.spawn_id[0];
             break;
         }
         }
