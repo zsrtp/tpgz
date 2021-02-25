@@ -45,7 +45,7 @@ void inject_default_during() {
         tp_gameInfo.link.slot_y_combo_item = tmp_mix;
     }
 #endif
-// add wii swap equip logic here later
+    // add wii swap equip logic here later
 }
 
 void inject_default_after() {}
