@@ -9,6 +9,7 @@ enum SettingsIndex {
     CURSOR_COLOR_INDEX,
     FONT_INDEX,
     DROP_SHADOWS_INDEX,
+    SWAP_EQUIPS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
     POS_SETTINGS_MENU_INDEX
@@ -17,6 +18,7 @@ extern bool g_drop_shadows;
 extern int g_area_reload_behavior;
 extern int g_cursor_color;
 extern bool g_cursor_color_flag;
+extern bool g_swap_equips_flag;
 extern int cursor_rgba;
 extern int g_font;
 #define LOAD_AREA 0
