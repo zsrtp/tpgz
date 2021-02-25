@@ -130,10 +130,6 @@ void bossflags() {
     TP::set_boss_flags();
 }
 
-void darkhammer() {
-    tp_gameInfo.event_flags.flags[11] = 134;  // iza bomb bag stolen
-}
-
 void ADSavesMenu::render() {
     special ADSpecials[AD_SPECIALS_AMNT] = {
         special(AD_HUGO_INDEX, hugo, nullptr),
@@ -144,7 +140,7 @@ void ADSavesMenu::render() {
         special(AD_FRST_ESCAPE_INDEX, bossflags, nullptr),
         special(AD_PILLAR_CLIP_INDEX, bossflags, nullptr),
         special(AD_LAKEBED_1_INDEX, bossflags, nullptr),
-        special(AD_DARK_HAMMER_INDEX, bossflags, darkhammer),
+        special(AD_DARK_HAMMER_INDEX, bossflags, nullptr),
         special(AD_ARGOROK_INDEX, argorok, nullptr),
         special(AD_PALACE_1_INDEX, palace1, nullptr),
         special(AD_PALACE_2_INDEX, nullptr, palace2)};
