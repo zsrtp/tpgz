@@ -43,14 +43,16 @@ void run() {
         save_record(tp_gameInfo.event_flags.flags, s_event_record, 0x100);
         save_record(tp_gameInfo.minigame_flags, s_minigame_record, 0x18);
         // save_record(tp_gameInfo.one_time_events, s_onetime_event_record, 0x100);
-        save_record((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield, s_danbit_record, 0x18);
+        save_record((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield, s_danbit_record,
+                    0x18);
         init_save_record = true;
     }
 
     display_log("area temp", tp_gameInfo.temp_flags.flags, s_areatemp_record, 0x20);
     display_log("event", tp_gameInfo.event_flags.flags, s_event_record, 0x100);
     display_log("minigame", tp_gameInfo.minigame_flags, s_minigame_record, 0x18);
-    display_log("dungeon", (uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield, s_danbit_record, 0x18);
+    display_log("dungeon", (uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield,
+                s_danbit_record, 0x18);
     // display_log("OT event", tp_gameInfo.one_time_events, s_onetime_event_record, 0x100);
 }
 }
