@@ -55,4 +55,4 @@ void run() {
                 s_danbit_record, 0x18);
     // display_log("OT event", tp_gameInfo.one_time_events, s_onetime_event_record, 0x100);
 }
-}
+}  // namespace FlagLog
