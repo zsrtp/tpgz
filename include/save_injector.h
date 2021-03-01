@@ -19,6 +19,7 @@ extern PracticeFile practice_file;
 namespace SaveInjector {
 
 void inject_save(void* buffer);
+void inject_memfile(void* buffer);
 void inject_default_before();
 void inject_default_during();
 void inject_default_after();

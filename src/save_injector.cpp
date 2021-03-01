@@ -13,6 +13,11 @@ void inject_save(void* buffer) {
     tp_getSave(&tp_gameInfo, tp_gameInfo.dungeon_temp_flags.mStageNum);
 };
 
+void inject_memfile(void* buffer) {
+    tp_memcpy((void*)&tp_gameInfo, buffer, 3818);
+    tp_getSave(&tp_gameInfo, tp_gameInfo.dungeon_temp_flags.mStageNum);
+};
+
 void inject_default_before() {
     tp_gameInfo.spawn_speed = 0.0f;
     tp_gameInfo.loading_animation = 13;  // instant load

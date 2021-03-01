@@ -14,6 +14,7 @@
 #include "utils/link.h"
 #include "utils/loading.h"
 #include "flaglog.h"
+#include "menus/memfiles_menu.h"
 
 bool inject_save_flag = false;
 
@@ -34,7 +35,8 @@ GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
     {&g_cursor_color_flag, Utilities::change_cursor_color, Utilities::change_cursor_color},
     {&SceneItems[Scene::DISABLE_BG_INDEX].active, Utilities::disable_bg_music,
      Utilities::enable_bg_music},
-    {&SceneItems[Scene::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx}};
+    {&SceneItems[Scene::DISABLE_SFX_INDEX].active, Utilities::disable_sfx, Utilities::enable_sfx},
+    {&set_position_data, set_memfile_position}};
 
 namespace GZFlags {
 void apply_active_flags() {

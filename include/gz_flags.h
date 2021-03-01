@@ -1,10 +1,10 @@
 #pragma once
 #include "font.h"
 #ifdef WII_PLATFORM
-#define MAX_GZ_FLAGS 14
+#define MAX_GZ_FLAGS 15
 #endif
 #ifdef GCN_PLATFORM
-#define MAX_GZ_FLAGS 13
+#define MAX_GZ_FLAGS 14
 #endif
 
 struct GZFlag {

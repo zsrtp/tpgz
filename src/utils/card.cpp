@@ -1,8 +1,13 @@
 #include "utils/card.h"
 #include "commands.h"
 #include "fifo_queue.h"
+#include "utils/loading.h"
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/system.h"
+#include "menus/practice_menu.h"
+#include "save_injector.h"
+#include "libtp_c/include/tp.h"
+#include "menus/memfiles_menu.h"
 #include "saves.h"
 
 namespace Utilities {
@@ -83,6 +88,13 @@ void load_save_layout(GZSaveLayout& save_layout) {
     g_font = save_layout.g_font;
 }
 
+void load_position_data(PositionData& pos_data) {
+    memfile_posdata.link = pos_data.link;
+    memfile_posdata.cam.target = pos_data.cam.target;
+    memfile_posdata.cam.pos = pos_data.cam.pos;
+    memfile_posdata.angle = pos_data.angle;
+}
+
 void setup_save_file(GZSaveFile& save_file) {
     save_file.header.version = GZ_SAVE_VERSION_NUMBER;
     save_file.header.entries = GZ_SAVE_ENTRIES_AMNT;
@@ -153,6 +165,23 @@ int32_t read_save_file(CardInfo* card_info, GZSaveFile& save_file, int32_t secto
     return result;
 }
 
+int32_t read_memfile(CardInfo* card_info, PositionData& posData, int32_t sector_size) {
+    int32_t result = Ready;
+#define assert_result(stmt)                                                                        \
+    if ((result = (stmt)) != Ready) {                                                              \
+        return result;                                                                             \
+    }
+
+    assert_result(
+        card_read(card_info, (void*)sTmpBuf, 3818, 0, sector_size));
+    
+    assert_result(
+        card_read(card_info, &posData, sizeof(posData), 3819, sector_size));
+
+#undef assert_result
+    return result;
+}
+
 void store_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     GZSaveFile save_file;
@@ -182,6 +211,44 @@ void store_mem_card(Card& card) {
 #endif
 }
 
+void store_memfile(Card& card) {
+    PositionData posData;
+    posData.link = tp_zelAudio.link_debug_ptr->position;
+    posData.cam.target = tp_matrixInfo.matrix_info->target;
+    posData.cam.pos = tp_matrixInfo.matrix_info->pos;
+    posData.angle = tp_zelAudio.link_debug_ptr->facing;
+    uint32_t file_size = (uint32_t)(tp_ceil((double)3818 / (double)card.sector_size) *
+                                    card.sector_size);
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
+    if (card.card_result == Ready || card.card_result == Exist) {
+        card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
+        if (card.card_result == Ready) {
+            for (uint8_t i = 0; i < 0x20; i++) {
+                *((tp_gameInfo.overworld_flags.ordon_flags.flags + (tp_gameInfo.dungeon_temp_flags.mStageNum * 0x20)) + i) = tp_gameInfo.temp_flags.flags[i];
+            }
+            tp_gameInfo.player.player_spawn_id = 0;
+            tp_gameInfo.player.player_room_id = tp_gameInfo.last_room_id;
+            tp_strcpy((char*)tp_gameInfo.player.player_stage, (char*)tp_gameInfo.current_stage);
+            card.card_result = Utilities::card_write(&card.card_info, &tp_gameInfo, 3818,
+                                                     0, card.sector_size);
+            
+            card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
+                                                     3819, card.sector_size);
+            if (card.card_result == Ready) {
+                tp_osReport("saved memfile!");
+                FIFOQueue::push("saved memfile!", Queue);
+            } else {
+                tp_osReport("failed to save");
+                char buff[32];
+                tp_sprintf(buff, "failed to save: %d", card.card_result);
+                FIFOQueue::push(buff, Queue);
+            }
+            card.card_result = CARDClose(&card.card_info);
+        }
+    }
+}
+
 void load_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
@@ -194,6 +261,35 @@ void load_mem_card(Card& card) {
             FIFOQueue::push("loaded card!", Queue);
             load_save_layout(save_file.data);
             SettingsMenu::initFont();
+        } else {
+            tp_osReport("failed to load");
+            char buff[32];
+            tp_sprintf(buff, "failed to load: %d", card.card_result);
+            FIFOQueue::push(buff, Queue);
+        }
+        card.card_result = CARDClose(&card.card_info);
+    }
+#endif
+}
+
+void load_memfile(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
+    if (card.card_result == Ready) {
+        PositionData posData;
+        card.card_result = read_memfile(&card.card_info, posData, card.sector_size);
+        if (card.card_result == Ready) {
+            tp_osReport("loaded memfile!");
+            FIFOQueue::push("loaded memfile!", Queue);
+            SaveInjector::inject_default_before();
+            SaveInjector::inject_memfile((void*)sTmpBuf);
+            SaveInjector::inject_default_during();
+            SaveInjector::inject_default_after();
+            load_position_data(posData);
+            inject_save_flag = true;
+            fifo_visible = true;
+            MenuRendering::set_menu(MN_NONE_INDEX);
+
         } else {
             tp_osReport("failed to load");
             char buff[32];

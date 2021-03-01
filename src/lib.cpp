@@ -21,6 +21,7 @@
 #include "utils/loading.h"
 #include "utils/memory.h"
 #include "utils/texture.h"
+#include "menus/memfiles_menu.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
