@@ -217,22 +217,24 @@ void store_memfile(Card& card) {
     posData.cam.target = tp_matrixInfo.matrix_info->target;
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
     posData.angle = tp_zelAudio.link_debug_ptr->facing;
-    uint32_t file_size = (uint32_t)(tp_ceil((double)3818 / (double)card.sector_size) *
-                                    card.sector_size);
+    uint32_t file_size =
+        (uint32_t)(tp_ceil((double)3818 / (double)card.sector_size) * card.sector_size);
     card.card_result = CARDDelete(0, card.file_name_buffer);
     card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
     if (card.card_result == Ready || card.card_result == Exist) {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
             for (uint8_t i = 0; i < 0x20; i++) {
-                *((tp_gameInfo.overworld_flags.ordon_flags.flags + (tp_gameInfo.dungeon_temp_flags.mStageNum * 0x20)) + i) = tp_gameInfo.temp_flags.flags[i];
+                *((tp_gameInfo.overworld_flags.ordon_flags.flags +
+                   (tp_gameInfo.dungeon_temp_flags.mStageNum * 0x20)) +
+                  i) = tp_gameInfo.temp_flags.flags[i];
             }
             tp_gameInfo.player.player_spawn_id = 0;
             tp_gameInfo.player.player_room_id = tp_gameInfo.last_room_id;
             tp_strcpy((char*)tp_gameInfo.player.player_stage, (char*)tp_gameInfo.current_stage);
-            card.card_result = Utilities::card_write(&card.card_info, &tp_gameInfo, 3818,
-                                                     0, card.sector_size);
-            
+            card.card_result =
+                Utilities::card_write(&card.card_info, &tp_gameInfo, 3818, 0, card.sector_size);
+
             card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
                                                      3819, card.sector_size);
             if (card.card_result == Ready) {

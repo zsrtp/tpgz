@@ -9,7 +9,7 @@
 #include "utils/lines.h"
 
 #define LINES 3
-#define MAX_SAVE_SLOTS 5
+#define MAX_SAVE_SLOTS 9
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -17,15 +17,25 @@ static uint8_t file_no = 1;
 uint8_t save_delay = 0;
 int8_t memfile_load_delay = 10;
 bool set_position_data = false;
+bool copy_respawn_data = false;
 char fileBuf[9];
 
 PositionData memfile_posdata;
+Vec3 tmpPos = tp_gameInfo.respawn_position;
+uint16_t tmpAngle = tp_gameInfo.respawn_angle;
 
 Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                      {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
                      {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false}};
 
 void set_memfile_position() {
+    //  respawn pos gets overwritten by default spawn, so reinject respawn info
+    if (!copy_respawn_data) {
+        tmpPos = tp_gameInfo.respawn_position;
+        tmpAngle = tp_gameInfo.respawn_angle;
+        copy_respawn_data = true;
+    }
+    
     if (tp_fopScnRq.isLoading == 0) {
         memfile_load_delay--;
     }
@@ -35,7 +45,10 @@ void set_memfile_position() {
         tp_matrixInfo.matrix_info->target = memfile_posdata.cam.target;
         tp_matrixInfo.matrix_info->pos = memfile_posdata.cam.pos;
         tp_zelAudio.link_debug_ptr->facing = memfile_posdata.angle;
+        tp_gameInfo.respawn_position = tmpPos;
+        tp_gameInfo.respawn_angle = tmpAngle;
         set_position_data = false;
+        copy_respawn_data = false;
         memfile_load_delay = 10;
     }
 }
