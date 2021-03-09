@@ -4,6 +4,7 @@
 #define DUNGEON_FLAGS_INDEX 1
 #define PORTAL_FLAGS_INDEX 2
 #define FLAG_RECORDS_INDEX 3
+#define FLAG_LOG_INDEX 4
 
 enum GeneralFlagsIndex {
     BOSS_FLAG_INDEX,
@@ -69,5 +70,11 @@ public:
 class PortalFlagsMenu : public Menu {
 public:
     PortalFlagsMenu() : Menu() {}
+    static void render();
+};
+
+class FlagLogMenu : public Menu {
+public:
+    FlagLogMenu() : Menu() {}
     static void render();
 };

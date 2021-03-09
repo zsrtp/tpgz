@@ -12,7 +12,7 @@
 #define MAX_LINE_LENGTH 50
 #define MAX_DESCRIPTION_LENGTH 100
 
-#define MAX_MENU_RENDER_FLAGS 22
+#define MAX_MENU_RENDER_FLAGS 25
 
 #ifdef GCN_PLATFORM
 #define SELECTION_BUTTON (Controller::Pad::A)
@@ -47,6 +47,9 @@ enum MenuIndex {
     MN_ANY_SAVES_INDEX,
     MN_HUNDO_SAVES_INDEX,
     MN_POS_SETTINGS_INDEX,
+    MN_FLAG_LOG_INDEX,
+    MN_AD_SAVES_INDEX,
+    MN_MEM_FILES_INDEX
 };
 
 struct ListMember {

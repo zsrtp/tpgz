@@ -9,7 +9,7 @@
 
 #include "fifo_queue.h"
 
-#define LINES 7
+#define LINES 8
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
 #define MAX_FONT_OPTIONS 7
@@ -20,6 +20,7 @@ bool init_once = false;
 int g_area_reload_behavior;
 int g_cursor_color;
 bool g_cursor_color_flag;
+bool g_swap_equips_flag;
 int g_font = 0;
 
 ListMember reload_options[MAX_RELOAD_OPTIONS] = {"load area", "load file"};
@@ -39,6 +40,8 @@ Line lines[LINES] = {
      MAX_CURSOR_COLOR_OPTIONS},
     {"font:", FONT_INDEX, "Change font", false, nullptr, MAX_FONT_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
+    {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files", true,
+     &g_swap_equips_flag},
     {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX,
@@ -87,7 +90,11 @@ void SettingsMenu::render() {
             card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
             Utilities::load_mem_card(card);
             break;
-        }
+        };
+        case SWAP_EQUIPS_INDEX: {
+            g_swap_equips_flag = !g_swap_equips_flag;
+            break;
+        };
         }
     }
 
