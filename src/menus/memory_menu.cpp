@@ -5,13 +5,14 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#define LINES 2
+#define LINES 3
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
 
 Line lines[LINES] = {{"watches", 0, "Manage memory watches", false},
-                     {"memory editor", 1, "View/edit memory", false}};
+                     {"memory editor", 1, "View/edit memory", false},
+                     {"mem files", 2, "Save/Load memory files", false}};
 
 void MemoryMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -33,6 +34,10 @@ void MemoryMenu::render() {
         }
         case 1: {
             MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
+            return;
+        }
+        case 2: {
+            MenuRendering::set_menu(MN_MEM_FILES_INDEX);
             return;
         }
         }
