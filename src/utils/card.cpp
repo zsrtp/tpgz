@@ -172,11 +172,9 @@ int32_t read_memfile(CardInfo* card_info, PositionData& posData, int32_t sector_
         return result;                                                                             \
     }
 
-    assert_result(
-        card_read(card_info, (void*)sTmpBuf, 3818, 0, sector_size));
-    
-    assert_result(
-        card_read(card_info, &posData, sizeof(posData), 3819, sector_size));
+    assert_result(card_read(card_info, (void*)sTmpBuf, 3818, 0, sector_size));
+
+    assert_result(card_read(card_info, &posData, sizeof(posData), 3819, sector_size));
 
 #undef assert_result
     return result;

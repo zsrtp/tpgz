@@ -35,7 +35,7 @@ void set_memfile_position() {
         tmpAngle = tp_gameInfo.respawn_angle;
         copy_respawn_data = true;
     }
-    
+
     if (tp_fopScnRq.isLoading == 0) {
         memfile_load_delay--;
     }
