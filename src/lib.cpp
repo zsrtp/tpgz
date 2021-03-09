@@ -91,7 +91,7 @@ void game_loop() {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
-    if (tp_fopScnRq.isLoading == 1) {
+    if (tp_fopScnRq.isLoading) {
         MenuRendering::close_active_menus();
         move_link_active = false;
         last_frame_was_loading = true;
@@ -99,7 +99,7 @@ void game_loop() {
     }
 
     // save temp flags and tears after every loading zone
-    if (last_frame_was_loading && tp_fopScnRq.isLoading != 1) {
+    if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
         tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags,
                   sizeof(tp_gameInfo.temp_flags.flags));
         g_area_reload.tears = tp_gameInfo.inventory.tears;

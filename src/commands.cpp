@@ -36,21 +36,31 @@ static int button_last_frame;
 static int button_this_frame;
 
 void store_position() {
-    saved_x = tp_zelAudio.link_debug_ptr->position.x;
-    saved_y = tp_zelAudio.link_debug_ptr->position.y;
-    saved_z = tp_zelAudio.link_debug_ptr->position.z;
-    saved_angle = tp_zelAudio.link_debug_ptr->facing;
-    saved_pos = tp_matrixInfo.matrix_info->pos;
-    saved_target = tp_matrixInfo.matrix_info->target;
+    if (tp_zelAudio.link_debug_ptr) {
+        saved_x = tp_zelAudio.link_debug_ptr->position.x;
+        saved_y = tp_zelAudio.link_debug_ptr->position.y;
+        saved_z = tp_zelAudio.link_debug_ptr->position.z;
+        saved_angle = tp_zelAudio.link_debug_ptr->facing;
+    }
+
+    if (tp_matrixInfo.matrix_info) {
+        saved_pos = tp_matrixInfo.matrix_info->pos;
+        saved_target = tp_matrixInfo.matrix_info->target;
+    }
 }
 
 void load_position() {
-    tp_zelAudio.link_debug_ptr->position.x = saved_x;
-    tp_zelAudio.link_debug_ptr->position.y = saved_y;
-    tp_zelAudio.link_debug_ptr->position.z = saved_z;
-    tp_zelAudio.link_debug_ptr->facing = saved_angle;
-    tp_matrixInfo.matrix_info->pos = saved_pos;
-    tp_matrixInfo.matrix_info->target = saved_target;
+    if (tp_zelAudio.link_debug_ptr) {
+        tp_zelAudio.link_debug_ptr->position.x = saved_x;
+        tp_zelAudio.link_debug_ptr->position.y = saved_y;
+        tp_zelAudio.link_debug_ptr->position.z = saved_z;
+        tp_zelAudio.link_debug_ptr->facing = saved_angle;
+    }
+
+    if (tp_matrixInfo.matrix_info) {
+        tp_matrixInfo.matrix_info->pos = saved_pos;
+        tp_matrixInfo.matrix_info->target = saved_target;
+    }
 }
 
 void moon_jump() {
