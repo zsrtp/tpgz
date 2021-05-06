@@ -23,7 +23,6 @@
 #define FREE_CAM_TEXT "Z+B+A"
 #define MOVE_LINK_TEXT "L+R+Y"
 #define FRAME_ADVANCE_TEXT "L+R+X"
-#define LOAD_TIMER_TEXT "Z+B"
 #endif
 #ifdef WII_PLATFORM
 #define COMMANDS_AMNT 10
@@ -49,7 +48,6 @@
 #define FREE_CAM_TEXT "Z+C+B+Minus"
 #define MOVE_LINK_TEXT "Z+C+B+Plus"
 #define FRAME_ADVANCE_TEXT "Z+C+B+D-PAD right"
-#define LOAD_TIMER_TEXT "Z+B"
 #endif
 
 extern bool reload_area_flag;

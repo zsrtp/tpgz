@@ -64,9 +64,10 @@ Line lines[LINES] = {
     {"timer", TIMER_INDEX,
      "Frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[TIMER_INDEX].active},
-    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " LOAD_TIMER_TEXT " to reset", true,
+    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[LOAD_TIMER_INDEX].active},
-    {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true,
+    {"igt timer", IGT_TIMER_INDEX,
+     "In-game time timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX,
      FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
