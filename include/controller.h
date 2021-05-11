@@ -41,6 +41,7 @@ bool button_is_pressed(int idx);
 bool button_is_pressed(int idx, uint16_t repeat_time);
 bool button_is_down(int idx);
 bool button_is_held(int idx);
+bool button_is_held_post_loop(int idx);
 uint16_t get_current_inputs();
 void read_controller();
 }  // namespace Controller

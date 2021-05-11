@@ -3,6 +3,9 @@
 #include "controller.h"
 #include "free_cam.h"
 #include "gorge.h"
+#ifdef GCN_PLATFORM
+#include "umd.h"
+#endif
 #ifdef WII_PLATFORM
 #include "bit.h"
 #endif
@@ -28,6 +31,9 @@ bool g_tunic_color_flag;
 Tool ToolItems[TOOL_AMNT] = {
     {RELOAD_AREA_INDEX, false},  {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
     {GORGE_INDEX, false},
+#ifdef GCN_PLATFORM
+    {UMD_INDEX, false},
+#endif
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
@@ -45,6 +51,10 @@ Line lines[LINES] = {
      &ToolItems[FAST_MOVEMENT_INDEX].active},
     {"gorge checker", GORGE_INDEX, "Use " GORGE_VOID_TEXT " to warp to Kakariko Gorge", true,
      &ToolItems[GORGE_INDEX].active},
+#ifdef GCN_PLATFORM
+    {"umd checker", UMD_INDEX, "Practice UMD timing", true,
+     &ToolItems[UMD_INDEX].active},
+#endif
 #ifdef WII_PLATFORM
     {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
      &ToolItems[BIT_INDEX].active},

@@ -158,4 +158,14 @@ bool button_is_held(int idx) {
         return false;
     }
 }
+
+bool button_is_held_post_loop(int idx) {
+    auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
+    if (delta != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 }  // namespace Controller
