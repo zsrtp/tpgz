@@ -106,13 +106,17 @@ void game_loop() {
         last_frame_was_loading = false;
     }
 
-    GZFlags::apply_active_flags();
+    GZFlags::apply_active_flags(0);
     FreeCam::handle_free_cam();
     MoveLink::move_link();
 
     if (ToolItems[Tools::TURBO_MODE_INDEX].active) {
         tp_cPadInfo.triggerInput = tp_cPadInfo.input;
     }
+}
+
+void post_game_loop() {
+    GZFlags::apply_active_flags(1);
 }
 
 void draw() {

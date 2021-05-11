@@ -6,7 +6,7 @@
 #define TOOL_AMNT 17
 #endif
 #ifdef GCN_PLATFORM
-#define TOOL_AMNT 16
+#define TOOL_AMNT 17
 #endif
 namespace Tools {
 enum ToolsIndex {
@@ -14,6 +14,9 @@ enum ToolsIndex {
     FAST_BONK_INDEX,
     FAST_MOVEMENT_INDEX,
     GORGE_INDEX,
+#ifdef GCN_PLATFORM
+    UMD_INDEX,
+#endif
 #ifdef WII_PLATFORM
     BIT_INDEX,
 #endif

@@ -4,15 +4,16 @@
 #define MAX_GZ_FLAGS 15
 #endif
 #ifdef GCN_PLATFORM
-#define MAX_GZ_FLAGS 14
+#define MAX_GZ_FLAGS 15
 #endif
 
 struct GZFlag {
     bool* activation_flag;
+    int requiredPhase;
     void (*flag_active_function)();
     void (*flag_deactive_function)();
 };
 
 namespace GZFlags {
-void apply_active_flags();
+void apply_active_flags(int phase);
 }

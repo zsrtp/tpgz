@@ -94,6 +94,7 @@ tools menu:
 - fast bonk recovery            // Reduces bonk animation significantly
 - fast movement                 // Link's movement is much faster
 - gorge checker                 // Use L+Z to warp to Kakariko Gorge
+- umd checker                   // Practice Universal Map Delay (UMD) timing
 - input viewer                  // Show current inputs
 - link debug info               // Show Link's position, angle, and speed
 - no sinking in sand            // Link won't sink in sand
