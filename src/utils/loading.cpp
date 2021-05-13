@@ -15,14 +15,13 @@ void set_camera_angle_position() {
     tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
     tp_zelAudio.link_debug_ptr->facing = gSaveManager.mPracticeSaveInfo.angle;
     tp_zelAudio.link_debug_ptr->position = gSaveManager.mPracticeSaveInfo.position;
-    tp_osReport("%d",gSaveManager.mPracticeSaveInfo.angle);
-    tp_osReport("0x%08X",&gSaveManager.mPracticeSaveInfo.angle);
+    tp_osReport("%d", gSaveManager.mPracticeSaveInfo.angle);
+    tp_osReport("0x%08X", &gSaveManager.mPracticeSaveInfo.angle);
 }
 
 void set_angle_position() {
     tp_zelAudio.link_debug_ptr->facing = gSaveManager.mPracticeSaveInfo.angle;
     tp_zelAudio.link_debug_ptr->position = gSaveManager.mPracticeSaveInfo.position;
 }
-
 
 }  // namespace Utilities

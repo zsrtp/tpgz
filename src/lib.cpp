@@ -125,8 +125,8 @@ void draw() {
     setupRendering();
     // Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
-        Font::gz_renderChars("tpgz v" INTERNAL_GZ_VERSION, sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
-                             g_drop_shadows);
+        Font::gz_renderChars("tpgz v" INTERNAL_GZ_VERSION, sprite_offsets[MENU_INDEX].x + 35.0f,
+                             25.0f, cursor_rgba, g_drop_shadows);
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
                             &gzIconTex._texObj);

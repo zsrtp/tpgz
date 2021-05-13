@@ -3,7 +3,6 @@
 #include "gcn_c/include/dvd.h"
 #include "libtp_c/include/system.h"
 
-
 void loadFile(const char* filePath, void* buffer, signed long length, signed long offset) {
     DVDFileInfo fileInfo;
     if (DVDOpen(filePath, &fileInfo)) {

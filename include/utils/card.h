@@ -2,7 +2,6 @@
 #include "gcn_c/include/card.h"
 #include "menu.h"
 
-
 namespace Utilities {
 int32_t card_write(CardInfo* card_info, void* data, int32_t size, int32_t offset,
                    int32_t sector_size);

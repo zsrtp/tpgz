@@ -81,9 +81,10 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
 
     // Load the corresponding file path and properties
     tp_sprintf(currentFileName, "tpgz/save_files/%s.bin", category);
-    loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo, sizeof(gSaveManager.mPracticeSaveInfo),
-             id * sizeof(gSaveManager.mPracticeSaveInfo));
-    tp_sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category, gSaveManager.mPracticeSaveInfo.filename);
+    loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
+             sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
+    tp_sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category,
+               gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
     if (size != 0xFF) {
@@ -93,10 +94,12 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
     }
 
     if (gSaveManager.mPracticeSaveInfo.requirements) {
-        gSaveManager.mPracticeFileOpts.inject_options_after_load = gSaveManager.mPracticeSaveInfo.requirements & REQ_CAM ?
-                                                          Utilities::set_camera_angle_position :
-                                                          Utilities::set_angle_position;
-        gSaveManager.mPracticeFileOpts.inject_options_after_counter = gSaveManager.mPracticeSaveInfo.counter;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load =
+            gSaveManager.mPracticeSaveInfo.requirements & REQ_CAM ?
+                Utilities::set_camera_angle_position :
+                Utilities::set_angle_position;
+        gSaveManager.mPracticeFileOpts.inject_options_after_counter =
+            gSaveManager.mPracticeSaveInfo.counter;
     }
 
     tp_bossFlags = 0;
@@ -106,10 +109,12 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
         for (int i = 0; i < size; ++i) {
             if (id == i_specials[i].idx) {
                 if (i_specials[i].CallbackDuring) {
-                    gSaveManager.mPracticeFileOpts.inject_options_during_load = i_specials[i].CallbackDuring;
+                    gSaveManager.mPracticeFileOpts.inject_options_during_load =
+                        i_specials[i].CallbackDuring;
                 }
                 if (i_specials[i].CallbackAfter) {
-                    gSaveManager.mPracticeFileOpts.inject_options_after_load = i_specials[i].CallbackAfter;
+                    gSaveManager.mPracticeFileOpts.inject_options_after_load =
+                        i_specials[i].CallbackAfter;
                 }
             }
         }
