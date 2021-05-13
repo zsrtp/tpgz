@@ -210,6 +210,7 @@ void store_mem_card(Card& card) {
 }
 
 void store_memfile(Card& card) {
+#ifndef WII_PLATFORM
     PositionData posData;
     posData.link = tp_zelAudio.link_debug_ptr->position;
     posData.cam.target = tp_matrixInfo.matrix_info->target;
@@ -247,6 +248,7 @@ void store_memfile(Card& card) {
             card.card_result = CARDClose(&card.card_info);
         }
     }
+#endif
 }
 
 void load_mem_card(Card& card) {
