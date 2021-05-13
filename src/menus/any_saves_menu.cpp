@@ -7,7 +7,7 @@
 #include "libtp_c/include/tp.h"
 #include "menus/practice_menu.h"
 #include "rollcheck.h"
-#include "save_injector.h"
+
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
@@ -70,25 +70,15 @@ Line lines[LINES] = {
     {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
     {"horseback ganon", HORSEBACK_GANON_INDEX, "The horseback Ganondorf fight"}};
 
-void default_load() {
-    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
-    inject_save_flag = true;
-    fifo_visible = true;
-    MenuRendering::set_menu(MN_NONE_INDEX);
-    init_once = false;
-}
-
 void hugo() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
     tp_gameInfo.temp_flags.flags[12] = 0;    // hugo alive
 }
 
 void karg_oob() {
-    practice_file.inject_options_before_load = nullptr;
-    SaveInjector::inject_default_during();
+    gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
+    gSaveManager.inject_default_during();
     tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
     tp_gameInfo.link.is_wolf = false;
 }
@@ -99,23 +89,23 @@ void morpheel() {
 }
 
 void stallord() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
     tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
 }
 
 void fan_tower() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
 }
 
 void argorok() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.boss_room_event_flags = 1;
 }
 
 void palace1() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
 }
 
@@ -124,13 +114,13 @@ void palace2() {
 }
 
 void lakebed_bk_skip_during() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.temp_flags.flags[11] = 18;   // bridge turned
     tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void bossflags() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     TP::set_boss_flags();
 }
 
@@ -139,7 +129,7 @@ void darkhammer() {
 }
 
 void waterfall_sidehop() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.spawn_speed = 10.0f;  // link spawns swimming forward
 }
 
@@ -175,7 +165,7 @@ void AnySavesMenu::render() {
     }
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
+        SaveManager::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
         init_once = false;
     }
 

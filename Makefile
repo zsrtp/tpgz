@@ -30,12 +30,13 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
+GZ_VERSION  ?=  0.4
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM -D GZ_VERSION=$(GZ_VERSION)
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------

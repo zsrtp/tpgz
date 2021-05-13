@@ -5,10 +5,10 @@
 #include "libtp_c/include/math.h"
 #include "libtp_c/include/system.h"
 #include "menus/practice_menu.h"
-#include "save_injector.h"
+
 #include "libtp_c/include/tp.h"
 #include "menus/memfiles_menu.h"
-#include "saves.h"
+#include "save_manager.h"
 
 namespace Utilities {
 /**
@@ -283,10 +283,10 @@ void load_memfile(Card& card) {
         if (card.card_result == Ready) {
             tp_osReport("loaded memfile!");
             FIFOQueue::push("loaded memfile!", Queue);
-            SaveInjector::inject_default_before();
-            SaveInjector::inject_memfile((void*)sTmpBuf);
-            SaveInjector::inject_default_during();
-            SaveInjector::inject_default_after();
+            SaveManager::inject_default_before();
+            SaveManager::inject_memfile((void*)sTmpBuf);
+            SaveManager::inject_default_during();
+            SaveManager::inject_default_after();
             load_position_data(posData);
             inject_save_flag = true;
             fifo_visible = true;
@@ -313,10 +313,9 @@ void load_gz_card(bool& card_load) {
         card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
         if (card.card_result == Ready) {
             Utilities::load_mem_card(card);
-            card_load = false;
-        } else {
-            card_load = false;
         }
+
+        card_load = false;
     }
 }
 }  // namespace Utilities

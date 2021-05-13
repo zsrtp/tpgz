@@ -29,6 +29,9 @@ bool last_frame_was_loading = false;
 
 extern "C" {
 
+#define Q(x) #x
+#define QUOTE(x) Q(x)
+
 #if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
 #endif
@@ -43,6 +46,9 @@ extern "C" {
 #endif
 #if (WII_PAL)
 #define main_tampoline ((void (*)(void))0x803b929c)
+#endif
+#ifdef GZ_VERSION
+#define INTERNAL_GZ_VERSION QUOTE(GZ_VERSION)
 #endif
 
 void apply_lib_hooks() {
@@ -91,7 +97,7 @@ void game_loop() {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
-    if (tp_fopScnRq.isLoading == 1) {
+    if (tp_fopScnRq.isLoading) {
         MenuRendering::close_active_menus();
         move_link_active = false;
         last_frame_was_loading = true;
@@ -99,10 +105,10 @@ void game_loop() {
     }
 
     // save temp flags and tears after every loading zone
-    if (last_frame_was_loading && tp_fopScnRq.isLoading != 1) {
-        tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags,
+    if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
+        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, tp_gameInfo.temp_flags.flags,
                   sizeof(tp_gameInfo.temp_flags.flags));
-        g_area_reload.tears = tp_gameInfo.inventory.tears;
+        gSaveManager.mAreaReloadOpts.tears = tp_gameInfo.inventory.tears;
         last_frame_was_loading = false;
     }
 
@@ -119,8 +125,8 @@ void draw() {
     setupRendering();
     // Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
-        Font::gz_renderChars("tpgz v0.3", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
-                             g_drop_shadows);
+        Font::gz_renderChars("tpgz v" INTERNAL_GZ_VERSION, sprite_offsets[MENU_INDEX].x + 35.0f,
+                             25.0f, cursor_rgba, g_drop_shadows);
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
                             &gzIconTex._texObj);

@@ -1,4 +1,3 @@
-#include "menus/hundo_saves_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
@@ -7,7 +6,7 @@
 #include "libtp_c/include/tp.h"
 #include "menus/practice_menu.h"
 #include "rollcheck.h"
-#include "save_injector.h"
+
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
@@ -106,9 +105,9 @@ Line lines[LINES] = {
     {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
 void default_load() {
-    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
+    gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::inject_default_before;
+    gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::inject_default_during;
+    gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::inject_default_after;
     inject_save_flag = true;
     fifo_visible = true;
     MenuRendering::set_menu(MN_NONE_INDEX);
@@ -116,39 +115,39 @@ void default_load() {
 }
 
 void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = camera.target;
-    tp_matrixInfo.matrix_info->pos = camera.pos;
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
+    tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
+    tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
+    tp_zelAudio.link_debug_ptr->facing = gSaveManager.mPracticeSaveInfo.angle;
+    tp_zelAudio.link_debug_ptr->position = gSaveManager.mPracticeSaveInfo.position;
 }
 
 void set_angle_position() {
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
+    tp_zelAudio.link_debug_ptr->facing = gSaveManager.mPracticeSaveInfo.angle;
+    tp_zelAudio.link_debug_ptr->position = gSaveManager.mPracticeSaveInfo.position;
 }
 
 void goats_1() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.state = 0x5;
 }
 
 void goats_2() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.state = 0x4;
 }
 
 void purple_mist() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.link.is_wolf = false;
 }
 
 void kb2_skip() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.state = 0x3;
 }
 
 void escort() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.room = 0xD;
     tp_gameInfo.warp.entrance.spawn = 0x62;
     tp_gameInfo.warp.entrance.state = 0x2;
@@ -156,26 +155,26 @@ void escort() {
 }
 
 void dangoro() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.boss_room_event_flags = 32;  // turn off intro cs, start fight
 }
 
 void morpheel() {
     tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
     tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
-    angle = 10754;
-    position = {-1193.0f, -23999.0f, -770.0f};
+    gSaveManager.mPracticeSaveInfo.angle = 10754;
+    gSaveManager.mPracticeSaveInfo.position = {-1193.0f, -23999.0f, -770.0f};
     set_angle_position();
 }
 
 void karg_oob() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
     tp_gameInfo.link.is_wolf = false;
 }
 
 void iza_1_skip() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.respawn_animation = 0xA;                           // spawn on kargorok
     tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
     tp_gameInfo.warp.entrance.room = 0x1;
@@ -184,79 +183,79 @@ void iza_1_skip() {
 }
 
 void stallord() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
     tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
 }
 
 void spr_bosskey() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
     tp_gameInfo.warp.entrance.spawn = 0x00;  // default spawn
 }
 
 void tot_early_poe() {
-    SaveInjector::inject_default_during();
-    angle = 49299;
-    position = {-2462.85f, 2750.0f, -7.10f};
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 49299;
+    gSaveManager.mPracticeSaveInfo.position = {-2462.85f, 2750.0f, -7.10f};
     set_angle_position();
 }
 
 void tot_early_hp() {
-    SaveInjector::inject_default_during();
-    angle = 49152;
-    position = {-8000.50f, 5100.0f, -3226.17f};
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 49152;
+    gSaveManager.mPracticeSaveInfo.position = {-8000.50f, 5100.0f, -3226.17f};
     set_angle_position();
 }
 
 void hugo_archery() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     // tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.warp.entrance.spawn = 0x0;
-    angle = 71;
-    position = {-14005.31f, 3000.0f, -15854.05f};
+    gSaveManager.mPracticeSaveInfo.angle = 71;
+    gSaveManager.mPracticeSaveInfo.position = {-14005.31f, 3000.0f, -15854.05f};
     set_angle_position();
 }
 
 void fan_tower() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
 }
 
 void argorok() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.boss_room_event_flags = 1;
 }
 
 void palace1() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
 }
 
 void palace2() {
     tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
-    SaveInjector::inject_default_during();
-    angle = 32731;
-    position = {251.83f, -200.0f, 10993.50f};
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 32731;
+    gSaveManager.mPracticeSaveInfo.position = {251.83f, -200.0f, 10993.50f};
     set_angle_position();
 }
 
 void lakebed_bk_skip_during() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
 }
 
 void bossflags() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     TP::set_boss_flags();
 }
 
 void cave_of_ordeals() {
-    SaveInjector::inject_default_during();
+    gSaveManager.inject_default_during();
     tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset all CoO doors
 }
 
@@ -302,7 +301,7 @@ void HundoSavesMenu::render() {
     }
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
     }
 

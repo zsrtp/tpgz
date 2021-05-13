@@ -2,7 +2,7 @@
 #include "controller.h"
 #include "font.h"
 #include "libtp_c/include/tp.h"
-#include "save_injector.h"
+
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
@@ -10,7 +10,10 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-PracticeFile practice_file;
+char last_category[5];
+int last_save_index;
+int last_special_size;
+special* last_special_ptr;
 
 Line lines[LINES] = {{"any%", ANY_INDEX, "Any% practice saves", false},
                      {"100%", HUNDO_INDEX, "100% practice saves", false},
