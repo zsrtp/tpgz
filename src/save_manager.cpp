@@ -85,7 +85,7 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
              id * sizeof(gSaveManager.mPracticeSaveInfo));
     tp_sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category, gSaveManager.mPracticeSaveInfo.filename);
 
-    // 0xFF is used to identify a call from file reload, which doesn't need to run this function
+    // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
     if (size != 0xFF) {
         SaveManager::default_load();
     } else {
@@ -101,20 +101,21 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
 
     tp_bossFlags = 0;
 
-    // if (i_specials) {
-    //     for (int i = 0; i < size; ++i) {
-    //         if (id == i_specials[i].idx) {
-    //             if (i_specials[i].CallbackDuring) {
-    //                 gSaveManager.mPracticeFileOpts.inject_options_during_load = i_specials[i].CallbackDuring;
-    //             }
-    //             if (i_specials[i].CallbackAfter) {
-    //                 gSaveManager.mPracticeFileOpts.inject_options_after_load = i_specials[i].CallbackAfter;
-    //             }
-    //         }
-    //     }
-    // }
+    // If the selected file was a special, run the special callbacks
+    if (i_specials) {
+        for (int i = 0; i < size; ++i) {
+            if (id == i_specials[i].idx) {
+                if (i_specials[i].CallbackDuring) {
+                    gSaveManager.mPracticeFileOpts.inject_options_during_load = i_specials[i].CallbackDuring;
+                }
+                if (i_specials[i].CallbackAfter) {
+                    gSaveManager.mPracticeFileOpts.inject_options_after_load = i_specials[i].CallbackAfter;
+                }
+            }
+        }
+    }
 
-    // store all the info in case file reload is used
+    // Store all the info in case file reload is used
     last_save_index = id;
     tp_strcpy(last_category, category);
     last_special_ptr = i_specials;

@@ -90,7 +90,7 @@ void reload_area() {
         gSaveManager.mPracticeFileOpts.inject_options_during_load = nullptr;
         gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
     } else {                                                            
-        SaveManager::load_save(last_save_index, last_category, HundoSpecials, 0xFF);
+        SaveManager::load_save(last_save_index, last_category, last_special_ptr, 0xFF);
     }
 }  // namespace Commands
 

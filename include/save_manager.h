@@ -138,5 +138,3 @@ struct GZSaveFile {
     uint32_t sizes[GZ_SAVE_ENTRIES_AMNT];
     GZSaveLayout data;
 };
-
-extern special HundoSpecials[HND_SPECIALS_AMNT];
