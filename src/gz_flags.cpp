@@ -14,6 +14,7 @@
 #include "utils/link.h"
 #include "utils/loading.h"
 #include "flaglog.h"
+#include "save_manager.h"
 #include "menus/memfiles_menu.h"
 
 bool inject_save_flag = false;
@@ -25,7 +26,7 @@ GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
 #endif
     {&ToolItems[Tools::ROLL_INDEX].active, RollIndicator::run},
     {&g_flag_log_active, FlagLog::run},
-    {&inject_save_flag, Utilities::trigger_load},
+    {&inject_save_flag, SaveManager::trigger_load},
     {&SceneItems[Scene::FREEZE_ACTOR_INDEX].active, Actor::freeze_actors, Actor::unfreeze_actors},
     {&SceneItems[Scene::HIDE_ACTOR_INDEX].active, Actor::hide_actors, Actor::show_actors},
     {&SceneItems[Scene::FREEZE_CAMERA_INDEX].active, System::lock_camera, System::unlock_camera},

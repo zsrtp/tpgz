@@ -88,7 +88,9 @@ void SettingsMenu::render() {
             card.sector_size = SECTOR_SIZE;
             tp_sprintf(card.file_name_buffer, card.file_name);
             card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
-            Utilities::load_mem_card(card);
+            if (card.card_result == Ready) {
+                Utilities::load_mem_card(card);
+            }
             break;
         };
         case SWAP_EQUIPS_INDEX: {

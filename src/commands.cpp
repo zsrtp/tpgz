@@ -12,8 +12,9 @@
 #include "libtp_c/include/tp.h"
 #include "menus/practice_menu.h"
 #include "menus/settings_menu.h"
+#include "menus/hundo_saves_menu.h"
 #include "movelink.h"
-#include "save_injector.h"
+
 #include "timer.h"
 #include "utils/loading.h"
 
@@ -82,23 +83,23 @@ void hit_reset() {
 void reload_area() {
     inject_save_flag = true;
     if (g_area_reload_behavior == LOAD_AREA) {
-        tp_memcpy(tp_gameInfo.temp_flags.flags, g_area_reload.temp_flags,
-                  sizeof(g_area_reload.temp_flags));        // restore last set of saved temp flags
-        tp_gameInfo.inventory.tears = g_area_reload.tears;  // restore last tear count
-        practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-        practice_file.inject_options_during_load = nullptr;
-        practice_file.inject_options_after_load = nullptr;
-    } else {
-        Utilities::load_save(last_save_index, last_category, nullptr, 0xFF);
+        tp_memcpy(tp_gameInfo.temp_flags.flags, gSaveManager.mAreaReloadOpts.temp_flags,
+                  sizeof(gSaveManager.mAreaReloadOpts.temp_flags));        // restore last set of saved temp flags
+        tp_gameInfo.inventory.tears = gSaveManager.mAreaReloadOpts.tears;  // restore last tear count
+        gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::inject_default_before;
+        gSaveManager.mPracticeFileOpts.inject_options_during_load = nullptr;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
+    } else {                                                            
+        SaveManager::load_save(last_save_index, last_category, HundoSpecials, 0xFF);
     }
 }  // namespace Commands
 
 void gorge_void() {
     if (button_this_frame == GORGE_VOID_BUTTONS && button_last_frame != GORGE_VOID_BUTTONS) {
-        Utilities::load_save_file("tpgz/save_files/any/gorge_void.bin");
-        practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-        practice_file.inject_options_during_load = GorgeVoidIndicator::warp_to_gorge;
-        practice_file.inject_options_after_load = GorgeVoidIndicator::prep_rupee_roll;
+        SaveManager::load_save_file("tpgz/save_files/any/gorge_void.bin");
+        gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::inject_default_before;
+        gSaveManager.mPracticeFileOpts.inject_options_during_load = GorgeVoidIndicator::warp_to_gorge;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::prep_rupee_roll;
         inject_save_flag = true;
     }
 }
@@ -106,11 +107,11 @@ void gorge_void() {
 #ifdef WII_PLATFORM
 void back_in_time() {
     if (button_this_frame == BACK_IN_TIME_BUTTONS && button_last_frame != BACK_IN_TIME_BUTTONS) {
-        Utilities::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
-        practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-        practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-        practice_file.inject_options_after_load = BiTIndicator::set_camera_angle_position;
-        practice_file.inject_options_after_counter = 10;
+        SaveManager::load_save_file("tpgz/save_files/any/ordon_gate_clip.bin");
+        gSaveManager.mPracticeFileOpts.inject_options_before_load = gSaveManager.inject_default_before;
+        gSaveManager.mPracticeFileOpts.inject_options_during_load = gSaveManager.inject_default_during;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = BiTIndicator::set_camera_angle_position;
+        gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;
         inject_save_flag = true;
     }
 }
