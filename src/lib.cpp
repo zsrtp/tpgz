@@ -29,6 +29,9 @@ bool last_frame_was_loading = false;
 
 extern "C" {
 
+#define Q(x) #x
+#define QUOTE(x) Q(x)
+
 #if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
 #endif
@@ -43,6 +46,9 @@ extern "C" {
 #endif
 #if (WII_PAL)
 #define main_tampoline ((void (*)(void))0x803b929c)
+#endif
+#ifdef GZ_VERSION
+#define INTERNAL_GZ_VERSION QUOTE(GZ_VERSION)
 #endif
 
 void apply_lib_hooks() {
@@ -119,7 +125,7 @@ void draw() {
     setupRendering();
     // Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
-        Font::gz_renderChars("tpgz v0.3", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
+        Font::gz_renderChars("tpgz v" INTERNAL_GZ_VERSION, sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
                              g_drop_shadows);
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
