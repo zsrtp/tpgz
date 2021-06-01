@@ -8,7 +8,7 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#define LINES 3
+#define LINES 4
 #define MAX_SAVE_SLOTS 9
 
 static Cursor cursor = {0, 0};
@@ -26,7 +26,8 @@ uint16_t tmpAngle = tp_gameInfo.respawn_angle;
 
 Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                      {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
-                     {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false}};
+                     {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false},
+                     {"delete", MEMFILE_DELETE_INDEX, "Delete memfile from slot", false}};
 
 void set_memfile_position() {
     //  respawn pos gets overwritten by default spawn, so reinject respawn info
@@ -106,6 +107,19 @@ void MemfilesMenu::render() {
                 Utilities::load_memfile(card);
             }
             set_position_data = true;
+            break;
+        }
+        case MEMFILE_DELETE_INDEX: {
+            static Card card;
+            tp_sprintf(fileBuf, "tpgz_s%d", file_no);
+            card.file_name = fileBuf;
+            card.sector_size = SECTOR_SIZE;
+            tp_sprintf(card.file_name_buffer, card.file_name);
+            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
+            if (card.card_result == Ready) {
+                Utilities::delete_memfile(card);
+            }
+            save_delay = 20;
             break;
         }
         }

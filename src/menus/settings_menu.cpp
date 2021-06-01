@@ -9,7 +9,7 @@
 
 #include "fifo_queue.h"
 
-#define LINES 8
+#define LINES 9
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
 #define MAX_FONT_OPTIONS 7
@@ -44,6 +44,7 @@ Line lines[LINES] = {
      &g_swap_equips_flag},
     {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
+    {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX,
      "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
@@ -90,6 +91,17 @@ void SettingsMenu::render() {
             card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
             if (card.card_result == Ready) {
                 Utilities::load_mem_card(card);
+            }
+            break;
+        };
+        case DELETE_CARD_INDEX: {
+            static Card card;
+            card.file_name = "tpgz01";
+            card.sector_size = SECTOR_SIZE;
+            tp_sprintf(card.file_name_buffer, card.file_name);
+            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
+            if (card.card_result == Ready) {
+                Utilities::delete_mem_card(card);
             }
             break;
         };
