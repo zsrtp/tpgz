@@ -251,6 +251,36 @@ void store_memfile(Card& card) {
 #endif
 }
 
+void delete_mem_card(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    if (card.card_result == Ready) {
+        tp_osReport("deleted card!");
+        FIFOQueue::push("deleted card!", Queue);
+    } else {
+        tp_osReport("failed to delete");
+        char buff[32];
+        tp_sprintf(buff, "failed to delete: %d", card.card_result);
+        FIFOQueue::push(buff, Queue);
+    }
+#endif
+}
+
+void delete_memfile(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    if (card.card_result == Ready) {
+        tp_osReport("deleted memfile!");
+        FIFOQueue::push("deleted memfile!", Queue);
+    } else {
+        tp_osReport("failed to delete");
+        char buff[32];
+        tp_sprintf(buff, "failed to delete: %d", card.card_result);
+        FIFOQueue::push(buff, Queue);
+    }
+#endif
+}
+
 void load_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
