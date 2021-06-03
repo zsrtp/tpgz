@@ -39,8 +39,8 @@ void run() {
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
         const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
-        const double dist_from_last_ground = (dComIfGp_getPlayer()->mCurrent.mPosition.y -
-                                              dComIfGp_getPlayer()->field_0x33c8);
+        const double dist_from_last_ground =
+            (dComIfGp_getPlayer()->mCurrent.mPosition.y - dComIfGp_getPlayer()->field_0x33c8);
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;

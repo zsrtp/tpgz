@@ -34,20 +34,23 @@ void run() {
 
         if (current_counter < 20) {
             // went early
-            if (!got_it && (!button_is_held(Y) || !button_is_held(X)) && (current_counter < 10) && (button_is_down(Y) || button_is_down(X))) {
+            if (!got_it && (!button_is_held(Y) || !button_is_held(X)) && (current_counter < 10) &&
+                (button_is_down(Y) || button_is_down(X))) {
                 int final_val = 10 - current_counter;
                 tp_sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
             // got it
-            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) && (current_counter == 10) && (button_is_down(Y) || button_is_down(X))) {
+            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) &&
+                     (current_counter == 10) && (button_is_down(Y) || button_is_down(X))) {
                 FIFOQueue::push("got it", Queue, 0x00CC0000);
                 got_it = true;
             }
 
             // went late
-            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) && current_counter > 10 && (button_is_down(Y) || button_is_down(X))) {
+            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) &&
+                     current_counter > 10 && (button_is_down(Y) || button_is_down(X))) {
                 int final_val = current_counter - 10;
                 tp_sprintf(buf, "%df late", final_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);

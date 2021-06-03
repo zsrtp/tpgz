@@ -55,7 +55,8 @@ Line lines[LINES] = {
      &CheatItems[InvincibleEnemies].active},
     {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true,
      &CheatItems[MoonJump].active},
-    {"disable walls", DoorStorage, "Disables most wall collision", true, &CheatItems[DoorStorage].active},
+    {"disable walls", DoorStorage, "Disables most wall collision", true,
+     &CheatItems[DoorStorage].active},
     {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active},
     {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true,
      &CheatItems[UnrestrictedItems].active},
@@ -81,9 +82,9 @@ void apply_cheats() {
                 *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x60000000;  // nop
                 DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                           sizeof(uint32_t));
-                ICInvalidateRange(
-                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                             sizeof(uint32_t));
+                ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                  sizeof(uint32_t));
                 break;
             }
             case Invincible: {
@@ -140,8 +141,7 @@ void apply_cheats() {
             }
 #ifdef WII_PLATFORM
             case GaleLJA: {
-                if (dComIfGp_getPlayer() &&
-                    dComIfGp_getPlayer()->mActionID == 0x60 &&
+                if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
                     dComIfGp_getPlayer()->field_0x2fdc == 0xFF) {
                     dComIfGp_getPlayer()->field_0x2fdc = 0x0103;
                 }
@@ -160,9 +160,9 @@ void apply_cheats() {
                 *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x7C030050;  // sub r0, r0, r3
                 DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                           sizeof(uint32_t));
-                ICInvalidateRange(
-                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                             sizeof(uint32_t));
+                ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                  sizeof(uint32_t));
                 break;
             }
             case SuperClawshot: {

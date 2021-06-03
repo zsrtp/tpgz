@@ -14,10 +14,7 @@ struct GZFlag {
     void (*flag_deactive_function)();
 };
 
-enum LoopPhase {
-    GAME_LOOP,
-    POST_GAME_LOOP
-};
+enum LoopPhase { GAME_LOOP, POST_GAME_LOOP };
 
 namespace GZFlags {
 void apply_active_flags(int loop_phase);

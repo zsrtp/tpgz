@@ -248,7 +248,8 @@ void WarpingMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case WARP_BUTTON_INDEX: {
-            tp_memcpy(&g_dComIfG_gameInfo.play.mNextStage.mStage, &warp_info.stage_info.stage_id, 8);
+            tp_memcpy(&g_dComIfG_gameInfo.play.mNextStage.mStage, &warp_info.stage_info.stage_id,
+                      8);
             g_dComIfG_gameInfo.play.mNextStage.mRoomNo = warp_info.room_info.room_id[0];
             g_dComIfG_gameInfo.play.mNextStage.mPoint = warp_info.spawn_info.spawn_id[0];
             g_dComIfG_gameInfo.play.mNextStage.mLayer = layer;
@@ -261,9 +262,12 @@ void WarpingMenu::render() {
             break;
         }
         case SAVE_LOCATION_INDEX: {
-            tp_memcpy(&g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage, &warp_info.stage_info.stage_id, 8);
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId = warp_info.room_info.room_id[0];
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = warp_info.spawn_info.spawn_id[0];
+            tp_memcpy(&g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
+                      &warp_info.stage_info.stage_id, 8);
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId =
+                warp_info.room_info.room_id[0];
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId =
+                warp_info.spawn_info.spawn_id[0];
             break;
         }
         }

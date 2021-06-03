@@ -158,7 +158,7 @@ bool button_is_held(int idx, int phase) {
     } else {
         delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame + 1;
     }
-    
+
     if (delta != 0) {
         return true;
     } else {

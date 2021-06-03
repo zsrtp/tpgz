@@ -37,7 +37,7 @@ void prep_rupee_roll() {
 
 void warp_to_gorge() {
     // set gorge map info
-    g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mSwitch[0] = 0; // optimize later
+    g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mSwitch[0] = 0;  // optimize later
     dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
 
     // change form to wolf
@@ -75,7 +75,8 @@ void run() {
     current_counter = cCt_getFrameCount();
 
     // situation specific frame counters
-    if (start_timer == false && dComIfGp_getEvent().mHalt == 1 && dComIfGp_getEvent().event_order.field_0x10 == 0x1 &&
+    if (start_timer == false && dComIfGp_getEvent().mHalt == 1 &&
+        dComIfGp_getEvent().event_order.field_0x10 == 0x1 &&
         tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP121") == 0) {
         start_timer = true;
         previous_counter = current_counter;

@@ -71,8 +71,8 @@ Line lines[LINES] = {
 
 void hugo() {
     gSaveManager.inject_default_during();
-    dComIfGs_onSwitch(47, 0); // midna trigger off
-    dComIfGs_offSwitch(63, 0); // hugo alive
+    dComIfGs_onSwitch(47, 0);   // midna trigger off
+    dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
 void karg_oob() {
@@ -83,13 +83,14 @@ void karg_oob() {
 }
 
 void morpheel() {
-    dComIfGp_getPlayer()->field_0x2fdc = 68;  // clawshot
-    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots); // ib
+    dComIfGp_getPlayer()->field_0x2fdc = 68;                          // clawshot
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
 }
 
 void stallord() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x300000;                                      // turn off intro cs, start fight
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x01;  // spawn at in front of stally
 }
 
@@ -114,8 +115,8 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     gSaveManager.inject_default_during();
-    dComIfGs_onSwitch(2, 0); // bridge turned
-    dComIfGs_onSwitch(122, 0); // dungeon intro cs off
+    dComIfGs_onSwitch(2, 0);    // bridge turned
+    dComIfGs_onSwitch(122, 0);  // dungeon intro cs off
 }
 
 void bossflags() {

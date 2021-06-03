@@ -139,8 +139,7 @@ void FlagRecordsMenu::render() {
         init_once = true;
     }
 
-    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"membit", "event", "minigame",
-                                                          "danbit"};
+    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"membit", "event", "minigame", "danbit"};
     if (cursor.y == FLAG_RECORD_INDEX) {
         cursor.x = record_index;
         Utilities::move_cursor(cursor, max_flags + 1, MAX_RECORD_OPTIONS, false, false, false,

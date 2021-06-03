@@ -16,90 +16,43 @@ int listIdx = 0;
 int new_int_item_id;
 bool init_once = false;
 
-const uint8_t valid_items[] = {DUNGEON_EXIT,
-                               DUNGEON_BACK,
-                               TKS_LETTER,
-                               HAWK_EYE,
-                               BOOMERANG,
-                               SPINNER,
-                               IRONBALL,
-                               BOW,
-                               HOOKSHOT,
-                               HVY_BOOTS,
-                               COPY_ROD,
-                               W_HOOKSHOT,
-                               KANTERA,
-                               MASTER_SWORD,
-                               FISHING_ROD_1,
-                               PACHINKO,
-                               BOMB_BAG_LV1,
-                               BEE_ROD,
-                               JEWEL_ROD,
-                               WORM_ROD,
-                               JEWEL_BEE_ROD,
-                               JEWEL_WORM_ROD,
-                               EMPTY_BOTTLE,
-                               RED_BOTTLE,
-                               GREEN_BOTTLE,
-                               BLUE_BOTTLE,
-                               MILK_BOTTLE,
-                               HALF_MILK_BOTTLE,
-                               OIL_BOTTLE,
-                               WATER_BOTTLE,
-                               UGLY_SOUP,
-                               HOT_SPRING,
-                               FAIRY,
-                               NORMAL_BOMB,
-                               WATER_BOMB,
-                               POKE_BOMB,
-                               FAIRY_DROP,
-                               WORM,
-                               BEE_CHILD,
-                               CHUCHU_RARE,
-                               CHUCHU_RED,
-                               CHUCHU_BLUE,
-                               CHUCHU_GREEN,
-                               CHUCHU_YELLOW,
-                               CHUCHU_PURPLE,
-                               LV1_SOUP,
-                               LV2_SOUP,
-                               LV3_SOUP,
-                               LETTER,
-                               BILL,
-                               WOOD_STATUE,
-                               IRIAS_PENDANT,
-                               HORSE_FLUTE,
-                               RAFRELS_MEMO,
-                               ASHS_SCRIBBLING,
-                               ANCIENT_DOCUMENT,
-                               AIR_LETTER,
-                               ANCIENT_DOCUMENT2,
+const uint8_t valid_items[] = {DUNGEON_EXIT,    DUNGEON_BACK,
+                               TKS_LETTER,      HAWK_EYE,
+                               BOOMERANG,       SPINNER,
+                               IRONBALL,        BOW,
+                               HOOKSHOT,        HVY_BOOTS,
+                               COPY_ROD,        W_HOOKSHOT,
+                               KANTERA,         MASTER_SWORD,
+                               FISHING_ROD_1,   PACHINKO,
+                               BOMB_BAG_LV1,    BEE_ROD,
+                               JEWEL_ROD,       WORM_ROD,
+                               JEWEL_BEE_ROD,   JEWEL_WORM_ROD,
+                               EMPTY_BOTTLE,    RED_BOTTLE,
+                               GREEN_BOTTLE,    BLUE_BOTTLE,
+                               MILK_BOTTLE,     HALF_MILK_BOTTLE,
+                               OIL_BOTTLE,      WATER_BOTTLE,
+                               UGLY_SOUP,       HOT_SPRING,
+                               FAIRY,           NORMAL_BOMB,
+                               WATER_BOMB,      POKE_BOMB,
+                               FAIRY_DROP,      WORM,
+                               BEE_CHILD,       CHUCHU_RARE,
+                               CHUCHU_RED,      CHUCHU_BLUE,
+                               CHUCHU_GREEN,    CHUCHU_YELLOW,
+                               CHUCHU_PURPLE,   LV1_SOUP,
+                               LV2_SOUP,        LV3_SOUP,
+                               LETTER,          BILL,
+                               WOOD_STATUE,     IRIAS_PENDANT,
+                               HORSE_FLUTE,     RAFRELS_MEMO,
+                               ASHS_SCRIBBLING, ANCIENT_DOCUMENT,
+                               AIR_LETTER,      ANCIENT_DOCUMENT2,
                                NO_ITEM};
 
-const uint8_t default_items[ITEM_WHEEL_SLOTS] = {BOOMERANG,
-                                                 KANTERA,
-                                                 SPINNER,
-                                                 HVY_BOOTS,
-                                                 BOW,
-                                                 HAWK_EYE,
-                                                 IRONBALL,
-                                                 NO_ITEM,
-                                                 COPY_ROD,
-                                                 HOOKSHOT,
-                                                 W_HOOKSHOT,
-                                                 EMPTY_BOTTLE,
-                                                 EMPTY_BOTTLE,
-                                                 EMPTY_BOTTLE,
-                                                 EMPTY_BOTTLE,
-                                                 BOMB_BAG_LV1,
-                                                 BOMB_BAG_LV1,
-                                                 BOMB_BAG_LV1,
-                                                 DUNGEON_EXIT,
-                                                 RAFRELS_MEMO,
-                                                 FISHING_ROD_1,
-                                                 HORSE_FLUTE,
-                                                 ANCIENT_DOCUMENT,
-                                                 PACHINKO};
+const uint8_t default_items[ITEM_WHEEL_SLOTS] = {
+    BOOMERANG,     KANTERA,      SPINNER,          HVY_BOOTS,    BOW,
+    HAWK_EYE,      IRONBALL,     NO_ITEM,          COPY_ROD,     HOOKSHOT,
+    W_HOOKSHOT,    EMPTY_BOTTLE, EMPTY_BOTTLE,     EMPTY_BOTTLE, EMPTY_BOTTLE,
+    BOMB_BAG_LV1,  BOMB_BAG_LV1, BOMB_BAG_LV1,     DUNGEON_EXIT, RAFRELS_MEMO,
+    FISHING_ROD_1, HORSE_FLUTE,  ANCIENT_DOCUMENT, PACHINKO};
 
 const ItemLookup lookup_table[TOTAL_ITEMS] = {
     {DUNGEON_EXIT, "ooccoo sr."},
@@ -200,15 +153,17 @@ void ItemWheelMenu::render() {
 
     for (int i = 0; i < LINES; i++) {
         new_int_item_id = dComIfGs_getItem(i, false);
-        
+
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                tp_sprintf(lines[i].value, " <%s>", new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
+                tp_sprintf(lines[i].value, " <%s>",
+                           new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
             }
             if (lookup_table[j].item_id == default_items[i]) {
-                tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
+                tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default",
+                           i, lookup_table[j].item_description);
             } else {
-            continue;
+                continue;
             }
         }
     }
@@ -236,7 +191,6 @@ void ItemWheelMenu::render() {
     if (button_is_pressed(Controller::Z)) {
         dComIfGs_setItem(cursor.y, default_items[cursor.y]);
     }
-
 
     Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);

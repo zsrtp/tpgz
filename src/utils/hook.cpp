@@ -110,7 +110,7 @@ void onEventBitHook(void* addr, uint16_t pFlag) {
         }
         FIFOQueue::push(buf, Queue, 0xFFFFFF00);
     }
-    
+
     return onEventBitTrampoline(addr, pFlag);
 }
 
@@ -128,7 +128,7 @@ void offEventBitHook(void* addr, uint16_t pFlag) {
 }
 
 void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
-     int tmp = pFlag;
+    int tmp = pFlag;
     if (g_flag_log_active) {
         if (pFlag < 0x80) {
             tp_sprintf(buf, "%s[%d] : %d | ON", "Memory Switch", tmp >> 5, tmp & 0x1F);
@@ -165,7 +165,7 @@ void apply_hooks() {
     APPLY_HOOK(onSwitch, dSv_info_c__onSwitch_addr, HK_ONSWITCH_INDEX, onSwitchHook);
     APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, HK_ONEVENTBIT_INDEX, onEventBitHook);
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, HK_OFFEVENTBIT_INDEX, offEventBitHook);
-    
+
 #undef APPLY_HOOK
 }
 }  // namespace Hook

@@ -16,7 +16,8 @@ void set_camera_angle_position() {
     tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
     tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
     dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y, gSaveManager.mPracticeSaveInfo.position.z);
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
     dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
     tp_osReport("%d", gSaveManager.mPracticeSaveInfo.angle);
     tp_osReport("0x%08X", &gSaveManager.mPracticeSaveInfo.angle);
@@ -25,7 +26,8 @@ void set_camera_angle_position() {
 void set_angle_position() {
     dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
 
-    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y, gSaveManager.mPracticeSaveInfo.position.z);
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
     dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }
 

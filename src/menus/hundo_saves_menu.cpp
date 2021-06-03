@@ -118,13 +118,15 @@ void set_camera_angle_position() {
     tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
     tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
     dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y, gSaveManager.mPracticeSaveInfo.position.z);
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
     dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }
 
 void set_angle_position() {
     dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y, gSaveManager.mPracticeSaveInfo.position.z);
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
     dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }
 
@@ -153,15 +155,16 @@ void escort() {
     g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0xD;
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x62;
     g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x2;
-    dComIfGs_setKeyNum(2); // give 2 keys for field gates
+    dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
 void dangoro() {
-    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x200000;  // turn off intro cs, start fight
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x200000;  // turn off intro cs, start fight
 }
 
 void morpheel() {
-    dComIfGp_getPlayer()->field_0x2fdc = 68;  // clawshot
+    dComIfGp_getPlayer()->field_0x2fdc = 68;                          // clawshot
     dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
     gSaveManager.mPracticeSaveInfo.angle = 10754;
     gSaveManager.mPracticeSaveInfo.position = {-1193.0f, -23999.0f, -770.0f};
@@ -176,7 +179,7 @@ void karg_oob() {
 
 void iza_1_skip() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;                           // spawn on kargorok
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;                       // spawn on kargorok
     tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, "F_SP112");  // set stage to river
     g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0x1;
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x0;
@@ -184,13 +187,14 @@ void iza_1_skip() {
 }
 
 void stallord() {
-    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x300000; // turn off intro cs, start fight
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x300000;                                      // turn off intro cs, start fight
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x01;  // spawn at in front of stally
 }
 
 void spr_bosskey() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0xB;    // boss key room
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0xB;  // boss key room
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x00;  // default spawn
 }
 
@@ -228,7 +232,6 @@ void fan_tower() {
 
 void argorok() {
     g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x10000;
-    
 }
 
 void palace1() {
@@ -246,7 +249,7 @@ void palace2() {
 
 void lakebed_bk_skip_during() {
     gSaveManager.inject_default_during();
-    dComIfGs_onSwitch(122, dComIfGp_getPlayer()->mOrig.mRoomNo); // dungeon intro cs off
+    dComIfGs_onSwitch(122, dComIfGp_getPlayer()->mOrig.mRoomNo);  // dungeon intro cs off
 }
 
 void bossflags() {

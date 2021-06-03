@@ -25,15 +25,15 @@ bool init_once = false;
 bool g_tunic_color_flag;
 
 Tool ToolItems[TOOL_AMNT] = {
-    {RELOAD_AREA_INDEX, false},  {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
+    {RELOAD_AREA_INDEX, false}, {FAST_BONK_INDEX, false},    {FAST_MOVEMENT_INDEX, false},
     {GORGE_INDEX, false},
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
-    {COROTD_INDEX, false}, {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false}, {SAND_INDEX, false},
-    {ROLL_INDEX, false},         {TELEPORT_INDEX, false},   {TURBO_MODE_INDEX, false},
-    {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false}, {IGT_TIMER_INDEX, false},
-    {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
+    {COROTD_INDEX, false},      {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false},
+    {SAND_INDEX, false},        {ROLL_INDEX, false},         {TELEPORT_INDEX, false},
+    {TURBO_MODE_INDEX, false},  {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false},
+    {IGT_TIMER_INDEX, false},   {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
 
 Line lines[LINES] = {
     {"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area", true,

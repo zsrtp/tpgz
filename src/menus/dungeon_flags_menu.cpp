@@ -37,9 +37,9 @@ Line lines[LINES] = {
     {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"}};
 
 ListMember dungeon_options[MAX_DUNGEON_OPTIONS] = {
-        "Forest Temple",     "Goron Mines",        "Lakebed Temple",
-        "Arbiter's Grounds", "Snowpeak Ruins",     "Temple of Time",
-        "City in the Sky",   "Palace of Twilight", "Hyrule Castle"};
+    "Forest Temple",     "Goron Mines",        "Lakebed Temple",
+    "Arbiter's Grounds", "Snowpeak Ruins",     "Temple of Time",
+    "City in the Sky",   "Palace of Twilight", "Hyrule Castle"};
 
 bool getSaveDungeonItem(int32_t stage, int32_t flag) {
     return dSv_memBit_c__isDungeonItem(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);

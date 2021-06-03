@@ -43,14 +43,19 @@ void SaveManager::inject_default_during() {
     }
 
     // Get default state based on file info
-    int state = tp_getLayerNo((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
-                              g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId, 0xFF);
+    int state =
+        tp_getLayerNo((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
+                      g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId, 0xFF);
 
     // Next stage info
-    g_dComIfG_gameInfo.mInfo.mRestart.mStartPoint = g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
-    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint = g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
-    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, (char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage);
+    g_dComIfG_gameInfo.mInfo.mRestart.mStartPoint =
+        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo =
+        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint =
+        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
+    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
+              (char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage);
     g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
     // fixes some bug causing link to auto drown, figure out later
