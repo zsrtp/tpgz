@@ -71,6 +71,7 @@ void DungeonFlagsMenu::render() {
     if (!init_once) {
         current_input = 0;
         init_once = true;
+        key_num = getSaveDungeonKeys(area_id);
     }
 
     if (cursor.y == SELECT_DUNGEON_INDEX) {
@@ -161,9 +162,8 @@ void DungeonFlagsMenu::render() {
             break;
         }
         case CLEAR_DUNGEON_FLAGS_INDEX: {
-            for (int i = 0; i < 0x20; i++) {
-                *(uint8_t*)((&g_dComIfG_gameInfo.mInfo.mSavedata.mSave[area_id].mMemBit) + i) = 0;
-            }
+            tp_memset(&dComIfGs_getSavedata().mSave[area_id].mMemBit, 0, sizeof(dSv_memBit_c));
+            key_num = 0;
             break;
         }
         }

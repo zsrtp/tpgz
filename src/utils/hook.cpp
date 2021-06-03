@@ -8,6 +8,7 @@
 #include "fifo_queue.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "utils/card.h"
 #include "movelink.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
@@ -39,6 +40,7 @@ HOOK_DEF(void*, cc_at_check, (void*, int*));
 HOOK_DEF(void, onEventBit, (void*, uint16_t));
 HOOK_DEF(void, offEventBit, (void*, uint16_t));
 HOOK_DEF(void, onSwitch, (void*, int, int));
+HOOK_DEF(void, putSave, (void*, int));
 
 struct {
     uint32_t a[2];
@@ -147,6 +149,15 @@ void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
     return onSwitchTrampoline(addr, pFlag, i_roomNo);
 }
 
+// Stops temp flags from being stored to save when loading memfile
+void putSaveHook(void* addr, int stageNo) {
+    if (inject_memfile_flag) {
+        return;
+    } else {
+        return putSaveTrampoline(addr, stageNo);
+    }
+}
+
 void apply_hooks() {
 #define APPLY_HOOK(name, addr, idx, func)                                                          \
     name##Trampoline = hookFunction((tp_##name##_t)addr, trampolines[idx].a, func)
@@ -165,6 +176,7 @@ void apply_hooks() {
     APPLY_HOOK(onSwitch, dSv_info_c__onSwitch_addr, HK_ONSWITCH_INDEX, onSwitchHook);
     APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, HK_ONEVENTBIT_INDEX, onEventBitHook);
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, HK_OFFEVENTBIT_INDEX, offEventBitHook);
+    APPLY_HOOK(putSave, tp_putSave_addr, HK_PUTSAVE_INDEX, putSaveHook);
 
 #undef APPLY_HOOK
 }

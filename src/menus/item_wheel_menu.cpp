@@ -139,6 +139,15 @@ Line lines[LINES] = {{"Slot 0:", SLOT_0, "", false, nullptr, false},
                      {"Slot 22:", SLOT_22, "", false, nullptr, false},
                      {"Slot 23:", SLOT_23, "", false, nullptr, false}};
 
+void updateListIdx() {
+    uint8_t item_id = dComIfGs_getSavedata().getPlayerItem().mItems[cursor.y];
+    for (int i = 0; i < TOTAL_ITEMS; i++) {
+        if (item_id == valid_items[i]) {
+            listIdx = i;
+        }
+    }
+}
+
 void ItemWheelMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
@@ -150,6 +159,8 @@ void ItemWheelMenu::render() {
         current_input = 0;
         init_once = true;
     }
+
+    updateListIdx();
 
     for (int i = 0; i < LINES; i++) {
         new_int_item_id = dComIfGs_getItem(i, false);
@@ -166,10 +177,6 @@ void ItemWheelMenu::render() {
                 continue;
             }
         }
-    }
-
-    if (button_is_pressed(Controller::DPAD_UP) || button_is_pressed(Controller::DPAD_DOWN)) {
-        listIdx = 0;
     }
 
     if (button_is_pressed(Controller::DPAD_RIGHT)) {
