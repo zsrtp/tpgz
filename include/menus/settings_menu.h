@@ -12,6 +12,7 @@ enum SettingsIndex {
     SWAP_EQUIPS_INDEX,
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
+    DELETE_CARD_INDEX,
     POS_SETTINGS_MENU_INDEX
 };
 extern bool g_drop_shadows;
