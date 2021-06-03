@@ -1,6 +1,5 @@
 #pragma once
 
-#include "menu.h"
 #include "menus/cheats_menu.h"
 #include "menus/memory_menu.h"
 #include "menus/position_settings_menu.h"
@@ -8,7 +7,8 @@
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
 #include "menus/hundo_saves_menu.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/dolphin/mtx/vec.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
 #define GZ_SAVE_ENTRIES_AMNT 10
@@ -36,7 +36,7 @@
 
 struct AreaReload {
     uint8_t temp_flags[0x20];
-    uint16_t tears;
+    uint8_t tears[4];
 };
 
 typedef void (*LoadingCallback)(void);
@@ -67,9 +67,9 @@ struct PracticeSaveInfo {
     uint8_t requirements;
     uint8_t _p0[1];
     uint16_t angle;
-    Vec3 position;
-    Vec3 cam_pos;
-    Vec3 cam_target;
+    Vec position;
+    Vec cam_pos;
+    Vec cam_target;
     uint32_t counter;
     char filename[32];
     uint8_t _p1[4];
@@ -88,6 +88,7 @@ public:
     static void inject_memfile(void* buffer);
     static void inject_default_before();
     static void inject_default_during();
+    static void inject_memfile_during();
     static void inject_default_after();
     static void load_save(uint32_t id, char* category, special* i_specials = nullptr, int size = 0);
     static void load_save_file(const char* fileName);

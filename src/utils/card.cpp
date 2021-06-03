@@ -2,13 +2,17 @@
 #include "commands.h"
 #include "fifo_queue.h"
 #include "utils/loading.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menus/practice_menu.h"
-
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menus/memfiles_menu.h"
 #include "save_manager.h"
+
+bool inject_memfile_flag = false;
 
 namespace Utilities {
 /**
@@ -212,10 +216,10 @@ void store_mem_card(Card& card) {
 void store_memfile(Card& card) {
 #ifndef WII_PLATFORM
     PositionData posData;
-    posData.link = tp_zelAudio.link_debug_ptr->position;
+    posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
     posData.cam.target = tp_matrixInfo.matrix_info->target;
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
-    posData.angle = tp_zelAudio.link_debug_ptr->facing;
+    posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
     uint32_t file_size =
         (uint32_t)(tp_ceil((double)3818 / (double)card.sector_size) * card.sector_size);
     card.card_result = CARDDelete(0, card.file_name_buffer);
@@ -223,16 +227,13 @@ void store_memfile(Card& card) {
     if (card.card_result == Ready || card.card_result == Exist) {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
-            for (uint8_t i = 0; i < 0x20; i++) {
-                *((tp_gameInfo.overworld_flags.ordon_flags.flags +
-                   (tp_gameInfo.dungeon_temp_flags.mStageNum * 0x20)) +
-                  i) = tp_gameInfo.temp_flags.flags[i];
-            }
-            tp_gameInfo.player.player_spawn_id = 0;
-            tp_gameInfo.player.player_room_id = tp_gameInfo.last_room_id;
-            tp_strcpy((char*)tp_gameInfo.player.player_stage, (char*)tp_gameInfo.current_stage);
+            dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = 0;
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId = g_dComIfG_gameInfo.play.mEvtManager.field_0x1b0 & 0xFF;
+            tp_strcpy((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage, (char*)g_dComIfG_gameInfo.play.mStartStage.mStage);
             card.card_result =
-                Utilities::card_write(&card.card_info, &tp_gameInfo, 3818, 0, card.sector_size);
+                Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo, 3818, 0, card.sector_size);
 
             card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
                                                      3819, card.sector_size);
@@ -283,6 +284,7 @@ void load_memfile(Card& card) {
         if (card.card_result == Ready) {
             tp_osReport("loaded memfile!");
             FIFOQueue::push("loaded memfile!", Queue);
+            inject_memfile_flag = true;
             SaveManager::inject_default_before();
             SaveManager::inject_memfile((void*)sTmpBuf);
             SaveManager::inject_default_during();
@@ -304,7 +306,7 @@ void load_memfile(Card& card) {
 }
 
 void load_gz_card(bool& card_load) {
-    uint8_t frame_count = TP::get_frame_count();
+    uint8_t frame_count = cCt_getFrameCount();
     if (card_load && frame_count > 200) {
         static Card card;
         card.file_name = "tpgz01";

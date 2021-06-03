@@ -3,10 +3,12 @@
 #include "gcn_c/include/card.h"
 #include "font.h"
 #include "utils/card.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 
 #define LINES 3
 #define MAX_SAVE_SLOTS 9
@@ -21,8 +23,8 @@ bool copy_respawn_data = false;
 char fileBuf[9];
 
 PositionData memfile_posdata;
-Vec3 tmpPos = tp_gameInfo.respawn_position;
-uint16_t tmpAngle = tp_gameInfo.respawn_angle;
+cXyz tmpPos = g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos;
+uint16_t tmpAngle = g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY;
 
 Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                      {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
@@ -31,8 +33,8 @@ Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
 void set_memfile_position() {
     //  respawn pos gets overwritten by default spawn, so reinject respawn info
     if (!copy_respawn_data) {
-        tmpPos = tp_gameInfo.respawn_position;
-        tmpAngle = tp_gameInfo.respawn_angle;
+        tmpPos = g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos;
+        tmpAngle = g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY;
         copy_respawn_data = true;
     }
 
@@ -41,12 +43,12 @@ void set_memfile_position() {
     }
 
     if (memfile_load_delay == 0) {
-        tp_zelAudio.link_debug_ptr->position = memfile_posdata.link;
+        dComIfGp_getPlayer()->mCurrent.mPosition = memfile_posdata.link;
         tp_matrixInfo.matrix_info->target = memfile_posdata.cam.target;
         tp_matrixInfo.matrix_info->pos = memfile_posdata.cam.pos;
-        tp_zelAudio.link_debug_ptr->facing = memfile_posdata.angle;
-        tp_gameInfo.respawn_position = tmpPos;
-        tp_gameInfo.respawn_angle = tmpAngle;
+        dComIfGp_getPlayer()->mCollisionRot.mY = memfile_posdata.angle;
+        g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos = tmpPos;
+        g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY = tmpAngle;
         set_position_data = false;
         copy_respawn_data = false;
         memfile_load_delay = 10;

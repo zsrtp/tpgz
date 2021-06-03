@@ -2,9 +2,12 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "fs.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
+
 #define WARP_CS_FRAMES 132
 #ifdef WII_PLATFORM
 #define TARGET_BUTTON Z
@@ -27,39 +30,38 @@ static bool got_it = false;
 static char buf[20];
 
 void prep_rupee_roll() {
-    tp_gameInfo.temp_flags.flags[9] = 0x20;
-    tp_gameInfo.cs_val = 0x900;
+    dComIfGs_onSwitch(21, dComIfGp_getPlayer()->mOrig.mRoomNo);
+    dComIfGp_getEvent().event_order.field_0x10 = 9;
     inject_gorge_flag = false;
 }
 
 void warp_to_gorge() {
     // set gorge map info
-    tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] = 0;
-    tp_gameInfo.temp_flags.flags[8] = 0;
-    tp_gameInfo.temp_flags.flags[9] = 0;
-    tp_gameInfo.overworld_flags.hyrule_field_flags.flags[8] = 0;
+    g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mSwitch[0] = 0; // optimize later
+    dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
 
     // change form to wolf
-    tp_gameInfo.link.is_wolf = true;
+    dComIfGs_setTransformStatus(STATUS_WOLF);
 
     // set loading info
-    tp_gameInfo.warp.entrance.void_flag = 0;
-    tp_gameInfo.event_to_play = 0;
-    tp_gameInfo.respawn_animation = 0;
-    tp_gameInfo.warp.entrance.spawn = 2;
-    tp_gameInfo.warp.entrance.room = 3;
-    tp_gameInfo.warp.entrance.state = 0xE;
-    tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP121");
+    g_dComIfG_gameInfo.play.mNextStage.wipe = 13;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0;
+    g_dComIfG_gameInfo.mInfo.mRestart.mRoomParam = 0;
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 2;
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 3;
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0xE;
+    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, "F_SP121");
 
     // reset health, item
-    tp_gameInfo.respawn_item_id = 40;
-    tp_gameInfo.link.heart_quarters = 12;  // 3 hearts
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode |= 0x28000000;
+    dComIfGs_setLife(12);  // 3 hearts
 
     // trigger loading, convert some of these to const later
-    tp_gameInfo.special_spawn_id = 2;
-    tp_gameInfo.respawn_position = {-11856.857f, -5700.0f, 56661.5};
-    tp_gameInfo.respawn_angle = 24169;
-    Inventory::clear_rupee_flags();
+    g_dComIfG_gameInfo.mInfo.mRestart.mStartPoint = 2;
+    cXyz pos(-11856.857f, -5700.0f, 56661.5);
+    g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos = pos;
+    g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY = 24169;
 }
 void run() {
     // reset counters on load
@@ -70,11 +72,11 @@ void run() {
         start_timer = false;
     }
 
-    current_counter = TP::get_frame_count();
+    current_counter = cCt_getFrameCount();
 
     // situation specific frame counters
-    if (start_timer == false && tp_gameInfo.freeze_game == 1 && tp_gameInfo.cs_val == 0x128 &&
-        tp_strcmp((const char*)tp_gameInfo.current_stage, "F_SP121") == 0) {
+    if (start_timer == false && dComIfGp_getEvent().mHalt == 1 && dComIfGp_getEvent().event_order.field_0x10 == 0x1 &&
+        tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP121") == 0) {
         start_timer = true;
         previous_counter = current_counter;
         counter_difference = 0;

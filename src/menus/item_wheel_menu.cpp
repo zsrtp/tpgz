@@ -2,7 +2,8 @@
 #include "menus/item_wheel_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
@@ -15,159 +16,149 @@ int listIdx = 0;
 int new_int_item_id;
 bool init_once = false;
 
-const uint8_t valid_items[] = {OOCCOO_SR,
-                               OOCCOO_JR,
-                               OOCCOOS_NOTE,
-                               HAWKEYE,
-                               GALE_BOOMERANG,
+const uint8_t valid_items[] = {DUNGEON_EXIT,
+                               DUNGEON_BACK,
+                               TKS_LETTER,
+                               HAWK_EYE,
+                               BOOMERANG,
                                SPINNER,
-                               BALL_AND_CHAIN,
-                               HEROS_BOW,
-                               CLAWSHOT,
-                               IRON_BOOTS,
-                               DOMINION_ROD,
-                               DOUBLE_CLAWSHOT,
-                               LANTERN,
+                               IRONBALL,
+                               BOW,
+                               HOOKSHOT,
+                               HVY_BOOTS,
+                               COPY_ROD,
+                               W_HOOKSHOT,
+                               KANTERA,
                                MASTER_SWORD,
-                               FISHING_ROD,
-                               SLINGSHOT,
-                               EMPTY_BOMBBAG,
-                               ROD_BEE_LARVA,
-                               ROD_CORAL_EARRING,
-                               ROD_WORM,
-                               ROD_CORAL_EARRING_BEE_LARVA,
-                               ROD_CORAL_EARRING_WORM,
+                               FISHING_ROD_1,
+                               PACHINKO,
+                               BOMB_BAG_LV1,
+                               BEE_ROD,
+                               JEWEL_ROD,
+                               WORM_ROD,
+                               JEWEL_BEE_ROD,
+                               JEWEL_WORM_ROD,
                                EMPTY_BOTTLE,
-                               RED_POTION,
-                               MAGIC_POTION,
-                               BLUE_POTION,
-                               MILK,
-                               HALF_MILK,
-                               LANTERN_OIL,
-                               WATER,
-                               NASTY_SOUP,
-                               HOT_SPRING_WATER,
+                               RED_BOTTLE,
+                               GREEN_BOTTLE,
+                               BLUE_BOTTLE,
+                               MILK_BOTTLE,
+                               HALF_MILK_BOTTLE,
+                               OIL_BOTTLE,
+                               WATER_BOTTLE,
+                               UGLY_SOUP,
+                               HOT_SPRING,
                                FAIRY,
-                               REGULAR_BOMBS,
-                               WATER_BOMBS,
-                               BOMBLINGS,
-                               FAIRY_TEARS,
+                               NORMAL_BOMB,
+                               WATER_BOMB,
+                               POKE_BOMB,
+                               FAIRY_DROP,
                                WORM,
-                               BEE_LARVA,
-                               RARE_CHU,
-                               RED_CHU,
-                               BLUE_CHU,
-                               GREEN_CHU,
-                               YELLOW_CHU,
-                               PURPLE_CHU,
-                               SIMPLE_SOUP,
-                               GOOD_SOUP,
-                               SUPERB_SOUP,
-                               RENADOS_LETTER,
-                               INVOICE,
-                               WOODEN_STATUE,
-                               ILIAS_CHARM,
-                               HORSE_CALL,
-                               AURUS_MEMO,
-                               ASHEIS_SKETCH,
-                               ANCIENT_SKY_BOOK_EMPTY,
-                               ANCIENT_SKY_BOOK_PARTIAL,
-                               ANCIENT_SKY_BOOK_FILLED,
+                               BEE_CHILD,
+                               CHUCHU_RARE,
+                               CHUCHU_RED,
+                               CHUCHU_BLUE,
+                               CHUCHU_GREEN,
+                               CHUCHU_YELLOW,
+                               CHUCHU_PURPLE,
+                               LV1_SOUP,
+                               LV2_SOUP,
+                               LV3_SOUP,
+                               LETTER,
+                               BILL,
+                               WOOD_STATUE,
+                               IRIAS_PENDANT,
+                               HORSE_FLUTE,
+                               RAFRELS_MEMO,
+                               ASHS_SCRIBBLING,
+                               ANCIENT_DOCUMENT,
+                               AIR_LETTER,
+                               ANCIENT_DOCUMENT2,
                                NO_ITEM};
 
-// probably a better way to do this
-bool IsInItemIDEnum(int val) {
-    for (size_t i = 0; i < sizeof(valid_items); ++i) {
-        if (valid_items[i] == val) {
-            return true;
-        }
-    }
-    return false;
-}
-
-const uint8_t default_items[ITEM_WHEEL_SLOTS] = {GALE_BOOMERANG,
-                                                 LANTERN,
+const uint8_t default_items[ITEM_WHEEL_SLOTS] = {BOOMERANG,
+                                                 KANTERA,
                                                  SPINNER,
-                                                 IRON_BOOTS,
-                                                 HEROS_BOW,
-                                                 HAWKEYE,
-                                                 BALL_AND_CHAIN,
+                                                 HVY_BOOTS,
+                                                 BOW,
+                                                 HAWK_EYE,
+                                                 IRONBALL,
                                                  NO_ITEM,
-                                                 DOMINION_ROD,
-                                                 CLAWSHOT,
-                                                 DOUBLE_CLAWSHOT,
+                                                 COPY_ROD,
+                                                 HOOKSHOT,
+                                                 W_HOOKSHOT,
                                                  EMPTY_BOTTLE,
                                                  EMPTY_BOTTLE,
                                                  EMPTY_BOTTLE,
                                                  EMPTY_BOTTLE,
-                                                 EMPTY_BOMBBAG,
-                                                 EMPTY_BOMBBAG,
-                                                 EMPTY_BOMBBAG,
-                                                 OOCCOO_SR,
-                                                 AURUS_MEMO,
-                                                 FISHING_ROD,
-                                                 HORSE_CALL,
-                                                 ANCIENT_SKY_BOOK_EMPTY,
-                                                 SLINGSHOT};
+                                                 BOMB_BAG_LV1,
+                                                 BOMB_BAG_LV1,
+                                                 BOMB_BAG_LV1,
+                                                 DUNGEON_EXIT,
+                                                 RAFRELS_MEMO,
+                                                 FISHING_ROD_1,
+                                                 HORSE_FLUTE,
+                                                 ANCIENT_DOCUMENT,
+                                                 PACHINKO};
 
 const ItemLookup lookup_table[TOTAL_ITEMS] = {
-    {OOCCOO_SR, "ooccoo sr."},
-    {OOCCOO_JR, "ooccoo jr."},
-    {OOCCOOS_NOTE, "ooccoo's note"},
-    {HAWKEYE, "hawkeye"},
-    {GALE_BOOMERANG, "gale boomerang"},
+    {DUNGEON_EXIT, "ooccoo sr."},
+    {DUNGEON_BACK, "ooccoo jr."},
+    {TKS_LETTER, "ooccoo's note"},
+    {HAWK_EYE, "hawkeye"},
+    {BOOMERANG, "gale boomerang"},
     {SPINNER, "spinner"},
-    {BALL_AND_CHAIN, "ball and chain"},
-    {HEROS_BOW, "hero's bow"},
-    {CLAWSHOT, "clawshot"},
-    {IRON_BOOTS, "iron boots"},
-    {DOMINION_ROD, "dominion rod"},
-    {DOUBLE_CLAWSHOT, "double clawshot"},
-    {LANTERN, "lantern"},
-    {SLINGSHOT, "slingshot"},
-    {FISHING_ROD, "fishing rod"},
-    {EMPTY_BOMBBAG, "empty bomb bag"},
-    {ROD_BEE_LARVA, "fishing rod (bee larva)"},
-    {ROD_CORAL_EARRING, "fishing rod (coral earring)"},
-    {ROD_WORM, "fishing rod (worm)"},
-    {ROD_CORAL_EARRING_BEE_LARVA, "fishing rod (coral earring/bee larva)"},
-    {ROD_CORAL_EARRING_WORM, "fishing rod (coral earring/worm)"},
+    {IRONBALL, "ball and chain"},
+    {BOW, "hero's bow"},
+    {HOOKSHOT, "clawshot"},
+    {HVY_BOOTS, "iron boots"},
+    {COPY_ROD, "dominion rod"},
+    {W_HOOKSHOT, "double clawshot"},
+    {KANTERA, "lantern"},
+    {PACHINKO, "slingshot"},
+    {FISHING_ROD_1, "fishing rod"},
+    {BOMB_BAG_LV1, "empty bomb bag"},
+    {BEE_ROD, "fishing rod (bee larva)"},
+    {JEWEL_ROD, "fishing rod (coral earring)"},
+    {WORM_ROD, "fishing rod (worm)"},
+    {JEWEL_BEE_ROD, "fishing rod (coral earring/bee larva)"},
+    {JEWEL_WORM_ROD, "fishing rod (coral earring/worm)"},
     {EMPTY_BOTTLE, "empty bottle"},
-    {RED_POTION, "red potion"},
-    {MAGIC_POTION, "magic potion"},
-    {BLUE_POTION, "blue potion"},
-    {MILK, "milk"},
-    {HALF_MILK, "half milk"},
-    {LANTERN_OIL, "lantern oil"},
-    {WATER, "water"},
-    {NASTY_SOUP, "nasty soup"},
-    {HOT_SPRING_WATER, "hot spring water"},
+    {RED_BOTTLE, "red potion"},
+    {GREEN_BOTTLE, "magic potion"},
+    {BLUE_BOTTLE, "blue potion"},
+    {MILK_BOTTLE, "milk"},
+    {HALF_MILK_BOTTLE, "half milk"},
+    {OIL_BOTTLE, "lantern oil"},
+    {WATER_BOTTLE, "water"},
+    {UGLY_SOUP, "nasty soup"},
+    {HOT_SPRING, "hot spring water"},
     {FAIRY, "fairy"},
-    {REGULAR_BOMBS, "regular bombs"},
-    {WATER_BOMBS, "water bombs"},
-    {BOMBLINGS, "bomblings"},
-    {FAIRY_TEARS, "fairy tears"},
+    {NORMAL_BOMB, "regular bombs"},
+    {WATER_BOMB, "water bombs"},
+    {POKE_BOMB, "bomblings"},
+    {FAIRY_DROP, "fairy tears"},
     {WORM, "worm"},
-    {BEE_LARVA, "bee larva"},
-    {RARE_CHU, "rare chu"},
-    {RED_CHU, "red chu"},
-    {BLUE_CHU, "blue chu"},
-    {GREEN_CHU, "green chu"},
-    {YELLOW_CHU, "yellow chu"},
-    {PURPLE_CHU, "purple chu"},
-    {SIMPLE_SOUP, "simple soup"},
-    {GOOD_SOUP, "good soup"},
-    {SUPERB_SOUP, "superb soup"},
-    {RENADOS_LETTER, "renados letter"},
-    {INVOICE, "invoice"},
-    {WOODEN_STATUE, "wooden statue"},
-    {ILIAS_CHARM, "ilia's charm"},
-    {HORSE_CALL, "horse call"},
-    {AURUS_MEMO, "auru's memo"},
-    {ASHEIS_SKETCH, "ashei's sketch"},
-    {ANCIENT_SKY_BOOK_EMPTY, "ancient sky book (empty)"},
-    {ANCIENT_SKY_BOOK_PARTIAL, "ancient sky book (partial)"},
-    {ANCIENT_SKY_BOOK_FILLED, "ancient sky book (filled)"},
+    {BEE_CHILD, "bee larva"},
+    {CHUCHU_RARE, "rare chu"},
+    {CHUCHU_RED, "red chu"},
+    {CHUCHU_BLUE, "blue chu"},
+    {CHUCHU_GREEN, "green chu"},
+    {CHUCHU_YELLOW, "yellow chu"},
+    {CHUCHU_PURPLE, "purple chu"},
+    {LV1_SOUP, "simple soup"},
+    {LV2_SOUP, "good soup"},
+    {LV3_SOUP, "superb soup"},
+    {LETTER, "renados letter"},
+    {BILL, "invoice"},
+    {WOOD_STATUE, "wooden statue"},
+    {IRIAS_PENDANT, "ilia's charm"},
+    {HORSE_FLUTE, "horse call"},
+    {RAFRELS_MEMO, "auru's memo"},
+    {ASHS_SCRIBBLING, "ashei's sketch"},
+    {ANCIENT_DOCUMENT, "ancient sky book (empty)"},
+    {AIR_LETTER, "ancient sky book (partial)"},
+    {ANCIENT_DOCUMENT2, "ancient sky book (filled)"},
     {NO_ITEM, "no item"}};
 
 Line lines[LINES] = {{"Slot 0:", SLOT_0, "", false, nullptr, false},
@@ -195,139 +186,58 @@ Line lines[LINES] = {{"Slot 0:", SLOT_0, "", false, nullptr, false},
                      {"Slot 22:", SLOT_22, "", false, nullptr, false},
                      {"Slot 23:", SLOT_23, "", false, nullptr, false}};
 
-void increment_slot_item(int slot_id) {
-    uint8_t current_internal_item_id = tp_gameInfo.inventory.item_values.value[slot_id];
-    do {
-        current_internal_item_id++;
-    } while (IsInItemIDEnum(current_internal_item_id) == false);
-    tp_gameInfo.inventory.item_values.value[slot_id] = current_internal_item_id;
-}
-
-void decrement_slot_item(int slot_id) {
-    uint8_t current_internal_item_id = tp_gameInfo.inventory.item_values.value[slot_id];
-    do {
-        --current_internal_item_id;
-    } while (IsInItemIDEnum(current_internal_item_id) == false);
-    tp_gameInfo.inventory.item_values.value[slot_id] = current_internal_item_id;
-}
-
-uint8_t find_next_empty_slot() {
-    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
-        if (tp_gameInfo.inventory.item_wheel.slot[i] == 0xFF) {
-            return i;
-        }
-    }
-    return 0xFF;
-}
-
-void try_add_item(uint8_t inventory_slot) {
-    auto item_wheel = tp_gameInfo.inventory.item_wheel.slot;
-    uint8_t slot = 0xFF;
-    bool item_already_in_wheel = false;
-    if (inventory_slot >= ITEM_WHEEL_SLOTS) {
-        return;
-    }
-    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
-        if (slot == 0xFF && item_wheel[i] == 0xFF) {
-            slot = i;
-        }
-        if (item_wheel[i] == inventory_slot) {
-            item_already_in_wheel = true;
-            break;
-        }
-    }
-    if (!item_already_in_wheel && slot != 0xFF) {
-        item_wheel[slot] = inventory_slot;
-    }
-}
-
-void try_remove_item(uint8_t inventory_slot) {
-    auto item_wheel = tp_gameInfo.inventory.item_wheel.slot;
-    uint8_t slot = 0xFF;
-    if (inventory_slot >= ITEM_WHEEL_SLOTS) {
-        return;
-    }
-    for (size_t i = 0; i < ITEM_WHEEL_SLOTS; ++i) {
-        if (item_wheel[i] == inventory_slot) {
-            slot = i;
-            break;
-        }
-    }
-    if (slot != 0xFF) {
-        uint8_t last_slot = find_next_empty_slot();
-        if (last_slot > ITEM_WHEEL_SLOTS) {
-            last_slot = ITEM_WHEEL_SLOTS;
-        }
-        if (last_slot > 0) {
-            last_slot--;
-        }
-        item_wheel[slot] = item_wheel[last_slot];
-        item_wheel[last_slot] = 0xFF;
-    }
-}
-
 void ItemWheelMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
         init_once = false;
         return;
-    };
+    }
 
     if (!init_once) {
         current_input = 0;
         init_once = true;
     }
 
-    // populate the default line name and description
     for (int i = 0; i < LINES; i++) {
-        new_int_item_id = tp_gameInfo.inventory.item_values.value[i];
+        new_int_item_id = dComIfGs_getItem(i, false);
+        
         for (int j = 0; j < TOTAL_ITEMS; j++) {
             if (lookup_table[j].item_id == new_int_item_id) {
-                tp_sprintf(lines[i].value, " <%s>",
-                           new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
+                tp_sprintf(lines[i].value, " <%s>", new_int_item_id != NO_ITEM ? lookup_table[j].item_description : "none");
             }
             if (lookup_table[j].item_id == default_items[i]) {
-                tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default",
-                           i, lookup_table[j].item_description);
+                tp_sprintf(lines[i].description, "Slot %d default: %s. Press Z to set to default", i, lookup_table[j].item_description);
             } else {
-                continue;
+            continue;
             }
         }
     }
+
+    if (button_is_pressed(Controller::DPAD_UP) || button_is_pressed(Controller::DPAD_DOWN)) {
+        listIdx = 0;
+    }
+
+    if (button_is_pressed(Controller::DPAD_RIGHT)) {
+        listIdx++;
+        if (listIdx > TOTAL_ITEMS) {
+            listIdx = 0;
+        }
+        dComIfGs_setItem(cursor.y, valid_items[listIdx]);
+    }
+
+    if (button_is_pressed(Controller::DPAD_LEFT)) {
+        listIdx--;
+        if (listIdx < 0) {
+            listIdx = 58;
+        }
+        dComIfGs_setItem(cursor.y, valid_items[listIdx]);
+    }
+
+    if (button_is_pressed(Controller::Z)) {
+        dComIfGs_setItem(cursor.y, default_items[cursor.y]);
+    }
+
 
     Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
     Utilities::render_lines(lines, cursor.y, LINES);
-
-    // check selected slot
-    uint8_t current_item_slot = ITEM_WHEEL_SLOTS;
-    if (cursor.y >= 0 && cursor.y < ITEM_WHEEL_SLOTS) {
-        current_item_slot = cursor.y;
-    }
-
-    if (Controller::button_is_pressed(Controller::DPAD_RIGHT) ||
-        Controller::button_is_pressed(Controller::DPAD_LEFT)) {
-        auto change_slot_item = Controller::button_is_pressed(Controller::DPAD_RIGHT) ?
-                                    increment_slot_item :
-                                    decrement_slot_item;
-        if (current_item_slot < ITEM_WHEEL_SLOTS) {
-            change_slot_item(current_item_slot);
-            if (tp_gameInfo.inventory.item_values.value[current_item_slot] != 0xFF) {
-                try_add_item(current_item_slot);
-            } else {
-                try_remove_item(current_item_slot);
-            }
-        }
-    }
-
-    if (Controller::button_is_down(Controller::Z) && !Controller::button_is_held(Controller::Z)) {
-        if (current_item_slot < ITEM_WHEEL_SLOTS) {
-            tp_gameInfo.inventory.item_values.value[current_item_slot] =
-                default_items[current_item_slot];
-            if (default_items[current_item_slot] != 0xFF) {
-                try_add_item(current_item_slot);
-            } else {
-                try_remove_item(current_item_slot);
-            }
-        }
-    }
-};
+}

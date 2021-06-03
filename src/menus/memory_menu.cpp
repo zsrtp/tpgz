@@ -1,7 +1,6 @@
 #include "menus/memory_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/tp.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 

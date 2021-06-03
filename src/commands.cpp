@@ -7,14 +7,14 @@
 #include "bit.h"
 #endif
 #include "lib.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/practice_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/hundo_saves_menu.h"
 #include "movelink.h"
-
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "timer.h"
 #include "utils/loading.h"
 
@@ -27,21 +27,18 @@ bool reset_timer = false;
 bool commands_states[COMMANDS_AMNT];
 
 namespace Commands {
-static float saved_x = 0.0f;
-static float saved_y = 0.0f;
-static float saved_z = 0.0f;
+static cXyz saved_player_pos(0.0f, 0.0f, 0.0f);
 static uint16_t saved_angle = 0;
-static Vec3 saved_pos = {0.0f, 0.0f, 0.0f};
-static Vec3 saved_target = {0.0f, 0.0f, 0.0f};
+
+static Vec saved_pos = {0.0f, 0.0f, 0.0f};
+static Vec saved_target = {0.0f, 0.0f, 0.0f};
 static int button_last_frame;
 static int button_this_frame;
 
 void store_position() {
-    if (tp_zelAudio.link_debug_ptr) {
-        saved_x = tp_zelAudio.link_debug_ptr->position.x;
-        saved_y = tp_zelAudio.link_debug_ptr->position.y;
-        saved_z = tp_zelAudio.link_debug_ptr->position.z;
-        saved_angle = tp_zelAudio.link_debug_ptr->facing;
+    if (dComIfGp_getPlayer()) {
+        saved_player_pos = dComIfGp_getPlayer()->mCurrent.mPosition;
+        saved_angle = dComIfGp_getPlayer()->mCollisionRot.mY;
     }
 
     if (tp_matrixInfo.matrix_info) {
@@ -51,11 +48,9 @@ void store_position() {
 }
 
 void load_position() {
-    if (tp_zelAudio.link_debug_ptr) {
-        tp_zelAudio.link_debug_ptr->position.x = saved_x;
-        tp_zelAudio.link_debug_ptr->position.y = saved_y;
-        tp_zelAudio.link_debug_ptr->position.z = saved_z;
-        tp_zelAudio.link_debug_ptr->facing = saved_angle;
+    if (dComIfGp_getPlayer()) {
+        dComIfGp_getPlayer()->mCurrent.mPosition = saved_player_pos;
+        dComIfGp_getPlayer()->mCollisionRot.mY = saved_angle;
     }
 
     if (tp_matrixInfo.matrix_info) {
@@ -65,8 +60,8 @@ void load_position() {
 }
 
 void moon_jump() {
-    if (tp_gameInfo.momentum_ptr) {
-        tp_gameInfo.momentum_ptr->link_momentum.y = 56.0f;
+    if (dComIfGp_getPlayer()) {
+        dComIfGp_getPlayer()->mSpeed.y = 56.0f;
     };
 };
 
@@ -84,11 +79,15 @@ void reload_area() {
     inject_save_flag = true;
     if (g_area_reload_behavior == LOAD_AREA) {
         tp_memcpy(
-            tp_gameInfo.temp_flags.flags, gSaveManager.mAreaReloadOpts.temp_flags,
+            &g_dComIfG_gameInfo.mInfo.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
             sizeof(
                 gSaveManager.mAreaReloadOpts.temp_flags));  // restore last set of saved temp flags
-        tp_gameInfo.inventory.tears =
-            gSaveManager.mAreaReloadOpts.tears;  // restore last tear count
+
+        // restore last tear count
+        for (int i = 0; i < 4; i++) {
+            dComIfGs_setLightDropNum(i, gSaveManager.mAreaReloadOpts.tears[i]);
+        }
+
         gSaveManager.mPracticeFileOpts.inject_options_before_load =
             SaveManager::inject_default_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load = nullptr;

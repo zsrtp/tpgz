@@ -1,14 +1,15 @@
 #include "movelink.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menu.h"
 #include "menus/settings_menu.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 
 #define ROTATION_SPEED (10)
 #define CAM_FAST_SPEED (2.0)
@@ -57,15 +58,16 @@ void move_link() {
         auto& cam_target = tp_matrixInfo.matrix_info->target;
         auto& cam_pos = tp_matrixInfo.matrix_info->pos;
 
-        auto& link_pos = tp_zelAudio.link_debug_ptr->position;
-        auto& link_angle = tp_zelAudio.link_debug_ptr->facing;
+        cXyz& link_pos = dComIfGp_getPlayer()->mCurrent.mPosition;
+        int16_t& link_angle = dComIfGp_getPlayer()->mCollisionRot.mY;
 
         // Freeze the game to prevent control stick inputs to move link
-        tp_gameInfo.freeze_game = true;
+        dComIfGp_getEvent().mHalt = true;
         // Lock the camera to allow for its movement
-        tp_gameInfo.lock_camera = true;
+        dComIfGp_getEventManager().mCameraPlay = 1;
         // Set Link momentum to 0
-        tp_gameInfo.momentum_ptr->link_momentum = {0.0f, 0.0f, 0.0f};
+        cXyz tmp(0.0f, 0.0f, 0.0f);
+        dComIfGp_getPlayer()->mSpeed = tmp;
         // Disable Link collision (causes console crash dont use)
         // tp_gameInfo.link_collision_ptr->no_collision = 0x7F;
 
@@ -106,8 +108,8 @@ void move_link() {
 
     } else {
         if (init_once) {
-            tp_gameInfo.freeze_game = false;
-            tp_gameInfo.lock_camera = false;
+            dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEventManager().mCameraPlay = 0;
             // tp_gameInfo.link_collision_ptr->no_collision = 0x80;
             init_once = false;
         }
@@ -121,33 +123,33 @@ void render_info_input() {
     char link_z[20];
     uint8_t cursor_x_max = 1;
 
-    tp_sprintf(link_angle, "angle: %05d", tp_zelAudio.link_debug_ptr->facing);
-    tp_sprintf(link_x, "x-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.x);
-    tp_sprintf(link_y, "y-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.y);
-    tp_sprintf(link_z, "z-pos: % 010.2f", tp_zelAudio.link_debug_ptr->position.z);
+    tp_sprintf(link_angle, "angle: %05d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+    tp_sprintf(link_x, "x-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
+    tp_sprintf(link_y, "y-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
+    tp_sprintf(link_z, "z-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
 
     if (link_angle_selected) {
         cursor_x_max = 5;
         if (button_is_pressed(Controller::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->facing += 10000;
+                dComIfGp_getPlayer()->mCollisionRot.mY += 10000;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->facing += 1000;
+                dComIfGp_getPlayer()->mCollisionRot.mY += 1000;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->facing += 100;
+                dComIfGp_getPlayer()->mCollisionRot.mY += 100;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->facing += 10;
+                dComIfGp_getPlayer()->mCollisionRot.mY += 10;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->facing += 1;
+                dComIfGp_getPlayer()->mCollisionRot.mY += 1;
                 break;
             }
             }
@@ -155,23 +157,23 @@ void render_info_input() {
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->facing -= 10000;
+                dComIfGp_getPlayer()->mCollisionRot.mY -= 10000;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->facing -= 1000;
+                dComIfGp_getPlayer()->mCollisionRot.mY -= 1000;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->facing -= 100;
+                dComIfGp_getPlayer()->mCollisionRot.mY -= 100;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->facing -= 10;
+                dComIfGp_getPlayer()->mCollisionRot.mY -= 10;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->facing -= 1;
+                dComIfGp_getPlayer()->mCollisionRot.mY -= 1;
                 break;
             }
             }
@@ -206,44 +208,44 @@ void render_info_input() {
     }
 
     if (link_x_selected) {
-        if (tp_zelAudio.link_debug_ptr->position.x <= -999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.x = -999998.99f;
-        } else if (tp_zelAudio.link_debug_ptr->position.x >= 999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.x = 999998.99f;
+        if (dComIfGp_getPlayer()->mCurrent.mPosition.x <= -999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.x = -999998.99f;
+        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.x >= 999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.x = 999998.99f;
         }
         cursor_x_max = 9;
         if (button_is_pressed(Controller::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.x += 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.x += 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.x += 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.x += 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.x += 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.x += 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.x += 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.x += 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x += 0.01f;
                 break;
             }
             }
@@ -251,35 +253,35 @@ void render_info_input() {
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.x -= 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.x -= 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.x -= 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.x -= 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.x -= 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.x -= 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.x -= 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.x -= 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 0.01f;
                 break;
             }
             }
@@ -318,44 +320,44 @@ void render_info_input() {
     }
 
     if (link_y_selected) {
-        if (tp_zelAudio.link_debug_ptr->position.y <= -999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.y = -999998.99f;
-        } else if (tp_zelAudio.link_debug_ptr->position.y >= 999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.y = 999998.99f;
+        if (dComIfGp_getPlayer()->mCurrent.mPosition.y <= -999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.y = -999998.99f;
+        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.y >= 999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.y = 999998.99f;
         }
         cursor_x_max = 9;
         if (button_is_pressed(Controller::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.y += 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.y += 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.y += 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.y += 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.y += 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.y += 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.y += 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.y += 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y += 0.01f;
                 break;
             }
             }
@@ -363,35 +365,35 @@ void render_info_input() {
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.y -= 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.y -= 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.y -= 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.y -= 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.y -= 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.y -= 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.y -= 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.y -= 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 0.01f;
                 break;
             }
             }
@@ -430,44 +432,44 @@ void render_info_input() {
     }
 
     if (link_z_selected) {
-        if (tp_zelAudio.link_debug_ptr->position.z <= -999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.z = -999998.99f;
-        } else if (tp_zelAudio.link_debug_ptr->position.z >= 999998.99f) {
-            tp_zelAudio.link_debug_ptr->position.z = 999998.99f;
+        if (dComIfGp_getPlayer()->mCurrent.mPosition.z <= -999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.z = -999998.99f;
+        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.z >= 999998.99f) {
+            dComIfGp_getPlayer()->mCurrent.mPosition.z = 999998.99f;
         }
         cursor_x_max = 9;
         if (button_is_pressed(Controller::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.z += 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.z += 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.z += 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.z += 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.z += 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.z += 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.z += 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.z += 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z += 0.01f;
                 break;
             }
             }
@@ -475,35 +477,35 @@ void render_info_input() {
         if (button_is_pressed(Controller::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                tp_zelAudio.link_debug_ptr->position.z -= 100000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 100000.0f;
                 break;
             }
             case 1: {
-                tp_zelAudio.link_debug_ptr->position.z -= 10000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 10000.0f;
                 break;
             }
             case 2: {
-                tp_zelAudio.link_debug_ptr->position.z -= 1000.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 1000.0f;
                 break;
             }
             case 3: {
-                tp_zelAudio.link_debug_ptr->position.z -= 100.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 100.0f;
                 break;
             }
             case 4: {
-                tp_zelAudio.link_debug_ptr->position.z -= 10.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 10.0f;
                 break;
             }
             case 5: {
-                tp_zelAudio.link_debug_ptr->position.z -= 1.0f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 1.0f;
                 break;
             }
             case 7: {
-                tp_zelAudio.link_debug_ptr->position.z -= 0.10f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 0.10f;
                 break;
             }
             case 8: {
-                tp_zelAudio.link_debug_ptr->position.z -= 0.01f;
+                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 0.01f;
                 break;
             }
             }

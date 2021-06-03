@@ -1,9 +1,10 @@
-#include "libtp_c/include/controller.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "cheats.h"
 #include "commands.h"
+#include "gz_flags.h"
 #include "controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menu.h"
 
 #ifdef GCN_PLATFORM
@@ -85,7 +86,7 @@ void read_controller() {
     for (; idx < BUTTON_STATES; idx++) {
         buttonStates[idx].is_down = (buttonStates[idx].button & sButtons_down) != 0;
         if ((buttonStates[idx].button & sButtons_pressed) != 0) {
-            buttonStates[idx].pressed_frame = TP::get_frame_count() + 1;
+            buttonStates[idx].pressed_frame = cCt_getFrameCount() + 1;
         }
     }
 
@@ -134,7 +135,7 @@ bool button_is_down(int idx) {
 }
 
 bool button_is_pressed(int idx, uint16_t repeat_time) {
-    auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame;
+    auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     auto just_clicked = delta == 0;
     auto held_down_long_enough = delta > REPEAT_DELAY;
     auto is_repeat_frame = held_down_long_enough && delta % repeat_time == 0;
@@ -150,8 +151,14 @@ uint16_t get_current_inputs() {
     return buttons_down;
 }
 
-bool button_is_held(int idx) {
-    auto delta = TP::get_frame_count() - buttonStates[idx].pressed_frame + 1;
+bool button_is_held(int idx, int phase) {
+    uint32_t delta;
+    if (phase == POST_GAME_LOOP) {
+        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    } else {
+        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame + 1;
+    }
+    
     if (delta != 0) {
         return true;
     } else {

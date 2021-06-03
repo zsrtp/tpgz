@@ -4,11 +4,10 @@
 #include "controller.h"
 #include "font.h"
 #include "fs.h"
-#include "libtp_c/include/tp.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
-
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/msl_c/string.h"
 
 #define LINES 7
 #define SPAWN_OFFSET 4
@@ -249,23 +248,22 @@ void WarpingMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case WARP_BUTTON_INDEX: {
-            tp_memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);
-            tp_gameInfo.warp.entrance.room = warp_info.room_info.room_id[0];
-            tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
-            tp_gameInfo.warp.entrance.state = layer;
+            tp_memcpy(&g_dComIfG_gameInfo.play.mNextStage.mStage, &warp_info.stage_info.stage_id, 8);
+            g_dComIfG_gameInfo.play.mNextStage.mRoomNo = warp_info.room_info.room_id[0];
+            g_dComIfG_gameInfo.play.mNextStage.mPoint = warp_info.spawn_info.spawn_id[0];
+            g_dComIfG_gameInfo.play.mNextStage.mLayer = layer;
             init_once = false;
             fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
-            tp_gameInfo.loading_animation = 13;  // instant load
-            tp_gameInfo.respawn_animation = 0;
-            tp_gameInfo.warp.entrance.void_flag = 0;
-            tp_gameInfo.warp.enabled = true;
+            g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
+            g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0;
+            g_dComIfG_gameInfo.play.mNextStage.enabled = true;
             break;
         }
         case SAVE_LOCATION_INDEX: {
-            tp_memcpy(&tp_gameInfo.player.player_stage, &warp_info.stage_info.stage_id, 8);
-            tp_gameInfo.player.player_room_id = warp_info.room_info.room_id[0];
-            tp_gameInfo.player.player_spawn_id = warp_info.spawn_info.spawn_id[0];
+            tp_memcpy(&g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage, &warp_info.stage_info.stage_id, 8);
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId = warp_info.room_info.room_id[0];
+            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = warp_info.spawn_info.spawn_id[0];
             break;
         }
         }

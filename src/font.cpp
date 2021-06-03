@@ -1,5 +1,5 @@
 #include "font.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "utils/disc.h"
 #include "utils/draw.h"
 

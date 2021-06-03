@@ -3,8 +3,8 @@
 #include "commands.h"
 #include "font.h"
 #include "input_viewer.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/utils.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/dolphin/mtx/vec.h"
 #include "timer.h"
 
 #define MAX_LIST_MEMBER_LENGTH 40

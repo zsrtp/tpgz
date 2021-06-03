@@ -1,9 +1,9 @@
 #include "utils/link.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 uint8_t red;
 uint8_t green;
@@ -11,7 +11,7 @@ uint8_t blue;
 
 namespace Utilities {
 void show_link_debug_info() {
-    if (tp_zelAudio.link_debug_ptr) {
+    if (dComIfGp_getPlayer()) {
         char link_angle[20];
         // char vspeed[4];
         char link_speed[20];
@@ -19,11 +19,11 @@ void show_link_debug_info() {
         char link_y[20];
         char link_z[20];
 
-        tp_sprintf(link_angle, "angle: %d", tp_zelAudio.link_debug_ptr->facing);
-        tp_sprintf(link_speed, "speed: %.4f", tp_zelAudio.link_debug_ptr->speed);
-        tp_sprintf(link_x, "x-pos: %.4f", tp_zelAudio.link_debug_ptr->position.x);
-        tp_sprintf(link_y, "y-pos: %.4f", tp_zelAudio.link_debug_ptr->position.y);
-        tp_sprintf(link_z, "z-pos: %.4f", tp_zelAudio.link_debug_ptr->position.z);
+        tp_sprintf(link_angle, "angle: %d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+        tp_sprintf(link_speed, "speed: %.4f", dComIfGp_getPlayer()->mSpeedF);
+        tp_sprintf(link_x, "x-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
+        tp_sprintf(link_y, "y-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
+        tp_sprintf(link_z, "z-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
 
         Font::gz_renderChars(link_angle, sprite_offsets[DEBUG_INFO_INDEX].x,
                              sprite_offsets[DEBUG_INFO_INDEX].y, 0xFFFFFFFF, g_drop_shadows);
@@ -57,7 +57,7 @@ void show_link_debug_info() {
     }
 }
 void change_tunic_color() {
-    if (tp_gameInfo.link_tunic_ptr) {
+    if (dComIfGp_getPlayer()) {
         int16_t red_ = 0;
         int16_t green_ = 0;
         int16_t blue_ = 0;
@@ -120,20 +120,20 @@ void change_tunic_color() {
         }
         }
 #ifdef GCN_PLATFORM
-        tp_gameInfo.link_tunic_ptr->tunic_top_red = red_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_top_green = green_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.r = red_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.g = green_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.b = blue_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = red_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = green_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = blue_ - 0x10;
 #endif
 #ifdef WII_PLATFORM
-        tp_gameInfo.link_tunic_ptr->tunic_top_red = red_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_top_green = green_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_top_blue = blue_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_red = red_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_green = green_ - 0x10;
-        tp_gameInfo.link_tunic_ptr->tunic_bottom_blue = blue_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.r = red_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.g = green_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.b = blue_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = red_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = green_ - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = blue_ - 0x10;
         // tp_gameInfo.link_tunic_ptr->not_tunic_red = 1;
         // tp_gameInfo.link_tunic_ptr->tunic_red = red_ - 0x10;
         // tp_gameInfo.link_tunic_ptr->tunic_green = green_ - 0x10;

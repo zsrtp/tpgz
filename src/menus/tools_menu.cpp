@@ -7,14 +7,13 @@
 #include "bit.h"
 #endif
 #include "input_viewer.h"
-#include "libtp_c/include/actor.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "movelink.h"
 #include "rollcheck.h"
 #include "timer.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #define LINES TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
 using namespace Tools;
@@ -31,7 +30,7 @@ Tool ToolItems[TOOL_AMNT] = {
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
-    {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false}, {SAND_INDEX, false},
+    {COROTD_INDEX, false}, {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false}, {SAND_INDEX, false},
     {ROLL_INDEX, false},         {TELEPORT_INDEX, false},   {TURBO_MODE_INDEX, false},
     {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false}, {IGT_TIMER_INDEX, false},
     {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
@@ -49,6 +48,8 @@ Line lines[LINES] = {
     {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
      &ToolItems[BIT_INDEX].active},
 #endif
+    {"coro td checker", COROTD_INDEX, "Show frame info when doing coro td", true,
+     &ToolItems[COROTD_INDEX].active},
     {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
      &ToolItems[INPUT_VIEWER_INDEX].active},
     {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true,
@@ -170,8 +171,8 @@ void ToolsMenu::render() {
                 break;
             }
             case SAND_INDEX: {
-                if (tp_zelAudio.link_debug_ptr != nullptr) {
-                    tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                if (g_dComIfG_gameInfo.play.mPlayer != nullptr) {
+                    dComIfGp_getPlayer()->field_0x2ba8 = 0;
                 }
                 break;
             }

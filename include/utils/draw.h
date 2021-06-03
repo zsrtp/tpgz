@@ -2,7 +2,7 @@
 
 #include "libtp_c/include/addrs.h"
 #include "gcn_c/include/gfx.h"
-#include "libtp_c/include/utils.h"
+#include "libtp_c/include/dolphin/mtx/vec.h"
 #include "utils/texture.h"
 
 extern Texture blankTex;

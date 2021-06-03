@@ -3,11 +3,11 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "font.h"
-#include "libtp_c/include/tp.h"
 #include "menus/settings_menu.h"
 #include "utils/cursor.h"
 #include "utils/draw.h"
 #include "utils/lines.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 
 #define LINES SPRITES_AMNT
 #define NO_SELECTION ((uint8_t)-1)
@@ -36,7 +36,7 @@ Line lines[LINES] = {
     {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
 
 void draw_cursor(Vec2 pos) {
-    bool cycle = (TP::get_frame_count() / 8) % 2;
+    bool cycle = (cCt_getFrameCount() / 8) % 2;
     if (g_drop_shadows) {
         Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x - 10 + 1, pos.y + 1}, {20, 0}, 0xA);
         Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x + 1, pos.y - 10 + 1}, {0, 20}, 0xA);
