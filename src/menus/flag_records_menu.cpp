@@ -1,15 +1,16 @@
 #include "menus/flag_records_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menus/settings_menu.h"
 #include "utils/cursor.h"
 #include "utils/draw.h"
 #include "utils/lines.h"
 #include "utils/texture.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/msl_c/string.h"
 
 #define MAX_DISPLAY_LINES 8
 #define WHITE_RGBA 0xFFFFFFFF
@@ -138,8 +139,7 @@ void FlagRecordsMenu::render() {
         init_once = true;
     }
 
-    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"area temp", "event", "minigame",
-                                                          "dungeon"};
+    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"membit", "event", "minigame", "danbit"};
     if (cursor.y == FLAG_RECORD_INDEX) {
         cursor.x = record_index;
         Utilities::move_cursor(cursor, max_flags + 1, MAX_RECORD_OPTIONS, false, false, false,
@@ -162,22 +162,22 @@ void FlagRecordsMenu::render() {
     switch (record_index) {
     case 0: {
         max_flags = 0x20;
-        render_flag_records(tp_gameInfo.temp_flags.flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mTbox);
         break;
     }
     case 1: {
         max_flags = 0x100;
-        render_flag_records(tp_gameInfo.event_flags.flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mSavedata.mEvent.mEvent);
         break;
     }
     case 2: {
         max_flags = 0x18;
-        render_flag_records(tp_gameInfo.minigame_flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mSavedata.mMiniGame);
         break;
     }
     case 3: {
         max_flags = 0x18;
-        render_flag_records((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mDan.mSwitch);
         break;
     }
     }

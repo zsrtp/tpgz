@@ -1,7 +1,7 @@
 #include "fs.h"
 #include "font.h"
 #include "gcn_c/include/dvd.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 
 void loadFile(const char* filePath, void* buffer, signed long length, signed long offset) {
     DVDFileInfo fileInfo;

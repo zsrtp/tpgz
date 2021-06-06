@@ -4,9 +4,9 @@
 #include "free_cam.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+// #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
@@ -21,6 +21,8 @@
 #include "utils/loading.h"
 #include "utils/memory.h"
 #include "utils/texture.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
@@ -106,19 +108,25 @@ void game_loop() {
 
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
-        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, tp_gameInfo.temp_flags.flags,
-                  sizeof(tp_gameInfo.temp_flags.flags));
-        gSaveManager.mAreaReloadOpts.tears = tp_gameInfo.inventory.tears;
+        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.mInfo.mMemory,
+                  sizeof(g_dComIfG_gameInfo.mInfo.mMemory));
+        for (int i = 0; i < 4; i++) {
+            gSaveManager.mAreaReloadOpts.tears[i] = dComIfGs_getLightDropNum(i);
+        }
         last_frame_was_loading = false;
     }
 
-    GZFlags::apply_active_flags();
+    GZFlags::apply_active_flags(GAME_LOOP);
     FreeCam::handle_free_cam();
     MoveLink::move_link();
 
     if (ToolItems[Tools::TURBO_MODE_INDEX].active) {
         tp_cPadInfo.triggerInput = tp_cPadInfo.input;
     }
+}
+
+void post_game_loop() {
+    GZFlags::apply_active_flags(POST_GAME_LOOP);
 }
 
 void draw() {

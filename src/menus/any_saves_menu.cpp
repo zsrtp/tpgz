@@ -2,12 +2,11 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/practice_menu.h"
 #include "rollcheck.h"
-
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
@@ -72,65 +71,67 @@ Line lines[LINES] = {
 
 void hugo() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
-    tp_gameInfo.temp_flags.flags[12] = 0;    // hugo alive
+    dComIfGs_onSwitch(47, 0);   // midna trigger off
+    dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
 void karg_oob() {
     gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
     gSaveManager.inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
-    tp_gameInfo.link.is_wolf = false;
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void morpheel() {
-    tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
-    tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
+    dComIfGp_getPlayer()->field_0x2fdc = 68;                          // clawshot
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
 }
 
 void stallord() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
-    tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x300000;                                      // turn off intro cs, start fight
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x01;  // spawn at in front of stally
 }
 
 void fan_tower() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
+    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;  // reset city switches
 }
 
 void argorok() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 1;
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x10000;
 }
 
 void palace1() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
+    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;  // reset palace switches
 }
 
 void palace2() {
-    tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
+    dComIfGp_getPlayer()->field_0x2fdc = 3;  // master sword
 }
 
 void lakebed_bk_skip_during() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.temp_flags.flags[11] = 18;   // bridge turned
-    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
+    dComIfGs_onSwitch(2, 0);    // bridge turned
+    dComIfGs_onSwitch(122, 0);  // dungeon intro cs off
 }
 
 void bossflags() {
     gSaveManager.inject_default_during();
-    TP::set_boss_flags();
+    tp_bossFlags = 0xFF;
 }
 
 void darkhammer() {
-    tp_gameInfo.event_flags.flags[11] = 134;  // iza bomb bag stolen
+    dComIfGs_onEventBit(0x0B02);
+    dComIfGs_onEventBit(0x0B04);  // iza bomb bag stolen
 }
 
 void waterfall_sidehop() {
     gSaveManager.inject_default_during();
-    tp_gameInfo.spawn_speed = 10.0f;  // link spawns swimming forward
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastSpeedF = 10.0f;  // link spawns swimming forward
 }
 
 void AnySavesMenu::render() {

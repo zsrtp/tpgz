@@ -1,8 +1,7 @@
 #include "menus/main_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 

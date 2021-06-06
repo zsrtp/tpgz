@@ -3,8 +3,8 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #define LINES SCENE_AMNT
 
 static Cursor cursor = {0, 0};
@@ -45,11 +45,13 @@ void SceneMenu::render() {
         init_once = true;
     }
 
-    int current_hour = (int)tp_gameInfo.raw_game_time / 15;
+    float current_time = dComIfGs_getTime();
+
+    int current_hour = (int)current_time / 15;
     if (current_hour > 23) {
         current_hour = 0;
     }
-    int current_minute = (int)((4.0f * tp_gameInfo.raw_game_time) - current_hour * 60);
+    int current_minute = (int)((4.0f * current_time) - current_hour * 60);
 
     tp_sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
     tp_sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
@@ -63,25 +65,25 @@ void SceneMenu::render() {
     switch (cursor.y) {
     case TIME_HOURS_INDEX: {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            tp_gameInfo.raw_game_time += 15.0f;
+            dComIfGs_setTime(current_time + 15.0f);
         } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-            tp_gameInfo.raw_game_time -= 15.0f;
+            dComIfGs_setTime(current_time - 15.0f);
         }
         break;
     }
     case TIME_MINUTES_INDEX: {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            tp_gameInfo.raw_game_time += 0.25f;
+            dComIfGs_setTime(current_time + 0.25f);
         } else if (button_is_pressed(Controller::DPAD_LEFT)) {
-            tp_gameInfo.raw_game_time -= 0.25f;
+            dComIfGs_setTime(current_time - 0.25f);
         }
         break;
     }
     }
-    if (tp_gameInfo.raw_game_time >= 360.0f) {
-        tp_gameInfo.raw_game_time -= 360.0f;
+    if (current_time >= 360.0f) {
+        dComIfGs_setTime(current_time - 360.0f);
     }
-    if (tp_gameInfo.raw_game_time < 0) {
-        tp_gameInfo.raw_game_time += 360.0f;
+    if (current_time < 0) {
+        dComIfGs_setTime(current_time + 360.0f);
     }
 }

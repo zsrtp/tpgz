@@ -1,6 +1,6 @@
 #include "fifo_queue.h"
 #include "font.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 
 bool fifo_visible;

@@ -1,8 +1,9 @@
 #include "free_cam.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/math.h"
 #include "menu.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
@@ -39,9 +40,9 @@ void handle_free_cam() {
         auto& cam_target = tp_matrixInfo.matrix_info->target;
         auto& cam_pos = tp_matrixInfo.matrix_info->pos;
         // Freeze the game to prevent control stick inputs to move link
-        tp_gameInfo.freeze_game = true;
+        dComIfGp_getEvent().mHalt = true;
         // Lock the camera to allow for its movement
-        tp_gameInfo.lock_camera = true;
+        dComIfGp_getEventManager().mCameraPlay = 1;
 
         if (!init_once) {
             // Initialize the pitch and yaw to the current angle of the camera
@@ -74,8 +75,8 @@ void handle_free_cam() {
         pitch = MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
     } else {
         if (init_once) {
-            tp_gameInfo.freeze_game = false;
-            tp_gameInfo.lock_camera = false;
+            dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEventManager().mCameraPlay = 0;
             init_once = false;
         }
     }

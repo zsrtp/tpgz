@@ -1,5 +1,5 @@
 #include "utils/memory.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/memory_menu.h"
 #include "menus/settings_menu.h"
 
