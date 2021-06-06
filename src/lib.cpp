@@ -36,7 +36,6 @@ extern "C" {
 
 #if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
-#define SET_WATER_DROP_COLOR ((uint32_t*)0x800CCE08)
 #endif
 #if (GCN_PAL)
 #define main_tampoline ((void (*)(void))0x803745e4)
