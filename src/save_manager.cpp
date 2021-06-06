@@ -143,13 +143,29 @@ void SaveManager::load_save_file(const char* fileName) {
     SaveManager::inject_save((void*)sTmpBuf);
 }
 
+#if (GCN_NTSCU)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CCE08)
+#endif
+#if (GCN_PAL)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CD014)
+#endif
+#if (GCN_NTSCJ)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CCE40)
+#endif
+#if (WII_NTSCU_10)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C38BC)
+#endif
+#if (WII_PAL)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C3DD4)
+#endif
+
 void SaveManager::trigger_load() {
     // Loading hasn't started yet, run the before load function and initiate loading
     if (!tp_fopScnRq.isLoading && !gSaveManager.loading_initiated) {
         // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
-        *reinterpret_cast<uint32_t*>(0x800CCE08) = 0x60000000;  // nop
-        DCFlushRange((void*)(0x800CCE08), sizeof(uint32_t));
-        ICInvalidateRange((void*)(0x800CCE08), sizeof(uint32_t));
+        *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) = 0x60000000;  // nop
+        DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
+        ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
 
         // Trigger loading
         g_dComIfG_gameInfo.play.mNextStage.enabled = true;
@@ -168,10 +184,10 @@ void SaveManager::trigger_load() {
         // Loading has completed, run the after load function
         if (!tp_fopScnRq.isLoading) {
             // Patch back in setWaterDropColor call
-            *reinterpret_cast<uint32_t*>(0x800CCE08) =
+            *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) =
                 0x4BFFF55D;  // bl daAlink_c::setWaterDropColor
-            DCFlushRange((void*)(0x800CCE08), sizeof(uint32_t));
-            ICInvalidateRange((void*)(0x800CCE08), sizeof(uint32_t));
+            DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
+            ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
 
             if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
                 gSaveManager.mPracticeFileOpts.inject_options_after_load();
