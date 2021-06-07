@@ -231,7 +231,7 @@ void store_memfile(Card& card) {
 
             g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = 0;
             g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId =
-                g_dComIfG_gameInfo.play.mEvtManager.field_0x1b0 & 0xFF;
+                g_dComIfG_gameInfo.play.mEvent.field_0x12c;
             tp_strcpy((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
                       (char*)g_dComIfG_gameInfo.play.mStartStage.mStage);
             card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo, 3818, 0,
