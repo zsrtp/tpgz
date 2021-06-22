@@ -1,6 +1,9 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
-#include "libtp_c/include/msl_c/math.h.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "fifo_queue.h"
@@ -25,7 +28,7 @@ using namespace Controller;
 static char buf[30];
 
 void set_camera_angle_position() {
-    dComIfGp_getPlayer()->mCurrent.mPosition = {466.622467f, 319.770752f, -11651.3867f};
+    dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
     tp_matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     tp_matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
@@ -66,7 +69,7 @@ void run() {
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (tp_strcmp((const char*)tp_gameInfo.current_stage, "F_SP104") == 0 &&
+        if (tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP104") == 0 &&
             button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");
