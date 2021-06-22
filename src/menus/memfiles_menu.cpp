@@ -1,6 +1,5 @@
 #include "menus/memfiles_menu.h"
 #include "controller.h"
-#include "gcn_c/include/card.h"
 #include "font.h"
 #include "utils/card.h"
 #include "libtp_c/include/msl_c/string.h"
@@ -86,41 +85,50 @@ void MemfilesMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case MEMFILE_SAVE_INDEX: {
-            static Card card;
+            static Storage card;
             tp_sprintf(fileBuf, "tpgz_s%d", file_no);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
             tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
-            if (card.card_result == Ready) {
+#ifndef WII_PLATFORM
+            card.result = CARDProbeEx(0, nullptr, &card.sector_size);
+            if (card.result == Ready) {
                 Utilities::store_memfile(card);
             }
+#endif  // WII_PLATFORM
+            Utilities::store_memfile(card);
             save_delay = 20;
             break;
         }
         case MEMFILE_LOAD_INDEX: {
-            static Card card;
+            static Storage card;
             tp_sprintf(fileBuf, "tpgz_s%d", file_no);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
             tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
-            if (card.card_result == Ready) {
+#ifndef WII_PLATFORM
+            card.result = CARDProbeEx(0, NULL, &card.sector_size);
+            if (card.result == Ready) {
                 Utilities::load_memfile(card);
             }
+#endif  // WII_PLATFORM
+            Utilities::load_memfile(card);
             set_position_data = true;
             break;
         }
         case MEMFILE_DELETE_INDEX: {
-            static Card card;
+            static Storage card;
             tp_sprintf(fileBuf, "tpgz_s%d", file_no);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
             tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
-            if (card.card_result == Ready) {
+#ifndef WII_PLATFORM
+            card.result = CARDProbeEx(0, nullptr, &card.sector_size);
+            if (card.result == Ready) {
                 Utilities::delete_memfile(card);
             }
+#endif  // WII_PLATFORM
+            Utilities::delete_memfile(card);
             save_delay = 20;
             break;
         }
