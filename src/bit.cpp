@@ -6,6 +6,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "fifo_queue.h"
 #include "controller.h"
 #include "fifo_queue.h"
@@ -18,6 +19,8 @@
 #define BOOTS_ACC -7.65
 #define BOOTS_TERM_VEL -300.0
 #define TARGET_FRAME 28
+
+#define LAST_Y_GROUND_POS (*(float*)(tp_zelAudio.link_debug_ptr + 0x2f3c))
 
 bool inject_bit_flag = false;
 extern Font font;
@@ -37,13 +40,13 @@ void set_camera_angle_position() {
 void run() {
     double dt = 0;
 
-    if (dComIfGp_getPlayer()) {
+    if (dComIfGp_getPlayer() && tp_zelAudio.link_debug_ptr) {
         const bool has_boots = (dComIfGp_getPlayer()->mNoResetFlg0 & 0x02) != 0;
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
         const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
         const double dist_from_last_ground =
-            (dComIfGp_getPlayer()->mCurrent.mPosition.y - dComIfGp_getPlayer()->field_0x33c8);
+            (dComIfGp_getPlayer()->mCurrent.mPosition.y - LAST_Y_GROUND_POS); // dComIfGp_getPlayer()->field_0x33c8
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;
