@@ -26,4 +26,4 @@ jobs:
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
-        sleep 30 && /dme -c 0x80450580
+        sleep 30 && /dme -c 0x80000000
