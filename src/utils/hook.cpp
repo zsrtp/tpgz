@@ -17,6 +17,7 @@
 
 HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
+HOOK_DEF(void, ExceptionCallback, (void));
 HOOK_DEF(void, draw, (void*));
 
 struct PadStatus {
@@ -62,6 +63,13 @@ void gameLoopHook(void) {
 void drawHook(void* p1) {
     drawTrampoline(p1);
     draw();
+}
+
+void myExceptionCallbackHook(void) {
+    ExceptionCallbackTrampoline();
+    *reinterpret_cast<uint32_t*>(0x80450580) = 1;
+    DCFlushRange((void*)(0x80450580), sizeof(uint32_t));
+    ICInvalidateRange((void*)(0x80450580), sizeof(uint32_t));
 }
 
 uint32_t readControllerHook(uint16_t* p1) {
@@ -177,6 +185,9 @@ void apply_hooks() {
     APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, HK_ONEVENTBIT_INDEX, onEventBitHook);
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, HK_OFFEVENTBIT_INDEX, offEventBitHook);
     APPLY_HOOK(putSave, tp_putSave_addr, HK_PUTSAVE_INDEX, putSaveHook);
+    #if PR_TEST == 0
+    APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr, HK_MYEXCEPTIONCALLBACK_INDEX, myExceptionCallbackHook);
+    #endif
 
 #undef APPLY_HOOK
 }
