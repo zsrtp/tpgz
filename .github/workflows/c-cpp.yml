@@ -26,6 +26,6 @@ jobs:
     - name: Boot Dolphin
       run: dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
     - name: Sleep
-      run: sleep 20
+      run: sleep 120
     - name: Crash check
       run: /dme -c 0x80450580
