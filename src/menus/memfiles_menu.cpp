@@ -11,7 +11,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
 #define LINES 4
-#define MAX_SAVE_SLOTS 9
+#define MAX_SAVE_SLOTS 20
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -108,7 +108,6 @@ void MemfilesMenu::render() {
             if (card.card_result == Ready) {
                 Utilities::load_memfile(card);
             }
-            set_position_data = true;
             break;
         }
         case MEMFILE_DELETE_INDEX: {
