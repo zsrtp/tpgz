@@ -1,17 +1,17 @@
-#include "utils/card.h"
 #include "commands.h"
 #include "fifo_queue.h"
-#include "utils/loading.h"
-#include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
-#include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menus/practice_menu.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
-#include "libtp_c/include/SSystem/SComponent/c_counter.h"
-#include "menus/memfiles_menu.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/utils.h"
+#include "menus/memfiles_menu.h"
+#include "menus/practice_menu.h"
 #include "save_manager.h"
+#include "utils/card.h"
+#include "utils/loading.h"
 
 bool inject_memfile_flag = false;
 
@@ -179,7 +179,8 @@ int32_t read_memfile(CardInfo* card_info, PositionData& posData, int32_t sector_
 
     assert_result(card_read(card_info, (void*)sTmpBuf, sizeof(dSv_info_c), 0, sector_size));
 
-    assert_result(card_read(card_info, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
+    assert_result(
+        card_read(card_info, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
 
 #undef assert_result
     return result;
@@ -222,8 +223,8 @@ void store_memfile(Card& card) {
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
 
-    uint32_t file_size =
-        (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)card.sector_size) * card.sector_size);
+    uint32_t file_size = (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)card.sector_size) *
+                                    card.sector_size);
 
     card.card_result = CARDDelete(0, card.file_name_buffer);
     card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
@@ -235,8 +236,8 @@ void store_memfile(Card& card) {
             setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
                            g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
 
-            card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo, sizeof(dSv_info_c), 0,
-                                                     card.sector_size);
+            card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo,
+                                                     sizeof(dSv_info_c), 0, card.sector_size);
             card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
                                                      sizeof(dSv_info_c) + 1, card.sector_size);
 
