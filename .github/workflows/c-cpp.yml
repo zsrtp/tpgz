@@ -9,7 +9,7 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/pheenoh/devkitppc-gcn
+      image: ghcr.io/pheenoh/zsrtp-tpgz:latest
 
     steps:
     - name: Checkout
