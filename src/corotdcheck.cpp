@@ -8,6 +8,19 @@
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
+#ifdef GCN_PLATFORM
+#define ITEM_BUTTON_HELD_CHECK (!button_is_held(Y) || !button_is_held(X))
+#define ITEM_BUTTON_DOWN_CHECK (button_is_down(Y) || button_is_down(X))
+#endif  // GCN_PLATFORM
+#ifdef WII_PLATFORM
+#define ITEM_BUTTON_HELD_CHECK                                                                     \
+    (!button_is_held(B) || !button_is_held(DPAD_LEFT) || !button_is_held(DPAD_RIGHT) ||            \
+     !button_is_held(DPAD_DOWN))
+#define ITEM_BUTTON_DOWN_CHECK                                                                     \
+    (button_is_down(B) || button_is_down(DPAD_LEFT) || button_is_down(DPAD_RIGHT) ||               \
+     button_is_down(DPAD_DOWN))
+#endif  // WII_PLATFORM
+
 namespace CoroTDChecker {
 using namespace Controller;
 
@@ -34,23 +47,23 @@ void run() {
 
         if (current_counter < 20) {
             // went early
-            if (!got_it && (!button_is_held(Y) || !button_is_held(X)) && (current_counter < 10) &&
-                (button_is_down(Y) || button_is_down(X))) {
+            if (!got_it && ITEM_BUTTON_HELD_CHECK && (current_counter < 10) &&
+                ITEM_BUTTON_DOWN_CHECK) {
                 int final_val = 10 - current_counter;
                 tp_sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
             // got it
-            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) &&
-                     (current_counter == 10) && (button_is_down(Y) || button_is_down(X))) {
+            else if (!got_it && ITEM_BUTTON_HELD_CHECK && (current_counter == 10) &&
+                     ITEM_BUTTON_DOWN_CHECK) {
                 FIFOQueue::push("got it", Queue, 0x00CC0000);
                 got_it = true;
             }
 
             // went late
-            else if (!got_it && (!button_is_held(Y) || !button_is_held(X)) &&
-                     current_counter > 10 && (button_is_down(Y) || button_is_down(X))) {
+            else if (!got_it && ITEM_BUTTON_HELD_CHECK && current_counter > 10 &&
+                     ITEM_BUTTON_DOWN_CHECK) {
                 int final_val = current_counter - 10;
                 tp_sprintf(buf, "%df late", final_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);

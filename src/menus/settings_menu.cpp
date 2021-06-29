@@ -1,6 +1,5 @@
 #include "menus/settings_menu.h"
 #include "controller.h"
-#include "gcn_c/include/card.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "utils/card.h"
 #include "utils/cursor.h"
@@ -72,36 +71,45 @@ void SettingsMenu::render() {
             return;
         };
         case SAVE_CARD_INDEX: {
-            static Card card;
-            card.file_name = "tpgz01";
-            card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
-            if (card.card_result == Ready) {
-                Utilities::store_mem_card(card);
+            static Storage storage;
+            storage.file_name = "tpgz01";
+            storage.sector_size = SECTOR_SIZE;
+            tp_sprintf(storage.file_name_buffer, storage.file_name);
+#ifndef WII_PLATFORM
+            storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
+            if (storage.result == Ready) {
+                Utilities::store_mem_card(storage);
             }
+#endif  // WII_PLATFORM
+            Utilities::store_mem_card(storage);
             break;
         };
         case LOAD_CARD_INDEX: {
-            static Card card;
-            card.file_name = "tpgz01";
-            card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
-            if (card.card_result == Ready) {
-                Utilities::load_mem_card(card);
+            static Storage storage;
+            storage.file_name = "tpgz01";
+            storage.sector_size = SECTOR_SIZE;
+            tp_sprintf(storage.file_name_buffer, storage.file_name);
+#ifndef WII_PLATFORM
+            storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
+            if (storage.result == Ready) {
+                Utilities::load_mem_card(storage);
             }
+#endif  // WII_PLATFORM
+            Utilities::load_mem_card(storage);
             break;
         };
         case DELETE_CARD_INDEX: {
-            static Card card;
-            card.file_name = "tpgz01";
-            card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
-            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
-            if (card.card_result == Ready) {
-                Utilities::delete_mem_card(card);
+            static Storage storage;
+            storage.file_name = "tpgz01";
+            storage.sector_size = SECTOR_SIZE;
+            tp_sprintf(storage.file_name_buffer, storage.file_name);
+#ifndef WII_PLATFORM
+            storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
+            if (storage.result == Ready) {
+                Utilities::delete_mem_card(storage);
             }
+#endif  // WII_PLATFORM
+            Utilities::delete_mem_card(storage);
             break;
         };
         case SWAP_EQUIPS_INDEX: {

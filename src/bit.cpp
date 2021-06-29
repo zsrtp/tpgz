@@ -1,8 +1,12 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
-#include "libtp_c/include/msl_c/math.h.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "fifo_queue.h"
 #include "controller.h"
 #include "fifo_queue.h"
@@ -16,6 +20,8 @@
 #define BOOTS_TERM_VEL -300.0
 #define TARGET_FRAME 28
 
+#define LAST_Y_GROUND_POS (*(float*)(tp_zelAudio.link_debug_ptr + 0x2f3c))
+
 bool inject_bit_flag = false;
 extern Font font;
 
@@ -25,7 +31,7 @@ using namespace Controller;
 static char buf[30];
 
 void set_camera_angle_position() {
-    dComIfGp_getPlayer()->mCurrent.mPosition = {466.622467f, 319.770752f, -11651.3867f};
+    dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
     tp_matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     tp_matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
@@ -34,13 +40,14 @@ void set_camera_angle_position() {
 void run() {
     double dt = 0;
 
-    if (dComIfGp_getPlayer()) {
+    if (dComIfGp_getPlayer() && tp_zelAudio.link_debug_ptr) {
         const bool has_boots = (dComIfGp_getPlayer()->mNoResetFlg0 & 0x02) != 0;
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
         const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
         const double dist_from_last_ground =
-            (dComIfGp_getPlayer()->mCurrent.mPosition.y - dComIfGp_getPlayer()->field_0x33c8);
+            (dComIfGp_getPlayer()->mCurrent.mPosition.y -
+             LAST_Y_GROUND_POS);  // dComIfGp_getPlayer()->field_0x33c8
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;
@@ -66,7 +73,7 @@ void run() {
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (tp_strcmp((const char*)tp_gameInfo.current_stage, "F_SP104") == 0 &&
+        if (tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP104") == 0 &&
             button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");

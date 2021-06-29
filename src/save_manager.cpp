@@ -159,10 +159,13 @@ void SaveManager::load_save_file(const char* fileName) {
 #define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C3DD4)
 #endif
 
+uint32_t setWaterDropColorInstr = 0x60000000;
+
 void SaveManager::trigger_load() {
     // Loading hasn't started yet, run the before load function and initiate loading
     if (!tp_fopScnRq.isLoading && !gSaveManager.loading_initiated) {
         // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
+        setWaterDropColorInstr = *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL);
         *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) = 0x60000000;  // nop
         DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
         ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
@@ -185,7 +188,7 @@ void SaveManager::trigger_load() {
         if (!tp_fopScnRq.isLoading) {
             // Patch back in setWaterDropColor call
             *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) =
-                0x4BFFF55D;  // bl daAlink_c::setWaterDropColor
+                setWaterDropColorInstr;  // bl daAlink_c::setWaterDropColor
             DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
             ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
 
