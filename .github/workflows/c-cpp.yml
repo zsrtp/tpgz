@@ -20,3 +20,9 @@ jobs:
       # hacky work around to catch failures since romhack always returns 0 exit code
     - name: Run Romhack
       run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
+    - name: Boot Dolphin
+      run: dolphin-emu-nogui --platform=headless -e build/tpgz.iso &
+    - name: Sleep
+      run: sleep 20
+    - name: Crash check
+      run: /dme -c 0x80450580
