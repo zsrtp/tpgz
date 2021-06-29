@@ -13,6 +13,8 @@ jobs:
       with:
         token: ${{secrets.MY_REPO_PAT}}
         submodules: recursive
+    - name: Debug Flag
+      run: export PR_TEST=1
     - name: Run Make
       run: make
     - name: Move ISO
