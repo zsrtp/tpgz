@@ -10,6 +10,7 @@
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menus/memfiles_menu.h"
+#include "libtp_c/include/utils.h"
 #include "save_manager.h"
 
 bool inject_memfile_flag = false;
@@ -176,9 +177,9 @@ int32_t read_memfile(CardInfo* card_info, PositionData& posData, int32_t sector_
         return result;                                                                             \
     }
 
-    assert_result(card_read(card_info, (void*)sTmpBuf, 3818, 0, sector_size));
+    assert_result(card_read(card_info, (void*)sTmpBuf, sizeof(dSv_info_c), 0, sector_size));
 
-    assert_result(card_read(card_info, &posData, sizeof(posData), 3819, sector_size));
+    assert_result(card_read(card_info, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
 
 #undef assert_result
     return result;
@@ -220,30 +221,28 @@ void store_memfile(Card& card) {
     posData.cam.target = tp_matrixInfo.matrix_info->target;
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
+
     uint32_t file_size =
-        (uint32_t)(tp_ceil((double)3818 / (double)card.sector_size) * card.sector_size);
+        (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)card.sector_size) * card.sector_size);
+
     card.card_result = CARDDelete(0, card.file_name_buffer);
     card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
+
     if (card.card_result == Ready || card.card_result == Exist) {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
             dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+            setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
+                           g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
 
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = 0;
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId =
-                g_dComIfG_gameInfo.play.mEvent.field_0x12c;
-            tp_strcpy((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
-                      (char*)g_dComIfG_gameInfo.play.mStartStage.mStage);
-            card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo, 3818, 0,
+            card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo, sizeof(dSv_info_c), 0,
                                                      card.sector_size);
-
             card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
-                                                     3819, card.sector_size);
+                                                     sizeof(dSv_info_c) + 1, card.sector_size);
+
             if (card.card_result == Ready) {
-                tp_osReport("saved memfile!");
                 FIFOQueue::push("saved memfile!", Queue);
             } else {
-                tp_osReport("failed to save");
                 char buff[32];
                 tp_sprintf(buff, "failed to save: %d", card.card_result);
                 FIFOQueue::push(buff, Queue);
@@ -258,10 +257,8 @@ void delete_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     card.card_result = CARDDelete(0, card.file_name_buffer);
     if (card.card_result == Ready) {
-        tp_osReport("deleted card!");
         FIFOQueue::push("deleted card!", Queue);
     } else {
-        tp_osReport("failed to delete");
         char buff[32];
         tp_sprintf(buff, "failed to delete: %d", card.card_result);
         FIFOQueue::push(buff, Queue);
@@ -313,8 +310,8 @@ void load_memfile(Card& card) {
     if (card.card_result == Ready) {
         PositionData posData;
         card.card_result = read_memfile(&card.card_info, posData, card.sector_size);
+
         if (card.card_result == Ready) {
-            tp_osReport("loaded memfile!");
             FIFOQueue::push("loaded memfile!", Queue);
             inject_memfile_flag = true;
             SaveManager::inject_default_before();
@@ -322,12 +319,11 @@ void load_memfile(Card& card) {
             SaveManager::inject_default_during();
             SaveManager::inject_default_after();
             load_position_data(posData);
+            set_position_data = true;
             inject_save_flag = true;
             fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
-
         } else {
-            tp_osReport("failed to load");
             char buff[32];
             tp_sprintf(buff, "failed to load: %d", card.card_result);
             FIFOQueue::push(buff, Queue);

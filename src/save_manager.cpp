@@ -23,7 +23,7 @@ void SaveManager::inject_save(void* buffer) {
 };
 
 void SaveManager::inject_memfile(void* buffer) {
-    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, 3818);
+    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
     dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
 };
 
