@@ -185,7 +185,7 @@ void apply_hooks() {
     APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, HK_ONEVENTBIT_INDEX, onEventBitHook);
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, HK_OFFEVENTBIT_INDEX, offEventBitHook);
     APPLY_HOOK(putSave, tp_putSave_addr, HK_PUTSAVE_INDEX, putSaveHook);
-    #if PR_TEST == 0
+    #if PR_TEST
     APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr, HK_MYEXCEPTIONCALLBACK_INDEX, myExceptionCallbackHook);
     #endif
 

@@ -33,14 +33,14 @@ MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
 GZ_VERSION  ?=  0.4
 
 ifeq ($(PR_TEST),)
-PR_TEST := -D PR_TEST=1
+PR_TEST := 
 endif
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM -D GZ_VERSION=$(GZ_VERSION) $(PR_TEST)
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM -D GZ_VERSION=$(GZ_VERSION) -D PR_TEST=1
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------
