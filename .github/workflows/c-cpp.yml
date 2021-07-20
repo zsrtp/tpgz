@@ -28,4 +28,4 @@ jobs:
         dolphin-emu-nogui --platform=headless --video_backend=Null -e ./GZ2E01.iso &
         sleep 30 && /dme -c 0x80000000
     - name: Debug
-      run: cat /proc/$(pidof dolphin-emu-nog)/maps
+      run: cat /proc/$(pidof dolphin-emu-nogui)/maps
