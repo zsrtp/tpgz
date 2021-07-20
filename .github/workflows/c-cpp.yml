@@ -7,9 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/pheenoh/zsrtp-tpgz:latest
-      options: |
-      --shm-size=128m
-      --security-opt seccomp=unconfined
+      options: --shm-size=128m --security-opt seccomp=unconfined
     steps:
     - name: Checkout
       uses: actions/checkout@v1
