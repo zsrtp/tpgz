@@ -1,5 +1,5 @@
 
-#define HOOK_AMNT 13
+#define HOOK_AMNT 14
 enum HookIndex {
     HK_LIB_INIT_INDEX = 0,
     HK_LIB_GAME_LOOP_INDEX = 1,
@@ -14,6 +14,7 @@ enum HookIndex {
     HK_OFFEVENTBIT_INDEX = 10,
     HK_ONSWITCH_INDEX = 11,
     HK_PUTSAVE_INDEX = 12,
+    HK_MYEXCEPTIONCALLBACK_INDEX = 13
 };
 
 namespace Hook {
