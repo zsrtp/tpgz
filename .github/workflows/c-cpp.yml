@@ -16,16 +16,16 @@ jobs:
         submodules: recursive
     - name: Debug Flag
       run: export PR_TEST=1
-    - name: Run Make
-      run: make
+    # - name: Run Make
+    #   run: make
     - name: Move ISO
       run: mv /gz2e01.iso ./GZ2E01.iso
       # hacky work around to catch failures since romhack always returns 0 exit code
-    - name: Run Romhack
-      run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
+    # - name: Run Romhack
+    #   run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
     - name: Debug
       run: ls /dev/shm
     - name: Boot Dolphin
       run: |
-        dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
+        dolphin-emu-nogui --platform=headless --video_backend=Null -e ./GZ2E01.iso &
         sleep 30 && /dme -c 0x80000000
