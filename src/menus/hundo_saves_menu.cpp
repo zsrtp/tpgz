@@ -100,7 +100,7 @@ Line lines[LINES] = {
     {"cats minigame", HND_CATS_INDEX, "hidden village cats minigame"},
     {"hyrule castle", HND_HYRULE_INDEX, "the hyrule castle segment"},
     {"darknut skip", HND_DARKNUT_SKIP_INDEX, "hyrule castle darknut skip"},
-    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss fights"},
+    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss"},
     {"beast ganon", HND_BEAST_GANON_INDEX, "the beast ganon fight"},
     {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
