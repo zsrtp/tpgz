@@ -1,10 +1,9 @@
+#include "controller.h"
 #include "font.h"
 #include "menus/flags_menu.h"
-#include "controller.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
-#include "libtp_c/include/flag.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 #define LINES 15
 
@@ -45,27 +44,38 @@ Line lines[LINES] = {
     {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, &mirror_warp},
 };
 
-void PortalFlagsMenu::render() {
-    // update flags
-    spring_warp = (tp_gameInfo.overworld_flags.ordon_flags.flags[13] & (1 << 4));
-    south_faron_warp = (tp_gameInfo.overworld_flags.faron_flags.flags[19] & (1 << 7));
-    north_faron_warp = (tp_gameInfo.overworld_flags.faron_flags.flags[11] & (1 << 2));
-    grove_warp = (tp_gameInfo.overworld_flags.grove_flags.flags[23] & (1 << 4));
-    gorge_warp = (tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] & (1 << 5));
-    kakariko_warp = (tp_gameInfo.overworld_flags.eldin_flags.flags[8] & (1 << 7));
-    mountain_warp = (tp_gameInfo.overworld_flags.eldin_flags.flags[9] & (1 << 5));
-    bridge_warp = (tp_gameInfo.overworld_flags.hyrule_field_flags.flags[23] & (1 << 3));
-    castle_town_warp = (tp_gameInfo.overworld_flags.hyrule_field_flags.flags[11] & (1 << 3));
-    lake_hylia_warp = (tp_gameInfo.overworld_flags.lanayru_flags.flags[10] & (1 << 2));
-    domain_warp = (tp_gameInfo.overworld_flags.lanayru_flags.flags[11] & (1 << 2));
-    uzr_warp = (tp_gameInfo.overworld_flags.lanayru_flags.flags[9] & (1 << 5));
-    snowpeak_warp = (tp_gameInfo.overworld_flags.snowpeak_flags.flags[9] & (1 << 5));
-    mesa_warp = (tp_gameInfo.overworld_flags.desert_flags.flags[9] & (1 << 5));
-    mirror_warp = (tp_gameInfo.overworld_flags.desert_flags.flags[14] & (1 << 0));
+bool getSaveSwitch(int32_t stage, int32_t flag) {
+    return dSv_memBit_c__isSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+}
 
-    if (button_is_pressed(Controller::B)) {
+void setSaveSwitch(int32_t stage, int32_t flag) {
+    if (getSaveSwitch(stage, flag)) {
+        dSv_memBit_c__offSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+    } else {
+        dSv_memBit_c__onSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+    }
+}
+
+void PortalFlagsMenu::render() {
+    spring_warp = getSaveSwitch(dSv_memory_c::ORDON, 52);
+    south_faron_warp = getSaveSwitch(dSv_memory_c::FARON, 71);
+    north_faron_warp = getSaveSwitch(dSv_memory_c::FARON, 2);
+    grove_warp = getSaveSwitch(dSv_memory_c::GROVE, 100);
+    gorge_warp = getSaveSwitch(dSv_memory_c::FIELD, 21);
+    kakariko_warp = getSaveSwitch(dSv_memory_c::ELDIN, 31);
+    mountain_warp = getSaveSwitch(dSv_memory_c::ELDIN, 21);
+    bridge_warp = getSaveSwitch(dSv_memory_c::FIELD, 99);
+    castle_town_warp = getSaveSwitch(dSv_memory_c::FIELD, 3);
+    lake_hylia_warp = getSaveSwitch(dSv_memory_c::LANAYRU, 10);
+    domain_warp = getSaveSwitch(dSv_memory_c::LANAYRU, 2);
+    uzr_warp = getSaveSwitch(dSv_memory_c::LANAYRU, 21);
+    snowpeak_warp = getSaveSwitch(dSv_memory_c::SNOWPEAK, 21);
+    mesa_warp = getSaveSwitch(dSv_memory_c::DESERT, 21);
+    mirror_warp = getSaveSwitch(dSv_memory_c::DESERT, 40);
+
+    if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
-		MenuRendering::set_menu(MN_FLAGS_INDEX);
+        MenuRendering::set_menu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -74,69 +84,71 @@ void PortalFlagsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
-            case SPRING_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.ordon_flags.flags[13] ^= 1 << 4;
-                break;
-            }
-            case S_FARON_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.faron_flags.flags[19] ^= 1 << 7;
-                break;
-            }
-            case N_FARON_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.faron_flags.flags[11] ^= 1 << 2;
-                break;
-            }
-            case GROVE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.grove_flags.flags[23] ^= 1 << 4;
-                break;
-            }
-            case GORGE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case KAKARIKO_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.eldin_flags.flags[8] ^= 1 << 7;
-                break;
-            }
-            case MOUNTAIN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.eldin_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case BRIDGE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[23] ^= 1 << 3;
-                break;
-            }
-            case TOWN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.hyrule_field_flags.flags[11] ^= 1 << 3;
-                break;
-            }
-            case LAKE_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[10] ^= 1 << 2;
-                break;
-            }
-            case DOMAIN_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[11] ^= 1 << 2;
-                break;
-            }
-            case UZR_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.lanayru_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case SNOWPEAK_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.snowpeak_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case MESA_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.desert_flags.flags[9] ^= 1 << 5;
-                break;
-            }
-            case MIRROR_WARP_INDEX: {
-                tp_gameInfo.overworld_flags.desert_flags.flags[14] ^= 1 << 0;
-                break;
-            }
+        case SPRING_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::ORDON, 52);
+            break;
         }
+        case S_FARON_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::FARON, 71);
+            break;
+        }
+        case N_FARON_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::FARON, 2);
+            break;
+        }
+        case GROVE_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::GROVE, 100);
+            break;
+        }
+        case GORGE_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::FIELD, 21);
+            break;
+        }
+        case KAKARIKO_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::ELDIN, 31);
+            break;
+        }
+        case MOUNTAIN_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::ELDIN, 21);
+            break;
+        }
+        case BRIDGE_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::FIELD, 99);
+            break;
+        }
+        case TOWN_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::FIELD, 3);
+            break;
+        }
+        case LAKE_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::LANAYRU, 10);
+            break;
+        }
+        case DOMAIN_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::LANAYRU, 2);
+            break;
+        }
+        case UZR_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::LANAYRU, 21);
+            break;
+        }
+        case SNOWPEAK_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::SNOWPEAK, 21);
+            break;
+        }
+        case MESA_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::DESERT, 21);
+            break;
+        }
+        case MIRROR_WARP_INDEX: {
+            setSaveSwitch(dSv_memory_c::DESERT, 40);
+            break;
+        }
+        }
+        // copy stage save flags to temp flags
+        dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
     }
 
     Utilities::move_cursor(cursor, LINES);

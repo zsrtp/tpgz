@@ -1,8 +1,9 @@
-# <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.jpg" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
+# <a href="http://tehurn.com/tp" target="_blank" rel="noopener noreferrer"><img src="./res/icons/icon.png" height="36" width="36" align="top" style="padding-top:3px;"/></a> tpgz
 
 Twilight Princess ROM hack to practice speedrunning.
 
-- [Creating an ISO](./docs/CreatingAnIso.md) - Create your own practice ISO.
+[tpgz.io](https://tpgz.io) - Patch your ISO using our web patcher  
+(For patching offline, follow this [guide](./docs/CreatingAnIso.md))
 
 ⚠️ tpgz is still in early development.<br>
 If you have questions or need help, ask in the [#tools-dev](https://discord.gg/m2vmcyT) channel of the [TP Speedrunning Discord](https://discord.gg/tp).
@@ -23,7 +24,7 @@ cheats menu:
 - invincible                    // Makes Link invincible (no hurtbox, but can still take fall damage and drown)
 - invincible enemies            // Makes some enemies invincible (infinite health)
 - moon jump                     // Hold R+A to moon jump
-- door storage                  // Toggle door storage collision
+- door storage                  // Can walk through most objects/walls
 - super clawshot                // Clawshot is long, fast, and can grab most things
 - unrestricted items            // Link can use any item anywhere
 - transform anywhere            // Link can transform into/from wolf anywhere
@@ -34,6 +35,7 @@ flags menu:
 - dungeon flags                 // Toggle various dungeon flags
 - portal flags                  // Toggle warp portal flags
 - temp flags                    // Toggle local temporary flags
+- flag log                      // Toggle logging flag changes*
 
 general flags menu:
 - boss flag                     // Set the boss flag value. Press A to lock the value
@@ -66,7 +68,7 @@ memory menu:
 - editor                        // Browse and edit the memory
 
 practice menu:
-- Load practice files* (supports popular Any% and 100% locations)
+- Load practice files* (supports popular Any%, 100%, and All Dungeons locations)
 
 scene menu:
 - disable bg music*             // Disables background and enemy music
@@ -81,6 +83,7 @@ scene menu:
 settings menu:
 - area reload behavior          // load area = Reload last area; load file = Reload last file
 - cursor color                  // Changes the color of the cursor in TPGZ's menus (green, blue, red, orange, yellow, purple)
+- font                          // Changes TPGZ menu font
 - drop shadows                  // Adds shadows to all font letters
 - menu position                 // Changes the position of various menus and tools from TPGZ
 - save card                     // Save settings to memory card
@@ -91,20 +94,27 @@ tools menu:
 - fast bonk recovery            // Reduces bonk animation significantly
 - fast movement                 // Link's movement is much faster
 - gorge checker                 // Use L+Z to warp to Kakariko Gorge
-- input viewer                  // Show current inputs (buttons only for now)
+- input viewer                  // Show current inputs
 - link debug info               // Show Link's position, angle, and speed
 - no sinking in sand            // Link won't sink in sand
 - roll checker                  // Frame counter for chaining rolls
 - teleport                      // dpadUp to set, dpadDown to load
-- timer                         // Frame timer: Z+A to start/stop, Z+B to reset
+- turbo mode                    // Hold an input to continously trigger
+- timer                         // Timer: Z+A to start/stop, Z+B to reset
 - load timer                    // Loading timer: Z+B to reset
-- igt timer                     // In Game Time frame timer: Z+A to start/stop, Z+B to reset
-- free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed
-- move link*                    // Moves link in 3D
+- igt timer                     // In-game Time frame timer: Z+A to start/stop, Z+B to reset
+- free cam                      // Z+A+B to activate, Stick/L/R to move, C-stick to look, Z to speed-up
+- move link*                    // L+R+Y to activate, Stick to move, C-stick to move/change angle, Z to speed-up
 - link tunic color:             // Changes Link's tunic color (green, blue, red, orange, yellow, white, or cycle)
 
 warping menu:
-- warp to dungeons, towns, grottos, etc.
+- type                          // Change stage sort type
+- stage                         // Select stage to load
+- room                          // Select room of stage to load
+- spawn                         // Select Link spawnpoint ID
+- layer                         // Select stage layer (leave as default unless necessary)
+- warp                          // Load selected stage info
+- save                          // Set savefile location to selected location (need to be in pause menu)
 ```
 
 ### Known Issues
@@ -112,7 +122,8 @@ warping menu:
 ```
 - disabled bg music tool may not always disable bg music
 - loading practice files can crash in certain situations
-- to be able to move link vertically, he must enter a falling state
+- using move link tool, link is stuck to the ground unless entering a falling state
+- some flags not logged by flag logger yet
 ```
 
 ### Planned Features
@@ -121,8 +132,7 @@ warping menu:
 - actor spawner
 - frame advance
 - collision viewer
-- menu font selector
-- lag counter & loading counter
+- lag counter
 ```
 
 ## Contributing

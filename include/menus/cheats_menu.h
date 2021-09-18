@@ -1,3 +1,4 @@
+#pragma once
 #include "menu.h"
 
 class CheatsMenu : public Menu {

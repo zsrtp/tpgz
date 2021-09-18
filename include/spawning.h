@@ -1,12 +1,12 @@
 #pragma once
 
 #include <stdint.h>
-#include "libtp_c/include/tp.h"
 #include <string.h>
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 struct ActorMemory {
     uint32_t params;
-    Vec3 coord;
+    Vec coord;
     uint16_t rotation[2];
     uint16_t flag;
     uint16_t enemyId;
@@ -18,7 +18,7 @@ struct ActorMemory {
 struct ActorTemplate {
     uint8_t name[8];
     uint32_t params;
-    Vec3 coord;
+    Vec coord;
     uint16_t rotation[2];
     uint16_t flag;
     uint16_t enemyId;
@@ -31,16 +31,16 @@ struct ActorInfo {
     uint8_t param2;
 };
 
-#define fopAcM_CreateAppend_addr 0x80019AA8
+/* #define fopAcM_CreateAppend_addr 0x80019AA8
 #define dStage_ActorCreate_addr 0x80024EFC
 
-typedef ActorMemory *(*fopAcM_CreateAppend_t)(void);
-typedef void (*dStage_ActorCreate_t)(ActorTemplate &, ActorMemory &);
+typedef ActorMemory* (*fopAcM_CreateAppend_t)(void);
+typedef void (*dStage_ActorCreate_t)(ActorTemplate&, ActorMemory&);
 
 #define fopAcM_CreateAppend ((fopAcM_CreateAppend_t)fopAcM_CreateAppend_addr)
 #define dStage_ActorCreate ((dStage_ActorCreate_t)dStage_ActorCreate_addr)
 
-void createActor(const char *name, Vec3 &coord, uint16_t rotation) {
+void createActor(const char* name, Vec3& coord, uint16_t rotation) {
     ActorTemplate actTemp;
     actTemp.coord.x = coord.x;
     actTemp.coord.y = coord.y;
@@ -50,9 +50,9 @@ void createActor(const char *name, Vec3 &coord, uint16_t rotation) {
     actTemp.enemyId = -1;
     actTemp.rotation[0] = 0;
     actTemp.rotation[1] = rotation;
-    strcpy((char *)(actTemp.name), name);
+    strcpy((char*)(actTemp.name), name);
 
-    ActorMemory *mem = fopAcM_CreateAppend();
+    ActorMemory* mem = fopAcM_CreateAppend();
     mem->params = actTemp.params;
     mem->coord.x = actTemp.coord.x;
     mem->coord.y = actTemp.coord.y;
@@ -66,9 +66,9 @@ void createActor(const char *name, Vec3 &coord, uint16_t rotation) {
     dStage_ActorCreate(actTemp, *mem);
 }
 
-void spawn(const char *name) {
+void spawn(const char* name) {
     auto link = TP::get_link_debug();
     if (link) {
         createActor(name, link->position, link->facing);
     }
-}
+} */

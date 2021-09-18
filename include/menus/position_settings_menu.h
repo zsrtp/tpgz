@@ -1,3 +1,5 @@
+#pragma once
+
 #include "menu.h"
 
 #define SPRITES_AMNT 7
@@ -14,7 +16,7 @@ enum SpritesIndex {
 extern Vec2 sprite_offsets[SPRITES_AMNT];
 
 class PosSettingsMenu : public Menu {
-   public:
+public:
     static void initDefaults();
     PosSettingsMenu() : Menu() {}
     static void render();

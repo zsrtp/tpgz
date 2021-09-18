@@ -1,13 +1,13 @@
-#include "libtp_c/include/tp.h"
-#include "font.h"
 #include "menus/position_settings_menu.h"
-#include "menus/settings_menu.h"
-#include "controller.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
-#include "fifo_queue.h"
-#include "utils/draw.h"
 #include <cstdio>
+#include "controller.h"
+#include "fifo_queue.h"
+#include "font.h"
+#include "menus/settings_menu.h"
+#include "utils/cursor.h"
+#include "utils/draw.h"
+#include "utils/lines.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 
 #define LINES SPRITES_AMNT
 #define NO_SELECTION ((uint8_t)-1)
@@ -36,7 +36,7 @@ Line lines[LINES] = {
     {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
 
 void draw_cursor(Vec2 pos) {
-    bool cycle = (TP::get_frame_count() / 8) % 2;
+    bool cycle = (cCt_getFrameCount() / 8) % 2;
     if (g_drop_shadows) {
         Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x - 10 + 1, pos.y + 1}, {20, 0}, 0xA);
         Draw::draw_rect_outline(DROP_SHADOWS_RGBA, {pos.x + 1, pos.y - 10 + 1}, {0, 20}, 0xA);
@@ -46,12 +46,12 @@ void draw_cursor(Vec2 pos) {
 }
 
 void PosSettingsMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    if (button_is_pressed(BACK_BUTTON)) {
         if (selected_item != NO_SELECTION) {
             selected_item = NO_SELECTION;
         } else {
             init_once = false;
-		    MenuRendering::set_menu(MN_SETTINGS_INDEX);
+            MenuRendering::set_menu(MN_SETTINGS_INDEX);
             return;
         }
     };
@@ -62,7 +62,7 @@ void PosSettingsMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
+    if (current_input == SELECTION_BUTTON && a_held == false) {
         if (cursor.y < SPRITES_AMNT) {
             selected_item = selected_item == cursor.y ? NO_SELECTION : cursor.y;
         }
@@ -85,11 +85,8 @@ void PosSettingsMenu::render() {
         draw_cursor(sprite_offsets[selected_item]);
     }
 
-    if (button_is_down(Controller::DPAD_RIGHT) ||
-        button_is_down(Controller::DPAD_LEFT) ||
-        button_is_down(Controller::DPAD_UP) ||
-        button_is_down(Controller::DPAD_DOWN)) 
-	{
+    if (button_is_down(Controller::DPAD_RIGHT) || button_is_down(Controller::DPAD_LEFT) ||
+        button_is_down(Controller::DPAD_UP) || button_is_down(Controller::DPAD_DOWN)) {
         if (speed < MAX_SPEED) {
             speed *= INCREMENT_FACTOR;
         }
@@ -100,7 +97,8 @@ void PosSettingsMenu::render() {
         speed = INITAL_SPEED;
     }
 
-    Utilities::move_cursor(cursor, LINES, 1, selected_item != NO_SELECTION, selected_item != NO_SELECTION);
+    Utilities::move_cursor(cursor, LINES, 1, selected_item != NO_SELECTION,
+                           selected_item != NO_SELECTION);
     Utilities::render_lines(lines, cursor.y, LINES);
 }
 

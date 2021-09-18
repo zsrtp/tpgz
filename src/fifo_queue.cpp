@@ -1,6 +1,6 @@
-#include "libtp_c/include/system.h"
 #include "fifo_queue.h"
 #include "font.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 
 bool fifo_visible;
@@ -19,7 +19,8 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
         }
         color |= alpha;
         if (fifo_visible) {
-            Font::renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x), offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
+            Font::renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x),
+                              offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
         }
     }
 };

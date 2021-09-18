@@ -6,7 +6,8 @@ enum WarpingIndex {
     WARP_ROOM_INDEX,
     WARP_SPAWN_INDEX,
     WARP_LAYER_INDEX,
-    WARP_BUTTON_INDEX
+    WARP_BUTTON_INDEX,
+    SAVE_LOCATION_INDEX
 };
 
 struct StageInfo {
@@ -30,7 +31,7 @@ struct WarpInfo {
     StageInfo stage_info;
     RoomInfo room_info;
     SpawnInfo spawn_info;
-}__attribute__((aligned(32)));
+} __attribute__((aligned(32)));
 
 class WarpingMenu : public Menu {
 public:

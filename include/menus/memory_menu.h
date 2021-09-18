@@ -1,26 +1,11 @@
+#pragma once
 #include "menu.h"
 
 #define MAX_WATCHES 10
 
-enum MemoryType {
-    u8,
-    i8,
-    u16,
-    i16,
-    u32,
-    i32,
-    f32,
-    string
-};
+enum MemoryType { u8, i8, u16, i16, u32, i32, f32, string };
 
-enum MemoryColumns {
-    WatchAddress,
-    WatchX,
-    WatchY,
-    WatchHex,
-    WatchType,
-    WatchOffset
-};
+enum MemoryColumns { WatchAddress, WatchX, WatchY, WatchHex, WatchType, WatchOffset };
 
 struct MemoryWatch {
     uint32_t address = 0x80000000;

@@ -1,16 +1,15 @@
-#include "libtp_c/include/tp.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/controller.h"
-#include "menus/hundo_saves_menu.h"
-#include "menus/practice_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
+#include "gorge.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "menus/practice_menu.h"
+#include "rollcheck.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
-#include "gorge.h"
-#include "rollcheck.h"
-#include "save_injector.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 
 #include "fs.h"
 #define LINES 82
@@ -106,9 +105,9 @@ Line lines[LINES] = {
     {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
 void default_load() {
-    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
+    gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::inject_default_before;
+    gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::inject_default_during;
+    gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::inject_default_after;
     inject_save_flag = true;
     fifo_visible = true;
     MenuRendering::set_menu(MN_NONE_INDEX);
@@ -116,175 +115,184 @@ void default_load() {
 }
 
 void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = camera.target;
-    tp_matrixInfo.matrix_info->pos = camera.pos;
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
+    tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
+    tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
+    dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
+    dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }
 
 void set_angle_position() {
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
+    dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
+    dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }
 
 void goats_1() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x5;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x5;
 }
 
 void goats_2() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x4;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x4;
 }
 
 void purple_mist() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.link.is_wolf = false;
+    gSaveManager.inject_default_during();
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void kb2_skip() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.epona_debug_ptr->position = {-92098.1797, -5563.54883, 22599.9102};  // spawn near clip spot
-    tp_gameInfo.warp.entrance.state = 0x3;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x3;
 }
 
 void escort() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xD;
-    tp_gameInfo.warp.entrance.spawn = 0x62;
-    tp_gameInfo.warp.entrance.state = 0x2;
-    tp_gameInfo.temp_flags.flags[28] = 2;  // give 2 keys for field gates
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0xD;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x62;
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x2;
+    dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
 void dangoro() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 32;  // turn off intro cs, start fight
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x200000;  // turn off intro cs, start fight
 }
 
 void morpheel() {
-    tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
-    tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
-    angle = 10754;
-    position = {-1193.0f, -23999.0f, -770.0f};
+    dComIfGp_getPlayer()->field_0x2fdc = 68;                          // clawshot
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
+    gSaveManager.mPracticeSaveInfo.angle = 10754;
+    gSaveManager.mPracticeSaveInfo.position = {-1193.0f, -23999.0f, -770.0f};
     set_angle_position();
 }
 
 void karg_oob() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
-    tp_gameInfo.link.is_wolf = false;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void iza_1_skip() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;                        // spawn on kargorok
-    tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
-    tp_gameInfo.warp.entrance.room = 0x1;
-    tp_gameInfo.warp.entrance.spawn = 0x0;
-    tp_gameInfo.warp.entrance.state = 0x4;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;                       // spawn on kargorok
+    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, "F_SP112");  // set stage to river
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0x1;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x0;
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0x4;
 }
 
 void stallord() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
-    tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
-}
-
-void dark_hammer() {
-    //figure out how to disable armor sets then load in with boss flag for instant fight
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
+        0x300000;                                      // turn off intro cs, start fight
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x01;  // spawn at in front of stally
 }
 
 void spr_bosskey() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
-    tp_gameInfo.warp.entrance.spawn = 0x00;  // default spawn
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 0xB;  // boss key room
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x00;  // default spawn
 }
 
 void tot_early_poe() {
-    SaveInjector::inject_default_during();
-    angle = 49299;
-    position = {-2462.85f, 2750.0f, -7.10f};
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 49299;
+    gSaveManager.mPracticeSaveInfo.position = {-2462.85f, 2750.0f, -7.10f};
     set_angle_position();
 }
 
 void tot_early_hp() {
-    SaveInjector::inject_default_during();
-    angle = 49152;
-    position = {-8000.50f, 5100.0f, -3226.17f};
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 49152;
+    gSaveManager.mPracticeSaveInfo.position = {-8000.50f, 5100.0f, -3226.17f};
     set_angle_position();
 }
 
 void hugo_archery() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
+    gSaveManager.inject_default_during();
+    // tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.spawn = 0x0;
-    angle = 71;
-    position = {-14005.31f, 3000.0f, -15854.05f};
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x0;
+    gSaveManager.mPracticeSaveInfo.angle = 71;
+    gSaveManager.mPracticeSaveInfo.position = {-14005.31f, 3000.0f, -15854.05f};
     set_angle_position();
 }
 
+void fan_tower() {
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;
+}
+
 void argorok() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 1;
+    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x10000;
+}
+
+void palace1() {
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;
 }
 
 void palace2() {
-    tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
-    SaveInjector::inject_default_during();
-    angle = 32731;
-    position = {251.83f, -200.0f, 10993.50f};
+    dComIfGp_getPlayer()->field_0x2fdc = 3;  // master sword
+    gSaveManager.inject_default_during();
+    gSaveManager.mPracticeSaveInfo.angle = 32731;
+    gSaveManager.mPracticeSaveInfo.position = {251.83f, -200.0f, 10993.50f};
     set_angle_position();
 }
 
 void lakebed_bk_skip_during() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
+    gSaveManager.inject_default_during();
+    dComIfGs_onSwitch(122, dComIfGp_getPlayer()->mOrig.mRoomNo);  // dungeon intro cs off
+}
+
+void bossflags() {
+    gSaveManager.inject_default_during();
+    tp_bossFlags = 0xFF;
 }
 
 void cave_of_ordeals() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.floors.floor_01_08 = 0;  // reset all CoO doors on load
-    tp_gameInfo.floors.floor_09_17 = 0;
-    tp_gameInfo.floors.floor_18_26 = 0;
-    tp_gameInfo.floors.floor_27_34 = 0;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;
 }
 
-struct {
-    int idx;
-    void (*cb_during)(void);
-    void (*cb_after)(void);
-} specials[] = {
-    {HND_GOATS_1_INDEX, goats_1, nullptr},
-    {HND_GOATS_2_INDEX, goats_2, nullptr},
-    {HND_MIST_INDEX, purple_mist, nullptr},
-    {HND_KARG_INDEX, karg_oob, nullptr},
-    {HND_KB_2_INDEX, kb2_skip, nullptr},
-    {HND_ESCORT_INDEX, escort, nullptr},
-    {HND_DANGORO_INDEX, dangoro, nullptr},
-    {HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr},
-    {HND_MORPHEEL_INDEX, nullptr, morpheel},
-    {HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr},
-    {HND_STALLORD_INDEX, stallord, nullptr},
-    {HND_DARK_HAMMER_INDEX, nullptr, nullptr},  // place dark_hammer() where ever when it is implemented
-    {HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr},
-    {HND_EARLY_POE_INDEX, tot_early_poe, nullptr},
-    {HND_EARLY_HP_INDEX, tot_early_hp, nullptr},
-    {HND_CITY_EARLY_INDEX, hugo_archery, nullptr},
-    {HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr},
-    {HND_ARGOROK_INDEX, argorok, nullptr},
-    {HND_PALACE_2_INDEX, nullptr, palace2},
-    {HND_COO_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_10_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_20_INDEX, cave_of_ordeals, nullptr},
-    {HND_COO_30_INDEX, cave_of_ordeals, nullptr},
-};
-
 void HundoSavesMenu::render() {
-    if (button_is_pressed(Controller::B)) {
+    special HundoSpecials[HND_SPECIALS_AMNT] = {
+        special(HND_GOATS_1_INDEX, goats_1, nullptr),
+        special(HND_GOATS_2_INDEX, goats_2, nullptr),
+        special(HND_MIST_INDEX, purple_mist, nullptr),
+        special(HND_KARG_INDEX, karg_oob, nullptr),
+        special(HND_KB_2_INDEX, kb2_skip, nullptr),
+        special(HND_ESCORT_INDEX, escort, nullptr),
+        special(HND_DANGORO_INDEX, nullptr, dangoro),
+        special(HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
+        special(HND_MORPHEEL_INDEX, nullptr, morpheel),
+        special(HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr),
+        special(HND_STALLORD_INDEX, nullptr, stallord),
+        special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
+        special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
+        special(HND_LAKEBED_1_INDEX, bossflags, nullptr),
+        special(HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr),
+        special(HND_EARLY_POE_INDEX, tot_early_poe, nullptr),
+        special(HND_EARLY_HP_INDEX, tot_early_hp, nullptr),
+        special(HND_CITY_EARLY_INDEX, hugo_archery, nullptr),
+        special(HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr),
+        special(HND_FAN_TOWER_INDEX, fan_tower, nullptr),
+        special(HND_ARGOROK_INDEX, nullptr, argorok),
+        special(HND_PALACE_1_INDEX, palace1, nullptr),
+        special(HND_PALACE_2_INDEX, nullptr, palace2),
+        special(HND_COO_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_10_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_20_INDEX, cave_of_ordeals, nullptr),
+        special(HND_COO_30_INDEX, cave_of_ordeals, nullptr)};
+
+    if (button_is_pressed(BACK_BUTTON)) {
         MenuRendering::set_menu(MN_PRACTICE_INDEX);
         init_once = false;
         return;
@@ -295,19 +303,9 @@ void HundoSavesMenu::render() {
         init_once = true;
     }
 
-    if (current_input == Controller::Pad::A && a_held == false) {
-        Utilities::load_save(cursor.y,(char*)"hundo");
+    if (current_input == SELECTION_BUTTON && a_held == false) {
+        SaveManager::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
-        for (size_t i = 0; i < sizeof(specials) / sizeof(specials[0]); ++i) {
-            if (cursor.y == specials[i].idx) {
-                if (specials[i].cb_during != nullptr) {
-                    practice_file.inject_options_during_load = specials[i].cb_during;
-                }
-                if (specials[i].cb_after != nullptr) {
-                    practice_file.inject_options_after_load = specials[i].cb_after;
-                }
-            }
-        }
     }
 
     Utilities::move_cursor(cursor, LINES);

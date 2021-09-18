@@ -1,10 +1,9 @@
 *.dmp
 *.o
 *.a
-gz2e01.iso
-rzde01.iso
-GZ2E01.map
-RZDE01.map
+*.iso
+*.map
+regional-patch.asm
 build/
 .vscode/
 !.vscode/c_cpp_properties.json
@@ -12,3 +11,4 @@ external/fonts/target
 external/fonts/build
 Updater.log
 __pycache__
+RomHack.toml

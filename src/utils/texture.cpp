@@ -1,10 +1,10 @@
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/addrs.h"
-#include "gcn_c/include/gfx.h"
-#include "gcn_c/include/dvd.h"
-#include "utils/disc.h"
 #include "utils/texture.h"
+#include "libtp_c/include/addrs.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "utils/disc.h"
+#include "gcn_c/include/dvd.h"
+#include "gcn_c/include/gfx.h"
 
 enum TexFmt {
     RGB8 = 0,
@@ -17,17 +17,17 @@ extern "C" {
 #endif
 
 uint32_t get_size(uint32_t format, uint32_t width, uint32_t height) {
-    switch(format) {
-        case TexFmt::CMPR: {
-            return width * height / 2;
-        }
-        case TexFmt::I8: {
-            return width * height;
-        }
-        case TexFmt::RGB8:
-        default: {
-            return 4 * width * height;
-        }
+    switch (format) {
+    case TexFmt::CMPR: {
+        return width * height / 2;
+    }
+    case TexFmt::I8: {
+        return width * height;
+    }
+    case TexFmt::RGB8:
+    default: {
+        return 4 * width * height;
+    }
     }
 }
 
@@ -42,7 +42,7 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
         free_texture(tex);
     }
 
-    if(!DVDOpen(path, &fileInfo)) {
+    if (!DVDOpen(path, &fileInfo)) {
         tex->loadCode = TexCode::TEX_ERR_FILE;
         return tex->loadCode;
     }
@@ -55,23 +55,23 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
 
     uint8_t fmt = GX_TF_I8;
     switch (tex->header.format) {
-        case TexFmt::RGB8: {
-            fmt = GX_TF_RGBA8;
-            break;
-        }
-        case TexFmt::CMPR: {
-            fmt = GX_TF_CMPR;
-            break;
-        }
-        case TexFmt::I8: {
-            fmt = GX_TF_I8;
-            break;
-        }
-        default: {
-            DVDClose(&fileInfo);
-            tex->loadCode = TexCode::TEX_ERR_INVALID_FORMAT;
-            return tex->loadCode;
-        }
+    case TexFmt::RGB8: {
+        fmt = GX_TF_RGBA8;
+        break;
+    }
+    case TexFmt::CMPR: {
+        fmt = GX_TF_CMPR;
+        break;
+    }
+    case TexFmt::I8: {
+        fmt = GX_TF_I8;
+        break;
+    }
+    default: {
+        DVDClose(&fileInfo);
+        tex->loadCode = TexCode::TEX_ERR_INVALID_FORMAT;
+        return tex->loadCode;
+    }
     }
 
     uint32_t size = get_size(tex->header.format, tex->header.width, tex->header.height);
@@ -91,7 +91,8 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
     DVDClose(&fileInfo);
 
     tp_memset(&tex->_texObj, 0, sizeof(GXTexObj));
-    GX_InitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    GX_InitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP,
+                  GX_CLAMP, GX_FALSE);
     tex->loadCode = TexCode::TEX_OK;
     return tex->loadCode;
 }
@@ -119,7 +120,8 @@ void setupRendering() {
     GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
     GX_SetNumTexGens(1);
-    GX_SetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_DTTIDENTITY);
+    GX_SetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
+                       GX_DTTIDENTITY);
 
     GX_SetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_TEXC, GX_CC_ZERO);
     GX_SetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_RASA, GX_CA_TEXA, GX_CA_ZERO);
