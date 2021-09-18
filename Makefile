@@ -32,11 +32,15 @@ INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
 GZ_VERSION  ?=  0.4
 
+ifdef PR_TEST
+RUN_PR_TEST := -D PR_TEST=1
+endif
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM -D GZ_VERSION=$(GZ_VERSION)
+CFLAGS	= -g -c -O2 -Wall $(MACHDEP) $(INCLUDE) -D $(PLATFORM)_$(REGION) -D $(PLATFORM)_PLATFORM -D GZ_VERSION=$(GZ_VERSION) $(RUN_PR_TEST)
 CXXFLAGS	=	$(CFLAGS)
 
 #---------------------------------------------------------------------------------
