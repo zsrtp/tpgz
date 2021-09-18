@@ -79,7 +79,7 @@ void reload_area() {
     inject_save_flag = true;
     if (g_area_reload_behavior == LOAD_AREA) {
         tp_memcpy(
-            &g_dComIfG_gameInfo.mInfo.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
+            &g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
             sizeof(
                 gSaveManager.mAreaReloadOpts.temp_flags));  // restore last set of saved temp flags
 

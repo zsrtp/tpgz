@@ -19,18 +19,18 @@ SaveManager gSaveManager;
 
 void SaveManager::inject_save(void* buffer) {
     tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, 2392);
-    dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+    dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
 void SaveManager::inject_memfile(void* buffer) {
-    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, 3818);
-    dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
+    dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
 void SaveManager::inject_default_before() {
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastSpeedF = 0.0f;
+    g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 0.0f;
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0;
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0;
 }
 
@@ -43,19 +43,18 @@ void SaveManager::inject_default_during() {
     }
 
     // Get default state based on file info
-    int state =
-        tp_getLayerNo((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
-                      g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId, 0xFF);
+    int state = tp_getLayerNo((char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
+                              g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo, 0xFF);
 
     // Next stage info
-    g_dComIfG_gameInfo.mInfo.mRestart.mStartPoint =
-        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
+    g_dComIfG_gameInfo.info.mRestart.mStartPoint =
+        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
     g_dComIfG_gameInfo.play.mNextStage.mRoomNo =
-        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId;
+        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo;
     g_dComIfG_gameInfo.play.mNextStage.mPoint =
-        g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId;
+        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
     tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
-              (char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage);
+              (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
     g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
     // fixes some bug causing link to auto drown, figure out later
@@ -66,12 +65,12 @@ void SaveManager::inject_default_during() {
 #ifdef GCN_PLATFORM
     if (g_swap_equips_flag) {
         uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_X);
-        uint8_t tmp_mix = dComIfGs_getMixItemIndex(MIX_ITEM_X);
+        uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_X);
 
         dComIfGs_setSelectItemIndex(SELECT_ITEM_X, dComIfGs_getSelectItemIndex(SELECT_ITEM_Y));
         dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, tmp);
-        dComIfGs_setMixItemIndex(MIX_ITEM_X, dComIfGs_getMixItemIndex(MIX_ITEM_Y));
-        dComIfGs_setMixItemIndex(MIX_ITEM_Y, tmp_mix);
+        dComIfGs_setMixItemIndex(SELECT_ITEM_X, dComIfGs_getMixItemIndex(SELECT_ITEM_Y));
+        dComIfGs_setMixItemIndex(SELECT_ITEM_Y, tmp_mix);
     }
 #endif
     // add wii swap equip logic here later
@@ -207,4 +206,11 @@ void SaveManager::trigger_load() {
             }
         }
     }
+}
+
+void SaveManager::setLinkInfo() {
+    dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+             gSaveManager.mPracticeSaveInfo.position.z);
+    dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
 }

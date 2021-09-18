@@ -8,6 +8,7 @@
 #include "utils/lines.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/utils.h"
 
 #define LINES 7
 #define SPAWN_OFFSET 4
@@ -248,26 +249,21 @@ void WarpingMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case WARP_BUTTON_INDEX: {
-            tp_memcpy(&g_dComIfG_gameInfo.play.mNextStage.mStage, &warp_info.stage_info.stage_id,
-                      8);
-            g_dComIfG_gameInfo.play.mNextStage.mRoomNo = warp_info.room_info.room_id[0];
-            g_dComIfG_gameInfo.play.mNextStage.mPoint = warp_info.spawn_info.spawn_id[0];
-            g_dComIfG_gameInfo.play.mNextStage.mLayer = layer;
+            setNextStageName(warp_info.stage_info.stage_id);
+            setNextStageRoom(warp_info.room_info.room_id[0]);
+            setNextStagePoint(warp_info.spawn_info.spawn_id[0]);
+            setNextStageLayer(layer);
             init_once = false;
             fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
             g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
-            g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0;
+            g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
             g_dComIfG_gameInfo.play.mNextStage.enabled = true;
             break;
         }
         case SAVE_LOCATION_INDEX: {
-            tp_memcpy(&g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
-                      &warp_info.stage_info.stage_id, 8);
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId =
-                warp_info.room_info.room_id[0];
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId =
-                warp_info.spawn_info.spawn_id[0];
+            setReturnPlace(warp_info.stage_info.stage_id, warp_info.room_info.room_id[0],
+                           warp_info.spawn_info.spawn_id[0]);
             break;
         }
         }

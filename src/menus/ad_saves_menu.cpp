@@ -10,6 +10,7 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
+#include "libtp_c/include/utils.h"
 
 #include "fs.h"
 #define LINES 50
@@ -89,34 +90,33 @@ void hugo() {
 void karg_oob() {
     gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
     dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void morpheel() {
-    dComIfGp_getPlayer()->field_0x2fdc = 68;                          // clawshot
+    dComIfGp_getPlayer()->mHeldItem = HOOKSHOT;                       // clawshot
     dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
 }
 
 void stallord() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |=
-        0x300000;                                      // turn off intro cs, start fight
-    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0x01;  // spawn at in front of stally
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
 void argorok() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mZone[0].mBit.mSwitch[0] |= 0x10000;
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x10000;
 }
 
 void palace1() {
     gSaveManager.inject_default_during();
-    g_dComIfG_gameInfo.mInfo.mDan.mSwitch[0] = 0;  // reset palace switches
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset palace switches
 }
 
 void palace2() {
-    dComIfGp_getPlayer()->field_0x2fdc = 3;  // master sword
+    dComIfGp_getPlayer()->mHeldItem = 3;  // master sword
 }
 
 void lakebed_bk_skip_during() {
