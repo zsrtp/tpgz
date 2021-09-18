@@ -17,6 +17,7 @@
 
 HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
+HOOK_DEF(void, ExceptionCallback, (void));
 HOOK_DEF(void, draw, (void*));
 
 struct PadStatus {
@@ -28,6 +29,10 @@ struct PadStatus {
 #endif
 #ifdef WII_PLATFORM
 #define PAD_READ_RETURN_OFFSET (0x2DC)
+#endif
+
+#ifdef GCN_NTSCU
+#define CRASH_ADDRESS (0x80450580)
 #endif
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
@@ -62,6 +67,13 @@ void gameLoopHook(void) {
 void drawHook(void* p1) {
     drawTrampoline(p1);
     draw();
+}
+
+void myExceptionCallbackHook(void) {
+    ExceptionCallbackTrampoline();
+    *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
+    DCFlushRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
+    ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
 }
 
 uint32_t readControllerHook(uint16_t* p1) {
@@ -177,6 +189,10 @@ void apply_hooks() {
     APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, HK_ONEVENTBIT_INDEX, onEventBitHook);
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, HK_OFFEVENTBIT_INDEX, offEventBitHook);
     APPLY_HOOK(putSave, tp_putSave_addr, HK_PUTSAVE_INDEX, putSaveHook);
+#ifdef PR_TEST
+    APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr, HK_MYEXCEPTIONCALLBACK_INDEX,
+               myExceptionCallbackHook);
+#endif
 
 #undef APPLY_HOOK
 }
