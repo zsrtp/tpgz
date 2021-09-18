@@ -25,5 +25,5 @@ jobs:
       run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
     - name: Boot Dolphin
       run: |
-        dolphin-emu-nogui --platform=headless --video_backend=Null -e ./GZ2E01.iso &
-        sleep 30 && /dme -c 0x80450580
+        dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
+        sleep 15 && /dme -c 0x80450580
