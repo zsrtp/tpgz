@@ -76,7 +76,7 @@ void myExceptionCallbackHook(void) {
     DCFlushRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
     ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
 }
-#endif // PR_TEST
+#endif  // PR_TEST
 
 uint32_t readControllerHook(uint16_t* p1) {
     auto returnValue = PADReadTrampoline(p1);
