@@ -3,7 +3,7 @@ name: DevkitPPC Make
 on: pull_request
 
 
-runs-on: [self-hosted, linux]
+runs-on: [self-hosted, linux, X64]
 
 jobs:
   build:
