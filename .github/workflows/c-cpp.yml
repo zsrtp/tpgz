@@ -7,7 +7,7 @@ jobs:
     runs-on: [self-hosted, linux, X64]
     container:
       image: ghcr.io/pheenoh/zsrtp-tpgz:latest
-      options: --shm-size=128m --ulimit core=-1 --privileged=true
+      options: --shm-size=128m --ulimit core=-1 --privileged=true --user 1000
       volumes:
         - /home/ec2-user/test:/tmp
     steps:
