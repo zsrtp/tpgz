@@ -105,7 +105,7 @@ uint32_t transformAnywhereHook(void* p1, void* p2, int p3) {
 static char buf[40];
 void onEventBitHook(void* addr, uint16_t pFlag) {
     if (g_flag_log_active) {
-        if (addr == &g_dComIfG_gameInfo.mInfo.mTmp) {
+        if (addr == &g_dComIfG_gameInfo.info.mTmp) {
             tp_sprintf(buf, "%s[0x%X] : %X | ON", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
             tp_sprintf(buf, "%s[0x%X] : %X | ON", "Event", pFlag >> 8, pFlag & 0xFF);
@@ -118,7 +118,7 @@ void onEventBitHook(void* addr, uint16_t pFlag) {
 
 void offEventBitHook(void* addr, uint16_t pFlag) {
     if (g_flag_log_active) {
-        if (addr == &g_dComIfG_gameInfo.mInfo.mTmp) {
+        if (addr == &g_dComIfG_gameInfo.info.mTmp) {
             tp_sprintf(buf, "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
             tp_sprintf(buf, "%s[0x%X] : %X | OFF", "Event", pFlag >> 8, pFlag & 0xFF);

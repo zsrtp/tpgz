@@ -19,13 +19,13 @@ void unlock_camera() {
 }
 
 void hide_hud() {
-    g_drawHIO.hud = 0xFFFF;
+    g_drawHIO.mHUDAlpha = 0.0f;
     hud_run_once = true;
 }
 
 void show_hud() {
     if (hud_run_once) {
-        g_drawHIO.hud = 0x3F80;
+        g_drawHIO.mHUDAlpha = 1.0f;
         hud_run_once = false;
     }
 }

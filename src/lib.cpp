@@ -108,8 +108,8 @@ void game_loop() {
 
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
-        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.mInfo.mMemory,
-                  sizeof(g_dComIfG_gameInfo.mInfo.mMemory));
+        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
+                  sizeof(g_dComIfG_gameInfo.info.mMemory));
         for (int i = 0; i < 4; i++) {
             gSaveManager.mAreaReloadOpts.tears[i] = dComIfGs_getLightDropNum(i);
         }

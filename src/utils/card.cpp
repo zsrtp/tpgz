@@ -232,7 +232,7 @@ void store_memfile(Card& card) {
     if (card.card_result == Ready || card.card_result == Exist) {
         card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
         if (card.card_result == Ready) {
-            dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+            dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
             setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
                            g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
 
