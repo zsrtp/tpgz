@@ -31,6 +31,10 @@ struct PadStatus {
 #define PAD_READ_RETURN_OFFSET (0x2DC)
 #endif
 
+#ifdef GCN_NTSCU
+#define CRASH_ADDRESS (0x80450580)
+#endif
+
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
 HOOK_DEF(void, setSpecialGravity, (float, float, int));
@@ -67,9 +71,9 @@ void drawHook(void* p1) {
 
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
-    *reinterpret_cast<uint32_t*>(0x80450580) = 1;
-    DCFlushRange((void*)(0x80450580), sizeof(uint32_t));
-    ICInvalidateRange((void*)(0x80450580), sizeof(uint32_t));
+    *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
+    DCFlushRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
+    ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
 }
 
 uint32_t readControllerHook(uint16_t* p1) {

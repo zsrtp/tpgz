@@ -59,9 +59,6 @@ void apply_lib_hooks() {
 }
 
 void init() {
-    void *ptr = (void *)0x00000000;  // a random memory address
-    goto *ptr;                      // jump there -- probably crash
-
     Font::load_font("tpgz/fonts/consola.fnt");
     Draw::init();
     PosSettingsMenu::initDefaults();
