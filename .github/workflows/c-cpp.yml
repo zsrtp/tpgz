@@ -8,6 +8,8 @@ jobs:
     container:
       image: ghcr.io/pheenoh/zsrtp-tpgz:latest
       options: --shm-size=128m --ulimit core=-1 --privileged=true
+      volumes:
+        - /home/ec2-user/test:/tmp
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -22,7 +24,8 @@ jobs:
       run: mv /gz2e01.iso ./GZ2E01.iso
       # hacky work around to catch failures since romhack always returns 0 exit code
     - name: Run Romhack
-      run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
+      run: romhack
+      #run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
