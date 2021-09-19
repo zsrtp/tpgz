@@ -180,6 +180,7 @@ libs = ["tpgz.a", "external/libtp_c/libtp_c.a", "external/gcn_c/gcn_c.a"]
 "tpgz/save_files/ad/morpheel.bin" = "res/save_files/ad/morpheel.bin"
 "tpgz/save_files/ad/mdh.bin" = "res/save_files/ad/mdh.bin"
 "tpgz/save_files/ad/mountain.bin" = "res/save_files/ad/mountain.bin"
+"tpgz/save_files/ad/mountain_umd.bin" = "res/save_files/ad/mountain_umd.bin"
 "tpgz/save_files/ad/spr1.bin" = "res/save_files/ad/spr1.bin"
 "tpgz/save_files/ad/darkhammer.bin" = "res/save_files/ad/darkhammer.bin"
 "tpgz/save_files/ad/spr_boost.bin" = "res/save_files/ad/spr_boost.bin"
