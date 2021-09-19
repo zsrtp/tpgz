@@ -62,6 +62,7 @@ void initHook(void* p1, void* p2, void* p3) {
 void gameLoopHook(void) {
     game_loop();
     fapGm_ExecuteTrampoline();
+    post_game_loop();
 }
 
 void drawHook(void* p1) {
