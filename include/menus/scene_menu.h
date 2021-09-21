@@ -2,7 +2,7 @@
 
 #include "menu.h"
 
-#define SCENE_AMNT 9
+#define SCENE_AMNT 10
 namespace Scene {
 enum SceneIndex {
     DISABLE_BG_INDEX,
@@ -13,7 +13,8 @@ enum SceneIndex {
     HIDE_HUD_INDEX,
     FREEZE_TIME_INDEX,
     TIME_HOURS_INDEX,
-    TIME_MINUTES_INDEX
+    TIME_MINUTES_INDEX,
+    ACTOR_MENU_INDEX,
 };
 
 struct SceneItem {

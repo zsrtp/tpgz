@@ -19,6 +19,7 @@
 #include "menus/warping_menu.h"
 #include "menus/ad_saves_menu.h"
 #include "menus/memfiles_menu.h"
+#include "menus/actor_spawn_menu.h"
 
 typedef void (*menu_render_t)();
 
@@ -31,7 +32,7 @@ menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
     SettingsMenu::render,     ToolsMenu::render,       PauseMenu::render,
     AmountsMenu::render,      AnySavesMenu::render,    HundoSavesMenu::render,
     PosSettingsMenu::render,  FlagLogMenu::render,     ADSavesMenu::render,
-    MemfilesMenu::render};
+    MemfilesMenu::render,     ActorSpawnMenu::render};
 
 menu_render_t currentMenu = nullptr;
 
