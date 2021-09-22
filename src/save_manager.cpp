@@ -207,7 +207,8 @@ void SaveManager::trigger_load() {
             }
         }
         // should clean this up eventually
-        if (tp_fopScnRq.isLoading && gSaveManager.repeat_during && gSaveManager.repeat_count != apply_during_counter) {
+        if (tp_fopScnRq.isLoading && gSaveManager.repeat_during &&
+            gSaveManager.repeat_count != apply_during_counter) {
             if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
                 gSaveManager.mPracticeFileOpts.inject_options_after_load();
             }
@@ -223,8 +224,9 @@ void SaveManager::trigger_load() {
 void SaveManager::setLinkInfo() {
     if (dComIfGp_getPlayer()) {
         dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
-                gSaveManager.mPracticeSaveInfo.position.z);
+        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
+                 gSaveManager.mPracticeSaveInfo.position.y,
+                 gSaveManager.mPracticeSaveInfo.position.z);
         dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
     }
 }
