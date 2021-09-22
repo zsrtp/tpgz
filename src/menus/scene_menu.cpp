@@ -62,10 +62,10 @@ void SceneMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
         switch (cursor.y) {
-            case ACTOR_MENU_INDEX: {
-                MenuRendering::set_menu(MN_ACTOR_SPAWNER_INDEX);
-                return;
-            }
+        case ACTOR_MENU_INDEX: {
+            MenuRendering::set_menu(MN_ACTOR_SPAWNER_INDEX);
+            return;
+        }
         }
     }
     switch (cursor.y) {
