@@ -23,7 +23,8 @@ bool params_selected = false;
 
 Line lines[LINES] = {{"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / X/Y to scroll)", false},
                      {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
-                     {"actor subtype:", ACTOR_SUBTYPE_INDEX, "Actor subtype (default: -1) (Dpad / X/Y to scroll)", false},
+                     {"actor subtype:", ACTOR_SUBTYPE_INDEX,
+                      "Actor subtype (default: -1) (Dpad / X/Y to scroll)", false},
                      {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false}};
 
 void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
@@ -193,7 +194,8 @@ void ActorSpawnMenu::render() {
         }
         render_selected_number_selector(buf, 170.0f, 80.0f, param_index, 7, 0xFFFFFFFF);
     } else {
-        Font::gz_renderChars(buf, 170.0f, 80.0f, (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
+        Font::gz_renderChars(buf, 170.0f, 80.0f,
+                             (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
                              g_drop_shadows);
     }
 
