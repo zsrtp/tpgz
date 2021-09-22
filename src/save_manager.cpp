@@ -13,6 +13,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
 int apply_after_counter = 0;
+int apply_during_counter = 0;
 int injection_counter = 0;
 char currentFileName[80];
 SaveManager gSaveManager;
@@ -205,12 +206,27 @@ void SaveManager::trigger_load() {
                 apply_after_counter++;
             }
         }
+        // should clean this up eventually
+        if (tp_fopScnRq.isLoading && gSaveManager.repeat_during &&
+            gSaveManager.repeat_count != apply_during_counter) {
+            if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
+                gSaveManager.mPracticeFileOpts.inject_options_after_load();
+            }
+            apply_during_counter++;
+        } else {
+            apply_during_counter = 0;
+            gSaveManager.repeat_during = false;
+            gSaveManager.repeat_count = 0;
+        }
     }
 }
 
 void SaveManager::setLinkInfo() {
-    dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-    cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
-             gSaveManager.mPracticeSaveInfo.position.z);
-    dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+    if (dComIfGp_getPlayer()) {
+        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
+                 gSaveManager.mPracticeSaveInfo.position.y,
+                 gSaveManager.mPracticeSaveInfo.position.z);
+        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+    }
 }

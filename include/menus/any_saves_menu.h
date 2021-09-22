@@ -1,6 +1,6 @@
 #include "menu.h"
 
-#define ANY_SPECIALS_AMNT 17
+#define ANY_SPECIALS_AMNT 18
 
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,
@@ -37,6 +37,7 @@ enum AnyPracticeIndex {
     POE_1_SKIP_INDEX,
     DSS_INDEX,
     STALLORD_INDEX,
+    STALLORD2_INDEX,
     CITS_EARLY_INDEX,
     CITS_1_INDEX,
     AERALFOS_SKIP_INDEX,
