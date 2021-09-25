@@ -10,7 +10,7 @@ git clone https://github.com/zsrtp/tpgz.git
 
 2.  In the root `tpgz` folder, run:
 
-```
+```bash
 git submodule update --init --recursive
 ```
 
@@ -55,9 +55,9 @@ git submodule update --init --recursive
     - If you don't set these, the default values of `GCN` and `NTSCU` will be assumed when building.
 
 
-6.  Run `make` in the root `tpgz` folder to compile the code.
+7.  Run `make` in the root `tpgz` folder to compile the code.
 
-7.  Run `romhack build --raw` to create a new ISO with our changes applied.
+8.  Run `romhack build --raw` to create a new ISO with our changes applied.
 
     - The new ISO is located at `build/tpgz.iso`.
 
