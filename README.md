@@ -120,8 +120,6 @@ warping menu:
 ### Known Issues
 
 ```
-- disabled bg music tool may not always disable bg music
-- loading practice files can crash in certain situations
 - using move link tool, link is stuck to the ground unless entering a falling state
 - some flags not logged by flag logger yet
 ```
@@ -129,7 +127,6 @@ warping menu:
 ### Planned Features
 
 ```
-- actor spawner
 - frame advance
 - collision viewer
 - lag counter
