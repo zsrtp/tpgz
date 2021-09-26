@@ -11,9 +11,13 @@
 #include "utils/lines.h"
 #include "utils/loading.h"
 #include "libtp_c/include/utils.h"
+#include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "libtp_c/include/rel/d/a/b/d_a_b_ds.h"
+#include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
+#include "libtp_c/include/f_op/f_op_actor_iter.h"
 
 #include "fs.h"
-#define LINES 49
+#define LINES 50
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -53,6 +57,7 @@ Line lines[LINES] = {
     {"poe 1 skip", POE_1_SKIP_INDEX, "The pillar jump in Arbiter's Grounds"},
     {"death sword", DSS_INDEX, "The Arbiter's Grounds miniboss"},
     {"stallord", STALLORD_INDEX, "The Arbiter's Grounds boss"},
+    {"stallord 2", STALLORD2_INDEX, "Stallord 2nd phase"},
     {"city in the sky early", CITS_EARLY_INDEX, "Clip to the cannon early"},
     {"city in the sky 1", CITS_1_INDEX, "The first City in the Sky segment"},
     {"aeralfos skip", AERALFOS_SKIP_INDEX, "The City in the Sky miniboss"},
@@ -76,6 +81,16 @@ void hugo() {
     dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
+void spawn_hugo() {
+    gSaveManager.setSaveAngle(40166);
+    gSaveManager.setSavePosition(2.9385, 396.9580, -18150.087);
+    gSaveManager.setLinkInfo();
+
+    cXyz position(-289.9785, 401.5400, -18533.078);
+    fopAcM_create(468, 0x0000F100, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
+                  &dComIfGp_getPlayer()->mCurrent.mAngle, nullptr, 0xFF);
+}
+
 void karg_oob() {
     gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
     gSaveManager.inject_default_during();
@@ -86,6 +101,45 @@ void karg_oob() {
 void morpheel() {
     dComIfGp_getPlayer()->mHeldItem = HOOKSHOT;                       // clawshot
     dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
+}
+
+void stallord_2() {
+    gSaveManager.mPracticeFileOpts.inject_options_after_counter = 20;
+
+    daB_DS_c* stallord = (daB_DS_c*)fopAcM_SearchByName(246);          // stallord proc name
+    daObjLv4Sand_c* sand = (daObjLv4Sand_c*)fopAcM_SearchByName(189);  // sand proc name
+
+    if (stallord != NULL) {
+        stallord->mBase.mParameters |= 0x2;   // make actor phase 2 version
+        stallord->mAttentionInfo.mFlags = 4;  // makes stallord targetable when hit down
+        stallord->mActionMode1 = 1;           // make stallord head active
+        stallord->mGravity = 0.0f;            // change gravity to 0
+        g_env_light.mWeatherPalette = 2;      // set arena light
+        sand->mSpeed.y = 1000.0f;             // move sand out of the way
+
+        dComIfGs_onOneZoneSwitch(6, stallord->mCurrent.mRoomNo);
+        dComIfGs_onZoneSwitch(7, stallord->mCurrent.mRoomNo);  // sets arena to raised
+
+        stallord->mCurrent.mPosition.x = -2097.20f;  //-2397.22f;
+        stallord->mCurrent.mPosition.y = 1022.21f;   // 1697.20f;
+        stallord->mCurrent.mPosition.z = -1246.87f;  // 1131.33f;
+
+        dComIfGp_getPlayer()->mCurrent.mPosition.x = 644.91f;
+        dComIfGp_getPlayer()->mCurrent.mPosition.y = 300.3158f;
+        dComIfGp_getPlayer()->mCurrent.mPosition.z = 2195.0237f;
+        dComIfGp_getPlayer()->mCollisionRot.mY = 39350;
+        // tp_matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
+        // tp_matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
+    }
+}
+
+void stallord2_init() {
+    gSaveManager.repeat_during = true;
+    gSaveManager.repeat_count = 120;
+
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
 void stallord() {
@@ -136,11 +190,12 @@ void waterfall_sidehop() {
 
 void AnySavesMenu::render() {
     special AnySpecials[ANY_SPECIALS_AMNT] = {
-        special(HUGO_INDEX, hugo, nullptr),
+        special(HUGO_INDEX, hugo, spawn_hugo),
         special(KARG_INDEX, karg_oob, nullptr),
         special(LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
         special(ONEBOMB_INDEX, nullptr, morpheel),
         special(STALLORD_INDEX, stallord, nullptr),
+        special(STALLORD2_INDEX, stallord2_init, stallord_2),
         special(FRST_ESCAPE_INDEX, bossflags, nullptr),
         special(GORGE_VOID_INDEX, bossflags, nullptr),
         special(RUPEE_ROLL_INDEX, bossflags, nullptr),

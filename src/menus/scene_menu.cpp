@@ -2,7 +2,6 @@
 #include "controller.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
-
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #define LINES SCENE_AMNT
@@ -31,7 +30,8 @@ Line lines[LINES] = {
     {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true,
      &SceneItems[FREEZE_TIME_INDEX].active},
     {"time (hrs):", TIME_HOURS_INDEX, "The current in-game hour", false},
-    {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false}};
+    {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false},
+    {"actor spawner", ACTOR_MENU_INDEX, "Spawn Actors at current position", false}};
 
 void SceneMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -61,6 +61,12 @@ void SceneMenu::render() {
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
         SceneItems[cursor.y].active = !SceneItems[cursor.y].active;
+        switch (cursor.y) {
+        case ACTOR_MENU_INDEX: {
+            MenuRendering::set_menu(MN_ACTOR_SPAWNER_INDEX);
+            return;
+        }
+        }
     }
     switch (cursor.y) {
     case TIME_HOURS_INDEX: {

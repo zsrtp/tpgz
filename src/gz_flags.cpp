@@ -17,6 +17,7 @@
 #include "save_manager.h"
 #include "menus/memfiles_menu.h"
 #include "corotdcheck.h"
+#include "umd.h"
 
 bool inject_save_flag = false;
 
@@ -27,6 +28,7 @@ GZFlag GZ_Flags[MAX_GZ_FLAGS] = {
 #endif
     {&ToolItems[Tools::ROLL_INDEX].active, GAME_LOOP, RollIndicator::run},
     {&ToolItems[Tools::COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::run},
+    {&ToolItems[Tools::UMD_INDEX].active, POST_GAME_LOOP, UMDIndicator::run},
     {&inject_save_flag, GAME_LOOP, SaveManager::trigger_load},
     {&SceneItems[Scene::FREEZE_ACTOR_INDEX].active, GAME_LOOP, Actor::freeze_actors,
      Actor::unfreeze_actors},

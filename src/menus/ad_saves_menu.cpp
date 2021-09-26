@@ -13,7 +13,7 @@
 #include "libtp_c/include/utils.h"
 
 #include "fs.h"
-#define LINES 50
+#define LINES 51
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -41,6 +41,7 @@ Line lines[LINES] = {
     {"morpheel", AD_MORPHEEL_INDEX, "Morpheel fight (no Zora Armor)"},
     {"mdh", AD_MDH_INDEX, "MDH segment"},
     {"mountain", AD_MOUNTAIN_INDEX, "Climbing up Snowpeak mountain"},
+    {"mountain umd", AD_MOUNTAIN_UMD_INDEX, "Snowpeak Mountain UMD"},
     {"snowpeak", AD_SPR_INDEX, "The Snowpeak Ruins dungeon segment"},
     {"dark hammer", AD_DARK_HAMMER_INDEX, "The Snowpeak Ruins miniboss"},
     {"snowpeak bomb boost", AD_SPR_BOOST_INDEX, "Bomb boost to SPR 2nd floor"},

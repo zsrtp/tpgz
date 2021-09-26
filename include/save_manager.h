@@ -83,6 +83,8 @@ public:
     AreaReload mAreaReloadOpts;
     special* mSpecials;
     bool loading_initiated = false;
+    int repeat_count = 0;
+    bool repeat_during = false;
 
 public:
     static void inject_save(void* buffer);

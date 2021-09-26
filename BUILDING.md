@@ -2,29 +2,64 @@
 
 ## Compiling
 
-1.  Clone the repo with `git clone https://github.com/hallcristobal/tpgz.git`
+1.  Clone the repo locally.
 
-3)  In the root `tpgz` folder, run:
+```bash
+git clone https://github.com/zsrtp/tpgz.git
+```
 
-    ```
-    git submodule update --init --recursive
-    ```
+2.  In the root `tpgz` folder, run:
 
-4)  Copy your NTSC-U Twilight Princess ISO to the root `tpgz` folder, then rename it to `gz2e01.iso`.
+```bash
+git submodule update --init --recursive
+```
 
-5)  Install devkitpro.
+3.  Copy your Twilight Princess ISO into the root `tpgz` folder. You will need to rename the ISO based on which platform and region you're building for.
+
+    | Game Version | ISO Name   |
+    |--------------|------------|
+    | Gamecube USA | GZ2E01.iso |
+    | Gamecube PAL | GZ2P01.iso |
+    | Gamecube JPN | GZ2J01.iso |
+    | Wii USA 1.0  | RZDE01.iso |
+    | Wii PAL      | RZDP01.iso |
+
+4.  Install devkitpro.
 
     - Windows: Download [here](https://github.com/devkitPro/installer/releases)
     - MacOS/Linux: Read [this guide](https://devkitpro.org/wiki/Getting_Started)
 
-6)  Download [Romhack-Compiler](https://github.com/hallcristobal/romhack-compiler/releases).
-    This is used to add our compiled code into the ISO.<br>
-    _(It is recommended that you add romhack.exe to your PATH.)_
+5.  Download the latest [Romhack-Compiler](https://github.com/zsrtp/romhack-compiler/releases).
+    
+    - This is used to add our compiled code into the ISO.
+    - It is recommended that you add romhack.exe to your PATH.
 
-7)  Run `make` in the root `tpgz` folder to compile the code.
+6. Set the **PLATFORM** and **REGION** environment variables to build your specific version of the game.
 
-8)  Run `romhack build --raw` to create a new ISO with our changes applied.<br>
-    The new ISO is located at `build/tpgz.iso`.
+    Linux: 
+
+    ```bash
+    export PLATFORM="GCN"
+    export REGION="NTSCU"
+    ```
+
+    Windows (PowerShell):
+
+    ```powershell
+    $env:PLATFORM = "GCN"
+    $env:REGION = "NTSCU"
+    ```
+
+    - Supported values for PLATFORM are `GCN` and `WII`
+    - Supported values for REGION are `NTSCU`, `NTSCU_10`, `NTSCJ` and `PAL`
+    - If you don't set these, the default values of `GCN` and `NTSCU` will be assumed when building.
+
+
+7.  Run `make` in the root `tpgz` folder to compile the code.
+
+8.  Run `romhack build --raw` to create a new ISO with our changes applied.
+
+    - The new ISO is located at `build/tpgz.iso`.
 
 ## Using Patches
 
@@ -41,7 +76,7 @@ Patch files are a convenient way to share your changes with others.
 - To apply a patch, run:
 
   ```
-  romhack apply <example.patch> <ntsc-u-input.iso> <output.iso>
+  romhack apply <example.patch> <input.iso> <output.iso>
   ```
 
   Your patched ISO will be named \<output.iso>.
