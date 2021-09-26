@@ -45,14 +45,14 @@ Line lines[LINES] = {
 };
 
 bool getSaveSwitch(int32_t stage, int32_t flag) {
-    return dSv_memBit_c__isSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+    return dSv_memBit_c__isSwitch(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
 }
 
 void setSaveSwitch(int32_t stage, int32_t flag) {
     if (getSaveSwitch(stage, flag)) {
-        dSv_memBit_c__offSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+        dSv_memBit_c__offSwitch(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
     } else {
-        dSv_memBit_c__onSwitch(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+        dSv_memBit_c__onSwitch(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
     }
 }
 
@@ -148,7 +148,7 @@ void PortalFlagsMenu::render() {
         }
         }
         // copy stage save flags to temp flags
-        dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+        dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
     }
 
     Utilities::move_cursor(cursor, LINES);

@@ -1,16 +1,17 @@
-#include "utils/card.h"
 #include "commands.h"
 #include "fifo_queue.h"
-#include "utils/loading.h"
-#include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
-#include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menus/practice_menu.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
-#include "libtp_c/include/SSystem/SComponent/c_counter.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/utils.h"
 #include "menus/memfiles_menu.h"
+#include "menus/practice_menu.h"
 #include "save_manager.h"
+#include "utils/card.h"
+#include "utils/loading.h"
 
 bool inject_memfile_flag = false;
 
@@ -176,9 +177,10 @@ int32_t read_memfile(Storage* storage, PositionData& posData, int32_t sector_siz
         return result;                                                                             \
     }
 
-    assert_result(storage_read(storage, (void*)sTmpBuf, 3818, 0, sector_size));
+    assert_result(storage_read(storage, (void*)sTmpBuf, sizeof(dSv_info_c), 0, sector_size));
 
-    assert_result(storage_read(storage, &posData, sizeof(posData), 3819, sector_size));
+    assert_result(
+        storage_read(storage, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
 
 #undef assert_result
     return result;
@@ -188,8 +190,9 @@ void store_mem_card(Storage& storage) {
     GZSaveFile save_file;
     Utilities::setup_save_file(save_file);
     Utilities::store_save_layout(save_file.data);
-    uint32_t file_size = (uint32_t)(
-        tp_ceil((double)sizeof(save_file) / (double)storage.sector_size) * storage.sector_size);
+    uint32_t file_size =
+        (uint32_t)(tp_ceil((double)sizeof(save_file) / (double)storage.sector_size) *
+                   storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
     if (storage.result == Ready || storage.result == Exist) {
@@ -218,29 +221,27 @@ void store_memfile(Storage& storage) {
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
     uint32_t file_size =
-        (uint32_t)(tp_ceil((double)3818 / (double)storage.sector_size) * storage.sector_size);
+        (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) *
+                   storage.sector_size);
+
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
+
     if (storage.result == Ready || storage.result == Exist) {
         storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
         if (storage.result == Ready) {
-            dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+            dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mSpawnId = 0;
-            g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mRoomId =
-                g_dComIfG_gameInfo.play.mEvtManager.field_0x1b0 & 0xFF;
-            tp_strcpy((char*)g_dComIfG_gameInfo.mInfo.getPlayer().player_return.mCurrentStage,
-                      (char*)g_dComIfG_gameInfo.play.mStartStage.mStage);
-            storage.result = Utilities::storage_write(&storage, &g_dComIfG_gameInfo, 3818, 0,
-                                                      storage.sector_size);
+            setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
+                           g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
 
-            storage.result = Utilities::storage_write(&storage, &posData, sizeof(posData), 3819,
-                                                      storage.sector_size);
+            storage.result = Utilities::storage_write(&storage, &g_dComIfG_gameInfo,
+                                                      sizeof(dSv_info_c), 0, storage.sector_size);
+            storage.result = Utilities::storage_write(&storage, &posData, sizeof(posData),
+                                                      sizeof(dSv_info_c) + 1, storage.sector_size);
             if (storage.result == Ready) {
-                tp_osReport("saved memfile!");
                 FIFOQueue::push("saved memfile!", Queue);
             } else {
-                tp_osReport("failed to save");
                 char buff[32];
                 tp_sprintf(buff, "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
@@ -253,10 +254,8 @@ void store_memfile(Storage& storage) {
 void delete_mem_card(Storage& storage) {
     storage.result = StorageDelete(0, storage.file_name_buffer);
     if (storage.result == Ready) {
-        tp_osReport("deleted card!");
         FIFOQueue::push("deleted card!", Queue);
     } else {
-        tp_osReport("failed to delete");
         char buff[32];
         tp_sprintf(buff, "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
@@ -266,10 +265,8 @@ void delete_mem_card(Storage& storage) {
 void delete_memfile(Storage& storage) {
     storage.result = StorageDelete(0, storage.file_name_buffer);
     if (storage.result == Ready) {
-        tp_osReport("deleted memfile!");
         FIFOQueue::push("deleted memfile!", Queue);
     } else {
-        tp_osReport("failed to delete");
         char buff[32];
         tp_sprintf(buff, "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
@@ -283,12 +280,10 @@ void load_mem_card(Storage& storage) {
         store_save_layout(save_file.data);
         storage.result = read_save_file(&storage, save_file, storage.sector_size);
         if (storage.result == Ready) {
-            tp_osReport("loaded card!");
             FIFOQueue::push("loaded card!", Queue);
             load_save_layout(save_file.data);
             SettingsMenu::initFont();
         } else {
-            tp_osReport("failed to load");
             char buff[32];
             tp_sprintf(buff, "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);
@@ -303,7 +298,6 @@ void load_memfile(Storage& storage) {
         PositionData posData;
         storage.result = read_memfile(&storage, posData, storage.sector_size);
         if (storage.result == Ready) {
-            tp_osReport("loaded memfile!");
             FIFOQueue::push("loaded memfile!", Queue);
             inject_memfile_flag = true;
             SaveManager::inject_default_before();
@@ -311,12 +305,11 @@ void load_memfile(Storage& storage) {
             SaveManager::inject_default_during();
             SaveManager::inject_default_after();
             load_position_data(posData);
+            set_position_data = true;
             inject_save_flag = true;
             fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
-
         } else {
-            tp_osReport("failed to load");
             char buff[32];
             tp_sprintf(buff, "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);

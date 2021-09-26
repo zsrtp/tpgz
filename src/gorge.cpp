@@ -7,6 +7,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "libtp_c/include/utils.h"
 
 #define WARP_CS_FRAMES 132
 #ifdef WII_PLATFORM
@@ -31,37 +32,36 @@ static char buf[20];
 
 void prep_rupee_roll() {
     dComIfGs_onSwitch(21, dComIfGp_getPlayer()->mOrig.mRoomNo);
-    dComIfGp_getEvent().event_order.field_0x10 = 9;
+    dComIfGp_getEvent().mOrder[0].mEventId = 9;
     inject_gorge_flag = false;
 }
 
 void warp_to_gorge() {
     // set gorge map info
-    g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mSwitch[0] = 0;  // optimize later
-    dComIfGs_putSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+    g_dComIfG_gameInfo.info.mMemory.mBit.mSwitch[0] = 0;  // optimize later
+    dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 
     // change form to wolf
     dComIfGs_setTransformStatus(STATUS_WOLF);
 
     // set loading info
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0;
-    g_dComIfG_gameInfo.mInfo.mRestart.mRoomParam = 0;
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode = 0;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint = 2;
-    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = 3;
-    g_dComIfG_gameInfo.play.mNextStage.mLayer = 0xE;
-    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, "F_SP121");
+    g_dComIfG_gameInfo.info.mRestart.mRoomParam = 0;
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
+    setNextStagePoint(2);
+    setNextStageRoom(3);
+    setNextStageLayer(0xE);
+    setNextStageName("F_SP121");
 
     // reset health, item
-    g_dComIfG_gameInfo.mInfo.mRestart.mLastMode |= 0x28000000;
+    g_dComIfG_gameInfo.info.mRestart.mLastMode |= 0x28000000;
     dComIfGs_setLife(12);  // 3 hearts
 
     // trigger loading, convert some of these to const later
-    g_dComIfG_gameInfo.mInfo.mRestart.mStartPoint = 2;
+    g_dComIfG_gameInfo.info.mRestart.mStartPoint = 2;
     cXyz pos(-11856.857f, -5700.0f, 56661.5);
-    g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos = pos;
-    g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY = 24169;
+    g_dComIfG_gameInfo.info.mRestart.mRoomPos = pos;
+    g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = 24169;
 }
 void run() {
     // reset counters on load
@@ -76,8 +76,7 @@ void run() {
 
     // situation specific frame counters
     if (start_timer == false && dComIfGp_getEvent().mHalt == 1 &&
-        dComIfGp_getEvent().event_order.field_0x10 == 0x1 &&
-        tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP121") == 0) {
+        daAlink_c__checkStageName("F_SP121")) {
         start_timer = true;
         previous_counter = current_counter;
         counter_difference = 0;
@@ -90,9 +89,6 @@ void run() {
         if (counter_difference > WARP_CS_FRAMES) {
             after_cs_val = counter_difference - WARP_CS_FRAMES;
         }
-
-        tp_sprintf(buf, "counter: %d", counter_difference);
-        tp_sprintf(buf, "inputs: %d", Controller::get_current_inputs());
 
         // only care about 10f before and after
         if (counter_difference > 123 && after_cs_val < 10) {

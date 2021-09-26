@@ -10,7 +10,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
 #define LINES 4
-#define MAX_SAVE_SLOTS 9
+#define MAX_SAVE_SLOTS 20
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -22,8 +22,8 @@ bool copy_respawn_data = false;
 char fileBuf[9];
 
 PositionData memfile_posdata;
-cXyz tmpPos = g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos;
-uint16_t tmpAngle = g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY;
+cXyz tmpPos = g_dComIfG_gameInfo.info.mRestart.mRoomPos;
+uint16_t tmpAngle = g_dComIfG_gameInfo.info.mRestart.mRoomAngleY;
 
 Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                      {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
@@ -33,8 +33,8 @@ Line lines[LINES] = {{"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
 void set_memfile_position() {
     //  respawn pos gets overwritten by default spawn, so reinject respawn info
     if (!copy_respawn_data) {
-        tmpPos = g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos;
-        tmpAngle = g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY;
+        tmpPos = g_dComIfG_gameInfo.info.mRestart.mRoomPos;
+        tmpAngle = g_dComIfG_gameInfo.info.mRestart.mRoomAngleY;
         copy_respawn_data = true;
     }
 
@@ -47,8 +47,8 @@ void set_memfile_position() {
         tp_matrixInfo.matrix_info->target = memfile_posdata.cam.target;
         tp_matrixInfo.matrix_info->pos = memfile_posdata.cam.pos;
         dComIfGp_getPlayer()->mCollisionRot.mY = memfile_posdata.angle;
-        g_dComIfG_gameInfo.mInfo.mRestart.mRoomPos = tmpPos;
-        g_dComIfG_gameInfo.mInfo.mRestart.mRoomAngleY = tmpAngle;
+        g_dComIfG_gameInfo.info.mRestart.mRoomPos = tmpPos;
+        g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = tmpAngle;
         set_position_data = false;
         copy_respawn_data = false;
         memfile_load_delay = 10;
@@ -112,8 +112,6 @@ void MemfilesMenu::render() {
                 Utilities::load_memfile(card);
             }
 #endif  // WII_PLATFORM
-            Utilities::load_memfile(card);
-            set_position_data = true;
             break;
         }
         case MEMFILE_DELETE_INDEX: {

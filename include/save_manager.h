@@ -9,6 +9,7 @@
 #include "menus/hundo_saves_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
 #define GZ_SAVE_ENTRIES_AMNT 10
@@ -94,6 +95,15 @@ public:
     static void load_save_file(const char* fileName);
     static void trigger_load();
     static void default_load();
+    static void setLinkInfo();
+
+    void setSavePosition(float x, float y, float z) {
+        mPracticeSaveInfo.position.x = x;
+        mPracticeSaveInfo.position.y = y;
+        mPracticeSaveInfo.position.z = z;
+    }
+
+    void setSaveAngle(int16_t angle) { mPracticeSaveInfo.angle = angle; }
 };
 
 extern SaveManager gSaveManager;

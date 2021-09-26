@@ -42,23 +42,23 @@ ListMember dungeon_options[MAX_DUNGEON_OPTIONS] = {
     "City in the Sky",   "Palace of Twilight", "Hyrule Castle"};
 
 bool getSaveDungeonItem(int32_t stage, int32_t flag) {
-    return dSv_memBit_c__isDungeonItem(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+    return dSv_memBit_c__isDungeonItem(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
 }
 
 void setSaveDungeonItem(int32_t stage, int32_t flag) {
     if (getSaveDungeonItem(stage, flag)) {
-        dComIfGs_getSavedata().mSave[stage].mMemBit.offDungeonItem(flag);
+        dComIfGs_getSavedata().mSave[stage].mBit.offDungeonItem(flag);
     } else {
-        dSv_memBit_c__onDungeonItem(&dComIfGs_getSavedata().mSave[stage].mMemBit, flag);
+        dSv_memBit_c__onDungeonItem(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
     }
 }
 
 uint8_t getSaveDungeonKeys(int32_t stage) {
-    return dComIfGs_getSavedata().mSave[stage].mMemBit.getKeyNum();
+    return dComIfGs_getSavedata().mSave[stage].mBit.getKeyNum();
 }
 
 void setSaveDungeonKeys(int32_t stage, uint8_t num) {
-    dComIfGs_getSavedata().mSave[stage].mMemBit.setKeyNum(num);
+    dComIfGs_getSavedata().mSave[stage].mBit.setKeyNum(num);
 }
 
 void DungeonFlagsMenu::render() {
@@ -87,7 +87,7 @@ void DungeonFlagsMenu::render() {
         if (cursor.y == SMALL_KEY_FLAG_INDEX) {
             key_num = cursor.x;
             setSaveDungeonKeys(area_id, key_num);
-            dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+            dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
         }
     } else {
         Utilities::move_cursor(cursor, LINES, 2);
@@ -133,24 +133,24 @@ void DungeonFlagsMenu::render() {
     }
 
     // update flags
-    map_flag = getSaveDungeonItem(area_id, dSv_memBit_c::MAP_FLAG);
-    compass_flag = getSaveDungeonItem(area_id, dSv_memBit_c::COMPASS_FLAG);
-    boss_key_flag = getSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY_FLAG);
+    map_flag = getSaveDungeonItem(area_id, dSv_memBit_c::MAP);
+    compass_flag = getSaveDungeonItem(area_id, dSv_memBit_c::COMPASS);
+    boss_key_flag = getSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY);
     miniboss_flag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY_2);
     boss_flag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY);
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case MAP_FLAG_INDEX: {
-            setSaveDungeonItem(area_id, dSv_memBit_c::MAP_FLAG);
+            setSaveDungeonItem(area_id, dSv_memBit_c::MAP);
             break;
         }
         case COMPASS_FLAG_INDEX: {
-            setSaveDungeonItem(area_id, dSv_memBit_c::COMPASS_FLAG);
+            setSaveDungeonItem(area_id, dSv_memBit_c::COMPASS);
             break;
         }
         case BOSS_KEY_FLAG_INDEX: {
-            setSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY_FLAG);
+            setSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY);
             break;
         }
         case DEFEAT_MINIBOSS_FLAG_INDEX: {
@@ -162,13 +162,13 @@ void DungeonFlagsMenu::render() {
             break;
         }
         case CLEAR_DUNGEON_FLAGS_INDEX: {
-            tp_memset(&dComIfGs_getSavedata().mSave[area_id].mMemBit, 0, sizeof(dSv_memBit_c));
+            tp_memset(&dComIfGs_getSavedata().mSave[area_id].mBit, 0, sizeof(dSv_memBit_c));
             key_num = 0;
             break;
         }
         }
         // copy current stage save flags over temp flags
-        dComIfGs_getSave(g_dComIfG_gameInfo.mInfo.mDan.mStageNo);
+        dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
     }
 
     tp_sprintf(lines[SMALL_KEY_FLAG_INDEX].value, " <%d>", key_num);

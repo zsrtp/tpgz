@@ -43,11 +43,6 @@ void run() {
             }
         }
 
-        tp_sprintf(buf, "counter: %d", counter_difference);
-        tp_sprintf(buf, "missed: %d", missed_counter);
-        tp_sprintf(buf, "inputs: %d", Controller::get_current_inputs());
-        tp_sprintf(buf, "action: %d", action_id);
-
         if (action_id == daAlink_c::FRONT_ROLL) {
             if (counter_difference > 20) {
                 counter_difference = 1;

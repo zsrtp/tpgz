@@ -142,8 +142,8 @@ void apply_cheats() {
 #ifdef WII_PLATFORM
             case GaleLJA: {
                 if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
-                    dComIfGp_getPlayer()->field_0x2fdc == 0xFF) {
-                    dComIfGp_getPlayer()->field_0x2fdc = 0x0103;
+                    dComIfGp_getPlayer()->mHeldItem == NO_ITEM) {
+                    dComIfGp_getPlayer()->mHeldItem = 0x0103;
                 }
             }
 #endif

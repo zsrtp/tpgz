@@ -162,22 +162,22 @@ void FlagRecordsMenu::render() {
     switch (record_index) {
     case 0: {
         max_flags = 0x20;
-        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mMemory.mMemBit.mTbox);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mMemory.mBit.mTbox);
         break;
     }
     case 1: {
         max_flags = 0x100;
-        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mSavedata.mEvent.mEvent);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mSavedata.mEvent.mEvent);
         break;
     }
     case 2: {
         max_flags = 0x18;
-        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mSavedata.mMiniGame);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mSavedata.mMiniGame);
         break;
     }
     case 3: {
         max_flags = 0x18;
-        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.mInfo.mDan.mSwitch);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mDan.mSwitch);
         break;
     }
     }

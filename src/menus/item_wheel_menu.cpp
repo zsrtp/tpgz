@@ -140,7 +140,7 @@ Line lines[LINES] = {{"Slot 0:", SLOT_0, "", false, nullptr, false},
                      {"Slot 23:", SLOT_23, "", false, nullptr, false}};
 
 void updateListIdx() {
-    uint8_t item_id = dComIfGs_getSavedata().getPlayerItem().mItems[cursor.y];
+    uint8_t item_id = dComIfGs_getSavedata().getPlayer().getItem().mItems[cursor.y];
     for (int i = 0; i < TOTAL_ITEMS; i++) {
         if (item_id == valid_items[i]) {
             listIdx = i;
