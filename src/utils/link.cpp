@@ -134,10 +134,10 @@ void change_tunic_color() {
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = red_ - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = green_ - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = blue_ - 0x10;
-        // tp_gameInfo.link_tunic_ptr->not_tunic_red = 1;
-        // tp_gameInfo.link_tunic_ptr->tunic_red = red_ - 0x10;
-        // tp_gameInfo.link_tunic_ptr->tunic_green = green_ - 0x10;
-        // tp_gameInfo.link_tunic_ptr->tunic_blue = blue_ - 0x10;
+        // g_dComIfG_gameInfo.link_tunic_ptr->not_tunic_red = 1;
+        // g_dComIfG_gameInfo.link_tunic_ptr->tunic_red = red_ - 0x10;
+        // g_dComIfG_gameInfo.link_tunic_ptr->tunic_green = green_ - 0x10;
+        // g_dComIfG_gameInfo.link_tunic_ptr->tunic_blue = blue_ - 0x10;
 #endif
     }
 }

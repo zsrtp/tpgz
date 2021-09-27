@@ -46,7 +46,7 @@ float render_selected_number_selector(const char* str, float x, float y, size_t 
 }
 
 void ActorSpawnMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
+    if (Controller::button_is_pressed(BACK_BUTTON)) {
         if (params_selected) {
             lock_cursor_y = false;
             params_selected = false;
@@ -78,25 +78,25 @@ void ActorSpawnMenu::render() {
 
     switch (cursor.y) {
     case ACTOR_ID_INDEX: {
-        if (button_is_pressed(Controller::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
             actor_id++;
-        } else if (button_is_pressed(Controller::DPAD_LEFT)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
             actor_id--;
-        } else if (button_is_pressed(Controller::X)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::X)) {
             actor_id += 10;
-        } else if (button_is_pressed(Controller::Y)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::Y)) {
             actor_id -= 10;
         }
         break;
     }
     case ACTOR_SUBTYPE_INDEX: {
-        if (button_is_pressed(Controller::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
             actor_type++;
-        } else if (button_is_pressed(Controller::DPAD_LEFT)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
             actor_type--;
-        } else if (button_is_pressed(Controller::X)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::X)) {
             actor_type += 10;
-        } else if (button_is_pressed(Controller::Y)) {
+        } else if (Controller::button_is_pressed(Controller::Pad::Y)) {
             actor_type -= 10;
         }
         break;
@@ -106,21 +106,21 @@ void ActorSpawnMenu::render() {
     char buf[9];
     tp_sprintf(buf, "%08X", actor_params);
     if (params_selected) {
-        if (button_is_pressed(Controller::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
             if (param_index == 7) {
                 param_index = 0;
             } else if (param_index >= 0 && param_index < 8) {
                 param_index++;
             }
         }
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
             if (param_index == 0) {
                 param_index = 7;
             } else if (param_index >= 0 && param_index < 8) {
                 param_index--;
             }
         }
-        if (button_is_pressed(Controller::DPAD_UP)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_UP)) {
             switch (param_index) {
             case 0: {
                 actor_params += 0x10000000;
@@ -156,7 +156,7 @@ void ActorSpawnMenu::render() {
             }
             }
         }
-        if (button_is_pressed(Controller::DPAD_DOWN)) {
+        if (Controller::button_is_pressed(Controller::Pad::DPAD_DOWN)) {
             switch (param_index) {
             case 0: {
                 actor_params -= 0x10000000;

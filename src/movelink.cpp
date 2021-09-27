@@ -69,7 +69,7 @@ void move_link() {
         cXyz tmp(0.0f, 0.0f, 0.0f);
         dComIfGp_getPlayer()->mSpeed = tmp;
         // Disable Link collision (causes console crash dont use)
-        // tp_gameInfo.link_collision_ptr->no_collision = 0x7F;
+        // g_dComIfG_gameInfo.link_collision_ptr->no_collision = 0x7F;
 
         if (!init_once) {
             angle = (float)link_angle / 65536.f * (2 * M_PI);
@@ -110,7 +110,7 @@ void move_link() {
         if (init_once) {
             dComIfGp_getEvent().mHalt = false;
             dComIfGp_getEventManager().mCameraPlay = 0;
-            // tp_gameInfo.link_collision_ptr->no_collision = 0x80;
+            // g_dComIfG_gameInfo.link_collision_ptr->no_collision = 0x80;
             init_once = false;
         }
     }

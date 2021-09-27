@@ -1,4 +1,4 @@
-name: DevkitPPC Make
+name: GCN NTSC-U Tests
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/pheenoh/zsrtp-tpgz:latest
+      image: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscu
       options: --shm-size=128m --ulimit core=-1 --privileged=true
     steps:
     - name: Checkout
@@ -16,15 +16,14 @@ jobs:
       with:
         token: ${{secrets.MY_REPO_PAT}}
         submodules: recursive
-    - name: Debug Flag
+    - name: Enable PR Test Flag
       run: export PR_TEST=1
-    - name: Run Make
-      run: make
     - name: Move ISO
-      run: mv /gz2e01.iso ./GZ2E01.iso
-      # hacky work around to catch failures since romhack always returns 0 exit code
-    - name: Run Romhack
-      run: ROMHACK=$(romhack build --raw 2>&1) && ROMHACKSTRING=$(echo "$ROMHACK" | tail -c 9) && FINISHEDSTRING="Rom Hack" && echo "$ROMHACK" && if [ "$ROMHACKSTRING" != "$FINISHEDSTRING" ]; then exit 1; fi
+      run: mv /GZ2E01.iso ./
+    - name: Compiler Test
+      run: make PLATFORM=GCN REGION=NTSCU
+    - name: Linker Test
+      run: romhack build --raw
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &

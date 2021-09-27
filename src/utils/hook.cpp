@@ -34,6 +34,18 @@ struct PadStatus {
 #ifdef GCN_NTSCU
 #define CRASH_ADDRESS (0x80450580)
 #endif
+#ifdef GCN_PAL
+#define CRASH_ADDRESS (0x80452540)
+#endif
+#ifdef GCN_NTSCJ
+#define CRASH_ADDRESS (0x8044A6C0)
+#endif
+#ifdef WII_NTSCU_10
+#define CRASH_ADDRESS (0x80537560)
+#endif
+#ifdef WII_PAL
+#define CRASH_ADDRESS (0x8051DEE0)
+#endif
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));

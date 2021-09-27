@@ -61,7 +61,7 @@ void createActor(const char* name, Vec3& coord, uint16_t rotation) {
     mem->rotation[1] = actTemp.rotation[1];
     mem->flag = actTemp.flag;
     mem->enemyId = actTemp.enemyId;
-    mem->room_id = tp_gameInfo.last_room_id;
+    mem->room_id = g_dComIfG_gameInfo.last_room_id;
 
     dStage_ActorCreate(actTemp, *mem);
 }
