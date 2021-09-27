@@ -21,7 +21,7 @@ jobs:
     - name: Move ISO
       run: mv /GZ2P01.iso ./
     - name: Compiler Test
-      run: export REGION=PAL && export PLATFORM=GCN && make
+      run: make PLATFORM=GCN REGION=PAL
     - name: Linker Test
       run: romhack build --raw
     - name: Boot Dolphin

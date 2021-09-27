@@ -21,7 +21,7 @@ jobs:
     - name: Move ISO
       run: mv /RZDE01.iso ./
     - name: Compiler Test
-      run: export REGION=NTSCU_10 && export PLATFORM=WII && make
+      run: make PLATFORM=WII REGION=NTSCU_10
     - name: Linker Test
       run: romhack build --raw
     - name: Boot Dolphin

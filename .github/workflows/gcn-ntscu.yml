@@ -21,7 +21,7 @@ jobs:
     - name: Move ISO
       run: mv /GZ2E01.iso ./
     - name: Compiler Test
-      run: export REGION=NTSCU && export PLATFORM=GCN && make
+      run: make PLATFORM=GCN REGION=NTSCU
     - name: Linker Test
       run: romhack build --raw
     - name: Boot Dolphin
