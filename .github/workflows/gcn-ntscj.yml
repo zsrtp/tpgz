@@ -1,0 +1,31 @@
+name: GCN NTSC-J Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscj
+      options: --shm-size=128m --ulimit core=-1 --privileged=true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        token: ${{secrets.MY_REPO_PAT}}
+        submodules: recursive
+    - name: Enable PR Test Flag
+      run: export PR_TEST=1
+    - name: Move ISO
+      run: mv /GZ2J01.iso ./
+    - name: Compiler Test
+      run: export REGION=NTSCJ && export PLATFORM=GCN && make
+    - name: Linker Test
+      run: romhack build --raw
+    - name: Boot Dolphin
+      run: |
+        dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &
+        sleep 15
+        /dme -c 0x8044A6C0

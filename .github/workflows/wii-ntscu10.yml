@@ -1,0 +1,31 @@
+name: Wii NTSC-U 1.0 Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscu_10
+      options: --shm-size=128m --ulimit core=-1 --privileged=true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        token: ${{secrets.MY_REPO_PAT}}
+        submodules: recursive
+    - name: Enable PR Test Flag
+      run: export PR_TEST=1
+    - name: Move ISO
+      run: mv /RZDE01.iso ./
+    - name: Compiler Test
+      run: export REGION=NTSCU_10 && export PLATFORM=WII && make
+    - name: Linker Test
+      run: romhack build --raw
+    - name: Boot Dolphin
+      run: |
+        dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgzw.iso &
+        sleep 15
+        /dme -c 0x80537560

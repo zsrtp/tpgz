@@ -12,9 +12,9 @@ default_entry = {
 }
 
 # order matters
-file_names = ["ordon_gate_clip", "ordon_gate_clip", "goats", "hugo", "ems", "purple_mist", "forest_bit", "forest_escape", "gorge_void", "gorge_void", "lanayru_gate_clip", "pillar_clip", "lakebed_1", "deku_toad", "karg", "eldin_twilight", "lanayru_twilight", "waterfall_sidehop", "boss_bug", "iza", "norgor", "spr_warp", "spr", "darkhammer", "lakebed_2", "lakebed_bk_skip", "onebomb", "mdh_tower", "mdh_bridge", "camp", "ag", "poe_1_skip", "death_sword_skip", "stallord", "cits_early", "cits_1", "aeralfos_skip", "cits_2", "fan_tower", "argorok", "palace_1", "palace_2", "early_platform", "zant", "hc", "darknut", "hc_tower", "beast_ganon", "horseback_ganon", ]
+file_names = ["ordon_gate_clip", "ordon_gate_clip", "goats", "hugo", "ems", "purple_mist", "forest_bit", "forest_escape", "gorge_void", "gorge_void", "lanayru_gate_clip", "pillar_clip", "lakebed_1", "deku_toad", "karg", "eldin_twilight", "lanayru_twilight", "waterfall_sidehop", "boss_bug", "iza", "norgor", "spr_warp", "spr", "darkhammer", "lakebed_2", "lakebed_bk_skip", "onebomb", "mdh_tower", "mdh_bridge", "camp", "ag", "poe_1_skip", "death_sword_skip", "stallord", "stallord", "cits_early", "cits_1", "aeralfos_skip", "cits_2", "fan_tower", "argorok", "palace_1", "palace_2", "early_platform", "zant", "hc", "darknut", "hc_tower", "beast_ganon", "horseback_ganon", ]
 
-any_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(49)]
+any_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(50)]
 
 any_p[0]["requirements"] = REQ_POS | REQ_CAM
 any_p[0]["pos"] = (827.450012, 216.490097, -4533.90625)
@@ -125,12 +125,12 @@ any_p[31]["cam"]["pos"] = (-1779.00293, 213.707397, -584.686768)
 any_p[31]["cam"]["target"] = (-2047.97168, 130.16568, -587.317139)
 any_p[31]["counter"] = 10
 
-any_p[35]["requirements"] = REQ_POS | REQ_CAM
-any_p[35]["pos"] = (1309.60645, -240.0, 5533.43848)
-any_p[35]["angle"] = 16384
-any_p[35]["cam"]["pos"] = (1027.53259, -108.096123, 5605.23047)
-any_p[35]["cam"]["target"] = (1313.54285, -234.203003, 5545.16846)
-any_p[35]["counter"] = 10
+any_p[36]["requirements"] = REQ_POS | REQ_CAM
+any_p[36]["pos"] = (1309.60645, -240.0, 5533.43848)
+any_p[36]["angle"] = 16384
+any_p[36]["cam"]["pos"] = (1027.53259, -108.096123, 5605.23047)
+any_p[36]["cam"]["target"] = (1313.54285, -234.203003, 5545.16846)
+any_p[36]["counter"] = 10
 
 file = open("any.bin", "wb")
 

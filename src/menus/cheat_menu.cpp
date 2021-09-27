@@ -2,13 +2,10 @@
 #include "commands.h"
 #include "controller.h"
 #include "libtp_c/include/addrs.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/inventory.h"
-#include "libtp_c/include/items.h"
-#include "libtp_c/include/link.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/patch.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/cheats_menu.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
@@ -24,7 +21,7 @@
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-bool chest_collision = false;
+bool door_collision = false;
 using namespace Cheats;
 
 Cheat CheatItems[CHEAT_AMNT] = {
@@ -58,7 +55,8 @@ Line lines[LINES] = {
      &CheatItems[InvincibleEnemies].active},
     {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true,
      &CheatItems[MoonJump].active},
-    {"door storage", DoorStorage, "Disable most collision", true, &CheatItems[DoorStorage].active},
+    {"disable walls", DoorStorage, "Disables most wall collision", true,
+     &CheatItems[DoorStorage].active},
     {"super clawshot", SuperClawshot, "Super Clawshot", true, &CheatItems[SuperClawshot].active},
     {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true,
      &CheatItems[UnrestrictedItems].active},
@@ -73,8 +71,6 @@ namespace Cheats {
 using namespace Controller;
 
 void apply_cheats() {
-    Link::Link* link = Link::get_link();
-    Inventory::Inventory* inventory = Inventory::get_inventory();
     for (auto cheat : CheatItems) {
         if (cheat.active) {
             switch (cheat.id) {
@@ -85,46 +81,48 @@ void apply_cheats() {
             case InvincibleEnemies: {
                 *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x60000000;  // nop
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                           sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange(
-                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                             sizeof(uint32_t));
+                ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                  sizeof(uint32_t));
                 break;
             }
             case Invincible: {
-                if (tp_gameInfo.link_collision_ptr != nullptr) {
-                    tp_gameInfo.link_collision_ptr->invincibility_timer = 5;
+                if (dComIfGp_getPlayer()) {
+                    dComIfGp_getPlayer()->field_0x56b[2] = 5;
                 }
                 break;
             }
             case InfiniteHearts: {
-                link->heart_quarters = (link->heart_pieces / 5) * 4;
+                uint16_t max_life = dComIfGs_getMaxLife();
+                dComIfGs_setLife((max_life / 5) * 4);
                 break;
             }
             case InfiniteAir: {
-                *(Link::get_air()) = 600;
+                dComIfGs_setOxygen(600);
                 break;
             }
             case InfiniteOil: {
-                link->current_lantern_oil = 0x5460;
+                dComIfGs_setOil(21600);
                 break;
             }
             case InfiniteBombs: {
-                inventory->bomb_bag_1_amnt = 99;
-                inventory->bomb_bag_2_amnt = 99;
-                inventory->bomb_bag_3_amnt = 99;
+                dComIfGs_setBombNum(BOMB_BAG_1, 99);
+                dComIfGs_setBombNum(BOMB_BAG_2, 99);
+                dComIfGs_setBombNum(BOMB_BAG_3, 99);
                 break;
             }
             case InfiniteRupees: {
-                link->rupees = 1000;
+                dComIfGs_setRupee(1000);
                 break;
             }
             case InfiniteArrows: {
-                inventory->arrow_count = 99;
+                dComIfGs_setArrowNum(99);
                 break;
             }
             case InfiniteSlingshot: {
-                inventory->slingshot_count = 99;
+                dComIfGs_setPachinkoNum(99);
+                break;
             }
             case SuperClawshot: {
                 tp_clawshot.speed = 2870.0f;
@@ -134,19 +132,18 @@ void apply_cheats() {
                 break;
             }
             case DoorStorage: {
-                if (tp_gameInfo.link_collision_ptr != nullptr) {
-                    tp_gameInfo.link_collision_ptr->chest_collision = 0xE4;
-                    tp_gameInfo.link_collision_ptr->door_collision = 0x40;
-                    chest_collision = true;
+                if (dComIfGp_getPlayer()) {
+                    dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
+                    dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
+                    door_collision = true;
                 }
                 break;
             }
 #ifdef WII_PLATFORM
             case GaleLJA: {
-                if (tp_zelAudio.link_debug_ptr != nullptr &&
-                    tp_zelAudio.link_debug_ptr->current_action_id == 0x60 &&
-                    tp_zelAudio.link_debug_ptr->current_item == 0xFF) {
-                    tp_zelAudio.link_debug_ptr->current_item = 0x0103;
+                if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
+                    dComIfGp_getPlayer()->mHeldItem == NO_ITEM) {
+                    dComIfGp_getPlayer()->mHeldItem = 0x0103;
                 }
             }
 #endif
@@ -162,10 +159,10 @@ void apply_cheats() {
             case InvincibleEnemies: {
                 *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
                     0x7C030050;  // sub r0, r0, r3
-                gc::os_cache::DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
-                                           sizeof(uint32_t));
-                gc::os_cache::ICInvalidateRange(
-                    (void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+                DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                             sizeof(uint32_t));
+                ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                                  sizeof(uint32_t));
                 break;
             }
             case SuperClawshot: {
@@ -176,10 +173,10 @@ void apply_cheats() {
                 break;
             }
             case DoorStorage: {
-                if (tp_gameInfo.link_collision_ptr != nullptr && chest_collision == true) {
-                    tp_gameInfo.link_collision_ptr->chest_collision = 0xE0;
-                    tp_gameInfo.link_collision_ptr->door_collision = 0x20;
-                    chest_collision = false;
+                if (dComIfGp_getPlayer() && door_collision == true) {
+                    dComIfGp_getPlayer()->mLinkAcch.OffWallNone();
+                    dComIfGp_getPlayer()->mLinkAcch.OffLineCheckNone();
+                    door_collision = false;
                 }
                 break;
             }

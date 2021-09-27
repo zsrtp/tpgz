@@ -1,10 +1,11 @@
 #include "timer.h"
 #include "font.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 
 #define FRAME_RATE 29.97
 
@@ -33,7 +34,7 @@ static double igt_timer_seconds = 0.0f;
 static char igt_timer[16];
 
 void render() {
-    current_frame = TP::get_frame_count();
+    current_frame = cCt_getFrameCount();
 
     if (ToolItems[Tools::TIMER_INDEX].active) {
         if (timer_started) {

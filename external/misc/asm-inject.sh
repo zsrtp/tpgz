@@ -41,7 +41,7 @@ elif [ $1 == "GCN_PAL" ]; then
     DEBUG_INSTRUCTION="0x48000014"
 elif [ $1 == "WII_NTSCU_10" ]; then
     ARENALO="0x803449dc"
-    ARENALO_VAL="0x3c608058"
+    ARENALO_VAL="0x3c608059"
     MAIN="0x80008cec"
     MAIN_TRAMPOLINE="0x803ce3dc"
     FIRST_INSTRUCTION="0x542b06fe"
@@ -65,7 +65,7 @@ elif [ $1 == "WII_PAL" ]; then
     SET_WATER_DROP_COLOR="0x800c3dd4"
     DEBUG="0x80012084"
     DEBUG_INSTRUCTION="0x48000190"
-else 
+else
     echo "Invalid region: $1"
     exit 1
 fi

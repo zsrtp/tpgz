@@ -7,14 +7,14 @@
 #include "bit.h"
 #endif
 #include "input_viewer.h"
-#include "libtp_c/include/actor.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "movelink.h"
 #include "rollcheck.h"
 #include "timer.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "umd.h"
 #define LINES TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
 using namespace Tools;
@@ -26,15 +26,16 @@ bool init_once = false;
 bool g_tunic_color_flag;
 
 Tool ToolItems[TOOL_AMNT] = {
-    {RELOAD_AREA_INDEX, false},  {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
+    {RELOAD_AREA_INDEX, false}, {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
     {GORGE_INDEX, false},
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
-    {INPUT_VIEWER_INDEX, false}, {LINK_DEBUG_INDEX, false}, {SAND_INDEX, false},
-    {ROLL_INDEX, false},         {TELEPORT_INDEX, false},   {TURBO_MODE_INDEX, false},
-    {TIMER_INDEX, false},        {LOAD_TIMER_INDEX, false}, {IGT_TIMER_INDEX, false},
-    {FREE_CAM_INDEX, false},     {MOVE_LINK_INDEX, false}};
+    {COROTD_INDEX, false},      {UMD_INDEX, false},        {INPUT_VIEWER_INDEX, false},
+    {LINK_DEBUG_INDEX, false},  {SAND_INDEX, false},       {ROLL_INDEX, false},
+    {TELEPORT_INDEX, false},    {TURBO_MODE_INDEX, false}, {TIMER_INDEX, false},
+    {LOAD_TIMER_INDEX, false},  {IGT_TIMER_INDEX, false},  {FREE_CAM_INDEX, false},
+    {MOVE_LINK_INDEX, false}};
 
 Line lines[LINES] = {
     {"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area", true,
@@ -49,6 +50,9 @@ Line lines[LINES] = {
     {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
      &ToolItems[BIT_INDEX].active},
 #endif
+    {"coro td checker", COROTD_INDEX, "Show frame info when doing coro td", true,
+     &ToolItems[COROTD_INDEX].active},
+    {"umd checker", UMD_INDEX, "Practice Snowpeak UMD timing", true, &ToolItems[UMD_INDEX].active},
     {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
      &ToolItems[INPUT_VIEWER_INDEX].active},
     {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true,
@@ -64,9 +68,10 @@ Line lines[LINES] = {
     {"timer", TIMER_INDEX,
      "Frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[TIMER_INDEX].active},
-    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " LOAD_TIMER_TEXT " to reset", true,
+    {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[LOAD_TIMER_INDEX].active},
-    {"igt timer", IGT_TIMER_INDEX, "In-game time timer: Z+A to start/stop, Z+B to reset", true,
+    {"igt timer", IGT_TIMER_INDEX,
+     "In-game time timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
      &ToolItems[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX,
      FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
@@ -169,8 +174,8 @@ void ToolsMenu::render() {
                 break;
             }
             case SAND_INDEX: {
-                if (tp_zelAudio.link_debug_ptr != nullptr) {
-                    tp_zelAudio.link_debug_ptr->sand_height_lost = 0;
+                if (g_dComIfG_gameInfo.play.mPlayer != nullptr) {
+                    dComIfGp_getPlayer()->field_0x2ba8 = 0;
                 }
                 break;
             }

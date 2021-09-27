@@ -3,8 +3,8 @@
 #include "commands.h"
 #include "font.h"
 #include "input_viewer.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/utils.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/dolphin/mtx/vec.h"
 #include "timer.h"
 
 #define MAX_LIST_MEMBER_LENGTH 40
@@ -12,7 +12,7 @@
 #define MAX_LINE_LENGTH 50
 #define MAX_DESCRIPTION_LENGTH 100
 
-#define MAX_MENU_RENDER_FLAGS 22
+#define MAX_MENU_RENDER_FLAGS 26
 
 #ifdef GCN_PLATFORM
 #define SELECTION_BUTTON (Controller::Pad::A)
@@ -47,6 +47,10 @@ enum MenuIndex {
     MN_ANY_SAVES_INDEX,
     MN_HUNDO_SAVES_INDEX,
     MN_POS_SETTINGS_INDEX,
+    MN_FLAG_LOG_INDEX,
+    MN_AD_SAVES_INDEX,
+    MN_MEM_FILES_INDEX,
+    MN_ACTOR_SPAWNER_INDEX
 };
 
 struct ListMember {

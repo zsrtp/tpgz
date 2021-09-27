@@ -1,10 +1,9 @@
 #include "menus/pause_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/flag.h"
-#include "libtp_c/include/inventory.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/utils.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
@@ -70,7 +69,7 @@ Line lines[LINES] = {
     {"jump strike:", JUMP_STRIKE_INDEX, "Jump Strike", true, &jump_strike},
     {"greatspin:", GREAT_SPIN_INDEX, "Greatspin", true, &great_spin}};
 
-void reset_index() {
+void resetIndex() {
     ordon_sword_index = 0;
     master_sword_index = 0;
     wood_shield_index = 0;
@@ -83,46 +82,46 @@ void reset_index() {
     arrow_capacity_index = 0;
 }
 
-void get_equipment() {
-    if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 0)) {
+void getEquipment() {
+    if (dComIfGs_isItemFirstBit(SWORD)) {
         ordon_sword_index = 2;
-    } else if (tp_gameInfo.inventory.wood_sword_flag & (1UL << 7)) {
+    } else if (dComIfGs_isItemFirstBit(WOOD_STICK)) {
         ordon_sword_index = 1;
     }
 
-    if (tp_gameInfo.inventory.light_sword_flag & (1UL << 2)) {
+    if (dComIfGs_isItemFirstBit(LIGHT_SWORD)) {
         master_sword_index = 2;
-    } else if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 1)) {
+    } else if (dComIfGs_isItemFirstBit(MASTER_SWORD)) {
         master_sword_index = 1;
     }
 
-    if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 3)) {
+    if (dComIfGs_isItemFirstBit(SHIELD)) {
         wood_shield_index = 2;
-    } else if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 2)) {
+    } else if (dComIfGs_isItemFirstBit(WOOD_SHIELD)) {
         wood_shield_index = 1;
     }
 
-    if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 4)) {
+    if (dComIfGs_isItemFirstBit(HYLIA_SHIELD)) {
         hylian_shield_index = 1;
     }
 
-    if (tp_gameInfo.inventory.equipment_flags_1 & (1UL << 7)) {
+    if (dComIfGs_isItemFirstBit(WEAR_KOKIRI)) {
         hero_tunic_index = 1;
     }
 
-    if (tp_gameInfo.inventory.equipment_flags_0 & (1UL << 1)) {
+    if (dComIfGs_isItemFirstBit(WEAR_ZORA)) {
         zora_armor_index = 1;
     }
 
-    if (tp_gameInfo.inventory.equipment_flags_0 & (1UL << 0)) {
+    if (dComIfGs_isItemFirstBit(ARMOR)) {
         magic_armor_index = 1;
     }
 
-    if (tp_gameInfo.inventory.light_sword_flag & (1UL << 7)) {
+    if (dComIfGs_isItemFirstBit(BOMB_BAG_LV2)) {
         bomb_capacity_index = 1;
     }
 
-    switch (tp_gameInfo.link.wallet_upgrade) {
+    switch (dComIfGs_getWalletSize()) {
     case 1: {
         wallet_index = 1;
         break;
@@ -133,146 +132,146 @@ void get_equipment() {
     }
     }
 
-    if (tp_gameInfo.inventory.arrow_capacity == 100) {
+    if (dComIfGs_getArrowMax() == 100) {
         arrow_capacity_index = 2;
-    } else if (tp_gameInfo.inventory.arrow_capacity == 60) {
+    } else if (dComIfGs_getArrowMax() == 60) {
         arrow_capacity_index = 1;
     }
 }
 
-void set_equipment() {
+void setEquipment() {
     switch (ordon_sword_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 0);
-        tp_gameInfo.inventory.wood_sword_flag &= ~(1UL << 7);
+        dComIfGs_offItemFirstBit(WOOD_STICK);
+        dComIfGs_offItemFirstBit(SWORD);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.wood_sword_flag |= 1UL << 7;
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 0);
+        dComIfGs_onItemFirstBit(WOOD_STICK);
+        dComIfGs_offItemFirstBit(SWORD);
         break;
     }
     case 2: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 0;
-        tp_gameInfo.inventory.wood_sword_flag &= ~(1UL << 7);
+        dComIfGs_onItemFirstBit(SWORD);
+        dComIfGs_offItemFirstBit(WOOD_STICK);
         break;
     }
     }
 
     switch (master_sword_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 1);
-        tp_gameInfo.inventory.light_sword_flag &= ~(1UL << 2);
+        dComIfGs_offItemFirstBit(MASTER_SWORD);
+        dComIfGs_offItemFirstBit(LIGHT_SWORD);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 1;
-        tp_gameInfo.inventory.light_sword_flag &= ~(1UL << 2);
+        dComIfGs_onItemFirstBit(MASTER_SWORD);
+        dComIfGs_offItemFirstBit(LIGHT_SWORD);
         break;
     }
     case 2: {
-        tp_gameInfo.inventory.light_sword_flag |= 1UL << 2;
+        dComIfGs_onItemFirstBit(LIGHT_SWORD);
         break;
     }
     }
 
     switch (wood_shield_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 2);
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 3);
+        dComIfGs_offItemFirstBit(SHIELD);
+        dComIfGs_offItemFirstBit(WOOD_SHIELD);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 2;
+        dComIfGs_onItemFirstBit(WOOD_SHIELD);
         break;
     }
     case 2: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 3;
+        dComIfGs_onItemFirstBit(SHIELD);
         break;
     }
     }
 
     switch (hylian_shield_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 4);
+        dComIfGs_offItemFirstBit(HYLIA_SHIELD);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 4;
+        dComIfGs_onItemFirstBit(HYLIA_SHIELD);
         break;
     }
     }
 
     switch (hero_tunic_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_1 &= ~(1UL << 7);
+        dComIfGs_offItemFirstBit(WEAR_KOKIRI);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_1 |= 1UL << 7;
+        dComIfGs_onItemFirstBit(WEAR_KOKIRI);
         break;
     }
     }
 
     switch (zora_armor_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_0 &= ~(1UL << 1);
+        dComIfGs_offItemFirstBit(WEAR_ZORA);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_0 |= 1UL << 1;
+        dComIfGs_onItemFirstBit(WEAR_ZORA);
         break;
     }
     }
 
     switch (magic_armor_index) {
     case 0: {
-        tp_gameInfo.inventory.equipment_flags_0 &= ~(1UL << 0);
+        dComIfGs_offItemFirstBit(ARMOR);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.equipment_flags_0 |= 1UL << 0;
+        dComIfGs_onItemFirstBit(ARMOR);
         break;
     }
     }
 
     switch (bomb_capacity_index) {
     case 0: {
-        tp_gameInfo.inventory.light_sword_flag &= ~(1UL << 7);
+        dComIfGs_offItemFirstBit(BOMB_BAG_LV2);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.light_sword_flag |= 1UL << 7;
+        dComIfGs_onItemFirstBit(BOMB_BAG_LV2);
         break;
     }
     }
 
     switch (wallet_index) {
     case 0: {
-        tp_gameInfo.link.wallet_upgrade = 0;
+        dComIfGs_setWalletSize(WALLET);
         break;
     }
     case 1: {
-        tp_gameInfo.link.wallet_upgrade = 1;
+        dComIfGs_setWalletSize(BIG_WALLET);
         break;
     }
     case 2: {
-        tp_gameInfo.link.wallet_upgrade = 2;
+        dComIfGs_setWalletSize(GIANT_WALLET);
         break;
     }
     }
 
     switch (arrow_capacity_index) {
     case 0: {
-        tp_gameInfo.inventory.arrow_capacity = 30;
+        dComIfGs_setArrowMax(30);
         break;
     }
     case 1: {
-        tp_gameInfo.inventory.arrow_capacity = 60;
+        dComIfGs_setArrowMax(60);
         break;
     }
     case 2: {
-        tp_gameInfo.inventory.arrow_capacity = 100;
+        dComIfGs_setArrowMax(100);
         break;
     }
     }
@@ -280,23 +279,23 @@ void set_equipment() {
 
 void PauseMenu::render() {
     // update hidden skill flags
-    ending_blow = (tp_gameInfo.event_flags.flags[0x29] & (1 << 2));
-    shield_bash = (tp_gameInfo.event_flags.flags[0x29] & (1 << 3));
-    backslice = (tp_gameInfo.event_flags.flags[0x29] & (1 << 1));
-    helm_splitter = (tp_gameInfo.event_flags.flags[0x29] & (1 << 0));
-    mortal_draw = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 7));
-    jump_strike = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 6));
-    great_spin = (tp_gameInfo.event_flags.flags[0x2A] & (1 << 5));
+    ending_blow = dComIfGs_isEventBit(0x2904);
+    shield_bash = dComIfGs_isEventBit(0x2908);
+    backslice = dComIfGs_isEventBit(0x2902);
+    helm_splitter = dComIfGs_isEventBit(0x2901);
+    mortal_draw = dComIfGs_isEventBit(0x2A80);
+    jump_strike = dComIfGs_isEventBit(0x2A40);
+    great_spin = dComIfGs_isEventBit(0x2A20);
 
     if (button_is_pressed(BACK_BUTTON)) {
         init_once = false;
         MenuRendering::set_menu(MN_INVENTORY_INDEX);
-        reset_index();
+        resetIndex();
         return;
     };
 
     if (!init_once) {
-        get_equipment();
+        getEquipment();
         current_input = 0;
         init_once = true;
     }
@@ -426,37 +425,37 @@ void PauseMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case ENDING_BLOW_INDEX: {
-            tp_gameInfo.event_flags.flags[0x29] ^= 1 << 2;
+            setEventFlag(0x2904);
             break;
         }
         case SHIELD_BASH_INDEX: {
-            tp_gameInfo.event_flags.flags[0x29] ^= 1 << 3;
+            setEventFlag(0x2908);
             break;
         }
         case BACKSLICE_INDEX: {
-            tp_gameInfo.event_flags.flags[0x29] ^= 1 << 1;
+            setEventFlag(0x2902);
             break;
         }
         case HELM_SPLITTER_INDEX: {
-            tp_gameInfo.event_flags.flags[0x29] ^= 1 << 0;
+            setEventFlag(0x2901);
             break;
         }
         case MORTAL_DRAW_INDEX: {
-            tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 7;
+            setEventFlag(0x2A80);
             break;
         }
         case JUMP_STRIKE_INDEX: {
-            tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 6;
+            setEventFlag(0x2A40);
             break;
         }
         case GREAT_SPIN_INDEX: {
-            tp_gameInfo.event_flags.flags[0x2A] ^= 1 << 5;
+            setEventFlag(0x2A20);
             break;
         }
         }
     }
 
-    set_equipment();
+    setEquipment();
 
     tp_sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>",
                ordon_sword_options[ordon_sword_index].member);

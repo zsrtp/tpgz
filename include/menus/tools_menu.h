@@ -3,10 +3,10 @@
 #include "menu.h"
 
 #ifdef WII_PLATFORM
-#define TOOL_AMNT 17
+#define TOOL_AMNT 19
 #endif
 #ifdef GCN_PLATFORM
-#define TOOL_AMNT 16
+#define TOOL_AMNT 18
 #endif
 namespace Tools {
 enum ToolsIndex {
@@ -17,6 +17,8 @@ enum ToolsIndex {
 #ifdef WII_PLATFORM
     BIT_INDEX,
 #endif
+    COROTD_INDEX,
+    UMD_INDEX,
     INPUT_VIEWER_INDEX,
     LINK_DEBUG_INDEX,
     SAND_INDEX,

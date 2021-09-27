@@ -1,19 +1,21 @@
 #include "menus/practice_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/tp.h"
-#include "save_injector.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#define LINES 2
+#define LINES 3
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
-PracticeFile practice_file;
+char last_category[5];
+int last_save_index;
+int last_special_size;
+special* last_special_ptr;
 
 Line lines[LINES] = {{"any%", ANY_INDEX, "Any% practice saves", false},
-                     {"100%", HUNDO_INDEX, "100% practice saves", false}};
+                     {"100%", HUNDO_INDEX, "100% practice saves", false},
+                     {"all dungeons", AD_INDEX, "All Dungeons practice saves", false}};
 
 void PracticeMenu::render() {
     if (button_is_pressed(BACK_BUTTON)) {
@@ -35,6 +37,10 @@ void PracticeMenu::render() {
         }
         case HUNDO_INDEX: {
             MenuRendering::set_menu(MN_HUNDO_SAVES_INDEX);
+            return;
+        }
+        case AD_INDEX: {
+            MenuRendering::set_menu(MN_AD_SAVES_INDEX);
             return;
         }
         }

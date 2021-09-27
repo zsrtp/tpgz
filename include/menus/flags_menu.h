@@ -4,6 +4,7 @@
 #define DUNGEON_FLAGS_INDEX 1
 #define PORTAL_FLAGS_INDEX 2
 #define FLAG_RECORDS_INDEX 3
+#define FLAG_LOG_INDEX 4
 
 enum GeneralFlagsIndex {
     BOSS_FLAG_INDEX,
@@ -21,10 +22,10 @@ enum GeneralFlagsIndex {
 
 enum DungeonFlagsIndex {
     SELECT_DUNGEON_INDEX,
+    SMALL_KEY_FLAG_INDEX,
     MAP_FLAG_INDEX,
     COMPASS_FLAG_INDEX,
     BOSS_KEY_FLAG_INDEX,
-    SMALL_KEY_FLAG_INDEX,
     DEFEAT_MINIBOSS_FLAG_INDEX,
     DEFEAT_BOSS_FLAG_INDEX,
     CLEAR_DUNGEON_FLAGS_INDEX
@@ -69,5 +70,11 @@ public:
 class PortalFlagsMenu : public Menu {
 public:
     PortalFlagsMenu() : Menu() {}
+    static void render();
+};
+
+class FlagLogMenu : public Menu {
+public:
+    FlagLogMenu() : Menu() {}
     static void render();
 };

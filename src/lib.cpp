@@ -4,9 +4,9 @@
 #include "free_cam.h"
 #include "gz_flags.h"
 #include "input_viewer.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+// #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
 #include "menus/main_menu.h"
 #include "menus/position_settings_menu.h"
@@ -21,6 +21,8 @@
 #include "utils/loading.h"
 #include "utils/memory.h"
 #include "utils/texture.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 
 _FIFOQueue Queue;
 bool card_load = true;
@@ -28,6 +30,9 @@ Texture gzIconTex;
 bool last_frame_was_loading = false;
 
 extern "C" {
+
+#define Q(x) #x
+#define QUOTE(x) Q(x)
 
 #if (GCN_NTSCU)
 #define main_tampoline ((void (*)(void))0x803737b4)
@@ -43,6 +48,9 @@ extern "C" {
 #endif
 #if (WII_PAL)
 #define main_tampoline ((void (*)(void))0x803b929c)
+#endif
+#ifdef GZ_VERSION
+#define INTERNAL_GZ_VERSION QUOTE(GZ_VERSION)
 #endif
 
 void apply_lib_hooks() {
@@ -91,7 +99,7 @@ void game_loop() {
         MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
         fifo_visible = false;
     }
-    if (tp_fopScnRq.isLoading == 1) {
+    if (tp_fopScnRq.isLoading) {
         MenuRendering::close_active_menus();
         move_link_active = false;
         last_frame_was_loading = true;
@@ -99,14 +107,16 @@ void game_loop() {
     }
 
     // save temp flags and tears after every loading zone
-    if (last_frame_was_loading && tp_fopScnRq.isLoading != 1) {
-        tp_memcpy(g_area_reload.temp_flags, tp_gameInfo.temp_flags.flags,
-                  sizeof(tp_gameInfo.temp_flags.flags));
-        g_area_reload.tears = tp_gameInfo.inventory.tears;
+    if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
+        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
+                  sizeof(g_dComIfG_gameInfo.info.mMemory));
+        for (int i = 0; i < 4; i++) {
+            gSaveManager.mAreaReloadOpts.tears[i] = dComIfGs_getLightDropNum(i);
+        }
         last_frame_was_loading = false;
     }
 
-    GZFlags::apply_active_flags();
+    GZFlags::apply_active_flags(GAME_LOOP);
     FreeCam::handle_free_cam();
     MoveLink::move_link();
 
@@ -115,12 +125,16 @@ void game_loop() {
     }
 }
 
+void post_game_loop() {
+    GZFlags::apply_active_flags(POST_GAME_LOOP);
+}
+
 void draw() {
     setupRendering();
     // Consolas.setupRendering();
     if (MenuRendering::is_menu_open()) {
-        Font::gz_renderChars("tpgz v0.2", sprite_offsets[MENU_INDEX].x + 35.0f, 25.0f, cursor_rgba,
-                             g_drop_shadows);
+        Font::gz_renderChars("tpgz v" INTERNAL_GZ_VERSION, sprite_offsets[MENU_INDEX].x + 35.0f,
+                             25.0f, cursor_rgba, g_drop_shadows);
         if (gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::draw_rect(0xFFFFFFFF, {sprite_offsets[MENU_INDEX].x, 5.0f}, {30, 30},
                             &gzIconTex._texObj);

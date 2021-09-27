@@ -1,9 +1,19 @@
-#include "utils/card.h"
 #include "commands.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/system.h"
-#include "saves.h"
+#include "libtp_c/include/SSystem/SComponent/c_counter.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/utils.h"
+#include "menus/memfiles_menu.h"
+#include "menus/practice_menu.h"
+#include "save_manager.h"
+#include "utils/card.h"
+#include "utils/loading.h"
+
+bool inject_memfile_flag = false;
 
 namespace Utilities {
 /**
@@ -83,6 +93,13 @@ void load_save_layout(GZSaveLayout& save_layout) {
     g_font = save_layout.g_font;
 }
 
+void load_position_data(PositionData& pos_data) {
+    memfile_posdata.link = pos_data.link;
+    memfile_posdata.cam.target = pos_data.cam.target;
+    memfile_posdata.cam.pos = pos_data.cam.pos;
+    memfile_posdata.angle = pos_data.angle;
+}
+
 void setup_save_file(GZSaveFile& save_file) {
     save_file.header.version = GZ_SAVE_VERSION_NUMBER;
     save_file.header.entries = GZ_SAVE_ENTRIES_AMNT;
@@ -153,6 +170,22 @@ int32_t read_save_file(CardInfo* card_info, GZSaveFile& save_file, int32_t secto
     return result;
 }
 
+int32_t read_memfile(CardInfo* card_info, PositionData& posData, int32_t sector_size) {
+    int32_t result = Ready;
+#define assert_result(stmt)                                                                        \
+    if ((result = (stmt)) != Ready) {                                                              \
+        return result;                                                                             \
+    }
+
+    assert_result(card_read(card_info, (void*)sTmpBuf, sizeof(dSv_info_c), 0, sector_size));
+
+    assert_result(
+        card_read(card_info, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
+
+#undef assert_result
+    return result;
+}
+
 void store_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     GZSaveFile save_file;
@@ -182,6 +215,73 @@ void store_mem_card(Card& card) {
 #endif
 }
 
+void store_memfile(Card& card) {
+#ifndef WII_PLATFORM
+    PositionData posData;
+    posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
+    posData.cam.target = tp_matrixInfo.matrix_info->target;
+    posData.cam.pos = tp_matrixInfo.matrix_info->pos;
+    posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
+
+    uint32_t file_size = (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)card.sector_size) *
+                                    card.sector_size);
+
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    card.card_result = CARDCreate(0, card.file_name_buffer, file_size, &card.card_info);
+
+    if (card.card_result == Ready || card.card_result == Exist) {
+        card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
+        if (card.card_result == Ready) {
+            dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
+            setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
+                           g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
+
+            card.card_result = Utilities::card_write(&card.card_info, &g_dComIfG_gameInfo,
+                                                     sizeof(dSv_info_c), 0, card.sector_size);
+            card.card_result = Utilities::card_write(&card.card_info, &posData, sizeof(posData),
+                                                     sizeof(dSv_info_c) + 1, card.sector_size);
+
+            if (card.card_result == Ready) {
+                FIFOQueue::push("saved memfile!", Queue);
+            } else {
+                char buff[32];
+                tp_sprintf(buff, "failed to save: %d", card.card_result);
+                FIFOQueue::push(buff, Queue);
+            }
+            card.card_result = CARDClose(&card.card_info);
+        }
+    }
+#endif
+}
+
+void delete_mem_card(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    if (card.card_result == Ready) {
+        FIFOQueue::push("deleted card!", Queue);
+    } else {
+        char buff[32];
+        tp_sprintf(buff, "failed to delete: %d", card.card_result);
+        FIFOQueue::push(buff, Queue);
+    }
+#endif
+}
+
+void delete_memfile(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDDelete(0, card.file_name_buffer);
+    if (card.card_result == Ready) {
+        tp_osReport("deleted memfile!");
+        FIFOQueue::push("deleted memfile!", Queue);
+    } else {
+        tp_osReport("failed to delete");
+        char buff[32];
+        tp_sprintf(buff, "failed to delete: %d", card.card_result);
+        FIFOQueue::push(buff, Queue);
+    }
+#endif
+}
+
 void load_mem_card(Card& card) {
 #ifndef WII_PLATFORM
     card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
@@ -205,8 +305,37 @@ void load_mem_card(Card& card) {
 #endif
 }
 
+void load_memfile(Card& card) {
+#ifndef WII_PLATFORM
+    card.card_result = CARDOpen(0, card.file_name_buffer, &card.card_info);
+    if (card.card_result == Ready) {
+        PositionData posData;
+        card.card_result = read_memfile(&card.card_info, posData, card.sector_size);
+
+        if (card.card_result == Ready) {
+            FIFOQueue::push("loaded memfile!", Queue);
+            inject_memfile_flag = true;
+            SaveManager::inject_default_before();
+            SaveManager::inject_memfile((void*)sTmpBuf);
+            SaveManager::inject_default_during();
+            SaveManager::inject_default_after();
+            load_position_data(posData);
+            set_position_data = true;
+            inject_save_flag = true;
+            fifo_visible = true;
+            MenuRendering::set_menu(MN_NONE_INDEX);
+        } else {
+            char buff[32];
+            tp_sprintf(buff, "failed to load: %d", card.card_result);
+            FIFOQueue::push(buff, Queue);
+        }
+        card.card_result = CARDClose(&card.card_info);
+    }
+#endif
+}
+
 void load_gz_card(bool& card_load) {
-    uint8_t frame_count = TP::get_frame_count();
+    uint8_t frame_count = cCt_getFrameCount();
     if (card_load && frame_count > 200) {
         static Card card;
         card.file_name = "tpgz01";
@@ -215,10 +344,9 @@ void load_gz_card(bool& card_load) {
         card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
         if (card.card_result == Ready) {
             Utilities::load_mem_card(card);
-            card_load = false;
-        } else {
-            card_load = false;
         }
+
+        card_load = false;
     }
 }
 }  // namespace Utilities

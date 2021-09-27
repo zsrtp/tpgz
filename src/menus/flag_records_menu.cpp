@@ -1,15 +1,16 @@
 #include "menus/flag_records_menu.h"
 #include "controller.h"
 #include "font.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menus/settings_menu.h"
 #include "utils/cursor.h"
 #include "utils/draw.h"
 #include "utils/lines.h"
 #include "utils/texture.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/msl_c/string.h"
 
 #define MAX_DISPLAY_LINES 8
 #define WHITE_RGBA 0xFFFFFFFF
@@ -38,7 +39,7 @@ Texture gzFlagOffTex;
 #define SCRL_BACK_TEXT "1"
 #endif
 
-void render_flag_records(uint8_t record[]) {
+void render_flag_records(uint8_t* record) {
     if (cursor.y > 0) {
         if (button_is_pressed(Controller::DPAD_RIGHT)) {
             if (bit_index == 0) {
@@ -75,7 +76,7 @@ void render_flag_records(uint8_t record[]) {
         float flag_x_offset = LINE_X_OFFSET + Font::get_chars_width(offset);
 
         for (uint8_t bit = 0; bit < 8; bit++) {
-            if (record[idx_num] & (1 << bit)) {
+            if (*(record + idx_num) & (1 << bit)) {
                 Draw::draw_rect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
                                 {16, 16}, &gzFlagOnTex._texObj);
             } else {
@@ -91,7 +92,7 @@ void render_flag_records(uint8_t record[]) {
         }
         if (current_input == Controller::Pad::A && a_held == false) {
             if (cursor.y == (idx_num + 1)) {
-                record[idx_num] ^= (1 << bit_index);
+                *(record + idx_num) ^= (1 << bit_index);
             }
         }
 
@@ -138,8 +139,7 @@ void FlagRecordsMenu::render() {
         init_once = true;
     }
 
-    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"area temp", "event", "minigame",
-                                                          "dungeon"};
+    ListMember flag_record_options[MAX_RECORD_OPTIONS] = {"membit", "event", "minigame", "danbit"};
     if (cursor.y == FLAG_RECORD_INDEX) {
         cursor.x = record_index;
         Utilities::move_cursor(cursor, max_flags + 1, MAX_RECORD_OPTIONS, false, false, false,
@@ -162,22 +162,22 @@ void FlagRecordsMenu::render() {
     switch (record_index) {
     case 0: {
         max_flags = 0x20;
-        render_flag_records(tp_gameInfo.temp_flags.flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mMemory.mBit.mTbox);
         break;
     }
     case 1: {
         max_flags = 0x100;
-        render_flag_records(tp_gameInfo.event_flags.flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mSavedata.mEvent.mEvent);
         break;
     }
     case 2: {
         max_flags = 0x18;
-        render_flag_records(tp_gameInfo.minigame_flags);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mSavedata.mMiniGame);
         break;
     }
     case 3: {
         max_flags = 0x18;
-        render_flag_records((uint8_t*)tp_gameInfo.dungeon_temp_flags.switch_bitfield);
+        render_flag_records((uint8_t*)&g_dComIfG_gameInfo.info.mDan.mSwitch);
         break;
     }
     }

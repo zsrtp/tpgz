@@ -1,6 +1,6 @@
 #pragma once
 #include "font.h"
-#include "libtp_c/include/gc/OSCache.h"
+#include "libtp_c/include/dolphin/os/OSCache.h"
 
 namespace Utilities {
 void show_link_debug_info();
@@ -18,14 +18,14 @@ inline void setup_link_color() {
 #define SWORD_UP_BLUE_ADDR 0x80117d94
 #endif
     *reinterpret_cast<uint32_t*>(SWORD_UP_RED_ADDR) = 0x60000000;  // nop
-    gc::os_cache::DCFlushRange((void*)(SWORD_UP_RED_ADDR), sizeof(uint32_t));
-    gc::os_cache::ICInvalidateRange((void*)(SWORD_UP_RED_ADDR), sizeof(uint32_t));
+    DCFlushRange((void*)(SWORD_UP_RED_ADDR), sizeof(uint32_t));
+    ICInvalidateRange((void*)(SWORD_UP_RED_ADDR), sizeof(uint32_t));
     *reinterpret_cast<uint32_t*>(SWORD_UP_GREEN_ADDR) = 0x60000000;  // nop
-    gc::os_cache::DCFlushRange((void*)(SWORD_UP_GREEN_ADDR), sizeof(uint32_t));
-    gc::os_cache::ICInvalidateRange((void*)(SWORD_UP_GREEN_ADDR), sizeof(uint32_t));
+    DCFlushRange((void*)(SWORD_UP_GREEN_ADDR), sizeof(uint32_t));
+    ICInvalidateRange((void*)(SWORD_UP_GREEN_ADDR), sizeof(uint32_t));
     *reinterpret_cast<uint32_t*>(SWORD_UP_BLUE_ADDR) = 0x60000000;  // nop
-    gc::os_cache::DCFlushRange((void*)(SWORD_UP_BLUE_ADDR), sizeof(uint32_t));
-    gc::os_cache::ICInvalidateRange((void*)(SWORD_UP_BLUE_ADDR), sizeof(uint32_t));
+    DCFlushRange((void*)(SWORD_UP_BLUE_ADDR), sizeof(uint32_t));
+    ICInvalidateRange((void*)(SWORD_UP_BLUE_ADDR), sizeof(uint32_t));
 #endif  // WII_PLATFORM
 }
 }  // namespace Utilities

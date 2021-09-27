@@ -1,3 +1,4 @@
+#pragma once
 #include "menu.h"
 
 #define MAX_WATCHES 10

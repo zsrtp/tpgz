@@ -1,15 +1,14 @@
 #include "menus/settings_menu.h"
 #include "controller.h"
 #include "gcn_c/include/card.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "utils/card.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
 #include "fifo_queue.h"
 
-#define LINES 7
+#define LINES 9
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
 #define MAX_FONT_OPTIONS 7
@@ -20,6 +19,7 @@ bool init_once = false;
 int g_area_reload_behavior;
 int g_cursor_color;
 bool g_cursor_color_flag;
+bool g_swap_equips_flag;
 int g_font = 0;
 
 ListMember reload_options[MAX_RELOAD_OPTIONS] = {"load area", "load file"};
@@ -39,8 +39,11 @@ Line lines[LINES] = {
      MAX_CURSOR_COLOR_OPTIONS},
     {"font:", FONT_INDEX, "Change font", false, nullptr, MAX_FONT_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_drop_shadows},
+    {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files", true,
+     &g_swap_equips_flag},
     {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
+    {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
     {"menu positions", POS_SETTINGS_MENU_INDEX,
      "Change menu object positions (A to toggle selection, DPad to move)", false}};
 
@@ -85,9 +88,26 @@ void SettingsMenu::render() {
             card.sector_size = SECTOR_SIZE;
             tp_sprintf(card.file_name_buffer, card.file_name);
             card.card_result = CARDProbeEx(0, NULL, &card.sector_size);
-            Utilities::load_mem_card(card);
+            if (card.card_result == Ready) {
+                Utilities::load_mem_card(card);
+            }
             break;
-        }
+        };
+        case DELETE_CARD_INDEX: {
+            static Card card;
+            card.file_name = "tpgz01";
+            card.sector_size = SECTOR_SIZE;
+            tp_sprintf(card.file_name_buffer, card.file_name);
+            card.card_result = CARDProbeEx(0, nullptr, &card.sector_size);
+            if (card.card_result == Ready) {
+                Utilities::delete_mem_card(card);
+            }
+            break;
+        };
+        case SWAP_EQUIPS_INDEX: {
+            g_swap_equips_flag = !g_swap_equips_flag;
+            break;
+        };
         }
     }
 

@@ -4,13 +4,13 @@
 #include "controller.h"
 #include "font.h"
 #include "fs.h"
-#include "libtp_c/include/tp.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/utils.h"
 
-#include "libtp_c/include/system.h"
-
-#define LINES 6
+#define LINES 7
 #define SPAWN_OFFSET 4
 #define SPAWN_READ_LENGTH 32
 #define ROOM_READ_LENGTH 64
@@ -42,7 +42,7 @@ Line lines[LINES] = {
     {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
     {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
     {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-};
+    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}};
 
 void load_previous_info(void* buffer, signed long& counter, signed long length, char max_num,
                         int offset) {
@@ -249,17 +249,21 @@ void WarpingMenu::render() {
     if (current_input == SELECTION_BUTTON && a_held == false) {
         switch (cursor.y) {
         case WARP_BUTTON_INDEX: {
-            tp_memcpy(&tp_gameInfo.warp.entrance.stage, &warp_info.stage_info.stage_id, 8);
-            tp_gameInfo.warp.entrance.room = warp_info.room_info.room_id[0];
-            tp_gameInfo.warp.entrance.spawn = warp_info.spawn_info.spawn_id[0];
-            tp_gameInfo.warp.entrance.state = layer;
+            setNextStageName(warp_info.stage_info.stage_id);
+            setNextStageRoom(warp_info.room_info.room_id[0]);
+            setNextStagePoint(warp_info.spawn_info.spawn_id[0]);
+            setNextStageLayer(layer);
             init_once = false;
             fifo_visible = true;
             MenuRendering::set_menu(MN_NONE_INDEX);
-            tp_gameInfo.loading_animation = 13;  // instant load
-            tp_gameInfo.respawn_animation = 0;
-            tp_gameInfo.warp.entrance.void_flag = 0;
-            tp_gameInfo.warp.enabled = true;
+            g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
+            g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
+            g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+            break;
+        }
+        case SAVE_LOCATION_INDEX: {
+            setReturnPlace(warp_info.stage_info.stage_id, warp_info.room_info.room_id[0],
+                           warp_info.spawn_info.spawn_id[0]);
             break;
         }
         }

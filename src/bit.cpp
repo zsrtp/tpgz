@@ -1,9 +1,11 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
-#include "libtp_c/include/tp.h"
-#include "libtp_c/include/math.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
+#include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "fifo_queue.h"
 #include "controller.h"
 #include "fifo_queue.h"
@@ -26,8 +28,8 @@ using namespace Controller;
 static char buf[30];
 
 void set_camera_angle_position() {
-    tp_zelAudio.link_debug_ptr->position = {466.622467f, 319.770752f, -11651.3867f};
-    tp_zelAudio.link_debug_ptr->facing = 32000;
+    dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
+    dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
     tp_matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     tp_matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
@@ -35,13 +37,13 @@ void set_camera_angle_position() {
 void run() {
     double dt = 0;
 
-    if (tp_zelAudio.link_debug_ptr != NULL && tp_gameInfo.momentum_ptr != NULL) {
-        const bool has_boots = (tp_zelAudio.link_debug_ptr->current_boots & 0x02) != 0;
+    if (dComIfGp_getPlayer()) {
+        const bool has_boots = (dComIfGp_getPlayer()->mNoResetFlg0 & 0x02) != 0;
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
-        const double v_y1 = tp_gameInfo.momentum_ptr->link_momentum.y;
-        const double dist_from_last_ground = (tp_zelAudio.link_debug_ptr->position.y -
-                                              tp_zelAudio.link_debug_ptr->last_ground_y_pos_void);
+        const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
+        const double dist_from_last_ground =
+            (dComIfGp_getPlayer()->mCurrent.mPosition.y - dComIfGp_getPlayer()->field_0x33c8);
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;
@@ -67,7 +69,8 @@ void run() {
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (tp_strcmp((const char*)tp_gameInfo.current_stage, "F_SP104") == 0 &&
+        if (tp_strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
+                      "F_SP104") == 0 &&
             button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");

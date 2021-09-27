@@ -2,18 +2,22 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/practice_menu.h"
 #include "rollcheck.h"
-#include "save_injector.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
+#include "libtp_c/include/utils.h"
+#include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "libtp_c/include/rel/d/a/b/d_a_b_ds.h"
+#include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
+#include "libtp_c/include/f_op/f_op_actor_iter.h"
 
 #include "fs.h"
-#define LINES 49
+#define LINES 50
 
 static Cursor cursor = {0, 0};
 bool init_once = false;
@@ -53,6 +57,7 @@ Line lines[LINES] = {
     {"poe 1 skip", POE_1_SKIP_INDEX, "The pillar jump in Arbiter's Grounds"},
     {"death sword", DSS_INDEX, "The Arbiter's Grounds miniboss"},
     {"stallord", STALLORD_INDEX, "The Arbiter's Grounds boss"},
+    {"stallord 2", STALLORD2_INDEX, "Stallord 2nd phase"},
     {"city in the sky early", CITS_EARLY_INDEX, "Clip to the cannon early"},
     {"city in the sky 1", CITS_1_INDEX, "The first City in the Sky segment"},
     {"aeralfos skip", AERALFOS_SKIP_INDEX, "The City in the Sky miniboss"},
@@ -70,86 +75,127 @@ Line lines[LINES] = {
     {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
     {"horseback ganon", HORSEBACK_GANON_INDEX, "The horseback Ganondorf fight"}};
 
-void default_load() {
-    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
-    inject_save_flag = true;
-    fifo_visible = true;
-    MenuRendering::set_menu(MN_NONE_INDEX);
-    init_once = false;
+void hugo() {
+    gSaveManager.inject_default_during();
+    dComIfGs_onSwitch(47, 0);   // midna trigger off
+    dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
-void hugo() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[14] = 128;  // midna trigger off
-    tp_gameInfo.temp_flags.flags[12] = 0;    // hugo alive
+void spawn_hugo() {
+    gSaveManager.setSaveAngle(40166);
+    gSaveManager.setSavePosition(2.9385, 396.9580, -18150.087);
+    gSaveManager.setLinkInfo();
+
+    cXyz position(-289.9785, 401.5400, -18533.078);
+    fopAcM_create(468, 0x0000F100, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
+                  &dComIfGp_getPlayer()->mCurrent.mAngle, nullptr, 0xFF);
 }
 
 void karg_oob() {
-    practice_file.inject_options_before_load = nullptr;
-    SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
-    tp_gameInfo.link.is_wolf = false;
+    gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void morpheel() {
-    tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
-    tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
+    dComIfGp_getPlayer()->mHeldItem = HOOKSHOT;                       // clawshot
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
+}
+
+void stallord_2() {
+    gSaveManager.mPracticeFileOpts.inject_options_after_counter = 20;
+
+    daB_DS_c* stallord = (daB_DS_c*)fopAcM_SearchByName(246);          // stallord proc name
+    daObjLv4Sand_c* sand = (daObjLv4Sand_c*)fopAcM_SearchByName(189);  // sand proc name
+
+    if (stallord != NULL) {
+        stallord->mBase.mParameters |= 0x2;   // make actor phase 2 version
+        stallord->mAttentionInfo.mFlags = 4;  // makes stallord targetable when hit down
+        stallord->mActionMode1 = 1;           // make stallord head active
+        stallord->mGravity = 0.0f;            // change gravity to 0
+        g_env_light.mWeatherPalette = 2;      // set arena light
+        sand->mSpeed.y = 1000.0f;             // move sand out of the way
+
+        dComIfGs_onOneZoneSwitch(6, stallord->mCurrent.mRoomNo);
+        dComIfGs_onZoneSwitch(7, stallord->mCurrent.mRoomNo);  // sets arena to raised
+
+        stallord->mCurrent.mPosition.x = -2097.20f;  //-2397.22f;
+        stallord->mCurrent.mPosition.y = 1022.21f;   // 1697.20f;
+        stallord->mCurrent.mPosition.z = -1246.87f;  // 1131.33f;
+
+        dComIfGp_getPlayer()->mCurrent.mPosition.x = 644.91f;
+        dComIfGp_getPlayer()->mCurrent.mPosition.y = 300.3158f;
+        dComIfGp_getPlayer()->mCurrent.mPosition.z = 2195.0237f;
+        dComIfGp_getPlayer()->mCollisionRot.mY = 39350;
+        // tp_matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
+        // tp_matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
+    }
+}
+
+void stallord2_init() {
+    gSaveManager.repeat_during = true;
+    gSaveManager.repeat_count = 120;
+
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
 void stallord() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
-    tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
 void fan_tower() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset city switches
 }
 
 void argorok() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 1;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x10000;
 }
 
 void palace1() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset palace switches
 }
 
 void palace2() {
-    tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
+    dComIfGp_getPlayer()->mHeldItem = 3;  // master sword
 }
 
 void lakebed_bk_skip_during() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[11] = 18;   // bridge turned
-    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
+    gSaveManager.inject_default_during();
+    dComIfGs_onSwitch(2, 0);    // bridge turned
+    dComIfGs_onSwitch(122, 0);  // dungeon intro cs off
 }
 
 void bossflags() {
-    SaveInjector::inject_default_during();
-    TP::set_boss_flags();
+    gSaveManager.inject_default_during();
+    tp_bossFlags = 0xFF;
 }
 
 void darkhammer() {
-    tp_gameInfo.event_flags.flags[11] = 134;  // iza bomb bag stolen
+    dComIfGs_onEventBit(0x0B02);
+    dComIfGs_onEventBit(0x0B04);  // iza bomb bag stolen
 }
 
 void waterfall_sidehop() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.spawn_speed = 10.0f;  // link spawns swimming forward
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 10.0f;  // link spawns swimming forward
 }
 
 void AnySavesMenu::render() {
     special AnySpecials[ANY_SPECIALS_AMNT] = {
-        special(HUGO_INDEX, hugo, nullptr),
+        special(HUGO_INDEX, hugo, spawn_hugo),
         special(KARG_INDEX, karg_oob, nullptr),
         special(LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
         special(ONEBOMB_INDEX, nullptr, morpheel),
         special(STALLORD_INDEX, stallord, nullptr),
+        special(STALLORD2_INDEX, stallord2_init, stallord_2),
         special(FRST_ESCAPE_INDEX, bossflags, nullptr),
         special(GORGE_VOID_INDEX, bossflags, nullptr),
         special(RUPEE_ROLL_INDEX, bossflags, nullptr),
@@ -175,7 +221,7 @@ void AnySavesMenu::render() {
     }
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
+        SaveManager::load_save(cursor.y, (char*)"any", AnySpecials, ANY_SPECIALS_AMNT);
         init_once = false;
     }
 

@@ -1,19 +1,19 @@
-#include "menus/hundo_saves_menu.h"
 #include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
-#include "libtp_c/include/controller.h"
-#include "libtp_c/include/system.h"
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "menus/practice_menu.h"
 #include "rollcheck.h"
-#include "save_injector.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
 #include "utils/loading.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/utils.h"
 
 #include "fs.h"
-#define LINES 82
+#define LINES 78
 
 #define REQ_POS 1
 #define REQ_CAM 2
@@ -48,41 +48,37 @@ Line lines[LINES] = {
     {"lakebed bk skip", HND_LAKEBED_BK_SKIP_INDEX, "boss key skip in lakebed main room"},
     {"morpheel", HND_MORPHEEL_INDEX, "the lakebed temple boss"},
     {"star 1", HND_STAR_1_INDEX, "the first STAR minigame"},
-    {"mdh tower", HND_MDH_TOWER_INDEX, "mdh tower climb before castle rooftops"},
-    {"mdh bridge", HND_MDH_BRIDGE_INDEX, "the falling bridge on castle rooftops"},
-    {"post mdh", HND_POST_MDH_INDEX, "the beginning of the first collection cycle"},
-    {"mountain climb", HND_MOUNTAIN_INDEX, "the climb up snowpeak"},
+    {"mdh tower", HND_MDH_TOWER_INDEX, "mdh tower climb"},
+    {"mdh bridge", HND_MDH_BRIDGE_INDEX, "mdh castle rooftops"},
+    {"post mdh", HND_POST_MDH_INDEX, "collection cycle after mdh"},
     {"iza 1 skip", HND_IZA_1_SKIP_INDEX, "plumm oob clip to skip iza boat ride"},
-    {"iza 2", HND_IZA_2_INDEX, "the iza minigame"},
     {"lake hylia cave", HND_LH_CAVE_INDEX, "the lake hylia dark cave"},
-    {"bulblin camp", HND_BULBLIN_CAMP_INDEX, "the area before arbiter's grounds"},
+    {"bulblin camp", HND_BULBLIN_CAMP_INDEX, "the camp before arbiter's grounds"},
     {"arbiter's grounds", HND_AG_INDEX, "the arbiter's grounds segment"},
     {"poe 1 skip", HND_POE_1_SKIP_INDEX, "the pillar jump in arbiter's grounds"},
     {"death sword", HND_DSS_INDEX, "the arbiter's grounds miniboss"},
     {"stallord", HND_STALLORD_INDEX, "the arbiter's grounds boss"},
-    {"gorge arc", HND_GORGE_INDEX, "the collection cycle from gorge to snowpeak"},
+    {"post ag", HND_POST_AG_INDEX, "collection cycle after arbiter's"},
     {"snowpeak", HND_SPR_INDEX, "the snowpeak dungeon segment"},
     {"darkhammer", HND_DARK_HAMMER_INDEX, "The snowpeak miniboss"},
     {"spr superjump", HND_SPR_SUPERJUMP_INDEX, "the snowpeak superjump to second floor"},
     {"spr boss key lja", HND_SPR_BK_LJA_INDEX, "the lja to get to snowpeak boss key early"},
     {"spr boss key room", HND_SPR_BK_ROOM_INDEX, "the snowpeak boss key room"},
     {"blizzeta", HND_BLIZZETA_INDEX, "the snowpeak ruins boss"},
-    {"faron bomb boost", HND_BOMB_BOOST_INDEX, "the bomb boost to sacred grove"},
-    {"grove 2", HND_GROVE_2_INDEX, "the second skull kid chase"},
+    {"faron boost", HND_FARON_BOOST_INDEX, "the boost to sacred grove"},
+    {"grove skip", HND_GROVE_SKIP_INDEX, "grove 2 skip w/ moon boots"},
+    {"grove boost", HND_GROVE_BOOST_INDEX, "boost to get to top floor of grove"},
     {"temple of time", HND_TOT_INDEX, "the temple of time segment"},
     {"tot early poe", HND_EARLY_POE_INDEX, "early first poe in temple of time"},
     {"tot statue throws", HND_STATUE_THROWS_INDEX, "temple of time statue throws"},
     {"tot early hp", HND_EARLY_HP_INDEX, "temple of time bomb boost to heart piece"},
     {"tot darknut", HND_DARKNUT_INDEX, "the temple of time miniboss"},
     {"dot skip", HND_DOT_SKIP_INDEX, "statue clip through door of time"},
-    {"armogohma", HND_ARMOGOHMA_INDEX, "the temple of time boss"},
     {"post tot", HND_POST_TOT_INDEX, "the collection cycle after temple of time"},
     {"hotspring minigame", HND_HOTSPRING_INDEX, "the goron hotspring water minigame"},
     {"silver rupee", HND_BELL_INDEX, "kakariko silver rupee collection"},
-    {"rupee isle", HND_FBF_INDEX, "the rupee isle collection"},
     {"ice puzzle", HND_PUZZLE_INDEX, "the ice puzzle segment"},
     {"hugo archery", HND_ARCHERY_INDEX, "the first hidden village trip"},
-    {"city in the sky early", HND_CITY_EARLY_INDEX, "clip to the canon early"},
     {"city in the sky 1", HND_CITY_1_INDEX, "the first city in the sky segment"},
     {"aeralfos skip", HND_AERALFOS_INDEX, "the city in the sky miniboss"},
     {"city in the sky 2", HND_CITY_2_INDEX, "the second city in the sky segment"},
@@ -101,163 +97,147 @@ Line lines[LINES] = {
     {"cats minigame", HND_CATS_INDEX, "hidden village cats minigame"},
     {"hyrule castle", HND_HYRULE_INDEX, "the hyrule castle segment"},
     {"darknut skip", HND_DARKNUT_SKIP_INDEX, "hyrule castle darknut skip"},
-    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss fights"},
+    {"final tower", HND_FINAL_TOWER_INDEX, "the tower climb before the final boss"},
     {"beast ganon", HND_BEAST_GANON_INDEX, "the beast ganon fight"},
     {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "the horseback ganon fight"}};
 
 void default_load() {
-    practice_file.inject_options_before_load = SaveInjector::inject_default_before;
-    practice_file.inject_options_during_load = SaveInjector::inject_default_during;
-    practice_file.inject_options_after_load = SaveInjector::inject_default_after;
+    gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::inject_default_before;
+    gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::inject_default_during;
+    gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::inject_default_after;
     inject_save_flag = true;
     fifo_visible = true;
     MenuRendering::set_menu(MN_NONE_INDEX);
     init_once = false;
 }
 
-void set_camera_angle_position() {
-    tp_matrixInfo.matrix_info->target = camera.target;
-    tp_matrixInfo.matrix_info->pos = camera.pos;
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
-}
-
-void set_angle_position() {
-    tp_zelAudio.link_debug_ptr->facing = angle;
-    tp_zelAudio.link_debug_ptr->position = position;
-}
-
 void goats_1() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x5;
+    gSaveManager.inject_default_during();
+    setNextStageLayer(5);
 }
 
 void goats_2() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x4;
+    gSaveManager.inject_default_during();
+    setNextStageLayer(4);
 }
 
 void purple_mist() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.link.is_wolf = false;
+    gSaveManager.inject_default_during();
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void kb2_skip() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.state = 0x3;
+    gSaveManager.inject_default_during();
+    setNextStageLayer(3);
 }
 
 void escort() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xD;
-    tp_gameInfo.warp.entrance.spawn = 0x62;
-    tp_gameInfo.warp.entrance.state = 0x2;
-    tp_gameInfo.temp_flags.flags[28] = 2;  // give 2 keys for field gates
+    gSaveManager.inject_default_during();
+    setNextStageRoom(0xD);
+    setNextStagePoint(98);
+    setNextStageLayer(2);
+    dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
 void dangoro() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 32;  // turn off intro cs, start fight
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x200000;  // turn off intro cs, start fight
 }
 
 void morpheel() {
-    tp_zelAudio.link_debug_ptr->current_item = 68;  // clawshot
-    tp_zelAudio.link_debug_ptr->current_boots = 2;  // ib
-    angle = 10754;
-    position = {-1193.0f, -23999.0f, -770.0f};
-    set_angle_position();
+    dComIfGp_getPlayer()->mHeldItem = HOOKSHOT;                       // clawshot
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EquipHeavyBoots);  // ib
+    gSaveManager.setSaveAngle(10754);
+    gSaveManager.setSavePosition(-1193.0f, -23999.0f, -770.0f);
+    gSaveManager.setLinkInfo();
 }
 
 void karg_oob() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;  // spawn on kargorok
-    tp_gameInfo.link.is_wolf = false;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
 void iza_1_skip() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.respawn_animation = 0xA;                           // spawn on kargorok
-    tp_strcpy((char*)tp_gameInfo.warp.entrance.stage, "F_SP112");  // set stage to river
-    tp_gameInfo.warp.entrance.room = 0x1;
-    tp_gameInfo.warp.entrance.spawn = 0x0;
-    tp_gameInfo.warp.entrance.state = 0x4;
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    setNextStageName("F_SP112");                       // set stage to river
+    setNextStageRoom(1);
+    setNextStagePoint(0);
+    setNextStageLayer(4);
 }
 
 void stallord() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 48;  // turn off intro cs, start fight
-    tp_gameInfo.warp.entrance.spawn = 0x01;  // spawn at in front of stally
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
+    setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
 void spr_bosskey() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.room = 0xB;    // boss key room
-    tp_gameInfo.warp.entrance.spawn = 0x00;  // default spawn
+    gSaveManager.inject_default_during();
+    setNextStageRoom(0xB);  // boss key room
+    setNextStagePoint(0);   // default spawn
 }
 
 void tot_early_poe() {
-    SaveInjector::inject_default_during();
-    angle = 49299;
-    position = {-2462.85f, 2750.0f, -7.10f};
-    set_angle_position();
+    gSaveManager.inject_default_during();
+    gSaveManager.setSaveAngle(49299);
+    gSaveManager.setSavePosition(-2462.85f, 2750.0f, -7.10f);
+    gSaveManager.setLinkInfo();
 }
 
 void tot_early_hp() {
-    SaveInjector::inject_default_during();
-    angle = 49152;
-    position = {-8000.50f, 5100.0f, -3226.17f};
-    set_angle_position();
+    gSaveManager.inject_default_during();
+    gSaveManager.setSaveAngle(49152);
+    gSaveManager.setSavePosition(-8000.50f, 5100.0f, -3226.17f);
+    gSaveManager.setLinkInfo();
 }
 
 void hugo_archery() {
-    SaveInjector::inject_default_during();
-    // tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
+    gSaveManager.inject_default_during();
+    // g_dComIfG_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.warp.entrance.spawn = 0x0;
-    angle = 71;
-    position = {-14005.31f, 3000.0f, -15854.05f};
-    set_angle_position();
+    gSaveManager.inject_default_during();
+    gSaveManager.setSaveAngle(71);
+    gSaveManager.setSavePosition(-14005.31f, 3000.0f, -15854.05f);
+    gSaveManager.setLinkInfo();
 }
 
 void fan_tower() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset city switches
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;
 }
 
 void argorok() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.boss_room_event_flags = 1;
+    g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x10000;
 }
 
 void palace1() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset palace switches
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;
 }
 
 void palace2() {
-    tp_zelAudio.link_debug_ptr->current_item = 3;  // master sword
-    SaveInjector::inject_default_during();
-    angle = 32731;
-    position = {251.83f, -200.0f, 10993.50f};
-    set_angle_position();
+    dComIfGp_getPlayer()->mHeldItem = 3;  // master sword
+    gSaveManager.inject_default_during();
+    gSaveManager.setSaveAngle(32731);
+    gSaveManager.setSavePosition(251.83f, -200.0f, 10993.50f);
+    gSaveManager.setLinkInfo();
 }
 
 void lakebed_bk_skip_during() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.temp_flags.flags[20] = 223;  // dungeon intro cs off
+    gSaveManager.inject_default_during();
+    dComIfGs_onSwitch(122, dComIfGp_getPlayer()->mOrig.mRoomNo);  // dungeon intro cs off
 }
 
 void bossflags() {
-    SaveInjector::inject_default_during();
-    TP::set_boss_flags();
+    gSaveManager.inject_default_during();
+    tp_bossFlags = 0xFF;
 }
 
 void cave_of_ordeals() {
-    SaveInjector::inject_default_during();
-    tp_gameInfo.dungeon_temp_flags.switch_bitfield[0] = 0;  // reset all CoO doors
+    gSaveManager.inject_default_during();
+    g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;
 }
 
 void HundoSavesMenu::render() {
@@ -268,21 +248,20 @@ void HundoSavesMenu::render() {
         special(HND_KARG_INDEX, karg_oob, nullptr),
         special(HND_KB_2_INDEX, kb2_skip, nullptr),
         special(HND_ESCORT_INDEX, escort, nullptr),
-        special(HND_DANGORO_INDEX, dangoro, nullptr),
+        special(HND_DANGORO_INDEX, nullptr, dangoro),
         special(HND_LAKEBED_BK_SKIP_INDEX, lakebed_bk_skip_during, nullptr),
         special(HND_MORPHEEL_INDEX, nullptr, morpheel),
         special(HND_IZA_1_SKIP_INDEX, iza_1_skip, nullptr),
-        special(HND_STALLORD_INDEX, stallord, nullptr),
+        special(HND_STALLORD_INDEX, nullptr, stallord),
         special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
         special(HND_DARK_HAMMER_INDEX, bossflags, nullptr),
         special(HND_LAKEBED_1_INDEX, bossflags, nullptr),
         special(HND_SPR_BK_ROOM_INDEX, spr_bosskey, nullptr),
-        special(HND_EARLY_POE_INDEX, tot_early_poe, nullptr),
-        special(HND_EARLY_HP_INDEX, tot_early_hp, nullptr),
-        special(HND_CITY_EARLY_INDEX, hugo_archery, nullptr),
-        special(HND_POE_CYCLE_INDEX, cits_poe_cycle, nullptr),
+        special(HND_EARLY_POE_INDEX, nullptr, tot_early_poe),
+        special(HND_EARLY_HP_INDEX, nullptr, tot_early_hp),
+        special(HND_POE_CYCLE_INDEX, nullptr, cits_poe_cycle),
         special(HND_FAN_TOWER_INDEX, fan_tower, nullptr),
-        special(HND_ARGOROK_INDEX, argorok, nullptr),
+        special(HND_ARGOROK_INDEX, nullptr, argorok),
         special(HND_PALACE_1_INDEX, palace1, nullptr),
         special(HND_PALACE_2_INDEX, nullptr, palace2),
         special(HND_COO_INDEX, cave_of_ordeals, nullptr),
@@ -302,7 +281,7 @@ void HundoSavesMenu::render() {
     }
 
     if (current_input == SELECTION_BUTTON && a_held == false) {
-        Utilities::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::load_save(cursor.y, (char*)"hundo", HundoSpecials, HND_SPECIALS_AMNT);
         init_once = false;
     }
 

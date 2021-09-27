@@ -35,6 +35,7 @@ flags menu:
 - dungeon flags                 // Toggle various dungeon flags
 - portal flags                  // Toggle warp portal flags
 - temp flags                    // Toggle local temporary flags
+- flag log                      // Toggle logging flag changes*
 
 general flags menu:
 - boss flag                     // Set the boss flag value. Press A to lock the value
@@ -67,7 +68,7 @@ memory menu:
 - editor                        // Browse and edit the memory
 
 practice menu:
-- Load practice files* (supports popular Any% and 100% locations)
+- Load practice files* (supports popular Any%, 100%, and All Dungeons locations)
 
 scene menu:
 - disable bg music*             // Disables background and enemy music
@@ -113,20 +114,19 @@ warping menu:
 - spawn                         // Select Link spawnpoint ID
 - layer                         // Select stage layer (leave as default unless necessary)
 - warp                          // Load selected stage info
+- save                          // Set savefile location to selected location (need to be in pause menu)
 ```
 
 ### Known Issues
 
 ```
-- disabled bg music tool may not always disable bg music
-- loading practice files can crash in certain situations
 - using move link tool, link is stuck to the ground unless entering a falling state
+- some flags not logged by flag logger yet
 ```
 
 ### Planned Features
 
 ```
-- actor spawner
 - frame advance
 - collision viewer
 - lag counter

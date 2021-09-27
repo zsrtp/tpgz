@@ -2,11 +2,11 @@
 
 #include <stdint.h>
 #include <string.h>
-#include "libtp_c/include/tp.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 struct ActorMemory {
     uint32_t params;
-    Vec3 coord;
+    Vec coord;
     uint16_t rotation[2];
     uint16_t flag;
     uint16_t enemyId;
@@ -18,7 +18,7 @@ struct ActorMemory {
 struct ActorTemplate {
     uint8_t name[8];
     uint32_t params;
-    Vec3 coord;
+    Vec coord;
     uint16_t rotation[2];
     uint16_t flag;
     uint16_t enemyId;
@@ -31,7 +31,7 @@ struct ActorInfo {
     uint8_t param2;
 };
 
-#define fopAcM_CreateAppend_addr 0x80019AA8
+/* #define fopAcM_CreateAppend_addr 0x80019AA8
 #define dStage_ActorCreate_addr 0x80024EFC
 
 typedef ActorMemory* (*fopAcM_CreateAppend_t)(void);
@@ -61,7 +61,7 @@ void createActor(const char* name, Vec3& coord, uint16_t rotation) {
     mem->rotation[1] = actTemp.rotation[1];
     mem->flag = actTemp.flag;
     mem->enemyId = actTemp.enemyId;
-    mem->room_id = tp_gameInfo.last_room_id;
+    mem->room_id = g_dComIfG_gameInfo.last_room_id;
 
     dStage_ActorCreate(actTemp, *mem);
 }
@@ -71,4 +71,4 @@ void spawn(const char* name) {
     if (link) {
         createActor(name, link->position, link->facing);
     }
-}
+} */
