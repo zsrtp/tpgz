@@ -1,15 +1,14 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
 #include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
-#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "fifo_queue.h"
 #include "controller.h"
-#include "fifo_queue.h"
 #include "fs.h"
 #include "font.h"
 
@@ -73,7 +72,8 @@ void run() {
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP104") == 0 &&
+        if (tp_strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
+                      "F_SP104") == 0 &&
             button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");

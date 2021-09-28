@@ -193,7 +193,7 @@ void tot_early_hp() {
 
 void hugo_archery() {
     gSaveManager.inject_default_during();
-    // tp_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
+    // g_dComIfG_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
 void cits_poe_cycle() {

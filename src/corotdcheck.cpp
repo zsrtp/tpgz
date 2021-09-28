@@ -9,16 +9,18 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
 #ifdef GCN_PLATFORM
-#define ITEM_BUTTON_HELD_CHECK (!button_is_held(Y) || !button_is_held(X))
-#define ITEM_BUTTON_DOWN_CHECK (button_is_down(Y) || button_is_down(X))
+#define ITEM_BUTTON_HELD_CHECK (!button_is_held(Pad::Y) || !button_is_held(Pad::X))
+#define ITEM_BUTTON_DOWN_CHECK (button_is_down(Pad::Y) || button_is_down(Pad::X))
+#define PAD Pad
 #endif  // GCN_PLATFORM
 #ifdef WII_PLATFORM
 #define ITEM_BUTTON_HELD_CHECK                                                                     \
-    (!button_is_held(B) || !button_is_held(DPAD_LEFT) || !button_is_held(DPAD_RIGHT) ||            \
-     !button_is_held(DPAD_DOWN))
+    (!button_is_held(Mote::B) || !button_is_held(Mote::DPAD_LEFT) ||                                 \
+     !button_is_held(Mote::DPAD_RIGHT) || !button_is_held(Mote::DPAD_DOWN))
 #define ITEM_BUTTON_DOWN_CHECK                                                                     \
-    (button_is_down(B) || button_is_down(DPAD_LEFT) || button_is_down(DPAD_RIGHT) ||               \
-     button_is_down(DPAD_DOWN))
+    (button_is_down(Mote::B) || button_is_down(Mote::DPAD_LEFT) ||                                   \
+     button_is_down(Mote::DPAD_RIGHT) || button_is_down(Mote::DPAD_DOWN))
+#define PAD Mote
 #endif  // WII_PLATFORM
 
 namespace CoroTDChecker {
@@ -37,7 +39,7 @@ void run() {
         start_timer = false;
     }
 
-    if (start_timer == false && button_is_down(A) &&
+    if (start_timer == false && button_is_down(PAD::A) &&
         tp_strcmp((const char*)g_dComIfG_gameInfo.play.mStartStage.mStage, "F_SP108") == 0) {
         start_timer = true;
     }
