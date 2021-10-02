@@ -15,10 +15,10 @@
 #endif  // GCN_PLATFORM
 #ifdef WII_PLATFORM
 #define ITEM_BUTTON_HELD_CHECK                                                                     \
-    (!button_is_held(Mote::B) || !button_is_held(Mote::DPAD_LEFT) ||                                 \
+    (!button_is_held(Mote::B) || !button_is_held(Mote::DPAD_LEFT) ||                               \
      !button_is_held(Mote::DPAD_RIGHT) || !button_is_held(Mote::DPAD_DOWN))
 #define ITEM_BUTTON_DOWN_CHECK                                                                     \
-    (button_is_down(Mote::B) || button_is_down(Mote::DPAD_LEFT) ||                                   \
+    (button_is_down(Mote::B) || button_is_down(Mote::DPAD_LEFT) ||                                 \
      button_is_down(Mote::DPAD_RIGHT) || button_is_down(Mote::DPAD_DOWN))
 #define PAD Mote
 #endif  // WII_PLATFORM
