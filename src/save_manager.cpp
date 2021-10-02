@@ -80,7 +80,8 @@ void SaveManager::inject_default_during() {
         uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_LEFT);
         uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_LEFT);
 
-        dComIfGs_setSelectItemIndex(SELECT_ITEM_LEFT, dComIfGs_getSelectItemIndex(SELECT_ITEM_RIGHT));
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_LEFT,
+                                    dComIfGs_getSelectItemIndex(SELECT_ITEM_RIGHT));
         dComIfGs_setSelectItemIndex(SELECT_ITEM_RIGHT, tmp);
         dComIfGs_setMixItemIndex(SELECT_ITEM_LEFT, dComIfGs_getMixItemIndex(SELECT_ITEM_RIGHT));
         dComIfGs_setMixItemIndex(SELECT_ITEM_RIGHT, tmp_mix);
