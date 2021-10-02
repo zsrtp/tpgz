@@ -9,6 +9,22 @@
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 
 #define LINES 4
+#ifdef GCN_PLATFORM
+#define CONTROLLER_RIGHT Controller::Pad::DPAD_RIGHT
+#define CONTROLLER_LEFT Controller::Pad::DPAD_LEFT
+#define CONTROLLER_UP Controller::Pad::DPAD_UP
+#define CONTROLLER_DOWN Controller::Pad::DPAD_DOWN
+#define CONTROLLER_SKIP_10 Controller::Pad::X
+#define CONTROLLER_SKIP_MINUS_10 Controller::Pad::Y
+#endif
+#ifdef WII_PLATFORM
+#define CONTROLLER_RIGHT Controller::Mote::DPAD_RIGHT
+#define CONTROLLER_LEFT Controller::Mote::DPAD_LEFT
+#define CONTROLLER_UP Controller::Mote::DPAD_UP
+#define CONTROLLER_DOWN Controller::Mote::DPAD_DOWN
+#define CONTROLLER_SKIP_10 Controller::Mote::ONE
+#define CONTROLLER_SKIP_MINUS_10 Controller::Mote::TWO
+#endif
 
 static Cursor cursor = {0, 0};
 bool lock_cursor_y = false;
@@ -78,25 +94,25 @@ void ActorSpawnMenu::render() {
 
     switch (cursor.y) {
     case ACTOR_ID_INDEX: {
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
             actor_id++;
-        } else if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
             actor_id--;
-        } else if (Controller::button_is_pressed(Controller::Pad::X)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_10)) {
             actor_id += 10;
-        } else if (Controller::button_is_pressed(Controller::Pad::Y)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_MINUS_10)) {
             actor_id -= 10;
         }
         break;
     }
     case ACTOR_SUBTYPE_INDEX: {
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
             actor_type++;
-        } else if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
             actor_type--;
-        } else if (Controller::button_is_pressed(Controller::Pad::X)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_10)) {
             actor_type += 10;
-        } else if (Controller::button_is_pressed(Controller::Pad::Y)) {
+        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_MINUS_10)) {
             actor_type -= 10;
         }
         break;
@@ -106,21 +122,21 @@ void ActorSpawnMenu::render() {
     char buf[9];
     tp_sprintf(buf, "%08X", actor_params);
     if (params_selected) {
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_RIGHT)) {
+        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
             if (param_index == 7) {
                 param_index = 0;
             } else if (param_index >= 0 && param_index < 8) {
                 param_index++;
             }
         }
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_LEFT)) {
+        if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
             if (param_index == 0) {
                 param_index = 7;
             } else if (param_index >= 0 && param_index < 8) {
                 param_index--;
             }
         }
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_UP)) {
+        if (Controller::button_is_pressed(CONTROLLER_UP)) {
             switch (param_index) {
             case 0: {
                 actor_params += 0x10000000;
@@ -156,7 +172,7 @@ void ActorSpawnMenu::render() {
             }
             }
         }
-        if (Controller::button_is_pressed(Controller::Pad::DPAD_DOWN)) {
+        if (Controller::button_is_pressed(CONTROLLER_DOWN)) {
             switch (param_index) {
             case 0: {
                 actor_params -= 0x10000000;

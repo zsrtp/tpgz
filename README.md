@@ -24,11 +24,12 @@ cheats menu:
 - invincible                    // Makes Link invincible (no hurtbox, but can still take fall damage and drown)
 - invincible enemies            // Makes some enemies invincible (infinite health)
 - moon jump                     // Hold R+A to moon jump
-- door storage                  // Can walk through most objects/walls
+- disable walls                 // Can walk through most objects/walls
 - super clawshot                // Clawshot is long, fast, and can grab most things
 - unrestricted items            // Link can use any item anywhere
 - transform anywhere            // Link can transform into/from wolf anywhere
 - super spinner (TBD)           // Spinner is very fast and can hover (not implemented yet)
+- gale LJA (Wii only)           // Link can yeet everywhere
 
 flags menu:
 - general flags                 // Toggle various general flags
@@ -66,6 +67,7 @@ inventory menu:
 memory menu:
 - watches                       // Add memory watches to the screen
 - editor                        // Browse and edit the memory
+- mem files                     // Basic custom save files.
 
 practice menu:
 - Load practice files* (supports popular Any%, 100%, and All Dungeons locations)
@@ -88,12 +90,15 @@ settings menu:
 - menu position                 // Changes the position of various menus and tools from TPGZ
 - save card                     // Save settings to memory card
 - load card                     // Load settings from memory card
+- delete card                   // Delete settings from memory card
 
 tools menu:
 - area reload                   // Use L+R+Start+A to reload current area
 - fast bonk recovery            // Reduces bonk animation significantly
 - fast movement                 // Link's movement is much faster
 - gorge checker                 // Use L+Z to warp to Kakariko Gorge
+- bit checker (Wii only)        // Show when to press Home for BiT
+- coro td checker               // Show frame info when doing coro td
 - input viewer                  // Show current inputs
 - link debug info               // Show Link's position, angle, and speed
 - no sinking in sand            // Link won't sink in sand

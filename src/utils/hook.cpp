@@ -82,12 +82,14 @@ void drawHook(void* p1) {
     draw();
 }
 
+#ifdef PR_TEST
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
     *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
     DCFlushRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
     ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
 }
+#endif  // PR_TEST
 
 uint32_t readControllerHook(uint16_t* p1) {
     auto returnValue = PADReadTrampoline(p1);
