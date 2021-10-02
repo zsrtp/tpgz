@@ -190,9 +190,8 @@ void store_mem_card(Storage& storage) {
     GZSaveFile save_file;
     Utilities::setup_save_file(save_file);
     Utilities::store_save_layout(save_file.data);
-    uint32_t file_size =
-        (uint32_t)(tp_ceil((double)sizeof(save_file) / (double)storage.sector_size) *
-                   storage.sector_size);
+    uint32_t file_size = (uint32_t)(
+        tp_ceil((double)sizeof(save_file) / (double)storage.sector_size) * storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
     if (storage.result == Ready || storage.result == Exist) {
@@ -220,9 +219,8 @@ void store_memfile(Storage& storage) {
     posData.cam.target = tp_matrixInfo.matrix_info->target;
     posData.cam.pos = tp_matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
-    uint32_t file_size =
-        (uint32_t)(tp_ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) *
-                   storage.sector_size);
+    uint32_t file_size = (uint32_t)(
+        tp_ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) * storage.sector_size);
 
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
