@@ -12,3 +12,4 @@ external/fonts/build
 Updater.log
 __pycache__
 RomHack.toml
+*.patch
