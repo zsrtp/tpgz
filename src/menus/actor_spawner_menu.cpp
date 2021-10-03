@@ -10,20 +10,20 @@
 
 #define LINES 4
 #ifdef GCN_PLATFORM
-#define CONTROLLER_RIGHT Controller::Pad::DPAD_RIGHT
-#define CONTROLLER_LEFT Controller::Pad::DPAD_LEFT
-#define CONTROLLER_UP Controller::Pad::DPAD_UP
-#define CONTROLLER_DOWN Controller::Pad::DPAD_DOWN
-#define CONTROLLER_SKIP_10 Controller::Pad::X
-#define CONTROLLER_SKIP_MINUS_10 Controller::Pad::Y
+#define CONTROLLER_RIGHT Controller::DPAD_RIGHT
+#define CONTROLLER_LEFT Controller::DPAD_LEFT
+#define CONTROLLER_UP Controller::DPAD_UP
+#define CONTROLLER_DOWN Controller::DPAD_DOWN
+#define CONTROLLER_SKIP_10 Controller::X
+#define CONTROLLER_SKIP_MINUS_10 Controller::Y
 #endif
 #ifdef WII_PLATFORM
-#define CONTROLLER_RIGHT Controller::Mote::DPAD_RIGHT
-#define CONTROLLER_LEFT Controller::Mote::DPAD_LEFT
-#define CONTROLLER_UP Controller::Mote::DPAD_UP
-#define CONTROLLER_DOWN Controller::Mote::DPAD_DOWN
-#define CONTROLLER_SKIP_10 Controller::Mote::ONE
-#define CONTROLLER_SKIP_MINUS_10 Controller::Mote::TWO
+#define CONTROLLER_RIGHT Controller::DPAD_RIGHT
+#define CONTROLLER_LEFT Controller::DPAD_LEFT
+#define CONTROLLER_UP Controller::DPAD_UP
+#define CONTROLLER_DOWN Controller::DPAD_DOWN
+#define CONTROLLER_SKIP_10 Controller::ONE
+#define CONTROLLER_SKIP_MINUS_10 Controller::TWO
 #endif
 
 static Cursor cursor = {0, 0};
@@ -31,7 +31,7 @@ bool lock_cursor_y = false;
 bool lock_cursor_x = false;
 bool init_once = false;
 
-int16_t actor_id = 0;
+uint16_t actor_id = 0;
 uint32_t actor_params = 0;
 int8_t actor_type = -1;
 uint8_t param_index = 0;
