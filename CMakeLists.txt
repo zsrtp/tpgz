@@ -1,0 +1,88 @@
+cmake_minimum_required(VERSION 3.14)
+
+# Check if the platform is valid
+if(NOT DEFINED PLATFORM)
+    set(PLATFORM "GCN" CACHE STRING "The platform of the version to be patched (GCN or WII).")
+    message(STATUS "PLATFORM not defined, defaulting to ${PLATFORM}")
+elseif(NOT ${PLATFORM} STREQUAL "GCN")
+    if(NOT ${PLATFORM} STREQUAL "WII")
+        message(FATAL_ERROR "PLATFORM has to be either GCN or WII. \"${PLATFORM}\" was given.")
+    endif()
+endif()
+
+if(${PLATFORM} STREQUAL "GCN")
+    # Supported regions for GCN
+    list(APPEND TPGZ_SUPPORTED_REGIONS NTSCU NTSCJ PAL)
+else()
+    # Supported regions for Wii
+    list(APPEND TPGZ_SUPPORTED_REGIONS NTSCU_10 PAL)
+endif()
+
+if(NOT DEFINED REGION)
+    list(GET TPGZ_SUPPORTED_REGIONS 0 REGION_ELEMENT)
+    set(REGION ${REGION_ELEMENT} CACHE STRING "The region of the version to be patched.")
+    message(STATUS "REGION not defined, defaulting to ${REGION}")
+else()
+    list(FIND TPGZ_SUPPORTED_REGIONS ${REGION} REGION_IDX)
+    if(REGION_IDX EQUAL -1)
+        message(FATAL_ERROR "\"${REGION}\" is not a valid region for the platform ${PLATFORM}")
+    endif()
+endif()
+
+if(DEFINED PR_TEST)
+    set(RUN_PR_TEST "-D PR_TEST=1")
+endif()
+
+message(STATUS "Configuring for ${PLATFORM}_${REGION}...")
+
+set(TPGZ_ISO_VERSIONS GCN_NTSCU GCN_NTSCJ GCN_PAL WII_NTSCU_10 WII_PAL)
+set(TPGZ_ISO_FILES    GZ2E01    GZ2J01    GZ2P01  RZDE01       RZDP01)
+
+list(FIND TPGZ_ISO_VERSIONS ${PLATFORM}_${REGION} TPGZ_ISO_VERSION)
+list(GET TPGZ_ISO_FILES ${TPGZ_ISO_VERSION} TPGZ_ISO_FILE)
+
+# Once we have the platform and region ready, we can check and setup the compiler toolchain.
+include(cmake/CheckDevkitPro.cmake)
+
+include(cmake/patcher.cmake)
+include(cmake/fonts.cmake)
+
+project(TPGZ
+        VERSION 1.0.0
+        DESCRIPTION "Twilight Princess speedrunning practice and testing tool"
+        HOMEPAGE_URL "tpgz.io"
+        LANGUAGES C CXX)
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/isos)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+# Set compiler stuff
+include_directories(include external)
+set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D ${PLATFORM}_${REGION} -D ${PLATFORM}_PLATFORM -D GZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
+
+include(cmake/tp_c.cmake)
+include(cmake/gcn_c.cmake)
+include(cmake/${PLATFORM}_${REGION}.cmake)
+
+add_subdirectory(src)
+
+add_library(tpgz STATIC "${CPPFILES}")
+add_dependencies(tpgz tp_c gcn)
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso
+    DEPENDS tpgz ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} build --raw)
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.patch
+    DEPENDS tpgz ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} build --raw --patch)
+
+add_custom_target(iso
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso
+    COMMENT "Patching ISO...")
+
+add_custom_target(patch
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/tpgz.patch
+    COMMENT "Creating patch file...")

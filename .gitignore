@@ -4,7 +4,9 @@
 *.iso
 *.map
 regional-patch.asm
-build/
+build*/
+isos/
+bin/
 .vscode/*.log
 external/fonts/target
 external/fonts/build
@@ -12,3 +14,5 @@ Updater.log
 __pycache__
 RomHack.toml
 *.patch
+romhack
+romhack.exe
