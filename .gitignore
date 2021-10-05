@@ -14,5 +14,3 @@ Updater.log
 __pycache__
 RomHack.toml
 *.patch
-romhack
-romhack.exe
