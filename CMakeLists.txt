@@ -44,6 +44,9 @@ list(GET TPGZ_ISO_FILES ${TPGZ_ISO_VERSION} TPGZ_ISO_FILE)
 # Once we have the platform and region ready, we can check and setup the compiler toolchain.
 include(cmake/CheckDevkitPro.cmake)
 
+include_directories(${DEVKITPRO_LIBOGC_INC})
+link_directories(${DEVKITPRO_LIBOGC_LIB})
+
 include(cmake/patcher.cmake)
 include(cmake/fonts.cmake)
 
