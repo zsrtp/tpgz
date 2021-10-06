@@ -73,14 +73,14 @@ add_library(tpgz STATIC "${CPPFILES}")
 add_dependencies(tpgz tp_c gcn)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso
-    DEPENDS tpgz ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso
+    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} build --raw)
+    COMMAND ${TPGZ_PATCHER_EXE} build --raw)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.patch
-    DEPENDS tpgz ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE}
+    DEPENDS tpgz ${TPGZ_PATCHER_EXE}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE} build --raw --patch)
+    COMMAND ${TPGZ_PATCHER_EXE} build --raw --patch)
 
 add_custom_target(iso
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso

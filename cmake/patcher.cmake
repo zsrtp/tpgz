@@ -1,10 +1,7 @@
 string(TOLOWER ${PLATFORM} TPGZ_PATCHER_DIR)
 
-set(TPGZ_PATCHER_EXE "${TPGZ_PATCHER_DIR}/romhack")
-if(WIN32)
-    set(TPGZ_PATCHER_EXE "${TPGZ_PATCHER_EXE}.exe")
-endif()
+find_program(TPGZ_PATCHER_EXE romhack HINTS ${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_DIR})
 
-if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bin/${TPGZ_PATCHER_EXE}")
-    message(FATAL_ERROR "please put \"${TPGZ_PATCHER_EXE}\" in the bin/ folder")
+if(NOT TPGZ_PATCHER_EXE)
+    message(FATAL_ERROR "please put \"romhack\" in the bin/ folder")
 endif()
