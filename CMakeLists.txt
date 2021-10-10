@@ -72,20 +72,21 @@ add_subdirectory(src)
 add_library(tpgz STATIC "${CPPFILES}")
 add_dependencies(tpgz tp_c gcn)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
     DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw)
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tpgz.patch
+string(REPLACE ".iso" ".patch" TPGZ_CFG_BLD_PATCH ${TPGZ_CFG_BLD_ISO})
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
     DEPENDS tpgz ${TPGZ_PATCHER_EXE}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw --patch)
 
 add_custom_target(iso
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/tpgz.iso
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
     COMMENT "Patching ISO...")
 
 add_custom_target(patch
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/tpgz.patch
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
     COMMENT "Creating patch file...")

@@ -15,7 +15,7 @@ set(TPGZ_CFG_DEBUG_INSTRUCTION "0x48000190")
 # TOML values
 set(TPGZ_CFG_SRC_ISO "../isos/RZDE01.iso")
 set(TPGZ_CFG_SRC_MAP "map/Rfinal/Release/RframeworkF.map")
-set(TPGZ_CFG_BLD_ISO "tpgz.iso")
+set(TPGZ_CFG_BLD_ISO "tpgzw.iso")
 set(TPGZ_CFG_BLD_MAP "RZDE01.map")
 set(TPGZ_CFG_LINK_BASE "0x8056_0000")
 set(TPGZ_CFG_SAVE_ANY_PATH "res/save_files_wii")
