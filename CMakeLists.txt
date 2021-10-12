@@ -48,6 +48,7 @@ include_directories(${DEVKITPRO_LIBOGC_INC})
 link_directories(${DEVKITPRO_LIBOGC_LIB})
 
 include(cmake/patcher.cmake)
+include(cmake/elf2rel.cmake)
 include(cmake/fonts.cmake)
 
 project(TPGZ
@@ -67,26 +68,32 @@ include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
 include(cmake/${PLATFORM}_${REGION}.cmake)
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_DIR}/patch.asm)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RomHack.toml.in ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml)
+
 add_subdirectory(src)
 
 add_library(tpgz STATIC "${CPPFILES}")
 add_dependencies(tpgz tp_c gcn)
 
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/res
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/res
+    COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/res/ ${CMAKE_CURRENT_BINARY_DIR}/res
+    COMMENT Copying res/ folder)
+
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
-    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso
+    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_BINARY_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso 
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw)
 
 string(REPLACE ".iso" ".patch" TPGZ_CFG_BLD_PATCH ${TPGZ_CFG_BLD_ISO})
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
-    DEPENDS tpgz ${TPGZ_PATCHER_EXE}
+    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_BINARY_DIR}/res
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw --patch)
 
 add_custom_target(iso
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
-    COMMENT "Patching ISO...")
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO})
 
 add_custom_target(patch
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
-    COMMENT "Creating patch file...")
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH})

@@ -13,12 +13,9 @@ set(TPGZ_CFG_DEBUG "0x80011f90")
 set(TPGZ_CFG_DEBUG_INSTRUCTION "0x48000190")
 
 # TOML values
-set(TPGZ_CFG_SRC_ISO "../isos/RZDE01.iso")
+set(TPGZ_CFG_SRC_ISO "${CMAKE_SOURCE_DIR}/isos/RZDE01.iso")
 set(TPGZ_CFG_SRC_MAP "map/Rfinal/Release/RframeworkF.map")
 set(TPGZ_CFG_BLD_ISO "tpgzw.iso")
 set(TPGZ_CFG_BLD_MAP "RZDE01.map")
 set(TPGZ_CFG_LINK_BASE "0x8056_0000")
 set(TPGZ_CFG_SAVE_ANY_PATH "res/save_files_wii")
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_DIR}/patch.asm)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RomHack.toml.in ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml)

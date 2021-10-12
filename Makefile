@@ -25,7 +25,7 @@ endif
 #---------------------------------------------------------------------------------
 TARGET		:=	tpgz
 BUILD		:=	build
-SOURCES		:=	src src/fonts src/utils src/menus
+SOURCES		:=	src src/utils src/menus
 EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
