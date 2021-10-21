@@ -41,6 +41,10 @@ set(TPGZ_ISO_FILES    GZ2E01    GZ2J01    GZ2P01  RZDE01       RZDP01)
 list(FIND TPGZ_ISO_VERSIONS ${PLATFORM}_${REGION} TPGZ_ISO_VERSION)
 list(GET TPGZ_ISO_FILES ${TPGZ_ISO_VERSION} TPGZ_ISO_FILE)
 
+list(APPEND CMAKE_MODULE_PATH
+  ${CMAKE_SOURCE_DIR}/cmake
+)
+
 # Once we have the platform and region ready, we can check and setup the compiler toolchain.
 include(cmake/CheckDevkitPro.cmake)
 
