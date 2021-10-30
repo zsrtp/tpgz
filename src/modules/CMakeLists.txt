@@ -32,10 +32,17 @@ function(tpgz_add_module module_name module_srcs)
         link_directories(${module_lib_paths})
     endif()
 
-    add_executable(${module_name}.elf EXCLUDE_FROM_ALL ${module_srcs} ${TPGZ_REL_SRC})
+    set(${module_name}_obj_list "$<GENEX_EVAL:$<JOIN:$<TARGET_OBJECTS:${module_name}_elf_obj>, >>")
+    set(${module_name}_lib_list "$<GENEX_EVAL:$<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_LIBRARIES>, >>")
+
+    add_library(${module_name}_elf_obj OBJECT EXCLUDE_FROM_ALL ${module_srcs} ${TPGZ_REL_SRC})
+    link_libraries()
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf
+        DEPENDS ${module_name}_elf_obj
+        COMMAND sh -c "${CMAKE_LINKER} $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_FLAGS>, > $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_OPTIONS>, > --Map ${module_name}.map $<JOIN:$<TARGET_OBJECTS:${module_name}_elf_obj>, > $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_LIBRARIES>, > -o ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf")
 
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.rel
-        DEPENDS ${module_name}.elf ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst
         COMMAND ${TPGZ_ELF2REL_EXE} ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf -s ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst)
 
     add_custom_target(${module_name}
@@ -45,6 +52,7 @@ endfunction()
 
 include_directories(${CMAKE_SOURCE_DIR}/external/libtp_rel/include)
 add_definitions(-D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="<unk>")
-add_link_options(-fno-exceptions -fno-rtti -std=gnu++17 -nostdlib -ffreestanding -ffunction-sections -fdata-sections -g -Os -Wall -Werror -Wno-address-of-packed-member -r -e _prolog -u _prolog -u _epilog -u _unresolved -Wl,--gc-sections -nostdlib -g  ${DEVKITPRO_MACHDEP} -Wl,-Map,${module_name}.map -T ${CMAKE_SOURCE_DIR}/external/libtp_rel/source/cxx.ld)
+add_compile_options(-fno-exceptions -fno-rtti -std=gnu++17 -nostdlib -ffreestanding -ffunction-sections -fdata-sections -g -Os -Wall -Werror -Wno-address-of-packed-member -r -e_prolog -u_prolog -u_epilog -u_unresolved -Wl,--gc-sections -nostdlib -g  ${DEVKITPRO_MACHDEP}) # -T ${CMAKE_SOURCE_DIR}/external/libtp_rel/source/cxx.ld
+add_link_options(-r -e _prolog -u _prolog -u _epilog -u _unresolved -g ${DEVKITPRO_MACHDEP})
 
 add_subdirectory(hello_world)

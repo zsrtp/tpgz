@@ -30,7 +30,7 @@ else()
 endif()
 
 if(DEFINED PR_TEST)
-    set(RUN_PR_TEST "-D PR_TEST=1")
+    set(RUN_PR_TEST "-DPR_TEST=1")
 endif()
 
 message(STATUS "Configuring for ${PLATFORM}_${REGION}...")
@@ -59,14 +59,14 @@ project(TPGZ
         VERSION 1.0.0
         DESCRIPTION "Twilight Princess speedrunning practice and testing tool"
         HOMEPAGE_URL "tpgz.io"
-        LANGUAGES C CXX)
+        LANGUAGES C CXX ASM)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/isos)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set compiler stuff
 include_directories(include external)
-set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D ${PLATFORM}_${REGION} -D ${PLATFORM}_PLATFORM -D GZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
+set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
 
 include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
