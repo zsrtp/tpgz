@@ -39,6 +39,7 @@ function(tpgz_add_module module_name module_srcs)
     link_libraries()
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf
         DEPENDS ${module_name}_elf_obj
+        BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.map
         COMMAND sh -c "${CMAKE_LINKER} $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_FLAGS>, > $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_OPTIONS>, > --Map ${module_name}.map $<JOIN:$<TARGET_OBJECTS:${module_name}_elf_obj>, > $<JOIN:$<TARGET_PROPERTY:${module_name}_elf_obj,LINK_LIBRARIES>, > -o ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.elf")
 
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.rel
@@ -48,6 +49,7 @@ function(tpgz_add_module module_name module_srcs)
     add_custom_target(${module_name}
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.rel)
     add_dependencies(rels ${module_name})
+    set_property(TARGET rels APPEND PROPERTY "TPGZ_MODULES" ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.rel)
 endfunction()
 
 include_directories(${CMAKE_SOURCE_DIR}/external/libtp_rel/include)
@@ -56,3 +58,14 @@ add_compile_options(-fno-exceptions -fno-rtti -std=gnu++17 -nostdlib -ffreestand
 add_link_options(-r -e _prolog -u _prolog -u _epilog -u _unresolved -g ${DEVKITPRO_MACHDEP})
 
 add_subdirectory(hello_world)
+
+
+get_target_property(TPGZ_RELS rels TPGZ_MODULES)
+foreach(rel ${TPGZ_RELS})
+    get_filename_component(rel_name ${rel} NAME)
+    add_custom_command(TARGET rels
+        POST_BUILD
+        BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/rels/${rel_name}
+        COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/rels
+        COMMAND cp ${rel} ${CMAKE_CURRENT_BINARY_DIR}/rels/${rel_name})
+endforeach()
