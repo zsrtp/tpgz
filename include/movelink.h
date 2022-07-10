@@ -1,7 +1,7 @@
 #pragma once
 #include "font.h"
 
-extern bool move_link_active;
+extern bool g_moveLinkEnabled;
 
 #ifdef GCN_PLATFORM
 #define MOVE_LINK_MOVEMENT_TEXT "Stick/C"
@@ -13,6 +13,6 @@ extern bool move_link_active;
 #endif
 
 namespace MoveLink {
-void move_link();
-void render_info_input();
+void execute();
+// void render_info_input();
 }  // namespace MoveLink

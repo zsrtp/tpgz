@@ -3,11 +3,15 @@
 
 struct ItemLookup {
     enum ItemTable item_id;
-    char item_description[40];
+    char name[40];
 };
 
 class ItemWheelMenu : public Menu {
 public:
     ItemWheelMenu() : Menu() {}
-    static void render();
+    static void draw();
+    static void updateListIdx();
+    static void fixSpecialItems(int i);
+
+    static Cursor cursor;
 };

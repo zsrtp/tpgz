@@ -17,11 +17,6 @@
 #define TARGET_BUTTON L
 #endif
 
-bool inject_gorge_flag = false;
-
-namespace GorgeVoidIndicator {
-using namespace Controller;
-
 static bool start_timer = false;
 uint32_t previous_counter = 0;
 uint32_t current_counter = 0;
@@ -30,13 +25,12 @@ static int after_cs_val = 0;
 static bool got_it = false;
 static char buf[20];
 
-void prep_rupee_roll() {
+void GorgeVoidIndicator::initState() {
     dComIfGs_onSwitch(21, dComIfGp_getPlayer()->mOrig.mRoomNo);
     dComIfGp_getEvent().mOrder[0].mEventId = 9;
-    inject_gorge_flag = false;
 }
 
-void warp_to_gorge() {
+void GorgeVoidIndicator::warpToPosition() {
     // set gorge map info
     g_dComIfG_gameInfo.info.mMemory.mBit.mSwitch[0] = 0;  // optimize later
     dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
@@ -63,7 +57,8 @@ void warp_to_gorge() {
     g_dComIfG_gameInfo.info.mRestart.mRoomPos = pos;
     g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = 24169;
 }
-void run() {
+
+void GorgeVoidIndicator::execute() {
     // reset counters on load
     if (tp_fopScnRq.isLoading == 1) {
         counter_difference = 0;
@@ -93,29 +88,28 @@ void run() {
         // only care about 10f before and after
         if (counter_difference > 123 && after_cs_val < 10) {
             // went early
-            if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
+            if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
                 (counter_difference < WARP_CS_FRAMES) &&
-                (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
+                (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 int final_val = WARP_CS_FRAMES - counter_difference;
                 tp_sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
             // got it
-            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
+            else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
                      (counter_difference == WARP_CS_FRAMES) &&
-                     (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
+                     (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 FIFOQueue::push("got it", Queue, 0x00CC0000);
                 got_it = true;
             }
 
             // went late
-            else if (!got_it && !(button_is_held(TARGET_BUTTON) && button_is_held(A)) &&
-                     after_cs_val > 0 && (button_is_down(A) && button_is_down(TARGET_BUTTON))) {
+            else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
+                     after_cs_val > 0 && (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 tp_sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }
         }
     }
 }
-}  // namespace GorgeVoidIndicator

@@ -6,22 +6,21 @@
 #include "utils/draw.h"
 #include "utils/texture.h"
 
-int cursor_rgba;
+int g_cursorColor;
 int min_line = 0;
 int max_line = 15;
 
-float max_value_f(float a, float b) {
+float maxF(float a, float b) {
     return MAX(a, b);
 }
 
-namespace Utilities {
-void render_lines(Line input_lines[], int cursor, int LINES) {
-    float x_offset = sprite_offsets[MENU_INDEX].x;
+void GZ_drawMenuLines(Line input_lines[], int cursor, int LINES) {
+    float x_offset = g_spriteOffsets[MENU_INDEX].x;
     float y_offset = 0.0f;
 
     float max_line_width = 0.0f;
     for (int i = 0; i < LINES; ++i) {
-        max_line_width = max_value_f(max_line_width, Font::get_chars_width(input_lines[i].line));
+        max_line_width = maxF(max_line_width, Font::getStrWidth(input_lines[i].line));
     }
 
     if (LINES <= MAX_RENDER_LINES) {
@@ -42,9 +41,9 @@ void render_lines(Line input_lines[], int cursor, int LINES) {
         if (i > max_line || i < min_line) {
             continue;
         }
-        y_offset = (sprite_offsets[MENU_INDEX].y + (i - min_line) * 20.0f);
+        y_offset = (g_spriteOffsets[MENU_INDEX].y + (i - min_line) * 20.0f);
 
-        int cursor_color = cursor_rgba;
+        int cursor_color = g_cursorColor;
         int description_color = 0xFFFFFF00;
         int description_alpha = 0xFF;
 
@@ -58,57 +57,26 @@ void render_lines(Line input_lines[], int cursor, int LINES) {
         // logic for lines that are toggleable
         if (input_lines[i].toggleable) {
             if (*input_lines[i].activation_flag) {
-                Font::gz_renderChars(" [X]", x_offset + max_line_width, y_offset, cursor_color,
-                                     g_drop_shadows);
+                Font::GZ_drawStr(" [X]", x_offset + max_line_width, y_offset, cursor_color,
+                                     g_dropShadows);
             } else {
-                Font::gz_renderChars(" [ ]", x_offset + max_line_width, y_offset, cursor_color,
-                                     g_drop_shadows);
+                Font::GZ_drawStr(" [ ]", x_offset + max_line_width, y_offset, cursor_color,
+                                     g_dropShadows);
             }
 
-            Font::gz_renderChars(input_lines[i].line, x_offset, y_offset, cursor_color,
-                                 g_drop_shadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color,
+                                 g_dropShadows);
         } else {
-            Font::gz_renderChars(input_lines[i].line, x_offset, y_offset, cursor_color,
-                                 g_drop_shadows);
-            Font::gz_renderChars(input_lines[i].value, x_offset + max_line_width, y_offset,
-                                 cursor_color, g_drop_shadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color,
+                                 g_dropShadows);
+            Font::GZ_drawStr(input_lines[i].value, x_offset + max_line_width, y_offset,
+                                 cursor_color, g_dropShadows);
         }
 
         // render line descriptions
         if (input_lines[i].idx == cursor) {
-            Font::gz_renderChars(input_lines[i].description, x_offset, 440.f, 0x00000000, true);
+            Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, 0x00000000, true);
         }
-        Font::gz_renderChars(input_lines[i].description, x_offset, 440.f, description_color, false);
-    };
-}
-
-void change_cursor_color() {
-    switch (g_cursor_color) {
-    case CURSOR_GREEN: {
-        cursor_rgba = 0x00CC00FF;
-        break;
-    }
-    case CURSOR_BLUE: {
-        cursor_rgba = 0x0080FFFF;
-        break;
-    }
-    case CURSOR_RED: {
-        cursor_rgba = 0xCC0000FF;
-        break;
-    }
-    case CURSOR_ORANGE: {
-        cursor_rgba = 0xEE8000FF;
-        break;
-    }
-    case CURSOR_YELLOW: {
-        cursor_rgba = 0xFFCC00FF;
-        break;
-    }
-    case CURSOR_PURPLE: {
-        cursor_rgba = 0x6600CCFF;
-        break;
-    }
+        Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, description_color, false);
     }
 }
-
-}  // namespace Utilities

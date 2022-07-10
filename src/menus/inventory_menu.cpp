@@ -1,48 +1,38 @@
 #include "menus/inventory_menu.h"
-#include "controller.h"
 #include "font.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
+#include "gz_flags.h"
 
-#define LINES 3
+#define LINE_NUM 3
 
-static Cursor cursor = {0, 0};
-bool init_once = false;
+Cursor InventoryMenu::cursor;
 
-Line lines[LINES] = {{"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
-                     {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
-                     {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false}};
-
-void InventoryMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        init_once = false;
-        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
-        return;
-    };
-
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
-    }
-
-    if (current_input == SELECTION_BUTTON && a_held == false) {
-        switch (cursor.y) {
-        case ITEM_WHEEL_INDEX: {
-            MenuRendering::set_menu(MN_ITEM_WHELL_INDEX);
-            return;
-        }
-        case PAUSE_MENU_INDEX: {
-            MenuRendering::set_menu(MN_PAUSE_INDEX);
-            return;
-        }
-        case AMOUNTS_MENU_INDEX: {
-            MenuRendering::set_menu(MN_AMOUNTS_INDEX);
-            return;
-        }
-        }
-    }
-
-    Utilities::move_cursor(cursor, LINES);
-
-    Utilities::render_lines(lines, cursor.y, LINES);
+Line lines[LINE_NUM] = {
+    {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
+    {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
+    {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false},
 };
+
+void InventoryMenu::draw() {
+    cursor.move(0, LINE_NUM);
+
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_MAIN_MENU);
+        return;
+    }
+
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+        switch (cursor.y) {
+        case ITEM_WHEEL_INDEX:
+            GZ_setMenu(GZ_WHEEL_MENU);
+            return;
+        case PAUSE_MENU_INDEX:
+            GZ_setMenu(GZ_PAUSE_MENU);
+            return;
+        case AMOUNTS_MENU_INDEX:
+            GZ_setMenu(GZ_AMOUNTS_MENU);
+            return;
+        }
+    }
+
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

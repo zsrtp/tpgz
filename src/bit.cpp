@@ -19,27 +19,21 @@
 #define BOOTS_TERM_VEL -300.0
 #define TARGET_FRAME 28
 
-#define LAST_Y_GROUND_POS (*(float*)(tp_zelAudio.link_debug_ptr + 0x2f3c))
-
-bool inject_bit_flag = false;
-extern Font font;
-
-namespace BiTIndicator {
-using namespace Controller;
+#define LAST_Y_GROUND_POS (*(float*)(dComIfGp_getPlayer() + 0x2f3c))
 
 static char buf[30];
 
-void set_camera_angle_position() {
+void BiTIndicator::setPosition() {
     dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
     tp_matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     tp_matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
 
-void run() {
+void BiTIndicator::execute() {
     double dt = 0;
 
-    if (dComIfGp_getPlayer() && tp_zelAudio.link_debug_ptr) {
+    if (dComIfGp_getPlayer()) {
         const bool has_boots = (dComIfGp_getPlayer()->mNoResetFlg0 & 0x02) != 0;
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
@@ -74,7 +68,7 @@ void run() {
 
         if (tp_strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
                       "F_SP104") == 0 &&
-            button_is_down(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
+            GZ_getButtonPressed(HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");
             }
@@ -88,5 +82,4 @@ void run() {
         }
     }
 }
-}  // namespace BiTIndicator
 #endif

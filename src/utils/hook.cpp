@@ -10,6 +10,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/card.h"
 #include "movelink.h"
+#include "menus/memfiles_menu.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -19,10 +20,6 @@ HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
 HOOK_DEF(void, ExceptionCallback, (void));
 HOOK_DEF(void, draw, (void*));
-
-struct PadStatus {
-    uint8_t ok[12];
-};
 
 #ifdef GCN_PLATFORM
 #define PAD_READ_RETURN_OFFSET (0x2FC)
@@ -59,13 +56,14 @@ HOOK_DEF(void, offEventBit, (void*, uint16_t));
 HOOK_DEF(void, onSwitch, (void*, int, int));
 HOOK_DEF(void, putSave, (void*, int));
 
+HOOK_DEF(void, dCcS__draw, (void));
+HOOK_DEF(void, BeforeOfPaint, (void));
+
 struct {
     uint32_t a[2];
 } trampolines[HOOK_AMNT];
 
 namespace Hook {
-using namespace mod::patch;
-
 void initHook(void* p1, void* p2, void* p3) {
     cDyl_InitAsyncTrampoline(p1, p2, p3);
     init();
@@ -93,12 +91,12 @@ void myExceptionCallbackHook(void) {
 
 uint32_t readControllerHook(uint16_t* p1) {
     auto returnValue = PADReadTrampoline(p1);
-    Controller::read_controller();
+    GZ_readController();
     return returnValue;
 }
 
 uint32_t superClawshotHook(void* p1, void* p2) {
-    if (CheatItems[Cheats::SuperClawshot].active) {
+    if (g_cheats[SuperClawshot].active) {
         return 1;
     } else {
         return checkHookshotStickBGTrampoline(p1, p2);
@@ -106,7 +104,7 @@ uint32_t superClawshotHook(void* p1, void* p2) {
 }
 
 void disableGravityHook(float p1, float p2, int p3) {
-    if (move_link_active) {
+    if (g_moveLinkEnabled) {
         return setSpecialGravityTrampoline(0.0f, p2, p3);
     } else {
         return setSpecialGravityTrampoline(p1, p2, p3);
@@ -114,7 +112,7 @@ void disableGravityHook(float p1, float p2, int p3) {
 }
 
 uint32_t unrestrictedItemsHook(uint16_t p1) {
-    if (CheatItems[Cheats::UnrestrictedItems].active) {
+    if (g_cheats[UnrestrictedItems].active) {
         return 1;
     } else {
         return checkCastleTownUseItemTrampoline(p1);
@@ -122,7 +120,7 @@ uint32_t unrestrictedItemsHook(uint16_t p1) {
 }
 
 uint32_t transformAnywhereHook(void* p1, void* p2, int p3) {
-    if (CheatItems[Cheats::TransformAnywhere].active) {
+    if (g_cheats[TransformAnywhere].active) {
         return 0;
     } else {
         return query042Trampoline(p1, p2, p3);
@@ -131,7 +129,7 @@ uint32_t transformAnywhereHook(void* p1, void* p2, int p3) {
 
 static char buf[40];
 void onEventBitHook(void* addr, uint16_t pFlag) {
-    if (g_flag_log_active) {
+    if (g_flagLogEnabled) {
         if (addr == &g_dComIfG_gameInfo.info.mTmp) {
             tp_sprintf(buf, "%s[0x%X] : %X | ON", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
@@ -144,7 +142,7 @@ void onEventBitHook(void* addr, uint16_t pFlag) {
 }
 
 void offEventBitHook(void* addr, uint16_t pFlag) {
-    if (g_flag_log_active) {
+    if (g_flagLogEnabled) {
         if (addr == &g_dComIfG_gameInfo.info.mTmp) {
             tp_sprintf(buf, "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
@@ -158,7 +156,7 @@ void offEventBitHook(void* addr, uint16_t pFlag) {
 
 void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
     int tmp = pFlag;
-    if (g_flag_log_active) {
+    if (g_flagLogEnabled) {
         if (pFlag < 0x80) {
             tp_sprintf(buf, "%s[%d] : %d | ON", "Memory Switch", tmp >> 5, tmp & 0x1F);
         } else if (pFlag < 0xC0) {
@@ -178,14 +176,14 @@ void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
 
 // Stops temp flags from being stored to save when loading memfile
 void putSaveHook(void* addr, int stageNo) {
-    if (inject_memfile_flag) {
+    if (g_injectMemfile) {
         return;
     } else {
         return putSaveTrampoline(addr, stageNo);
     }
 }
 
-void apply_hooks() {
+void applyHooks() {
 #define APPLY_HOOK(name, addr, idx, func)                                                          \
     name##Trampoline = hookFunction((tp_##name##_t)addr, trampolines[idx].a, func)
     APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);

@@ -17,27 +17,22 @@
 #define REPEAT_DELAY 5
 
 #ifdef GCN_PLATFORM
-#define buttons_down (tp_mPadStatus.sval)
-#define A_BUTTON (Controller::Pad::A)
-#define ITEM_WHEEL_BUTTON (Controller::Pad::DPAD_DOWN)
-#define TRIGGER_BUTTONS (Controller::Pad::L | Controller::Pad::R)
+#define buttonStatus (tp_mPadStatus.button)
+#define A_BUTTON (CButton::A)
+#define ITEM_WHEEL_BUTTON (CButton::DPAD_DOWN)
+#define TRIGGER_BUTTONS (CButton::L | CButton::R)
 #endif
 #ifdef WII_PLATFORM
-#define buttons_down (tp_mPad.buttons)
+#define buttonStatus (tp_mPad.buttons)
 #define A_BUTTON (Controller::Mote::A)
 #define ITEM_WHEEL_BUTTON (Controller::Mote::MINUS)
 #define TRIGGER_BUTTONS (Controller::Mote::Z | Controller::Mote::C)
 #endif
 
-static uint16_t sButtons_down_last_frame = 0;
-static uint16_t sButtons_down = 0;
-static uint16_t sButtons_pressed = 0;
-bool a_held = true;
-bool a_held_last_frame = true;
-uint16_t current_input = 0x0000;
-
-bool can_move_cursor = false;
-static uint16_t sNum_frames_cursor_buffer = 0;
+static uint16_t sButtonsLastFrame = 0;
+static uint16_t sButtons = 0;
+static uint16_t sButtonsPressed = 0;
+static uint16_t sCursorEnableDelay = 0;
 
 struct ButtonState {
     uint16_t button;
@@ -46,112 +41,119 @@ struct ButtonState {
 };
 
 #ifdef GCN_PLATFORM
-static ButtonState buttonStates[BUTTON_STATES] = {{Controller::Pad::DPAD_LEFT, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::DPAD_RIGHT, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::DPAD_DOWN, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::DPAD_UP, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::Z, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::R, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::L, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::A, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::B, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::X, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::Y, 0xFFFFFFFF, false},
-                                                  {Controller::Pad::START, 0xFFFFFFFF, false}};
+static ButtonState buttonStates[BUTTON_STATES] = {
+    {CButton::DPAD_LEFT, 0xFFFFFFFF, false},
+    {CButton::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {CButton::DPAD_DOWN, 0xFFFFFFFF, false},
+    {CButton::DPAD_UP, 0xFFFFFFFF, false},
+    {CButton::Z, 0xFFFFFFFF, false},
+    {CButton::R, 0xFFFFFFFF, false},
+    {CButton::L, 0xFFFFFFFF, false},
+    {CButton::A, 0xFFFFFFFF, false},
+    {CButton::B, 0xFFFFFFFF, false},
+    {CButton::X, 0xFFFFFFFF, false},
+    {CButton::Y, 0xFFFFFFFF, false},
+    {CButton::START, 0xFFFFFFFF, false},
+};
 #endif
 #ifdef WII_PLATFORM
-static ButtonState buttonStates[BUTTON_STATES] = {{Controller::Mote::DPAD_LEFT, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::DPAD_RIGHT, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::DPAD_DOWN, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::DPAD_UP, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::PLUS, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::TWO, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::ONE, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::B, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::A, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::MINUS, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::Z, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::C, 0xFFFFFFFF, false},
-                                                  {Controller::Mote::HOME, 0xFFFFFFFF, false}};
+static ButtonState buttonStates[BUTTON_STATES] = {
+    {Controller::Mote::DPAD_LEFT, 0xFFFFFFFF, false},
+    {Controller::Mote::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {Controller::Mote::DPAD_DOWN, 0xFFFFFFFF, false},
+    {Controller::Mote::DPAD_UP, 0xFFFFFFFF, false},
+    {Controller::Mote::PLUS, 0xFFFFFFFF, false},
+    {Controller::Mote::TWO, 0xFFFFFFFF, false},
+    {Controller::Mote::ONE, 0xFFFFFFFF, false},
+    {Controller::Mote::B, 0xFFFFFFFF, false},
+    {Controller::Mote::A, 0xFFFFFFFF, false},
+    {Controller::Mote::MINUS, 0xFFFFFFFF, false},
+    {Controller::Mote::Z, 0xFFFFFFFF, false},
+    {Controller::Mote::C, 0xFFFFFFFF, false},
+    {Controller::Mote::HOME, 0xFFFFFFFF, false},
+};
 #endif
 
-namespace Controller {
+void GZ_readController() {
+    sButtonsLastFrame = sButtons;
+    sButtons = buttonStatus;
+    sButtonsPressed = sButtons & (0xFFFF ^ sButtonsLastFrame);
 
-void read_controller() {
-    sButtons_down_last_frame = sButtons_down;
-    sButtons_down = buttons_down;
-    sButtons_pressed = sButtons_down & (0xFFFF ^ sButtons_down_last_frame);
-
-    uint8_t idx = 0;
-    for (; idx < BUTTON_STATES; idx++) {
-        buttonStates[idx].is_down = (buttonStates[idx].button & sButtons_down) != 0;
-        if ((buttonStates[idx].button & sButtons_pressed) != 0) {
+    for (uint8_t idx = 0; idx < BUTTON_STATES; idx++) {
+        buttonStates[idx].is_down = (buttonStates[idx].button & sButtons) != 0;
+        if ((buttonStates[idx].button & sButtonsPressed) != 0) {
             buttonStates[idx].pressed_frame = cCt_getFrameCount() + 1;
         }
     }
 
-    Cheats::apply_cheats();
-    if (MenuRendering::is_menu_open() == true) {
-        current_input = Controller::get_current_inputs();
-        a_held = a_held_last_frame && current_input == A_BUTTON;
-        a_held_last_frame = current_input == A_BUTTON;
+    GZ_applyCheats();
+    if (GZ_checkMenuOpen() == true) {
+        uint16_t current_input = GZ_getButtonStatus();
 
 #ifdef GCN_PLATFORM
         // prevent accidentally moving cursor down when opening menu
-        if (!can_move_cursor) {
-            if (current_input & Controller::Pad::DPAD_UP) {
-                can_move_cursor = true;
-            } else if (current_input & (Controller::Pad::L | Controller::Pad::R)) {
-                sNum_frames_cursor_buffer = 0;
-            } else if (sNum_frames_cursor_buffer < 1) {
-                sNum_frames_cursor_buffer = 1;
+        if (!g_cursorEnabled) {
+            if (current_input & CButton::DPAD_UP) {
+                g_cursorEnabled = true;
+            } else if (current_input & (CButton::L | CButton::R)) {
+                sCursorEnableDelay = 0;
+            } else if (sCursorEnableDelay < 1) {
+                sCursorEnableDelay = 1;
             }
 
-            if (sNum_frames_cursor_buffer >= 4) {
-                can_move_cursor = true;
-            } else if (sNum_frames_cursor_buffer > 0) {
-                sNum_frames_cursor_buffer++;
+            if (sCursorEnableDelay >= 4) {
+                g_cursorEnabled = true;
+            } else if (sCursorEnableDelay > 0) {
+                sCursorEnableDelay++;
             }
         }
 #else
-        can_move_cursor = true;
+        g_cursorEnabled = true;
 #endif
 
-        Controller::set_buttons_down(0x0);
-        Controller::set_buttons_pressed(0x0);
+        setGamepadButtons(0);
+        setGamepadTrig(0);
 #ifdef GCN_PLATFORM
-        buttons_down = 0x0;
-        tp_mPadButton.sval = 0x0;
+        buttonStatus = 0x0;
+        tp_mPadButton.mRepeat = 0x0;
 #endif
     } else {
-        can_move_cursor = false;
-        sNum_frames_cursor_buffer = 0;
-        Commands::process_inputs();
+        g_cursorEnabled = false;
+        sCursorEnableDelay = 0;
+        GZCmd_processInputs();
     }
 }
 
-bool button_is_down(int idx) {
+bool GZ_getButtonPressed(int idx) {
     return buttonStates[idx].is_down;
 }
 
-bool button_is_pressed(int idx, uint16_t repeat_time) {
+bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
     auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     auto just_clicked = delta == 0;
     auto held_down_long_enough = delta > REPEAT_DELAY;
     auto is_repeat_frame = held_down_long_enough && delta % repeat_time == 0;
-    auto down = button_is_down(idx);
+    auto down = GZ_getButtonPressed(idx);
     return down && (just_clicked || is_repeat_frame);
 }
 
-bool button_is_pressed(int idx) {
-    return button_is_pressed(idx, REPEAT_TIME);
+bool GZ_getButtonRepeat(int idx) {
+    return GZ_getButtonRepeat(idx, REPEAT_TIME);
 }
 
-uint16_t get_current_inputs() {
-    return buttons_down;
+uint16_t GZ_getButtonStatus() {
+    return buttonStatus;
 }
 
-bool button_is_held(int idx, int phase) {
+bool GZ_getButtonTrig(int idx) {
+    auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    auto just_clicked = delta == 0;
+
+    auto down = GZ_getButtonPressed(idx);
+    return down && just_clicked;
+}
+
+bool GZ_getButtonHold(int idx, int phase) {
     uint32_t delta;
     if (phase == POST_GAME_LOOP) {
         delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
@@ -165,4 +167,3 @@ bool button_is_held(int idx, int phase) {
         return false;
     }
 }
-}  // namespace Controller

@@ -1,141 +1,94 @@
 #include "menus/amounts_menu.h"
-#include "controller.h"
-#include "font.h"
-#include "libtp_c/include/msl_c/math.h"
 #include "libtp_c/include/msl_c/string.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "gz_flags.h"
 
-#define LINES 8
+#define LINE_NUM 8
 
-static Cursor cursor = {0, 0};
-bool init_once = false;
+Cursor AmountsMenu::cursor;
 
-static uint8_t arrow_ammo;
-static uint8_t bomb_bag_1_ammo = 0;
-static uint8_t bomb_bag_2_ammo = 0;
-static uint8_t bomb_bag_3_ammo = 0;
-static uint8_t slingshot_ammo = 0;
-static uint8_t poe_count = 0;
-static uint16_t hp_count = 0;
-static uint16_t rupee_count = 0;
+uint8_t l_arrowNum;
+uint8_t l_bag1Num = 0;
+uint8_t l_bag2Num = 0;
+uint8_t l_bag3Num = 0;
+uint8_t l_seedNum = 0;
+uint8_t l_poeNum = 0;
+uint16_t l_hpNum = 0;
+uint16_t l_rupeeNum = 0;
 
-Line lines[LINES] = {{"arrow ammo:", ARROW_AMMO_INDEX, "Amount of arrows held"},
-                     {"bomb bag 1 ammo:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
-                     {"bomb bag 2 ammo:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
-                     {"bomb bag 3 ammo:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
-                     {"slingshot ammo:", SLINGSHOT_AMMO_INDEX, "Amount of slingshot pellets held"},
-                     {"heart pieces:", HEART_PIECE_COUNT_INDEX, "Amount of heart pieces collected"},
-                     {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
-                     {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"}};
+Line lines[LINE_NUM] = {
+    {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
+    {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
+    {"bomb bag 2 num:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
+    {"bomb bag 3 num:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
+    {"seeds:", SLINGSHOT_AMMO_INDEX, "Current seed count"},
+    {"heart pieces:", HEART_PIECE_COUNT_INDEX, "Amount of heart pieces collected"},
+    {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
+    {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"},
+};
 
-void AmountsMenu::render() {
+void AmountsMenu::draw() {
+    cursor.setMode(Cursor::MODE_LIST);
+
     // update amounts
-    arrow_ammo = dComIfGs_getArrowNum();
-    bomb_bag_1_ammo = dComIfGs_getBombNum(BOMB_BAG_1);
-    bomb_bag_2_ammo = dComIfGs_getBombNum(BOMB_BAG_2);
-    bomb_bag_3_ammo = dComIfGs_getBombNum(BOMB_BAG_3);
-    slingshot_ammo = dComIfGs_getPachinkoNum();
-    poe_count = dComIfGs_getPohSpiritNum();
-    hp_count = dComIfGs_getMaxLife();
-    rupee_count = dComIfGs_getRupee();
+    l_arrowNum = dComIfGs_getArrowNum();
+    l_bag1Num = dComIfGs_getBombNum(BOMB_BAG_1);
+    l_bag2Num = dComIfGs_getBombNum(BOMB_BAG_2);
+    l_bag3Num = dComIfGs_getBombNum(BOMB_BAG_3);
+    l_seedNum = dComIfGs_getPachinkoNum();
+    l_poeNum = dComIfGs_getPohSpiritNum();
+    l_hpNum = dComIfGs_getMaxLife();
+    l_rupeeNum = dComIfGs_getRupee();
 
-    if (button_is_pressed(BACK_BUTTON)) {
-        init_once = false;
-        MenuRendering::set_menu(MN_INVENTORY_INDEX);
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_INVENTORY_MENU);
         return;
-    };
-
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
     }
 
     switch (cursor.y) {
-    case ARROW_AMMO_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            arrow_ammo--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            arrow_ammo++;
-        }
-        dComIfGs_setArrowNum(arrow_ammo);
+    case ARROW_AMMO_INDEX:
+        Cursor::moveList(l_arrowNum);
+        dComIfGs_setArrowNum(l_arrowNum);
         break;
-    }
-    case BOMB_BAG_1_AMMO_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            bomb_bag_1_ammo--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            bomb_bag_1_ammo++;
-        }
-        dComIfGs_setBombNum(BOMB_BAG_1, bomb_bag_1_ammo);
+    case BOMB_BAG_1_AMMO_INDEX:
+        Cursor::moveList(l_bag1Num);
+        dComIfGs_setBombNum(BOMB_BAG_1, l_bag1Num);
         break;
-    }
-    case BOMB_BAG_2_AMMO_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            bomb_bag_2_ammo--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            bomb_bag_2_ammo++;
-        }
-        dComIfGs_setBombNum(BOMB_BAG_2, bomb_bag_2_ammo);
+    case BOMB_BAG_2_AMMO_INDEX:
+        Cursor::moveList(l_bag2Num);
+        dComIfGs_setBombNum(BOMB_BAG_2, l_bag2Num);
         break;
-    }
-    case BOMB_BAG_3_AMMO_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            bomb_bag_3_ammo--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            bomb_bag_3_ammo++;
-        }
-        dComIfGs_setBombNum(BOMB_BAG_3, bomb_bag_3_ammo);
+    case BOMB_BAG_3_AMMO_INDEX:
+        Cursor::moveList(l_bag3Num);
+        dComIfGs_setBombNum(BOMB_BAG_3, l_bag3Num);
         break;
-    }
-    case SLINGSHOT_AMMO_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            slingshot_ammo--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            slingshot_ammo++;
-        }
-        dComIfGs_setPachinkoNum(slingshot_ammo);
+    case SLINGSHOT_AMMO_INDEX:
+        Cursor::moveList(l_seedNum);
+        dComIfGs_setPachinkoNum(l_seedNum);
         break;
-    }
-    case HEART_PIECE_COUNT_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            hp_count--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            hp_count++;
-        }
-        dComIfGs_setMaxLife(hp_count);
+    case HEART_PIECE_COUNT_INDEX:
+        Cursor::moveList(l_hpNum);
+        dComIfGs_setMaxLife(l_hpNum);
         break;
-    }
-    case POE_COUNT_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            poe_count--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            poe_count++;
-        }
-        dComIfGs_setPohSpiritNum(poe_count);
+    case POE_COUNT_INDEX:
+        Cursor::moveList(l_poeNum);
+        dComIfGs_setPohSpiritNum(l_poeNum);
         break;
-    }
-    case RUPEE_COUNT_INDEX: {
-        if (button_is_pressed(Controller::DPAD_LEFT)) {
-            rupee_count--;
-        } else if (button_is_pressed(Controller::DPAD_RIGHT)) {
-            rupee_count++;
-        }
-        dComIfGs_setRupee(rupee_count);
+    case RUPEE_COUNT_INDEX:
+        Cursor::moveList(l_rupeeNum);
+        dComIfGs_setRupee(l_rupeeNum);
         break;
-    }
     }
 
-    tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", arrow_ammo);
-    tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", bomb_bag_1_ammo);
-    tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", bomb_bag_2_ammo);
-    tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", bomb_bag_3_ammo);
-    tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", slingshot_ammo);
-    tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", hp_count);
-    tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", poe_count);
-    tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", rupee_count);
+    tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", l_arrowNum);
+    tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", l_bag1Num);
+    tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", l_bag2Num);
+    tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", l_bag3Num);
+    tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", l_seedNum);
+    tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", l_hpNum);
+    tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", l_poeNum);
+    tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", l_rupeeNum);
 
-    Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
-    Utilities::render_lines(lines, cursor.y, LINES);
-};
+    cursor.move(0, LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

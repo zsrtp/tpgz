@@ -87,17 +87,18 @@ public:
     bool repeat_during = false;
 
 public:
-    static void inject_save(void* buffer);
-    static void inject_memfile(void* buffer);
-    static void inject_default_before();
-    static void inject_default_during();
-    static void inject_memfile_during();
-    static void inject_default_after();
-    static void load_save(uint32_t id, char* category, special* i_specials = nullptr, int size = 0);
-    static void load_save_file(const char* fileName);
-    static void trigger_load();
-    static void default_load();
+    static void injectSave(void* buffer);
+    static void injectMemfile(void* buffer);
+    static void injectDefault_before();
+    static void injectDefault_during();
+    static void injectMemfile_during();
+    static void injectDefault_after();
+    static void loadSave(uint32_t id, const char* category, special* i_specials = nullptr, int size = 0);
+    static void loadSavefile(const char* fileName);
+    static void triggerLoad();
+    static void defaultLoad();
     static void setLinkInfo();
+    static void setPositionCamera();
 
     void setSavePosition(float x, float y, float z) {
         mPracticeSaveInfo.position.x = x;
@@ -133,16 +134,16 @@ struct GZSaveHeader {
 };
 
 struct GZSaveLayout {
-    Cheats::Cheat CheatItems[CHEAT_AMNT];
-    Tools::Tool ToolItems[TOOL_AMNT];
-    Scene::SceneItem SceneItems[SCENE_AMNT];
-    MemoryWatch Watches[MAX_WATCHES];
-    Vec2 sprite_offsets[SPRITES_AMNT];
-    bool commands_states[COMMANDS_AMNT];
-    bool g_drop_shadows;
-    int g_area_reload_behavior;
-    int g_cursor_color;
-    int g_font;
+    Cheat mCheats[CHEAT_AMNT];
+    Tool mTools[TOOL_AMNT];
+    SceneItem mSceneFlags[SCENE_AMNT];
+    MemoryWatch mWatches[MAX_WATCHES];
+    Vec2 mSpriteOffsets[SPRITES_AMNT];
+    bool mCommandStates[COMMANDS_AMNT];
+    bool mDropShadows;
+    int mReloadType;
+    int mCursorColType;
+    int mFontType;
 };
 
 struct GZSaveFile {

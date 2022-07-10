@@ -1,52 +1,40 @@
 #include "menus/practice_menu.h"
-#include "controller.h"
-#include "font.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
+#include "gz_flags.h"
 
-#define LINES 3
+#define LINE_NUM 3
 
-static Cursor cursor = {0, 0};
-bool init_once = false;
+Cursor PracticeMenu::cursor;
 char last_category[5];
 int last_save_index;
 int last_special_size;
 special* last_special_ptr;
 
-Line lines[LINES] = {{"any%", ANY_INDEX, "Any% practice saves", false},
-                     {"100%", HUNDO_INDEX, "100% practice saves", false},
-                     {"all dungeons", AD_INDEX, "All Dungeons practice saves", false}};
-
-void PracticeMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        init_once = false;
-        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
-        return;
-    };
-
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
-    }
-
-    if (current_input == SELECTION_BUTTON && a_held == false) {
-        switch (cursor.y) {
-        case ANY_INDEX: {
-            MenuRendering::set_menu(MN_ANY_SAVES_INDEX);
-            return;
-        }
-        case HUNDO_INDEX: {
-            MenuRendering::set_menu(MN_HUNDO_SAVES_INDEX);
-            return;
-        }
-        case AD_INDEX: {
-            MenuRendering::set_menu(MN_AD_SAVES_INDEX);
-            return;
-        }
-        }
-    }
-
-    Utilities::move_cursor(cursor, LINES);
-
-    Utilities::render_lines(lines, cursor.y, LINES);
+Line lines[LINE_NUM] = {
+    {"any%", ANY_INDEX, "Any% practice saves", false},
+    {"100%", HUNDO_INDEX, "100% practice saves", false},
+    {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
 };
+
+void PracticeMenu::draw() {
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_MAIN_MENU);
+        return;
+    }
+
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+        switch (cursor.y) {
+        case ANY_INDEX:
+            GZ_setMenu(GZ_ANY_SAVES_MENU);
+            return;
+        case HUNDO_INDEX:
+            GZ_setMenu(GZ_HUNDO_SAVES_MENU);
+            return;
+        case AD_INDEX:
+            GZ_setMenu(GZ_AD_SAVES_MENU);
+            return;
+        }
+    }
+
+    cursor.move(0, LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

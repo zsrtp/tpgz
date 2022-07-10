@@ -2,10 +2,9 @@
 #include "font.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
 
-namespace Utilities {
-void show_link_debug_info();
-void change_tunic_color();
-inline void setup_link_color() {
+void GZ_displayLinkInfo();
+
+inline void GZ_patchLinkColor() {
 #ifdef WII_PLATFORM
 #ifdef WII_NTSCU_10
 #define SWORD_UP_RED_ADDR 0x801176B0
@@ -28,4 +27,3 @@ inline void setup_link_color() {
     ICInvalidateRange((void*)(SWORD_UP_BLUE_ADDR), sizeof(uint32_t));
 #endif  // WII_PLATFORM
 }
-}  // namespace Utilities

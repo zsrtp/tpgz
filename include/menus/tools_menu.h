@@ -3,14 +3,15 @@
 #include "menu.h"
 
 #ifdef WII_PLATFORM
-#define TOOL_AMNT 19
+#define TOOL_AMNT 21
 #endif
 #ifdef GCN_PLATFORM
-#define TOOL_AMNT 18
+#define TOOL_AMNT 20
 #endif
-namespace Tools {
+
 enum ToolsIndex {
     RELOAD_AREA_INDEX,
+    FRAME_ADVANCE_INDEX,
     FAST_BONK_INDEX,
     FAST_MOVEMENT_INDEX,
     GORGE_INDEX,
@@ -21,6 +22,7 @@ enum ToolsIndex {
     UMD_INDEX,
     INPUT_VIEWER_INDEX,
     LINK_DEBUG_INDEX,
+    HEAP_DEBUG_INDEX,
     SAND_INDEX,
     ROLL_INDEX,
     TELEPORT_INDEX,
@@ -38,10 +40,9 @@ struct Tool {
     bool active;
 };
 
-void apply_cheats();
-};  // namespace Tools
+void GZ_applyCheats();
 
-extern Tools::Tool ToolItems[TOOL_AMNT];
+extern Tool g_tools[TOOL_AMNT];
 
 extern int g_tunic_color;
 extern bool g_tunic_color_flag;
@@ -59,5 +60,8 @@ extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 class ToolsMenu : public Menu {
 public:
     ToolsMenu() : Menu() {}
-    static void render();
+    static void draw();
+    static void setTunicColor();
+
+    static Cursor cursor;
 };

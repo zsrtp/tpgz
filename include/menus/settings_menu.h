@@ -2,7 +2,7 @@
 
 #include "menu.h"
 
-#define CURSOR_RGBA cursor_rgba
+#define CURSOR_RGBA g_cursorColor
 
 enum SettingsIndex {
     AREA_RELOAD_BEHAVIOR_INDEX,
@@ -15,13 +15,13 @@ enum SettingsIndex {
     DELETE_CARD_INDEX,
     POS_SETTINGS_MENU_INDEX
 };
-extern bool g_drop_shadows;
-extern int g_area_reload_behavior;
-extern int g_cursor_color;
+extern bool g_dropShadows;
+extern int g_reloadType;
+extern int g_cursorColorType;
 extern bool g_cursor_color_flag;
 extern bool g_swap_equips_flag;
-extern int cursor_rgba;
-extern int g_font;
+extern int g_cursorColor;
+extern int g_fontType;
 #define LOAD_AREA 0
 #define LOAD_FILE 1
 
@@ -38,5 +38,7 @@ class SettingsMenu : public Menu {
 public:
     static void initFont();
     SettingsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

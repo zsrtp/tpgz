@@ -1,47 +1,43 @@
 #include "menus/actor_spawn_menu.h"
 #include "menus/settings_menu.h"
-#include "controller.h"
-#include "font.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "gz_flags.h"
 
-#define LINES 4
+#define LINE_NUM 4
 #ifdef GCN_PLATFORM
-#define CONTROLLER_RIGHT Controller::DPAD_RIGHT
-#define CONTROLLER_LEFT Controller::DPAD_LEFT
-#define CONTROLLER_UP Controller::DPAD_UP
-#define CONTROLLER_DOWN Controller::DPAD_DOWN
-#define CONTROLLER_SKIP_10 Controller::X
-#define CONTROLLER_SKIP_MINUS_10 Controller::Y
+#define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
+#define CONTROLLER_LEFT GZPad::DPAD_LEFT
+#define CONTROLLER_UP GZPad::DPAD_UP
+#define CONTROLLER_DOWN GZPad::DPAD_DOWN
+#define CONTROLLER_SKIP_10 GZPad::X
+#define CONTROLLER_SKIP_MINUS_10 GZPad::Y
 #endif
 #ifdef WII_PLATFORM
-#define CONTROLLER_RIGHT Controller::DPAD_RIGHT
-#define CONTROLLER_LEFT Controller::DPAD_LEFT
-#define CONTROLLER_UP Controller::DPAD_UP
-#define CONTROLLER_DOWN Controller::DPAD_DOWN
+#define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
+#define CONTROLLER_LEFT GZPad::DPAD_LEFT
+#define CONTROLLER_UP GZPad::DPAD_UP
+#define CONTROLLER_DOWN GZPad::DPAD_DOWN
 #define CONTROLLER_SKIP_10 Controller::ONE
 #define CONTROLLER_SKIP_MINUS_10 Controller::TWO
 #endif
 
-static Cursor cursor = {0, 0};
-bool lock_cursor_y = false;
-bool lock_cursor_x = false;
-bool init_once = false;
+Cursor ActorSpawnMenu::cursor;
 
-uint16_t actor_id = 0;
-uint32_t actor_params = 0;
-int8_t actor_type = -1;
-uint8_t param_index = 0;
-bool params_selected = false;
+uint16_t l_actorID = 0;
+uint32_t l_actorParams = 0;
+int8_t l_actorType = -1;
+uint8_t l_paramIdx = 0;
+bool l_paramsSelected = false;
 
-Line lines[LINES] = {{"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / X/Y to scroll)", false},
-                     {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
-                     {"actor subtype:", ACTOR_SUBTYPE_INDEX,
-                      "Actor subtype (default: -1) (Dpad / X/Y to scroll)", false},
-                     {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false}};
+Line lines[LINE_NUM] = {
+    {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / X/Y to scroll)", false},
+    {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
+    {"actor subtype:", ACTOR_SUBTYPE_INDEX,
+    "Actor subtype (default: -1) (Dpad / X/Y to scroll)", false},
+    {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
+};
 
 void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
     fopAcM_create(id, parameters, &dComIfGp_getPlayer()->mCurrent.mPosition,
@@ -49,175 +45,139 @@ void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
                   nullptr, subtype);
 }
 
-// returns the width of the rendered string
-float render_selected_number_selector(const char* str, float x, float y, size_t selected_char_index,
-                                      size_t max_char, uint32_t color) {
-    float pos = 0.0f;
-    for (size_t i = 0; i <= max_char; ++i) {
-        Font::gz_renderChar(str[i], x + pos, y, selected_char_index == i ? CURSOR_RGBA : color,
-                            g_drop_shadows);
-        pos += Font::get_char_width(str[i]);
-    }
-    return pos;
-}
+void ActorSpawnMenu::draw() {
+    cursor.setMode(Cursor::MODE_UNRESTRICTED);
 
-void ActorSpawnMenu::render() {
-    if (Controller::button_is_pressed(BACK_BUTTON)) {
-        if (params_selected) {
-            lock_cursor_y = false;
-            params_selected = false;
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        if (l_paramsSelected) {
+            cursor.lock_y = false;
+            l_paramsSelected = false;
         } else {
-            init_once = false;
-            MenuRendering::set_menu(MN_SCENE_INDEX);
+            GZ_setMenu(GZ_SCENE_MENU);
             return;
         }
     }
 
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
-    }
-
-    if (current_input == SELECTION_BUTTON && a_held == false) {
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
-        case ACTOR_PARAM_INDEX: {
-            lock_cursor_y = true;
-            params_selected = true;
+        case ACTOR_PARAM_INDEX:
+            cursor.lock_y = true;
+            l_paramsSelected = true;
             break;
-        }
-        case ACTOR_SPAWN_INDEX: {
-            actorFastCreateAtLink(actor_id, actor_params, actor_type);
+        case ACTOR_SPAWN_INDEX:
+            actorFastCreateAtLink(l_actorID, l_actorParams, l_actorType);
             break;
-        }
         }
     }
 
     switch (cursor.y) {
-    case ACTOR_ID_INDEX: {
-        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
-            actor_id++;
-        } else if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
-            actor_id--;
-        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_10)) {
-            actor_id += 10;
-        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_MINUS_10)) {
-            actor_id -= 10;
+    case ACTOR_ID_INDEX:
+        if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
+            l_actorID++;
+        } else if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
+            l_actorID--;
+        } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_10)) {
+            l_actorID += 10;
+        } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_MINUS_10)) {
+            l_actorID -= 10;
         }
         break;
-    }
-    case ACTOR_SUBTYPE_INDEX: {
-        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
-            actor_type++;
-        } else if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
-            actor_type--;
-        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_10)) {
-            actor_type += 10;
-        } else if (Controller::button_is_pressed(CONTROLLER_SKIP_MINUS_10)) {
-            actor_type -= 10;
+    case ACTOR_SUBTYPE_INDEX:
+        if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
+            l_actorType++;
+        } else if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
+            l_actorType--;
+        } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_10)) {
+            l_actorType += 10;
+        } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_MINUS_10)) {
+            l_actorType -= 10;
         }
         break;
-    }
     }
 
     char buf[9];
-    tp_sprintf(buf, "%08X", actor_params);
-    if (params_selected) {
-        if (Controller::button_is_pressed(CONTROLLER_RIGHT)) {
-            if (param_index == 7) {
-                param_index = 0;
-            } else if (param_index >= 0 && param_index < 8) {
-                param_index++;
+    tp_sprintf(buf, "%08X", l_actorParams);
+    if (l_paramsSelected) {
+        if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
+            if (l_paramIdx == 7) {
+                l_paramIdx = 0;
+            } else if (l_paramIdx >= 0 && l_paramIdx < 8) {
+                l_paramIdx++;
             }
         }
-        if (Controller::button_is_pressed(CONTROLLER_LEFT)) {
-            if (param_index == 0) {
-                param_index = 7;
-            } else if (param_index >= 0 && param_index < 8) {
-                param_index--;
+        if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
+            if (l_paramIdx == 0) {
+                l_paramIdx = 7;
+            } else if (l_paramIdx >= 0 && l_paramIdx < 8) {
+                l_paramIdx--;
             }
         }
-        if (Controller::button_is_pressed(CONTROLLER_UP)) {
-            switch (param_index) {
-            case 0: {
-                actor_params += 0x10000000;
+        if (GZ_getButtonRepeat(CONTROLLER_UP)) {
+            switch (l_paramIdx) {
+            case 0:
+                l_actorParams += 0x10000000;
                 break;
-            }
-            case 1: {
-                actor_params += 0x1000000;
+            case 1:
+                l_actorParams += 0x1000000;
                 break;
-            }
-            case 2: {
-                actor_params += 0x100000;
+            case 2:
+                l_actorParams += 0x100000;
                 break;
-            }
-            case 3: {
-                actor_params += 0x10000;
+            case 3:
+                l_actorParams += 0x10000;
                 break;
-            }
-            case 4: {
-                actor_params += 0x1000;
+            case 4:
+                l_actorParams += 0x1000;
                 break;
-            }
-            case 5: {
-                actor_params += 0x100;
+            case 5:
+                l_actorParams += 0x100;
                 break;
-            }
-            case 6: {
-                actor_params += 0x10;
+            case 6:
+                l_actorParams += 0x10;
                 break;
-            }
-            case 7: {
-                actor_params += 0x1;
+            case 7:
+                l_actorParams += 0x1;
                 break;
-            }
             }
         }
-        if (Controller::button_is_pressed(CONTROLLER_DOWN)) {
-            switch (param_index) {
-            case 0: {
-                actor_params -= 0x10000000;
+        if (GZ_getButtonRepeat(CONTROLLER_DOWN)) {
+            switch (l_paramIdx) {
+            case 0:
+                l_actorParams -= 0x10000000;
                 break;
-            }
-            case 1: {
-                actor_params -= 0x1000000;
+            case 1:
+                l_actorParams -= 0x1000000;
                 break;
-            }
-            case 2: {
-                actor_params -= 0x100000;
+            case 2:
+                l_actorParams -= 0x100000;
                 break;
-            }
-            case 3: {
-                actor_params -= 0x10000;
+            case 3:
+                l_actorParams -= 0x10000;
                 break;
-            }
-            case 4: {
-                actor_params -= 0x1000;
+            case 4:
+                l_actorParams -= 0x1000;
                 break;
-            }
-            case 5: {
-                actor_params -= 0x100;
+            case 5:
+                l_actorParams -= 0x100;
                 break;
-            }
-            case 6: {
-                actor_params -= 0x10;
+            case 6:
+                l_actorParams -= 0x10;
                 break;
-            }
-            case 7: {
-                actor_params -= 0x1;
+            case 7:
+                l_actorParams -= 0x1;
                 break;
-            }
             }
         }
-        render_selected_number_selector(buf, 170.0f, 80.0f, param_index, 7, 0xFFFFFFFF);
+        GZ_drawSelectChar(buf, 170.0f, 80.0f, l_paramIdx, 7, 0xFFFFFFFF);
     } else {
-        Font::gz_renderChars(buf, 170.0f, 80.0f,
+        Font::GZ_drawStr(buf, 170.0f, 80.0f,
                              (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
-                             g_drop_shadows);
+                             GZ_checkDropShadows());
     }
 
-    tp_sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", actor_id);
-    tp_sprintf(lines[ACTOR_SUBTYPE_INDEX].value, " <%d>", actor_type);
+    tp_sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", l_actorID);
+    tp_sprintf(lines[ACTOR_SUBTYPE_INDEX].value, " <%d>", l_actorType);
 
-    Utilities::move_cursor(cursor, LINES, 8, lock_cursor_x, lock_cursor_y, false, true);
-    Utilities::render_lines(lines, cursor.y, LINES);
-};
+    cursor.move(8, LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

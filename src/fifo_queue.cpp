@@ -3,7 +3,7 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 
-bool fifo_visible;
+bool g_fifoVisible;
 
 void FIFOQueue::renderItems(_FIFOQueue& Queue) {
     for (int i = 0; i < MAX_MESSAGES; i++) {
@@ -18,9 +18,9 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
             alpha = Queue.messages[i].ttl * 8.5;
         }
         color |= alpha;
-        if (fifo_visible) {
-            Font::renderChars(Queue.messages[i].msg, (sprite_offsets[FIFO_SPR_INDEX].x),
-                              offset + (sprite_offsets[FIFO_SPR_INDEX].y), color);
+        if (g_fifoVisible) {
+            Font::renderChars(Queue.messages[i].msg, (g_spriteOffsets[FIFO_SPR_INDEX].x),
+                              offset + (g_spriteOffsets[FIFO_SPR_INDEX].y), color);
         }
     }
 };

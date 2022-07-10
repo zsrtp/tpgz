@@ -4,6 +4,7 @@
 #include "libtp_c/include/dolphin/os/OSCache.h"
 #include "menus/settings_menu.h"
 #include "menus/practice_menu.h"
+#include "menus/memfiles_menu.h"
 #include "save_manager.h"
 #include "menu.h"
 #include "utils/loading.h"
@@ -11,6 +12,7 @@
 #include "utils/card.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 
 int apply_after_counter = 0;
 int apply_during_counter = 0;
@@ -18,29 +20,29 @@ int injection_counter = 0;
 char currentFileName[80];
 SaveManager gSaveManager;
 
-void SaveManager::inject_save(void* buffer) {
+void SaveManager::injectSave(void* buffer) {
     tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, 2392);
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
-void SaveManager::inject_memfile(void* buffer) {
+void SaveManager::injectMemfile(void* buffer) {
     tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
-void SaveManager::inject_default_before() {
+void SaveManager::injectDefault_before() {
     g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 0.0f;
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
     g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
     g_dComIfG_gameInfo.play.mNextStage.mPoint = 0;
 }
 
-void SaveManager::inject_default_during() {
+void SaveManager::injectDefault_during() {
     // Load the save file over game info
-    if (!inject_memfile_flag) {
-        SaveManager::load_save_file(currentFileName);
+    if (!g_injectMemfile) {
+        SaveManager::loadSavefile(currentFileName);
     } else {
-        SaveManager::inject_memfile((void*)sTmpBuf);
+        SaveManager::injectMemfile((void*)sTmpBuf);
     }
 
     // Get default state based on file info
@@ -89,18 +91,18 @@ void SaveManager::inject_default_during() {
 #endif
 }
 
-void SaveManager::inject_default_after() {}
+void SaveManager::injectDefault_after() {}
 
-void SaveManager::default_load() {
-    gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::inject_default_during;
-    gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::inject_default_after;
-    inject_save_flag = true;
-    fifo_visible = true;
-    MenuRendering::set_menu(MN_NONE_INDEX);
+void SaveManager::defaultLoad() {
+    gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::injectDefault_during;
+    gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::injectDefault_after;
+    g_injectSave = true;
+    g_fifoVisible = true;
+    GZ_setMenu(MN_NONE_INDEX);
 }
 
-void SaveManager::load_save(uint32_t id, char* category, special i_specials[], int size) {
-    SaveManager::inject_default_before();
+void SaveManager::loadSave(uint32_t id, const char* category, special i_specials[], int size) {
+    SaveManager::injectDefault_before();
 
     // Load the corresponding file path and properties
     tp_sprintf(currentFileName, "tpgz/save_files/%s.bin", category);
@@ -111,16 +113,14 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
     if (size != 0xFF) {
-        SaveManager::default_load();
+        SaveManager::defaultLoad();
     } else {
         size = last_special_size;
     }
 
     if (gSaveManager.mPracticeSaveInfo.requirements) {
         gSaveManager.mPracticeFileOpts.inject_options_after_load =
-            gSaveManager.mPracticeSaveInfo.requirements & REQ_CAM ?
-                Utilities::set_camera_angle_position :
-                Utilities::set_angle_position;
+            gSaveManager.mPracticeSaveInfo.requirements & REQ_CAM ? setPositionCamera : setLinkInfo;
         gSaveManager.mPracticeFileOpts.inject_options_after_counter =
             gSaveManager.mPracticeSaveInfo.counter;
     }
@@ -150,9 +150,9 @@ void SaveManager::load_save(uint32_t id, char* category, special i_specials[], i
     last_special_size = size;
 }
 
-void SaveManager::load_save_file(const char* fileName) {
+void SaveManager::loadSavefile(const char* fileName) {
     loadFile(fileName, (void*)sTmpBuf, 2400, 0);
-    SaveManager::inject_save((void*)sTmpBuf);
+    SaveManager::injectSave((void*)sTmpBuf);
 }
 
 #if (GCN_NTSCU)
@@ -173,7 +173,7 @@ void SaveManager::load_save_file(const char* fileName) {
 
 uint32_t setWaterDropColorInstr = 0x60000000;
 
-void SaveManager::trigger_load() {
+void SaveManager::triggerLoad() {
     // Loading hasn't started yet, run the before load function and initiate loading
     if (!tp_fopScnRq.isLoading && !gSaveManager.loading_initiated) {
         // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
@@ -215,8 +215,8 @@ void SaveManager::trigger_load() {
                 gSaveManager.mPracticeFileOpts.inject_options_after_counter = 0;
                 gSaveManager.loading_initiated = false;
 
-                inject_save_flag = false;
-                inject_memfile_flag = false;
+                g_injectSave = false;
+                g_injectMemfile = false;
             } else {
                 apply_after_counter++;
             }
@@ -242,6 +242,20 @@ void SaveManager::setLinkInfo() {
         cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
                  gSaveManager.mPracticeSaveInfo.position.y,
                  gSaveManager.mPracticeSaveInfo.position.z);
+        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+    }
+}
+
+void SaveManager::setPositionCamera() {
+    if (tp_matrixInfo.matrix_info) {
+        tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
+        tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
+    }
+
+    if (dComIfGp_getPlayer()) {
+        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
+                    gSaveManager.mPracticeSaveInfo.position.z);
         dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
     }
 }

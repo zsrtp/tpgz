@@ -1,5 +1,5 @@
 #pragma once
 
 namespace CoroTDChecker {
-void run();
+void execute();
 }  // namespace CoroTDChecker

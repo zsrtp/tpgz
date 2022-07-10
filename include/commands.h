@@ -2,17 +2,19 @@
 #include <stdint.h>
 
 #ifdef GCN_PLATFORM
-#define COMMANDS_AMNT 9
-#define GORGE_VOID_BUTTONS (Pad::L | Pad::Z)
-#define STORE_POSITION_BUTTONS (Pad::DPAD_UP | Pad::R)
-#define LOAD_POSITION_BUTTONS (Pad::DPAD_DOWN | Pad::R)
-#define MOON_JUMP_BUTTONS (Pad::R | Pad::A)
-#define RELOAD_AREA_BUTTONS (Pad::L | Pad::R | Pad::A | Pad::START)
-#define TIMER_TOGGLE_BUTTONS (Pad::Z | Pad::A)
-#define TIMER_RESET_BUTTONS (Pad::Z | Pad::B)
-#define FREE_CAM_BUTTONS (Pad::Z | Pad::B | Pad::A)
-#define MOVE_LINK_BUTTONS (Pad::L | Pad::R | Pad::Y)
-#define FRAME_ADVANCE_BUTTONS (Pad::L | Pad::R | Pad::X)
+#define COMMANDS_AMNT 10
+#define GORGE_VOID_BUTTONS (CButton::L | CButton::Z)
+#define STORE_POSITION_BUTTONS (CButton::DPAD_UP | CButton::R)
+#define LOAD_POSITION_BUTTONS (CButton::DPAD_DOWN | CButton::R)
+#define MOON_JUMP_BUTTONS (CButton::R | CButton::A)
+#define RELOAD_AREA_BUTTONS (CButton::L | CButton::R | CButton::A | CButton::START)
+#define TIMER_TOGGLE_BUTTONS (CButton::Z | CButton::A)
+#define TIMER_RESET_BUTTONS (CButton::Z | CButton::B)
+#define FREE_CAM_BUTTONS (CButton::Z | CButton::B | CButton::A)
+#define MOVE_LINK_BUTTONS (CButton::L | CButton::R | CButton::Y)
+#define FRAME_PAUSE_BUTTONS (CButton::R | CButton::DPAD_UP)
+#define FRAME_ADVANCE_BUTTONS (CButton::R | CButton::DPAD_RIGHT)
+#define FRAME_ADVANCE_TEXT "R + D-Pad Up"
 #define GORGE_VOID_TEXT "L+Z"
 #define STORE_POSITION_TEXT "D-PAD up + R"
 #define LOAD_POSITION_TEXT "D-PAD down + R"
@@ -22,10 +24,10 @@
 #define TIMER_RESET_TEXT "Z+B"
 #define FREE_CAM_TEXT "Z+B+A"
 #define MOVE_LINK_TEXT "L+R+Y"
-#define FRAME_ADVANCE_TEXT "L+R+X"
 #endif
+
 #ifdef WII_PLATFORM
-#define COMMANDS_AMNT 10
+#define COMMANDS_AMNT 11
 #define GORGE_VOID_BUTTONS (Mote::Z | Mote::C | Mote::A | Mote::ONE)
 #define BACK_IN_TIME_BUTTONS (Mote::Z | Mote::C | Mote::A | Mote::TWO)
 #define STORE_POSITION_BUTTONS (Mote::Z | Mote::C | Mote::ONE)
@@ -52,9 +54,8 @@
 
 extern bool reload_area_flag;
 
-extern bool commands_states[COMMANDS_AMNT];
+extern bool g_commandStates[COMMANDS_AMNT];
 
-namespace Commands {
 enum Commands {
     CMD_STORE_POSITION,
     CMD_LOAD_POSITION,
@@ -68,11 +69,17 @@ enum Commands {
 #endif
     CMD_FREE_CAM,
     CMD_MOVE_LINK,
-    CMD_FRAME_ADVANCE
+    CMD_FRAME_PAUSE,
 };
 
-void process_inputs();
-void enable_command(int idx);
-void disable_command(int idx);
-void reload_area();
-}  // namespace Commands
+struct Command {
+    bool& active;
+    uint16_t buttons;
+    void (*command)();
+};
+
+void GZCmd_processInputs();
+void GZCmd_enable(int idx);
+void GZCmd_disable(int idx);
+void GZCmd_reloadArea();
+void GZCmd_advanceFrame();

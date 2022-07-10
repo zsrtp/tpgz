@@ -1,73 +1,63 @@
 #include "menus/main_menu.h"
-#include "controller.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
+#include "gz_flags.h"
 
-#define LINES 9
+#define LINE_NUM 9
 
-static Cursor cursor = {0, 0};
+Cursor MainMenu::cursor;
 
-Line lines[LINES] = {{"cheats", CHEAT_INDEX, "Turn cheats on/off", false},
-                     {"flags", FLAGS_INDEX, "Turn in-game flags on/off", false},
-                     {"inventory", INVENTORY_INDEX, "Set Link's items and equipment", false},
-                     {"memory", MEMORY_INDEX, "View/edit memory and add watches", false},
-                     {"practice", PRACTICE_INDEX, "Load practice files", false},
-                     {"scene", SCENE_INDEX, "Adjust the scene's state", false},
-                     {"settings", SETTINGS_INDEX, "Configure settings", false},
-                     {"tools", TOOLS_INDEX, "Use various tools for practice and testing", false},
-                     {"warping", WARPING_INDEX, "Warp to dungeons, towns, grottos, etc.", false}};
+Line lines[LINE_NUM] = {
+    {"cheats", CHEAT_INDEX, "Toggle cheats", false},
+    {"flags", FLAGS_INDEX, "Toggle in-game flags", false},
+    {"inventory", INVENTORY_INDEX, "Set items and equipment", false},
+    {"memory", MEMORY_INDEX, "View/edit memory, add watches, and save/load memfiles", false},
+    {"practice", PRACTICE_INDEX, "Load practice files", false},
+    {"scene", SCENE_INDEX, "Adjust current scene settings", false},
+    {"settings", SETTINGS_INDEX, "Configure settings", false},
+    {"tools", TOOLS_INDEX, "Use various tools for practice and testing", false},
+    {"warping", WARPING_INDEX, "Warp to any area", false},
+};
 
-void MainMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        MenuRendering::set_menu(MN_NONE_INDEX);
-        fifo_visible = true;
+void MainMenu::draw() {
+    cursor.move(0, LINE_NUM);
+
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_clearMenu();
+        GZ_setFifoVisible(true);
         return;
-    };
+    }
 
-    Utilities::move_cursor(cursor, LINES);
-
-    if (current_input == SELECTION_BUTTON && !a_held) {
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
-        case MEMORY_INDEX: {
-            MenuRendering::set_menu(MN_MEMORY_INDEX);
+        case CHEAT_INDEX:
+            GZ_setMenu(GZ_CHEAT_MENU);
             return;
-        }
-        case INVENTORY_INDEX: {
-            MenuRendering::set_menu(MN_INVENTORY_INDEX);
+        case FLAGS_INDEX:
+            GZ_setMenu(GZ_FLAGS_MENU);
             return;
-        }
-        case CHEAT_INDEX: {
-            MenuRendering::set_menu(MN_CHEAT_INDEX);
+        case INVENTORY_INDEX:
+            GZ_setMenu(GZ_INVENTORY_MENU);
             return;
-        }
-        case TOOLS_INDEX: {
-            MenuRendering::set_menu(MN_TOOLS_INDEX);
+        case MEMORY_INDEX:
+            GZ_setMenu(GZ_MEMORY_MENU);
             return;
-        }
-        case SETTINGS_INDEX: {
-            MenuRendering::set_menu(MN_SETTINGS_INDEX);
+        case PRACTICE_INDEX:
+            GZ_setMenu(GZ_PRACTICE_MENU);
             return;
-        }
-        case WARPING_INDEX: {
-            MenuRendering::set_menu(MN_WARPING_INDEX);
+        case SCENE_INDEX:
+            GZ_setMenu(GZ_SCENE_MENU);
             return;
-        }
-        case PRACTICE_INDEX: {
-            MenuRendering::set_menu(MN_PRACTICE_INDEX);
+        case SETTINGS_INDEX:
+            GZ_setMenu(GZ_SETTINGS_MENU);
             return;
-        }
-        case SCENE_INDEX: {
-            MenuRendering::set_menu(MN_SCENE_INDEX);
+        case TOOLS_INDEX:
+            GZ_setMenu(GZ_TOOLS_MENU);
             return;
-        }
-        case FLAGS_INDEX: {
-            MenuRendering::set_menu(MN_FLAGS_INDEX);
+        case WARPING_INDEX:
+            GZ_setMenu(GZ_WARP_MENU);
             return;
-        }
         }
     }
 
-    Utilities::render_lines(lines, cursor.y, LINES);
-};
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

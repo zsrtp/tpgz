@@ -1,47 +1,78 @@
 #include "utils/cursor.h"
 #include "controller.h"
+#include "menus/settings_menu.h"
 
-namespace Utilities {
-void move_cursor(Cursor& cursor, int max_cursor_y_value, int max_cursor_x_value, bool lock_x,
-                 bool lock_y, bool unrestricted, bool menu_with_list_lines) {
-    if (!can_move_cursor && !unrestricted) {
+bool g_cursorEnabled = false;
+
+void Cursor::move(int max_x, int max_y) {
+    if (!g_cursorEnabled) {
         return;
     }
 
-    if (button_is_pressed(Controller::DPAD_UP) && !lock_y) {
-        // reset so other lines aren't affected
-        cursor.x = 0;
-        cursor.y > 0 ? cursor.y-- : cursor.y = max_cursor_y_value - 1;
-    }
-
-    if (button_is_pressed(Controller::DPAD_DOWN) && !lock_y) {
-        // reset so other lines aren't affected
-        cursor.x = 0;
-        cursor.y < max_cursor_y_value - 1 ? cursor.y++ : cursor.y = 0;
-    }
-
-    if (button_is_pressed(Controller::DPAD_RIGHT)) {
-        // if y and x aren't locked, we must be on a single column menu
-        if (!lock_y && !lock_x && !menu_with_list_lines) {
-            cursor.y += 10;
-            if (cursor.y > max_cursor_y_value - 1) {
-                cursor.y = max_cursor_y_value - 1;
-            }
-        } else if (!lock_x) {
-            cursor.x < max_cursor_x_value - 1 ? cursor.x++ : cursor.x = 0;
+    if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
+        if (mode != MODE_UNRESTRICTED) {
+            x = 0; // reset so other lines aren't affected
+        } 
+        
+        if (!lock_y) {
+            y > 0 ? y-- : y = max_y - 1;
         }
     }
 
-    if (button_is_pressed(Controller::DPAD_LEFT)) {
+    if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
+        if (mode != MODE_UNRESTRICTED) {
+            x = 0; // reset so other lines aren't affected
+        } 
+        
+        if (!lock_y) {
+            y < max_y - 1 ? y++ : y = 0;
+        }
+    }
+
+    if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
         // if y and x aren't locked, we must be on a single column menu
-        if (!lock_x && !lock_y && !menu_with_list_lines) {
-            cursor.y -= 10;
-            if (cursor.y < 0) {
-                cursor.y = 0;
+        if (mode == MODE_SINGLE_COLUMN) {
+            y += 10;
+            if (y > max_y - 1) {
+                y = max_y - 1;
             }
         } else if (!lock_x) {
-            cursor.x > 0 ? cursor.x-- : cursor.x = max_cursor_x_value - 1;
+            x < max_x - 1 ? x++ : x = 0;
+        }
+    }
+
+    if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
+        // if y and x aren't locked, we must be on a single column menu
+        if (mode == MODE_SINGLE_COLUMN) {
+            y -= 10;
+            if (y < 0) {
+                y = 0;
+            }
+        } else if (!lock_x) {
+            x > 0 ? x-- : x = max_x - 1;
         }
     }
 }
-}  // namespace Utilities
+
+void GZ_setCursorColor() {
+    switch (g_cursorColorType) {
+    case CURSOR_GREEN: 
+        g_cursorColor = 0x00CC00FF;
+        break;
+    case CURSOR_BLUE:
+        g_cursorColor = 0x0080FFFF;
+        break;
+    case CURSOR_RED:
+        g_cursorColor = 0xCC0000FF;
+        break;
+    case CURSOR_ORANGE:
+        g_cursorColor = 0xEE8000FF;
+        break;
+    case CURSOR_YELLOW:
+        g_cursorColor = 0xFFCC00FF;
+        break;
+    case CURSOR_PURPLE:
+        g_cursorColor = 0x6600CCFF;
+        break;
+    }
+}

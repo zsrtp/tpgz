@@ -1,39 +1,30 @@
 #include "menus/flags_menu.h"
-#include "controller.h"
-#include "font.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
 #include "flaglog.h"
+#include "gz_flags.h"
 
-#define LINES 1
+#define LINE_NUM 1
 
-static Cursor cursor = {0, 0};
-bool init_once = false;
-bool g_flag_log_active = false;
+Cursor FlagLogMenu::cursor;
+bool g_flagLogEnabled = false;
 
-Line lines[LINES] = {{"log activated", 0, "toggle flag logger on/off", true, &g_flag_log_active}};
+Line lines[LINE_NUM] = {
+    {"log activated", 0, "toggle flag logger on/off", true, &g_flagLogEnabled}
+};
 
-void FlagLogMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        init_once = false;
-        MenuRendering::set_menu(MN_FLAGS_INDEX);
+void FlagLogMenu::draw() {
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_FLAGS_MENU);
         return;
     }
 
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
-    }
-
-    if (current_input == SELECTION_BUTTON && a_held == false) {
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
-        case 0: {
-            g_flag_log_active = !g_flag_log_active;
+        case 0:
+            g_flagLogEnabled = !g_flagLogEnabled;
             return;
         }
-        }
     }
 
-    Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(lines, cursor.y, LINES);
-};
+    cursor.move(0, LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

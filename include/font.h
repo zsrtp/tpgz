@@ -2,8 +2,10 @@
 
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/addrs.h"
+#include "libtp_c/include/msl_c/string.h"
 #include "utils/texture.h"
 #include "gcn_c/include/gfx.h"
+#include <cstdarg>
 
 #define MAX_GLYPHS 94
 #define DROP_SHADOWS_RGBA 0x000000FF
@@ -63,17 +65,27 @@ private:
     static _Font font;
 
 public:
-    static FontCode load_font(const char* path);
+    static FontCode loadFont(const char* path);
     static void free_font();
     static bool lookupGlyph(char c, DecodedGlyph& glyph);
     static float renderChar(char c, float x, float y, uint32_t color,
                             float size = FONT_DEFAULT_SIZE);
     static void renderChars(const char* str, float x, float y, uint32_t color,
                             float size = FONT_DEFAULT_SIZE);
-    static void gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shawdows,
+    static void GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shawdows,
                               float size = FONT_DEFAULT_SIZE);
-    static void gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows,
+    static void GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
                                float size = FONT_DEFAULT_SIZE);
-    static float get_char_width(char c, float size = FONT_DEFAULT_SIZE);
-    static float get_chars_width(const char* str, float size = FONT_DEFAULT_SIZE);
+    static float getCharWidth(char c, float size = FONT_DEFAULT_SIZE);
+    static float getStrWidth(const char* str, float size = FONT_DEFAULT_SIZE);
 };
+
+float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char, uint32_t color);
+
+inline void GZ_drawText(const char* str, float x, float y, uint32_t color, bool shadows) {
+    Font::GZ_drawStr(str, x, y, color, shadows);
+}
+
+inline float GZ_getTextWidth(const char* str, float size = FONT_DEFAULT_SIZE) {
+    return Font::getStrWidth(str, size);
+}
