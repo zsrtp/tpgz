@@ -62,6 +62,7 @@ void AnySavesMenu::draw() {
     special AnySpecials[ANY_SPECIALS_AMNT] = {
         special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
         special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
+        special(NORGOR_INDEX, nullptr, SaveMngSpecial_Norgor),
         special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
         special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),

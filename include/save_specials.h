@@ -21,6 +21,7 @@ void SaveMngSpecial_Dangoro();
 void SaveMngSpecial_Darkhammer();
 void SaveMngSpecial_SPRBossKey();
 
+void SaveMngSpecial_Norgor();
 void SaveMngSpecial_LakebedBKSkip();
 void SaveMngSpecial_Morpheel();
 

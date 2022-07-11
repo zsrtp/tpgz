@@ -6,6 +6,7 @@
 #include "gz_flags.h"
 
 #define LINE_NUM 4
+
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
 #define CONTROLLER_LEFT GZPad::DPAD_LEFT
@@ -13,7 +14,9 @@
 #define CONTROLLER_DOWN GZPad::DPAD_DOWN
 #define CONTROLLER_SKIP_10 GZPad::X
 #define CONTROLLER_SKIP_MINUS_10 GZPad::Y
+#define CONTROL_TEXT "X/Y"
 #endif
+
 #ifdef WII_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
 #define CONTROLLER_LEFT GZPad::DPAD_LEFT
@@ -21,6 +24,7 @@
 #define CONTROLLER_DOWN GZPad::DPAD_DOWN
 #define CONTROLLER_SKIP_10 Controller::ONE
 #define CONTROLLER_SKIP_MINUS_10 Controller::TWO
+#define CONTROL_TEXT "1/2"
 #endif
 
 Cursor ActorSpawnMenu::cursor;
@@ -32,10 +36,10 @@ uint8_t l_paramIdx = 0;
 bool l_paramsSelected = false;
 
 Line lines[LINE_NUM] = {
-    {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / X/Y to scroll)", false},
+    {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
     {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
     {"actor subtype:", ACTOR_SUBTYPE_INDEX,
-    "Actor subtype (default: -1) (Dpad / X/Y to scroll)", false},
+    "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
     {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
 };
 

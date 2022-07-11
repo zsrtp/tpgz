@@ -17,8 +17,6 @@
 #include "umd.h"
 #include "utils/draw.h"
 
-#include "libtp_c/include/JSystem/J2DGraph/J2DTextBox.h"
-
 bool g_injectSave = false;
 bool g_framePaused = false;
 
@@ -45,7 +43,7 @@ void GZ_frameAdvance() {
     sPauseTimer = 1;
     tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
 
-    if (GZ_getButtonTrig(GZPad::R)) {
+    if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
         sPauseTimer = 0;

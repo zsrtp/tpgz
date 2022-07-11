@@ -58,7 +58,7 @@ Line lines[LINE_NUM] = {
      MAX_ARROW_CAPACITY_OPT},
     {"ending blow:", ENDING_BLOW_INDEX, "Ending Blow", true, &l_ebFlag},
     {"shield bash:", SHIELD_BASH_INDEX, "Shield Bash", true, &l_sbFlag},
-    {"l_bsFlag:", BACKSLICE_INDEX, "Backslice", true, &l_bsFlag},
+    {"backslice:", BACKSLICE_INDEX, "Backslice", true, &l_bsFlag},
     {"helm splitter:", HELM_SPLITTER_INDEX, "Helm Splitter", true, &l_hsFlag},
     {"mortal draw:", MORTAL_DRAW_INDEX, "Mortal Draw", true, &l_mdFlag},
     {"jump strike:", JUMP_STRIKE_INDEX, "Jump Strike", true, &l_jsFlag},

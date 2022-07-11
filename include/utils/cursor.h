@@ -3,6 +3,16 @@
 #include <stdint.h>
 #include "controller.h"
 
+#ifdef GCN_PLATFORM
+#define SCROLL_P10_BTN GZPad::Y
+#define SCROLL_M10_BTN GZPad::X
+#endif
+
+#ifdef WII_PLATFORM
+#define SCROLL_P10_BTN Controller::TWO
+#define SCROLL_M10_BTN Controller::ONE
+#endif
+
 struct Cursor {
     enum Mode {
         MODE_SINGLE_COLUMN,
@@ -22,6 +32,10 @@ struct Cursor {
             index--;
         } else if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
             index++;
+        } else if (GZ_getButtonRepeat(SCROLL_M10_BTN)) {
+            index -= 10;
+        } else if (GZ_getButtonRepeat(SCROLL_P10_BTN)) {
+            index += 10;
         }
     }
 

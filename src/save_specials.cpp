@@ -72,6 +72,13 @@ void SaveMngSpecial_Dangoro() {
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x200000;  // turn off intro cs, start fight
 }
 
+void SaveMngSpecial_Norgor() {
+    g_meter2_info.mRentalBombBag = 0;  // Rental Bomb Bag Idx set to bag 0
+    dComIfGs_setItem(SLOT_15, NORMAL_BOMB);
+    dComIfGs_setBombNum(0, 30);
+    dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, SLOT_15);
+}
+
 void SaveMngSpecial_LakebedBKSkip() {
     gSaveManager.injectDefault_during();
     dComIfGs_onSwitch(2, 0);    // bridge turned

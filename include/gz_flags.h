@@ -8,9 +8,11 @@
 
 #ifdef WII_PLATFORM
 #define MAX_GZ_FLAGS 16
+#define FRAME_ADVANCE_BTN Controller::Z
 #endif
 #ifdef GCN_PLATFORM
 #define MAX_GZ_FLAGS 15
+#define FRAME_ADVANCE_BTN GZPad::R
 #endif
 
 struct GZFlag {
