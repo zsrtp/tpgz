@@ -6,6 +6,7 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menu.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -23,10 +24,10 @@
 #define TRIGGER_BUTTONS (CButton::L | CButton::R)
 #endif
 #ifdef WII_PLATFORM
-#define buttonStatus (tp_mPad.buttons)
-#define A_BUTTON (Controller::Mote::A)
-#define ITEM_WHEEL_BUTTON (Controller::Mote::MINUS)
-#define TRIGGER_BUTTONS (Controller::Mote::Z | Controller::Mote::C)
+#define buttonStatus (tp_mPad.mHoldButton)
+#define A_BUTTON (GZPad::A)
+#define ITEM_WHEEL_BUTTON (GZPad::MINUS)
+#define TRIGGER_BUTTONS (GZPad::Z | GZPad::C)
 #endif
 
 static uint16_t sButtonsLastFrame = 0;
@@ -58,19 +59,19 @@ static ButtonState buttonStates[BUTTON_STATES] = {
 #endif
 #ifdef WII_PLATFORM
 static ButtonState buttonStates[BUTTON_STATES] = {
-    {Controller::Mote::DPAD_LEFT, 0xFFFFFFFF, false},
-    {Controller::Mote::DPAD_RIGHT, 0xFFFFFFFF, false},
-    {Controller::Mote::DPAD_DOWN, 0xFFFFFFFF, false},
-    {Controller::Mote::DPAD_UP, 0xFFFFFFFF, false},
-    {Controller::Mote::PLUS, 0xFFFFFFFF, false},
-    {Controller::Mote::TWO, 0xFFFFFFFF, false},
-    {Controller::Mote::ONE, 0xFFFFFFFF, false},
-    {Controller::Mote::B, 0xFFFFFFFF, false},
-    {Controller::Mote::A, 0xFFFFFFFF, false},
-    {Controller::Mote::MINUS, 0xFFFFFFFF, false},
-    {Controller::Mote::Z, 0xFFFFFFFF, false},
-    {Controller::Mote::C, 0xFFFFFFFF, false},
-    {Controller::Mote::HOME, 0xFFFFFFFF, false},
+    {GZPad::DPAD_LEFT, 0xFFFFFFFF, false},
+    {GZPad::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {GZPad::DPAD_DOWN, 0xFFFFFFFF, false},
+    {GZPad::DPAD_UP, 0xFFFFFFFF, false},
+    {GZPad::PLUS, 0xFFFFFFFF, false},
+    {GZPad::TWO, 0xFFFFFFFF, false},
+    {GZPad::ONE, 0xFFFFFFFF, false},
+    {GZPad::B, 0xFFFFFFFF, false},
+    {GZPad::A, 0xFFFFFFFF, false},
+    {GZPad::MINUS, 0xFFFFFFFF, false},
+    {GZPad::Z, 0xFFFFFFFF, false},
+    {GZPad::C, 0xFFFFFFFF, false},
+    {GZPad::HOME, 0xFFFFFFFF, false},
 };
 #endif
 

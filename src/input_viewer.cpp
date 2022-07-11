@@ -8,6 +8,7 @@
 #include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "utils/draw.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #define OUTLINE_WIDTH 0x10
 
@@ -210,7 +211,7 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow) {
                          is_shadow ? 0x00000060 : 0xFFD138FF, false, 13 * scale);
 #endif
 #ifdef WII_PLATFORM
-    drawButtonEllipse(Controller::C, 'c', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    drawButtonEllipse(GZPad::C, 'c', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                         {pos.x + 42.5f * scale, pos.y + 15.f * scale}, {15.f * scale, 10.f * scale},
                         8 * scale);
     drawButton(GZPad::Z, 'Z', is_shadow ? 0x00000060 : 0xFFFFFFFF,
@@ -222,19 +223,19 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow) {
     drawButton(GZPad::B, 'B', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                 {pos.x + 95.f * scale, pos.y + 40.f * scale}, {10.f * scale, 20.f * scale},
                 8 * scale);
-    drawButtonEllipse(Controller::MINUS, '-', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    drawButtonEllipse(GZPad::MINUS, '-', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                         {pos.x + 115.f * scale, pos.y + 12.5f * scale},
                         {10.f * scale, 10.f * scale}, 8 * scale);
-    drawButtonEllipse(Controller::HOME, ' ', is_shadow ? 0x00000060 : 0x00BFFFFF,
+    drawButtonEllipse(GZPad::HOME, ' ', is_shadow ? 0x00000060 : 0x00BFFFFF,
                         {pos.x + 130.f * scale, pos.y + 12.5f * scale},
                         {10.f * scale, 10.f * scale}, 8 * scale);
-    drawButtonEllipse(Controller::PLUS, '+', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    drawButtonEllipse(GZPad::PLUS, '+', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                         {pos.x + 145.f * scale, pos.y + 12.5f * scale},
                         {10.f * scale, 10.f * scale}, 8 * scale);
-    drawButtonEllipse(Controller::ONE, '1', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    drawButtonEllipse(GZPad::ONE, '1', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                         {pos.x + 127.5f * scale, pos.y + 30.f * scale},
                         {15.f * scale, 15.f * scale}, 8 * scale);
-    drawButtonEllipse(Controller::TWO, '2', is_shadow ? 0x00000060 : 0xFFFFFFFF,
+    drawButtonEllipse(GZPad::TWO, '2', is_shadow ? 0x00000060 : 0xFFFFFFFF,
                         {pos.x + 127.5f * scale, pos.y + 50.f * scale},
                         {15.f * scale, 15.f * scale}, 8 * scale);
     drawCross(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 75.f * scale, pos.y + 10.f * scale},

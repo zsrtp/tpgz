@@ -126,9 +126,9 @@ void GZCmd_bitPractice() {
     if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
         SaveManager::loadSavefile("tpgz/save_files/any/ordon_gate_clip.bin");
         gSaveManager.mPracticeFileOpts.inject_options_before_load =
-            gSaveManager.inject_default_before;
+            SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load =
-            gSaveManager.inject_default_during;
+            SaveManager::injectDefault_during;
         gSaveManager.mPracticeFileOpts.inject_options_after_load =
             BiTIndicator::setPosition;
         gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;

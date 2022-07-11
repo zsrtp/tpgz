@@ -26,8 +26,8 @@ Texture l_flagOffTex;
 #define SCRL_BACK_TEXT "Y"
 #endif
 #ifdef WII_PLATFORM
-#define SCRL_FORW_BUTTON (Controller::TWO)
-#define SCRL_BACK_BUTTON (Controller::ONE)
+#define SCRL_FORW_BUTTON (GZPad::TWO)
+#define SCRL_BACK_BUTTON (GZPad::ONE)
 #define SCRL_FORW_TEXT "2"
 #define SCRL_BACK_TEXT "1"
 #endif

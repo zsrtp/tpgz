@@ -4,6 +4,7 @@
 #include "menus/settings_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #define ROTATION_SPEED (10)
 #define CAM_FAST_SPEED (2.0)
@@ -19,13 +20,13 @@
 #endif
 
 #ifdef WII_PLATFORM
-#define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 72 : 0)
-#define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 72 : 0)
+#define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 72 : 0)
+#define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 72 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 59 : 0)
+    ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 59 : 0)
 #define HORIZONTAL_DISPLACEMENT                                                                    \
-    ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 59 : 0)
-#define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
+    ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 59 : 0)
+#define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
 #endif
 
 #define WHITE_RGBA 0xFFFFFFFF

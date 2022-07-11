@@ -28,17 +28,18 @@
 
 #ifdef WII_PLATFORM
 #define COMMANDS_AMNT 11
-#define GORGE_VOID_BUTTONS (Mote::Z | Mote::C | Mote::A | Mote::ONE)
-#define BACK_IN_TIME_BUTTONS (Mote::Z | Mote::C | Mote::A | Mote::TWO)
-#define STORE_POSITION_BUTTONS (Mote::Z | Mote::C | Mote::ONE)
-#define LOAD_POSITION_BUTTONS (Mote::Z | Mote::C | Mote::TWO)
-#define MOON_JUMP_BUTTONS (Mote::Z | Mote::C | Mote::A)
-#define RELOAD_AREA_BUTTONS (Mote::Z | Mote::C | Mote::B | Mote::TWO)
-#define TIMER_TOGGLE_BUTTONS (Mote::Z | Mote::C | Mote::A | Mote::B)
-#define TIMER_RESET_BUTTONS (Mote::Z | Mote::C | Mote::B | Mote::ONE)
-#define FREE_CAM_BUTTONS (Mote::Z | Mote::C | Mote::B | Mote::MINUS)
-#define MOVE_LINK_BUTTONS (Mote::Z | Mote::C | Mote::B | Mote::PLUS)
-#define FRAME_ADVANCE_BUTTONS (Mote::Z | Mote::C | Mote::B | Mote::DPAD_RIGHT)
+#define GORGE_VOID_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::ONE)
+#define BACK_IN_TIME_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::TWO)
+#define STORE_POSITION_BUTTONS (GZPad::Z | GZPad::C | GZPad::ONE)
+#define LOAD_POSITION_BUTTONS (GZPad::Z | GZPad::C | GZPad::TWO)
+#define MOON_JUMP_BUTTONS (GZPad::Z | GZPad::C | GZPad::A)
+#define RELOAD_AREA_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::TWO)
+#define TIMER_TOGGLE_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::B)
+#define TIMER_RESET_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::ONE)
+#define FREE_CAM_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::MINUS)
+#define MOVE_LINK_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::PLUS)
+#define FRAME_PAUSE_BUTTONS (GZPad::Z | GZPad::DPAD_UP)
+#define FRAME_ADVANCE_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::DPAD_RIGHT)
 #define GORGE_VOID_TEXT "Z+C+A+1"
 #define BACK_IN_TIME_TEXT "Z+C+A+2"
 #define STORE_POSITION_TEXT "Z+C+1"

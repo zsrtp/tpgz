@@ -9,8 +9,8 @@
 #endif
 
 #ifdef WII_PLATFORM
-#define SCROLL_P10_BTN Controller::TWO
-#define SCROLL_M10_BTN Controller::ONE
+#define SCROLL_P10_BTN GZPad::TWO
+#define SCROLL_M10_BTN GZPad::ONE
 #endif
 
 struct Cursor {

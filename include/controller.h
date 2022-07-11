@@ -4,6 +4,7 @@
 #include "libtp_c/include/controller.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 
+#ifdef GCN_PLATFORM
 enum GZPad {
     DPAD_LEFT = 0,
     DPAD_RIGHT = 1,
@@ -18,10 +19,10 @@ enum GZPad {
     Y = 10,
     START = 11,
 };
+#endif
 
-namespace Controller {
-enum Button {
 #ifdef WII_PLATFORM
+enum GZPad {
     DPAD_LEFT = 0,
     DPAD_RIGHT = 1,
     DPAD_DOWN = 2,
@@ -35,9 +36,8 @@ enum Button {
     Z = 10,
     C = 11,
     HOME = 12,
-#endif
 };
-}  // namespace Controller
+#endif
 
 bool GZ_getButtonRepeat(int idx);
 bool GZ_getButtonRepeat(int idx, uint16_t repeat_time);

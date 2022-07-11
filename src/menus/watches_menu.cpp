@@ -14,7 +14,7 @@
 #define MEMORY_TEXT "Y"
 #endif
 #ifdef WII_PLATFORM
-#define MEMORY_BUTTON (Controller::ONE)
+#define MEMORY_BUTTON (GZPad::ONE)
 #define MEMORY_TEXT "1"
 #endif
 

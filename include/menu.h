@@ -16,7 +16,7 @@
 #define BACK_BUTTON (GZPad::B)
 #endif
 #ifdef WII_PLATFORM
-#define SELECTION_BUTTON (Controller::Mote::A)
+#define SELECTION_BUTTON (GZPad::A)
 #define BACK_BUTTON (GZPad::B)
 #endif
 

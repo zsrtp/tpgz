@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
@@ -24,14 +25,14 @@ double yaw = 0.0;
 #define YAW_CONTROL (tp_mPadStatus.substick_x)
 #endif
 #ifdef WII_PLATFORM
-#define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
-#define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
+#define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
+#define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.buttons & Controller::Mote::DPAD_UP ? 75 : 0) -                                      \
-     (tp_mPad.buttons & Controller::Mote::DPAD_DOWN ? 75 : 0))
-#define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
-#define PITCH_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
-#define YAW_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
+    ((tp_mPad.mHoldButton & GZPad::DPAD_UP ? 75 : 0) -                                      \
+     (tp_mPad.mHoldButton & GZPad::DPAD_DOWN ? 75 : 0))
+#define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
+#define PITCH_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
+#define YAW_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
 #endif
 
 void FreeCam::execute() {

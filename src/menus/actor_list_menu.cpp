@@ -17,7 +17,7 @@
 #ifdef WII_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
 #define CONTROLLER_LEFT GZPad::DPAD_LEFT
-#define MEM_SWITCH_BTN Controller::C
+#define MEM_SWITCH_BTN GZPad::C
 #define CONTROL_TEXT "C"
 #endif
 

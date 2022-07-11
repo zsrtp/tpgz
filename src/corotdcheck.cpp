@@ -13,11 +13,11 @@
 #endif  // GCN_PLATFORM
 #ifdef WII_PLATFORM
 #define ITEM_BUTTON_HELD_CHECK                                                                     \
-    (!GZ_getButtonHold(Mote::B) || !GZ_getButtonHold(Mote::DPAD_LEFT) ||                               \
-     !GZ_getButtonHold(Mote::DPAD_RIGHT) || !GZ_getButtonHold(Mote::DPAD_DOWN))
+    (!GZ_getButtonHold(GZPad::B) || !GZ_getButtonHold(GZPad::DPAD_LEFT) ||                               \
+     !GZ_getButtonHold(GZPad::DPAD_RIGHT) || !GZ_getButtonHold(GZPad::DPAD_DOWN))
 #define ITEM_BUTTON_DOWN_CHECK                                                                     \
-    (GZ_getButtonPressed(Mote::B) || GZ_getButtonPressed(Mote::DPAD_LEFT) ||                                 \
-     GZ_getButtonPressed(Mote::DPAD_RIGHT) || GZ_getButtonPressed(Mote::DPAD_DOWN))
+    (GZ_getButtonPressed(GZPad::B) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||                                 \
+     GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_DOWN))
 #define PAD Mote
 #endif  // WII_PLATFORM
 

@@ -21,6 +21,7 @@
 #include "utils/texture.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 _FIFOQueue Queue;
 bool l_loadCard = true;
@@ -74,8 +75,7 @@ void game_loop() {
 #define SHOW_MENU_BUTTONS (CButton::L | CButton::R | CButton::DPAD_DOWN)
 #endif
 #ifdef WII_PLATFORM
-    using namespace Controller::Mote;
-#define BUTTONS (tp_mPad.buttons)
+#define BUTTONS (tp_mPad.mHoldButton)
 #define CANCEL_LOAD_BUTTONS (Z | C | B)
 #define SHOW_MENU_BUTTONS (Z | C | MINUS)
 #endif
