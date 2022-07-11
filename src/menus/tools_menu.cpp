@@ -1,6 +1,5 @@
 #include "menus/tools_menu.h"
 #include "commands.h"
-#include "controller.h"
 #include "free_cam.h"
 #include "gorge.h"
 #ifdef WII_PLATFORM
@@ -11,240 +10,304 @@
 #include "movelink.h"
 #include "rollcheck.h"
 #include "timer.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "umd.h"
-#define LINES TOOL_AMNT
+#include "gz_flags.h"
+
+#define LINE_NUM TOOL_AMNT
 #define MAX_TUNIC_COLORS 7
-using namespace Tools;
 
-static Cursor cursor = {0, 0};
+Cursor ToolsMenu::cursor;
 int g_tunic_color;
-uint8_t tunic_color_index = 0;
-bool init_once = false;
-bool g_tunic_color_flag;
 
-Tool ToolItems[TOOL_AMNT] = {
-    {RELOAD_AREA_INDEX, false}, {FAST_BONK_INDEX, false},  {FAST_MOVEMENT_INDEX, false},
-    {GORGE_INDEX, false},
+uint8_t l_tunicCol_idx = 0;
+
+Tool g_tools[TOOL_AMNT] = {
+    {RELOAD_AREA_INDEX, false},   {FRAME_ADVANCE_INDEX, false}, {FAST_BONK_INDEX, false},
+    {FAST_MOVEMENT_INDEX, false}, {GORGE_INDEX, false},
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
-    {COROTD_INDEX, false},      {UMD_INDEX, false},        {INPUT_VIEWER_INDEX, false},
-    {LINK_DEBUG_INDEX, false},  {SAND_INDEX, false},       {ROLL_INDEX, false},
-    {TELEPORT_INDEX, false},    {TURBO_MODE_INDEX, false}, {TIMER_INDEX, false},
-    {LOAD_TIMER_INDEX, false},  {IGT_TIMER_INDEX, false},  {FREE_CAM_INDEX, false},
-    {MOVE_LINK_INDEX, false}};
+    {COROTD_INDEX, false},        {UMD_INDEX, false},           {INPUT_VIEWER_INDEX, false},
+    {LINK_DEBUG_INDEX, false},    {HEAP_DEBUG_INDEX, false},    {SAND_INDEX, false},
+    {ROLL_INDEX, false},          {TELEPORT_INDEX, false},      {TURBO_MODE_INDEX, false},
+    {TIMER_INDEX, false},         {LOAD_TIMER_INDEX, false},    {IGT_TIMER_INDEX, false},
+    {FREE_CAM_INDEX, false},      {MOVE_LINK_INDEX, false},
+};
 
-Line lines[LINES] = {
+Line lines[LINE_NUM] = {
     {"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area", true,
-     &ToolItems[RELOAD_AREA_INDEX].active},
+     &g_tools[RELOAD_AREA_INDEX].active},
+    {"frame advance", FRAME_ADVANCE_INDEX, "Use " FRAME_ADVANCE_TEXT " to frame advance", true,
+     &g_tools[FRAME_ADVANCE_INDEX].active},
     {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true,
-     &ToolItems[FAST_BONK_INDEX].active},
+     &g_tools[FAST_BONK_INDEX].active},
     {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true,
-     &ToolItems[FAST_MOVEMENT_INDEX].active},
+     &g_tools[FAST_MOVEMENT_INDEX].active},
     {"gorge checker", GORGE_INDEX, "Use " GORGE_VOID_TEXT " to warp to Kakariko Gorge", true,
-     &ToolItems[GORGE_INDEX].active},
+     &g_tools[GORGE_INDEX].active},
 #ifdef WII_PLATFORM
     {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
-     &ToolItems[BIT_INDEX].active},
+     &g_tools[BIT_INDEX].active},
 #endif
     {"coro td checker", COROTD_INDEX, "Show frame info when doing coro td", true,
-     &ToolItems[COROTD_INDEX].active},
-    {"umd checker", UMD_INDEX, "Practice Snowpeak UMD timing", true, &ToolItems[UMD_INDEX].active},
+     &g_tools[COROTD_INDEX].active},
+    {"umd checker", UMD_INDEX, "Practice Snowpeak UMD timing", true, &g_tools[UMD_INDEX].active},
     {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
-     &ToolItems[INPUT_VIEWER_INDEX].active},
+     &g_tools[INPUT_VIEWER_INDEX].active},
     {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true,
-     &ToolItems[LINK_DEBUG_INDEX].active},
+     &g_tools[LINK_DEBUG_INDEX].active},
+    {"heap debug info", HEAP_DEBUG_INDEX, "Show Heap size info", true,
+     &g_tools[HEAP_DEBUG_INDEX].active},
     {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true,
-     &ToolItems[SAND_INDEX].active},
+     &g_tools[SAND_INDEX].active},
     {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true,
-     &ToolItems[ROLL_INDEX].active},
+     &g_tools[ROLL_INDEX].active},
     {"teleport", TELEPORT_INDEX, STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load",
-     true, &ToolItems[TELEPORT_INDEX].active},
+     true, &g_tools[TELEPORT_INDEX].active},
     {"turbo mode", TURBO_MODE_INDEX, "Simulates turbo controller inputs", true,
-     &ToolItems[TURBO_MODE_INDEX].active},
+     &g_tools[TURBO_MODE_INDEX].active},
     {"timer", TIMER_INDEX,
      "Frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
-     &ToolItems[TIMER_INDEX].active},
+     &g_tools[TIMER_INDEX].active},
     {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " TIMER_RESET_TEXT " to reset", true,
-     &ToolItems[LOAD_TIMER_INDEX].active},
+     &g_tools[LOAD_TIMER_INDEX].active},
     {"igt timer", IGT_TIMER_INDEX,
      "In-game time timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset", true,
-     &ToolItems[IGT_TIMER_INDEX].active},
+     &g_tools[IGT_TIMER_INDEX].active},
     {"free cam", FREE_CAM_INDEX,
      FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
                    " to view, Z to speed",
-     true, &ToolItems[FREE_CAM_INDEX].active},
+     true, &g_tools[FREE_CAM_INDEX].active},
     {"move link", MOVE_LINK_INDEX,
      MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT " to move, " MOVE_LINK_ANGLE_TEXT
                     " to change angle",
-     true, &ToolItems[MOVE_LINK_INDEX].active},
+     true, &g_tools[MOVE_LINK_INDEX].active},
     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr,
      MAX_TUNIC_COLORS}};
 
-void ToolsMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
-        init_once = false;
-        return;
-    };
+void ToolsMenu::draw() {
+    cursor.setMode(Cursor::MODE_LIST);
 
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_MAIN_MENU);
+        return;
     }
 
-    ListMember tunic_color_options[MAX_TUNIC_COLORS] = {"green",  "blue",  "red",  "orange",
-                                                        "yellow", "white", "cycle"};
+    ListMember tunicCol_opt[MAX_TUNIC_COLORS] = {"green",  "blue",  "red",  "orange",
+                                                 "yellow", "white", "cycle"};
 
     if (cursor.y == TUNIC_COLOR_INDEX) {
-        cursor.x = tunic_color_index;
-        Utilities::move_cursor(cursor, LINES, MAX_TUNIC_COLORS, false, false, false, true);
-        if (cursor.y == TUNIC_COLOR_INDEX) {
-            tunic_color_index = cursor.x;
-        }
-        g_tunic_color = tunic_color_index;
-    } else {
-        Utilities::move_cursor(cursor, LINES, 0, false, false, false, true);
-    }
-    tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>",
-               tunic_color_options[tunic_color_index].member);
-    Utilities::render_lines(lines, cursor.y, LINES);
+        cursor.x = l_tunicCol_idx;
+        cursor.move(MAX_TUNIC_COLORS, LINE_NUM);
 
-    if (current_input == SELECTION_BUTTON && a_held == false) {
-        ToolItems[cursor.y].active = !ToolItems[cursor.y].active;
-        if (ToolItems[cursor.y].active) {
+        if (cursor.y == TUNIC_COLOR_INDEX) {
+            l_tunicCol_idx = cursor.x;
+        }
+        g_tunic_color = l_tunicCol_idx;
+    } else {
+        cursor.move(0, LINE_NUM);
+    }
+
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+        g_tools[cursor.y].active = !g_tools[cursor.y].active;
+        if (g_tools[cursor.y].active) {
             switch (cursor.y) {
-            case TIMER_INDEX: {
-                Commands::enable_command(Commands::CMD_TIMER_TOGGLE);
-                Commands::enable_command(Commands::CMD_TIMER_RESET);
+            case FRAME_ADVANCE_INDEX:
+                GZCmd_enable(Commands::CMD_FRAME_PAUSE);
                 break;
-            }
-            case LOAD_TIMER_INDEX: {
-                Commands::enable_command(Commands::CMD_TIMER_RESET);
+            case TIMER_INDEX:
+                g_tools[LOAD_TIMER_INDEX].active = false;
+                g_tools[IGT_TIMER_INDEX].active = false;
+                GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
+                GZCmd_enable(Commands::CMD_TIMER_RESET);
                 break;
-            }
-            case IGT_TIMER_INDEX: {
-                Commands::enable_command(Commands::CMD_TIMER_TOGGLE);
-                Commands::enable_command(Commands::CMD_TIMER_RESET);
+            case LOAD_TIMER_INDEX:
+                g_tools[TIMER_INDEX].active = false;
+                g_tools[IGT_TIMER_INDEX].active = false;
+                GZCmd_enable(Commands::CMD_TIMER_RESET);
                 break;
-            }
-            case GORGE_INDEX: {
-                Commands::enable_command(Commands::CMD_GORGE_VOID);
+            case IGT_TIMER_INDEX:
+                g_tools[TIMER_INDEX].active = false;
+                g_tools[LOAD_TIMER_INDEX].active = false;
+                GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
+                GZCmd_enable(Commands::CMD_TIMER_RESET);
                 break;
-            }
+            case GORGE_INDEX:
+                GZCmd_enable(Commands::CMD_GORGE_VOID);
+                break;
 #ifdef WII_PLATFORM
-            case BIT_INDEX: {
-                Commands::enable_command(Commands::CMD_BIT);
+            case BIT_INDEX:
+                GZCmd_enable(Commands::CMD_BIT);
                 break;
-            }
 #endif
-            case TELEPORT_INDEX: {
-                Commands::enable_command(Commands::CMD_STORE_POSITION);
-                Commands::enable_command(Commands::CMD_LOAD_POSITION);
+            case TELEPORT_INDEX:
+                GZCmd_enable(Commands::CMD_STORE_POSITION);
+                GZCmd_enable(Commands::CMD_LOAD_POSITION);
                 break;
-            }
-            case RELOAD_AREA_INDEX: {
-                Commands::enable_command(Commands::CMD_RELOAD_AREA);
+            case RELOAD_AREA_INDEX:
+                GZCmd_enable(Commands::CMD_RELOAD_AREA);
                 break;
-            }
-            case FAST_MOVEMENT_INDEX: {
-                tp_link_human_frontroll.roll_factor = 3.0f;
-                tp_link_human_swim.swim_up_speed = 50;
-                tp_link_human_swim.back_swim_speed = 50;
-                tp_link_human_swim.side_swim_speed = 50;
-                tp_link_human_swim.dash_swim_max_speed = 50;
-                tp_link_human_swim.forward_swim_speed = 50;
-                tp_link_human_swim.ib_swim_speed = 50;
-                tp_link_human_swim.sinking_speed = -50;
-                tp_link_human_swim.initial_sinking_speed = -50;
-                tp_link_wolf_general.dash_initial_speed_large_area = 100;
-                tp_link_wolf_general.dash_speed_large_area = 100;
-                tp_link_wolf_general.dash_initial_speed_small_area = 70;
-                tp_link_wolf_general.dash_speed_small_area = 70;
-                tp_link_wolf_swim.dash_swim_speed = 50;
-                tp_link_wolf_swim.swim_speed = 50;
+            case FAST_MOVEMENT_INDEX:
+                daAlinkHIO_frontRoll.mSpeedRate = 3.0f;
+                daAlinkHIO_swim.mMaxUnderwaterSpeed = 50;
+                daAlinkHIO_swim.mMaxBackwardSpeed = 50;
+                daAlinkHIO_swim.mMaxStrafeSpeed = 50;
+                daAlinkHIO_swim.mDashMaxSpeed = 50;
+                daAlinkHIO_swim.mMaxForwardSpeed = 50;
+                daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 50;
+                daAlinkHIO_swim.mBootsMaxSinkSpeed = -50;
+                daAlinkHIO_swim.mBootsGravity = -50;
+                daAlinkHIO_wlMove.mDashInitSpeed = 100;
+                daAlinkHIO_wlMove.mDashMaxSpeed = 100;
+                daAlinkHIO_wlMove.mDashInitSpeedSlow = 70;
+                daAlinkHIO_wlMove.mDashMaxSpeedSlow = 70;
+                daAlinkHIO_wlSwim.mMaxSpeed = 50;
+                daAlinkHIO_wlSwim.mMaxSpeedWeak = 50;
                 break;
-            }
-            case FAST_BONK_INDEX: {
-                tp_link_human_frontroll.bonk_recoil_anim_speed = 50.0f;
-                tp_link_human_frontroll.bonk_recovery_anim_factor = 0.0f;
+            case FAST_BONK_INDEX:
+                daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 50.0f;
+                daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.0f;
                 break;
-            }
-            case SAND_INDEX: {
-                if (g_dComIfG_gameInfo.play.mPlayer != nullptr) {
+            case SAND_INDEX:
+                if (dComIfGp_getPlayer() != nullptr) {
                     dComIfGp_getPlayer()->field_0x2ba8 = 0;
                 }
                 break;
-            }
-            case FREE_CAM_INDEX: {
-                Commands::enable_command(Commands::CMD_FREE_CAM);
-                free_cam_active = false;
+            case FREE_CAM_INDEX:
+                GZCmd_enable(Commands::CMD_FREE_CAM);
+                g_freeCamEnabled = false;
                 break;
-            }
-            case MOVE_LINK_INDEX: {
-                Commands::enable_command(Commands::CMD_MOVE_LINK);
-                move_link_active = false;
+            case MOVE_LINK_INDEX:
+                GZCmd_enable(Commands::CMD_MOVE_LINK);
+                g_moveLinkEnabled = false;
                 break;
-            }
             }
         } else {
             switch (cursor.y) {
-            case TELEPORT_INDEX: {
-                Commands::disable_command(Commands::CMD_STORE_POSITION);
-                Commands::disable_command(Commands::CMD_LOAD_POSITION);
+            case FRAME_ADVANCE_INDEX:
+                GZCmd_disable(Commands::CMD_FRAME_PAUSE);
                 break;
-            }
-            case RELOAD_AREA_INDEX: {
-                Commands::disable_command(Commands::CMD_RELOAD_AREA);
+            case TELEPORT_INDEX:
+                GZCmd_disable(Commands::CMD_STORE_POSITION);
+                GZCmd_disable(Commands::CMD_LOAD_POSITION);
                 break;
-            }
-            case FAST_MOVEMENT_INDEX: {
-                tp_link_human_frontroll.roll_factor = 1.3;
-                tp_link_human_swim.swim_up_speed = 12;
-                tp_link_human_swim.forward_swim_speed = 8;
-                tp_link_human_swim.back_swim_speed = 6;
-                tp_link_human_swim.side_swim_speed = 8;
-                tp_link_human_swim.dash_swim_max_speed = 13;
-                tp_link_human_swim.ib_swim_speed = 8;
-                tp_link_human_swim.sinking_speed = -20;
-                tp_link_human_swim.initial_sinking_speed = -0.699999988;
-                tp_link_wolf_general.dash_initial_speed_large_area = 65;
-                tp_link_wolf_general.dash_speed_large_area = 45;
-                tp_link_wolf_general.dash_initial_speed_small_area = 35;
-                tp_link_wolf_general.dash_speed_small_area = 33;
-                tp_link_wolf_swim.dash_swim_speed = 20;
-                tp_link_wolf_swim.swim_speed = 9;
+            case RELOAD_AREA_INDEX:
+                GZCmd_disable(Commands::CMD_RELOAD_AREA);
                 break;
-            }
-            case FAST_BONK_INDEX: {
-                tp_link_human_frontroll.bonk_recoil_anim_speed = 3.0f;
-                tp_link_human_frontroll.bonk_recovery_anim_factor = 0.800000012f;
+            case FAST_MOVEMENT_INDEX:
+                daAlinkHIO_frontRoll.mSpeedRate = 1.3;
+                daAlinkHIO_swim.mMaxUnderwaterSpeed = 12;
+                daAlinkHIO_swim.mMaxForwardSpeed = 8;
+                daAlinkHIO_swim.mMaxBackwardSpeed = 6;
+                daAlinkHIO_swim.mMaxStrafeSpeed = 8;
+                daAlinkHIO_swim.mDashMaxSpeed = 13;
+                daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 8;
+                daAlinkHIO_swim.mBootsMaxSinkSpeed = -20;
+                daAlinkHIO_swim.mBootsGravity = -0.699999988;
+                daAlinkHIO_wlMove.mDashInitSpeed = 65;
+                daAlinkHIO_wlMove.mDashMaxSpeed = 45;
+                daAlinkHIO_wlMove.mDashInitSpeedSlow = 35;
+                daAlinkHIO_wlMove.mDashMaxSpeedSlow = 33;
+                daAlinkHIO_wlSwim.mMaxSpeed = 20;
+                daAlinkHIO_wlSwim.mMaxSpeedWeak = 9;
                 break;
-            }
-            case FREE_CAM_INDEX: {
-                Commands::disable_command(Commands::CMD_FREE_CAM);
-                free_cam_active = false;
+            case FAST_BONK_INDEX:
+                daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 3.0f;
+                daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.800000012f;
                 break;
-            }
-            case MOVE_LINK_INDEX: {
-                Commands::disable_command(Commands::CMD_MOVE_LINK);
-                move_link_active = false;
+            case FREE_CAM_INDEX:
+                GZCmd_disable(Commands::CMD_FREE_CAM);
+                g_freeCamEnabled = false;
                 break;
-            }
-            case GORGE_INDEX: {
-                Commands::disable_command(Commands::CMD_GORGE_VOID);
+            case MOVE_LINK_INDEX:
+                GZCmd_disable(Commands::CMD_MOVE_LINK);
+                g_moveLinkEnabled = false;
                 break;
-            }
+            case GORGE_INDEX:
+                GZCmd_disable(Commands::CMD_GORGE_VOID);
+                break;
 #ifdef WII_PLATFORM
-            case BIT_INDEX: {
-                Commands::disable_command(Commands::CMD_BIT);
+            case BIT_INDEX:
+                GZCmd_disable(Commands::CMD_BIT);
                 break;
-            }
 #endif
             }
         }
     }
-}  // namespace Tools
+
+    tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunicCol_opt[l_tunicCol_idx].member);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}
+
+void ToolsMenu::setTunicColor() {
+    static int16_t cycle_r = 0;
+    static int16_t cycle_g = 0;
+    static int16_t cycle_b = 0;
+
+    if (dComIfGp_getPlayer()) {
+        int16_t r = 0;
+        int16_t g = 0;
+        int16_t b = 0;
+
+        switch (g_tunic_color) {
+        case GREEN:
+        default:
+            r = 0x10;
+            g = 0x10;
+            b = 0x10;
+            break;
+        case BLUE:
+            r = 0x00;
+            g = 0x08;
+            b = 0x20;
+            break;
+        case RED:
+            r = 0x18;
+            g = 0x00;
+            b = 0x00;
+            break;
+        case ORANGE:
+            r = 0x20;
+            g = 0x10;
+            b = 0x00;
+            break;
+        case YELLOW:
+            r = 0x20;
+            g = 0x20;
+            b = 0x00;
+            break;
+        case WHITE:
+            r = 0x20;
+            g = 0x1C;
+            b = 0x20;
+            break;
+        case CYCLE:
+            if (cycle_r < 0x0010 && (cycle_g == 0x0000 && cycle_b == 0x0000)) {
+                cycle_r += 0x0001;
+            } else if (cycle_g < 0x0010 && (cycle_b == 0x0000 && cycle_r == 0x0010)) {
+                cycle_g += 0x0001;
+            } else if (cycle_b < 0x0010 && (cycle_g == 0x0010 && cycle_r == 0x0010)) {
+                cycle_b += 0x0001;
+            } else if (cycle_r > 0x0000 && (cycle_g == 0x0010 && cycle_b == 0x0010)) {
+                cycle_r -= 0x0001;
+            } else if (cycle_g > 0x0000 && (cycle_b == 0x0010 && cycle_r == 0x0000)) {
+                cycle_g -= 0x0001;
+            } else {
+                cycle_b -= 0x0001;
+            }
+
+            r = cycle_r;
+            g = cycle_g;
+            b = cycle_b;
+            break;
+        }
+
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.r = r - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.g = g - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[0].mColor.b = b - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = r - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = g - 0x10;
+        dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = b - 0x10;
+    }
+}

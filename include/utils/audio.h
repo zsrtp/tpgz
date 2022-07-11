@@ -1,7 +1,8 @@
 #pragma once
-namespace Utilities {
-void disable_bg_music();
-void enable_bg_music();
-void disable_sfx();
-void enable_sfx();
-}  // namespace Utilities
+
+#include "libtp_c/include/m_Do/m_Do_audio.h"
+
+void GZ_disableBGM();
+void GZ_enableBGM();
+void GZ_disableSFX();
+void GZ_enableSFX();

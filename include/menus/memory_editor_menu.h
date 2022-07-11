@@ -3,7 +3,9 @@
 class MemoryEditorMenu : public Menu {
 public:
     MemoryEditorMenu() : Menu() {}
-    static void render();
-};
+    static void draw();
+    static void drawMemEditor();
 
-extern uint32_t address_index;
+    static Cursor cursor;
+    static uint32_t mAddressIndex;
+};

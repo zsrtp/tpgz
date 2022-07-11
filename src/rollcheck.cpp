@@ -1,15 +1,12 @@
 #include "rollcheck.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 
 #define ROLL_FRAMES 19
 
-namespace RollIndicator {
-using namespace Controller;
 static int current_counter = 0;
 static int counter_difference = 0;
 static int previous_counter = 0;
@@ -19,7 +16,7 @@ static bool start_counter = false;
 static bool missed_pressed_a = false;
 uint16_t action_id = 0x0000;
 
-void run() {
+void RollIndicator::execute() {
     // if normal human link gameplay
     if (dComIfGp_getEvent().mHalt == false && dComIfGs_getTransformStatus() == STATUS_HUMAN) {
         current_counter = cCt_getFrameCount();
@@ -53,12 +50,11 @@ void run() {
                 counter_difference = 0;
             }
 
-            if (counter_difference > 15 && counter_difference < 19 &&
-                Controller::button_is_down(A) && !Controller::button_is_held(A)) {
+            if (counter_difference > 15 && counter_difference < 19 && GZ_getButtonPressed(A) &&
+                !GZ_getButtonHold(A)) {
                 tp_sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
-            } else if (counter_difference == 19 && Controller::button_is_down(A) &&
-                       !Controller::button_is_held(A)) {
+            } else if (counter_difference == 19 && GZ_getButtonPressed(A) && !GZ_getButtonHold(A)) {
                 FIFOQueue::push("<3", Queue, 0x00CC0000);
             } else if (missed_counter > 0 && missed_pressed_a == false) {
                 tp_sprintf(buf, "%df late", missed_counter);
@@ -67,15 +63,6 @@ void run() {
                 counter_difference = 0;
                 missed_pressed_a = true;
             }
-
-            // account for roll interupt via bonks or other means
-            // if (counter_difference > 20) {
-            //     counter_difference = 0;
-            //     previous_counter = 0;
-            //     current_counter = 0;
-            //     missed_counter = 0;
-            // }
         }
     }
 }
-}  // namespace RollIndicator

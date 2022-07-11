@@ -15,7 +15,7 @@ public:
 };
 
 extern _FIFOQueue Queue;
-extern bool fifo_visible;
+extern bool g_fifoVisible;
 
 class FIFOQueue {
 private:

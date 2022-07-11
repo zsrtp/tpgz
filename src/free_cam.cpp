@@ -4,39 +4,39 @@
 #include "menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
 #define FREECAM_SPEED (0.2)
 
-bool free_cam_active;
+bool g_freeCamEnabled;
 
 bool init_once = false;
 double pitch = 0.0;
 double yaw = 0.0;
 
 #ifdef GCN_PLATFORM
-#define CONTROL_Y (tp_mPadStatus.control_y)
-#define CONTROL_X (tp_mPadStatus.control_x)
-#define VERTICAL_DISPLACEMENT (tp_mPadStatus.trig_L - tp_mPadStatus.trig_R)
-#define SPEED_PREDICATE (tp_mPadButton.buttons & Controller::Pad::Z)
-#define PITCH_CONTROL (tp_mPadStatus.c_y)
-#define YAW_CONTROL (tp_mPadStatus.c_x)
+#define CONTROL_Y (tp_mPadStatus.stick_y)
+#define CONTROL_X (tp_mPadStatus.stick_x)
+#define VERTICAL_DISPLACEMENT (tp_mPadStatus.trigger_left - tp_mPadStatus.trigger_right)
+#define SPEED_PREDICATE (tp_mPadButton.mButton & CButton::Z)
+#define PITCH_CONTROL (tp_mPadStatus.substick_y)
+#define YAW_CONTROL (tp_mPadStatus.substick_x)
 #endif
 #ifdef WII_PLATFORM
-#define CONTROL_Y ((tp_mPad.buttons & Controller::Mote::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
-#define CONTROL_X ((tp_mPad.buttons & Controller::Mote::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
+#define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
+#define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.buttons & Controller::Mote::DPAD_UP ? 75 : 0) -                                      \
-     (tp_mPad.buttons & Controller::Mote::DPAD_DOWN ? 75 : 0))
-#define SPEED_PREDICATE (tp_mPad.buttons & Controller::Mote::Z)
-#define PITCH_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
-#define YAW_CONTROL ((tp_mPad.buttons & Controller::Mote::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
+    ((tp_mPad.mHoldButton & GZPad::DPAD_UP ? 75 : 0) -                                             \
+     (tp_mPad.mHoldButton & GZPad::DPAD_DOWN ? 75 : 0))
+#define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
+#define PITCH_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
+#define YAW_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
 #endif
 
-namespace FreeCam {
-void handle_free_cam() {
-    if (free_cam_active) {
+void FreeCam::execute() {
+    if (g_freeCamEnabled) {
         auto& cam_target = tp_matrixInfo.matrix_info->target;
         auto& cam_pos = tp_matrixInfo.matrix_info->pos;
         // Freeze the game to prevent control stick inputs to move link
@@ -81,4 +81,3 @@ void handle_free_cam() {
         }
     }
 }
-}  // namespace FreeCam

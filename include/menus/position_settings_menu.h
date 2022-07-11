@@ -13,11 +13,13 @@ enum SpritesIndex {
     FIFO_SPR_INDEX
 };
 
-extern Vec2 sprite_offsets[SPRITES_AMNT];
+extern Vec2 g_spriteOffsets[SPRITES_AMNT];
 
 class PosSettingsMenu : public Menu {
 public:
     static void initDefaults();
     PosSettingsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

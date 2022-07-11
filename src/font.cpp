@@ -2,10 +2,11 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "utils/disc.h"
 #include "utils/draw.h"
+#include "gz_flags.h"
 
 _Font Font::font;
 
-FontCode Font::load_font(const char* path) {
+FontCode Font::loadFont(const char* path) {
     DVDFileInfo fileInfo;
     int32_t readsize;
     if (font.loadCode == FontCode::FNT_OK) {
@@ -62,7 +63,7 @@ void Font::free_font() {
 }
 
 void PositionedGlyph::render(uint32_t color, Texture* texture) {
-    Draw::draw_quad(color, vertices, tex_coords, &texture->_texObj);
+    Draw::drawQuad(color, vertices, tex_coords, &texture->_texObj);
 }
 
 PositionedGlyph DecodedGlyph::position(float _x, float _y, float factor) {
@@ -111,22 +112,22 @@ void Font::renderChars(const char* str, float x, float y, uint32_t color, float 
     }
 }
 
-void Font::gz_renderChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
+void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
     if (drop_shadows) {
         renderChar(c, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
     renderChar(c, x, y, color, size);
 }
 
-void Font::gz_renderChars(const char* str, float x, float y, uint32_t color, bool drop_shadows,
-                          float size) {
+void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
+                      float size) {
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
     renderChars(str, x, y, color, size);
 }
 
-float Font::get_char_width(char c, float size) {
+float Font::getCharWidth(char c, float size) {
     DecodedGlyph glyph;
     if (lookupGlyph(c, glyph)) {
         return glyph.width * size / font.header.base_size;
@@ -135,11 +136,23 @@ float Font::get_char_width(char c, float size) {
     }
 }
 
-float Font::get_chars_width(const char* str, float size) {
+float Font::getStrWidth(const char* str, float size) {
     int len = tp_strlen(str);
     float str_size = 0.f;
     for (int i = 0; i < len; i++) {
-        str_size += get_char_width(str[i], size);
+        str_size += getCharWidth(str[i], size);
     }
     return str_size;
+}
+
+// returns the width of the rendered string
+float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
+                        uint32_t color) {
+    float pos = 0.0f;
+    for (size_t i = 0; i <= max_char; ++i) {
+        Font::GZ_drawChar(str[i], x + pos, y, char_idx == i ? CURSOR_RGBA : color,
+                          GZ_checkDropShadows());
+        pos += Font::getCharWidth(str[i]);
+    }
+    return pos;
 }

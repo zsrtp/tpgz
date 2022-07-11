@@ -1,6 +1,6 @@
 #include "menu.h"
 
-#define ANY_SPECIALS_AMNT 18
+#define ANY_SPECIALS_AMNT 19
 
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,
@@ -27,7 +27,6 @@ enum AnyPracticeIndex {
     SPR_WARP_SKIP_INDEX,
     SPR_INDEX,
     DARK_HAMMER_INDEX,
-    LAKEBED_2_INDEX,
     LAKEBED_BK_SKIP_INDEX,
     ONEBOMB_INDEX,
     MDH_TOWER_INDEX,
@@ -58,5 +57,7 @@ enum AnyPracticeIndex {
 class AnySavesMenu : public Menu {
 public:
     AnySavesMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

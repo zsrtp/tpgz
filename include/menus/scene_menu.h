@@ -2,8 +2,8 @@
 
 #include "menu.h"
 
-#define SCENE_AMNT 10
-namespace Scene {
+#define SCENE_AMNT 7
+
 enum SceneIndex {
     DISABLE_BG_INDEX,
     DISABLE_SFX_INDEX,
@@ -15,17 +15,30 @@ enum SceneIndex {
     TIME_HOURS_INDEX,
     TIME_MINUTES_INDEX,
     ACTOR_MENU_INDEX,
+    ACTOR_LIST_INDEX,
 };
 
 struct SceneItem {
     enum SceneIndex id;
     bool active;
 };
-}  // namespace Scene
-extern Scene::SceneItem SceneItems[SCENE_AMNT];
+
+extern SceneItem g_sceneFlags[SCENE_AMNT];
+
+void GZ_freezeTime();
+void GZ_freezeCamera();
+void GZ_unfreezeCamera();
+void GZ_hideHUD();
+void GZ_showHUD();
+void GZ_freezeActors();
+void GZ_unfreezeActors();
+void GZ_hideActors();
+void GZ_showActors();
 
 class SceneMenu : public Menu {
 public:
     SceneMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

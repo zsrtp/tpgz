@@ -14,13 +14,16 @@ struct PositionData {
 };
 
 extern bool set_position_data;
+extern bool g_injectMemfile;
 extern int8_t memfile_load_delay;
 extern PositionData memfile_posdata;
 
-void set_memfile_position();
+void GZMemfile_setLinkPosition();
 
 class MemfilesMenu : public Menu {
 public:
     MemfilesMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

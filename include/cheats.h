@@ -7,7 +7,6 @@
 #define CHEAT_AMNT 14
 #endif
 
-namespace Cheats {
 enum CheatId {
     InfiniteAir,
     InfiniteArrows,
@@ -34,11 +33,8 @@ struct Cheat {
     bool active;
 };
 
-void apply_cheats();
-};  // namespace Cheats
+void GZ_applyCheats();
 
-extern Cheats::Cheat CheatItems[CHEAT_AMNT];
-
-// static Cheats::Cheat CheatItems[CHEAT_AMNT];
+extern Cheat g_cheats[CHEAT_AMNT];
 
 #endif

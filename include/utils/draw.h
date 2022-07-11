@@ -21,16 +21,16 @@ void add_vertex(uint32_t color, Vec2 point);
 void add_vertex(uint32_t color, Vec2 point, Vec2 tex);
 void end();
 
-void draw_quad(uint32_t color, Vec2 p[4]);
-void draw_quad(uint32_t color, Vec2 p[4], GXTexObj* texture);
-void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4]);
-void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture);
-void draw_quad_outline(uint32_t color, Vec2 p[4]);
-void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width);
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim);
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture);
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]);
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture);
-void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim);
-void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim, uint8_t width);
+void drawQuad(uint32_t color, Vec2 p[4]);
+void drawQuad(uint32_t color, Vec2 p[4], GXTexObj* texture);
+void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4]);
+void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture);
+void drawQuadOutline(uint32_t color, Vec2 p[4]);
+void drawQuadOutline(uint32_t color, Vec2 p[4], uint8_t width);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture);
+void drawRectOutline(uint32_t color, Vec2 pos, Vec2 dim);
+void drawRectOutline(uint32_t color, Vec2 pos, Vec2 dim, uint8_t width);
 };  // namespace Draw

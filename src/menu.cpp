@@ -20,44 +20,42 @@
 #include "menus/ad_saves_menu.h"
 #include "menus/memfiles_menu.h"
 #include "menus/actor_spawn_menu.h"
+#include "libtp_c/include/d/com/d_com_inf_game.h"
 
 typedef void (*menu_render_t)();
 
-menu_render_t MenuRenderList[MAX_MENU_RENDER_FLAGS] = {
-    MainMenu::render,         InventoryMenu::render,   ItemWheelMenu::render,
-    WarpingMenu::render,      MemoryMenu::render,      WatchesMenu::render,
-    MemoryEditorMenu::render, FlagsMenu::render,       GeneralFlagsMenu::render,
-    DungeonFlagsMenu::render, PortalFlagsMenu::render, FlagRecordsMenu::render,
-    PracticeMenu::render,     CheatsMenu::render,      SceneMenu::render,
-    SettingsMenu::render,     ToolsMenu::render,       PauseMenu::render,
-    AmountsMenu::render,      AnySavesMenu::render,    HundoSavesMenu::render,
-    PosSettingsMenu::render,  FlagLogMenu::render,     ADSavesMenu::render,
-    MemfilesMenu::render,     ActorSpawnMenu::render};
+menu_render_t l_menuDrawList[MAX_MENU_RENDER_FLAGS] = {
+    MainMenu::draw,        CheatsMenu::draw,      FlagsMenu::draw,        InventoryMenu::draw,
+    MemoryMenu::draw,      PracticeMenu::draw,    SceneMenu::draw,        SettingsMenu::draw,
+    ToolsMenu::draw,       WarpingMenu::draw,     GeneralFlagsMenu::draw, DungeonFlagsMenu::draw,
+    PortalFlagsMenu::draw, FlagRecordsMenu::draw, FlagLogMenu::draw,      ItemWheelMenu::draw,
+    PauseMenu::draw,       AmountsMenu::draw,     WatchesMenu::draw,      MemoryEditorMenu::draw,
+    MemfilesMenu::draw,    AnySavesMenu::draw,    HundoSavesMenu::draw,   ADSavesMenu::draw,
+    ActorSpawnMenu::draw,  ActorListMenu::draw,   PosSettingsMenu::draw,
+};
 
-menu_render_t currentMenu = nullptr;
+menu_render_t l_currentMenu = nullptr;
 
-namespace MenuRendering {
-void render_active_menus() {
-    if (currentMenu) {
-        currentMenu();
+void GZ_drawMenu() {
+    if (l_currentMenu != nullptr) {
+        l_currentMenu();
     }
 }
 
-void set_menu(MenuIndex idx) {
-    if (idx > MN_NONE_INDEX) {
-        currentMenu = MenuRenderList[idx];
+void GZ_setMenu(int menu_idx) {
+    if (menu_idx > MN_NONE_INDEX) {
+        l_currentMenu = l_menuDrawList[menu_idx];
     } else {
-        currentMenu = nullptr;
+        l_currentMenu = nullptr;
     }
 }
 
-void close_active_menus() {
-    if (currentMenu) {
-        currentMenu = nullptr;
+void GZ_clearMenu() {
+    if (l_currentMenu) {
+        l_currentMenu = nullptr;
     }
 }
 
-bool is_menu_open() {
-    return currentMenu != nullptr;
+bool GZ_checkMenuOpen() {
+    return l_currentMenu != nullptr;
 }
-}  // namespace MenuRendering

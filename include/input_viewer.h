@@ -1,9 +1,7 @@
 #pragma once
 #include "font.h"
 
-extern bool iv_visible;
-
 namespace InputViewer {
-
-void render();
-}
+void draw();
+void drawViewer(Vec2 pos, float scale, bool is_shadow);
+}  // namespace InputViewer

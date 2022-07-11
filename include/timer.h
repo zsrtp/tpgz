@@ -1,10 +1,11 @@
 #pragma once
 #include "font.h"
 
-extern bool timer_visible;
-extern bool timer_started;
-extern bool reset_timer;
+extern bool g_timerEnabled;
+extern bool g_resetTimer;
 
 namespace Timer {
-void render();
-}
+void drawTimer();
+void drawIGT();
+void drawLoadTimer();
+}  // namespace Timer

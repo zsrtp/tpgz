@@ -10,5 +10,15 @@ enum {
 class ActorSpawnMenu : public Menu {
 public:
     ActorSpawnMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
+};
+
+class ActorListMenu : public Menu {
+public:
+    ActorListMenu() : Menu() {}
+    static void draw();
+
+    static Cursor cursor;
 };

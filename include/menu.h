@@ -6,21 +6,18 @@
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "timer.h"
+#include "utils/cursor.h"
+#include "utils/lines.h"
 
-#define MAX_LIST_MEMBER_LENGTH 40
-#define MAX_LIST_ITEMS 20
-#define MAX_LINE_LENGTH 50
-#define MAX_DESCRIPTION_LENGTH 100
-
-#define MAX_MENU_RENDER_FLAGS 26
+#define MAX_MENU_RENDER_FLAGS 27
 
 #ifdef GCN_PLATFORM
-#define SELECTION_BUTTON (Controller::Pad::A)
-#define BACK_BUTTON (Controller::B)
+#define SELECTION_BUTTON (GZPad::A)
+#define BACK_BUTTON (GZPad::B)
 #endif
 #ifdef WII_PLATFORM
-#define SELECTION_BUTTON (Controller::Mote::A)
-#define BACK_BUTTON (Controller::B)
+#define SELECTION_BUTTON (GZPad::A)
+#define BACK_BUTTON (GZPad::B)
 #endif
 
 enum MenuIndex {
@@ -53,28 +50,10 @@ enum MenuIndex {
     MN_ACTOR_SPAWNER_INDEX
 };
 
-struct ListMember {
-    char member[MAX_LIST_MEMBER_LENGTH];
-};
-
-struct Line {
-    char line[MAX_LINE_LENGTH];
-    const int idx;
-    char description[MAX_DESCRIPTION_LENGTH];
-    bool toggleable = false;
-    bool* activation_flag;
-    uint8_t max_y_cursor_options;
-    char value[MAX_LINE_LENGTH] = {0};
-};
-
-class Menu;
-
-namespace MenuRendering {
-void render_active_menus();
-void set_menu(MenuIndex idx);
-void close_active_menus();
-bool is_menu_open();
-}  // namespace MenuRendering
+void GZ_drawMenu();
+void GZ_setMenu(int idx);
+void GZ_clearMenu();
+bool GZ_checkMenuOpen();
 
 class Menu {
 public:

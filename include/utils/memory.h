@@ -1,5 +1,4 @@
 #include "font.h"
 
-namespace Utilities {
-void render_active_watches();
-}
+void GZ_drawWatches();
+void GZ_drawHeapInfo();

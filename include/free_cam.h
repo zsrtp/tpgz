@@ -1,6 +1,6 @@
 #pragma once
 
-extern bool free_cam_active;
+extern bool g_freeCamEnabled;
 
 #ifdef GCN_PLATFORM
 #define FREE_CAM_MOVEMENT_TEXT "Stick/L/R"
@@ -12,5 +12,5 @@ extern bool free_cam_active;
 #endif
 
 namespace FreeCam {
-void handle_free_cam();
+void execute();
 }  // namespace FreeCam

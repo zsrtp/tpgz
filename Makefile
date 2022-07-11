@@ -30,7 +30,7 @@ EXTERNAL    :=  external
 DATA		:=	data 
 INCLUDES	:=	include external
 MAKEFILES   :=  $(shell find . -mindepth 2 -name Makefile)
-GZ_VERSION  ?=  0.4
+GZ_VERSION  ?=  0.5.0
 
 ifdef PR_TEST
 RUN_PR_TEST := -D PR_TEST=1

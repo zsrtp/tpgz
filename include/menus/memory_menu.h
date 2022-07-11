@@ -20,16 +20,21 @@ struct MemoryWatch {
     bool value_selected = false;
 };
 
-extern MemoryWatch Watches[MAX_WATCHES];
+extern MemoryWatch g_watches[MAX_WATCHES];
 
 class MemoryMenu : public Menu {
 public:
     MemoryMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };
 
 class WatchesMenu : public Menu {
 public:
     WatchesMenu() : Menu() {}
-    static void render();
+    static void draw();
+    static void drawMemoryLines();
+
+    static Cursor cursor;
 };

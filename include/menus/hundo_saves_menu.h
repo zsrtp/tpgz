@@ -88,5 +88,7 @@ enum HundoPracticeIndex {
 class HundoSavesMenu : public Menu {
 public:
     HundoSavesMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

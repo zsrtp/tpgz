@@ -1,13 +1,11 @@
 #pragma once
 
 #include <stdint.h>
+#include "libtp_c/include/controller.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 
-extern bool a_held;
-extern uint16_t current_input;
-
-namespace Controller {
-enum Button {
 #ifdef GCN_PLATFORM
+enum GZPad {
     DPAD_LEFT = 0,
     DPAD_RIGHT = 1,
     DPAD_DOWN = 2,
@@ -20,8 +18,11 @@ enum Button {
     X = 9,
     Y = 10,
     START = 11,
+};
 #endif
+
 #ifdef WII_PLATFORM
+enum GZPad {
     DPAD_LEFT = 0,
     DPAD_RIGHT = 1,
     DPAD_DOWN = 2,
@@ -35,12 +36,13 @@ enum Button {
     Z = 10,
     C = 11,
     HOME = 12,
-#endif
 };
-bool button_is_pressed(int idx);
-bool button_is_pressed(int idx, uint16_t repeat_time);
-bool button_is_down(int idx);
-bool button_is_held(int idx, int phase = 0);
-uint16_t get_current_inputs();
-void read_controller();
-}  // namespace Controller
+#endif
+
+bool GZ_getButtonRepeat(int idx);
+bool GZ_getButtonRepeat(int idx, uint16_t repeat_time);
+bool GZ_getButtonPressed(int idx);
+bool GZ_getButtonHold(int idx, int phase = 0);
+uint16_t GZ_getButtonStatus();
+void GZ_readController();
+bool GZ_getButtonTrig(int idx);

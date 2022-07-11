@@ -15,5 +15,7 @@ enum MainMenuIndex {
 class MainMenu : public Menu {
 public:
     MainMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

@@ -1,47 +1,36 @@
 #include "menus/memory_menu.h"
-#include "controller.h"
-#include "font.h"
-#include "utils/cursor.h"
-#include "utils/lines.h"
+#include "gz_flags.h"
 
-#define LINES 3
+#define LINE_NUM 3
 
-static Cursor cursor = {0, 0};
-bool init_once = false;
+Cursor MemoryMenu::cursor;
 
-Line lines[LINES] = {{"watches", 0, "Manage memory watches", false},
-                     {"memory editor", 1, "View/edit memory", false},
-                     {"mem files", 2, "Save/Load memory files", false}};
+Line lines[LINE_NUM] = {
+    {"watches", 0, "Manage memory watches", false},
+    {"memory editor", 1, "View/edit memory", false},
+    {"mem files", 2, "Save/Load memory files", false},
+};
 
-void MemoryMenu::render() {
-    if (button_is_pressed(BACK_BUTTON)) {
-        init_once = false;
-        MenuRendering::set_menu(MN_MAIN_MENU_INDEX);
+void MemoryMenu::draw() {
+    if (GZ_getButtonTrig(BACK_BUTTON)) {
+        GZ_setMenu(GZ_MAIN_MENU);
         return;
     }
 
-    if (!init_once) {
-        current_input = 0;
-        init_once = true;
-    }
-
-    if (current_input == SELECTION_BUTTON && a_held == false) {
+    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
-        case 0: {
-            MenuRendering::set_menu(MN_WATCHES_INDEX);
+        case 0:
+            GZ_setMenu(GZ_WATCHES_MENU);
             return;
-        }
-        case 1: {
-            MenuRendering::set_menu(MN_MEMORY_EDITOR_INDEX);
+        case 1:
+            GZ_setMenu(GZ_MEM_EDITOR_MENU);
             return;
-        }
-        case 2: {
-            MenuRendering::set_menu(MN_MEM_FILES_INDEX);
+        case 2:
+            GZ_setMenu(GZ_MEMFILES_MENU);
             return;
-        }
         }
     }
 
-    Utilities::move_cursor(cursor, LINES);
-    Utilities::render_lines(lines, cursor.y, LINES);
-};
+    cursor.move(0, LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+}

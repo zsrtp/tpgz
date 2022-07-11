@@ -32,6 +32,8 @@ enum DungeonFlagsIndex {
 };
 
 enum PortalFlagsIndex {
+    SELECT_REGION_INDEX,
+    REGION_FLAG_INDEX,
     SPRING_WARP_INDEX,
     S_FARON_WARP_INDEX,
     N_FARON_WARP_INDEX,
@@ -52,29 +54,39 @@ enum PortalFlagsIndex {
 class FlagsMenu : public Menu {
 public:
     FlagsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };
 
 class GeneralFlagsMenu : public Menu {
 public:
     GeneralFlagsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };
 
 class DungeonFlagsMenu : public Menu {
 public:
     DungeonFlagsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };
 
 class PortalFlagsMenu : public Menu {
 public:
     PortalFlagsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };
 
 class FlagLogMenu : public Menu {
 public:
     FlagLogMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

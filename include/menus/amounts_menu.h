@@ -14,5 +14,7 @@ enum AmountsIndex {
 class AmountsMenu : public Menu {
 public:
     AmountsMenu() : Menu() {}
-    static void render();
+    static void draw();
+
+    static Cursor cursor;
 };

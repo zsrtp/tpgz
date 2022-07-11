@@ -9,9 +9,6 @@
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 
-namespace UMDIndicator {
-using namespace Controller;
-
 static bool lastFrameADown = false;
 static bool lastFrameBDown = false;
 
@@ -24,15 +21,15 @@ static bool exitCheck = false;
 static char buf[20];
 
 static const char* getPressedButtonText() {
-    if (!button_is_held(A, POST_GAME_LOOP) && button_is_down(A))
+    if (!GZ_getButtonHold(A, POST_GAME_LOOP) && GZ_getButtonPressed(A))
         return "A";
-    else if (!button_is_held(B, POST_GAME_LOOP) && button_is_down(B))
+    else if (!GZ_getButtonHold(B, POST_GAME_LOOP) && GZ_getButtonPressed(B))
         return "B";
 
     return "";
 }
 
-void run() {
+void UMDIndicator::execute() {
     // Reset everything if map is not active
     if (g_meter2_info.mMapStatus != 2 && g_meter2_info.mMapStatus != 3) {
         counter_difference = 0;
@@ -63,17 +60,17 @@ void run() {
             // Only care up to 15f after
             if (counter_difference < 15) {
                 // Ensure A or B was freshly pressed
-                if ((!button_is_held(A, POST_GAME_LOOP) && button_is_down(A)) ||
-                    (!button_is_held(B, POST_GAME_LOOP) && button_is_down(B))) {
+                if ((!GZ_getButtonHold(A, POST_GAME_LOOP) && GZ_getButtonPressed(A)) ||
+                    (!GZ_getButtonHold(B, POST_GAME_LOOP) && GZ_getButtonPressed(B))) {
                     if (counter_difference == 0) {
                         // A or B were pressed together (first button) = BAD
-                        if ((!button_is_held(A, POST_GAME_LOOP) && button_is_down(A)) &&
-                            (!button_is_held(B, POST_GAME_LOOP) && button_is_down(B))) {
+                        if ((!GZ_getButtonHold(A, POST_GAME_LOOP) && GZ_getButtonPressed(A)) &&
+                            (!GZ_getButtonHold(B, POST_GAME_LOOP) && GZ_getButtonPressed(B))) {
                             FIFOQueue::push("hit both A/B as first", Queue, 0x0000FF00);
                             exitCheck = true;
                         } else {
                             // A or B is pressed here (first button) = GOOD
-                            if (!button_is_held(A, POST_GAME_LOOP) && button_is_down(A))
+                            if (!GZ_getButtonHold(A, POST_GAME_LOOP) && GZ_getButtonPressed(A))
                                 firstPressedButton = 0;
                             else
                                 firstPressedButton = 1;
@@ -91,8 +88,8 @@ void run() {
                         // Missed second button
                         if (firstPressedButton != -1) {
                             // Ensure this is the button that needs to be pressed
-                            if ((firstPressedButton == 0 && button_is_down(B)) ||
-                                (firstPressedButton == 1 && button_is_down(A))) {
+                            if ((firstPressedButton == 0 && GZ_getButtonPressed(B)) ||
+                                (firstPressedButton == 1 && GZ_getButtonPressed(A))) {
                                 tp_sprintf(buf, "%df late on second %s", counter_difference - 1,
                                            getPressedButtonText());
                                 FIFOQueue::push(buf, Queue, 0x99000000);
@@ -106,10 +103,8 @@ void run() {
                         }
                     }
                 } else {  // Neither A or B was freshly pressed
-
-                    if (counter_difference ==
-                        0) {  // A or B wasn't pressed on frame 0, we possibly went early
-
+                    // A or B wasn't pressed on frame 0, we possibly went early
+                    if (counter_difference == 0) {
                         if (lastFrameADown && lastFrameBDown) {
                             FIFOQueue::push("1f early on A/B", Queue, 0x0000FF00);
                             exitCheck = true;
@@ -128,7 +123,6 @@ void run() {
         }
     }
 
-    lastFrameADown = button_is_down(A) && !button_is_held(A, POST_GAME_LOOP);
-    lastFrameBDown = button_is_down(B) && !button_is_held(B, POST_GAME_LOOP);
+    lastFrameADown = GZ_getButtonPressed(A) && !GZ_getButtonHold(A, POST_GAME_LOOP);
+    lastFrameBDown = GZ_getButtonPressed(B) && !GZ_getButtonHold(B, POST_GAME_LOOP);
 }
-}  // namespace UMDIndicator

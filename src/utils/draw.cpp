@@ -58,25 +58,25 @@ void end() {
     GX_End();
 }
 
-void draw_quad(uint32_t color, Vec2 p[4]) {
-    draw_quad(color, p, &blankTex._texObj);
+void drawQuad(uint32_t color, Vec2 p[4]) {
+    drawQuad(color, p, &blankTex._texObj);
 }
 
-void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4]) {
-    draw_quad(color, p, tex, &blankTex._texObj);
+void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4]) {
+    drawQuad(color, p, tex, &blankTex._texObj);
 }
 
-void draw_quad(uint32_t color, Vec2 p[4], GXTexObj* texture) {
+void drawQuad(uint32_t color, Vec2 p[4], GXTexObj* texture) {
     Vec2 tex[4] = {
         {0.0, 0.0},
         {1.0, 0.0},
         {1.0, 1.0},
         {0.0, 1.0},
     };
-    draw_quad(color, p, tex, texture);
+    drawQuad(color, p, tex, texture);
 }
 
-void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture) {
+void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture) {
     begin(4, texture);
     add_vertex(color, p[0], tex[0]);
     add_vertex(color, p[1], tex[1]);
@@ -85,11 +85,11 @@ void draw_quad(uint32_t color, Vec2 p[4], Vec2 tex[4], GXTexObj* texture) {
     end();
 }
 
-void draw_quad_outline(uint32_t color, Vec2 p[4]) {
-    draw_quad_outline(color, p, DEFAULT_WIDTH);
+void drawQuadOutline(uint32_t color, Vec2 p[4]) {
+    drawQuadOutline(color, p, DEFAULT_WIDTH);
 }
 
-void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width) {
+void drawQuadOutline(uint32_t color, Vec2 p[4], uint8_t width) {
     begin_outline(5, width);
     add_vertex(color, p[0], {0.0, 0.0});
     add_vertex(color, p[1], {1.0, 0.0});
@@ -99,42 +99,42 @@ void draw_quad_outline(uint32_t color, Vec2 p[4], uint8_t width) {
     end();
 }
 
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim) {
-    draw_rect(color, pos, dim, &blankTex._texObj);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim) {
+    drawRect(color, pos, dim, &blankTex._texObj);
 }
 
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
     Vec2 tex[4] = {
         {0.0, 0.0},
         {1.0, 0.0},
         {1.0, 1.0},
         {0.0, 1.0},
     };
-    draw_rect(color, pos, dim, tex, texture);
+    drawRect(color, pos, dim, tex, texture);
 }
 
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]) {
-    draw_rect(color, pos, dim, tex, &blankTex._texObj);
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]) {
+    drawRect(color, pos, dim, tex, &blankTex._texObj);
 }
 
-void draw_rect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture) {
+void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture) {
     Vec2 vertices[4] = {{pos.x, pos.y},
                         {pos.x + dim.x, pos.y},
                         {pos.x + dim.x, pos.y + dim.y},
                         {pos.x, pos.y + dim.y}};
-    draw_quad(color, vertices, tex, texture);
+    drawQuad(color, vertices, tex, texture);
 }
 
-void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim) {
-    draw_rect_outline(color, pos, dim, DEFAULT_WIDTH);
+void drawRectOutline(uint32_t color, Vec2 pos, Vec2 dim) {
+    drawRectOutline(color, pos, dim, DEFAULT_WIDTH);
 }
 
-void draw_rect_outline(uint32_t color, Vec2 pos, Vec2 dim, uint8_t width) {
+void drawRectOutline(uint32_t color, Vec2 pos, Vec2 dim, uint8_t width) {
     Vec2 vertices[4] = {{pos.x, pos.y},
                         {pos.x + dim.x, pos.y},
                         {pos.x + dim.x, pos.y + dim.y},
                         {pos.x, pos.y + dim.y}};
-    draw_quad_outline(color, vertices, width);
+    drawQuadOutline(color, vertices, width);
 }
 
 };  // namespace Draw
