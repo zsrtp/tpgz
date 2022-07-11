@@ -11,25 +11,27 @@ void GZ_drawWatches() {
             switch (g_watches[i].type) {
             case u32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
-                    tp_sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%u",
-                               *(uint32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                    tp_sprintf(
+                        rendered_value, g_watches[i].hex ? "%08X" : "%u",
+                        *(uint32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     tp_sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%u",
                                *(uint32_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case u16:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
-                    tp_sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%u",
-                               *(uint16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                    tp_sprintf(
+                        rendered_value, g_watches[i].hex ? "%04X" : "%u",
+                        *(uint16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     tp_sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%u",
                                *(uint16_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case u8:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -40,7 +42,7 @@ void GZ_drawWatches() {
                                *(uint8_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case i32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -51,7 +53,7 @@ void GZ_drawWatches() {
                                *(int32_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case i16:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -62,7 +64,7 @@ void GZ_drawWatches() {
                                *(int16_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case i8:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -73,7 +75,7 @@ void GZ_drawWatches() {
                                *(int8_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case f32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -83,7 +85,7 @@ void GZ_drawWatches() {
                     tp_sprintf(rendered_value, "%.2f", *(float*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             case string:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
@@ -93,7 +95,7 @@ void GZ_drawWatches() {
                     tp_sprintf(rendered_value, "%s", (char*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
-                                     g_dropShadows);
+                                 g_dropShadows);
                 break;
             }
         }
@@ -109,7 +111,8 @@ void GZ_drawHeapInfo() {
         uint32_t archiveFree = JKRHeap__getFreeSize(archiveHeap);
         uint32_t archiveTotal = JKRHeap__getTotalFreeSize(archiveHeap);
 
-        Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", 145.0f, 25.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", 145.0f, 25.0f, 0xFFFFFFFF,
+                         g_dropShadows);
         char zelBuf[22];
         tp_sprintf(zelBuf, "  Zelda %5d / %5d", zeldaFree >> 10, zeldaTotal >> 10);
         char gameBuf[22];
@@ -120,5 +123,5 @@ void GZ_drawHeapInfo() {
         Font::GZ_drawStr(zelBuf, 200.0f, 45.0f, 0xFFFFFFFF, g_dropShadows);
         Font::GZ_drawStr(gameBuf, 200.0f, 65.0f, 0xFFFFFFFF, g_dropShadows);
         Font::GZ_drawStr(arcBuf, 200.0f, 85.0f, 0xFFFFFFFF, g_dropShadows);
-    }   
+    }
 }

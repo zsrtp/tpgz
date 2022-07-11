@@ -25,15 +25,13 @@
 typedef void (*menu_render_t)();
 
 menu_render_t l_menuDrawList[MAX_MENU_RENDER_FLAGS] = {
-    MainMenu::draw,         CheatsMenu::draw,       FlagsMenu::draw,
-    InventoryMenu::draw,    MemoryMenu::draw,       PracticeMenu::draw,
-    SceneMenu::draw,        SettingsMenu::draw,     ToolsMenu::draw,
-    WarpingMenu::draw,      GeneralFlagsMenu::draw, DungeonFlagsMenu::draw,
-    PortalFlagsMenu::draw,  FlagRecordsMenu::draw,  FlagLogMenu::draw,
-    ItemWheelMenu::draw,    PauseMenu::draw,        AmountsMenu::draw,
-    WatchesMenu::draw,      MemoryEditorMenu::draw, MemfilesMenu::draw,
-    AnySavesMenu::draw,     HundoSavesMenu::draw,   ADSavesMenu::draw,
-    ActorSpawnMenu::draw,   ActorListMenu::draw,    PosSettingsMenu::draw,
+    MainMenu::draw,        CheatsMenu::draw,      FlagsMenu::draw,        InventoryMenu::draw,
+    MemoryMenu::draw,      PracticeMenu::draw,    SceneMenu::draw,        SettingsMenu::draw,
+    ToolsMenu::draw,       WarpingMenu::draw,     GeneralFlagsMenu::draw, DungeonFlagsMenu::draw,
+    PortalFlagsMenu::draw, FlagRecordsMenu::draw, FlagLogMenu::draw,      ItemWheelMenu::draw,
+    PauseMenu::draw,       AmountsMenu::draw,     WatchesMenu::draw,      MemoryEditorMenu::draw,
+    MemfilesMenu::draw,    AnySavesMenu::draw,    HundoSavesMenu::draw,   ADSavesMenu::draw,
+    ActorSpawnMenu::draw,  ActorListMenu::draw,   PosSettingsMenu::draw,
 };
 
 menu_render_t l_currentMenu = nullptr;

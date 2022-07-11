@@ -26,7 +26,8 @@ Cursor ActorListMenu::cursor;
 uint16_t l_index = 0;
 
 Line lines[LINE_NUM] = {
-    {"index:", ACTOR_ID_INDEX, "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)", false},
+    {"index:", ACTOR_ID_INDEX, "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)",
+     false},
 };
 
 void ActorListMenu::draw() {
@@ -80,7 +81,8 @@ void ActorListMenu::draw() {
         GZ_drawText(angleBuf, 25.0f, 160.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char posBuf[50];
-        tp_sprintf(posBuf, "Position: %.1f %.1f %.1f", actorData->mCurrent.mPosition.x, actorData->mCurrent.mPosition.y, actorData->mCurrent.mPosition.z);
+        tp_sprintf(posBuf, "Position: %.1f %.1f %.1f", actorData->mCurrent.mPosition.x,
+                   actorData->mCurrent.mPosition.y, actorData->mCurrent.mPosition.z);
         GZ_drawText(posBuf, 25.0f, 180.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         tp_sprintf(lines[ACTOR_ID_INDEX].value, " <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);

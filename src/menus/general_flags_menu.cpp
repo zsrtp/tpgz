@@ -20,16 +20,15 @@ bool l_midnaRide;
 bool l_wolfSense;
 
 Line lines[LINE_NUM] = {
-    {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true,
-     &l_bossFlag},
+    {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
     {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled", true,
      &l_rupeeFlag},
-    {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true, &l_eponaStolen},
+    {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true,
+     &l_eponaStolen},
     {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true, &l_eponaTamed},
     {"map warping", MAP_WARPING_INDEX, "Toggle flag for map warping", true, &l_mapWarping},
     {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true, &l_midnaCharge},
-    {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true,
-     &l_midnaHealed},
+    {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true, &l_midnaHealed},
     {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true,
      &l_midnaRide},
     {"midna on Z", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna", true, &l_midnaZ},

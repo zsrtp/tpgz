@@ -17,8 +17,8 @@ int g_fontType = 0;
 int g_cursorColorType;
 
 ListMember font_opt[MAX_FONT_OPTIONS] = {"consola",       "calamity-bold", "lib-sans",
-                                             "lib-sans-bold", "lib-serif",     "lib-serif-bold",
-                                             "press-start-2p"};
+                                         "lib-sans-bold", "lib-serif",     "lib-serif-bold",
+                                         "press-start-2p"};
 
 Line lines[LINE_NUM] = {
     {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
@@ -28,7 +28,8 @@ Line lines[LINE_NUM] = {
      MAX_CURSOR_COLOR_OPTIONS},
     {"font:", FONT_INDEX, "Change font", false, nullptr, MAX_FONT_OPTIONS},
     {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_dropShadows},
-    {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files", true, &g_swap_equips_flag},
+    {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files", true,
+     &g_swap_equips_flag},
     {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
     {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
     {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
@@ -104,7 +105,7 @@ void SettingsMenu::draw() {
     ListMember reload_opt[MAX_RELOAD_OPTIONS] = {"load area", "load file"};
 
     ListMember cursorCol_opt[MAX_CURSOR_COLOR_OPTIONS] = {"green",  "blue",   "red",
-                                                             "orange", "yellow", "purple"};
+                                                          "orange", "yellow", "purple"};
 
     // handle list rendering
     switch (cursor.y) {

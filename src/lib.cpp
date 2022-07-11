@@ -93,7 +93,7 @@ void game_loop() {
         GZ_setMenu(MN_MAIN_MENU_INDEX);
         g_fifoVisible = false;
     }
-    
+
     if (tp_fopScnRq.isLoading) {
         GZ_clearMenu();
         g_moveLinkEnabled = false;
@@ -103,8 +103,7 @@ void game_loop() {
 
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
-        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, 
-                  &g_dComIfG_gameInfo.info.mMemory,
+        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
                   sizeof(g_dComIfG_gameInfo.info.mMemory));
 
         for (int i = 0; i < 4; i++) {
@@ -134,18 +133,18 @@ void draw() {
     setupRendering();
 
     if (GZ_checkMenuOpen()) {
-        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f,
-                             25.0f, g_cursorColor, g_dropShadows);
+        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
+                         g_cursorColor, g_dropShadows);
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f}, {30, 30},
-                            &l_gzIconTex._texObj);
+                           &l_gzIconTex._texObj);
         }
     }
 
     if (g_fifoVisible) {
         FIFOQueue::renderItems(Queue);
     }
-    
+
     if (g_tools[LINK_DEBUG_INDEX].active) {
         GZ_displayLinkInfo();
     }
@@ -193,5 +192,4 @@ void draw() {
     GZ_drawMenu();
     GZ_drawWatches();
 }
-
 }

@@ -43,34 +43,22 @@ struct ButtonState {
 
 #ifdef GCN_PLATFORM
 static ButtonState buttonStates[BUTTON_STATES] = {
-    {CButton::DPAD_LEFT, 0xFFFFFFFF, false},
-    {CButton::DPAD_RIGHT, 0xFFFFFFFF, false},
-    {CButton::DPAD_DOWN, 0xFFFFFFFF, false},
-    {CButton::DPAD_UP, 0xFFFFFFFF, false},
-    {CButton::Z, 0xFFFFFFFF, false},
-    {CButton::R, 0xFFFFFFFF, false},
-    {CButton::L, 0xFFFFFFFF, false},
-    {CButton::A, 0xFFFFFFFF, false},
-    {CButton::B, 0xFFFFFFFF, false},
-    {CButton::X, 0xFFFFFFFF, false},
-    {CButton::Y, 0xFFFFFFFF, false},
-    {CButton::START, 0xFFFFFFFF, false},
+    {CButton::DPAD_LEFT, 0xFFFFFFFF, false}, {CButton::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {CButton::DPAD_DOWN, 0xFFFFFFFF, false}, {CButton::DPAD_UP, 0xFFFFFFFF, false},
+    {CButton::Z, 0xFFFFFFFF, false},         {CButton::R, 0xFFFFFFFF, false},
+    {CButton::L, 0xFFFFFFFF, false},         {CButton::A, 0xFFFFFFFF, false},
+    {CButton::B, 0xFFFFFFFF, false},         {CButton::X, 0xFFFFFFFF, false},
+    {CButton::Y, 0xFFFFFFFF, false},         {CButton::START, 0xFFFFFFFF, false},
 };
 #endif
 #ifdef WII_PLATFORM
 static ButtonState buttonStates[BUTTON_STATES] = {
-    {GZPad::DPAD_LEFT, 0xFFFFFFFF, false},
-    {GZPad::DPAD_RIGHT, 0xFFFFFFFF, false},
-    {GZPad::DPAD_DOWN, 0xFFFFFFFF, false},
-    {GZPad::DPAD_UP, 0xFFFFFFFF, false},
-    {GZPad::PLUS, 0xFFFFFFFF, false},
-    {GZPad::TWO, 0xFFFFFFFF, false},
-    {GZPad::ONE, 0xFFFFFFFF, false},
-    {GZPad::B, 0xFFFFFFFF, false},
-    {GZPad::A, 0xFFFFFFFF, false},
-    {GZPad::MINUS, 0xFFFFFFFF, false},
-    {GZPad::Z, 0xFFFFFFFF, false},
-    {GZPad::C, 0xFFFFFFFF, false},
+    {GZPad::DPAD_LEFT, 0xFFFFFFFF, false}, {GZPad::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {GZPad::DPAD_DOWN, 0xFFFFFFFF, false}, {GZPad::DPAD_UP, 0xFFFFFFFF, false},
+    {GZPad::PLUS, 0xFFFFFFFF, false},      {GZPad::TWO, 0xFFFFFFFF, false},
+    {GZPad::ONE, 0xFFFFFFFF, false},       {GZPad::B, 0xFFFFFFFF, false},
+    {GZPad::A, 0xFFFFFFFF, false},         {GZPad::MINUS, 0xFFFFFFFF, false},
+    {GZPad::Z, 0xFFFFFFFF, false},         {GZPad::C, 0xFFFFFFFF, false},
     {GZPad::HOME, 0xFFFFFFFF, false},
 };
 #endif

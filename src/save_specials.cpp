@@ -91,7 +91,7 @@ void SaveMngSpecial_Darkhammer() {
 }
 
 void SaveMngSpecial_Morpheel() {
-    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;                       // clawshot
+    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;                        // clawshot
     dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EQUIP_HEAVY_BOOTS);  // ib
     gSaveManager.setSaveAngle(10754);
     gSaveManager.setSavePosition(-1193.0f, -23999.0f, -770.0f);

@@ -152,7 +152,8 @@ void ItemWheelMenu::updateListIdx() {
 }
 
 void ItemWheelMenu::fixSpecialItems(int i) {
-    if (l_validItems[i] == NORMAL_BOMB || l_validItems[i] == WATER_BOMB || l_validItems[i] == POKE_BOMB) {
+    if (l_validItems[i] == NORMAL_BOMB || l_validItems[i] == WATER_BOMB ||
+        l_validItems[i] == POKE_BOMB) {
         switch (cursor.y) {
         case SLOT_15:
             dComIfGs_setBombNum(BOMB_BAG_1, 1);
@@ -181,11 +182,14 @@ void ItemWheelMenu::draw() {
 
         for (int j = 0; j < MAX_ITEMS; j++) {
             if (l_lookupTbl[j].item_id == item_id) {
-                tp_sprintf(lines[slot_no].value, " <%s>", item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
+                tp_sprintf(lines[slot_no].value, " <%s>",
+                           item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
             }
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
-                tp_sprintf(lines[slot_no].description, "Slot %d default: %s. Press Z to set to default", slot_no, l_lookupTbl[j].name);
+                tp_sprintf(lines[slot_no].description,
+                           "Slot %d default: %s. Press Z to set to default", slot_no,
+                           l_lookupTbl[j].name);
             } else {
                 continue;
             }
@@ -217,7 +221,7 @@ void ItemWheelMenu::draw() {
     if (GZ_getButtonTrig(GZPad::Z)) {
         dComIfGs_setItem(cursor.y, l_defaultItems[cursor.y]);
     }
-    
+
     cursor.move(0, LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
 }

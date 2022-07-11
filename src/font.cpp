@@ -120,7 +120,7 @@ void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shado
 }
 
 void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
-                          float size) {
+                      float size) {
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
@@ -146,10 +146,12 @@ float Font::getStrWidth(const char* str, float size) {
 }
 
 // returns the width of the rendered string
-float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char, uint32_t color) {
+float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
+                        uint32_t color) {
     float pos = 0.0f;
     for (size_t i = 0; i <= max_char; ++i) {
-        Font::GZ_drawChar(str[i], x + pos, y, char_idx == i ? CURSOR_RGBA : color, GZ_checkDropShadows());
+        Font::GZ_drawChar(str[i], x + pos, y, char_idx == i ? CURSOR_RGBA : color,
+                          GZ_checkDropShadows());
         pos += Font::getCharWidth(str[i]);
     }
     return pos;

@@ -36,8 +36,7 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
     {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
     {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-    {&g_injectMemfile, GAME_LOOP, GZMemfile_setLinkPosition}
-};
+    {&g_injectMemfile, GAME_LOOP, GZMemfile_setLinkPosition}};
 
 void GZ_frameAdvance() {
     sPauseTimer = 1;

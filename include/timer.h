@@ -8,4 +8,4 @@ namespace Timer {
 void drawTimer();
 void drawIGT();
 void drawLoadTimer();
-}
+}  // namespace Timer

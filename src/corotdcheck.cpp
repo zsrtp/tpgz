@@ -13,10 +13,10 @@
 #endif  // GCN_PLATFORM
 #ifdef WII_PLATFORM
 #define ITEM_BUTTON_HELD_CHECK                                                                     \
-    (!GZ_getButtonHold(GZPad::B) || !GZ_getButtonHold(GZPad::DPAD_LEFT) ||                               \
+    (!GZ_getButtonHold(GZPad::B) || !GZ_getButtonHold(GZPad::DPAD_LEFT) ||                         \
      !GZ_getButtonHold(GZPad::DPAD_RIGHT) || !GZ_getButtonHold(GZPad::DPAD_DOWN))
 #define ITEM_BUTTON_DOWN_CHECK                                                                     \
-    (GZ_getButtonPressed(GZPad::B) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||                                 \
+    (GZ_getButtonPressed(GZPad::B) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||                     \
      GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_DOWN))
 #define PAD Mote
 #endif  // WII_PLATFORM
@@ -46,12 +46,10 @@ void CoroTDChecker::execute() {
                 if (sFrameCount < 10) {
                     tp_sprintf(buf, "%df early", 10 - sFrameCount);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
-                }
-                else if (sFrameCount == 10) {
+                } else if (sFrameCount == 10) {
                     FIFOQueue::push("got it", Queue, 0x00CC0000);
                     sGoalHit = true;
-                }
-                else if (sFrameCount > 10) {
+                } else if (sFrameCount > 10) {
                     tp_sprintf(buf, "%df late", sFrameCount - 10);
                     FIFOQueue::push(buf, Queue, 0x99000000);
                 }

@@ -42,7 +42,7 @@ Line lines[LINE_NUM] = {
     {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}};
 
 void GZWarp_loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
-                        int offset) {
+                         int offset) {
     if (counter < 0) {
         counter = (max_num * offset) - offset;
     }
@@ -50,7 +50,7 @@ void GZWarp_loadPrevInfo(void* buffer, signed long& counter, signed long length,
 }
 
 void GZWarp_loadNextInfo(void* buffer, signed long& counter, signed long length, char max_num,
-                    int offset) {
+                         int offset) {
     if (counter == (offset * max_num)) {
         counter = 0;
     }
@@ -81,28 +81,28 @@ void GZWarp_loadPrevStageInfo() {
     GZWarp_setStagePath(l_typeIdx);
     l_stageIdx -= STAGE_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
-                       l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
+                        l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
 }
 
 void GZWarp_loadPrevRoomInfo() {
     tp_sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx -= ROOM_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
-                       l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
+                        l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void GZWarp_loadNextStageInfo() {
     GZWarp_setStagePath(l_typeIdx);
     l_stageIdx += STAGE_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
-                   l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
+                        l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
 }
 
 void GZWarp_loadNextRoomInfo() {
     tp_sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx += ROOM_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
-                   l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
+                        l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void GZWarp_loadNextSpawnInfo() {
@@ -110,7 +110,7 @@ void GZWarp_loadNextSpawnInfo() {
                (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
-                   l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
+                        l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
 void GZWarp_loadPrevSpawnInfo() {
@@ -118,7 +118,7 @@ void GZWarp_loadPrevSpawnInfo() {
                (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
-                       l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
+                        l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
 void GZWarp_loadDefaultStage() {

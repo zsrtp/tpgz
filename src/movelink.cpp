@@ -22,10 +22,8 @@
 #ifdef WII_PLATFORM
 #define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 72 : 0)
 #define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 72 : 0)
-#define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 59 : 0)
-#define HORIZONTAL_DISPLACEMENT                                                                    \
-    ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 59 : 0)
+#define VERTICAL_DISPLACEMENT ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 59 : 0)
+#define HORIZONTAL_DISPLACEMENT ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 59 : 0)
 #define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
 #endif
 

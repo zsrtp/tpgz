@@ -102,8 +102,8 @@ void MemoryEditorMenu::drawMemEditor() {
         }
         GZ_drawSelectChar(index, LINE_X_OFFSET, 80.0f, l_idxPlace, 7, WHITE_RGBA);
     } else {
-        GZ_drawText(index, LINE_X_OFFSET, 80.0f,
-                             (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA), GZ_checkDropShadows());
+        GZ_drawText(index, LINE_X_OFFSET, 80.0f, (cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA),
+                    GZ_checkDropShadows());
     }
 
     if (cursor.y > 0 && !cursor.lock_x) {
@@ -186,39 +186,31 @@ void MemoryEditorMenu::drawMemEditor() {
         }
 
         GZ_drawText(address, LINE_X_OFFSET, y_offset,
-                             (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), GZ_checkDropShadows());
-        GZ_drawText(
-            b0, address_offset, y_offset,
-            (l_byteIdx == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b1, address_offset + b_offset * 1, y_offset,
-            (l_byteIdx == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b2, address_offset + b_offset * 2, y_offset,
-            (l_byteIdx == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b3, address_offset + b_offset * 3, y_offset,
-            (l_byteIdx == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b4, address_offset + b_offset * 4, y_offset,
-            (l_byteIdx == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b5, address_offset + b_offset * 5, y_offset,
-            (l_byteIdx == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b6, address_offset + b_offset * 6, y_offset,
-            (l_byteIdx == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
-        GZ_drawText(
-            b7, address_offset + b_offset * 7, y_offset,
-            (l_byteIdx == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-            GZ_checkDropShadows());
+                    (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), GZ_checkDropShadows());
+        GZ_drawText(b0, address_offset, y_offset,
+                    (l_byteIdx == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b1, address_offset + b_offset * 1, y_offset,
+                    (l_byteIdx == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b2, address_offset + b_offset * 2, y_offset,
+                    (l_byteIdx == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b3, address_offset + b_offset * 3, y_offset,
+                    (l_byteIdx == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b4, address_offset + b_offset * 4, y_offset,
+                    (l_byteIdx == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b5, address_offset + b_offset * 5, y_offset,
+                    (l_byteIdx == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b6, address_offset + b_offset * 6, y_offset,
+                    (l_byteIdx == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
+        GZ_drawText(b7, address_offset + b_offset * 7, y_offset,
+                    (l_byteIdx == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                    GZ_checkDropShadows());
     }
 }
 
@@ -253,6 +245,7 @@ void MemoryEditorMenu::draw() {
     }
 
     cursor.move(8, 1 + MAX_DISPLAY_LINES);
-    GZ_drawText("DPad to move/modify value, A/B to (de)select value", 25.0f, 440.f, WHITE_RGBA, GZ_checkDropShadows());
+    GZ_drawText("DPad to move/modify value, A/B to (de)select value", 25.0f, 440.f, WHITE_RGBA,
+                GZ_checkDropShadows());
     drawMemEditor();
 }

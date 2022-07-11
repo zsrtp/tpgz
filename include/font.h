@@ -73,14 +73,15 @@ public:
     static void renderChars(const char* str, float x, float y, uint32_t color,
                             float size = FONT_DEFAULT_SIZE);
     static void GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shawdows,
-                              float size = FONT_DEFAULT_SIZE);
+                            float size = FONT_DEFAULT_SIZE);
     static void GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
-                               float size = FONT_DEFAULT_SIZE);
+                           float size = FONT_DEFAULT_SIZE);
     static float getCharWidth(char c, float size = FONT_DEFAULT_SIZE);
     static float getStrWidth(const char* str, float size = FONT_DEFAULT_SIZE);
 };
 
-float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char, uint32_t color);
+float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
+                        uint32_t color);
 
 inline void GZ_drawText(const char* str, float x, float y, uint32_t color, bool shadows) {
     Font::GZ_drawStr(str, x, y, color, shadows);

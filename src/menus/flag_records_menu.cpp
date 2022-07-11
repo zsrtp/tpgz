@@ -68,18 +68,18 @@ void FlagRecordsMenu::drawFlagRecord(uint8_t* record) {
         for (int bit = 0; bit < 8; bit++) {
             if (*(record + idx_num) & (1 << bit)) {
                 Draw::drawRect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
-                                {16, 16}, &l_flagOnTex._texObj);
+                               {16, 16}, &l_flagOnTex._texObj);
             } else {
                 Draw::drawRect(0xFFFFFFFF, {flag_x_offset + ((7 - bit) * 20.0f), y_offset - 13.0f},
-                                {16, 16}, &l_flagOffTex._texObj);
+                               {16, 16}, &l_flagOffTex._texObj);
             }
         }
 
         // Draw Flag cursor
         if (cursor.y == (idx_num + 1)) {
             Draw::drawRect(0x0080FF77,
-                            {(flag_x_offset + ((7 - l_bitIdx) * 20.0f)), y_offset - 13.0f},
-                            {16, 16});
+                           {(flag_x_offset + ((7 - l_bitIdx) * 20.0f)), y_offset - 13.0f},
+                           {16, 16});
         }
 
         if (GZ_getButtonTrig(SELECTION_BUTTON)) {
@@ -150,19 +150,21 @@ void FlagRecordsMenu::draw() {
     if (cursor.y == FLAG_RECORD_INDEX) {
         cursor.x = l_recIdx;
         cursor.move(MAX_RECORD_OPTIONS, max_flags + 1);
-        
+
         if (cursor.y == FLAG_RECORD_INDEX) {
             l_recIdx = cursor.x;
         }
     } else {
         cursor.move(0, max_flags + 1);
     }
-    
+
     ListMember rec_opt[MAX_RECORD_OPTIONS] = {"stage", "event", "minigame", "danbit"};
     char record_type[9];
     tp_sprintf(record_type, " <%s>", rec_opt[l_recIdx].member);
     uint32_t color = cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA;
 
     GZ_drawText(record_type, 12.0f, 60.f, color, GZ_checkDropShadows());
-    GZ_drawText("DPad/" SCRL_BACK_TEXT "/" SCRL_FORW_TEXT " to move cursor, A to toggle flag, Z to top", 25.0f, 440.f, WHITE_RGBA, GZ_checkDropShadows());
+    GZ_drawText("DPad/" SCRL_BACK_TEXT "/" SCRL_FORW_TEXT
+                " to move cursor, A to toggle flag, Z to top",
+                25.0f, 440.f, WHITE_RGBA, GZ_checkDropShadows());
 }

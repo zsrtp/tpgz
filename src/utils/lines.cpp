@@ -58,19 +58,17 @@ void GZ_drawMenuLines(Line input_lines[], int cursor, int LINES) {
         if (input_lines[i].toggleable) {
             if (*input_lines[i].activation_flag) {
                 Font::GZ_drawStr(" [X]", x_offset + max_line_width, y_offset, cursor_color,
-                                     g_dropShadows);
+                                 g_dropShadows);
             } else {
                 Font::GZ_drawStr(" [ ]", x_offset + max_line_width, y_offset, cursor_color,
-                                     g_dropShadows);
+                                 g_dropShadows);
             }
 
-            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color,
-                                 g_dropShadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, g_dropShadows);
         } else {
-            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color,
-                                 g_dropShadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, g_dropShadows);
             Font::GZ_drawStr(input_lines[i].value, x_offset + max_line_width, y_offset,
-                                 cursor_color, g_dropShadows);
+                             cursor_color, g_dropShadows);
         }
 
         // render line descriptions

@@ -91,8 +91,7 @@ void GZCmd_reloadArea() {
 
     if (g_reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
-        tp_memcpy(&g_dComIfG_gameInfo.info.mMemory, 
-                  gSaveManager.mAreaReloadOpts.temp_flags,
+        tp_memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
                   sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
 
         // restore last tear count
@@ -100,7 +99,8 @@ void GZCmd_reloadArea() {
             dComIfGs_setLightDropNum(i, gSaveManager.mAreaReloadOpts.tears[i]);
         }
 
-        gSaveManager.mPracticeFileOpts.inject_options_before_load = SaveManager::injectDefault_before;
+        gSaveManager.mPracticeFileOpts.inject_options_before_load =
+            SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load = nullptr;
         gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
     } else {
@@ -115,8 +115,7 @@ void GZCmd_loadGorgeVoid() {
             SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load =
             GorgeVoidIndicator::warpToPosition;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load =
-            GorgeVoidIndicator::initState;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState;
         g_injectSave = true;
     }
 }
@@ -129,8 +128,7 @@ void GZCmd_bitPractice() {
             SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load =
             SaveManager::injectDefault_during;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load =
-            BiTIndicator::setPosition;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = BiTIndicator::setPosition;
         gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;
         g_injectSave = true;
     }

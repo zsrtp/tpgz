@@ -68,7 +68,8 @@ void BiTIndicator::execute() {
 
         if (tp_strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
                       "F_SP104") == 0 &&
-            GZ_getButtonPressed(GZPad::HOME) && tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
+            GZ_getButtonPressed(GZPad::HOME) && tp_homeMenuSts.is_visible == 0 &&
+            !tp_fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 tp_sprintf(buf, "Got it");
             }

@@ -7,9 +7,7 @@
 Cursor FlagLogMenu::cursor;
 bool g_flagLogEnabled = false;
 
-Line lines[LINE_NUM] = {
-    {"log activated", 0, "toggle flag logger on/off", true, &g_flagLogEnabled}
-};
+Line lines[LINE_NUM] = {{"log activated", 0, "toggle flag logger on/off", true, &g_flagLogEnabled}};
 
 void FlagLogMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {

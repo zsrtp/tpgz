@@ -254,8 +254,9 @@ void SaveManager::setPositionCamera() {
 
     if (dComIfGp_getPlayer()) {
         dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
-        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x, gSaveManager.mPracticeSaveInfo.position.y,
-                    gSaveManager.mPracticeSaveInfo.position.z);
+        cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
+                 gSaveManager.mPracticeSaveInfo.position.y,
+                 gSaveManager.mPracticeSaveInfo.position.z);
         dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
     }
 }

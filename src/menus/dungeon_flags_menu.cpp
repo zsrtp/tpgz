@@ -58,7 +58,7 @@ void DungeonFlagsMenu::draw() {
         init_once = false;
         GZ_setMenu(GZ_FLAGS_MENU);
         return;
-    }    
+    }
 
     uint8_t area_id = 0;
     switch (l_selDun) {

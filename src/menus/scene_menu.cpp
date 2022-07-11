@@ -9,9 +9,8 @@
 Cursor SceneMenu::cursor;
 
 SceneItem g_sceneFlags[SCENE_AMNT] = {
-    {FREEZE_ACTOR_INDEX, false},  {HIDE_ACTOR_INDEX, false},
-    {DISABLE_BG_INDEX, false},    {DISABLE_SFX_INDEX, false},
-    {FREEZE_CAMERA_INDEX, false}, {HIDE_HUD_INDEX, false},
+    {FREEZE_ACTOR_INDEX, false}, {HIDE_ACTOR_INDEX, false},    {DISABLE_BG_INDEX, false},
+    {DISABLE_SFX_INDEX, false},  {FREEZE_CAMERA_INDEX, false}, {HIDE_HUD_INDEX, false},
     {FREEZE_TIME_INDEX, false},
 };
 
@@ -114,7 +113,7 @@ void SceneMenu::draw() {
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         g_sceneFlags[cursor.y].active = !g_sceneFlags[cursor.y].active;
-        
+
         switch (cursor.y) {
         case ACTOR_MENU_INDEX:
             GZ_setMenu(GZ_SPAWN_MENU);

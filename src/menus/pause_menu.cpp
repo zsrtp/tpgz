@@ -46,8 +46,7 @@ Line lines[LINE_NUM] = {
      MAX_MASTER_SWORD_OPT},
     {"wooden shield:", WOOD_SHIELD_INDEX, "Ordon Shield / Wooden Shield", false, nullptr,
      MAX_WOOD_SHIELD_OPT},
-    {"hylian shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr,
-     MAX_HYLIAN_SHIELD_OPT},
+    {"hylian shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr, MAX_HYLIAN_SHIELD_OPT},
     {"hero's tunic:", HERO_TUNIC_INDEX, "Hero's Tunic", false, nullptr, MAX_HERO_TUNIC_OPT},
     {"zora armor:", ZORA_ARMOR_INDEX, "Zora Armor", false, nullptr, MAX_ZORA_ARMOR_OPT},
     {"magic armor:", MAGIC_ARMOR_INDEX, "Magic Armor", false, nullptr, MAX_MAGIC_ARMOR_OPT},
@@ -62,8 +61,7 @@ Line lines[LINE_NUM] = {
     {"helm splitter:", HELM_SPLITTER_INDEX, "Helm Splitter", true, &l_hsFlag},
     {"mortal draw:", MORTAL_DRAW_INDEX, "Mortal Draw", true, &l_mdFlag},
     {"jump strike:", JUMP_STRIKE_INDEX, "Jump Strike", true, &l_jsFlag},
-    {"greatspin:", GREAT_SPIN_INDEX, "Greatspin", true, &l_gsFlag}
-};
+    {"greatspin:", GREAT_SPIN_INDEX, "Greatspin", true, &l_gsFlag}};
 
 void resetIndex() {
     l_ordonSword_idx = 0;
@@ -310,7 +308,7 @@ void PauseMenu::draw() {
     case HYLIAN_SHIELD_INDEX:
         cursor.x = l_hyShield_idx;
         cursor.move(MAX_HYLIAN_SHIELD_OPT, LINE_NUM);
-    
+
         if (cursor.y == HYLIAN_SHIELD_INDEX) {
             l_hyShield_idx = cursor.x;
         }

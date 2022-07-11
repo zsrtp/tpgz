@@ -17,7 +17,7 @@
  * @brief Like CARDWrite, but allows for arbitrary sizes and offsets.
  */
 int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offset,
-                      int32_t sector_size) {
+                        int32_t sector_size) {
     uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
     int32_t result = Ready;
     int32_t read_bytes = 0;
@@ -43,7 +43,7 @@ int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offs
  * @brief Like CARDRead, but allows for arbitrary sizes and offsets.
  */
 int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offset,
-                     int32_t sector_size) {
+                       int32_t sector_size) {
     uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
     int32_t result = Ready;
     int32_t read_bytes = 0;
@@ -134,21 +134,21 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
         return -30;  // Custom error code for "Version" (means a mismatch in the version number).
     }
     assert_result(GZ_storageRead(storage, save_file.offsets,
-                               save_file.header.entries * sizeof(save_file.offsets[0]),
-                               save_file.header.offsetsLoc, sector_size));
+                                 save_file.header.entries * sizeof(save_file.offsets[0]),
+                                 save_file.header.offsetsLoc, sector_size));
     assert_result(GZ_storageRead(storage, save_file.sizes,
-                               save_file.header.entries * sizeof(save_file.sizes[0]),
-                               save_file.header.sizesLoc, sector_size));
+                                 save_file.header.entries * sizeof(save_file.sizes[0]),
+                                 save_file.header.sizesLoc, sector_size));
 
 #define assert_read_entry(idx, ptr, size)                                                          \
     if (idx < save_file.header.entries) {                                                          \
-        assert_result(GZ_storageRead(storage, ptr, MIN(size, save_file.sizes[idx]),                  \
-                                   save_file.offsets[idx], sector_size));                          \
+        assert_result(GZ_storageRead(storage, ptr, MIN(size, save_file.sizes[idx]),                \
+                                     save_file.offsets[idx], sector_size));                        \
     }
-    assert_read_entry(SV_CHEATS_INDEX, save_file.data.mCheats,
-                      sizeof(save_file.data.mCheats));
+    assert_read_entry(SV_CHEATS_INDEX, save_file.data.mCheats, sizeof(save_file.data.mCheats));
     assert_read_entry(SV_TOOLS_INDEX, save_file.data.mTools, sizeof(save_file.data.mTools));
-    assert_read_entry(SV_SCENE_INDEX, save_file.data.mSceneFlags, sizeof(save_file.data.mSceneFlags));
+    assert_read_entry(SV_SCENE_INDEX, save_file.data.mSceneFlags,
+                      sizeof(save_file.data.mSceneFlags));
     assert_read_entry(SV_WATCHES_INDEX, save_file.data.mWatches, sizeof(save_file.data.mWatches));
     assert_read_entry(SV_SPRITES_INDEX, save_file.data.mSpriteOffsets,
                       sizeof(save_file.data.mSpriteOffsets));
@@ -194,8 +194,8 @@ void GZ_storeMemCard(Storage& storage) {
     if (storage.result == Ready || storage.result == Exist) {
         storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
         if (storage.result == Ready) {
-            storage.result = GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0,
-                                                      storage.sector_size);
+            storage.result =
+                GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0, storage.sector_size);
             if (storage.result == Ready) {
                 tp_osReport("saved card!");
                 FIFOQueue::push("saved card!", Queue);
@@ -230,10 +230,10 @@ void GZ_storeMemfile(Storage& storage) {
             setReturnPlace(g_dComIfG_gameInfo.play.mStartStage.mStage,
                            g_dComIfG_gameInfo.play.mEvent.field_0x12c, 0);
 
-            storage.result = GZ_storageWrite(&storage, &g_dComIfG_gameInfo,
-                                                      sizeof(dSv_info_c), 0, storage.sector_size);
+            storage.result = GZ_storageWrite(&storage, &g_dComIfG_gameInfo, sizeof(dSv_info_c), 0,
+                                             storage.sector_size);
             storage.result = GZ_storageWrite(&storage, &posData, sizeof(posData),
-                                                      sizeof(dSv_info_c) + 1, storage.sector_size);
+                                             sizeof(dSv_info_c) + 1, storage.sector_size);
             if (storage.result == Ready) {
                 FIFOQueue::push("saved memfile!", Queue);
             } else {

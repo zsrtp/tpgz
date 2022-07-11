@@ -35,10 +35,9 @@ void Timer::drawTimer() {
     tp_sprintf(timerS, "%.2f", sTimerSec);
 
     Font::GZ_drawStr(timerF, (g_spriteOffsets[TIMER_SPR_INDEX].x),
-                            (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
+                     (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
     Font::GZ_drawStr(timerS, (g_spriteOffsets[TIMER_SPR_INDEX].x),
-                            15.0f + (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF,
-                            g_dropShadows);
+                     15.0f + (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
 }
 
 void Timer::drawIGT() {
@@ -74,7 +73,7 @@ void Timer::drawIGT() {
     char buf[16];
     tp_sprintf(buf, "%02d:%02d:%05.2f", sTimerHour, sTimerMin, sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[IGT_TIMER_SPR_INDEX].x,
-                            g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
+                     g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }
 
 void Timer::drawLoadTimer() {
@@ -95,5 +94,5 @@ void Timer::drawLoadTimer() {
     char buf[8];
     tp_sprintf(buf, "%.2f", sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[LOAD_TIMER_SPR_INDEX].x,
-                            g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
+                     g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }

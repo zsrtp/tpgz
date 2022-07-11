@@ -11,9 +11,9 @@ void Cursor::move(int max_x, int max_y) {
 
     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
         if (mode != MODE_UNRESTRICTED) {
-            x = 0; // reset so other lines aren't affected
-        } 
-        
+            x = 0;  // reset so other lines aren't affected
+        }
+
         if (!lock_y) {
             y > 0 ? y-- : y = max_y - 1;
         }
@@ -21,9 +21,9 @@ void Cursor::move(int max_x, int max_y) {
 
     if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
         if (mode != MODE_UNRESTRICTED) {
-            x = 0; // reset so other lines aren't affected
-        } 
-        
+            x = 0;  // reset so other lines aren't affected
+        }
+
         if (!lock_y) {
             y < max_y - 1 ? y++ : y = 0;
         }
@@ -56,7 +56,7 @@ void Cursor::move(int max_x, int max_y) {
 
 void GZ_setCursorColor() {
     switch (g_cursorColorType) {
-    case CURSOR_GREEN: 
+    case CURSOR_GREEN:
         g_cursorColor = 0x00CC00FF;
         break;
     case CURSOR_BLUE:

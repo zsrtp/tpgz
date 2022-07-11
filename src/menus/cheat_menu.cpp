@@ -29,20 +29,33 @@ Cheat g_cheats[CHEAT_AMNT] = {
 };
 
 Line lines[LINE_NUM] = {
-    {"infinite air", InfiniteAir, "Gives infinite air underwater", true, &g_cheats[InfiniteAir].active},
-    {"infinite arrows", InfiniteArrows, "Always have 99 arrows", true, &g_cheats[InfiniteArrows].active},
-    {"infinite bombs", InfiniteBombs, "Always have 99 bombs", true, &g_cheats[InfiniteBombs].active},
-    {"infinite hearts", InfiniteHearts, "Always have full hearts", true, &g_cheats[InfiniteHearts].active},
-    {"infinite oil", InfiniteOil, "Gives infinite lantern oil", true, &g_cheats[InfiniteOil].active},
-    {"infinite rupees", InfiniteRupees, "Always have 1000 rupees", true, &g_cheats[InfiniteRupees].active},
-    {"infinite slingshot", InfiniteSlingshot, "Always have 99 slingshot pellets", true, &g_cheats[InfiniteSlingshot].active},
+    {"infinite air", InfiniteAir, "Gives infinite air underwater", true,
+     &g_cheats[InfiniteAir].active},
+    {"infinite arrows", InfiniteArrows, "Always have 99 arrows", true,
+     &g_cheats[InfiniteArrows].active},
+    {"infinite bombs", InfiniteBombs, "Always have 99 bombs", true,
+     &g_cheats[InfiniteBombs].active},
+    {"infinite hearts", InfiniteHearts, "Always have full hearts", true,
+     &g_cheats[InfiniteHearts].active},
+    {"infinite oil", InfiniteOil, "Gives infinite lantern oil", true,
+     &g_cheats[InfiniteOil].active},
+    {"infinite rupees", InfiniteRupees, "Always have 1000 rupees", true,
+     &g_cheats[InfiniteRupees].active},
+    {"infinite slingshot", InfiniteSlingshot, "Always have 99 slingshot pellets", true,
+     &g_cheats[InfiniteSlingshot].active},
     {"invincible", Invincible, "Disables Link's hurtbox", true, &g_cheats[Invincible].active},
-    {"invincible enemies", InvincibleEnemies, "Make some enemies invincible", true, &g_cheats[InvincibleEnemies].active},
-    {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true, &g_cheats[MoonJump].active},
-    {"disable walls", DoorStorage, "Disables most wall collision", true, &g_cheats[DoorStorage].active},
-    {"super clawshot", SuperClawshot, "Super fast / long Clawshot", true, &g_cheats[SuperClawshot].active},
-    {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true, &g_cheats[UnrestrictedItems].active},
-    {"transform anywhere", TransformAnywhere, "Transform at any location", true, &g_cheats[TransformAnywhere].active},
+    {"invincible enemies", InvincibleEnemies, "Make some enemies invincible", true,
+     &g_cheats[InvincibleEnemies].active},
+    {"moon jump", MoonJump, "Hold " MOON_JUMP_TEXT " to moon jump", true,
+     &g_cheats[MoonJump].active},
+    {"disable walls", DoorStorage, "Disables most wall collision", true,
+     &g_cheats[DoorStorage].active},
+    {"super clawshot", SuperClawshot, "Super fast / long Clawshot", true,
+     &g_cheats[SuperClawshot].active},
+    {"unrestricted items", UnrestrictedItems, "Disable item restrictions", true,
+     &g_cheats[UnrestrictedItems].active},
+    {"transform anywhere", TransformAnywhere, "Transform at any location", true,
+     &g_cheats[TransformAnywhere].active},
 #ifdef WII_PLATFORM
     {"gale LJA", GaleLJA, "Yeet everywhere", true, &g_cheats[GaleLJA].active},
 #endif
@@ -58,13 +71,17 @@ void GZ_applyCheats() {
     }
 
     if (GZ_checkCheat(InvincibleEnemies)) {
-        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) = 0x60000000;  // nop
+        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
+            0x60000000;  // nop
         DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                          sizeof(uint32_t));
     } else {
-        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) = 0x7C030050;  // sub r0, r0, r3
+        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
+            0x7C030050;  // sub r0, r0, r3
         DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+                          sizeof(uint32_t));
     }
 
     if (GZ_checkCheat(Invincible)) {

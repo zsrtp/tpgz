@@ -28,7 +28,7 @@ double yaw = 0.0;
 #define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
 #define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.mHoldButton & GZPad::DPAD_UP ? 75 : 0) -                                      \
+    ((tp_mPad.mHoldButton & GZPad::DPAD_UP ? 75 : 0) -                                             \
      (tp_mPad.mHoldButton & GZPad::DPAD_DOWN ? 75 : 0))
 #define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
 #define PITCH_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)

@@ -106,7 +106,8 @@ void GorgeVoidIndicator::execute() {
 
             // went late
             else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
-                     after_cs_val > 0 && (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
+                     after_cs_val > 0 &&
+                     (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 tp_sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }

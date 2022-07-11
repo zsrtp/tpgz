@@ -20,9 +20,7 @@ struct Cursor {
         MODE_UNRESTRICTED,
     };
 
-    Cursor() {
-        reset();
-    }
+    Cursor() { reset(); }
 
     void move(int max_x, int max_y);
 

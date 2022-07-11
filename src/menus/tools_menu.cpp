@@ -28,11 +28,11 @@ Tool g_tools[TOOL_AMNT] = {
 #ifdef WII_PLATFORM
     {BIT_INDEX, false},
 #endif
-    {COROTD_INDEX, false},      {UMD_INDEX, false},        {INPUT_VIEWER_INDEX, false},
-    {LINK_DEBUG_INDEX, false},  {HEAP_DEBUG_INDEX, false}, {SAND_INDEX, false},
-    {ROLL_INDEX, false},        {TELEPORT_INDEX, false},   {TURBO_MODE_INDEX, false},
-    {TIMER_INDEX, false},       {LOAD_TIMER_INDEX, false}, {IGT_TIMER_INDEX, false},
-    {FREE_CAM_INDEX, false},    {MOVE_LINK_INDEX, false},
+    {COROTD_INDEX, false},        {UMD_INDEX, false},           {INPUT_VIEWER_INDEX, false},
+    {LINK_DEBUG_INDEX, false},    {HEAP_DEBUG_INDEX, false},    {SAND_INDEX, false},
+    {ROLL_INDEX, false},          {TELEPORT_INDEX, false},      {TURBO_MODE_INDEX, false},
+    {TIMER_INDEX, false},         {LOAD_TIMER_INDEX, false},    {IGT_TIMER_INDEX, false},
+    {FREE_CAM_INDEX, false},      {MOVE_LINK_INDEX, false},
 };
 
 Line lines[LINE_NUM] = {
@@ -84,8 +84,7 @@ Line lines[LINE_NUM] = {
                     " to change angle",
      true, &g_tools[MOVE_LINK_INDEX].active},
     {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr,
-     MAX_TUNIC_COLORS}
-};
+     MAX_TUNIC_COLORS}};
 
 void ToolsMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
@@ -95,9 +94,8 @@ void ToolsMenu::draw() {
         return;
     }
 
-    ListMember tunicCol_opt[MAX_TUNIC_COLORS] = {
-        "green",  "blue",  "red",  "orange", "yellow", "white", "cycle"
-    };
+    ListMember tunicCol_opt[MAX_TUNIC_COLORS] = {"green",  "blue",  "red",  "orange",
+                                                 "yellow", "white", "cycle"};
 
     if (cursor.y == TUNIC_COLOR_INDEX) {
         cursor.x = l_tunicCol_idx;

@@ -39,7 +39,7 @@ Line lines[LINE_NUM] = {
     {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
     {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
     {"actor subtype:", ACTOR_SUBTYPE_INDEX,
-    "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
+     "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
     {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
 };
 
@@ -175,8 +175,8 @@ void ActorSpawnMenu::draw() {
         GZ_drawSelectChar(buf, 170.0f, 80.0f, l_paramIdx, 7, 0xFFFFFFFF);
     } else {
         Font::GZ_drawStr(buf, 170.0f, 80.0f,
-                             (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
-                             GZ_checkDropShadows());
+                         (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
+                         GZ_checkDropShadows());
     }
 
     tp_sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", l_actorID);

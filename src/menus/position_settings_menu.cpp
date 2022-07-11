@@ -29,8 +29,7 @@ Line lines[LINE_NUM] = {
     {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
     {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
     {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
-    {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}
-};
+    {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
 
 void drawCursor(Vec2 pos) {
     bool cycle = (cCt_getFrameCount() / 8) % 2;
@@ -95,10 +94,10 @@ void PosSettingsMenu::draw() {
     } else {
         l_cursorSpeed = INITAL_SPEED;
     }
-    
+
     cursor.lock_x = l_selItem != NO_SELECTION;
     cursor.lock_y = l_selItem != NO_SELECTION;
-    
+
     cursor.move(0, LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
 }
