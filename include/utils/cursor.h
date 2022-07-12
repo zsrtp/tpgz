@@ -4,8 +4,8 @@
 #include "controller.h"
 
 #ifdef GCN_PLATFORM
-#define SCROLL_P10_BTN GZPad::Y
-#define SCROLL_M10_BTN GZPad::X
+#define SCROLL_P10_BTN GZPad::X
+#define SCROLL_M10_BTN GZPad::Y
 #endif
 
 #ifdef WII_PLATFORM
