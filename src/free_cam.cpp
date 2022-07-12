@@ -24,15 +24,16 @@ double yaw = 0.0;
 #define PITCH_CONTROL (tp_mPadStatus.substick_y)
 #define YAW_CONTROL (tp_mPadStatus.substick_x)
 #endif
+
 #ifdef WII_PLATFORM
-#define CONTROL_Y ((tp_mPad.mHoldButton & GZPad::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
-#define CONTROL_X ((tp_mPad.mHoldButton & GZPad::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
+#define CONTROL_Y ((tp_mPad.mHoldButton & CButton::C) == 0 ? tp_mPad.stick.y * 0x48 : 0)
+#define CONTROL_X ((tp_mPad.mHoldButton & CButton::C) == 0 ? -tp_mPad.stick.x * 0x48 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((tp_mPad.mHoldButton & GZPad::DPAD_UP ? 75 : 0) -                                             \
-     (tp_mPad.mHoldButton & GZPad::DPAD_DOWN ? 75 : 0))
-#define SPEED_PREDICATE (tp_mPad.mHoldButton & GZPad::Z)
-#define PITCH_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
-#define YAW_CONTROL ((tp_mPad.mHoldButton & GZPad::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
+    ((tp_mPad.mHoldButton & CButton::DPAD_UP ? 75 : 0) -                                             \
+     (tp_mPad.mHoldButton & CButton::DPAD_DOWN ? 75 : 0))
+#define SPEED_PREDICATE (tp_mPad.mHoldButton & CButton::Z)
+#define PITCH_CONTROL ((tp_mPad.mHoldButton & CButton::C) != 0 ? tp_mPad.stick.y * 0x3B : 0)
+#define YAW_CONTROL ((tp_mPad.mHoldButton & CButton::C) != 0 ? -tp_mPad.stick.x * 0x3B : 0)
 #endif
 
 void FreeCam::execute() {
