@@ -198,8 +198,8 @@ void ItemWheelMenu::draw() {
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
                 tp_sprintf(lines[slot_no].description,
-                           "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default", slot_no,
-                           l_lookupTbl[j].name);
+                           "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
+                           slot_no, l_lookupTbl[j].name);
             } else {
                 continue;
             }
