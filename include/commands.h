@@ -39,8 +39,8 @@
 #define TIMER_RESET_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::ONE)
 #define FREE_CAM_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::MINUS)
 #define MOVE_LINK_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::PLUS)
-#define FRAME_PAUSE_BUTTONS (CButton::Z | CButton::DPAD_UP)
-#define FRAME_ADVANCE_BUTTONS (CButton::Z | CButton::DPAD_RIGHT)
+#define FRAME_PAUSE_BUTTONS (CButton::Z | CButton::C | CButton::PLUS | CButton::MINUS)
+#define FRAME_ADVANCE_BUTTONS (CButton::TWO)
 #define GORGE_VOID_TEXT "Z+C+A+1"
 #define BACK_IN_TIME_TEXT "Z+C+A+2"
 #define STORE_POSITION_TEXT "Z+C+1"
@@ -51,7 +51,7 @@
 #define TIMER_RESET_TEXT "Z+C+B+1"
 #define FREE_CAM_TEXT "Z+C+B+Minus"
 #define MOVE_LINK_TEXT "Z+C+B+Plus"
-#define FRAME_ADVANCE_TEXT "Z+D-PAD up"
+#define FRAME_ADVANCE_TEXT "Z+C+Plus+Minus (2 for trig)"
 #endif
 
 extern bool reload_area_flag;
