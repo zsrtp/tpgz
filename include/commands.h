@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #ifdef GCN_PLATFORM
 #define COMMANDS_AMNT 10
@@ -28,18 +29,18 @@
 
 #ifdef WII_PLATFORM
 #define COMMANDS_AMNT 11
-#define GORGE_VOID_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::ONE)
-#define BACK_IN_TIME_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::TWO)
-#define STORE_POSITION_BUTTONS (GZPad::Z | GZPad::C | GZPad::ONE)
-#define LOAD_POSITION_BUTTONS (GZPad::Z | GZPad::C | GZPad::TWO)
-#define MOON_JUMP_BUTTONS (GZPad::Z | GZPad::C | GZPad::A)
-#define RELOAD_AREA_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::TWO)
-#define TIMER_TOGGLE_BUTTONS (GZPad::Z | GZPad::C | GZPad::A | GZPad::B)
-#define TIMER_RESET_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::ONE)
-#define FREE_CAM_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::MINUS)
-#define MOVE_LINK_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::PLUS)
-#define FRAME_PAUSE_BUTTONS (GZPad::Z | GZPad::DPAD_UP)
-#define FRAME_ADVANCE_BUTTONS (GZPad::Z | GZPad::C | GZPad::B | GZPad::DPAD_RIGHT)
+#define GORGE_VOID_BUTTONS (CButton::Z | CButton::C | CButton::A | CButton::ONE)
+#define BACK_IN_TIME_BUTTONS (CButton::Z | CButton::C | CButton::A | CButton::TWO)
+#define STORE_POSITION_BUTTONS (CButton::Z | CButton::C | CButton::ONE)
+#define LOAD_POSITION_BUTTONS (CButton::Z | CButton::C | CButton::TWO)
+#define MOON_JUMP_BUTTONS (CButton::Z | CButton::C | CButton::A)
+#define RELOAD_AREA_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::TWO)
+#define TIMER_TOGGLE_BUTTONS (CButton::Z | CButton::C | CButton::A | CButton::B)
+#define TIMER_RESET_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::ONE)
+#define FREE_CAM_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::MINUS)
+#define MOVE_LINK_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::PLUS)
+#define FRAME_PAUSE_BUTTONS (CButton::Z | CButton::C | CButton::PLUS | CButton::MINUS)
+#define FRAME_ADVANCE_BUTTONS (CButton::TWO)
 #define GORGE_VOID_TEXT "Z+C+A+1"
 #define BACK_IN_TIME_TEXT "Z+C+A+2"
 #define STORE_POSITION_TEXT "Z+C+1"
@@ -50,7 +51,7 @@
 #define TIMER_RESET_TEXT "Z+C+B+1"
 #define FREE_CAM_TEXT "Z+C+B+Minus"
 #define MOVE_LINK_TEXT "Z+C+B+Plus"
-#define FRAME_ADVANCE_TEXT "Z+C+B+D-PAD right"
+#define FRAME_ADVANCE_TEXT "Z+C+Plus+Minus (2 for trig)"
 #endif
 
 extern bool reload_area_flag;

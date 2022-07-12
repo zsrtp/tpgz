@@ -1,6 +1,6 @@
 #pragma once
-#ifdef WII_PLATFORM
 
+#ifdef WII_PLATFORM
 namespace BiTIndicator {
 void execute();
 void setPosition();

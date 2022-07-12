@@ -24,6 +24,7 @@ void GZ_disableSFX() {
 
     g_mDoAud_zelAudio.mAudioMgr.mSoundMgr.mSeMgr.mParams.mParams.mVolume = 0.0f;
 }
+
 void GZ_enableSFX() {
     for (int i = 0; i < 16; i++) {
         g_mDoAud_zelAudio.mAudioMgr.mSoundMgr.mSeMgr.mCategoryMgrs[i].mParams.mParams.mVolume =

@@ -31,7 +31,7 @@ Line lines[LINE_NUM] = {
     {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true, &l_midnaHealed},
     {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true,
      &l_midnaRide},
-    {"midna on Z", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna", true, &l_midnaZ},
+    {"midna available", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna", true, &l_midnaZ},
     {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true,
      &l_transformWarp},
     {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for wolf sense", true, &l_wolfSense},

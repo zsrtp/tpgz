@@ -76,8 +76,8 @@ void game_loop() {
 #endif
 #ifdef WII_PLATFORM
 #define BUTTONS (tp_mPad.mHoldButton)
-#define CANCEL_LOAD_BUTTONS (Z | C | B)
-#define SHOW_MENU_BUTTONS (Z | C | MINUS)
+#define CANCEL_LOAD_BUTTONS (CButton::Z | CButton::C | CButton::B)
+#define SHOW_MENU_BUTTONS (CButton::Z | CButton::C | CButton::MINUS)
 #endif
 
     // Button combo to bypass the automatic loading of the save file

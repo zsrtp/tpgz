@@ -9,6 +9,16 @@
 #define LINE_NUM ITEM_WHEEL_SLOTS
 #define MAX_ITEMS 58
 
+#ifdef GCN_PLATFORM
+#define DEFAULT_BTN_TXT "Z"
+#define DEFAULT_BTN GZPad::Z
+#endif
+
+#ifdef WII_PLATFORM
+#define DEFAULT_BTN_TXT "+"
+#define DEFAULT_BTN GZPad::PLUS
+#endif
+
 Cursor ItemWheelMenu::cursor;
 
 const uint8_t l_validItems[] = {
@@ -188,8 +198,8 @@ void ItemWheelMenu::draw() {
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
                 tp_sprintf(lines[slot_no].description,
-                           "Slot %d default: %s. Press Z to set to default", slot_no,
-                           l_lookupTbl[j].name);
+                           "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
+                           slot_no, l_lookupTbl[j].name);
             } else {
                 continue;
             }
@@ -218,7 +228,7 @@ void ItemWheelMenu::draw() {
         dComIfGs_setItem(cursor.y, l_validItems[l_listIdx]);
     }
 
-    if (GZ_getButtonTrig(GZPad::Z)) {
+    if (GZ_getButtonTrig(DEFAULT_BTN)) {
         dComIfGs_setItem(cursor.y, l_defaultItems[cursor.y]);
     }
 

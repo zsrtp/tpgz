@@ -11,6 +11,7 @@
 #define ITEM_BUTTON_DOWN_CHECK (GZ_getButtonPressed(GZPad::Y) || GZ_getButtonPressed(GZPad::X))
 #define PAD Pad
 #endif  // GCN_PLATFORM
+
 #ifdef WII_PLATFORM
 #define ITEM_BUTTON_HELD_CHECK                                                                     \
     (!GZ_getButtonHold(GZPad::B) || !GZ_getButtonHold(GZPad::DPAD_LEFT) ||                         \

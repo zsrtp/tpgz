@@ -25,9 +25,9 @@
 #endif
 #ifdef WII_PLATFORM
 #define buttonStatus (tp_mPad.mHoldButton)
-#define A_BUTTON (GZPad::A)
-#define ITEM_WHEEL_BUTTON (GZPad::MINUS)
-#define TRIGGER_BUTTONS (GZPad::Z | GZPad::C)
+#define A_BUTTON (CButton::A)
+#define ITEM_WHEEL_BUTTON (CButton::MINUS)
+#define TRIGGER_BUTTONS (CButton::Z | CButton::C)
 #endif
 
 static uint16_t sButtonsLastFrame = 0;
@@ -53,13 +53,13 @@ static ButtonState buttonStates[BUTTON_STATES] = {
 #endif
 #ifdef WII_PLATFORM
 static ButtonState buttonStates[BUTTON_STATES] = {
-    {GZPad::DPAD_LEFT, 0xFFFFFFFF, false}, {GZPad::DPAD_RIGHT, 0xFFFFFFFF, false},
-    {GZPad::DPAD_DOWN, 0xFFFFFFFF, false}, {GZPad::DPAD_UP, 0xFFFFFFFF, false},
-    {GZPad::PLUS, 0xFFFFFFFF, false},      {GZPad::TWO, 0xFFFFFFFF, false},
-    {GZPad::ONE, 0xFFFFFFFF, false},       {GZPad::B, 0xFFFFFFFF, false},
-    {GZPad::A, 0xFFFFFFFF, false},         {GZPad::MINUS, 0xFFFFFFFF, false},
-    {GZPad::Z, 0xFFFFFFFF, false},         {GZPad::C, 0xFFFFFFFF, false},
-    {GZPad::HOME, 0xFFFFFFFF, false},
+    {CButton::DPAD_LEFT, 0xFFFFFFFF, false}, {CButton::DPAD_RIGHT, 0xFFFFFFFF, false},
+    {CButton::DPAD_DOWN, 0xFFFFFFFF, false}, {CButton::DPAD_UP, 0xFFFFFFFF, false},
+    {CButton::PLUS, 0xFFFFFFFF, false},      {CButton::TWO, 0xFFFFFFFF, false},
+    {CButton::ONE, 0xFFFFFFFF, false},       {CButton::B, 0xFFFFFFFF, false},
+    {CButton::A, 0xFFFFFFFF, false},         {CButton::MINUS, 0xFFFFFFFF, false},
+    {CButton::Z, 0xFFFFFFFF, false},         {CButton::C, 0xFFFFFFFF, false},
+    {CButton::HOME, 0xFFFFFFFF, false},
 };
 #endif
 
@@ -102,6 +102,11 @@ void GZ_readController() {
 
         setGamepadButtons(0);
         setGamepadTrig(0);
+
+#ifdef WII_PLATFORM
+        tp_mPad.mTrigButton = 0;
+#endif
+
 #ifdef GCN_PLATFORM
         buttonStatus = 0x0;
         tp_mPadButton.mRepeat = 0x0;
