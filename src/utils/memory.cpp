@@ -1,6 +1,7 @@
 #include "utils/memory.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/memory_menu.h"
+#include "menus/position_settings_menu.h"
 #include "menus/settings_menu.h"
 #include "libtp_c/include/JSystem/JKernel/JKRExpHeap.h"
 
@@ -111,7 +112,11 @@ void GZ_drawHeapInfo() {
         uint32_t archiveFree = JKRHeap__getFreeSize(archiveHeap);
         uint32_t archiveTotal = JKRHeap__getTotalFreeSize(archiveHeap);
 
-        Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", 145.0f, 25.0f, 0xFFFFFFFF,
+        Vec2 pos = {0.f, 0.f};
+        pos.x += g_spriteOffsets[HEAP_INFO_INDEX].x;
+        pos.y += g_spriteOffsets[HEAP_INFO_INDEX].y;
+
+        Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", pos.x, pos.y, 0xFFFFFFFF,
                          g_dropShadows);
         char zelBuf[22];
         tp_sprintf(zelBuf, "  Zelda %5d / %5d", zeldaFree >> 10, zeldaTotal >> 10);
@@ -120,8 +125,8 @@ void GZ_drawHeapInfo() {
         char arcBuf[22];
         tp_sprintf(arcBuf, "Archive %5d / %5d", archiveFree >> 10, archiveTotal >> 10);
 
-        Font::GZ_drawStr(zelBuf, 200.0f, 45.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(gameBuf, 200.0f, 65.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(arcBuf, 200.0f, 85.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr(zelBuf, pos.x + 55.0f, pos.y + 20.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr(gameBuf, pos.x + 55.0f, pos.y + 40.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr(arcBuf, pos.x + 55.0f, pos.y + 60.0f, 0xFFFFFFFF, g_dropShadows);
     }
 }

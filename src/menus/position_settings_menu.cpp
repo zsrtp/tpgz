@@ -29,7 +29,8 @@ Line lines[LINE_NUM] = {
     {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
     {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
     {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
-    {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false}};
+    {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
+    {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false}};
 
 void drawCursor(Vec2 pos) {
     bool cycle = (cCt_getFrameCount() / 8) % 2;
@@ -110,4 +111,5 @@ void PosSettingsMenu::initDefaults() {
     g_spriteOffsets[LOAD_TIMER_SPR_INDEX] = {525.0f, 30.f};
     g_spriteOffsets[IGT_TIMER_SPR_INDEX] = {35.0f, 30.f};
     g_spriteOffsets[FIFO_SPR_INDEX] = {5.0f, 440.f};
+    g_spriteOffsets[HEAP_INFO_INDEX] = {145.0f, 25.0f};
 }
