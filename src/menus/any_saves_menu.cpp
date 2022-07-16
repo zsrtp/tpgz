@@ -2,10 +2,10 @@
 #include "gz_flags.h"
 #include "save_specials.h"
 
-#define LINE_NUM 49
-
 Cursor AnySavesMenu::cursor;
 
+#ifdef GCN_PLATFORM
+#define LINE_NUM 49
 Line lines[LINE_NUM] = {
     {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
     {"back in time", BACK_IN_TIME_INDEX, "Back in Time off the Ordon Spring bridge"},
@@ -57,8 +57,67 @@ Line lines[LINE_NUM] = {
     {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
     {"horseback ganon", HORSEBACK_GANON_INDEX, "The Horseback Ganondorf fight"},
 };
+#endif
+#ifdef WII_PLATFORM
+#define LINE_NUM 52
+Line lines[LINE_NUM] = {
+    {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
+    {"back in time", BACK_IN_TIME_INDEX, "Back In Time off the Ordon Spring bridge"},
+    {"goats", GOATS_INDEX, "Goat herding 2"},
+    {"sword and shield skip", HUGO_INDEX, "Hangin' with Hugo"},
+    {"early master sword", EMS_INDEX, "Super Jump to early Sacred Grove"},
+    {"purple mist", MIST_INDEX, "Purple mist in Faron Woods (post-EMS)"},
+    {"forest temple", FRST_INDEX, "first entry into Forest Temple"},
+    {"early gale", EARLY_GALE_INDEX, "Platforming to Ook"},
+    {"deku like skip", DEKU_LIKE_INDEX, "frame perfect jump from the deku like platform"},
+    {"diababa", DIABABA_INDEX, "diababa fight"},
+    {"mailman skip", MAILMAN_SKIP_INDEX, "jump attack over mailman trigger twice"},
+    {"lanayru gate clip", LANAYRU_GATE_CLIP_INDEX, "gate clip outside Lake Hylia"},
+    {"kargorok fight", KARG_FIGHT_INDEX, "fight with the kargarok"},
+    {"kargorok flight", KARG_FLIGHT_INDEX, "clip OoB with trumpet bird"},
+    {"eldin twilight", ELDIN_TWILIGHT_INDEX, "eldin Twilight tears"},
+    {"bombhouse skip", BOMBHOUSE_SKIP_INDEX, "jump from the bomb shop to the bombhouse"},
+    {"midna text skip", MIDNA_TEXT_SKIP_INDEX, "frame perfect sidehop to skip midna text"},
+    {"midna dive", MIDNA_DIVE_INDEX, "Pillar Clip in Lake Hylia (high water)"},
+    {"lakebed 1", LAKEBED_1_INDEX, "The first Lakebed Temple segment"},
+    {"jake", JAKE_INDEX, "use the helmasaur (jake) to LJA to the upper ledge"},
+    {"lanayru twilight", LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
+    {"waterfall sidehop", WATERFALL_SIDEHOP_INDEX, "Waterfall sidehop after Rutela skip"},
+    {"boss bug", BOSS_BUG_INDEX, "Lanayru Twilight boss bug"},
+    {"iza", IZA_INDEX, "Steal Iza's bomb bag"},
+    {"deku toad", TOAD_INDEX, "The miniboss of Lakebed Temple"},
+    {"morpheel", MORPHEEL_INDEX, "Morpheel fight (no Zora Armor)"},
+    {"mdh tower", MDH_TOWER_INDEX, "MDH tower climb before castle rooftops"},
+    {"mdh bridge", MDH_BRIDGE_INDEX, "The falling bridge on castle rooftops"},
+    {"bulblin camp", BULBLIN_CAMP_INDEX, "The area before Arbiter's Grounds"},
+    {"arbiter's grounds", AG_INDEX, "The Arbiter's Grounds segment"},
+    {"poe 1 skip", POE_1_SKIP_INDEX, "The pillar jump in Arbiter's Grounds"},
+    {"death sword", DSS_INDEX, "The Arbiter's Grounds miniboss"},
+    {"stallord", STALLORD_INDEX, "The Arbiter's Grounds boss"},
+    {"snowpeak", SPR_INDEX, "The Snowpeak Ruins dungeon segment"},
+    {"snowpeak spinner bomb boost", SPR_BOOST_INDEX, "spinner bomb boost over the wall."},
+    {"freezard clip", SPR_FREEZARD_INDEX, "clip through the door behind freezard"},
+    {"dark hammer", DARK_HAMMER_INDEX, "The Snowpeak Ruins miniboss"},
+    {"city in the sky early", CITS_EARLY_INDEX, "Clip to the cannon early"},
+    {"city in the sky 1", CITS_1_INDEX, "The first City in the Sky segment"},
+    {"aeralfos skip", AERALFOS_SKIP_INDEX, "The City in the Sky miniboss"},
+    {"city in the sky 2", CITS_2_INDEX, "The second City in the Sky segment"},
+    {"fan tower", FAN_TOWER_INDEX, "Final fan room in CitS before the boss"},
+    {"argorok", ARGOROK_INDEX, "The City in the Sky boss"},
+    {"palace of twilight 1", PALACE_1_INDEX, "The first Palace of Twilight segment"},
+    {"palace of twilight 2", PALACE_2_INDEX,
+     "The second Palace of Twilight segment (after both Sols)"},
+    {"early platform", EARLY_PLATFORM_INDEX, "Early platform in Palace of Twilight"},
+    {"zant", ZANT_INDEX, "The Palace of Twilight boss"},
+    {"hyrule castle", HC_INDEX, "The Hyrule Castle segment"},
+    {"darknut fight", DARKNUT_INDEX, "The Darknut fight in Hyrule Castle"},
+    {"final tower climb", HC_TOWER_INDEX, "The tower climb before the final boss fights"},
+    {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
+    {"horseback ganon", HORSEBACK_GANON_INDEX, "The horseback Ganondorf fight"}};
+#endif
 
 void AnySavesMenu::draw() {
+#ifdef GCN_PLATFORM
     special AnySpecials[ANY_SPECIALS_AMNT] = {
         special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
         special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
@@ -80,6 +139,22 @@ void AnySavesMenu::draw() {
         special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
         special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
     };
+#endif
+#ifdef WII_PLATFORM
+    special AnySpecials[ANY_SPECIALS_AMNT] = {
+        special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
+        special(KARG_FLIGHT_INDEX, SaveMngSpecial_KargOoB, nullptr),
+        special(MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
+        special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+        special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+        special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
+        special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
+        special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
+        special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
+        special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
+        special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+    };
+#endif
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         GZ_setMenu(GZ_PRACTICE_MENU);
@@ -87,9 +162,10 @@ void AnySavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "any", AnySpecials, ANY_SPECIALS_AMNT);
+        SaveManager::loadSave(cursor.y, "any", AnySpecials,
+                              sizeof(AnySpecials) / sizeof(AnySpecials[0]));
     }
 
-    cursor.move(0, LINE_NUM);
-    GZ_drawMenuLines(lines, cursor.y, LINE_NUM);
+    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
+    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
 }
