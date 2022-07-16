@@ -40,20 +40,38 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
 };
 
 void GZ_frameAdvance() {
+    static int holdCounter = 0;
     sPauseTimer = 1;
 
 #ifdef GCN_PLATFORM
     tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
+
+    if (tp_cPadInfo[0].mButtonFlags & CButton::R) {
+        holdCounter++;
+    } else {
+        holdCounter = 0;
+    }
 #endif
 
 #ifdef WII_PLATFORM
     tp_mPad.mHoldButton &= ~FRAME_ADVANCE_PAD;
     tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+
+    if (tp_mPad.mHoldButton & CButton::TWO) {
+        holdCounter++;
+    } else {
+        holdCounter = 0;
+    }
 #endif
 
-    if (GZ_getButtonRepeat(FRAME_ADVANCE_BTN, 1)) {
+    if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
+        sPauseTimer = 0;
+    }
+
+    // frames start passing at normal speed after holding for 30 frames
+    if (holdCounter >= 30) {
         sPauseTimer = 0;
     }
 }
