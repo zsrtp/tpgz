@@ -47,10 +47,11 @@ void GZ_frameAdvance() {
 #endif
 
 #ifdef WII_PLATFORM
+    tp_mPad.mHoldButton &= ~FRAME_ADVANCE_PAD;
     tp_mPad.mTrigButton = tp_mPad.mHoldButton;
 #endif
 
-    if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
+    if (GZ_getButtonRepeat(FRAME_ADVANCE_BTN, 1)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
         sPauseTimer = 0;

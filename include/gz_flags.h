@@ -9,6 +9,7 @@
 #ifdef WII_PLATFORM
 #define MAX_GZ_FLAGS 16
 #define FRAME_ADVANCE_BTN GZPad::TWO
+#define FRAME_ADVANCE_PAD CButton::TWO
 #endif
 #ifdef GCN_PLATFORM
 #define MAX_GZ_FLAGS 15
