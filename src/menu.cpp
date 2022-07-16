@@ -35,6 +35,7 @@ menu_render_t l_menuDrawList[MAX_MENU_RENDER_FLAGS] = {
 };
 
 menu_render_t l_currentMenu = nullptr;
+menu_render_t l_returnMenu = nullptr;
 
 void GZ_drawMenu() {
     if (l_currentMenu != nullptr) {
@@ -58,4 +59,20 @@ void GZ_clearMenu() {
 
 bool GZ_checkMenuOpen() {
     return l_currentMenu != nullptr;
+}
+
+bool GZ_checkReturnMenu() {
+    return l_returnMenu != nullptr;
+}
+
+void GZ_returnMenu() {
+    l_currentMenu = l_returnMenu;
+}
+
+void GZ_setReturnMenu(int menu_idx) {
+    if (menu_idx > MN_NONE_INDEX) {
+        l_returnMenu = l_menuDrawList[menu_idx];
+    } else {
+        l_returnMenu = nullptr;
+    }
 }

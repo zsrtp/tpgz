@@ -158,12 +158,14 @@ void AnySavesMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         GZ_setMenu(GZ_PRACTICE_MENU);
+        GZ_setReturnMenu(GZ_NO_MENU);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        GZ_setReturnMenu(GZ_ANY_SAVES_MENU);
     }
 
     cursor.move(0, sizeof(lines) / sizeof(lines[0]));

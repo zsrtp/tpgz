@@ -36,11 +36,19 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
     {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
     {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-    {&g_injectMemfile, GAME_LOOP, GZMemfile_setLinkPosition}};
+    {&g_injectMemfile, GAME_LOOP, GZMemfile_setLinkPosition},
+};
 
 void GZ_frameAdvance() {
     sPauseTimer = 1;
+
+#ifdef GCN_PLATFORM
     tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
+#endif
+
+#ifdef WII_PLATFORM
+    tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+#endif
 
     if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
         // this sets pause timer to 0 for 1 frame,

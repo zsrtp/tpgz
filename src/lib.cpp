@@ -90,7 +90,12 @@ void game_loop() {
     GZ_loadGZSave(l_loadCard);
 
     if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        if (GZ_checkReturnMenu()) {
+            GZ_returnMenu();
+        } else {
+            GZ_setMenu(MN_MAIN_MENU_INDEX);
+        }
+
         g_fifoVisible = false;
     }
 
@@ -118,7 +123,14 @@ void game_loop() {
     MoveLink::execute();
 
     if (g_tools[TURBO_MODE_INDEX].active) {
+#ifdef GCN_PLATFORM
         tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
+#endif
+
+#ifdef WII_PLATFORM
+        // this breaks wii gz menu controls atm so leaving out for now
+        // tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+#endif
     }
 }
 

@@ -54,6 +54,9 @@ void GZ_drawMenu();
 void GZ_setMenu(int idx);
 void GZ_clearMenu();
 bool GZ_checkMenuOpen();
+bool GZ_checkReturnMenu();
+void GZ_returnMenu();
+void GZ_setReturnMenu(int menu_idx);
 
 class Menu {
 public:

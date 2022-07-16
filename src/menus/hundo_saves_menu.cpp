@@ -119,11 +119,13 @@ void HundoSavesMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         GZ_setMenu(GZ_PRACTICE_MENU);
+        GZ_setReturnMenu(GZ_NO_MENU);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        GZ_setReturnMenu(GZ_HUNDO_SAVES_MENU);
     }
 
     cursor.move(0, LINE_NUM);

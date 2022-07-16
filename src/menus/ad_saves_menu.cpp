@@ -67,11 +67,13 @@ void ADSavesMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         GZ_setMenu(GZ_PRACTICE_MENU);
+        GZ_setReturnMenu(GZ_NO_MENU);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
+        GZ_setReturnMenu(GZ_AD_SAVES_MENU);
     }
 
     cursor.move(0, LINE_NUM);
