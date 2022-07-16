@@ -128,8 +128,9 @@ void game_loop() {
 #endif
 
 #ifdef WII_PLATFORM
-        // this breaks wii gz menu controls atm so leaving out for now
-        // tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+        if (!GZ_checkMenuOpen()) {
+            tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+        }
 #endif
     }
 }
