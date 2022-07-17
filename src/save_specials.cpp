@@ -28,13 +28,19 @@ void SaveMngSpecial_Hugo() {
     dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
+#ifdef GCN_PLATFORM
+#define ACTOR_ID 468
+#elif defined(WII_PLATFORM)
+#define ACTOR_ID 466
+#endif
+
 void SaveMngSpecial_SpawnHugo() {
     gSaveManager.setSaveAngle(40166);
     gSaveManager.setSavePosition(2.9385, 396.9580, -18150.087);
     gSaveManager.setLinkInfo();
 
     cXyz position(-289.9785, 401.5400, -18533.078);
-    fopAcM_create(468, 0x0000F100, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
+    fopAcM_create(ACTOR_ID, 0x0000F100, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
                   &dComIfGp_getPlayer()->mCurrent.mAngle, nullptr, 0xFF);
 }
 
