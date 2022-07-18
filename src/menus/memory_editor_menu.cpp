@@ -20,7 +20,7 @@ uint8_t l_cycleG = 0;
 uint8_t l_cycleB = 0;
 
 void MemoryEditorMenu::drawMemEditor() {
-    char index[9];
+    char index[9] = {0};
     tp_sprintf(index, "%08X", mAddressIndex);
 
     if (l_idxSelected) {

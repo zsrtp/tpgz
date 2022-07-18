@@ -6,7 +6,7 @@
 #include "libtp_c/include/m_Do/m_Do_audio.h"
 
 void GZ_displayLinkInfo() {
-    char time[12];
+    char time[12] = {0};
     tp_sprintf(time, "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
                g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
     Font::GZ_drawStr(time, g_spriteOffsets[DEBUG_INFO_INDEX].x, g_spriteOffsets[DEBUG_INFO_INDEX].y,

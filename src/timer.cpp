@@ -29,8 +29,8 @@ void Timer::drawTimer() {
         g_timerEnabled = false;
     }
 
-    char timerF[5];
-    char timerS[8];
+    char timerF[5] = {0};
+    char timerS[8] = {0};
     tp_sprintf(timerF, "%d", sTimer);
     tp_sprintf(timerS, "%.2f", sTimerSec);
 
@@ -70,7 +70,7 @@ void Timer::drawIGT() {
         g_timerEnabled = false;
     }
 
-    char buf[16];
+    char buf[16] = {0};
     tp_sprintf(buf, "%02d:%02d:%05.2f", sTimerHour, sTimerMin, sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[IGT_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
@@ -91,7 +91,7 @@ void Timer::drawLoadTimer() {
         g_resetTimer = false;
     }
 
-    char buf[8];
+    char buf[8] = {0};
     tp_sprintf(buf, "%.2f", sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[LOAD_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);

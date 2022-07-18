@@ -156,7 +156,7 @@ void SettingsMenu::draw() {
 
 void SettingsMenu::initFont() {
     if (g_fontType >= 0 && g_fontType < MAX_FONT_OPTIONS) {
-        char buf[40];
+        char buf[40] = {0};
         tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
         Font::loadFont(buf);
     }
