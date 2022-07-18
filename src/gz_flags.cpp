@@ -39,40 +39,42 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_injectMemfile, GAME_LOOP, GZMemfile_setLinkPosition},
 };
 
-void GZ_frameAdvance() {
-    static int holdCounter = 0;
-    sPauseTimer = 1;
-
 #ifdef GCN_PLATFORM
-    tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
-
-    if (tp_cPadInfo[0].mButtonFlags & CButton::R) {
-        holdCounter++;
-    } else {
-        holdCounter = 0;
-    }
+#define HOLD_BTNS tp_cPadInfo[0].mButtonFlags
+#define TRIG_BTNS tp_cPadInfo[0].mPressedButtonFlags
 #endif
 
 #ifdef WII_PLATFORM
-    tp_mPad.mHoldButton &= ~FRAME_ADVANCE_PAD;
-    tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+#define HOLD_BTNS tp_mPad.mHoldButton
+#define TRIG_BTNS tp_mPad.mTrigButton
+#endif
 
-    if (tp_mPad.mHoldButton & CButton::TWO) {
+void GZ_frameAdvance() {
+    static int holdCounter = 0;
+    static uint32_t buttonsPrev = 0;
+    sPauseTimer = 1;
+
+    TRIG_BTNS = HOLD_BTNS & ~buttonsPrev;
+
+    if (HOLD_BTNS & FRAME_ADVANCE_PAD) {
         holdCounter++;
     } else {
         holdCounter = 0;
     }
-#endif
 
     if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
         sPauseTimer = 0;
+        buttonsPrev = HOLD_BTNS;
+        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
     }
 
     // frames start passing at normal speed after holding for 30 frames
     if (holdCounter >= 30) {
         sPauseTimer = 0;
+        buttonsPrev = HOLD_BTNS;
+        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
     }
 }
 
@@ -100,7 +102,7 @@ void GZ_execute(int phase) {
     GZ_setCursorColor();
     ToolsMenu::setTunicColor();
 
-    if (g_framePaused) {
+    if (g_framePaused && phase == GAME_LOOP) {
         GZ_frameAdvance();
     }
 }

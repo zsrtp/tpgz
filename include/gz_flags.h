@@ -14,6 +14,7 @@
 #ifdef GCN_PLATFORM
 #define MAX_GZ_FLAGS 15
 #define FRAME_ADVANCE_BTN GZPad::R
+#define FRAME_ADVANCE_PAD CButton::R
 #endif
 
 struct GZFlag {
@@ -86,4 +87,4 @@ inline void GZ_setFifoVisible(bool visible) {
 void GZ_execute(int phase);
 void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex);
 
-#define sPauseTimer (*(uint8_t*)(sPauseTimer_addr))
+#define sPauseTimer (((volatile uint8_t*)(sPauseTimer_addr))[0])
