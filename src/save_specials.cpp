@@ -30,8 +30,10 @@ void SaveMngSpecial_Hugo() {
 
 #ifdef GCN_PLATFORM
 #define ACTOR_ID 468
+#define HUGO_PARAMS 0x0000F100
 #elif defined(WII_PLATFORM)
 #define ACTOR_ID 466
+#define HUGO_PARAMS 0x0000E100
 #endif
 
 void SaveMngSpecial_SpawnHugo() {
@@ -40,7 +42,7 @@ void SaveMngSpecial_SpawnHugo() {
     gSaveManager.setLinkInfo();
 
     cXyz position(-289.9785, 401.5400, -18533.078);
-    fopAcM_create(ACTOR_ID, 0x0000F100, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
+    fopAcM_create(ACTOR_ID, HUGO_PARAMS, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
                   &dComIfGp_getPlayer()->mCurrent.mAngle, nullptr, 0xFF);
 }
 
