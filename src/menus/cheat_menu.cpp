@@ -123,7 +123,7 @@ void GZ_applyCheats() {
 
     if (GZ_checkCheat(SuperClawshot)) {
         daAlinkHIO_hookshot.mShootSpeed = 2870.0f;
-        daAlinkHIO_hookshot.mMaxLength = 69120.0f;
+        daAlinkHIO_hookshot.mMaxLength = 69420.0f;
         daAlinkHIO_hookshot.mReturnSpeed = 2870.0f;
         daAlinkHIO_hookshot.mClawReturnSpeed = 500.0f;
     } else {
