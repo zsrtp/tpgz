@@ -335,12 +335,12 @@ update_entry("early_gale", {
     'counter': 10
 })
 
-update_entry("spr_boost", {
-    'requirements': REQ_POS,
-    'pos': (1998.9147, 0.0366, -1984.2080),
-    'angle': 49152,
-    'counter': 10
-})
+# update_entry("spr_boost", {
+#     'requirements': REQ_POS,
+#     'pos': (2100.9147, 0.0366, -1984.2080),
+#     'angle': 49152,
+#     'counter': 50
+# })
 
 update_entry("midna_dive", {
     'requirements': REQ_POS,

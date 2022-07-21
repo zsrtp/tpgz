@@ -146,6 +146,15 @@ void GZ_applyCheats() {
             l_doorCollision = false;
         }
     }
+#ifdef WII_PLATFORM
+
+    if (GZ_checkCheat(GaleLJA)) {
+        if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
+            dComIfGp_getPlayer()->mEquipItem == NO_ITEM) {
+            dComIfGp_getPlayer()->mEquipItem = 0x0103;
+        }
+    }
+#endif
 }
 
 void CheatsMenu::draw() {
