@@ -39,63 +39,17 @@ void MemoryEditorMenu::drawMemEditor() {
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-            switch (l_idxPlace) {
-            case 0:
+            if (l_idxPlace == 0) {
                 mAddressIndex = 0x81FFFFFF;
-                break;
-            case 1:
-                mAddressIndex += 0x1000000;
-                break;
-            case 2:
-                mAddressIndex += 0x100000;
-                break;
-            case 3:
-                mAddressIndex += 0x10000;
-                break;
-            case 4:
-                mAddressIndex += 0x1000;
-                break;
-            case 5:
-                mAddressIndex += 0x100;
-                break;
-            case 6:
-                mAddressIndex += 0x10;
-                break;
-            case 7:
-                mAddressIndex += 0x1;
-                break;
+            } else {
+                mAddressIndex += (0x10000000 >> (l_idxPlace * 4));
             }
             if (mAddressIndex > 0x81FFFFFF) {
                 mAddressIndex = 0x81FFFFFF;
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
-            switch (l_idxPlace) {
-            case 0:
-                mAddressIndex -= 0x10000000;
-                break;
-            case 1:
-                mAddressIndex -= 0x1000000;
-                break;
-            case 2:
-                mAddressIndex -= 0x100000;
-                break;
-            case 3:
-                mAddressIndex -= 0x10000;
-                break;
-            case 4:
-                mAddressIndex -= 0x1000;
-                break;
-            case 5:
-                mAddressIndex -= 0x100;
-                break;
-            case 6:
-                mAddressIndex -= 0x10;
-                break;
-            case 7:
-                mAddressIndex -= 0x1;
-                break;
-            }
+            mAddressIndex -= (0x10000000 >> (l_idxPlace * 4));
             if (mAddressIndex < 0x80000000) {
                 mAddressIndex = 0x80000000;
             }

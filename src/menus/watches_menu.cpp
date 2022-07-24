@@ -113,10 +113,9 @@ void WatchesMenu::drawMemoryLines() {
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-                        if (l_addrIdx == 3) {
+                        if (l_addrIdx == 3 && g_watches[i].address >= 0x81000000) {
                             g_watches[i].address = 0x81FFFFFF;
-                        }
-                        if (l_addrIdx <= 9 && l_addrIdx > 3) {
+                        } else if (l_addrIdx <= 9 && l_addrIdx >= 3) {
                             g_watches[i].address += 1 << ((9 - l_addrIdx) * 4);
                         }
                         if (g_watches[i].address > 0x81FFFFFF) {
@@ -333,47 +332,13 @@ void WatchesMenu::drawMemoryLines() {
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-                        switch (l_offsetIdx) {
-                        case 2: {
-                            g_watches[i].offset += 0x1000;
-                            break;
-                        }
-                        case 3: {
-                            g_watches[i].offset += 0x100;
-                            break;
-                        }
-                        case 4: {
-                            g_watches[i].offset += 0x10;
-                            break;
-                        }
-                        case 5: {
-                            g_watches[i].offset += 0x1;
-                            break;
-                        }
-                        }
+                        g_watches[i].offset += (0x100000 >> (l_offsetIdx * 4));
                         if (g_watches[i].offset > 0xFFFF) {
                             g_watches[i].offset = 0xFFFF;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
-                        switch (l_offsetIdx) {
-                        case 2: {
-                            g_watches[i].offset -= 0x1000;
-                            break;
-                        }
-                        case 3: {
-                            g_watches[i].offset -= 0x100;
-                            break;
-                        }
-                        case 4: {
-                            g_watches[i].offset -= 0x10;
-                            break;
-                        }
-                        case 5: {
-                            g_watches[i].offset -= 0x1;
-                            break;
-                        }
-                        }
+                        g_watches[i].offset -= (0x100000 >> (l_offsetIdx * 4));
                         if (g_watches[i].offset < 0x0000) {
                             g_watches[i].offset = 0x0000;
                         }

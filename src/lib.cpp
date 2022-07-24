@@ -81,7 +81,7 @@ void game_loop() {
 #endif
 
     // Button combo to bypass the automatic loading of the save file
-    // in case of crash cause by the load.
+    // in case of crash caused by the load.
     if (BUTTONS == CANCEL_LOAD_BUTTONS && l_loadCard) {
         l_loadCard = false;
     }

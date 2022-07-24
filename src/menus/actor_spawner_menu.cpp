@@ -117,60 +117,10 @@ void ActorSpawnMenu::draw() {
             }
         }
         if (GZ_getButtonRepeat(CONTROLLER_UP)) {
-            switch (l_paramIdx) {
-            case 0:
-                l_actorParams += 0x10000000;
-                break;
-            case 1:
-                l_actorParams += 0x1000000;
-                break;
-            case 2:
-                l_actorParams += 0x100000;
-                break;
-            case 3:
-                l_actorParams += 0x10000;
-                break;
-            case 4:
-                l_actorParams += 0x1000;
-                break;
-            case 5:
-                l_actorParams += 0x100;
-                break;
-            case 6:
-                l_actorParams += 0x10;
-                break;
-            case 7:
-                l_actorParams += 0x1;
-                break;
-            }
+            l_actorParams += (0x10000000 >> (l_paramIdx * 4));
         }
         if (GZ_getButtonRepeat(CONTROLLER_DOWN)) {
-            switch (l_paramIdx) {
-            case 0:
-                l_actorParams -= 0x10000000;
-                break;
-            case 1:
-                l_actorParams -= 0x1000000;
-                break;
-            case 2:
-                l_actorParams -= 0x100000;
-                break;
-            case 3:
-                l_actorParams -= 0x10000;
-                break;
-            case 4:
-                l_actorParams -= 0x1000;
-                break;
-            case 5:
-                l_actorParams -= 0x100;
-                break;
-            case 6:
-                l_actorParams -= 0x10;
-                break;
-            case 7:
-                l_actorParams -= 0x1;
-                break;
-            }
+            l_actorParams -= (0x10000000 >> (l_paramIdx * 4));
         }
         GZ_drawSelectChar(buf, 170.0f, 80.0f, l_paramIdx, 7, 0xFFFFFFFF);
     } else {
