@@ -114,12 +114,12 @@ void WatchesMenu::drawMemoryLines() {
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
                         if (l_addrIdx == 3 && g_watches[i].address >= 0x81000000) {
-                            g_watches[i].address = 0x81FFFFFF;
+                            g_watches[i].address = 0x817FFFFF;
                         } else if (l_addrIdx <= 9 && l_addrIdx >= 3) {
                             g_watches[i].address += 1 << ((9 - l_addrIdx) * 4);
                         }
-                        if (g_watches[i].address > 0x81FFFFFF) {
-                            g_watches[i].address = 0x81FFFFFF;
+                        if (g_watches[i].address > 0x817FFFFF) {
+                            g_watches[i].address = 0x817FFFFF;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {

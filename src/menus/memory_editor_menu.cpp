@@ -40,12 +40,12 @@ void MemoryEditorMenu::drawMemEditor() {
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             if (l_idxPlace == 0) {
-                mAddressIndex = 0x81FFFFFF;
+                mAddressIndex = 0x817FFF88;
             } else {
                 mAddressIndex += (0x10000000 >> (l_idxPlace * 4));
             }
-            if (mAddressIndex > 0x81FFFFFF) {
-                mAddressIndex = 0x81FFFFFF;
+            if (mAddressIndex > 0x817FFF88) {
+                mAddressIndex = 0x817FFF88;
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
