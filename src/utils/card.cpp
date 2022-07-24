@@ -318,8 +318,8 @@ void GZ_loadMemfile(Storage& storage) {
 #define FILE_NAME "tpgz01"
 #endif  // GCN_PLATFORM
 #ifdef WII_PLATFORM
-#define FRAME_COUNT 500
-#define FILE_NAME "tpgz01.dat"
+#define FRAME_COUNT 200
+#define FILE_NAME "tpgz01"
 #endif  // WII_PLATFORM
 
 void GZ_loadGZSave(bool& card_load) {
