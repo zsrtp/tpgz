@@ -1,0 +1,165 @@
+{
+    "configurations": [
+        {
+            "name": "GC US",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_NTSCU"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-O2",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "GC PAL",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_PAL"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-O2",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "GC JP",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_NTSCJ"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-O2",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii US 1.0",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_NTSCU_10"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-O2",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii PAL",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_PAL"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-O2",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,515 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean",
+            "type": "shell",
+            "detail": "Cleans generated build files",
+            "group": "build",
+            "icon": {
+                "id": "trash",
+                "color": "terminal.ansiRed"
+            },
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false,
+                "close": true
+            }
+        },
+        {
+            "label": "Build GC US",
+            "type": "shell",
+            "detail": "Builds TPGZ for the GameCube version of the game.",
+            "group": "build",
+            "icon": {
+                "id": "gear",
+                "color": "terminal.ansiGreen"
+            },
+            "command": "make",
+            "args": [
+                "PLATFORM=GCN",
+                "REGION=NTSCU"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build GC PAL",
+            "type": "shell",
+            "detail": "Builds TPGZ for the GameCube version of the game.",
+            "group": "build",
+            "icon": {
+                "id": "gear",
+                "color": "terminal.ansiGreen"
+            },
+            "command": "make",
+            "args": [
+                "PLATFORM=GCN",
+                "REGION=PAL"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build GC JP",
+            "type": "shell",
+            "detail": "Builds TPGZ for the GameCube version of the game.",
+            "group": "build",
+            "icon": {
+                "id": "gear",
+                "color": "terminal.ansiGreen"
+            },
+            "command": "make",
+            "args": [
+                "PLATFORM=GCN",
+                "REGION=NTSCJ"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build Wii US 1.0",
+            "type": "shell",
+            "detail": "Builds TPGZ for the Wii version of the game.",
+            "group": "build",
+            "icon": {
+                "id": "gear",
+                "color": "terminal.ansiGreen"
+            },
+            "command": "make",
+            "args": [
+                "PLATFORM=WII",
+                "REGION=NTSCU_10"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Build Wii PAL",
+            "type": "shell",
+            "detail": "Builds TPGZ for the Wii version of the game.",
+            "group": "build",
+            "icon": {
+                "id": "gear",
+                "color": "terminal.ansiGreen"
+            },
+            "command": "make",
+            "args": [
+                "PLATFORM=WII",
+                "REGION=NTSCU_10"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC US ISO",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw"
+            ],
+            "dependsOn": [
+                "Build GC US"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC PAL ISO",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw"
+            ],
+            "dependsOn": [
+                "Build GC PAL"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC JP ISO",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw"
+            ],
+            "dependsOn": [
+                "Build GC JP"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate Wii US 1.0 ISO",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/wii/romhack",
+            "args": [
+                "build",
+                "--raw"
+            ],
+            "dependsOn": [
+                "Build Wii US 1.0"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate Wii PAL ISO",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/wii/romhack",
+            "args": [
+                "build",
+                "--raw"
+            ],
+            "dependsOn": [
+                "Build Wii PAL"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC US Patch",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw",
+                "--patch"
+            ],
+            "dependsOn": [
+                "Clean",
+                "Build GC US"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC PAL Patch",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw",
+                "--patch"
+            ],
+            "dependsOn": [
+                "Clean",
+                "Build GC PAL"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate GC JP Patch",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/gc/romhack",
+            "args": [
+                "build",
+                "--raw",
+                "--patch"
+            ],
+            "dependsOn": [
+                "Clean",
+                "Build GC JP"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate Wii US 1.0 Patch",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/wii/romhack",
+            "args": [
+                "build",
+                "--raw",
+                "--patch"
+            ],
+            "dependsOn": [
+                "Clean",
+                "Build Wii US 1.0"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Generate Wii PAL Patch",
+            "type": "shell",
+            "detail": "Patches the game's iso",
+            "group": "build",
+            "icon": {
+                "id": "server",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "${workspaceFolder}/../romhack/wii/romhack",
+            "args": [
+                "build",
+                "--raw",
+                "--patch"
+            ],
+            "dependsOn": [
+                "Clean",
+                "Build Wii PAL"
+            ],
+            "dependsOrder": "sequence",
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        }
+    ]
+}

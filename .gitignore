@@ -5,8 +5,7 @@
 *.map
 regional-patch.asm
 build/
-.vscode/
-!.vscode/c_cpp_properties.json
+.vscode/*.log
 external/fonts/target
 external/fonts/build
 Updater.log
