@@ -29,11 +29,9 @@ void SaveMngSpecial_Hugo() {
 }
 
 #ifdef GCN_PLATFORM
-#define ACTOR_ID 468
-#define HUGO_PARAMS 0x0000F100
+#define HUGO_ACTOR_ID 468
 #elif defined(WII_PLATFORM)
-#define ACTOR_ID 466
-#define HUGO_PARAMS 0x0000E100
+#define HUGO_ACTOR_ID 466
 #endif
 
 void SaveMngSpecial_SpawnHugo() {
@@ -42,8 +40,26 @@ void SaveMngSpecial_SpawnHugo() {
     gSaveManager.setLinkInfo();
 
     cXyz position(-289.9785, 401.5400, -18533.078);
-    fopAcM_create(ACTOR_ID, HUGO_PARAMS, &position, dComIfGp_getPlayer()->mCurrent.mRoomNo,
-                  &dComIfGp_getPlayer()->mCurrent.mAngle, nullptr, 0xFF);
+
+    // Find hugo in the actor list
+    node_class* node = g_fopAcTg_Queue.mpHead;
+    fopAc_ac_c* actorData = NULL;
+    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
+        if (node != NULL) {
+            create_tag_class* tag = (create_tag_class*)node;
+            fopAc_ac_c* tmpData = (fopAc_ac_c*)tag->mpTagData;
+            if (tmpData->mBase.mProcName == HUGO_ACTOR_ID) {
+                actorData = tmpData;
+                break;
+            }
+            node = node->mpNextNode;
+        }
+    }
+
+    if (actorData != NULL) {
+        actorData->mCurrent.mPosition = position;
+        actorData->mCollisionRot.mY = 5880;
+    }
 }
 
 void SaveMngSpecial_PurpleMist() {
