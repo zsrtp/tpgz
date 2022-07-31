@@ -86,8 +86,9 @@ void MemfilesMenu::draw() {
             if (card.result == Ready) {
                 GZ_storeMemfile(card);
             }
-#endif  // WII_PLATFORM
+#else
             GZ_storeMemfile(card);
+#endif  // WII_PLATFORM
             break;
         case MEMFILE_LOAD_INDEX:
             tp_sprintf(fileBuf, "tpgz_s%d", l_fileNo);
@@ -99,6 +100,8 @@ void MemfilesMenu::draw() {
             if (card.result == Ready) {
                 GZ_loadMemfile(card);
             }
+#else
+            GZ_loadMemfile(card);
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_DELETE_INDEX:
@@ -111,8 +114,9 @@ void MemfilesMenu::draw() {
             if (card.result == Ready) {
                 GZ_deleteMemfile(card);
             }
-#endif  // WII_PLATFORM
+#else
             GZ_deleteMemfile(card);
+#endif  // WII_PLATFORM
             break;
         }
     }

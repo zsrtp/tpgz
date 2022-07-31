@@ -64,8 +64,9 @@ void SettingsMenu::draw() {
             if (storage.result == Ready) {
                 GZ_storeMemCard(storage);
             }
-#endif  // WII_PLATFORM
+#else
             GZ_storeMemCard(storage);
+#endif  // WII_PLATFORM
             break;
         }
         case LOAD_CARD_INDEX: {
@@ -78,8 +79,9 @@ void SettingsMenu::draw() {
             if (storage.result == Ready) {
                 GZ_loadMemCard(storage);
             }
-#endif  // WII_PLATFORM
+#else
             GZ_loadMemCard(storage);
+#endif  // WII_PLATFORM
             break;
         }
         case DELETE_CARD_INDEX: {
@@ -92,8 +94,9 @@ void SettingsMenu::draw() {
             if (storage.result == Ready) {
                 GZ_deleteMemCard(storage);
             }
-#endif  // WII_PLATFORM
+#else
             GZ_deleteMemCard(storage);
+#endif  // WII_PLATFORM
             break;
         }
         case SWAP_EQUIPS_INDEX:

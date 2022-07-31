@@ -50,6 +50,9 @@ extern "C" {
 #endif
 #ifdef GZ_VERSION
 #define INTERNAL_GZ_VERSION QUOTE(GZ_VERSION)
+#else
+#warning GZ_VERSION is not defined
+#define INTERNAL_GZ_VERSION "<unk>"
 #endif
 
 void apply_lib_hooks() {
@@ -66,6 +69,9 @@ void init() {
         load_texture("tpgz/tex/tpgz.tex", &l_gzIconTex);
     }
     GZ_patchLinkColor();
+#ifdef WII_PLATFORM
+    g_tmpBuf = tp_memalign(-0x200, 0x4000);
+#endif
 }
 
 void game_loop() {

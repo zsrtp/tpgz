@@ -42,7 +42,7 @@ void SaveManager::injectDefault_during() {
     if (!g_injectMemfile) {
         SaveManager::loadSavefile(currentFileName);
     } else {
-        SaveManager::injectMemfile((void*)sTmpBuf);
+        SaveManager::injectMemfile(MEMFILE_BUF);
     }
 
     // Get default state based on file info
@@ -151,8 +151,8 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
 }
 
 void SaveManager::loadSavefile(const char* fileName) {
-    loadFile(fileName, (void*)sTmpBuf, 2400, 0);
-    SaveManager::injectSave((void*)sTmpBuf);
+    loadFile(fileName, MEMFILE_BUF, 2400, 0);
+    SaveManager::injectSave(MEMFILE_BUF);
 }
 
 #if (GCN_NTSCU)

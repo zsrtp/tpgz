@@ -23,12 +23,15 @@
 #ifdef GCN_NTSCJ
 #define sTmpBuf 0x803e7080
 #endif
-#ifdef WII_NTSCU_10
-#define sTmpBuf 0x8046a3e0
+
+#ifdef WII_PLATFORM
+#define MEMFILE_BUF (g_tmpBuf)
 #endif
-#ifdef WII_PAL
-#define sTmpBuf 0x804522e0
+
+#ifndef WII_PLATFORM
+#define MEMFILE_BUF ((void*)sTmpBuf)
 #endif
+
 
 // index into qlog where these exist
 #define SPAWN_INDEX 96

@@ -13,6 +13,10 @@
 #include "utils/card.h"
 #include "utils/loading.h"
 
+#ifdef WII_PLATFORM
+void* g_tmpBuf;
+#endif
+
 /**
  * @brief Like CARDWrite, but allows for arbitrary sizes and offsets.
  */
@@ -174,7 +178,7 @@ int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_t sector_s
         return result;                                                                             \
     }
 
-    assert_result(GZ_storageRead(storage, (void*)sTmpBuf, sizeof(dSv_info_c), 0, sector_size));
+    assert_result(GZ_storageRead(storage, MEMFILE_BUF, sizeof(dSv_info_c), 0, sector_size));
 
     assert_result(
         GZ_storageRead(storage, &posData, sizeof(posData), sizeof(dSv_info_c) + 1, sector_size));
@@ -296,7 +300,7 @@ void GZ_loadMemfile(Storage& storage) {
             FIFOQueue::push("loaded memfile!", Queue);
             g_injectMemfile = true;
             SaveManager::injectDefault_before();
-            SaveManager::injectMemfile((void*)sTmpBuf);
+            SaveManager::injectMemfile(MEMFILE_BUF);
             SaveManager::injectDefault_during();
             SaveManager::injectDefault_after();
             GZ_loadPositionData(posData);
@@ -313,14 +317,8 @@ void GZ_loadMemfile(Storage& storage) {
     }
 }
 
-#ifdef GCN_PLATFORM
 #define FRAME_COUNT 200
 #define FILE_NAME "tpgz01"
-#endif  // GCN_PLATFORM
-#ifdef WII_PLATFORM
-#define FRAME_COUNT 200
-#define FILE_NAME "tpgz01"
-#endif  // WII_PLATFORM
 
 void GZ_loadGZSave(bool& card_load) {
     uint8_t frame_count = cCt_getFrameCount();

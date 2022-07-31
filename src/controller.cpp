@@ -77,9 +77,9 @@ void GZ_readController() {
 
     GZ_applyCheats();
     if (GZ_checkMenuOpen() == true) {
+#ifdef GCN_PLATFORM
         uint16_t current_input = GZ_getButtonStatus();
 
-#ifdef GCN_PLATFORM
         // prevent accidentally moving cursor down when opening menu
         if (!g_cursorEnabled) {
             if (current_input & CButton::DPAD_UP) {

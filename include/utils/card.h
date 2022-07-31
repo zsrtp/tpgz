@@ -2,6 +2,10 @@
 #include "gcn_c/include/storage.h"
 #include "menu.h"
 
+#ifdef WII_PLATFORM
+extern void* g_tmpBuf;
+#endif
+
 int32_t GZ_storageWrite(Storage* info, void* data, int32_t size, int32_t offset,
                         int32_t sector_size);
 int32_t GZ_storageRead(Storage* info, void* data, int32_t size, int32_t offset,
