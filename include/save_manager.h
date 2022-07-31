@@ -32,7 +32,6 @@
 #define MEMFILE_BUF ((void*)sTmpBuf)
 #endif
 
-
 // index into qlog where these exist
 #define SPAWN_INDEX 96
 #define ROOM_INDEX 97
