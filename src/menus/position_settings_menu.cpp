@@ -104,7 +104,11 @@ void PosSettingsMenu::draw() {
 }
 
 void PosSettingsMenu::initDefaults() {
+#ifdef GCN_PLATFORM
     g_spriteOffsets[VIEWER_INDEX] = {220.f, 380.f};
+#elif defined(WII_PLATFORM)
+    g_spriteOffsets[VIEWER_INDEX] = {250.f, 360.f};
+#endif
     g_spriteOffsets[MENU_INDEX] = {25.f, 60.f};
     g_spriteOffsets[DEBUG_INFO_INDEX] = {450.0f, 200.f};
     g_spriteOffsets[TIMER_SPR_INDEX] = {525.0f, 420.f};
