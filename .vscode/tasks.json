@@ -154,7 +154,7 @@
             "command": "make",
             "args": [
                 "PLATFORM=WII",
-                "REGION=NTSCU_10"
+                "REGION=PAL"
             ],
             "runOptions": {
                 "instanceLimit": 1
