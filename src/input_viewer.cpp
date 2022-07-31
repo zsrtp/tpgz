@@ -88,8 +88,10 @@ void drawStickOutline(uint32_t color, Vec2 pos, float size, float x_ratio) {
     float tmp;
     Draw::begin_outline(9, OUTLINE_WIDTH);
     for (uint8_t i = 0; i < 4; ++i) {
-        Draw::add_vertex(color, {pos.x + s2 * dx1 * x_ratio, pos.y + s2 * dy1}, {(0.5f + dx1) * x_ratio, 0.5f + dy1});
-        Draw::add_vertex(color, {pos.x + s2 * dx2 * x_ratio, pos.y + s2 * dy2}, {(0.5f + dx2) * x_ratio, 0.5f + dy2});
+        Draw::add_vertex(color, {pos.x + s2 * dx1 * x_ratio, pos.y + s2 * dy1},
+                         {(0.5f + dx1) * x_ratio, 0.5f + dy1});
+        Draw::add_vertex(color, {pos.x + s2 * dx2 * x_ratio, pos.y + s2 * dy2},
+                         {(0.5f + dx2) * x_ratio, 0.5f + dy2});
         tmp = dx1;
         dx1 = -dy1;
         dy1 = tmp;
@@ -97,7 +99,8 @@ void drawStickOutline(uint32_t color, Vec2 pos, float size, float x_ratio) {
         dx2 = -dy2;
         dy2 = tmp;
     }
-    Draw::add_vertex(color, {pos.x + s2 * dx1 * x_ratio, pos.y + s2 * dy1}, {(0.5f + dx1) * x_ratio, 0.5f + dy1});
+    Draw::add_vertex(color, {pos.x + s2 * dx1 * x_ratio, pos.y + s2 * dy1},
+                     {(0.5f + dx1) * x_ratio, 0.5f + dy1});
     Draw::end();
 }
 
@@ -209,38 +212,39 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
 #endif
 #ifdef WII_PLATFORM
     drawButtonEllipse(GZPad::C, 'c', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                      {pos.x + ( 42.5f * scale ) * x_ratio, pos.y + 15.f * scale}, {15.f * scale * x_ratio, 10.f * scale},
-                      8 * scale);
+                      {pos.x + (42.5f * scale) * x_ratio, pos.y + 15.f * scale},
+                      {15.f * scale * x_ratio, 10.f * scale}, 8 * scale);
     drawButton(GZPad::Z, 'Z', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-               {pos.x + 40.f * scale * x_ratio, pos.y + 30.f * scale}, {20.f * scale * x_ratio, 15.f * scale},
-               8 * scale);
+               {pos.x + 40.f * scale * x_ratio, pos.y + 30.f * scale},
+               {20.f * scale * x_ratio, 15.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::A, 'A', is_shadow ? 0x00000060 : 0xBFBFBFFF,
-                      {pos.x + 70.f * scale * x_ratio, pos.y + 42.5f * scale}, {15.f * scale * x_ratio, 15.f * scale},
-                      8 * scale);
+                      {pos.x + 70.f * scale * x_ratio, pos.y + 42.5f * scale},
+                      {15.f * scale * x_ratio, 15.f * scale}, 8 * scale);
     drawButton(GZPad::B, 'B', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-               {pos.x + 95.f * scale * x_ratio, pos.y + 40.f * scale}, {10.f * scale * x_ratio, 20.f * scale},
-               8 * scale);
+               {pos.x + 95.f * scale * x_ratio, pos.y + 40.f * scale},
+               {10.f * scale * x_ratio, 20.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::MINUS, '-', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                      {pos.x + 115.f * scale * x_ratio, pos.y + 12.5f * scale}, {10.f * scale * x_ratio, 10.f * scale},
-                      8 * scale);
+                      {pos.x + 115.f * scale * x_ratio, pos.y + 12.5f * scale},
+                      {10.f * scale * x_ratio, 10.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::HOME, ' ', is_shadow ? 0x00000060 : 0x00BFFFFF,
-                      {pos.x + 130.f * scale * x_ratio, pos.y + 12.5f * scale}, {10.f * scale * x_ratio, 10.f * scale},
-                      8 * scale);
+                      {pos.x + 130.f * scale * x_ratio, pos.y + 12.5f * scale},
+                      {10.f * scale * x_ratio, 10.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::PLUS, '+', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                      {pos.x + 145.f * scale * x_ratio, pos.y + 12.5f * scale}, {10.f * scale * x_ratio, 10.f * scale},
-                      8 * scale);
+                      {pos.x + 145.f * scale * x_ratio, pos.y + 12.5f * scale},
+                      {10.f * scale * x_ratio, 10.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::ONE, '1', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                      {pos.x + 127.5f * scale * x_ratio, pos.y + 30.f * scale}, {15.f * scale * x_ratio, 15.f * scale},
-                      8 * scale);
+                      {pos.x + 127.5f * scale * x_ratio, pos.y + 30.f * scale},
+                      {15.f * scale * x_ratio, 15.f * scale}, 8 * scale);
     drawButtonEllipse(GZPad::TWO, '2', is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                      {pos.x + 127.5f * scale * x_ratio, pos.y + 50.f * scale}, {15.f * scale * x_ratio, 15.f * scale},
-                      8 * scale);
-    drawCross(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 75.f * scale * x_ratio, pos.y + 10.f * scale},
-              25.f * scale, x_ratio);
+                      {pos.x + 127.5f * scale * x_ratio, pos.y + 50.f * scale},
+                      {15.f * scale * x_ratio, 15.f * scale}, 8 * scale);
+    drawCross(is_shadow ? 0x00000060 : 0xFFFFFFFF,
+              {pos.x + 75.f * scale * x_ratio, pos.y + 10.f * scale}, 25.f * scale, x_ratio);
 
     // analog sticks
     drawStickOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                     {pos.x + 17.5f * scale * x_ratio, pos.y + 30.f * scale}, 35.0f * scale, x_ratio);
+                     {pos.x + 17.5f * scale * x_ratio, pos.y + 30.f * scale}, 35.0f * scale,
+                     x_ratio);
     drawEllipse(is_shadow ? 0x00000060 : 0xFFFFFFFF,
                 {pos.x + (17.5f + tp_mPad.stick.x * 10) * scale * x_ratio,
                  pos.y + (30.f - tp_mPad.stick.y * 10) * scale},
@@ -262,8 +266,10 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
     Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y},
                           {35.f * scale * x_ratio, 7.f * scale}, OUTLINE_WIDTH);
     Draw::drawRect(is_shadow ? 0x00000060 : tp_mPad.nunchuck_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
-                   {pos.x, pos.y}, {35.f * MIN(1.0f, tp_mPad.nunchuck_shake) * scale * x_ratio, 7.f * scale});
-    Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 117.5f * scale * x_ratio, pos.y},
+                   {pos.x, pos.y},
+                   {35.f * MIN(1.0f, tp_mPad.nunchuck_shake) * scale * x_ratio, 7.f * scale});
+    Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF,
+                          {pos.x + 117.5f * scale * x_ratio, pos.y},
                           {35.f * scale * x_ratio, 7.f * scale}, OUTLINE_WIDTH);
     Draw::drawRect(
         is_shadow ? 0x00000060 : tp_mPad.wiimote_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,

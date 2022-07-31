@@ -9,7 +9,7 @@ USER vscode
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-RUN sudo apt-get update && sudo apt-get install -y build-essential libarchive-tools
+RUN sudo apt-get update && sudo apt-get install -y build-essential libarchive-tools clang-format-10
 
 # Install DevkitPPC
 WORKDIR /tmp
