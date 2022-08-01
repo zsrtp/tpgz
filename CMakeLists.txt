@@ -76,6 +76,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_D
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RomHack.toml.in ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml)
 
 add_subdirectory(src)
+add_subdirectory(modules)
 
 add_library(tpgz STATIC "${CPPFILES}")
 add_dependencies(tpgz tp_c gcn)
