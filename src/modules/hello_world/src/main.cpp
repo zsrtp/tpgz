@@ -19,7 +19,7 @@ namespace mod
 
         // Hook the function that runs each frame
         
-        return_fapGm_Execute = mod::patch::hookFunction( *(void(*)())tp_fapGm_Execute_addr, storage, procNewFrame );
+        return_fapGm_Execute = hookFunction( *(void(*)())tp_fapGm_Execute_addr, storage, procNewFrame );
         return;
     }
 

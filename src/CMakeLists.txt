@@ -4,6 +4,8 @@
 # https://cmake.org/cmake/help/latest/command/file.html#filesystem)
 file(GLOB_RECURSE CPPFILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
+list(FILTER CPPFILES EXCLUDE REGEX "modules/.*")
+
 list(TRANSFORM CPPFILES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 add_subdirectory(modules)
