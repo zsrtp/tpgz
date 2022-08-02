@@ -9,7 +9,15 @@ USER vscode
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
-RUN sudo apt-get update && sudo apt-get install -y build-essential libarchive-tools clang-format-10
+RUN sudo dpkg --add-architecture i386
+RUN sudo apt-get update && sudo apt-get install -y build-essential 
+RUN sudo apt-get install -y libarchive-tools 
+RUN sudo apt-get install -y clang-format-10
+RUN sudo apt-get install -y cmake
+# RUN sudo apt-get install -y wine64
+# RUN sudo apt-get install -y wine
+RUN sudo apt-get install -y ninja-build
+RUN sudo apt-get upgrade -y
 
 # Install DevkitPPC
 WORKDIR /tmp

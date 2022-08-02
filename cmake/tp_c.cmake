@@ -1,9 +1,5 @@
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libtp_c
-    COMMAND COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/external/libtp_c ${CMAKE_CURRENT_BINARY_DIR}/libtp_c
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/libtp_c)
+file(GLOB_RECURSE TPGZ_TP_C_CPPFILES "${CMAKE_SOURCE_DIR}/external/libtp_c/src/*.cpp")
 
-add_custom_target(tp_c
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libtp_c
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/libtp_c
-    COMMAND make PLATFORM=${PLATFORM} REGION=${REGION}
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/libtp_c/libtp_c.a ${CMAKE_CURRENT_BINARY_DIR}/libtp_c/build)
+include_directories("${CMAKE_SOURCE_DIR}/external/libtp_c/include")
+
+add_library(tp_c STATIC "${TPGZ_TP_C_CPPFILES}")

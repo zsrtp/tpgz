@@ -2,14 +2,15 @@
 execute_process(
     COMMAND uname -o
     OUTPUT_VARIABLE TPGZ_HOST_SYS)
+string(STRIP "${TPGZ_HOST_SYS}" TPGZ_HOST_SYS)
 
 set(TPGZ_ELF2REL_EXE ${CMAKE_SOURCE_DIR}/bin/elf2rel.exe)
 
 if(TPGZ_HOST_SYS MATCHES "Linux")
-    message(DEBUG "We're on Linux [${TPGZ_HOST_SYS}], found '${TPGZ_ELF2REL_EXE}'")
-    set(TPGZ_ELF2REL_EXE wine ${TPGZ_ELF2REL_EXE})
+    set(TPGZ_ELF2REL_EXE ${CMAKE_SOURCE_DIR}/bin/elf2rel)
+    message(VERBOSE "We're on Linux [${TPGZ_HOST_SYS}], found '${TPGZ_ELF2REL_EXE}'")
 else()
-    message(DEBUG "We are not on Linux [${TPGZ_HOST_SYS}], ${TPGZ_ELF2REL_EXE}")
+    message(VERBOSE "We are not on Linux [${TPGZ_HOST_SYS}], ${TPGZ_ELF2REL_EXE}")
 endif()
 
 if(NOT TPGZ_ELF2REL_EXE)

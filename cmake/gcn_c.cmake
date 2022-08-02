@@ -1,9 +1,5 @@
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/gcn_c
-    COMMAND COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/external/gcn_c ${CMAKE_CURRENT_BINARY_DIR}/gcn_c
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/gcn_c)
+file(GLOB_RECURSE TPGZ_GNC_CPPFILES "${CMAKE_SOURCE_DIR}/external/gcn_c/src/*.c")
 
-add_custom_target(gcn
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/gcn_c
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/gcn_c
-    COMMAND make PLATFORM=${PLATFORM} REGION=${REGION}
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/gcn_c/gcn_c.a ${CMAKE_CURRENT_BINARY_DIR}/gcn_c/build)
+include_directories("${CMAKE_SOURCE_DIR}/external/gcn_c/include")
+
+add_library(gcn_c STATIC "${TPGZ_GNC_CPPFILES}")

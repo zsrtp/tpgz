@@ -70,6 +70,7 @@ set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D${PLATFORM}_${REGION
 
 include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
+include(cmake/tp_rel.cmake)
 include(cmake/${PLATFORM}_${REGION}.cmake)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_DIR}/patch.asm)
@@ -79,12 +80,13 @@ add_subdirectory(src)
 add_subdirectory(modules)
 
 add_library(tpgz STATIC "${CPPFILES}")
-add_dependencies(tpgz tp_c gcn)
+add_dependencies(tpgz tp_c gcn_c)
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/res
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/res
     COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/res/ ${CMAKE_CURRENT_BINARY_DIR}/res
     COMMENT Copying res/ folder)
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_BINARY_DIR}/res")
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
     DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_BINARY_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso 
