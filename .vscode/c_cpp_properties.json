@@ -7,6 +7,7 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
+                "PLATFORM_GCN",
                 "GCN_NTSCU"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
@@ -39,6 +40,7 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
+                "PLATFORM_GCN",
                 "GCN_PAL"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
@@ -71,6 +73,7 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
+                "PLATFORM_GCN",
                 "GCN_NTSCJ"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
@@ -103,6 +106,7 @@
             ],
             "defines": [
                 "WII_PLATFORM",
+                "PLATFORM_WII",
                 "WII_NTSCU_10"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
@@ -135,6 +139,7 @@
             ],
             "defines": [
                 "WII_PLATFORM",
+                "PLATFORM_WII",
                 "WII_PAL"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",

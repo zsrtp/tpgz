@@ -56,7 +56,7 @@ include(cmake/elf2rel.cmake)
 include(cmake/fonts.cmake)
 
 project(TPGZ
-        VERSION 1.0.0
+        VERSION 0.5.0
         DESCRIPTION "Twilight Princess speedrunning practice and testing tool"
         HOMEPAGE_URL "tpgz.io"
         LANGUAGES C CXX ASM)
@@ -66,7 +66,8 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set compiler stuff
 include_directories(include external)
-set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
+#set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
+add_definitions(-D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DPLATFORM_${PLATFORM} -DGZ_VERSION=${CMAKE_PROJECT_VERSION} -D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="${CMAKE_PROJECT_VERSION}" ${RUN_PR_TEST})
 
 include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
@@ -80,7 +81,8 @@ add_subdirectory(src)
 add_subdirectory(modules)
 
 add_library(tpgz STATIC "${CPPFILES}")
-add_dependencies(tpgz tp_c gcn_c)
+add_dependencies(tpgz tp_c gcn_c) #tp_rel
+set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP}")
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/res
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/res

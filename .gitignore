@@ -8,6 +8,7 @@ build*/
 isos/
 bin/
 .vscode/*.log
+.vscode/settings.json
 external/fonts/target
 external/fonts/build
 Updater.log

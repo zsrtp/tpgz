@@ -1,0 +1,503 @@
+// special
+// right before m_Do_graphic::mDoGph_gInf_c::m_aspect
+80537628:isWidescreen
+80011f90:dbg_inst
+
+// memory
+8000443c:memset
+80004338:memcpy
+8024df80:memalign
+
+// OSModule.o
+800030C8:osModuleList
+
+// m_Do_printf.o
+800090a8:OSReport
+
+// m_Do_ext.o
+// text
+800149ac:getArchiveHeapPtr
+
+// m_Do_MemCard.o
+// data
+8045a3e0:MemCardWorkArea0
+
+// d_stage
+8002ad64:roomTresureInit
+8002c428:setTresure
+8002983c:ActorCreate
+8002a260:actorInit
+8002a31c:actorInit_always
+8002a0e0:actorCommonLayerInit
+8002a3c0:tgscInfoInit
+8002b1ac:roomLoader
+
+// data
+8053a878:AssertHeap
+8053a87c:DbPrintHeap
+8053a880:gameHeap
+8053a884:zeldaHeap
+8053a888:commandHeap
+8053a88c:archiveHeap
+8053a890:j2dHeap
+
+// d_save.o
+80037314:getRupeeMax
+8003929c:getSave
+800392cc:putSave
+80038bc4:onEventBit
+80038bdc:offEventBit
+80037400:isDarkClearLV
+8003743c:isTransformLV
+803cfd10:saveBitLabels
+80038578:onCollectMirror
+8003853c:onCollectCrystal
+80037738:setItem
+80038b88:isDungeonItem
+80038bf4:isEventBit
+80038a68:onSwitch_dSv_memBit
+80038ab8:isSwitch_dSv_memBit
+800377ac:setLineUpItem
+80038658:onLightDropGetFlag
+
+// d_event.o
+8004575c:defaultSkipStb
+800459ac:skipper
+
+// DynamicLink.o
+8024da04:do_link
+8024dc9c:do_unlink
+8053ae30:m_heap
+
+// f_op_scene_req.o
+// data
+8053a9cc:freezeActors
+8053a928:isLoading
+
+// f_ap_game.o
+8001e6b0:fapGm_Execute
+
+// f_op_actor_mng.o
+800212ec:createItemForPresentDemo
+80021378:createItemForTrBoxDemo
+80021844:createItemForBoss
+80021904:createItemForMidBoss
+80021950:createItemForDirectGet
+8001f678:CreateAppend
+8001f868:fopAcM_create
+
+// f_pc_node_req
+804813e0:l_fpcNdRq_Queue
+
+// d_map_path_dmap.o
+8004244c:getMapPlayerPos
+
+// d_item.o
+80091dc0:checkItemGet
+80407990:item_func_ptr
+80407d90:item_getcheck_func_ptr
+80091d6c:execItemGet
+8009238c:item_func_WOOD_STICK
+
+// d_item_data.o
+80404da8:item_resource
+804065a4:field_item_res
+80407594:item_info
+
+// d_a_alink.h
+800a948c:setStickData
+800b25fc:checkHeavyStateOn
+8010db44:checkTreasureRupeeReturn
+80111d50:procGanonFinishInit
+80111dd4:procGanonFinish
+//806d4cd8:dComIfGs_isEventBit
+803e9194:getSeType
+80096734:checkStageName
+800c8a4c:checkDownAttackState
+800be190:procCoMetamorphoseInit
+80109fa8:checkEventRun
+8044B5CC:linkStatus
+800d89b0:checkBootsMoveAnime
+8010d2f8:procCoTalkInit
+
+// data
+803e4d28:climbVars
+803e437c:wallMoveVars
+803e4918:lanternVars
+803e4990:ironBootsVars
+
+// d_menu_collect.o
+801971e4:setWalletMaxNum
+
+// JKRExpHeap.o
+802e2fb8:do_alloc_JKRExpHeap
+802e3644:do_free_JKRExpHeap
+
+// Card 
+8036c234:CARDInit
+8036ecd4:CARDCheck
+8036f6e4:CARDMount
+8036f72c:CARDUnmount
+80370af8:CARDRead
+80370e7c:CARDWrite
+803702f8:CARDClose
+8001ba54:CARDOpen
+8036edf4:CARDProbeEx
+
+// nand.o
+803714b4:NANDCreate
+803715a0:NANDDelete
+80371710:NANDRead
+80371778:NANDReadAsync
+803717f0:NANDWrite
+80371858:NANDWriteAsync
+803718d0:NANDSeek
+80371970:NANDSeekAsync
+80371f50:NANDOpen
+80372124:NANDClose
+8037216c:NANDCloseAsync
+803721dc:NANDSafeOpen
+803724cc:NANDSafeClose
+80372c50:NANDInit
+803734a8:NANDInitBanner
+8037368c:NANDCheck
+
+// OSCache.o
+// 80346148:DCEnable
+// 8034615c:DCInvalidateRange
+80346188:DCFlushRange
+// 803461b8:DCStoreRange
+// 803461e8:DCFlushRangeNoSync
+// 80346214:DCStoreRangeNoSync
+// 80346240:DCZeroRange
+8034626c:ICInvalidateRange
+// 803462a0:ICFlashInvalidate
+// 803462b0:ICEnable
+// 803462c4:__LCEnable
+// 80346390:LCEnable
+// 803463c8:LCDisable
+// 803463f0:LCStoreBlocks
+// 80346414:LCStoreData
+// 803464b4:LCQueueWait
+// There is no L2GlobalInvalidate on Wii
+// 00000000:L2GlobalInvalidate
+// 803464c8:DMAErrorHandler
+// 80346610:__OSCacheInit
+
+// runtime.o
+803be11c:_savefpr_14
+803be120:_savefpr_15
+803be124:_savefpr_16
+803be128:_savefpr_17
+803be12c:_savefpr_18
+803be130:_savefpr_19
+803be134:_savefpr_20
+803be138:_savefpr_21
+803be13C:_savefpr_22
+803be140:_savefpr_23
+803be144:_savefpr_24
+803be148:_savefpr_25
+803be14C:_savefpr_26
+803be150:_savefpr_27
+803be154:_savefpr_28
+803be158:_savefpr_29
+803be15C:_savefpr_30
+803be160:_savefpr_31
+803be1b4:_savegpr_14
+803be1b8:_savegpr_15
+803be1bC:_savegpr_16
+803be1c0:_savegpr_17
+803be1c4:_savegpr_18
+803be1c8:_savegpr_19
+803be1cC:_savegpr_20
+803be1d0:_savegpr_21
+803be1d4:_savegpr_22
+803be1d8:_savegpr_23
+803be1dC:_savegpr_24
+803be1e0:_savegpr_25
+803be1e4:_savegpr_26
+803be1e8:_savegpr_27
+803be1eC:_savegpr_28
+803be1f0:_savegpr_29
+803be1f4:_savegpr_30
+803be1f8:_savegpr_31
+803be470:__umoddi3
+
+// mem.o
+803c0a38:memcmp
+
+// printf.o
+803c32e4:sprintf
+803c320c:snprintf
+
+// string.o
+803c3624:strcmp
+803c35b4:strncpy
+803c34f4:strcpy
+803c3740:strncmp
+803bdb38:strlen
+
+// gx.a
+80359f68:GXInit
+8035ad7c:GXCPInterruptHandler
+8035aedc:GXInitFifoBase
+8035af68:GXInitFifoPtrs
+8035b0c8:GXSetCPUFifo
+8035b2a8:GXSetGPFifo
+8035b640:GXGetGPStatus
+8035b720:GXGetFifoBase
+8035b728:GXGetFifoSize
+8035b730:GXSetBreakPtCallback
+8035b990:GXSetCurrentGXThread
+8035b9dc:GXGetCurrentGXThread
+8035b68c:GXGetCPUFifo
+8035b9e4:GXSetVtxDesc
+8035bc48:GXSetVtxDescv
+8035c030:GXClearVtxDesc
+8035c064:GXSetVtxAttrFmt
+8035c204:GXSetVtxAttrFmtv
+8035c448:GXSetArray
+8035c488:GXInvalidateVtxCache
+8035c498:GXSetTexCoordGen2
+8035c6c0:GXSetNumTexGens
+8035c6e4:GXSetMisc
+8035c770:GXFlush
+8035c930:GXAbortFrame
+8035cae4:GXSetDrawDone
+8035cb7c:GXDrawDone
+8035cc3c:GXPixModeSync
+8035cc60:GXPokeAlphaMode
+8035cc70:GXPokeAlphaRead
+8035cc88:GXPokeAlphaUpdate
+8035cc9c:GXPokeBlendMode
+8035ccf8:GXPokeColorUpdate
+8035cd0c:GXPokeDstAlpha
+8035cd24:GXPokeDither
+8035cd38:GXPokeZMode
+8035cd54:GXPeekZ
+8035cd74:GXSetDrawSyncCallback
+8035cdb8:GXTokenInterruptHandler
+8035ce3c:GXSetDrawDoneCallback
+8035ce80:GXFinishInterruptHandler
+8035d1dc:GXBegin
+8035d400:GXSetLineWidth
+8035d434:GXSetPointSize
+8035d468:GXEnableTexOffsets
+8035d4a4:GXSetCullMode
+8035d4cc:GXSetCoPlanar
+8035d500:GXSetDispCopySrc
+8035d540:GXSetTexCopySrc
+8035d580:GXSetDispCopyDst
+8035d5a4:GXSetTexCopyDst
+8035d6c0:GXSetDispCopyFrame2Field
+8035d6e0:GXSetCopyClamp
+8035d708:GXGetNumXfbLines
+8035d794:GXGetYScaleFactor
+8035d9c4:GXSetDispCopyYScale
+8035da90:GXSetCopyClear
+8035db08:GXSetCopyFilter
+8035dcec:GXSetDispCopyGamma
+8035dd00:GXCopyDisp
+8035de3c:GXCopyTex
+8035df94:GXClearBoundingBox
+8035dfcc:GXInitLightAttn
+8035dfe8:GXInitLightSpot
+8035e170:GXInitLightDistAttn
+8035e240:GXInitLightPos
+8035e250:GXInitLightDir
+8035e26c:GXInitLightColor
+8035e278:GXLoadLightObjImm
+8035e2f4:GXSetChanAmbColor
+8035e3cc:GXSetChanMatColor
+8035e4a4:GXSetNumChans
+8035e4c8:GXSetChanCtrl
+8035e56c:GXGetTexBufferSize
+8035e750:GXInitTexObj
+8035e95c:GXInitTexObjCI
+8035e9a4:GXInitTexObjLOD
+8035ead4:GXGetTexObjWidth
+8035eae8:GXGetTexObjHeight
+8035eafc:GXGetTexObjFmt
+8035eb04:GXGetTexObjWrapS
+8035eb10:GXGetTexObjWrapT
+8035eb1c:GXGetTexObjMipMap
+8035eb28:GXGetTexObjTlut
+8035eb30:GXLoadTexObjPreLoaded
+8035ec94:GXLoadTexObj
+8035ece8:GXInitTlutObj
+8035ed10:GXLoadTlut
+8035eda4:GXInitTexCacheRegion
+8035ee58:GXInitTlutRegion
+8035ee78:GXInvalidateTexAll
+8035eec0:GXSetTexRegionCallback
+8035eed4:GXSetTlutRegionCallback
+8035eee8:GXSetTexCoordScaleManually
+8035f4b0:GXSetTevIndirect
+8035f518:GXSetIndTexMtx
+8035f66c:GXSetIndTexCoordScale
+8035f770:GXSetIndTexOrder
+8035f83c:GXSetNumIndStages
+8035f85c:GXSetTevDirect
+8035f8fc:GXSetTevOp
+8035f990:GXSetTevColorIn
+8035f9d0:GXSetTevAlphaIn
+8035fa10:GXSetTevColorOp
+8035fa68:GXSetTevAlphaOp
+8035fac0:GXSetTevColor
+8035fb20:GXSetTevColorS10
+8035fb84:GXSetTevKColor
+8035fbe0:GXSetTevKColorSel
+8035fc30:GXSetTevKAlphaSel
+8035fc80:GXSetTevSwapMode
+8035fcbc:GXSetTevSwapModeTable
+8035fd38:GXSetAlphaCompare
+8035fd70:GXSetZTexture
+8035fdfc:GXSetTevOrder
+8035ff58:GXSetNumTevStages
+8035ff7c:GXSetFog
+803601a8:GXSetFogRangeAdj
+803602cc:GXSetBlendMode
+8036031c:GXSetColorUpdate
+80360348:GXSetAlphaUpdate
+80360374:GXSetZMode
+803603a8:GXSetZCompLoc
+803603d8:GXSetPixelFmt
+80360480:GXSetDither
+803604ac:GXSetDstAlpha
+803604dc:GXSetFieldMask
+80360510:GXSetFieldMode
+80360580:GXCallDisplayList
+803605f4:GXProject
+803607c0:GXSetProjection
+80360824:GXSetProjectionv
+80360870:GXGetProjectionv
+803608b0:GXLoadPosMtxImm
+80360900:GXLoadNrmMtxImm
+80360958:GXSetCurrentMtx
+80360978:GXLoadTexMtxImm
+80360abc:GXSetViewport
+80360ae8:GXGetViewportv
+80360b08:GXSetScissor
+80360b70:GXGetScissor
+80360bb8:GXSetScissorBoxOffset
+80360bf4:GXSetClipMode
+80360ca4:GXSetGPMetric
+803614d0:GXClearGPMetric
+803614e0:GXReadXfRasMetric
+
+// math
+803c74e0:atan
+803c7720:ceil
+803c7860:copysign
+803c788c:cos
+803c7960:floor
+803c7aa4:frexp
+803c7b2c:ldexp
+803c7c98:sin
+803c7d70:tan
+803c7de8:acos
+803c7dec:asin
+803c7df0:atan2
+803c7df4:exp
+803c7df8:fmod
+803c7dfc:pow
+8025ca1c:fastSqrt
+803c8048:sqrt
+
+// m_Do_controller_pad.o
+// data
+8044ba60:cpadInfo
+8044bb60:m_pad
+
+// d_com_inf_game.o
+// data
+80492928:dComIfG_gameInfo
+//8002b3f4:dComIfG_get_timelayer
+801833e4:dKy_daynight_check
+8002f640:getLayerNo_common_common
+//80141264:dComIfGs_isItemFirstBit
+8003827c:isFirstBit
+804929f4:player_get_item
+80033c20:dComIfGs_Wolf_Change_Check
+80033970:dComIfG_getStageRes
+
+// d_kankyo.o
+// data
+804b944c:env_light
+8018f044:dKy_darkworld_stage_check
+
+// JFWSystem.o
+// data
+8053ae98:systemConsole
+
+// Z2SceneMgr.o
+8029c67c:sceneChange
+
+// Z2SeqMgr.o
+802989c8:startBattleBgm
+
+//control.o 
+8028c9b0:setMessageCode_inSequence
+
+//JKRDvdRipper.o
+802edb68:loadToMainRAM2
+
+//dvdfs.o
+803615b4:DVDConvertPathToEntrynum
+
+//d_meter2_info.o
+804bcb78:g_meter2_info
+804bcb94:wZButtonPtr
+
+//d_a_shop_item_static.o
+803d0538:shopItemData
+
+// d_msg_class.o
+80216af4:getFontCCColorTable
+80216b9c:getFontGCColorTable
+
+//processor.o
+8028cc98:getResource_groupID
+
+//d_msg_flow.o
+80237f04:query004
+80238598:query022
+802385cc:query023
+80238628:query025
+80238c6c:query042
+80239050:event000
+8023a1a8:event035
+80239170:event003
+8023a3f8:event041
+
+//d_menu_window.o
+801e0d50:collect_save_open_init
+
+//d_a_npc.o
+801399ac:chkEvtBit
+80140978:chkEvtBitF
+
+//resource.o
+8028e330:parseCharacter_1Byte
+
+//d_a_player.o
+8053ac28:m_midnaActor
+
+//d_camera.o
+80166b8c:checkRide
+
+//d_resource.o
+8003f560:getResInfo
+
+// JUTGamePad
+// data
+804c2f38:mPadButton
+804c2ff8:mPadMStick
+804c3038:mPadSStick
+
+// c_counter
+// data
+804becb8:g_Counter
+
+// JUTConsoleManager
+802fb3ac:draw

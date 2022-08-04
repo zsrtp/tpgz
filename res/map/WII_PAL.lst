@@ -1,0 +1,390 @@
+// special
+// right before m_Do_graphic::mDoGph_gInf_c::m_aspect
+8051d6c8:isWidescreen
+
+// memory
+8000443c:memset
+80004338:memcpy
+
+// m_Do_printf.o
+80009218:OSReport
+
+// m_Do_ext.o
+// text
+80014a5c:getArchiveHeapPtr
+
+// d_stage
+8002ae74:roomTresureInit
+8002c4b0:setTresure
+
+// data
+80520878:AssertHeap
+8052087c:DbPrintHeap
+80520880:gameHeap
+80520884:zeldaHeap
+80520888:commandHeap
+8052088c:archiveHeap
+80520890:j2dHeap
+
+// d_save.o
+8003742c:getRupeeMax
+8003944c:getSave
+8003947c:putSave
+
+// d_event.o
+80045914:defaultSkipStb
+80045b64:skipper
+
+// f_op_scene_req.o
+// data
+805209d4:freezeActors
+//l_fopScnRq_IsUsingOfOverlap
+80520930:isLoading
+
+// f_ap_game.o
+8001e79c:fapGm_Execute
+
+// f_op_actor_mng.o
+80021410:createItemForPresentDemo
+8002149c:createItemForTrBoxDemo
+80021968:createItemForBoss
+80021a28:createItemForMidBoss
+80021a74:createItemForDirectGet
+
+// d_map_path_dmap.o
+80042624:getMapPlayerPos
+
+// d_item.o
+800920c4:checkItemGet
+
+// d_a_alink.h
+800a98d0:setStickData
+800b2a54:checkHeavyStateOn
+8010e150:checkTreasureRupeeReturn
+80112420:procGanonFinishInit
+801124a4:procGanonFinish
+
+// data
+803d0028:ladderVars
+
+// d_menu_collect.o
+801979d8:setWalletMaxNum
+
+// JKRExpHeap.o
+802cd988:do_alloc_JKRExpHeap
+802ce014:do_free_JKRExpHeap
+
+// OSCache.o
+// 80346148:DCEnable
+// 8034615c:DCInvalidateRange
+80330b58:DCFlushRange
+// 803461b8:DCStoreRange
+// 803461e8:DCFlushRangeNoSync
+// 80346214:DCStoreRangeNoSync
+// 80346240:DCZeroRange
+80330c3c:ICInvalidateRange
+// 803462a0:ICFlashInvalidate
+// 803462b0:ICEnable
+// 803462c4:__LCEnable
+// 80346390:LCEnable
+// 803463c8:LCDisable
+// 803463f0:LCStoreBlocks
+// 80346414:LCStoreData
+// 803464b4:LCQueueWait
+// There is no L2GlobalInvalidate on Wii
+// 00000000:L2GlobalInvalidate
+// 803464c8:DMAErrorHandler
+// 80346610:__OSCacheInit
+
+// runtime.o
+803a8b54:_savefpr_14
+803a8b58:_savefpr_15
+803a8b5c:_savefpr_16
+803a8b60:_savefpr_17
+803a8b64:_savefpr_18
+803a8b68:_savefpr_19
+803a8b6c:_savefpr_20
+803a8b70:_savefpr_21
+803a8b74:_savefpr_22
+803a8b78:_savefpr_23
+803a8b7c:_savefpr_24
+803a8b80:_savefpr_25
+803a8b84:_savefpr_26
+803a8b88:_savefpr_27
+803a8b8c:_savefpr_28
+803a8b90:_savefpr_29
+803a8b94:_savefpr_30
+803a8b98:_savefpr_31
+803a8bec:_savegpr_14
+803a8bf0:_savegpr_15
+803a8bf4:_savegpr_16
+803a8bf8:_savegpr_17
+803a8bfc:_savegpr_18
+803a8c00:_savegpr_19
+803a8c04:_savegpr_20
+803a8c08:_savegpr_21
+803a8c0c:_savegpr_22
+803a8c10:_savegpr_23
+803a8c14:_savegpr_24
+803a8c18:_savegpr_25
+803a8c1c:_savegpr_26
+803a8c20:_savegpr_27
+803a8c24:_savegpr_28
+803a8c28:_savegpr_29
+803a8c2c:_savegpr_30
+803a8c30:_savegpr_31
+803a8ea8:__umoddi3
+
+// mem.o
+803ab470:memcmp
+
+// printf.o
+803add1c:sprintf
+803adc44:snprintf
+
+// string.o
+803ae05c:strcmp
+803adfec:strncpy
+803adf2c:strcpy
+
+// gx.a
+800073c4:GXPosition2f32
+80041040:GXPosition3f32
+80044b2c:GXPosition2f32
+80052bb0:GXPosition3f32
+80052bc4:GXNormal3f32
+80058344:GXPosition2f32
+80058354:GXTexCoord2f32
+80058364:GXPosition3f32
+8006cf0c:GXPosition3f32
+8011b3c8:GXPosition3f32
+8018c150:GxFogSet_Sub
+8018c3f4:GxXFog_set
+802620b8:GXPosition3f32
+802e7110:GXPosition3f32
+802f931c:GXPosition3f32
+802fc6b0:GXPosition3f32
+803002bc:GXPosition3f32
+80303b00:GXPosition3f32
+803449a0:GXInit
+803457b4:GXCPInterruptHandler
+80345914:GXInitFifoBase
+803459a0:GXInitFifoPtrs
+80345b00:GXSetCPUFifo
+80345ce0:GXSetGPFifo
+80346078:GXGetGPStatus
+803460c4:GXGetCPUFifo
+80346158:GXGetFifoBase
+80346160:GXGetFifoSize
+80346168:GXSetBreakPtCallback
+803463c8:GXSetCurrentGXThread
+80346414:GXGetCurrentGXThread
+8034641c:GXSetVtxDesc
+80346680:GXSetVtxDescv
+80346a68:GXClearVtxDesc
+80346a9c:GXSetVtxAttrFmt
+80346c3c:GXSetVtxAttrFmtv
+80346e80:GXSetArray
+80346ec0:GXInvalidateVtxCache
+80346ed0:GXSetTexCoordGen2
+803470f8:GXSetNumTexGens
+8034711c:GXSetMisc
+803471a8:GXFlush
+80347368:GXAbortFrame
+8034751c:GXSetDrawDone
+803475b4:GXDrawDone
+80347674:GXPixModeSync
+80347698:GXPokeAlphaMode
+803476a8:GXPokeAlphaRead
+803476c0:GXPokeAlphaUpdate
+803476d4:GXPokeBlendMode
+80347730:GXPokeColorUpdate
+80347744:GXPokeDstAlpha
+8034775c:GXPokeDither
+80347770:GXPokeZMode
+8034778c:GXPeekZ
+803477ac:GXSetDrawSyncCallback
+803477f0:GXTokenInterruptHandler
+80347874:GXSetDrawDoneCallback
+803478b8:GXFinishInterruptHandler
+80347c14:GXBegin
+80347e38:GXSetLineWidth
+80347e6c:GXSetPointSize
+80347ea0:GXEnableTexOffsets
+80347edc:GXSetCullMode
+80347f04:GXSetCoPlanar
+80347f38:GXSetDispCopySrc
+80347f78:GXSetTexCopySrc
+80347fb8:GXSetDispCopyDst
+80347fdc:GXSetTexCopyDst
+803480f8:GXSetDispCopyFrame2Field
+80348118:GXSetCopyClamp
+80348140:GXGetNumXfbLines
+803481cc:GXGetYScaleFactor
+803483fc:GXSetDispCopyYScale
+803484c8:GXSetCopyClear
+80348540:GXSetCopyFilter
+80348724:GXSetDispCopyGamma
+80348738:GXCopyDisp
+80348874:GXCopyTex
+803489cc:GXClearBoundingBox
+80348a04:GXInitLightAttn
+80348a20:GXInitLightSpot
+80348ba8:GXInitLightDistAttn
+80348c78:GXInitLightPos
+80348c88:GXInitLightDir
+80348ca4:GXInitLightColor
+80348cb0:GXLoadLightObjImm
+80348d2c:GXSetChanAmbColor
+80348e04:GXSetChanMatColor
+80348edc:GXSetNumChans
+80348f00:GXSetChanCtrl
+80348fa4:GXGetTexBufferSize
+80349188:GXInitTexObj
+80349394:GXInitTexObjCI
+803493dc:GXInitTexObjLOD
+803494e0:GXInitTexObjWrapMode
+803494f4:GXInitTexObjTlut
+803494fc:GXInitTexObjUserData
+80349504:GXGetTexObjUserData
+8034950c:GXGetTexObjWidth
+80349520:GXGetTexObjHeight
+80349534:GXGetTexObjFmt
+8034953c:GXGetTexObjWrapS
+80349548:GXGetTexObjWrapT
+80349554:GXGetTexObjMipMap
+80349560:GXGetTexObjTlut
+80349568:GXLoadTexObjPreLoaded
+803496cc:GXLoadTexObj
+80349720:GXInitTlutObj
+80349748:GXLoadTlut
+803497dc:GXInitTexCacheRegion
+80349890:GXInitTlutRegion
+803498b0:GXInvalidateTexAll
+803498f8:GXSetTexRegionCallback
+8034990c:GXSetTlutRegionCallback
+80349920:GXSetTexCoordScaleManually
+80349ee8:GXSetTevIndirect
+80349f50:GXSetIndTexMtx
+8034a0a4:GXSetIndTexCoordScale
+8034a1a8:GXSetIndTexOrder
+8034a274:GXSetNumIndStages
+8034a294:GXSetTevDirect
+8034a334:GXSetTevOp
+8034a3c8:GXSetTevColorIn
+8034a408:GXSetTevAlphaIn
+8034a448:GXSetTevColorOp
+8034a4a0:GXSetTevAlphaOp
+8034a4f8:GXSetTevColor
+8034a558:GXSetTevColorS10
+8034a5bc:GXSetTevKColor
+8034a618:GXSetTevKColorSel
+8034a668:GXSetTevKAlphaSel
+8034a6b8:GXSetTevSwapMode
+8034a6f4:GXSetTevSwapModeTable
+8034a770:GXSetAlphaCompare
+8034a7a8:GXSetZTexture
+8034a834:GXSetTevOrder
+8034a990:GXSetNumTevStages
+8034a9b4:GXSetFog
+8034abe0:GXSetFogRangeAdj
+8034ad04:GXSetBlendMode
+8034ad54:GXSetColorUpdate
+8034ad80:GXSetAlphaUpdate
+8034adac:GXSetZMode
+8034ade0:GXSetZCompLoc
+8034ae10:GXSetPixelFmt
+8034aeb8:GXSetDither
+8034aee4:GXSetDstAlpha
+8034af14:GXSetFieldMask
+8034af48:GXSetFieldMode
+8034afb8:GXCallDisplayList
+8034b02c:GXProject
+8034b1f8:GXSetProjection
+8034b25c:GXSetProjectionv
+8034b2a8:GXGetProjectionv
+8034b2e8:GXLoadPosMtxImm
+8034b338:GXLoadNrmMtxImm
+8034b390:GXSetCurrentMtx
+8034b3b0:GXLoadTexMtxImm
+8034b4f4:GXSetViewport
+8034b520:GXGetViewportv
+8034b540:GXSetScissor
+8034b5a8:GXGetScissor
+8034b5f0:GXSetScissorBoxOffset
+8034b62c:GXSetClipMode
+8034b6dc:GXSetGPMetric
+8034bf08:GXClearGPMetric
+8034bf18:GXReadXfRasMetric
+80425400:GXDefaultVATList
+804254d0:GXDefaultProjData
+804254f0:GXTexRegionAddrTable
+804255b0:GXShutdownFuncInfo
+804257b8:GXNtsc480IntDf
+804257f4:GXNtsc480Int
+80425830:GXMpal480IntDf
+8042586c:GXPal528IntDf
+804258a8:GXEurgb60Hz480IntDf
+805203a8:GXTexMode0Ids
+805203b0:GXTexMode1Ids
+805203b8:GXTexImage0Ids
+805203c0:GXTexImage1Ids
+805203c8:GXTexImage2Ids
+805203d0:GXTexImage3Ids
+805203d8:GXTexTlutIds
+805203e0:GX2HWFiltConv
+80521658:GXOverflowSuspendInProgress
+80793708:GXPosition3f32
+80799d0c:GXSetTexCoordGen
+80799d18:GXEnd
+80799d1c:GXPosition3s16
+80799d30:GXTexCoord2u16
+
+// math
+803b1f18:atan
+803b2158:ceil
+803b2298:copysign
+803b22c4:cos
+803b2398:floor
+803b24dc:frexp
+803b2564:ldexp
+803b26d0:sin
+803b27a8:tan
+803b2820:acos
+803b2824:asin
+803b2828:atan2
+803b282c:exp
+803b2830:fmod
+803b2834:pow
+8025c144:fastSqrt
+803b2a80:sqrt
+
+// m_Do_controller_pad.o
+// data
+80433068:cpadInfo
+80433168:m_pad
+
+// d_com_inf_game.o
+// data
+80479f30:dComIfG_gameInfo
+
+// d_kankyo.o
+// data
+804a0a54:env_light
+
+// JFWSystem.o
+// data
+80520eb8:systemConsole
+
+// JUTGamePad
+// data
+804a8fa0:mPadButton
+804a9060:mPadMStick
+804a90a0:mPadSStick
+
+// c_counter
+// data
+804a53e0:g_Counter
+
+// JUTConsoleManager
+802e5d7c:draw

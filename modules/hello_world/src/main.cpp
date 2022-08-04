@@ -23,6 +23,8 @@ namespace mod
         return;
     }
 
+    void exit() {}
+
     void procNewFrame()
     {
         // This runs BEFORE the original (hooked) function (fapGm_Execute)

@@ -3,6 +3,9 @@ file(GLOB_RECURSE TPGZ_TP_REL_ASMFILES "${CMAKE_SOURCE_DIR}/external/libtp_rel/s
 file(GLOB_RECURSE TPGZ_TP_REL_LDFILES "${CMAKE_SOURCE_DIR}/external/libtp_rel/source/*.ld")
 
 include_directories("${CMAKE_SOURCE_DIR}/external/libtp_rel/include")
-add_definitions(-D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="<unk>")
 
-add_library(tp_rel STATIC "${TPGZ_TP_REL_CPPFILES}" "${TPGZ_TP_REL_ASMFILES}")
+add_library(tp_rel STATIC)
+target_sources(tp_rel
+    PUBLIC ${TPGZ_TP_REL_CPPFILES}
+    PUBLIC ${TPGZ_TP_REL_ASMFILES})
+set_property(TARGET tp_rel APPEND PROPERTY COMPILE_OPTIONS "-Wl,-Map,tp_rel.map")
