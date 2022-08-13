@@ -1,2 +1,5 @@
-file(GLOB_RECURSE tpgz_hello_world_srcs "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-tpgz_add_module(hello_world "${tpgz_hello_world_srcs}" "${CMAKE_CURRENT_SOURCE_DIR}/include")
+file(GLOB_RECURSE srcs CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE asms CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.s")
+list(APPEND srcs ${asms})
+get_filename_component(rel_name ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+tpgz_add_module(${rel_name} "${srcs}" "${CMAKE_CURRENT_SOURCE_DIR}/include")

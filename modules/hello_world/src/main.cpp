@@ -1,6 +1,9 @@
 #include <main.h>
 #include "libtp_c/include/patch.h"
-#include "libtp_c/include/addrs.h"
+
+extern "C" {
+void fapGm_Execute();
+}
 
 namespace mod
 {
@@ -18,8 +21,8 @@ namespace mod
         // have hello world at the top
 
         // Hook the function that runs each frame
-        
-        return_fapGm_Execute = hookFunction( *(void(*)())tp_fapGm_Execute_addr, storage, procNewFrame );
+
+        return_fapGm_Execute = hookFunction( *(void(*)())&fapGm_Execute, storage, procNewFrame );
         return;
     }
 

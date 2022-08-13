@@ -11,6 +11,9 @@
 	"extensions": [
 		"ms-vscode.cpptools-extension-pack",
 		"ms-vscode.makefile-tools",
+		"ms-vscode.hexeditor",
+		"twxs.cmake",
+		"bungcip.better-toml",
 		"mhutchie.git-graph"
 	],
 

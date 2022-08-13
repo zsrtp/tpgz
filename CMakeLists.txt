@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 
 # Check if the platform is valid
 if(NOT DEFINED PLATFORM)
@@ -53,6 +53,7 @@ link_directories(${DEVKITPRO_LIBOGC_LIB})
 
 include(cmake/patcher.cmake)
 include(cmake/elf2rel.cmake)
+include(cmake/relmapper.cmake)
 include(cmake/fonts.cmake)
 
 project(TPGZ
@@ -66,33 +67,49 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set compiler stuff
 include_directories(include external)
-#set(CMAKE_CXX_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP} -D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} ${RUN_PR_TEST}")
 add_definitions(-D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DPLATFORM_${PLATFORM} -DGZ_VERSION=${CMAKE_PROJECT_VERSION} -D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="${CMAKE_PROJECT_VERSION}" ${RUN_PR_TEST})
+add_compile_options(-fdiagnostics-color=always)
 
 include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
-include(cmake/tp_rel.cmake)
 include(cmake/${PLATFORM}_${REGION}.cmake)
+
+# Load the REL Loader code and parse it
+file(READ "res/bin/${PLATFORM}_${REGION}.bin" TPGZ_LOADER_BIN HEX)
+string(REGEX REPLACE "([0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F])" "u32 0x\\1\n" TPGZ_CFG_LOADER_BIN ${TPGZ_LOADER_BIN})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_DIR}/patch.asm)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RomHack.toml.in ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 add_subdirectory(src)
 add_subdirectory(modules)
 
 add_library(tpgz STATIC "${CPPFILES}")
-add_dependencies(tpgz tp_c gcn_c) #tp_rel
-set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -O2 -Wall ${DEVKITPRO_MACHDEP}")
+add_dependencies(tpgz tp_c gcn_c modules)
+set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++17 -Wall ${DEVKITPRO_MACHDEP}")
+
+get_target_property(TPGZ_MODULES modules TPGZ_MODULES)
+foreach(module ${TPGZ_MODULES})
+    add_dependencies(tpgz ${module}_rel)
+endforeach()
+
+set(TPGZ_RELS ${TPGZ_MODULES})
+list(TRANSFORM TPGZ_RELS REPLACE "(.+)" "\\1_rel")
+
+foreach(rel_tgt ${TPGZ_RELS})
+    get_target_property(rel_tgt_file ${rel_tgt} TPGZ_MODULE_FILE)
+    list(APPEND TPGZ_REL_FILES ${rel_tgt_file})
+endforeach()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
-    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso 
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso  ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw)
 
 string(REPLACE ".iso" ".patch" TPGZ_CFG_BLD_PATCH ${TPGZ_CFG_BLD_ISO})
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
-    DEPENDS tpgz ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
     COMMAND ${TPGZ_PATCHER_EXE} build --raw --patch)
 
 add_custom_target(iso

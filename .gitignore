@@ -6,7 +6,6 @@
 regional-patch.asm
 build*/
 isos/
-bin/
 .vscode/*.log
 .vscode/settings.json
 external/fonts/target

@@ -3,7 +3,8 @@
         {
             "name": "GC US",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/external/**"
             ],
             "defines": [
                 "GCN_PLATFORM",
@@ -12,7 +13,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
+            "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -24,7 +25,7 @@
             "compilerArgs": [
                 "-g",
                 "-c",
-                "-O2",
+                "-Os",
                 "-Wall",
                 "-DGEKKO",
                 "-mrvl",
@@ -36,7 +37,8 @@
         {
             "name": "GC PAL",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/external/**"
             ],
             "defines": [
                 "GCN_PLATFORM",
@@ -45,7 +47,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
+            "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -57,7 +59,7 @@
             "compilerArgs": [
                 "-g",
                 "-c",
-                "-O2",
+                "-Os",
                 "-Wall",
                 "-DGEKKO",
                 "-mrvl",
@@ -69,7 +71,8 @@
         {
             "name": "GC JP",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/external/**"
             ],
             "defines": [
                 "GCN_PLATFORM",
@@ -78,7 +81,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++14",
+            "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -90,7 +93,7 @@
             "compilerArgs": [
                 "-g",
                 "-c",
-                "-O2",
+                "-Os",
                 "-Wall",
                 "-DGEKKO",
                 "-mrvl",
@@ -102,7 +105,8 @@
         {
             "name": "Wii US 1.0",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/external/**"
             ],
             "defines": [
                 "WII_PLATFORM",
@@ -110,8 +114,8 @@
                 "WII_NTSCU_10"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
-            "cStandard": "c17",
-            "cppStandard": "c++14",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -123,7 +127,7 @@
             "compilerArgs": [
                 "-g",
                 "-c",
-                "-O2",
+                "-Os",
                 "-Wall",
                 "-DGEKKO",
                 "-mrvl",
@@ -135,7 +139,8 @@
         {
             "name": "Wii PAL",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/external/**"
             ],
             "defines": [
                 "WII_PLATFORM",
@@ -143,8 +148,8 @@
                 "WII_PAL"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
-            "cStandard": "c17",
-            "cppStandard": "c++14",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -156,7 +161,7 @@
             "compilerArgs": [
                 "-g",
                 "-c",
-                "-O2",
+                "-Os",
                 "-Wall",
                 "-DGEKKO",
                 "-mrvl",

@@ -1,16 +1,8 @@
-; Resize ArenaLo so the hack can be inserted without the game overwriting it
-@TPGZ_CFG_ARENALO@:
-u32 @TPGZ_CFG_ARENALO_VAL@
-u32 0x38637FFF
+@TPGZ_CFG_LOADER_ADDR@:
+@TPGZ_CFG_LOADER_BIN@
 
-; This will hook the main() function
-@TPGZ_CFG_MAIN@:
-b apply_lib_hooks
-
-; This is an unused section of the dol that we use to store the trampoline for the main function.
-@TPGZ_CFG_MAIN_TRAMPOLINE@:
-u32 @TPGZ_CFG_FIRST_INSTRUCTION@ ; stwu r1,-0x10(r1)  ; First instruction from original main()
-u32 @TPGZ_CFG_RETURN_TO_MAIN@ ; b main() + 4       ; branch to second instruction of main()
+@TPGZ_CFG_LOADER_JMP_ADDR@:
+u32 @TPGZ_CFG_LOADER_JMP@
 
 ; Patch the setWaterDropEffect function to allow for custom tunic colors
 @TPGZ_CFG_SET_WATER_DROP_EFFECT1@:
@@ -19,10 +11,6 @@ u32 0x60000000
 u32 0x60000000
 @TPGZ_CFG_SET_WATER_DROP_EFFECT3@:
 u32 0x60000000
-
-; Temporary fix for a save loader bug
-; @TPGZ_CFG_WATER_DROP_COLOR@:
-; u32 0x60000000
 
 ; Enable debug crash screen
 @TPGZ_CFG_DEBUG@:

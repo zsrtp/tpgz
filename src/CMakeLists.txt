@@ -2,6 +2,6 @@
 # manually instead of automatically searching for it (as mentioned in the note
 # of the "Filesystem" section of
 # https://cmake.org/cmake/help/latest/command/file.html#filesystem)
-file(GLOB_RECURSE CPPFILES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB_RECURSE CPPFILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 set(CPPFILES ${CPPFILES} PARENT_SCOPE)

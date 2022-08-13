@@ -4,6 +4,3 @@
 [submodule "external/gcn_c"]
 	path = external/gcn_c
 	url = https://github.com/zsrtp/gcn_c.git
-[submodule "external/libtp_rel"]
-	path = external/libtp_rel
-	url = https://github.com/zsrtp/libtp_rel

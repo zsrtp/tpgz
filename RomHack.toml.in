@@ -16,7 +16,7 @@ iso = "@TPGZ_CFG_BLD_ISO@"
 [link]
 entries = ["apply_lib_hooks"]
 base = "@TPGZ_CFG_LINK_BASE@"
-libs = ["libtpgz.a", "libtp_c.a", "libgcn_c.a"]
+libs = ["libtpgz.a"]
 
 [files]
 # textures
@@ -47,3 +47,6 @@ libs = ["libtpgz.a", "libtp_c.a", "libgcn_c.a"]
 
 # warp info
 "tpgz/stage_info" = "../res/stage_info"
+
+# REL modules
+"tpgz/rels" = "modules/rels"
