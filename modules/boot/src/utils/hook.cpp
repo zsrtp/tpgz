@@ -3,7 +3,7 @@
 #include "controller.h"
 #include "lib.h"
 #include "libtp_c/include/addrs.h"
-#include "libtp_c/include/patch.h"
+#include "rels/include/patch.h"
 #include "flaglog.h"
 #include "fifo_queue.h"
 #include "libtp_c/include/msl_c/string.h"
@@ -196,7 +196,7 @@ extern "C" {
 
 void applyHooks() {
 #define APPLY_HOOK(name, addr, func)                                                          \
-    name##Trampoline = hookFunction((tp_##name##_t)addr, new (-4, CODE_HEAP) uint32_t[2], func)
+    name##Trampoline = hookFunction((tp_##name##_t)addr, func)
     //APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
     APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, gameLoopHook);
     APPLY_HOOK(draw, tp_draw_console_addr, drawHook);

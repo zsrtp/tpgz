@@ -129,6 +129,10 @@
 // d_menu_collect.o
 801971e4:setWalletMaxNum
 
+// JKRHeap.o
+802e2b40:__nw_JKRHeap
+802e2b74:__dl_JKRHeap
+
 // JKRExpHeap.o
 802e2fb8:do_alloc_JKRExpHeap
 802e3644:do_free_JKRExpHeap

@@ -134,7 +134,8 @@
 801b070c:dMenuCollect_screenSet
 
 // JKRHeap.o
-802D11D8:__dl_JKRHeap
+802d1134:__nw_JKRHeap
+802d11d8:__dl_JKRHeap
 
 // JKRExpHeap.o
 802D15C4:do_alloc_JKRExpHeap

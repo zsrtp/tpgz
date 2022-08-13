@@ -17,16 +17,20 @@ enum HeapID : int32_t
     HEAP_DBPRINT,
     HEAP_GAME,
     HEAP_ZELDA,
+
+#ifdef PLATFORM_WII
+    // Cannot properly allocate from the command heap on GC
     HEAP_COMMAND,
+#endif
+
     HEAP_ARCHIVE,
     HEAP_J2D,
 
-#ifndef WII_PLATFORM
+#ifndef PLATFORM_WII
     HEAP_HOST_IO,
 #else
     HEAP_DYNAMIC_LINK,
 #endif
-
 };
 
 void* operator new( std::size_t size );
@@ -39,6 +43,5 @@ void operator delete( void* ptr );
 void operator delete[]( void* ptr );
 void operator delete( void* ptr, std::size_t size );
 void operator delete[]( void* ptr, std::size_t size );
-void freeFromHeap( int32_t id, void* ptr );
 
 #endif     // LIBTP_CXX_H

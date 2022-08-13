@@ -26,6 +26,5 @@ namespace mod
 
     // "trampoline/return" function to the original function that we hook in order to proc our NewFrame function
     void (*return_fapGm_Execute)() = nullptr;
-    uint32_t storage[2];
 
 }  // namespace mod

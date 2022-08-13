@@ -1,5 +1,5 @@
 #include <main.h>
-#include "libtp_c/include/patch.h"
+#include "rels/include/patch.h"
 
 extern "C" {
 void fapGm_Execute();
@@ -22,11 +22,13 @@ namespace mod
 
         // Hook the function that runs each frame
 
-        return_fapGm_Execute = hookFunction( *(void(*)())&fapGm_Execute, storage, procNewFrame );
+        return_fapGm_Execute = hookFunction( *(void(*)())&fapGm_Execute, procNewFrame );
         return;
     }
 
-    void exit() {}
+    void exit() {
+        delete[] (uint32_t*)return_fapGm_Execute;
+    }
 
     void procNewFrame()
     {

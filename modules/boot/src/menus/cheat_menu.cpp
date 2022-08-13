@@ -1,7 +1,7 @@
 #include "cheats.h"
 #include "commands.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "libtp_c/include/patch.h"
+#include "rels/include/patch.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/cheats_menu.h"
 #include "gz_flags.h"
