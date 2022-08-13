@@ -23,6 +23,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "rels/include/cxx.h"
 
 _FIFOQueue Queue;
 bool l_loadCard = true;
@@ -62,7 +63,7 @@ void init() {
     }
     GZ_patchLinkColor();
 #ifdef WII_PLATFORM
-    g_tmpBuf = tp_memalign(-0x200, 0x4000);
+    g_tmpBuf = new (-0x200) uint8_t[0x4000];
 #endif
 }
 
