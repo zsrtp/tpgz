@@ -86,21 +86,21 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 add_subdirectory(src)
 add_subdirectory(modules)
 
-add_library(tpgz STATIC "${CPPFILES}")
-add_dependencies(tpgz tp_c gcn_c modules)
-set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++17 -Wall ${DEVKITPRO_MACHDEP}")
-
-get_target_property(TPGZ_MODULES modules TPGZ_MODULES)
-foreach(module ${TPGZ_MODULES})
-    add_dependencies(tpgz ${module}_rel)
-endforeach()
-
 set(TPGZ_RELS ${TPGZ_MODULES})
 list(TRANSFORM TPGZ_RELS REPLACE "(.+)" "\\1_rel")
 
 foreach(rel_tgt ${TPGZ_RELS})
     get_target_property(rel_tgt_file ${rel_tgt} TPGZ_MODULE_FILE)
     list(APPEND TPGZ_REL_FILES ${rel_tgt_file})
+endforeach()
+
+add_library(tpgz STATIC "${CPPFILES}")
+add_dependencies(tpgz tp_c gcn_c modules ${TPGZ_REL_FILES})
+set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++17 -Wall ${DEVKITPRO_MACHDEP}")
+
+get_target_property(TPGZ_MODULES modules TPGZ_MODULES)
+foreach(module ${TPGZ_MODULES})
+    add_dependencies(tpgz ${module}_rel)
 endforeach()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
