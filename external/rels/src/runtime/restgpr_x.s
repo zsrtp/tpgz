@@ -17,6 +17,25 @@
 .global _restgpr_30_x
 .global _restgpr_31_x
 
+.hidden _restgpr_14_x
+.hidden _restgpr_15_x
+.hidden _restgpr_16_x
+.hidden _restgpr_17_x
+.hidden _restgpr_18_x
+.hidden _restgpr_19_x
+.hidden _restgpr_20_x
+.hidden _restgpr_21_x
+.hidden _restgpr_22_x
+.hidden _restgpr_23_x
+.hidden _restgpr_24_x
+.hidden _restgpr_25_x
+.hidden _restgpr_26_x
+.hidden _restgpr_27_x
+.hidden _restgpr_28_x
+.hidden _restgpr_29_x
+.hidden _restgpr_30_x
+.hidden _restgpr_31_x
+
 _restgpr_14_x: lwz %r14,-0x48(%r11)
 _restgpr_15_x: lwz %r15,-0x44(%r11)
 _restgpr_16_x: lwz %r16,-0x40(%r11)

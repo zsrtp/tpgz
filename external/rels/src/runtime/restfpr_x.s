@@ -17,6 +17,25 @@
 .global _restfpr_30_x
 .global _restfpr_31_x
 
+.hidden _restfpr_14_x
+.hidden _restfpr_15_x
+.hidden _restfpr_16_x
+.hidden _restfpr_17_x
+.hidden _restfpr_18_x
+.hidden _restfpr_19_x
+.hidden _restfpr_20_x
+.hidden _restfpr_21_x
+.hidden _restfpr_22_x
+.hidden _restfpr_23_x
+.hidden _restfpr_24_x
+.hidden _restfpr_25_x
+.hidden _restfpr_26_x
+.hidden _restfpr_27_x
+.hidden _restfpr_28_x
+.hidden _restfpr_29_x
+.hidden _restfpr_30_x
+.hidden _restfpr_31_x
+
 _restfpr_14_x: lfd %f14,-0x90(%r11)
 _restfpr_15_x: lfd %f15,-0x88(%r11)
 _restfpr_16_x: lfd %f16,-0x80(%r11)

@@ -6,7 +6,7 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
 #endif
-#include "lib.h"
+#include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/practice_menu.h"

@@ -30,7 +30,7 @@ function(tpgz_add_main_module module_name module_srcs)
     target_sources(${module_name}
         PUBLIC ${module_srcs} ${TPGZ_EXTERNAL_REL_SRC})
     target_link_libraries(${module_name} tp_c gcn_c)
-    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map)
+    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported)
     set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/external/rels/src/cxx.ld)
 
     if(module_inc_paths)
@@ -79,7 +79,7 @@ function(tpgz_add_module module_name module_srcs)
     target_sources(${module_name}
         PUBLIC ${module_srcs} ${TPGZ_EXTERNAL_REL_SRC})
     target_link_libraries(${module_name})
-    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map)
+    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported)
     set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/external/rels/src/cxx.ld)
 
     target_include_directories(${module_name} PUBLIC ${TPGZ_MAIN_MODULE_INC})

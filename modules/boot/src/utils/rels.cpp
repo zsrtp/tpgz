@@ -220,7 +220,7 @@ GZModule loadRelFileFixed(const char* file, bool negativeAlignment) {
     // Call the REL's prolog functon
     reinterpret_cast<void (*)()>(relFile->prologFuncOffset)();
 
-    return {relFile, bssArea, fixSize + bssSize};
+    return {relFile, nullptr, fixSize + bssSize};
 }
 
 GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking) {
@@ -323,7 +323,8 @@ GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking
 
     if (fixedLinking) {
         // Resize the allocated memory to remove the space used by the unnecessary relocation data
-        uint32_t fixedSize = relFile->fixSize + (uintptr_t)relFile;
+        // When linking with OSLinkFixed, relFile->fixSize becomes an address.
+        uint32_t fixedSize = relFile->fixSize - (uint32_t)relFile;
         resize1_JKRHeap(relFile, fixedSize, nullptr);
         length = fixedSize;
     }
