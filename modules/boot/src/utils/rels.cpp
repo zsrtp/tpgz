@@ -322,8 +322,8 @@ GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking
     OSRestoreInterrupts(enable);
 
     if (fixedLinking) {
-        // Resize the allocated memory to remove the space used by the unnecessary relocation data
-        // When linking with OSLinkFixed, relFile->fixSize becomes an address.
+        // Resize the allocated memory to remove the space used by the unnecessary relocation data.
+        // relFile->fixSize becomes a pointer.
         uint32_t fixedSize = relFile->fixSize - (uint32_t)relFile;
         resize1_JKRHeap(relFile, fixedSize, nullptr);
         length = fixedSize;
