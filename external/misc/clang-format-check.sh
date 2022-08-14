@@ -1,6 +1,6 @@
 #!/bin/bash
 
-clangFormatTargets=$(find . -type f ! -path './external/*'  -type f -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)')
+clangFormatTargets=$(find . -type f \( ! -path './external/*' -or -path './external/rels/*' \) ! -path './build*'  -type f -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx|c\)')
 
 for inputFile in $clangFormatTargets
 do
