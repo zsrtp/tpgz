@@ -17,6 +17,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     Line lines[8];
     uint8_t l_arrowNum;

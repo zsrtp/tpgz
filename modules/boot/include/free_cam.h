@@ -12,5 +12,5 @@ extern bool g_freeCamEnabled;
 #endif
 
 namespace FreeCam {
-    void execute();
+void execute();
 }  // namespace FreeCam

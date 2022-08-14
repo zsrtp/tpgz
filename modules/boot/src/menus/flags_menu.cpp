@@ -3,13 +3,14 @@
 
 bool g_flagLogEnabled;
 
-FlagsMenu::FlagsMenu() : Menu(), lines{
-    {"general flags", GENERAL_FLAGS_INDEX, "General flags", false},
-    {"dungeon flags", DUNGEON_FLAGS_INDEX, "Dungeon flags", false},
-    {"portal flags", PORTAL_FLAGS_INDEX, "Warp portal flags", false},
-    {"flag records", FLAG_RECORDS_INDEX, "Edit flag records", false},
-    {"flag log", FLAG_LOG_INDEX, "Toggle the flag log", false},
-} {}
+FlagsMenu::FlagsMenu()
+    : Menu(), lines{
+                  {"general flags", GENERAL_FLAGS_INDEX, "General flags", false},
+                  {"dungeon flags", DUNGEON_FLAGS_INDEX, "Dungeon flags", false},
+                  {"portal flags", PORTAL_FLAGS_INDEX, "Warp portal flags", false},
+                  {"flag records", FLAG_RECORDS_INDEX, "Edit flag records", false},
+                  {"flag log", FLAG_LOG_INDEX, "Toggle the flag log", false},
+              } {}
 
 void FlagsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {

@@ -16,6 +16,7 @@ public:
     void fixSpecialItems(int i);
 
     Cursor cursor;
+
 private:
     int l_listIdx;
 

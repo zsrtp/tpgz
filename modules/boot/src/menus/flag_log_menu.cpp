@@ -2,8 +2,8 @@
 #include "flaglog.h"
 #include "gz_flags.h"
 
-FlagLogMenu::FlagLogMenu() : Menu(),
-    lines{{"log activated", 0, "toggle flag logger on/off", true, &g_flagLogEnabled}} {}
+FlagLogMenu::FlagLogMenu()
+    : Menu(), lines{{"log activated", 0, "toggle flag logger on/off", true, &g_flagLogEnabled}} {}
 
 void FlagLogMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {

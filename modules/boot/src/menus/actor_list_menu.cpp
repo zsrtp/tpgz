@@ -19,10 +19,11 @@
 #define CONTROL_TEXT "C"
 #endif
 
-ActorListMenu::ActorListMenu() : Menu(), lines{
-    {"index:", ACTOR_ID_INDEX, "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)",
-     false},
-} {}
+ActorListMenu::ActorListMenu()
+    : Menu(), lines{
+                  {"index:", ACTOR_ID_INDEX,
+                   "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)", false},
+              } {}
 
 void ActorListMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);

@@ -5,6 +5,7 @@ public:
     MemoryEditorMenu();
     virtual void draw();
     static uint32_t mAddressIndex;
+
 private:
     void drawMemEditor();
 

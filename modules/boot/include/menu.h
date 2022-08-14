@@ -58,7 +58,7 @@ bool GZ_checkReturnMenu();
 void GZ_returnMenu();
 void GZ_setReturnMenu(int menu_idx);
 
-#define LIST_COUNT(list) (sizeof(list)/sizeof((list)[0]))
+#define LIST_COUNT(list) (sizeof(list) / sizeof((list)[0]))
 #define MENU_LINE_NUM LIST_COUNT(lines)
 
 class Menu {

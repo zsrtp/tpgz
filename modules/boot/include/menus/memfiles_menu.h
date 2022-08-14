@@ -25,7 +25,7 @@ public:
     static void setLinkPosition();
 
     Cursor cursor;
-private:
 
+private:
     Line lines[4];
 };

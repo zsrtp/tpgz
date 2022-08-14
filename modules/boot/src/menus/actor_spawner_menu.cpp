@@ -25,13 +25,15 @@
 #define CONTROL_TEXT "1/2"
 #endif
 
-ActorSpawnMenu::ActorSpawnMenu(): Menu(), l_actorType(-1), lines{
-    {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
-    {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
-    {"actor subtype:", ACTOR_SUBTYPE_INDEX,
-     "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
-    {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
-} {}
+ActorSpawnMenu::ActorSpawnMenu()
+    : Menu(), l_actorType(-1),
+      lines{
+          {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
+          {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
+          {"actor subtype:", ACTOR_SUBTYPE_INDEX,
+           "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
+          {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
+      } {}
 
 void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
     fopAcM_create(id, parameters, &dComIfGp_getPlayer()->mCurrent.mPosition,

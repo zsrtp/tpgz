@@ -15,15 +15,15 @@
 #define ROOM_OFFSET 64
 #define DEFAULT_LAYER 0xFF
 
-WarpingMenu::WarpingMenu() : Menu(), lines{
-    {"type:", WARP_TYPE_INDEX, "The type of stage", false},
-    {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
-    {"room:", WARP_ROOM_INDEX, "Current room name", false},
-    {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
-    {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
-    {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location", false}
-} {}
+WarpingMenu::WarpingMenu()
+    : Menu(), lines{{"type:", WARP_TYPE_INDEX, "The type of stage", false},
+                    {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
+                    {"room:", WARP_ROOM_INDEX, "Current room name", false},
+                    {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
+                    {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
+                    {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
+                    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location",
+                     false}} {}
 
 uint8_t l_warpLayer = 0xFF;
 bool l_dataLoaded = false;

@@ -1,11 +1,12 @@
 #include "menus/practice_menu.h"
 #include "gz_flags.h"
 
-PracticeMenu::PracticeMenu() : Menu(), lines{
-    {"any%", ANY_INDEX, "Any% practice saves", false},
-    {"100%", HUNDO_INDEX, "100% practice saves", false},
-    {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
-} {}
+PracticeMenu::PracticeMenu()
+    : Menu(), lines{
+                  {"any%", ANY_INDEX, "Any% practice saves", false},
+                  {"100%", HUNDO_INDEX, "100% practice saves", false},
+                  {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
+              } {}
 
 char last_category[5];
 int last_save_index;

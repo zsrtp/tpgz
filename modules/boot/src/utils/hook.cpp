@@ -185,7 +185,7 @@ void putSaveHook(void* addr, int stageNo) {
 }
 
 extern "C" {
-    uint32_t PADRead(uint16_t*);
+uint32_t PADRead(uint16_t*);
 }
 
 #ifdef WII_PLATFORM
@@ -195,18 +195,14 @@ extern "C" {
 #endif
 
 void applyHooks() {
-#define APPLY_HOOK(name, addr, func)                                                          \
-    name##Trampoline = hookFunction((tp_##name##_t)addr, func)
-    //APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
+#define APPLY_HOOK(name, addr, func) name##Trampoline = hookFunction((tp_##name##_t)addr, func)
+    // APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
     APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, gameLoopHook);
     APPLY_HOOK(draw, tp_draw_console_addr, drawHook);
     APPLY_HOOK(PADRead, (&PADRead), readControllerHook);
-    APPLY_HOOK(checkHookshotStickBG, tp_clawshot_checkbg_addr,
-               superClawshotHook);
-    APPLY_HOOK(setSpecialGravity, tp_setSpecialGravity_addr,
-               disableGravityHook);
-    APPLY_HOOK(checkCastleTownUseItem, tp_checkCastleTownUseItem_addr,
-               unrestrictedItemsHook);
+    APPLY_HOOK(checkHookshotStickBG, tp_clawshot_checkbg_addr, superClawshotHook);
+    APPLY_HOOK(setSpecialGravity, tp_setSpecialGravity_addr, disableGravityHook);
+    APPLY_HOOK(checkCastleTownUseItem, tp_checkCastleTownUseItem_addr, unrestrictedItemsHook);
     APPLY_HOOK(query042, tp_query042_addr, transformAnywhereHook);
 
     APPLY_HOOK(onSwitch, dSv_info_c__onSwitch_addr, onSwitchHook);
@@ -214,8 +210,7 @@ void applyHooks() {
     APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, offEventBitHook);
     APPLY_HOOK(putSave, tp_putSave_addr, putSaveHook);
 #ifdef PR_TEST
-    APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr,
-               myExceptionCallbackHook);
+    APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr, myExceptionCallbackHook);
 #endif
 
 #undef APPLY_HOOK

@@ -26,6 +26,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     uint8_t l_ordonSword_idx;
     uint8_t l_masterSword_idx;

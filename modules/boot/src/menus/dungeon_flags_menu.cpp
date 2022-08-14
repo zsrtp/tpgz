@@ -5,18 +5,23 @@
 
 #define MAX_DUNGEON_OPTIONS 9
 
-DungeonFlagsMenu::DungeonFlagsMenu() : Menu(), lines{
-    {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
-     MAX_DUNGEON_OPTIONS},
-    {"small keys", SMALL_KEY_FLAG_INDEX, "Selected dungeon small keys", false, nullptr, 5},
-    {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, &l_mapFlag},
-    {"have compass", COMPASS_FLAG_INDEX, "Give selected dungeon compass", true, &l_compassFlag},
-    {"have boss key", BOSS_KEY_FLAG_INDEX, "Give selected dungeon boss key", true, &l_bosskeyFlag},
-    {"miniboss dead", DEFEAT_MINIBOSS_FLAG_INDEX, "Selected dungeon miniboss is defeated", true,
-     &l_minibossFlag},
-    {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true, &l_bossFlag},
-    {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"},
-} {}
+DungeonFlagsMenu::DungeonFlagsMenu()
+    : Menu(), lines{
+                  {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
+                   MAX_DUNGEON_OPTIONS},
+                  {"small keys", SMALL_KEY_FLAG_INDEX, "Selected dungeon small keys", false,
+                   nullptr, 5},
+                  {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, &l_mapFlag},
+                  {"have compass", COMPASS_FLAG_INDEX, "Give selected dungeon compass", true,
+                   &l_compassFlag},
+                  {"have boss key", BOSS_KEY_FLAG_INDEX, "Give selected dungeon boss key", true,
+                   &l_bosskeyFlag},
+                  {"miniboss dead", DEFEAT_MINIBOSS_FLAG_INDEX,
+                   "Selected dungeon miniboss is defeated", true, &l_minibossFlag},
+                  {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true,
+                   &l_bossFlag},
+                  {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"},
+              } {}
 
 bool getSaveDungeonItem(int32_t stage, int32_t flag) {
     return dSv_memBit_c__isDungeonItem(&dComIfGs_getSavedata().mSave[stage].mBit, flag);

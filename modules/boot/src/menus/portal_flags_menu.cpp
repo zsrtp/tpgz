@@ -4,25 +4,29 @@
 
 #define MAX_REGION_OPTIONS 6
 
-PortalFlagsMenu::PortalFlagsMenu() : Menu(), lines{
-    {"region:", SELECT_REGION_INDEX, "Select region flag", false, nullptr, MAX_REGION_OPTIONS},
-    {"region unlocked", REGION_FLAG_INDEX, "Unlock selected map region", true, &l_mapRegion},
-    {"ordon spring", SPRING_WARP_INDEX, "Ordon Spring warp portal", true, &l_springWarp},
-    {"south faron", S_FARON_WARP_INDEX, "South Faron warp portal", true, &l_sfaronWarp},
-    {"north faron", N_FARON_WARP_INDEX, "North Faron warp portal", true, &l_nfaronWarp},
-    {"sacred grove", GROVE_WARP_INDEX, "Sacred Grove warp portal", true, &l_groveWarp},
-    {"eldin gorge", GORGE_WARP_INDEX, "Eldin Gorge warp portal", true, &l_gorgeWarp},
-    {"kak village", KAKARIKO_WARP_INDEX, "Kakariko Village warp portal", true, &l_kakWarp},
-    {"death mountain", MOUNTAIN_WARP_INDEX, "Death Mountain warp portal", true, &l_mountainWarp},
-    {"eldin bridge", BRIDGE_WARP_INDEX, "Bridge of Eldin warp portal", true, &l_bridgeWarp},
-    {"castle town", TOWN_WARP_INDEX, "Castle Town warp portal", true, &l_ctWarp},
-    {"lake hylia", LAKE_WARP_INDEX, "Lake Hylia warp portal", true, &l_lakeWarp},
-    {"zora's domain", DOMAIN_WARP_INDEX, "Zora's Domain warp portal", true, &l_domainWarp},
-    {"upper river", UZR_WARP_INDEX, "Upper Zora's River warp portal", true, &l_uzrWarp},
-    {"snowpeak", SNOWPEAK_WARP_INDEX, "Snowpeak warp portal", true, &l_snowpeakWarp},
-    {"gerudo mesa", MESA_WARP_INDEX, "Gerudo Mesa warp portal", true, &l_mesaWarp},
-    {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, &l_mirrorWarp},
-} {}
+PortalFlagsMenu::PortalFlagsMenu()
+    : Menu(),
+      lines{
+          {"region:", SELECT_REGION_INDEX, "Select region flag", false, nullptr,
+           MAX_REGION_OPTIONS},
+          {"region unlocked", REGION_FLAG_INDEX, "Unlock selected map region", true, &l_mapRegion},
+          {"ordon spring", SPRING_WARP_INDEX, "Ordon Spring warp portal", true, &l_springWarp},
+          {"south faron", S_FARON_WARP_INDEX, "South Faron warp portal", true, &l_sfaronWarp},
+          {"north faron", N_FARON_WARP_INDEX, "North Faron warp portal", true, &l_nfaronWarp},
+          {"sacred grove", GROVE_WARP_INDEX, "Sacred Grove warp portal", true, &l_groveWarp},
+          {"eldin gorge", GORGE_WARP_INDEX, "Eldin Gorge warp portal", true, &l_gorgeWarp},
+          {"kak village", KAKARIKO_WARP_INDEX, "Kakariko Village warp portal", true, &l_kakWarp},
+          {"death mountain", MOUNTAIN_WARP_INDEX, "Death Mountain warp portal", true,
+           &l_mountainWarp},
+          {"eldin bridge", BRIDGE_WARP_INDEX, "Bridge of Eldin warp portal", true, &l_bridgeWarp},
+          {"castle town", TOWN_WARP_INDEX, "Castle Town warp portal", true, &l_ctWarp},
+          {"lake hylia", LAKE_WARP_INDEX, "Lake Hylia warp portal", true, &l_lakeWarp},
+          {"zora's domain", DOMAIN_WARP_INDEX, "Zora's Domain warp portal", true, &l_domainWarp},
+          {"upper river", UZR_WARP_INDEX, "Upper Zora's River warp portal", true, &l_uzrWarp},
+          {"snowpeak", SNOWPEAK_WARP_INDEX, "Snowpeak warp portal", true, &l_snowpeakWarp},
+          {"gerudo mesa", MESA_WARP_INDEX, "Gerudo Mesa warp portal", true, &l_mesaWarp},
+          {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, &l_mirrorWarp},
+      } {}
 
 bool getSaveSwitch(int32_t stage, int32_t flag) {
     return dSv_memBit_c__isSwitch(&dComIfGs_getSavedata().mSave[stage].mBit, flag);

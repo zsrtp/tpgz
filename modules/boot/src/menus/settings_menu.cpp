@@ -6,28 +6,29 @@
 
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
-#define FONT_OPTIONS_COUNT (sizeof(font_opt)/sizeof(font_opt[0]))
+#define FONT_OPTIONS_COUNT (sizeof(font_opt) / sizeof(font_opt[0]))
 
-ListMember font_opt[] = {"consola",       "calamity-bold", "lib-sans",
-                         "lib-sans-bold", "lib-serif",     "lib-serif-bold",
-                         "press-start-2p"};
+ListMember font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
+                         "lib-serif", "lib-serif-bold", "press-start-2p"};
 
-SettingsMenu::SettingsMenu() : Menu(), lines{
-    {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
-     "Load area: reload last area | Load file = reload last file", false, nullptr,
-     MAX_RELOAD_OPTIONS},
-    {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr,
-     MAX_CURSOR_COLOR_OPTIONS},
-    {"font:", FONT_INDEX, "Change font", false, nullptr, FONT_OPTIONS_COUNT},
-    {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true, &g_dropShadows},
-    {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files", true,
-     &g_swap_equips_flag},
-    {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
-    {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
-    {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
-    {"menu positions", POS_SETTINGS_MENU_INDEX,
-     "Change menu object positions (A to toggle selection, DPad to move)", false},
-} {}
+SettingsMenu::SettingsMenu()
+    : Menu(), lines{
+                  {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
+                   "Load area: reload last area | Load file = reload last file", false, nullptr,
+                   MAX_RELOAD_OPTIONS},
+                  {"cursor color:", CURSOR_COLOR_INDEX, "Change cursor color", false, nullptr,
+                   MAX_CURSOR_COLOR_OPTIONS},
+                  {"font:", FONT_INDEX, "Change font", false, nullptr, FONT_OPTIONS_COUNT},
+                  {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters", true,
+                   &g_dropShadows},
+                  {"swap equips", SWAP_EQUIPS_INDEX, "Swap equips when loading practice files",
+                   true, &g_swap_equips_flag},
+                  {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
+                  {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
+                  {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
+                  {"menu positions", POS_SETTINGS_MENU_INDEX,
+                   "Change menu object positions (A to toggle selection, DPad to move)", false},
+              } {}
 
 bool g_dropShadows;
 bool g_swap_equips_flag;

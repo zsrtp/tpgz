@@ -3,16 +3,17 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
 
-AmountsMenu::AmountsMenu() : Menu(), lines{
-    {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
-    {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
-    {"bomb bag 2 num:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
-    {"bomb bag 3 num:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
-    {"seeds:", SLINGSHOT_AMMO_INDEX, "Current seed count"},
-    {"heart pieces:", HEART_PIECE_COUNT_INDEX, "Amount of heart pieces collected"},
-    {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
-    {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"},
-} {}
+AmountsMenu::AmountsMenu()
+    : Menu(), lines{
+                  {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
+                  {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
+                  {"bomb bag 2 num:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
+                  {"bomb bag 3 num:", BOMB_BAG_3_AMMO_INDEX, "Amount of bombs in bag 3"},
+                  {"seeds:", SLINGSHOT_AMMO_INDEX, "Current seed count"},
+                  {"heart pieces:", HEART_PIECE_COUNT_INDEX, "Amount of heart pieces collected"},
+                  {"poes:", POE_COUNT_INDEX, "Amount of poes collected"},
+                  {"rupees:", RUPEE_COUNT_INDEX, "Current rupee count"},
+              } {}
 
 void AmountsMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);

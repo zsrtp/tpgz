@@ -30,6 +30,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     uint16_t l_index;
     Line lines[1];

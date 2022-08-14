@@ -17,13 +17,13 @@ bool l_dataCopied;
 cXyz l_tmpPos = g_dComIfG_gameInfo.info.mRestart.mRoomPos;
 uint16_t l_tmpAngle = g_dComIfG_gameInfo.info.mRestart.mRoomAngleY;
 
-MemfilesMenu::MemfilesMenu() : Menu(),
-    lines{
-        {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
-        {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
-        {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false},
-        {"delete", MEMFILE_DELETE_INDEX, "Delete memfile from slot", false},
-    } {}
+MemfilesMenu::MemfilesMenu()
+    : Menu(), lines{
+                  {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
+                  {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
+                  {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false},
+                  {"delete", MEMFILE_DELETE_INDEX, "Delete memfile from slot", false},
+              } {}
 
 void MemfilesMenu::setLinkPosition() {
     static int8_t sLoadDelay = 10;

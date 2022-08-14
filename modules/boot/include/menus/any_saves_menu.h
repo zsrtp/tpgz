@@ -119,6 +119,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
 #ifdef GCN_PLATFORM
     Line lines[49];

@@ -10,18 +10,17 @@
 #define INCREMENT_FACTOR 1.05f
 #define MAX_SPEED 20.f
 
-PosSettingsMenu::PosSettingsMenu() : Menu(),
-    l_selItem(POSITION_SETTINGS_NO_SELECTION),
-    lines{
-        {"main menu", SpritesIndex::MENU_INDEX, "Change main menu position", false},
-        {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},
-        {"link debug info", SpritesIndex::DEBUG_INFO_INDEX, "Change link debug info position", false},
-        {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
-        {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
-        {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
-        {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
-        {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false}
-    } {}
+PosSettingsMenu::PosSettingsMenu()
+    : Menu(), l_selItem(POSITION_SETTINGS_NO_SELECTION),
+      lines{{"main menu", SpritesIndex::MENU_INDEX, "Change main menu position", false},
+            {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},
+            {"link debug info", SpritesIndex::DEBUG_INFO_INDEX, "Change link debug info position",
+             false},
+            {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
+            {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
+            {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
+            {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
+            {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false}} {}
 
 Vec2 g_spriteOffsets[SPRITES_AMNT];
 

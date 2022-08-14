@@ -3,19 +3,19 @@
 #include "libtp_c/include/dolphin/os/OSCache.h"
 #include <stdint.h>
 
-void writeBranch( void* ptr, void* destination ) {
-    uint32_t branch = 0x48000000;     // b
-    writeBranchMain( ptr, destination, branch );
+void writeBranch(void* ptr, void* destination) {
+    uint32_t branch = 0x48000000;  // b
+    writeBranchMain(ptr, destination, branch);
 }
 
-void writeBranchLR( void* ptr, void* destination ) {
-    uint32_t branch = 0x48000001;     // bl
-    writeBranchMain( ptr, destination, branch );
+void writeBranchLR(void* ptr, void* destination) {
+    uint32_t branch = 0x48000001;  // bl
+    writeBranchMain(ptr, destination, branch);
 }
 
-void writeBranchBL( void* ptr, void* destination ) {
-    uint32_t branch = 0x48000001;     // bl
-    writeBranchMain( ptr, destination, branch );
+void writeBranchBL(void* ptr, void* destination) {
+    uint32_t branch = 0x48000001;  // bl
+    writeBranchMain(ptr, destination, branch);
 }
 
 void writeBranchMain(void* ptr, void* destination, uint32_t branch) {

@@ -54,6 +54,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     Line lines[43];
 };

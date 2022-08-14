@@ -25,6 +25,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     bool init_once;
 

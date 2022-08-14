@@ -7,6 +7,7 @@ public:
     void drawFlagRecord(uint8_t* record);
 
     Cursor cursor;
+
 private:
     uint8_t l_bitIdx;
     uint8_t l_recIdx;

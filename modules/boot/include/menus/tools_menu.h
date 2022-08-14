@@ -64,6 +64,7 @@ public:
     static void setTunicColor();
 
     Cursor cursor;
+
 private:
     uint8_t l_tunicCol_idx;
 

@@ -1,11 +1,12 @@
 #include "menus/memory_menu.h"
 #include "gz_flags.h"
 
-MemoryMenu::MemoryMenu() : Menu(), lines{
-    {"watches", 0, "Manage memory watches", false},
-    {"memory editor", 1, "View/edit memory", false},
-    {"mem files", 2, "Save/Load memory files", false},
-} {}
+MemoryMenu::MemoryMenu()
+    : Menu(), lines{
+                  {"watches", 0, "Manage memory watches", false},
+                  {"memory editor", 1, "View/edit memory", false},
+                  {"mem files", 2, "Save/Load memory files", false},
+              } {}
 
 void MemoryMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {

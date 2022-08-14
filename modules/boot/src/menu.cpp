@@ -29,13 +29,15 @@ Menu* l_menuDrawList[MAX_MENU_RENDER_FLAGS];
 
 void Menu::init() {
     static Menu* const initializer[] = {
-        new MainMenu(),        new CheatsMenu(),      new FlagsMenu(),        new InventoryMenu(),
-        new MemoryMenu(),      new PracticeMenu(),    new SceneMenu(),        new SettingsMenu(),
-        new ToolsMenu(),       new WarpingMenu(),     new GeneralFlagsMenu(), new DungeonFlagsMenu(),
-        new PortalFlagsMenu(), new FlagRecordsMenu(), new FlagLogMenu(),      new ItemWheelMenu(),
-        new PauseMenu(),       new AmountsMenu(),     new WatchesMenu(),      new MemoryEditorMenu(),
-        new MemfilesMenu(),    new AnySavesMenu(),    new HundoSavesMenu(),   new ADSavesMenu(),
-        new ActorSpawnMenu(),  new ActorListMenu(),   new PosSettingsMenu(),
+        new MainMenu(),        new CheatsMenu(),       new FlagsMenu(),
+        new InventoryMenu(),   new MemoryMenu(),       new PracticeMenu(),
+        new SceneMenu(),       new SettingsMenu(),     new ToolsMenu(),
+        new WarpingMenu(),     new GeneralFlagsMenu(), new DungeonFlagsMenu(),
+        new PortalFlagsMenu(), new FlagRecordsMenu(),  new FlagLogMenu(),
+        new ItemWheelMenu(),   new PauseMenu(),        new AmountsMenu(),
+        new WatchesMenu(),     new MemoryEditorMenu(), new MemfilesMenu(),
+        new AnySavesMenu(),    new HundoSavesMenu(),   new ADSavesMenu(),
+        new ActorSpawnMenu(),  new ActorListMenu(),    new PosSettingsMenu(),
     };
     for (size_t i = 0; i < LIST_COUNT(initializer); ++i) {
         l_menuDrawList[i] = initializer[i];

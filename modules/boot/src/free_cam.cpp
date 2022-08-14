@@ -33,54 +33,54 @@ bool g_freeCamEnabled;
 #endif
 
 namespace FreeCam {
-    bool init_once = false;
-    double pitch = 0.0;
-    double yaw = 0.0;
+bool init_once = false;
+double pitch = 0.0;
+double yaw = 0.0;
 
-    void execute() {
-        if (g_freeCamEnabled) {
-            auto& cam_target = tp_matrixInfo.matrix_info->target;
-            auto& cam_pos = tp_matrixInfo.matrix_info->pos;
-            // Freeze the game to prevent control stick inputs to move link
-            dComIfGp_getEvent().mHalt = true;
-            // Lock the camera to allow for its movement
-            dComIfGp_getEventManager().mCameraPlay = 1;
+void execute() {
+    if (g_freeCamEnabled) {
+        auto& cam_target = tp_matrixInfo.matrix_info->target;
+        auto& cam_pos = tp_matrixInfo.matrix_info->pos;
+        // Freeze the game to prevent control stick inputs to move link
+        dComIfGp_getEvent().mHalt = true;
+        // Lock the camera to allow for its movement
+        dComIfGp_getEventManager().mCameraPlay = 1;
 
-            if (!init_once) {
-                // Initialize the pitch and yaw to the current angle of the camera
-                yaw = tp_atan2(cam_target.z - cam_pos.z, cam_target.x - cam_pos.x);
-                double horizontal = tp_sqrt((cam_target.x - cam_pos.x) * (cam_target.x - cam_pos.x) +
-                                            (cam_target.z - cam_pos.z) * (cam_target.z - cam_pos.z));
-                pitch = tp_atan2(cam_target.y - cam_pos.y, horizontal);
-                init_once = true;
-            }
+        if (!init_once) {
+            // Initialize the pitch and yaw to the current angle of the camera
+            yaw = tp_atan2(cam_target.z - cam_pos.z, cam_target.x - cam_pos.x);
+            double horizontal = tp_sqrt((cam_target.x - cam_pos.x) * (cam_target.x - cam_pos.x) +
+                                        (cam_target.z - cam_pos.z) * (cam_target.z - cam_pos.z));
+            pitch = tp_atan2(cam_target.y - cam_pos.y, horizontal);
+            init_once = true;
+        }
 
-            // Calculate the translation
-            double dy = CONTROL_Y * tp_sin(pitch) + VERTICAL_DISPLACEMENT;
-            double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) - CONTROL_X * tp_sin(yaw);
-            double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) + CONTROL_X * tp_cos(yaw);
+        // Calculate the translation
+        double dy = CONTROL_Y * tp_sin(pitch) + VERTICAL_DISPLACEMENT;
+        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) - CONTROL_X * tp_sin(yaw);
+        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) + CONTROL_X * tp_cos(yaw);
 
-            auto speed = SPEED_PREDICATE != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
-            // Apply the translation with a speed factor
-            cam_pos.x += speed * dx;
-            cam_pos.y += speed * dy;
-            cam_pos.z += speed * dz;
+        auto speed = SPEED_PREDICATE != 0 ? FREECAM_FAST_SPEED : FREECAM_SPEED;
+        // Apply the translation with a speed factor
+        cam_pos.x += speed * dx;
+        cam_pos.y += speed * dy;
+        cam_pos.z += speed * dz;
 
-            // Setup the target to correspond to the pitch and yaw
-            cam_target.x = cam_pos.x + tp_cos(yaw) * tp_cos(pitch);
-            cam_target.z = cam_pos.z + tp_sin(yaw) * tp_cos(pitch);
-            cam_target.y = cam_pos.y + tp_sin(pitch);
+        // Setup the target to correspond to the pitch and yaw
+        cam_target.x = cam_pos.x + tp_cos(yaw) * tp_cos(pitch);
+        cam_target.z = cam_pos.z + tp_sin(yaw) * tp_cos(pitch);
+        cam_target.y = cam_pos.y + tp_sin(pitch);
 
-            // Update the pitch and yaw
-            yaw += YAW_CONTROL * ROTATION_SPEED;
-            yaw = tp_fmod(yaw + 2 * M_PI, 2 * M_PI);
-            pitch = MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
-        } else {
-            if (init_once) {
-                dComIfGp_getEvent().mHalt = false;
-                dComIfGp_getEventManager().mCameraPlay = 0;
-                init_once = false;
-            }
+        // Update the pitch and yaw
+        yaw += YAW_CONTROL * ROTATION_SPEED;
+        yaw = tp_fmod(yaw + 2 * M_PI, 2 * M_PI);
+        pitch = MIN(MAX((pitch + PITCH_CONTROL * ROTATION_SPEED), -M_PI / 2 + 0.1), M_PI / 2 - 0.1);
+    } else {
+        if (init_once) {
+            dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEventManager().mCameraPlay = 0;
+            init_once = false;
         }
     }
 }
+}  // namespace FreeCam

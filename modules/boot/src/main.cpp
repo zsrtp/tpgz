@@ -40,15 +40,14 @@ bool last_frame_was_loading = false;
 #define INTERNAL_GZ_VERSION "<unk>"
 #endif
 
-namespace mod
-{
-    void main() {
-        Hook::applyHooks();
-        init();
-    }
+namespace mod {
+void main() {
+    Hook::applyHooks();
+    init();
+}
 
-    void exit() {}
-}     // namespace mod
+void exit() {}
+}  // namespace mod
 
 extern "C" {
 

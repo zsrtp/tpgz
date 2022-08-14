@@ -2,11 +2,12 @@
 #include "font.h"
 #include "gz_flags.h"
 
-InventoryMenu::InventoryMenu() : Menu(), lines{
-    {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
-    {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
-    {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false},
-} {}
+InventoryMenu::InventoryMenu()
+    : Menu(), lines{
+                  {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
+                  {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
+                  {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false},
+              } {}
 
 void InventoryMenu::draw() {
     cursor.move(0, MENU_LINE_NUM);

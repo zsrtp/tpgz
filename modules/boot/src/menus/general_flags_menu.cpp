@@ -3,23 +3,30 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 
-GeneralFlagsMenu::GeneralFlagsMenu() : Menu(), lines{
-    {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
-    {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled", true,
-     &l_rupeeFlag},
-    {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true,
-     &l_eponaStolen},
-    {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true, &l_eponaTamed},
-    {"map warping", MAP_WARPING_INDEX, "Toggle flag for map warping", true, &l_mapWarping},
-    {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true, &l_midnaCharge},
-    {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true, &l_midnaHealed},
-    {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back", true,
-     &l_midnaRide},
-    {"midna available", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna", true, &l_midnaZ},
-    {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true,
-     &l_transformWarp},
-    {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for wolf sense", true, &l_wolfSense},
-} {}
+GeneralFlagsMenu::GeneralFlagsMenu()
+    : Menu(), lines{
+                  {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
+                  {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled",
+                   true, &l_rupeeFlag},
+                  {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true,
+                   &l_eponaStolen},
+                  {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true,
+                   &l_eponaTamed},
+                  {"map warping", MAP_WARPING_INDEX, "Toggle flag for map warping", true,
+                   &l_mapWarping},
+                  {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true,
+                   &l_midnaCharge},
+                  {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true,
+                   &l_midnaHealed},
+                  {"midna on back", MIDNA_ON_BACK,
+                   "Toggle flag for Midna appearing on Wolf Link's back", true, &l_midnaRide},
+                  {"midna available", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna",
+                   true, &l_midnaZ},
+                  {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping",
+                   true, &l_transformWarp},
+                  {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for wolf sense", true,
+                   &l_wolfSense},
+              } {}
 
 void GeneralFlagsMenu::draw() {
     // update flags

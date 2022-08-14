@@ -57,6 +57,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     Line lines[5];
 };
@@ -67,6 +68,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     bool l_bossFlag;
     bool l_rupeeFlag;
@@ -89,6 +91,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     bool init_once = false;
 
@@ -109,6 +112,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     bool l_mapRegion;
     uint8_t l_selRegion;
@@ -138,6 +142,7 @@ public:
     virtual void draw();
 
     Cursor cursor;
+
 private:
     Line lines[1];
 };

@@ -16,30 +16,31 @@
 #define MAX_ARROW_CAPACITY_OPT 3
 #define MAX_HIDDEN_SKILL_OPT 2
 
-PauseMenu::PauseMenu() : Menu(), lines{
-    {"ordon sword:", ORDON_SWORD_INDEX, "Wooden Sword / Ordon Sword", false, nullptr,
-     MAX_ORDON_SWORD_OPT},
-    {"master sword:", MASTER_SWORD_INDEX, "Master Sword / Light Sword", false, nullptr,
-     MAX_MASTER_SWORD_OPT},
-    {"wooden shield:", WOOD_SHIELD_INDEX, "Ordon Shield / Wooden Shield", false, nullptr,
-     MAX_WOOD_SHIELD_OPT},
-    {"hylian shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr, MAX_HYLIAN_SHIELD_OPT},
-    {"hero's tunic:", HERO_TUNIC_INDEX, "Hero's Tunic", false, nullptr, MAX_HERO_TUNIC_OPT},
-    {"zora armor:", ZORA_ARMOR_INDEX, "Zora Armor", false, nullptr, MAX_ZORA_ARMOR_OPT},
-    {"magic armor:", MAGIC_ARMOR_INDEX, "Magic Armor", false, nullptr, MAX_MAGIC_ARMOR_OPT},
-    {"bomb capacity:", BOMB_CAPACITY_INDEX, "Bomb Bag Capacity", false, nullptr,
-     MAX_BOMB_CAPACITY_OPT},
-    {"wallet upgrade:", WALLET_INDEX, "Wallet Capacity", false, nullptr, MAX_WALLET_OPT},
-    {"arrow capacity:", ARROW_CAPACITY_INDEX, "Arrow Quiver Capacity", false, nullptr,
-     MAX_ARROW_CAPACITY_OPT},
-    {"ending blow:", ENDING_BLOW_INDEX, "Ending Blow", true, &l_ebFlag},
-    {"shield bash:", SHIELD_BASH_INDEX, "Shield Bash", true, &l_sbFlag},
-    {"backslice:", BACKSLICE_INDEX, "Backslice", true, &l_bsFlag},
-    {"helm splitter:", HELM_SPLITTER_INDEX, "Helm Splitter", true, &l_hsFlag},
-    {"mortal draw:", MORTAL_DRAW_INDEX, "Mortal Draw", true, &l_mdFlag},
-    {"jump strike:", JUMP_STRIKE_INDEX, "Jump Strike", true, &l_jsFlag},
-    {"greatspin:", GREAT_SPIN_INDEX, "Greatspin", true, &l_gsFlag}
-} {}
+PauseMenu::PauseMenu()
+    : Menu(),
+      lines{{"ordon sword:", ORDON_SWORD_INDEX, "Wooden Sword / Ordon Sword", false, nullptr,
+             MAX_ORDON_SWORD_OPT},
+            {"master sword:", MASTER_SWORD_INDEX, "Master Sword / Light Sword", false, nullptr,
+             MAX_MASTER_SWORD_OPT},
+            {"wooden shield:", WOOD_SHIELD_INDEX, "Ordon Shield / Wooden Shield", false, nullptr,
+             MAX_WOOD_SHIELD_OPT},
+            {"hylian shield:", HYLIAN_SHIELD_INDEX, "Hylian Shield", false, nullptr,
+             MAX_HYLIAN_SHIELD_OPT},
+            {"hero's tunic:", HERO_TUNIC_INDEX, "Hero's Tunic", false, nullptr, MAX_HERO_TUNIC_OPT},
+            {"zora armor:", ZORA_ARMOR_INDEX, "Zora Armor", false, nullptr, MAX_ZORA_ARMOR_OPT},
+            {"magic armor:", MAGIC_ARMOR_INDEX, "Magic Armor", false, nullptr, MAX_MAGIC_ARMOR_OPT},
+            {"bomb capacity:", BOMB_CAPACITY_INDEX, "Bomb Bag Capacity", false, nullptr,
+             MAX_BOMB_CAPACITY_OPT},
+            {"wallet upgrade:", WALLET_INDEX, "Wallet Capacity", false, nullptr, MAX_WALLET_OPT},
+            {"arrow capacity:", ARROW_CAPACITY_INDEX, "Arrow Quiver Capacity", false, nullptr,
+             MAX_ARROW_CAPACITY_OPT},
+            {"ending blow:", ENDING_BLOW_INDEX, "Ending Blow", true, &l_ebFlag},
+            {"shield bash:", SHIELD_BASH_INDEX, "Shield Bash", true, &l_sbFlag},
+            {"backslice:", BACKSLICE_INDEX, "Backslice", true, &l_bsFlag},
+            {"helm splitter:", HELM_SPLITTER_INDEX, "Helm Splitter", true, &l_hsFlag},
+            {"mortal draw:", MORTAL_DRAW_INDEX, "Mortal Draw", true, &l_mdFlag},
+            {"jump strike:", JUMP_STRIKE_INDEX, "Jump Strike", true, &l_jsFlag},
+            {"greatspin:", GREAT_SPIN_INDEX, "Greatspin", true, &l_gsFlag}} {}
 
 void PauseMenu::resetIndex() {
     l_ordonSword_idx = 0;
