@@ -14,11 +14,11 @@ void resize1_JKRHeap(void* ptr, uint32_t size, void* heap);
 }
 
 #ifndef WII_PLATFORM
-OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment) {
+GZModule loadRelFile(const char* file, bool negativeAlignment) {
     // Try to open the file from the disc
     DVDFileInfo fileInfo;
     if (!DVDOpen(file, &fileInfo)) {
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the length of the file
@@ -52,7 +52,7 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment) {
     // Make sure the read was successful
     if (result != DVD_STATE_END) {
         delete[] fileData;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the REL's BSS size and allocate memory for it
@@ -87,7 +87,7 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment) {
 
         delete[] bssArea;
         delete[] relFile;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Restore interrupts
@@ -96,17 +96,17 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment) {
     // Call the REL's prolog functon
     reinterpret_cast<void (*)()>(relFile->prologFuncOffset)();
 
-    return relFile;
+    return {relFile, bssArea, length};
 }
 
 // resize1_JKRHeap = resize__7JKRHeapFPvUlP7JKRHeap
 // void resize1_JKRHeap( void* ptr, uint32_t size, void* heap ); // If heap is nullptr, then the
 // function automatically searches for ptr in all heaps
-OSModuleInfo* loadRelFileFixed(const char* file, bool negativeAlignment) {
+GZModule loadRelFileFixed(const char* file, bool negativeAlignment) {
     // Try to open the file from the disc
     DVDFileInfo fileInfo;
     if (!DVDOpen(file, &fileInfo)) {
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Allocate 0x60 bytes of memory, as the read size must be in multiples of 0x20 bytes,
@@ -126,7 +126,7 @@ OSModuleInfo* loadRelFileFixed(const char* file, bool negativeAlignment) {
     if (result != DVD_STATE_END) {
         DVDClose(&fileInfo);
         delete[] fileData;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the length of the file
@@ -189,7 +189,7 @@ OSModuleInfo* loadRelFileFixed(const char* file, bool negativeAlignment) {
     // Make sure the read was successful
     if (result != DVD_STATE_END) {
         delete[] relFile;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the address of the BSS
@@ -208,7 +208,7 @@ OSModuleInfo* loadRelFileFixed(const char* file, bool negativeAlignment) {
         OSRestoreInterrupts(enable);
 
         delete[] relFile;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Restore interrupts
@@ -220,17 +220,26 @@ OSModuleInfo* loadRelFileFixed(const char* file, bool negativeAlignment) {
     // Call the REL's prolog functon
     reinterpret_cast<void (*)()>(relFile->prologFuncOffset)();
 
-    return relFile;
+    return {relFile, bssArea, fixSize + bssSize};
+}
+
+GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking) {
+    if (fixedLinking) {
+        return loadRelFileFixed(file, negativeAlignment);
+    }
+    else {
+        return loadRelFile(file, negativeAlignment);
+    }
 }
 #else
 // resize1_JKRHeap = JKRHeap::resize(void *, unsigned long, JKRHeap *)
 // void resize1_JKRHeap( void* ptr, uint32_t size, void* heap ); // If heap is nullptr, then the
 // function automatically searches for ptr in all heaps
-OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking) {
+GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking) {
     // Try to open the file from the disc
     DVDFileInfo fileInfo;
     if (!DVDOpen(file, &fileInfo)) {
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the length of the file
@@ -264,7 +273,7 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment, bool fixedLi
     // Make sure the read was successful
     if (result != DVD_STATE_END) {
         delete[] fileData;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Get the REL's BSS size and allocate memory for it
@@ -306,7 +315,7 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment, bool fixedLi
 
         delete[] bssArea;
         delete[] relFile;
-        return nullptr;
+        return {nullptr, nullptr, 0};
     }
 
     // Restore interrupts
@@ -316,17 +325,22 @@ OSModuleInfo* loadRelFile(const char* file, bool negativeAlignment, bool fixedLi
         // Resize the allocated memory to remove the space used by the unnecessary relocation data
         uint32_t fixedSize = relFile->fixSize + (uintptr_t)relFile;
         resize1_JKRHeap(relFile, fixedSize, nullptr);
+        length = fixedSize;
     }
 
     // Call the REL's prolog functon
     reinterpret_cast<void (*)()>(relFile->prologFuncOffset)();
 
-    return relFile;
+    return {relFile, bssArea, length};
 }
 #endif
 
 // Pass in nullptr for bss if using fixed linking
-bool closeRelFile(OSModuleInfo* relFile, void* bss) {
+bool closeRelFile(GZModule module) {
+    auto relFile = module.rel;
+    auto bss = module.bss;
+    auto length = module.length;
+
     // Make sure a proper pointer for relFile was passed in
     if (!relFile) {
         return false;
@@ -345,10 +359,9 @@ bool closeRelFile(OSModuleInfo* relFile, void* bss) {
     // Restore interrupts
     OSRestoreInterrupts(enable);
 
-    // TODO Find where to get the `length` to flush and invalidate
     // Clear the cache of the memory used by the REL file since assembly ran from it
-    // DCFlushRange(relFile, length);
-    // ICInvalidateRange(relFile, length);
+    DCFlushRange(relFile, length);
+    ICInvalidateRange(relFile, length);
 
     // Cleanup
     delete[] relFile;
