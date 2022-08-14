@@ -1,15 +1,26 @@
 #include "utils/rels.h"
 #include "rels/include/cxx.h"
+#include "rels/include/memory.h"
 #include "gcn_c/include/dvd.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
 
-bool loadRelFile( const char* file, bool negativeAlignment )
+extern "C" {
+#ifndef WII_PLATFORM
+#define resize1_JKRHeap resize__7JKRHeapFPvUlP7JKRHeap
+#else
+#define resize1_JKRHeap JKRHeap__resize_void
+#endif
+void resize1_JKRHeap( void* ptr, uint32_t size, void* heap );
+}
+
+#ifndef WII_PLATFORM
+OSModuleInfo* loadRelFile( const char* file, bool negativeAlignment )
 {
     // Try to open the file from the disc
     DVDFileInfo fileInfo;
     if ( !DVDOpen( file, &fileInfo ) )
     {
-        return false;
+        return nullptr;
     }
 
     // Get the length of the file
@@ -47,7 +58,7 @@ bool loadRelFile( const char* file, bool negativeAlignment )
     if ( result != DVD_STATE_END )
     {
         delete[] fileData;
-        return false;
+        return nullptr;
     }
 
     // Get the REL's BSS size and allocate memory for it
@@ -84,7 +95,7 @@ bool loadRelFile( const char* file, bool negativeAlignment )
 
         delete[] bssArea;
         delete[] relFile;
-        return false;
+        return nullptr;
     }
 
     // Restore interrupts
@@ -93,28 +104,18 @@ bool loadRelFile( const char* file, bool negativeAlignment )
     // Call the REL's prolog functon
     reinterpret_cast<void ( * )()>( relFile->prologFuncOffset )();
 
-    return true;
-}
-
-
-extern "C" {
-#ifndef WII_PLATFORM
-#define resize1_JKRHeap resize__7JKRHeapFPvUlP7JKRHeap
-#else
-#define resize1_JKRHeap JKRHeap__resize_void
-#endif
-void resize1_JKRHeap( void* ptr, uint32_t size, void* heap );
+    return relFile;
 }
 
 // resize1_JKRHeap = resize__7JKRHeapFPvUlP7JKRHeap
 // void resize1_JKRHeap( void* ptr, uint32_t size, void* heap ); // If heap is nullptr, then the function automatically searches for ptr in all heaps
-bool loadRelFileFixed( const char* file, bool negativeAlignment )
+OSModuleInfo* loadRelFileFixed( const char* file, bool negativeAlignment )
 {
     // Try to open the file from the disc
     DVDFileInfo fileInfo;
     if ( !DVDOpen( file, &fileInfo ) )
     {
-        return false;
+        return nullptr;
     }
 
     // Allocate 0x60 bytes of memory, as the read size must be in multiples of 0x20 bytes,
@@ -135,7 +136,7 @@ bool loadRelFileFixed( const char* file, bool negativeAlignment )
     {
         DVDClose( &fileInfo );
         delete[] fileData;
-        return false;
+        return nullptr;
     }
 
     // Get the length of the file
@@ -204,7 +205,7 @@ bool loadRelFileFixed( const char* file, bool negativeAlignment )
     if ( result != DVD_STATE_END )
     {
         delete[] relFile;
-        return false;
+        return nullptr;
     }
 
     // Get the address of the BSS
@@ -223,7 +224,7 @@ bool loadRelFileFixed( const char* file, bool negativeAlignment )
         OSRestoreInterrupts( enable );
 
         delete[] relFile;
-        return false;
+        return nullptr;
     }
 
     // Restore interrupts
@@ -235,8 +236,121 @@ bool loadRelFileFixed( const char* file, bool negativeAlignment )
     // Call the REL's prolog functon
     reinterpret_cast<void ( * )()>( relFile->prologFuncOffset )();
 
-    return true;
+    return relFile;
 }
+#else
+// resize1_JKRHeap = JKRHeap::resize(void *, unsigned long, JKRHeap *)
+// void resize1_JKRHeap( void* ptr, uint32_t size, void* heap ); // If heap is nullptr, then the function automatically searches for ptr in all heaps
+OSModuleInfo* loadRelFile( const char* file, bool negativeAlignment, bool fixedLinking )
+{
+    // Try to open the file from the disc
+    DVDFileInfo fileInfo;
+    if ( !DVDOpen( file, &fileInfo ) )
+    {
+        return nullptr;
+    }
+
+    // Get the length of the file
+    uint32_t length = fileInfo.len;
+
+    // Round the length to be in multiples of DVD_READ_SIZE
+    length = ( length + DVD_READ_SIZE - 1 ) & ~( DVD_READ_SIZE - 1 );
+
+    // Buffers that DVDReadPrio uses must be aligned to 0x20 bytes
+    int32_t alignment;
+    if ( !negativeAlignment )
+    {
+        // Allocate to the front of the heap
+        alignment = 0x20;
+    }
+    else
+    {
+        // Allocate to the back of the heap
+        alignment = -0x20;
+    }
+
+    // Allocate bytes for the file
+    // REL files need to be in MEM1 to function properly, so put it in the Zelda heap
+    uint8_t* fileData = new ( alignment, HEAP_ZELDA ) uint8_t[length];
+    clear_DC_IC_Cache( fileData, length );
+
+    // Read the REL from the disc
+    int32_t r = DVDReadPrio( &fileInfo, fileData, length, 0, 2 );
+    int32_t result = ( r > 0 ) ? DVD_STATE_END : r;
+
+    // Close the file, as it's no longer needed
+    DVDClose( &fileInfo );
+
+    // Make sure the read was successful
+    if ( result != DVD_STATE_END )
+    {
+        delete[] fileData;
+        return nullptr;
+    }
+
+    // Get the REL's BSS size and allocate memory for it
+    OSModuleInfo* relFile = reinterpret_cast<OSModuleInfo*>( fileData );
+    uint32_t bssSize = relFile->bssSize;
+
+    // If bssSize is 0, then use an arbitrary size
+    if ( bssSize == 0 )
+    {
+        bssSize = 0x1;
+    }
+    
+    // Handle the alignment for the BSS
+    int32_t bssAlignment = relFile->bssAlignment;
+    if ( negativeAlignment )
+    {
+        bssAlignment = -bssAlignment;
+    }
+
+    // Allocate the memory to the back of the heap to avoid fragmentation
+    uint8_t* bssArea = new ( bssAlignment ) uint8_t[bssSize];
+
+    // Disable interrupts to make sure other REL files do not try to be linked while this one is being linked
+    bool enable = OSDisableInterrupts();
+
+    // Link the REL file
+    bool linkSucceeded;
+    if ( !fixedLinking )
+    {
+        linkSucceeded = OSLink( relFile, bssArea );
+    }
+    else
+    {
+        linkSucceeded = OSLinkFixed( relFile, bssArea );
+    }
+
+    if ( !linkSucceeded )
+    {
+        // Try to unlink to be safe
+        OSUnlink( relFile );
+
+        // Restore interrupts
+        OSRestoreInterrupts( enable );
+
+        delete[] bssArea;
+        delete[] relFile;
+        return nullptr;
+    }
+
+    // Restore interrupts
+    OSRestoreInterrupts( enable );
+
+    if ( fixedLinking )
+    {
+        // Resize the allocated memory to remove the space used by the unnecessary relocation data
+        uint32_t fixedSize = relFile->fixSize + (uintptr_t)relFile;
+        resize1_JKRHeap( relFile, fixedSize, nullptr );
+    }
+
+    // Call the REL's prolog functon
+    reinterpret_cast<void ( * )()>( relFile->prologFuncOffset )();
+
+    return relFile;
+}
+#endif
 
 // Pass in nullptr for bss if using fixed linking
 bool closeRelFile( OSModuleInfo* relFile, void* bss )
