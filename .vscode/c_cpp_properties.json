@@ -4,6 +4,7 @@
             "name": "GC US",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/hello_world/include/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -38,6 +39,7 @@
             "name": "GC PAL",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/hello_world/include/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -72,6 +74,7 @@
             "name": "GC JP",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/hello_world/include/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -106,6 +109,7 @@
             "name": "Wii US 1.0",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/hello_world/include/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -140,6 +144,7 @@
             "name": "Wii PAL",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/hello_world/include/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
