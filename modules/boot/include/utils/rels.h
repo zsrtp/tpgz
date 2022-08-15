@@ -1,10 +1,27 @@
+#ifndef TPGZ_BOOT_UTILS_RELS_H
+#define TPGZ_BOOT_UTILS_RELS_H
 #include "libtp_c/include/dolphin/os/OS.h"
 
-typedef struct GZModule {
-    OSModuleInfo* rel;
-    void* bss;
-    uint32_t length;
-} GZModule;
+namespace tpgz::dyn {
+class GZModule {
+public:
+    GZModule(const char* path);
+    virtual ~GZModule();
 
-GZModule loadRelFile(const char* file, bool negativeAlignment, bool fixedLinking);
-bool closeRelFile(GZModule relFile);
+    bool load(bool negativeAlignment);
+    bool loadFixed(bool negativeAlignment);
+
+    bool close();
+
+private:
+    uint8_t m_loaded;
+    const char* m_path;
+
+    OSModuleInfo* m_rel;
+    void* m_bss;
+    uint32_t m_length;
+
+    bool load(bool negativeAlignment, bool fixedLinking);
+};
+}  // namespace tpgz::dyn
+#endif
