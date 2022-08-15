@@ -14,6 +14,7 @@ namespace mod {
  * assuming the REL got loaded in the first place.
  ***********************************************************************************/
 void main();
+void exit();
 
 }  // namespace mod
 
