@@ -33,3 +33,5 @@ void _epilog() {
 }
 
 void _unresolved(void) {}
+
+extern "C" void __cxa_pure_virtual() { while (1); }

@@ -5,8 +5,10 @@
 #include "menus/settings_menu.h"
 #include "libtp_c/include/JSystem/JKernel/JKRExpHeap.h"
 #include "libtp_c/include/m_Do/m_Do_ext.h"
+#include "rels/include/defines.h"
+#include "menus/tools_menu.h"
 
-void GZ_drawWatches() {
+KEEP_FUNC void GZ_drawWatches() {
     for (int i = 0; i < MAX_WATCHES; i++) {
         if (g_watches[i].visible) {
             char rendered_value[8];
@@ -104,7 +106,10 @@ void GZ_drawWatches() {
     }
 }
 
-void GZ_drawHeapInfo() {
+KEEP_FUNC void GZ_drawHeapInfo() {
+    if (!g_tools[HEAP_DEBUG_INDEX].active) {
+        return;
+    }
     if (m_Do_ext::zeldaHeap && m_Do_ext::gameHeap && m_Do_ext::archiveHeap) {
         uint32_t zeldaFree = JKRHeap__getFreeSize(m_Do_ext::zeldaHeap);
         uint32_t zeldaTotal = JKRHeap__getTotalFreeSize(m_Do_ext::zeldaHeap);

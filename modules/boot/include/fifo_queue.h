@@ -26,4 +26,6 @@ public:
     static void push(const char* msg, _FIFOQueue& Queue, int RGBA);
 };
 
+void GZ_renderFifoQueue();
+
 extern _FIFOQueue Queue;

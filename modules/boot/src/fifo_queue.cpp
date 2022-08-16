@@ -47,3 +47,9 @@ KEEP_FUNC void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, int RGBA) {
     Queue.messages[0].ttl = 120;
     Queue.messages[0].RGBA = RGBA;
 };
+
+KEEP_FUNC void GZ_renderFifoQueue() {
+    if (g_fifoVisible) {
+        FIFOQueue::renderItems(Queue);
+    }
+}

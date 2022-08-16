@@ -4,8 +4,13 @@
 #include "menus/settings_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/m_Do/m_Do_audio.h"
+#include "menus/tools_menu.h"
+#include "rels/include/defines.h"
 
-void GZ_displayLinkInfo() {
+KEEP_FUNC void GZ_displayLinkInfo() {
+    if (!g_tools[LINK_DEBUG_INDEX].active) {
+        return;
+    }
     char time[12] = {0};
     tp_sprintf(time, "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
                g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);

@@ -48,7 +48,7 @@ KEEP_FUNC void Menu::init() {
 Menu* l_currentMenu = nullptr;
 Menu* l_returnMenu = nullptr;
 
-void GZ_drawMenu() {
+KEEP_FUNC void GZ_drawMenu() {
     if (l_currentMenu != nullptr) {
         l_currentMenu->draw();
     }

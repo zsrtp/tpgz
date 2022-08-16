@@ -6,6 +6,7 @@
 #include "menus/tools_menu.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "rels/include/defines.h"
 
 #if defined(GCN_PAL) || defined(WII_PAL)
 #define FRAME_RATE 25
@@ -13,7 +14,10 @@
 #define FRAME_RATE 29.97
 #endif
 
-void Timer::drawTimer() {
+KEEP_FUNC void Timer::drawTimer() {
+    if (!g_tools[TIMER_INDEX].active) {
+        return;
+    }
     static int sTimer = 0;
     static float sTimerSec = 0.0f;
 
@@ -40,7 +44,10 @@ void Timer::drawTimer() {
                      15.0f + (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
 }
 
-void Timer::drawIGT() {
+KEEP_FUNC void Timer::drawIGT() {
+    if (!g_tools[IGT_TIMER_INDEX].active) {
+        return;
+    }
     static int sTimer = 0;
     static int sTimerHour = 0;
     static int sTimerMin = 0;
@@ -76,7 +83,10 @@ void Timer::drawIGT() {
                      g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }
 
-void Timer::drawLoadTimer() {
+KEEP_FUNC void Timer::drawLoadTimer() {
+    if (!g_tools[LOAD_TIMER_INDEX].active) {
+        return;
+    }
     static int sTimer = 0;
     static float sTimerSec = 0.0f;
 

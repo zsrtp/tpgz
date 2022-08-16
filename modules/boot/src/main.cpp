@@ -24,6 +24,7 @@
 #include "rels/include/cxx.h"
 #include "utils/rels.h"
 #include "rels/include/defines.h"
+#include "handlers/draw_handler.h"
 
 _FIFOQueue Queue;
 bool l_loadCard = true;
@@ -145,33 +146,7 @@ KEEP_FUNC void draw() {
         }
     }
 
-    if (g_fifoVisible) {
-        FIFOQueue::renderItems(Queue);
-    }
-
-    if (g_tools[LINK_DEBUG_INDEX].active) {
-        GZ_displayLinkInfo();
-    }
-
-    if (g_tools[HEAP_DEBUG_INDEX].active) {
-        GZ_drawHeapInfo();
-    }
-
-    if (g_tools[INPUT_VIEWER_INDEX].active) {
-        InputViewer::draw();
-    }
-
-    if (g_tools[TIMER_INDEX].active) {
-        Timer::drawTimer();
-    }
-
-    if (g_tools[LOAD_TIMER_INDEX].active) {
-        Timer::drawLoadTimer();
-    }
-
-    if (g_tools[IGT_TIMER_INDEX].active) {
-        Timer::drawIGT();
-    }
+    g_drawHandler->handleAll(nullptr);
 
     if (g_tools[FRAME_ADVANCE_INDEX].active) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
@@ -192,8 +167,5 @@ KEEP_FUNC void draw() {
             free_texture(&l_framePlayTex);
         }
     }
-
-    GZ_drawMenu();
-    GZ_drawWatches();
 }
 }
