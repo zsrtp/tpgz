@@ -7,6 +7,7 @@
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menu.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "rels/include/defines.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -63,7 +64,7 @@ static ButtonState buttonStates[BUTTON_STATES] = {
 };
 #endif
 
-void GZ_readController() {
+KEEP_FUNC void GZ_readController() {
     sButtonsLastFrame = sButtons;
     sButtons = buttonStatus;
     sButtonsPressed = sButtons & (0xFFFF ^ sButtonsLastFrame);

@@ -22,12 +22,13 @@
 #include "menus/memfiles_menu.h"
 #include "menus/actor_spawn_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "rels/include/defines.h"
 
 typedef void (*menu_render_t)();
 
 Menu* l_menuDrawList[MAX_MENU_RENDER_FLAGS];
 
-void Menu::init() {
+KEEP_FUNC void Menu::init() {
     static Menu* const initializer[] = {
         new MainMenu(),        new CheatsMenu(),       new FlagsMenu(),
         new InventoryMenu(),   new MemoryMenu(),       new PracticeMenu(),

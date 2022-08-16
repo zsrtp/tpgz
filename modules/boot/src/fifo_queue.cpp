@@ -2,8 +2,9 @@
 #include "font.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
+#include "rels/include/defines.h"
 
-bool g_fifoVisible;
+KEEP_VAR bool g_fifoVisible;
 
 void FIFOQueue::renderItems(_FIFOQueue& Queue) {
     for (int i = 0; i < MAX_MESSAGES; i++) {
@@ -25,7 +26,7 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
     }
 };
 
-void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
+KEEP_FUNC void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
         tp_strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
@@ -36,7 +37,7 @@ void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     Queue.messages[0].RGBA = 0xFFFFFF00;
 };
 
-void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, int RGBA) {
+KEEP_FUNC void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, int RGBA) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
         tp_strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;

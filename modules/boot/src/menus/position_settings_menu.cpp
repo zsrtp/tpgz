@@ -5,6 +5,7 @@
 #include "menus/settings_menu.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define INITAL_SPEED 1.0f
 #define INCREMENT_FACTOR 1.05f
@@ -95,7 +96,7 @@ void PosSettingsMenu::draw() {
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
 
-void PosSettingsMenu::initDefaults() {
+KEEP_FUNC void PosSettingsMenu::initDefaults() {
 #ifdef GCN_PLATFORM
     g_spriteOffsets[VIEWER_INDEX] = {220.f, 380.f};
 #elif defined(WII_PLATFORM)

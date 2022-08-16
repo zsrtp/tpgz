@@ -9,7 +9,7 @@ void _prolog();
 void _epilog();
 void _unresolved();
 }
-namespace mod {
+namespace tpgz::modules {
 extern void main();
 extern void exit();
 }  // namespace mod
@@ -20,12 +20,12 @@ void _prolog() {
         (*ctor)();
     }
     // Run main
-    mod::main();
+    tpgz::modules::main();
 }
 
 void _epilog() {
     // Run exit
-    mod::exit();
+    tpgz::modules::exit();
     // Run global destructors
     for (PFN_voidfunc* dtor = _dtors_start; dtor != _dtors_end && *dtor; ++dtor) {
         (*dtor)();

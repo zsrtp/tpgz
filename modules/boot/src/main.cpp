@@ -7,15 +7,13 @@
 #include "input_viewer.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menus/main_menu.h"
-#include "menus/position_settings_menu.h"
+#include "menu.h"
 #include "menus/settings_menu.h"
 #include "menus/tools_menu.h"
 #include "movelink.h"
 #include "timer.h"
 #include "utils/card.h"
 #include "utils/draw.h"
-#include "utils/hook.h"
 #include "utils/link.h"
 #include "utils/loading.h"
 #include "utils/memory.h"
@@ -24,6 +22,8 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/cxx.h"
+#include "utils/rels.h"
+#include "rels/include/defines.h"
 
 _FIFOQueue Queue;
 bool l_loadCard = true;
@@ -40,33 +40,26 @@ bool last_frame_was_loading = false;
 #define INTERNAL_GZ_VERSION "<unk>"
 #endif
 
-namespace mod {
+namespace tpgz::modules {
 void main() {
-    Hook::applyHooks();
-    init();
-}
+    // Run the initialization module.
+    tpgz::dyn::GZModule* initRel = new tpgz::dyn::GZModule("/tpgz/rels/init.rel");
+    initRel->load(true);
+    // The initialization module doesn't need to be kept in memory once ran.
+    // initRel->close(); // This code is implicitly ran in the destructor.
+    delete initRel;
 
+    if (l_gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
+        load_texture("/tpgz/tex/tpgz.tex", &l_gzIconTex);
+    }
+}
 void exit() {}
-}  // namespace mod
+
+}  // namespace tpgz::modules
 
 extern "C" {
 
-void init() {
-    Font::loadFont("tpgz/fonts/consola.fnt");
-    Draw::init();
-    Menu::init();
-    PosSettingsMenu::initDefaults();
-    g_fifoVisible = true;
-    if (l_gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
-        load_texture("tpgz/tex/tpgz.tex", &l_gzIconTex);
-    }
-    GZ_patchLinkColor();
-#ifdef WII_PLATFORM
-    g_tmpBuf = new (-0x200) uint8_t[0x4000];
-#endif
-}
-
-void game_loop() {
+KEEP_FUNC void game_loop() {
 #ifdef GCN_PLATFORM
 #define BUTTONS (tp_mPadStatus.button)
 #define CANCEL_LOAD_BUTTONS (CButton::L | CButton::R | CButton::B)
@@ -133,14 +126,14 @@ void game_loop() {
     }
 }
 
-void post_game_loop() {
+KEEP_FUNC void post_game_loop() {
     GZ_execute(POST_GAME_LOOP);
 }
 
 Texture l_framePauseTex;
 Texture l_framePlayTex;
 
-void draw() {
+KEEP_FUNC void draw() {
     setupRendering();
 
     if (GZ_checkMenuOpen()) {

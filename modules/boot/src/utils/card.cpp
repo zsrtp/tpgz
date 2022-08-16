@@ -12,9 +12,10 @@
 #include "save_manager.h"
 #include "utils/card.h"
 #include "utils/loading.h"
+#include "rels/include/defines.h"
 
 #ifdef WII_PLATFORM
-void* g_tmpBuf;
+KEEP_VAR void* g_tmpBuf;
 #endif
 
 /**

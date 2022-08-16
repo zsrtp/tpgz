@@ -4,13 +4,14 @@
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "gcn_c/include/gfx.h"
 #include "utils/texture.h"
+#include "rels/include/defines.h"
 
 #define DEFAULT_WIDTH 0x06
 
 Texture blankTex;
 
 namespace Draw {
-void init() {
+KEEP_FUNC void init() {
     load_texture("tpgz/tex/blank.tex", &blankTex);
     if (blankTex.loadCode != TexCode::TEX_OK) {
         tp_osReport("Could not load blank texture (Code: %d)", blankTex.loadCode);

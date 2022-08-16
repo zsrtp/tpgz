@@ -3,10 +3,11 @@
 #include "utils/disc.h"
 #include "utils/draw.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 _Font Font::font;
 
-FontCode Font::loadFont(const char* path) {
+KEEP_FUNC FontCode Font::loadFont(const char* path) {
     DVDFileInfo fileInfo;
     int32_t readsize;
     if (font.loadCode == FontCode::FNT_OK) {

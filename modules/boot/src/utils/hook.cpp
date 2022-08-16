@@ -12,12 +12,12 @@
 #include "movelink.h"
 #include "menus/memfiles_menu.h"
 #include "rels/include/cxx.h"
+#include "rels/include/defines.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
     tp_##name##_t name##Trampoline;
 
-HOOK_DEF(void, cDyl_InitAsync, (void*, void*, void*));
 HOOK_DEF(void, fapGm_Execute, (void));
 HOOK_DEF(void, ExceptionCallback, (void));
 HOOK_DEF(void, draw, (void*));
@@ -65,11 +65,6 @@ HOOK_DEF(void, BeforeOfPaint, (void));
 // } trampolines[HOOK_AMNT];
 
 namespace Hook {
-void initHook(void* p1, void* p2, void* p3) {
-    cDyl_InitAsyncTrampoline(p1, p2, p3);
-    init();
-}
-
 void gameLoopHook(void) {
     game_loop();
     fapGm_ExecuteTrampoline();
@@ -194,9 +189,8 @@ uint32_t PADRead(uint16_t*);
 #define CODE_HEAP HEAP_ARCHIVE
 #endif
 
-void applyHooks() {
+KEEP_FUNC void applyHooks() {
 #define APPLY_HOOK(name, addr, func) name##Trampoline = hookFunction((tp_##name##_t)addr, func)
-    // APPLY_HOOK(cDyl_InitAsync, tp_cDyl_InitAsync_addr, HK_LIB_INIT_INDEX, initHook);
     APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, gameLoopHook);
     APPLY_HOOK(draw, tp_draw_console_addr, drawHook);
     APPLY_HOOK(PADRead, (&PADRead), readControllerHook);
