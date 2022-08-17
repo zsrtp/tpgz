@@ -5,7 +5,6 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
 #endif
-#include "input_viewer.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "movelink.h"
 #include "rollcheck.h"

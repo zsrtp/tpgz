@@ -29,7 +29,6 @@ void main() {
     g_drawHandler->addHandler(GZ_renderFifoQueue);
     g_drawHandler->addHandler(GZ_displayLinkInfo);
     g_drawHandler->addHandler(GZ_drawHeapInfo);
-    g_drawHandler->addHandler(InputViewer::draw);
     g_drawHandler->addHandler(Timer::drawTimer);
     g_drawHandler->addHandler(Timer::drawLoadTimer);
     g_drawHandler->addHandler(Timer::drawIGT);

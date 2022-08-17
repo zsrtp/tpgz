@@ -294,17 +294,18 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
 #endif
 
 KEEP_FUNC void InputViewer::draw() {
-    if (g_tools[INPUT_VIEWER_INDEX].active) {
-        Vec2 pos = {0.f, 0.f};
-        pos.x += g_spriteOffsets[VIEWER_INDEX].x;
-        pos.y += g_spriteOffsets[VIEWER_INDEX].y;
-#ifdef GCN_PLATFORM
-        float scale = 1.0f;  // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
-#elif defined(WII_PLATFORM)
-        float scale = 1.2f;
-#endif
-        if (g_dropShadows)
-            drawViewer({pos.x + 1.f, pos.y + 1.f}, scale, true, IS_WIDESCREEN);
-        drawViewer(pos, scale, false, IS_WIDESCREEN);
+    if (!g_tools[INPUT_VIEWER_INDEX].active) {
+        return;
     }
+    Vec2 pos = {0.f, 0.f};
+    pos.x += g_spriteOffsets[VIEWER_INDEX].x;
+    pos.y += g_spriteOffsets[VIEWER_INDEX].y;
+#ifdef GCN_PLATFORM
+    float scale = 1.0f;  // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
+#elif defined(WII_PLATFORM)
+    float scale = 1.2f;
+#endif
+    if (g_dropShadows)
+        drawViewer({pos.x + 1.f, pos.y + 1.f}, scale, true, IS_WIDESCREEN);
+    drawViewer(pos, scale, false, IS_WIDESCREEN);
 }

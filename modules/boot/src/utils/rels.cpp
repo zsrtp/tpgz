@@ -399,4 +399,8 @@ bool GZModule::close() {
     return true;
 }
 
+bool GZModule::isLoaded() {
+    return m_loaded;
+}
+
 }  // namespace tpgz::dyn

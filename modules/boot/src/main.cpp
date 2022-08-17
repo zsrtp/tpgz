@@ -4,7 +4,6 @@
 #include "font.h"
 #include "free_cam.h"
 #include "gz_flags.h"
-#include "input_viewer.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
@@ -30,6 +29,7 @@ _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
+tpgz::dyn::GZModule l_input_viewer("/tpgz/rels/input_viewer.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -124,6 +124,12 @@ KEEP_FUNC void game_loop() {
             tp_mPad.mTrigButton = tp_mPad.mHoldButton;
         }
 #endif
+    }
+
+    if (g_tools[INPUT_VIEWER_INDEX].active) {
+        l_input_viewer.load(true);
+    } else {
+        l_input_viewer.close();
     }
 }
 

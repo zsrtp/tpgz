@@ -13,6 +13,8 @@ public:
 
     bool close();
 
+    bool isLoaded();
+
 private:
     uint8_t m_loaded;
     const char* m_path;

@@ -2,7 +2,6 @@
 #include "cheats.h"
 #include "commands.h"
 #include "font.h"
-#include "input_viewer.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "timer.h"
