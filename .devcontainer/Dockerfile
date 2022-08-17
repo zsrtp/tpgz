@@ -11,7 +11,6 @@ USER vscode
 
 RUN sudo dpkg --add-architecture i386
 RUN sudo apt-get update && sudo apt-get install -y build-essential
-RUN sudo apt-get install -y libtinfo5
 RUN sudo apt-get install -y libarchive-tools 
 RUN sudo apt-get install -y clang-format-10
 RUN sudo apt-get install -y cmake
@@ -19,6 +18,7 @@ RUN sudo apt-get install -y cmake
 # RUN sudo apt-get install -y wine
 RUN sudo apt-get install -y ninja-build
 RUN sudo apt-get upgrade -y
+RUN sudo apt-get install -y libtinfo5
 
 # Install DevkitPPC
 WORKDIR /tmp
