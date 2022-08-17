@@ -24,12 +24,14 @@
 #include "utils/rels.h"
 #include "rels/include/defines.h"
 #include "handlers/draw_handler.h"
+#include "handlers/pre_loop_handler.h"
+#include "handlers/post_loop_handler.h"
 
 _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
-tpgz::dyn::GZModule l_input_viewer("/tpgz/rels/input_viewer.rel");
+tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/input_viewer.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -39,6 +41,17 @@ tpgz::dyn::GZModule l_input_viewer("/tpgz/rels/input_viewer.rel");
 #else
 #warning GZ_VERSION is not defined
 #define INTERNAL_GZ_VERSION "<unk>"
+#endif
+
+#ifdef GCN_PLATFORM
+#define BUTTONS (tp_mPadStatus.button)
+#define CANCEL_LOAD_BUTTONS (CButton::L | CButton::R | CButton::B)
+#define SHOW_MENU_BUTTONS (CButton::L | CButton::R | CButton::DPAD_DOWN)
+#endif
+#ifdef WII_PLATFORM
+#define BUTTONS (tp_mPad.mHoldButton)
+#define CANCEL_LOAD_BUTTONS (CButton::Z | CButton::C | CButton::B)
+#define SHOW_MENU_BUTTONS (CButton::Z | CButton::C | CButton::MINUS)
 #endif
 
 namespace tpgz::modules {
@@ -58,29 +71,15 @@ void exit() {}
 
 }  // namespace tpgz::modules
 
-extern "C" {
-
-KEEP_FUNC void game_loop() {
-#ifdef GCN_PLATFORM
-#define BUTTONS (tp_mPadStatus.button)
-#define CANCEL_LOAD_BUTTONS (CButton::L | CButton::R | CButton::B)
-#define SHOW_MENU_BUTTONS (CButton::L | CButton::R | CButton::DPAD_DOWN)
-#endif
-#ifdef WII_PLATFORM
-#define BUTTONS (tp_mPad.mHoldButton)
-#define CANCEL_LOAD_BUTTONS (CButton::Z | CButton::C | CButton::B)
-#define SHOW_MENU_BUTTONS (CButton::Z | CButton::C | CButton::MINUS)
-#endif
-
-    // Button combo to bypass the automatic loading of the save file
-    // in case of crash caused by the load.
-    if (BUTTONS == CANCEL_LOAD_BUTTONS && l_loadCard) {
-        l_loadCard = false;
+KEEP_FUNC void GZ_controlInputViewer() {
+    if (g_tools[INPUT_VIEWER_INDEX].active) {
+        g_InputViewer_rel.load(true);
+    } else {
+        g_InputViewer_rel.close();
     }
+}
 
-    // check and load gz settings card if found
-    GZ_loadGZSave(l_loadCard);
-
+KEEP_FUNC void GZ_controlMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
         if (GZ_checkReturnMenu()) {
             GZ_returnMenu();
@@ -97,7 +96,23 @@ KEEP_FUNC void game_loop() {
         last_frame_was_loading = true;
         g_freeCamEnabled = false;
     }
+}
 
+KEEP_FUNC void GZ_controlCardLoad() {
+    // Button combo to bypass the automatic loading of the save file
+    // in case of crash caused by the load.
+    if (BUTTONS == CANCEL_LOAD_BUTTONS && l_loadCard) {
+        l_loadCard = false;
+    }
+
+    // check and load gz settings card if found
+    GZ_loadGZSave(l_loadCard);
+
+    // remove the function from the handler list once done.
+    g_PreLoopHandler->removeHandler(GZ_controlCardLoad);
+}
+
+KEEP_FUNC void GZ_controlSavingTmp() {
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
         tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
@@ -109,11 +124,17 @@ KEEP_FUNC void game_loop() {
 
         last_frame_was_loading = false;
     }
+}
 
+KEEP_FUNC void GZ_controlFlags_PreLoop() {
     GZ_execute(GAME_LOOP);
-    FreeCam::execute();
-    MoveLink::execute();
+}
 
+KEEP_FUNC void GZ_controlFlags_PostLoop() {
+    GZ_execute(POST_GAME_LOOP);
+}
+
+KEEP_FUNC void GZ_controlTurbo() {
     if (g_tools[TURBO_MODE_INDEX].active) {
 #ifdef GCN_PLATFORM
         tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
@@ -125,16 +146,16 @@ KEEP_FUNC void game_loop() {
         }
 #endif
     }
+}
 
-    if (g_tools[INPUT_VIEWER_INDEX].active) {
-        l_input_viewer.load(true);
-    } else {
-        l_input_viewer.close();
-    }
+extern "C" {
+
+KEEP_FUNC void game_loop() {
+    g_PreLoopHandler->handleAll(nullptr);
 }
 
 KEEP_FUNC void post_game_loop() {
-    GZ_execute(POST_GAME_LOOP);
+    g_PostLoopHandler->handleAll(nullptr);
 }
 
 Texture l_framePauseTex;

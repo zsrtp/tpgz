@@ -68,6 +68,7 @@ enum {
     GZ_POS_SETTINGS_MENU,
 };
 
+extern bool g_injectSave;
 extern bool g_framePaused;
 
 enum LoopPhase { GAME_LOOP, POST_GAME_LOOP };
@@ -84,6 +85,7 @@ inline void GZ_setFifoVisible(bool visible) {
     g_fifoVisible = visible;
 }
 
+void GZ_frameAdvance();
 void GZ_execute(int phase);
 void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex);
 

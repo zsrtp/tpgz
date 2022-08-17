@@ -5,6 +5,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "rels/include/defines.h"
 
 #define ROTATION_SPEED (10)
 #define CAM_FAST_SPEED (2.0)
@@ -47,7 +48,7 @@ double pitch = 0.0;
 double yaw = 0.0;
 float angle = 0.0f;
 
-void execute() {
+KEEP_FUNC void execute() {
     if (g_moveLinkEnabled) {
         auto& cam_target = tp_matrixInfo.matrix_info->target;
         auto& cam_pos = tp_matrixInfo.matrix_info->pos;

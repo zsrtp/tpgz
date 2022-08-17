@@ -16,6 +16,7 @@
 #include "corotdcheck.h"
 #include "umd.h"
 #include "utils/draw.h"
+#include "rels/include/defines.h"
 
 bool g_injectSave = false;
 bool g_framePaused = false;
@@ -49,7 +50,10 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
 #define TRIG_BTNS tp_mPad.mTrigButton
 #endif
 
-void GZ_frameAdvance() {
+KEEP_FUNC void GZ_frameAdvance() {
+    if (!g_framePaused) {
+        return;
+    }
     static int holdCounter = 0;
     static uint32_t buttonsPrev = 0;
     sPauseTimer = 1;
@@ -97,12 +101,5 @@ void GZ_execute(int phase) {
                 g_gzFlags[i].mpDeactiveFunc();
             }
         }
-    }
-
-    GZ_setCursorColor();
-    ToolsMenu::setTunicColor();
-
-    if (g_framePaused && phase == GAME_LOOP) {
-        GZ_frameAdvance();
     }
 }

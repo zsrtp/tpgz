@@ -12,6 +12,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "umd.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_TUNIC_COLORS 7
 
@@ -240,7 +241,7 @@ void ToolsMenu::draw() {
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
 
-void ToolsMenu::setTunicColor() {
+KEEP_FUNC void ToolsMenu::setTunicColor() {
     static int16_t cycle_r = 0;
     static int16_t cycle_g = 0;
     static int16_t cycle_b = 0;

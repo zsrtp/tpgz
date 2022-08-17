@@ -5,6 +5,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "rels/include/defines.h"
 
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
@@ -37,7 +38,7 @@ bool init_once = false;
 double pitch = 0.0;
 double yaw = 0.0;
 
-void execute() {
+KEEP_FUNC void execute() {
     if (g_freeCamEnabled) {
         auto& cam_target = tp_matrixInfo.matrix_info->target;
         auto& cam_pos = tp_matrixInfo.matrix_info->pos;

@@ -1,6 +1,7 @@
 #include "utils/cursor.h"
 #include "controller.h"
 #include "menus/settings_menu.h"
+#include "rels/include/defines.h"
 
 bool g_cursorEnabled = false;
 
@@ -54,7 +55,7 @@ void Cursor::move(int max_x, int max_y) {
     }
 }
 
-void GZ_setCursorColor() {
+KEEP_FUNC void GZ_setCursorColor() {
     switch (g_cursorColorType) {
     case CURSOR_GREEN:
         g_cursorColor = 0x00CC00FF;
