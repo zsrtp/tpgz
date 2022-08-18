@@ -107,9 +107,6 @@ KEEP_FUNC void GZ_controlCardLoad() {
 
     // check and load gz settings card if found
     GZ_loadGZSave(l_loadCard);
-
-    // remove the function from the handler list once done.
-    g_PreLoopHandler->removeHandler(GZ_controlCardLoad);
 }
 
 KEEP_FUNC void GZ_controlSavingTmp() {
