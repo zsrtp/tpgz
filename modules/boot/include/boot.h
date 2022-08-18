@@ -2,7 +2,7 @@
 #include <cinttypes>
 #include "utils/rels.h"
 
-namespace mod {
+namespace tpgz::modules {
 /***********************************************************************************
  * We're creating a cusutom REL file and thus the real main function already ran
  * before we even load this program.
@@ -17,7 +17,7 @@ namespace mod {
 void main();
 void exit();
 
-}  // namespace mod
+}  // namespace tpgz::modules
 
 extern tpgz::dyn::GZModule g_InputViewer_rel;
 void GZ_controlTools();
