@@ -104,6 +104,7 @@ function(tpgz_add_module module_name module_srcs)
     set_property(TARGET modules PROPERTY "TPGZ_MODULE_LAST_ID" ${TPGZ_MODULE_ID_COUNTER})
 endfunction()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 add_definitions(-DREL_MODULE)
 
 add_compile_options(-fdiagnostics-color=always -fno-exceptions -fno-rtti -std=gnu++20 -fno-threadsafe-statics -nostdlib -ffreestanding -ffunction-sections -fdata-sections -g -Os -Wall -Werror -Wno-address-of-packed-member -r -e_prolog -u_prolog -u_epilog -u_unresolved -Wl,--gc-sections -nostdlib -g ${DEVKITPRO_MACHDEP_LIST})

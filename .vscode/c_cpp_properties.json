@@ -4,8 +4,7 @@
             "name": "GC US",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
-                "${workspaceFolder}/modules/init/include/**",
-                "${workspaceFolder}/modules/input_viewer/include/**",
+                "${workspaceFolder}/modules/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -40,8 +39,7 @@
             "name": "GC PAL",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
-                "${workspaceFolder}/modules/init/include/**",
-                "${workspaceFolder}/modules/input_viewer/include/**",
+                "${workspaceFolder}/modules/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -76,8 +74,7 @@
             "name": "GC JP",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
-                "${workspaceFolder}/modules/init/include/**",
-                "${workspaceFolder}/modules/input_viewer/include/**",
+                "${workspaceFolder}/modules/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -112,8 +109,7 @@
             "name": "Wii US 1.0",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
-                "${workspaceFolder}/modules/init/include/**",
-                "${workspaceFolder}/modules/input_viewer/include/**",
+                "${workspaceFolder}/modules/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -148,8 +144,7 @@
             "name": "Wii PAL",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
-                "${workspaceFolder}/modules/init/include/**",
-                "${workspaceFolder}/modules/input_viewer/include/**",
+                "${workspaceFolder}/modules/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
