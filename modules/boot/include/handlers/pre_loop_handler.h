@@ -3,7 +3,7 @@
 
 #include "handlers/handler_base.h"
 
-typedef void (PreLoopCallback_t)();
+typedef void(PreLoopCallback_t)();
 
 class PreLoopHandler : public handler::HandlerBase<PreLoopCallback_t> {
 public:

@@ -3,7 +3,7 @@
 
 KEEP_VAR PostLoopHandler* g_PostLoopHandler = nullptr;
 
-KEEP_FUNC PostLoopHandler::PostLoopHandler(): HandlerBase() {}
+KEEP_FUNC PostLoopHandler::PostLoopHandler() : HandlerBase() {}
 
 KEEP_FUNC PostLoopHandler::~PostLoopHandler() {}
 

@@ -71,12 +71,33 @@ void exit() {}
 
 }  // namespace tpgz::modules
 
-KEEP_FUNC void GZ_controlInputViewer() {
-    if (g_tools[INPUT_VIEWER_INDEX].active) {
-        g_InputViewer_rel.load(true);
+// Game hooks
+extern "C" {
+
+KEEP_FUNC void game_loop() {
+    g_PreLoopHandler->handleAll(nullptr);
+}
+
+KEEP_FUNC void post_game_loop() {
+    g_PostLoopHandler->handleAll(nullptr);
+}
+
+KEEP_FUNC void draw() {
+    setupRendering();
+    g_drawHandler->handleAll(nullptr);
+}
+}
+
+KEEP_FUNC void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
+    if (g_tools[id].active) {
+        rel.load(true);
     } else {
-        g_InputViewer_rel.close();
+        rel.close();
     }
+}
+
+KEEP_FUNC void GZ_controlTools() {
+    GZ_controlModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
 }
 
 KEEP_FUNC void GZ_controlMenu() {
@@ -145,22 +166,7 @@ KEEP_FUNC void GZ_controlTurbo() {
     }
 }
 
-extern "C" {
-
-KEEP_FUNC void game_loop() {
-    g_PreLoopHandler->handleAll(nullptr);
-}
-
-KEEP_FUNC void post_game_loop() {
-    g_PostLoopHandler->handleAll(nullptr);
-}
-
-Texture l_framePauseTex;
-Texture l_framePlayTex;
-
-KEEP_FUNC void draw() {
-    setupRendering();
-
+KEEP_FUNC void GZ_renderMenuTitle() {
     if (GZ_checkMenuOpen()) {
         Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
                          g_cursorColor, g_dropShadows);
@@ -169,9 +175,12 @@ KEEP_FUNC void draw() {
                            &l_gzIconTex._texObj);
         }
     }
+}
 
-    g_drawHandler->handleAll(nullptr);
+Texture l_framePauseTex;
+Texture l_framePlayTex;
 
+KEEP_FUNC void GZ_renderPlayPause() {
     if (g_tools[FRAME_ADVANCE_INDEX].active) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("tpgz/tex/framePause.tex", &l_framePauseTex);
@@ -191,5 +200,4 @@ KEEP_FUNC void draw() {
             free_texture(&l_framePlayTex);
         }
     }
-}
 }

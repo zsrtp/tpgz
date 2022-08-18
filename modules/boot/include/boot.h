@@ -17,16 +17,19 @@ namespace mod {
 void main();
 void exit();
 
-}  // namespace tpgz::modules
+}  // namespace mod
 
 extern tpgz::dyn::GZModule g_InputViewer_rel;
-void GZ_controlInputViewer();
+void GZ_controlTools();
 void GZ_controlMenu();
 void GZ_controlCardLoad();
 void GZ_controlSavingTmp();
 void GZ_controlFlags_PreLoop();
 void GZ_controlFlags_PostLoop();
 void GZ_controlTurbo();
+
+void GZ_renderMenuTitle();
+void GZ_renderPlayPause();
 
 extern "C" {
 void game_loop();

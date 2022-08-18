@@ -12,7 +12,7 @@ void _unresolved();
 namespace tpgz::modules {
 extern void main();
 extern void exit();
-}  // namespace mod
+}  // namespace tpgz::modules
 
 void _prolog() {
     // Run global constructors
@@ -34,4 +34,7 @@ void _epilog() {
 
 void _unresolved(void) {}
 
-extern "C" void __cxa_pure_virtual() { while (1); }
+extern "C" void __cxa_pure_virtual() {
+    while (1)
+        ;
+}

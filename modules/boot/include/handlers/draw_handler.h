@@ -3,7 +3,7 @@
 
 #include "handlers/handler_base.h"
 
-typedef void (drawCallback_t)();
+typedef void(drawCallback_t)();
 
 class DrawHandler : public handler::HandlerBase<drawCallback_t> {
 public:

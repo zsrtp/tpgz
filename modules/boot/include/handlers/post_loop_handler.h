@@ -3,7 +3,7 @@
 
 #include "handlers/handler_base.h"
 
-typedef void (PostLoopCallback_t)();
+typedef void(PostLoopCallback_t)();
 
 class PostLoopHandler : public handler::HandlerBase<PostLoopCallback_t> {
 public:

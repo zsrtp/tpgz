@@ -32,6 +32,7 @@ void main() {
     // Init the draw handler
     g_drawHandler = new DrawHandler();
     // Setup the render order
+    g_drawHandler->addHandler(GZ_renderMenuTitle);
     g_drawHandler->addHandler(GZ_renderFifoQueue);
     g_drawHandler->addHandler(GZ_displayLinkInfo);
     g_drawHandler->addHandler(GZ_drawHeapInfo);
@@ -40,6 +41,7 @@ void main() {
     g_drawHandler->addHandler(Timer::drawIGT);
     g_drawHandler->addHandler(GZ_drawMenu);
     g_drawHandler->addHandler(GZ_drawWatches);
+    g_drawHandler->addHandler(GZ_renderPlayPause);
     // Init the pre-loop handler
     g_PreLoopHandler = new PreLoopHandler();
     g_PreLoopHandler->addHandler(GZ_controlCardLoad);
@@ -52,7 +54,7 @@ void main() {
     g_PreLoopHandler->addHandler(GZ_frameAdvance);
     g_PreLoopHandler->addHandler(FreeCam::execute);
     g_PreLoopHandler->addHandler(MoveLink::execute);
-    g_PreLoopHandler->addHandler(GZ_controlInputViewer);
+    g_PreLoopHandler->addHandler(GZ_controlTools);
     // Init the post-loop handler
     g_PostLoopHandler = new PostLoopHandler();
     g_PostLoopHandler->addHandler(GZ_controlFlags_PostLoop);

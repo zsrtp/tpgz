@@ -3,7 +3,7 @@
 
 KEEP_VAR DrawHandler* g_drawHandler = nullptr;
 
-KEEP_FUNC DrawHandler::DrawHandler(): HandlerBase() {}
+KEEP_FUNC DrawHandler::DrawHandler() : HandlerBase() {}
 
 KEEP_FUNC DrawHandler::~DrawHandler() {}
 

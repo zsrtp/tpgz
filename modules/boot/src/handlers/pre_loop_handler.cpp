@@ -3,7 +3,7 @@
 
 KEEP_VAR PreLoopHandler* g_PreLoopHandler = nullptr;
 
-KEEP_FUNC PreLoopHandler::PreLoopHandler(): HandlerBase() {}
+KEEP_FUNC PreLoopHandler::PreLoopHandler() : HandlerBase() {}
 
 KEEP_FUNC PreLoopHandler::~PreLoopHandler() {}
 
