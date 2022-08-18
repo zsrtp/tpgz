@@ -179,32 +179,63 @@ void putSaveHook(void* addr, int stageNo) {
     }
 }
 
-extern "C" {
-uint32_t PADRead(uint16_t*);
-}
-
 #ifdef WII_PLATFORM
-#define CODE_HEAP HEAP_ZELDA
+#define draw_console JUTConsoleManager__draw_void_
+#define f_fapGm_Execute fapGm_Execute_void_
+#define clawshot_checkbg daAlink_c__checkHookshotStickBG_cBgS_PolyInfo
+#define set_special_gravity daAlink_c__setSpecialGravity_float_
+#define checkCastleTownUseItem daAlink_c__checkCastleTownUseItem_unsigned
+#define query042 dMsgFlow_c__query042_mesg_flow_node_branch
+#define f_onSwitch dSv_info_c__onSwitch_int_
+#define f_onEventBit dSv_event_c__onEventBit_unsigned
+#define f_offEventBit dSv_event_c__offEventBit_unsigned
+#define f_putSave dSv_info_c__putSave_int_
+#define f_myExceptionCallback myExceptionCallback_unsigned
 #else
-#define CODE_HEAP HEAP_ARCHIVE
+#define draw_console draw__17JUTConsoleManagerCFv
+#define f_fapGm_Execute fapGm_Execute__Fv
+#define clawshot_checkbg checkHookshotStickBG__9daAlink_cFR13cBgS_PolyInfo
+#define set_special_gravity setSpecialGravity__9daAlink_cFffi
+#define checkCastleTownUseItem checkCastleTownUseItem__9daAlink_cFUs
+#define query042 query042__10dMsgFlow_cFP21mesg_flow_node_branchP10fopAc_ac_ci
+#define f_onSwitch onSwitch__10dSv_info_cFii
+#define f_onEventBit onEventBit__11dSv_event_cFUs
+#define f_offEventBit offEventBit__11dSv_event_cFUs
+#define f_putSave putSave__10dSv_info_cFi
+#define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
 #endif
 
-KEEP_FUNC void applyHooks() {
-#define APPLY_HOOK(name, addr, func) name##Trampoline = hookFunction((tp_##name##_t)addr, func)
-    APPLY_HOOK(fapGm_Execute, tp_fapGm_Execute_addr, gameLoopHook);
-    APPLY_HOOK(draw, tp_draw_console_addr, drawHook);
-    APPLY_HOOK(PADRead, (&PADRead), readControllerHook);
-    APPLY_HOOK(checkHookshotStickBG, tp_clawshot_checkbg_addr, superClawshotHook);
-    APPLY_HOOK(setSpecialGravity, tp_setSpecialGravity_addr, disableGravityHook);
-    APPLY_HOOK(checkCastleTownUseItem, tp_checkCastleTownUseItem_addr, unrestrictedItemsHook);
-    APPLY_HOOK(query042, tp_query042_addr, transformAnywhereHook);
+extern "C" {
+uint32_t PADRead(uint16_t*);
+void draw_console(void*);
+void f_fapGm_Execute();
+uint32_t clawshot_checkbg(void*, void*);
+void set_special_gravity(float, float, int);
+uint32_t checkCastleTownUseItem(uint16_t);
+uint32_t query042(void*, void*, int);
+void f_onSwitch(void*, int, int);
+void f_onEventBit(void*, uint16_t);
+void f_offEventBit(void*, uint16_t);
+void f_putSave(void*, int);
+void f_myExceptionCallback();
+}
 
-    APPLY_HOOK(onSwitch, dSv_info_c__onSwitch_addr, onSwitchHook);
-    APPLY_HOOK(onEventBit, dSv_event_c__onEventBit_addr, onEventBitHook);
-    APPLY_HOOK(offEventBit, dSv_event_c__offEventBit_addr, offEventBitHook);
-    APPLY_HOOK(putSave, tp_putSave_addr, putSaveHook);
+KEEP_FUNC void applyHooks() {
+#define APPLY_HOOK(name, addr, func) name##Trampoline = hookFunction((tp_##name##_t)(addr), func)
+    APPLY_HOOK(fapGm_Execute, &f_fapGm_Execute, gameLoopHook);
+    APPLY_HOOK(draw, &draw_console, drawHook);
+    APPLY_HOOK(PADRead, &PADRead, readControllerHook);
+    APPLY_HOOK(checkHookshotStickBG, &clawshot_checkbg, superClawshotHook);
+    APPLY_HOOK(setSpecialGravity, &set_special_gravity, disableGravityHook);
+    APPLY_HOOK(checkCastleTownUseItem, &checkCastleTownUseItem, unrestrictedItemsHook);
+    APPLY_HOOK(query042, &query042, transformAnywhereHook);
+
+    APPLY_HOOK(onSwitch, &f_onSwitch, onSwitchHook);
+    APPLY_HOOK(onEventBit, &f_onEventBit, onEventBitHook);
+    APPLY_HOOK(offEventBit, &f_offEventBit, offEventBitHook);
+    APPLY_HOOK(putSave, &f_putSave, putSaveHook);
 #ifdef PR_TEST
-    APPLY_HOOK(ExceptionCallback, tp_myExceptionCallback_addr, myExceptionCallbackHook);
+    APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif
 
 #undef APPLY_HOOK
