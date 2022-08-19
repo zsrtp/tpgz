@@ -80,13 +80,15 @@ void GZ_applyCheats() {
     if (GZ_checkCheat(InvincibleEnemies)) {
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x60000000;  // nop
-        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
+                     sizeof(uint32_t));
         ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
     } else {
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x7C030050;  // sub r0, r0, r3
-        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
+                     sizeof(uint32_t));
         ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
     }

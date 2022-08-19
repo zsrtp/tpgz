@@ -13,7 +13,7 @@ KEEP_FUNC void GZ_displayLinkInfo() {
     }
     char time[12] = {0};
     sprintf(time, "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
-               g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
+            g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
     Font::GZ_drawStr(time, g_spriteOffsets[DEBUG_INFO_INDEX].x, g_spriteOffsets[DEBUG_INFO_INDEX].y,
                      0xFFFFFFFF, g_dropShadows);
 

@@ -190,13 +190,13 @@ void ItemWheelMenu::draw() {
         for (int j = 0; j < MAX_ITEMS; j++) {
             if (l_lookupTbl[j].item_id == item_id) {
                 sprintf(lines[slot_no].value, " <%s>",
-                           item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
+                        item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
             }
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
                 sprintf(lines[slot_no].description,
-                           "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
-                           slot_no, l_lookupTbl[j].name);
+                        "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default", slot_no,
+                        l_lookupTbl[j].name);
             } else {
                 continue;
             }

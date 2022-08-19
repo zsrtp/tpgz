@@ -50,7 +50,7 @@ HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
 HOOK_DEF(void, setSpecialGravity, (float, float, int));
 HOOK_DEF(uint32_t, checkCastleTownUseItem, (uint16_t));
 HOOK_DEF(uint32_t, query042, (void*, void*, int));
-//HOOK_DEF(void*, cc_at_check, (void*, int*));
+// HOOK_DEF(void*, cc_at_check, (void*, int*));
 
 HOOK_DEF(void, onEventBit, (void*, uint16_t));
 HOOK_DEF(void, offEventBit, (void*, uint16_t));

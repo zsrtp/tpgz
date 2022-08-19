@@ -35,7 +35,7 @@ int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offs
         }
         int32_t rem_size = sector_size - (offset & (sector_size - 1));
         memcpy(buf + (offset & (sector_size - 1)), (void*)((uint32_t)data + read_bytes),
-                  MIN(rem_size, size));
+               MIN(rem_size, size));
         StorageWrite(*storage, buf, sector_size, (offset & ~(sector_size - 1)));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
@@ -61,7 +61,7 @@ int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offse
         }
         int32_t rem_size = sector_size - (offset & (sector_size - 1));
         memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (sector_size - 1)),
-                  MIN(rem_size, size));
+               MIN(rem_size, size));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;
@@ -193,8 +193,8 @@ void GZ_storeMemCard(Storage& storage) {
     GZSaveFile save_file;
     GZ_setupSaveFile(save_file);
     GZ_storeSaveLayout(save_file.data);
-    uint32_t file_size = (uint32_t)(
-        ceil((double)sizeof(save_file) / (double)storage.sector_size) * storage.sector_size);
+    uint32_t file_size = (uint32_t)(ceil((double)sizeof(save_file) / (double)storage.sector_size) *
+                                    storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
     if (storage.result == Ready || storage.result == Exist) {
@@ -222,8 +222,8 @@ void GZ_storeMemfile(Storage& storage) {
     posData.cam.target = matrixInfo.matrix_info->target;
     posData.cam.pos = matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
-    uint32_t file_size = (uint32_t)(
-        ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) * storage.sector_size);
+    uint32_t file_size = (uint32_t)(ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) *
+                                    storage.sector_size);
 
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);

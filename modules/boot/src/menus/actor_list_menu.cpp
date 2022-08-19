@@ -78,7 +78,7 @@ void ActorListMenu::draw() {
 
         char posBuf[50];
         sprintf(posBuf, "Position: %.1f %.1f %.1f", actorData->mCurrent.mPosition.x,
-                   actorData->mCurrent.mPosition.y, actorData->mCurrent.mPosition.z);
+                actorData->mCurrent.mPosition.y, actorData->mCurrent.mPosition.z);
         GZ_drawText(posBuf, 25.0f, 180.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         sprintf(lines[ACTOR_ID_INDEX].value, " <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);

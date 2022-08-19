@@ -26,7 +26,7 @@ bool g_freeCamEnabled;
 #define CONTROL_Y ((mPad.mHoldButton & CButton::C) == 0 ? mPad.stick.y * 0x48 : 0)
 #define CONTROL_X ((mPad.mHoldButton & CButton::C) == 0 ? -mPad.stick.x * 0x48 : 0)
 #define VERTICAL_DISPLACEMENT                                                                      \
-    ((mPad.mHoldButton & CButton::DPAD_UP ? 75 : 0) -                                           \
+    ((mPad.mHoldButton & CButton::DPAD_UP ? 75 : 0) -                                              \
      (mPad.mHoldButton & CButton::DPAD_DOWN ? 75 : 0))
 #define SPEED_PREDICATE (mPad.mHoldButton & CButton::Z)
 #define PITCH_CONTROL ((mPad.mHoldButton & CButton::C) != 0 ? mPad.stick.y * 0x3B : 0)
@@ -51,7 +51,7 @@ KEEP_FUNC void execute() {
             // Initialize the pitch and yaw to the current angle of the camera
             yaw = atan2(cam_target.z - cam_pos.z, cam_target.x - cam_pos.x);
             double horizontal = sqrt((cam_target.x - cam_pos.x) * (cam_target.x - cam_pos.x) +
-                                        (cam_target.z - cam_pos.z) * (cam_target.z - cam_pos.z));
+                                     (cam_target.z - cam_pos.z) * (cam_target.z - cam_pos.z));
             pitch = atan2(cam_target.y - cam_pos.y, horizontal);
             init_once = true;
         }

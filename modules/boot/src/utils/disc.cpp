@@ -19,7 +19,7 @@ int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offse
         }
         int32_t rem_size = buf_size - (offset & (buf_size - 1));
         memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (buf_size - 1)),
-                  MIN(rem_size, size));
+               MIN(rem_size, size));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;

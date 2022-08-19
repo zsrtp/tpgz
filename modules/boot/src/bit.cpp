@@ -50,11 +50,10 @@ void BiTIndicator::execute() {
         // If we reach terminal velocity after the voiding point, ...
         if (x_dt_1 <= VOID_HEIGHT) {
             // ... just calculate the time remaining before void using the quadratic formula
-            dt =
-                (-v_y1 -
-                 sqrt((double)(v_y1 * v_y1 + 2 * acc * (VOID_HEIGHT - dist_from_last_ground)))) /
-                    acc +
-                0.5;
+            dt = (-v_y1 -
+                  sqrt((double)(v_y1 * v_y1 + 2 * acc * (VOID_HEIGHT - dist_from_last_ground)))) /
+                     acc +
+                 0.5;
         } else {
             // ... else, the time remaining before the void is the time to reach terminal velocity +
             // linear time at velocity
@@ -67,7 +66,7 @@ void BiTIndicator::execute() {
         // }
 
         if (strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
-                      "F_SP104") == 0 &&
+                   "F_SP104") == 0 &&
             GZ_getButtonPressed(GZPad::HOME) && homeMenuSts.is_visible == 0 &&
             !fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {

@@ -93,7 +93,7 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
 
     memset(&tex->_texObj, 0, sizeof(GXTexObj));
     GXInitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP,
-                  GX_CLAMP, GX_FALSE);
+                 GX_CLAMP, GX_FALSE);
     tex->loadCode = TexCode::TEX_OK;
     return tex->loadCode;
 }
@@ -122,7 +122,7 @@ void setupRendering() {
 
     GXSetNumTexGens(1);
     GXSetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
-                       GX_DTTIDENTITY);
+                      GX_DTTIDENTITY);
 
     GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_TEXC, GX_CC_ZERO);
     GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_RASA, GX_CA_TEXA, GX_CA_ZERO);

@@ -64,7 +64,6 @@ void GZ_setReturnMenu(int menu_idx);
 class Menu {
 public:
     Menu() {}
-    static void init();
 
     virtual void draw() = 0;
 };

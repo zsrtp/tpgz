@@ -134,7 +134,7 @@ KEEP_FUNC void GZ_controlSavingTmp() {
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !fopScnRq.isLoading) {
         memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
-                  sizeof(g_dComIfG_gameInfo.info.mMemory));
+               sizeof(g_dComIfG_gameInfo.info.mMemory));
 
         for (int i = 0; i < 4; i++) {
             gSaveManager.mAreaReloadOpts.tears[i] = dComIfGs_getLightDropNum(i);

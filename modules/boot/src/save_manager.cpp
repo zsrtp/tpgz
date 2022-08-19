@@ -57,7 +57,7 @@ void SaveManager::injectDefault_during() {
     g_dComIfG_gameInfo.play.mNextStage.mPoint =
         g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
     strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
-              (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
+           (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
     g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
     // fixes some bug causing link to auto drown, figure out later
@@ -109,7 +109,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
              sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
     sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category,
-               gSaveManager.mPracticeSaveInfo.filename);
+            gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
     if (size != 0xFF) {

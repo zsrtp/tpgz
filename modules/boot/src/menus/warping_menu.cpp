@@ -106,7 +106,7 @@ void GZWarp_loadNextRoomInfo() {
 
 void GZWarp_loadNextSpawnInfo() {
     sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
-               (int)l_warpInfo.room_info.room_id[0]);
+            (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
                         l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
@@ -114,7 +114,7 @@ void GZWarp_loadNextSpawnInfo() {
 
 void GZWarp_loadPrevSpawnInfo() {
     sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
-               (int)l_warpInfo.room_info.room_id[0]);
+            (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
                         l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);

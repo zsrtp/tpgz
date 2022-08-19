@@ -92,7 +92,7 @@ void GZCmd_reloadArea() {
     if (g_reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
-                  sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
+               sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
 
         // restore last tear count
         for (int i = 0; i < 4; i++) {

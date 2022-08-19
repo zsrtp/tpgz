@@ -15,24 +15,22 @@ KEEP_FUNC void GZ_drawWatches() {
             switch (g_watches[i].type) {
             case u32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
-                    sprintf(
-                        rendered_value, g_watches[i].hex ? "%08X" : "%u",
-                        *(uint32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                    sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%u",
+                            *(uint32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%u",
-                               *(uint32_t*)g_watches[i].address);
+                            *(uint32_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
                 break;
             case u16:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
-                    sprintf(
-                        rendered_value, g_watches[i].hex ? "%04X" : "%u",
-                        *(uint16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                    sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%u",
+                            *(uint16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%u",
-                               *(uint16_t*)g_watches[i].address);
+                            *(uint16_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
@@ -40,10 +38,10 @@ KEEP_FUNC void GZ_drawWatches() {
             case u8:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, g_watches[i].hex ? "%02X" : "%u",
-                               *(uint8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            *(uint8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%02X" : "%u",
-                               *(uint8_t*)g_watches[i].address);
+                            *(uint8_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
@@ -51,10 +49,10 @@ KEEP_FUNC void GZ_drawWatches() {
             case i32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%i",
-                               *(int32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            *(int32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%08X" : "%i",
-                               *(int32_t*)g_watches[i].address);
+                            *(int32_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
@@ -62,10 +60,10 @@ KEEP_FUNC void GZ_drawWatches() {
             case i16:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%i",
-                               *(int16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            *(int16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%04X" : "%i",
-                               *(int16_t*)g_watches[i].address);
+                            *(int16_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
@@ -73,10 +71,10 @@ KEEP_FUNC void GZ_drawWatches() {
             case i8:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, g_watches[i].hex ? "%02X" : "%i",
-                               *(int8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            *(int8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, g_watches[i].hex ? "%02X" : "%i",
-                               *(int8_t*)g_watches[i].address);
+                            *(int8_t*)g_watches[i].address);
                 }
                 Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
                                  g_dropShadows);
@@ -84,7 +82,7 @@ KEEP_FUNC void GZ_drawWatches() {
             case f32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, "%.2f",
-                               *(float*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            *(float*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, "%.2f", *(float*)g_watches[i].address);
                 }
@@ -94,7 +92,7 @@ KEEP_FUNC void GZ_drawWatches() {
             case string:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
                     sprintf(rendered_value, "%s",
-                               (char*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                            (char*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
                 } else {
                     sprintf(rendered_value, "%s", (char*)g_watches[i].address);
                 }
