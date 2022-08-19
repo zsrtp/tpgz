@@ -52,12 +52,12 @@ void RollIndicator::execute() {
 
             if (counter_difference > 15 && counter_difference < 19 && GZ_getButtonPressed(A) &&
                 !GZ_getButtonHold(A)) {
-                tp_sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
+                sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             } else if (counter_difference == 19 && GZ_getButtonPressed(A) && !GZ_getButtonHold(A)) {
                 FIFOQueue::push("<3", Queue, 0x00CC0000);
             } else if (missed_counter > 0 && missed_pressed_a == false) {
-                tp_sprintf(buf, "%df late", missed_counter);
+                sprintf(buf, "%df late", missed_counter);
                 FIFOQueue::push(buf, Queue, 0x99000000);
                 missed_counter = 0;
                 counter_difference = 0;

@@ -44,12 +44,12 @@ tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/input_viewer.rel");
 #endif
 
 #ifdef GCN_PLATFORM
-#define BUTTONS (tp_mPadStatus.button)
+#define BUTTONS (mPadStatus.button)
 #define CANCEL_LOAD_BUTTONS (CButton::L | CButton::R | CButton::B)
 #define SHOW_MENU_BUTTONS (CButton::L | CButton::R | CButton::DPAD_DOWN)
 #endif
 #ifdef WII_PLATFORM
-#define BUTTONS (tp_mPad.mHoldButton)
+#define BUTTONS (mPad.mHoldButton)
 #define CANCEL_LOAD_BUTTONS (CButton::Z | CButton::C | CButton::B)
 #define SHOW_MENU_BUTTONS (CButton::Z | CButton::C | CButton::MINUS)
 #endif
@@ -88,7 +88,7 @@ KEEP_FUNC void draw() {
 }
 }
 
-KEEP_FUNC void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
+void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
     if (g_tools[id].active) {
         rel.load(true);
     } else {
@@ -101,7 +101,7 @@ KEEP_FUNC void GZ_controlTools() {
 }
 
 KEEP_FUNC void GZ_controlMenu() {
-    if (BUTTONS == SHOW_MENU_BUTTONS && tp_fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
+    if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
         if (GZ_checkReturnMenu()) {
             GZ_returnMenu();
         } else {
@@ -111,7 +111,7 @@ KEEP_FUNC void GZ_controlMenu() {
         g_fifoVisible = false;
     }
 
-    if (tp_fopScnRq.isLoading) {
+    if (fopScnRq.isLoading) {
         GZ_clearMenu();
         g_moveLinkEnabled = false;
         last_frame_was_loading = true;
@@ -132,8 +132,8 @@ KEEP_FUNC void GZ_controlCardLoad() {
 
 KEEP_FUNC void GZ_controlSavingTmp() {
     // save temp flags and tears after every loading zone
-    if (last_frame_was_loading && !tp_fopScnRq.isLoading) {
-        tp_memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
+    if (last_frame_was_loading && !fopScnRq.isLoading) {
+        memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
                   sizeof(g_dComIfG_gameInfo.info.mMemory));
 
         for (int i = 0; i < 4; i++) {
@@ -155,12 +155,12 @@ KEEP_FUNC void GZ_controlFlags_PostLoop() {
 KEEP_FUNC void GZ_controlTurbo() {
     if (g_tools[TURBO_MODE_INDEX].active) {
 #ifdef GCN_PLATFORM
-        tp_cPadInfo[0].mPressedButtonFlags = tp_cPadInfo[0].mButtonFlags;
+        cPadInfo[0].mPressedButtonFlags = cPadInfo[0].mButtonFlags;
 #endif
 
 #ifdef WII_PLATFORM
         if (!GZ_checkMenuOpen()) {
-            tp_mPad.mTrigButton = tp_mPad.mHoldButton;
+            mPad.mTrigButton = mPad.mHoldButton;
         }
 #endif
     }

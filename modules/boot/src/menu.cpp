@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "cxx.h"
+#include "rels/include/cxx.h"
 #include "menus/amounts_menu.h"
 #include "menus/any_saves_menu.h"
 #include "menus/cheats_menu.h"
@@ -26,24 +26,7 @@
 
 typedef void (*menu_render_t)();
 
-Menu* l_menuDrawList[MAX_MENU_RENDER_FLAGS];
-
-KEEP_FUNC void Menu::init() {
-    static Menu* const initializer[] = {
-        new MainMenu(),        new CheatsMenu(),       new FlagsMenu(),
-        new InventoryMenu(),   new MemoryMenu(),       new PracticeMenu(),
-        new SceneMenu(),       new SettingsMenu(),     new ToolsMenu(),
-        new WarpingMenu(),     new GeneralFlagsMenu(), new DungeonFlagsMenu(),
-        new PortalFlagsMenu(), new FlagRecordsMenu(),  new FlagLogMenu(),
-        new ItemWheelMenu(),   new PauseMenu(),        new AmountsMenu(),
-        new WatchesMenu(),     new MemoryEditorMenu(), new MemfilesMenu(),
-        new AnySavesMenu(),    new HundoSavesMenu(),   new ADSavesMenu(),
-        new ActorSpawnMenu(),  new ActorListMenu(),    new PosSettingsMenu(),
-    };
-    for (size_t i = 0; i < LIST_COUNT(initializer); ++i) {
-        l_menuDrawList[i] = initializer[i];
-    }
-}
+KEEP_VAR Menu* l_menuDrawList[MAX_MENU_RENDER_FLAGS];
 
 Menu* l_currentMenu = nullptr;
 Menu* l_returnMenu = nullptr;

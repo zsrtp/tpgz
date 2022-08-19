@@ -26,8 +26,8 @@ static char buf[30];
 void BiTIndicator::setPosition() {
     dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
-    tp_matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
-    tp_matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
+    matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
+    matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
 
 void BiTIndicator::execute() {
@@ -52,7 +52,7 @@ void BiTIndicator::execute() {
             // ... just calculate the time remaining before void using the quadratic formula
             dt =
                 (-v_y1 -
-                 tp_sqrt((double)(v_y1 * v_y1 + 2 * acc * (VOID_HEIGHT - dist_from_last_ground)))) /
+                 sqrt((double)(v_y1 * v_y1 + 2 * acc * (VOID_HEIGHT - dist_from_last_ground)))) /
                     acc +
                 0.5;
         } else {
@@ -61,23 +61,23 @@ void BiTIndicator::execute() {
             dt = dt_1 + (VOID_HEIGHT - x_dt_1) / term_vel + 0.5;
         }
 
-        // if (tp_homeMenuSts.is_visible == 0 && !tp_fopScnRq.isLoading) {
+        // if (homeMenuSts.is_visible == 0 && !fopScnRq.isLoading) {
         //     sprintf(buf, "frames before void: %d", (int)dt);
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (tp_strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
+        if (strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
                       "F_SP104") == 0 &&
-            GZ_getButtonPressed(GZPad::HOME) && tp_homeMenuSts.is_visible == 0 &&
-            !tp_fopScnRq.isLoading) {
+            GZ_getButtonPressed(GZPad::HOME) && homeMenuSts.is_visible == 0 &&
+            !fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
-                tp_sprintf(buf, "Got it");
+                sprintf(buf, "Got it");
             }
             if ((int)dt > TARGET_FRAME) {
-                tp_sprintf(buf, "%d frames early", (int)dt - TARGET_FRAME);
+                sprintf(buf, "%d frames early", (int)dt - TARGET_FRAME);
             }
             if ((int)dt < TARGET_FRAME) {
-                tp_sprintf(buf, "%d frames late", TARGET_FRAME - (int)dt);
+                sprintf(buf, "%d frames late", TARGET_FRAME - (int)dt);
             }
             FIFOQueue::push(buf, Queue);
         }

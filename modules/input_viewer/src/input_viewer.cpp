@@ -20,8 +20,8 @@ void drawEllipse(uint32_t color, Vec2 center, Vec2 dim) {
     float dy[n_points] = {0};
     float tmp;
     for (size_t i = 0; i < n_points; ++i) {
-        dx[i] = tp_cos(i * M_PI / 2.0 / n_points);
-        dy[i] = tp_sin(i * M_PI / 2.0 / n_points);
+        dx[i] = cos(i * M_PI / 2.0 / n_points);
+        dy[i] = sin(i * M_PI / 2.0 / n_points);
     }
     Draw::begin(4 * n_points, GX_TRIANGLEFAN);
     for (uint8_t i = 0; i < 4; ++i) {
@@ -42,8 +42,8 @@ void drawEllipseOutline(uint32_t color, Vec2 center, Vec2 dim, uint8_t line_widt
     float dy[n_points] = {0};
     float tmp;
     for (size_t i = 0; i < n_points; ++i) {
-        dx[i] = tp_cos(i * M_PI / 2.0 / n_points);
-        dy[i] = tp_sin(i * M_PI / 2.0 / n_points);
+        dx[i] = cos(i * M_PI / 2.0 / n_points);
+        dy[i] = sin(i * M_PI / 2.0 / n_points);
     }
     Draw::begin_outline(4 * n_points + 1, line_width);
     for (uint8_t i = 0; i < 4; ++i) {
@@ -173,24 +173,24 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
     drawStickOutline(is_shadow ? 0x00000060 : 0xFFD138FF,
                      {pos.x + 62.5f * scale, pos.y + 30.f * scale}, 35.0f * scale, x_ratio);
     drawEllipse(is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                {pos.x + (17.5f + tp_mPadMStick.mPosX * 10) * scale,
-                 pos.y + (30.f - tp_mPadMStick.mPosY * 10) * scale},
+                {pos.x + (17.5f + mPadMStick.mPosX * 10) * scale,
+                 pos.y + (30.f - mPadMStick.mPosY * 10) * scale},
                 {20.0f * scale, 20.0f * scale});
     drawEllipse(is_shadow ? 0x00000060 : 0xFFD138FF,
-                {pos.x + (62.5f + tp_mPadSStick.mPosX * 10) * scale,
-                 pos.y + (30.f - tp_mPadSStick.mPosY * 10) * scale},
+                {pos.x + (62.5f + mPadSStick.mPosX * 10) * scale,
+                 pos.y + (30.f - mPadSStick.mPosY * 10) * scale},
                 {20.0f * scale, 20.0f * scale});
 
     // Analog triggers
     Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y},
                           {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
     Draw::drawRect(is_shadow ? 0x00000060 : GZ_getButtonPressed(GZPad::L) ? 0x00FF00FF : 0xFFFFFFFF,
-                   {pos.x, pos.y}, {35.f * tp_mPadButton.mAnalogLf * scale, 7.f * scale});
+                   {pos.x, pos.y}, {35.f * mPadButton.mAnalogLf * scale, 7.f * scale});
     Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x + 45.f * scale, pos.y},
                           {35.f * scale, 7.f * scale}, OUTLINE_WIDTH);
     Draw::drawRect(is_shadow ? 0x00000060 : GZ_getButtonPressed(GZPad::R) ? 0x00FF00FF : 0xFFFFFFFF,
-                   {pos.x + (45.f + 35.f * (1 - tp_mPadButton.mAnalogRf)) * scale, pos.y},
-                   {35.f * tp_mPadButton.mAnalogRf * scale, 7.f * scale});
+                   {pos.x + (45.f + 35.f * (1 - mPadButton.mAnalogRf)) * scale, pos.y},
+                   {35.f * mPadButton.mAnalogRf * scale, 7.f * scale});
 
     // stick inputs
     char control_x[5];  // control stick x
@@ -198,10 +198,10 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
     char c_x[5];        // c stick x
     char c_y[5];        // c stick y
 
-    tp_sprintf(control_x, "%3d", tp_mPadStatus.stick_x);
-    tp_sprintf(control_y, "%3d", tp_mPadStatus.stick_y);
-    tp_sprintf(c_x, "%3d", tp_mPadStatus.substick_x);
-    tp_sprintf(c_y, "%3d", tp_mPadStatus.substick_y);
+    sprintf(control_x, "%3d", mPadStatus.stick_x);
+    sprintf(control_y, "%3d", mPadStatus.stick_y);
+    sprintf(c_x, "%3d", mPadStatus.substick_x);
+    sprintf(c_y, "%3d", mPadStatus.substick_y);
 
     Font::GZ_drawStr(control_x, pos.x, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFFFFFFF,
                      false, 13 * scale);
@@ -248,16 +248,16 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
                      {pos.x + 17.5f * scale * x_ratio, pos.y + 30.f * scale}, 35.0f * scale,
                      x_ratio);
     drawEllipse(is_shadow ? 0x00000060 : 0xFFFFFFFF,
-                {pos.x + (17.5f + tp_mPad.stick.x * 10) * scale * x_ratio,
-                 pos.y + (30.f - tp_mPad.stick.y * 10) * scale},
+                {pos.x + (17.5f + mPad.stick.x * 10) * scale * x_ratio,
+                 pos.y + (30.f - mPad.stick.y * 10) * scale},
                 {20.0f * scale * x_ratio, 20.0f * scale});
 
     // stick inputs
     char control_x[5];  // control stick x
     char control_y[5];  // control stick y
 
-    tp_sprintf(control_x, "%3d", (int8_t)(tp_mPad.stick.x * 99.f));
-    tp_sprintf(control_y, "%3d", (int8_t)(tp_mPad.stick.y * 99.f));
+    sprintf(control_x, "%3d", (int8_t)(mPad.stick.x * 99.f));
+    sprintf(control_y, "%3d", (int8_t)(mPad.stick.y * 99.f));
 
     Font::GZ_drawStr(control_x, pos.x, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFFFFFFF,
                      false, 10 * scale);
@@ -267,16 +267,16 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
     // Analog triggers
     Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF, {pos.x, pos.y},
                           {35.f * scale * x_ratio, 7.f * scale}, OUTLINE_WIDTH);
-    Draw::drawRect(is_shadow ? 0x00000060 : tp_mPad.nunchuck_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
+    Draw::drawRect(is_shadow ? 0x00000060 : mPad.nunchuck_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
                    {pos.x, pos.y},
-                   {35.f * MIN(1.0f, tp_mPad.nunchuck_shake) * scale * x_ratio, 7.f * scale});
+                   {35.f * MIN(1.0f, mPad.nunchuck_shake) * scale * x_ratio, 7.f * scale});
     Draw::drawRectOutline(is_shadow ? 0x00000060 : 0xFFFFFFFF,
                           {pos.x + 117.5f * scale * x_ratio, pos.y},
                           {35.f * scale * x_ratio, 7.f * scale}, OUTLINE_WIDTH);
     Draw::drawRect(
-        is_shadow ? 0x00000060 : tp_mPad.wiimote_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
-        {pos.x + (117.5f + 35.f * (1 - MIN(1.0f, tp_mPad.wiimote_shake))) * scale * x_ratio, pos.y},
-        {35.f * MIN(1.0f, tp_mPad.wiimote_shake) * scale * x_ratio, 7.f * scale});
+        is_shadow ? 0x00000060 : mPad.wiimote_shake > 0.2 ? 0x00FF00FF : 0xFFFFFFFF,
+        {pos.x + (117.5f + 35.f * (1 - MIN(1.0f, mPad.wiimote_shake))) * scale * x_ratio, pos.y},
+        {35.f * MIN(1.0f, mPad.wiimote_shake) * scale * x_ratio, 7.f * scale});
 
 #endif
 }
@@ -301,7 +301,7 @@ KEEP_FUNC void InputViewer::draw() {
     pos.x += g_spriteOffsets[VIEWER_INDEX].x;
     pos.y += g_spriteOffsets[VIEWER_INDEX].y;
 #ifdef GCN_PLATFORM
-    float scale = 1.0f;  // 0.5f * tp_cos(TP::get_frame_count() / 20.f) + 1.0f;
+    float scale = 1.0f;  // 0.5f * cos(TP::get_frame_count() / 20.f) + 1.0f;
 #elif defined(WII_PLATFORM)
     float scale = 1.2f;
 #endif

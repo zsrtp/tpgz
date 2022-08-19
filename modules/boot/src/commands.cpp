@@ -52,9 +52,9 @@ void GZCmd_storePosition() {
         sSavePlayerAngle = dComIfGp_getPlayer()->mCollisionRot.mY;
     }
 
-    if (tp_matrixInfo.matrix_info) {
-        sSaveCamPos = tp_matrixInfo.matrix_info->pos;
-        sSaveCamTarget = tp_matrixInfo.matrix_info->target;
+    if (matrixInfo.matrix_info) {
+        sSaveCamPos = matrixInfo.matrix_info->pos;
+        sSaveCamTarget = matrixInfo.matrix_info->target;
     }
 }
 
@@ -64,9 +64,9 @@ void GZCmd_loadPosition() {
         dComIfGp_getPlayer()->mCollisionRot.mY = sSavePlayerAngle;
     }
 
-    if (tp_matrixInfo.matrix_info) {
-        tp_matrixInfo.matrix_info->pos = sSaveCamPos;
-        tp_matrixInfo.matrix_info->target = sSaveCamTarget;
+    if (matrixInfo.matrix_info) {
+        matrixInfo.matrix_info->pos = sSaveCamPos;
+        matrixInfo.matrix_info->target = sSaveCamTarget;
     }
 }
 
@@ -91,7 +91,7 @@ void GZCmd_reloadArea() {
 
     if (g_reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
-        tp_memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
+        memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
                   sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
 
         // restore last tear count
@@ -170,8 +170,8 @@ void GZCmd_processInputs() {
             c.command();
             setGamepadButtons(0x0);
             setGamepadTrig(0x0);
-            tp_mPadButton.mRepeat = 0x0;
-            tp_mPadStatus.button = 0x0;
+            mPadButton.mRepeat = 0x0;
+            mPadStatus.button = 0x0;
         }
     }
     sLastInputs = sCurInputs;

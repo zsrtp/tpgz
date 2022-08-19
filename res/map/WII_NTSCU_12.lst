@@ -1,0 +1,11 @@
+
+// f_op_draw_tag.o
+80465970:matrixInfo
+
+805209d0:g_dComIfAc_gameInfo
+805208e8:sConsole
+805208f0:bossFlags
+80520914:fopAc_ac_c__stopStatus
+80520970:homeMenuSts
+
+CC008000:wgPipe

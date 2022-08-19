@@ -13,6 +13,7 @@
 #include "utils/card.h"
 #include "utils/loading.h"
 #include "rels/include/defines.h"
+#include "rels/include/cxx.h"
 
 #ifdef WII_PLATFORM
 KEEP_VAR void* g_tmpBuf;
@@ -23,7 +24,7 @@ KEEP_VAR void* g_tmpBuf;
  */
 int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offset,
                         int32_t sector_size) {
-    uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
+    uint8_t* buf = new (-32) uint8_t[sector_size];
     int32_t result = Ready;
     int32_t read_bytes = 0;
 
@@ -33,14 +34,14 @@ int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offs
             break;
         }
         int32_t rem_size = sector_size - (offset & (sector_size - 1));
-        tp_memcpy(buf + (offset & (sector_size - 1)), (void*)((uint32_t)data + read_bytes),
+        memcpy(buf + (offset & (sector_size - 1)), (void*)((uint32_t)data + read_bytes),
                   MIN(rem_size, size));
         StorageWrite(*storage, buf, sector_size, (offset & ~(sector_size - 1)));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;
     }
-    tp_free(buf);
+    delete[] buf;
     return result;
 }
 
@@ -49,7 +50,7 @@ int32_t GZ_storageWrite(Storage* storage, void* data, int32_t size, int32_t offs
  */
 int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offset,
                        int32_t sector_size) {
-    uint8_t* buf = (uint8_t*)tp_memalign(-32, sector_size);
+    uint8_t* buf = new (-32) uint8_t[sector_size];
     int32_t result = Ready;
     int32_t read_bytes = 0;
 
@@ -59,23 +60,23 @@ int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offse
             break;
         }
         int32_t rem_size = sector_size - (offset & (sector_size - 1));
-        tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (sector_size - 1)),
+        memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (sector_size - 1)),
                   MIN(rem_size, size));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;
     }
-    tp_free(buf);
+    delete[] buf;
     return result;
 }
 
 void GZ_storeSaveLayout(GZSaveLayout& save_layout) {
-    tp_memcpy(save_layout.mCheats, g_cheats, sizeof(g_cheats));
-    tp_memcpy(save_layout.mTools, g_tools, sizeof(g_tools));
-    tp_memcpy(save_layout.mSceneFlags, g_sceneFlags, sizeof(g_sceneFlags));
-    tp_memcpy(save_layout.mWatches, g_watches, sizeof(g_watches));
-    tp_memcpy(save_layout.mSpriteOffsets, g_spriteOffsets, sizeof(g_spriteOffsets));
-    tp_memcpy(save_layout.mCommandStates, g_commandStates, sizeof(g_commandStates));
+    memcpy(save_layout.mCheats, g_cheats, sizeof(g_cheats));
+    memcpy(save_layout.mTools, g_tools, sizeof(g_tools));
+    memcpy(save_layout.mSceneFlags, g_sceneFlags, sizeof(g_sceneFlags));
+    memcpy(save_layout.mWatches, g_watches, sizeof(g_watches));
+    memcpy(save_layout.mSpriteOffsets, g_spriteOffsets, sizeof(g_spriteOffsets));
+    memcpy(save_layout.mCommandStates, g_commandStates, sizeof(g_commandStates));
     save_layout.mDropShadows = g_dropShadows;
     save_layout.mReloadType = g_reloadType;
     save_layout.mCursorColType = g_cursorColorType;
@@ -83,12 +84,12 @@ void GZ_storeSaveLayout(GZSaveLayout& save_layout) {
 }
 
 void GZ_loadSaveLayout(GZSaveLayout& save_layout) {
-    tp_memcpy(g_cheats, save_layout.mCheats, sizeof(g_cheats));
-    tp_memcpy(g_tools, save_layout.mTools, sizeof(g_tools));
-    tp_memcpy(g_sceneFlags, save_layout.mSceneFlags, sizeof(g_sceneFlags));
-    tp_memcpy(g_watches, save_layout.mWatches, sizeof(g_watches));
-    tp_memcpy(g_spriteOffsets, save_layout.mSpriteOffsets, sizeof(g_spriteOffsets));
-    tp_memcpy(g_commandStates, save_layout.mCommandStates, sizeof(g_commandStates));
+    memcpy(g_cheats, save_layout.mCheats, sizeof(g_cheats));
+    memcpy(g_tools, save_layout.mTools, sizeof(g_tools));
+    memcpy(g_sceneFlags, save_layout.mSceneFlags, sizeof(g_sceneFlags));
+    memcpy(g_watches, save_layout.mWatches, sizeof(g_watches));
+    memcpy(g_spriteOffsets, save_layout.mSpriteOffsets, sizeof(g_spriteOffsets));
+    memcpy(g_commandStates, save_layout.mCommandStates, sizeof(g_commandStates));
     g_dropShadows = save_layout.mDropShadows;
     g_reloadType = save_layout.mReloadType;
     g_cursorColorType = save_layout.mCursorColType;
@@ -193,7 +194,7 @@ void GZ_storeMemCard(Storage& storage) {
     GZ_setupSaveFile(save_file);
     GZ_storeSaveLayout(save_file.data);
     uint32_t file_size = (uint32_t)(
-        tp_ceil((double)sizeof(save_file) / (double)storage.sector_size) * storage.sector_size);
+        ceil((double)sizeof(save_file) / (double)storage.sector_size) * storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
     if (storage.result == Ready || storage.result == Exist) {
@@ -202,12 +203,12 @@ void GZ_storeMemCard(Storage& storage) {
             storage.result =
                 GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0, storage.sector_size);
             if (storage.result == Ready) {
-                tp_osReport("saved card!");
+                OSReport("saved card!");
                 FIFOQueue::push("saved card!", Queue);
             } else {
-                tp_osReport("failed to save");
+                OSReport("failed to save");
                 char buff[32];
-                tp_sprintf(buff, "failed to save: %d", storage.result);
+                sprintf(buff, "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
             }
             storage.result = StorageClose(&storage.info);
@@ -218,11 +219,11 @@ void GZ_storeMemCard(Storage& storage) {
 void GZ_storeMemfile(Storage& storage) {
     PositionData posData;
     posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
-    posData.cam.target = tp_matrixInfo.matrix_info->target;
-    posData.cam.pos = tp_matrixInfo.matrix_info->pos;
+    posData.cam.target = matrixInfo.matrix_info->target;
+    posData.cam.pos = matrixInfo.matrix_info->pos;
     posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
     uint32_t file_size = (uint32_t)(
-        tp_ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) * storage.sector_size);
+        ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) * storage.sector_size);
 
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
@@ -243,7 +244,7 @@ void GZ_storeMemfile(Storage& storage) {
                 FIFOQueue::push("saved memfile!", Queue);
             } else {
                 char buff[32];
-                tp_sprintf(buff, "failed to save: %d", storage.result);
+                sprintf(buff, "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
             }
             storage.result = StorageClose(&storage.info);
@@ -257,7 +258,7 @@ void GZ_deleteMemCard(Storage& storage) {
         FIFOQueue::push("deleted card!", Queue);
     } else {
         char buff[32];
-        tp_sprintf(buff, "failed to delete: %d", storage.result);
+        sprintf(buff, "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
     }
 }
@@ -268,7 +269,7 @@ void GZ_deleteMemfile(Storage& storage) {
         FIFOQueue::push("deleted memfile!", Queue);
     } else {
         char buff[32];
-        tp_sprintf(buff, "failed to delete: %d", storage.result);
+        sprintf(buff, "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
     }
 }
@@ -285,7 +286,7 @@ void GZ_loadMemCard(Storage& storage) {
             SettingsMenu::initFont();
         } else {
             char buff[32];
-            tp_sprintf(buff, "failed to load: %d", storage.result);
+            sprintf(buff, "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);
         }
         storage.result = StorageClose(&storage.info);
@@ -311,7 +312,7 @@ void GZ_loadMemfile(Storage& storage) {
             GZ_setMenu(MN_NONE_INDEX);
         } else {
             char buff[32];
-            tp_sprintf(buff, "failed to load: %d", storage.result);
+            sprintf(buff, "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);
         }
         storage.result = StorageClose(&storage.info);
@@ -327,7 +328,7 @@ void GZ_loadGZSave(bool& card_load) {
         static Storage storage;
         storage.file_name = FILE_NAME;
         storage.sector_size = SECTOR_SIZE;
-        tp_sprintf(storage.file_name_buffer, (char*)storage.file_name);
+        sprintf(storage.file_name_buffer, (char*)storage.file_name);
 #ifndef WII_PLATFORM
         storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
         if (storage.result == Ready) {

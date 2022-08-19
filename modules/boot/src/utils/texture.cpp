@@ -5,6 +5,7 @@
 #include "utils/disc.h"
 #include "gcn_c/include/dvd.h"
 #include "gcn_c/include/gfx.h"
+#include "rels/include/cxx.h"
 
 enum TexFmt {
     RGB8 = 0,
@@ -75,7 +76,7 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
     }
 
     uint32_t size = get_size(tex->header.format, tex->header.width, tex->header.height);
-    tex->data = (uint8_t*)tp_memalign(-32, size);
+    tex->data = new (-32) uint8_t[size];
     if (tex->data == nullptr) {
         DVDClose(&fileInfo);
         tex->loadCode = TexCode::TEX_ERR_MEM;
@@ -83,15 +84,15 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
     }
 
     if (DVDReadPrio(&fileInfo, tex->data, size, offset + sizeof(tex->header), 2) < (int32_t)size) {
-        tp_free(tex->data);
+        delete tex->data;
         DVDClose(&fileInfo);
         tex->loadCode = TexCode::TEX_ERR_READ;
         return tex->loadCode;
     }
     DVDClose(&fileInfo);
 
-    tp_memset(&tex->_texObj, 0, sizeof(GXTexObj));
-    GX_InitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP,
+    memset(&tex->_texObj, 0, sizeof(GXTexObj));
+    GXInitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP,
                   GX_CLAMP, GX_FALSE);
     tex->loadCode = TexCode::TEX_OK;
     return tex->loadCode;
@@ -99,36 +100,36 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
 
 void free_texture(Texture* tex) {
     if (tex->data != nullptr) {
-        tp_free(tex->data);
+        delete tex->data;
         tex->data = 0;
     }
-    tp_memset(tex, 0, sizeof(Texture));
+    memset(tex, 0, sizeof(Texture));
     // The next line is redundant, but is still there for good measure
     tex->loadCode = TexCode::TEX_UNLOADED;
 }
 
 void setupRendering() {
-    GX_SetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
+    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
 
-    GX_ClearVtxDesc();
-    GX_SetVtxDesc(GX_VA_POS, GX_DIRECT);
-    GX_SetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-    GX_SetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+    GXClearVtxDesc();
+    GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+    GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+    GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
 
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XY, GX_F32, 0);
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-    GX_SetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XY, GX_F32, 0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
-    GX_SetNumTexGens(1);
-    GX_SetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
+    GXSetNumTexGens(1);
+    GXSetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
                        GX_DTTIDENTITY);
 
-    GX_SetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_TEXC, GX_CC_ZERO);
-    GX_SetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_RASA, GX_CA_TEXA, GX_CA_ZERO);
-    GX_SetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
-    GX_SetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_TEXC, GX_CC_ZERO);
+    GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_RASA, GX_CA_TEXA, GX_CA_ZERO);
+    GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
+    GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
 
-    GX_SetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 }
 
 #ifdef __cplusplus

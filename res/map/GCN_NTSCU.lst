@@ -22,9 +22,16 @@
 80042778:defaultSkipStb
 800429D4:skipper
 
+// f_op_draw_tag.o
+803F1E10:matrixInfo
+
 // f_op_scene_req.o
 // data
+80450610:g_dComIfAc_gameInfo
 80450614:freezeActors
+80450C90:sConsole
+80450C98:bossFlags
+80450CBC:fopAc_ac_c__stopStatus
 80450CE0:isLoading
 
 // f_ap_game.o
@@ -146,6 +153,8 @@
 80368AE8:strncpy
 80368B2C:strcpy
 
+// math.o
+80182a24:fastSqrt
 
 // m_Do_controller_pad.o
 // data
@@ -167,6 +176,10 @@
 803AC5A0:item_resource
 803ADD88:field_item_res
 803AED78:item_info
+
+80451125:sPauseTimer
+
+CC008000:wgPipe
 
 800056c0:version_check__Fv
 80005728:CheckHeap1__9HeapCheckFv

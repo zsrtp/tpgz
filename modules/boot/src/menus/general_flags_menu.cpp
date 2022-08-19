@@ -2,8 +2,9 @@
 #include "menus/flags_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
+#include "rels/include/defines.h"
 
-GeneralFlagsMenu::GeneralFlagsMenu()
+KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu()
     : Menu(), lines{
                   {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
                   {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled",
@@ -30,7 +31,7 @@ GeneralFlagsMenu::GeneralFlagsMenu()
 
 void GeneralFlagsMenu::draw() {
     // update flags
-    l_bossFlag = tp_bossFlags > 0;
+    l_bossFlag = bossFlags > 0;
     l_midnaCharge = dComIfGs_isEventBit(0x0501);
     l_transformWarp = dComIfGs_isEventBit(0x0D04);
     l_midnaZ = dComIfGs_isEventBit(0x0C10);
@@ -49,7 +50,7 @@ void GeneralFlagsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_FLAGS_MENU);
+        GZ_setMenu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -57,9 +58,9 @@ void GeneralFlagsMenu::draw() {
         switch (cursor.y) {
         case BOSS_FLAG_INDEX:
             if (l_bossFlag) {
-                tp_bossFlags = 0;
+                bossFlags = 0;
             } else {
-                tp_bossFlags = 255;
+                bossFlags = 255;
             }
             break;
         case RUPEE_CS_FLAG_INDEX:

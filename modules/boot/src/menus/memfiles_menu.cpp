@@ -5,6 +5,7 @@
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_SAVE_SLOTS 20
 
@@ -17,7 +18,7 @@ bool l_dataCopied;
 cXyz l_tmpPos = g_dComIfG_gameInfo.info.mRestart.mRoomPos;
 uint16_t l_tmpAngle = g_dComIfG_gameInfo.info.mRestart.mRoomAngleY;
 
-MemfilesMenu::MemfilesMenu()
+KEEP_FUNC MemfilesMenu::MemfilesMenu()
     : Menu(), lines{
                   {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                   {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
@@ -28,7 +29,7 @@ MemfilesMenu::MemfilesMenu()
 void MemfilesMenu::setLinkPosition() {
     static int8_t sLoadDelay = 10;
 
-    if (tp_fopScnRq.isLoading == 1) {
+    if (fopScnRq.isLoading == 1) {
         sLoadDelay--;
     }
 
@@ -42,8 +43,8 @@ void MemfilesMenu::setLinkPosition() {
     if (sLoadDelay == 0) {
         if (dComIfGp_getPlayer() != nullptr) {
             dComIfGp_getPlayer()->mCurrent.mPosition = memfile_posdata.link;
-            tp_matrixInfo.matrix_info->target = memfile_posdata.cam.target;
-            tp_matrixInfo.matrix_info->pos = memfile_posdata.cam.pos;
+            matrixInfo.matrix_info->target = memfile_posdata.cam.target;
+            matrixInfo.matrix_info->pos = memfile_posdata.cam.pos;
             dComIfGp_getPlayer()->mCollisionRot.mY = memfile_posdata.angle;
             g_dComIfG_gameInfo.info.mRestart.mRoomPos = l_tmpPos;
             g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = l_tmpAngle;
@@ -57,7 +58,7 @@ void MemfilesMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MEMORY_MENU);
+        GZ_setMenu(MN_MEMORY_INDEX);
         return;
     }
 
@@ -76,10 +77,10 @@ void MemfilesMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case MEMFILE_SAVE_INDEX:
-            tp_sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
+            sprintf(card.file_name_buffer, card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -90,10 +91,10 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_LOAD_INDEX:
-            tp_sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
+            sprintf(card.file_name_buffer, card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, NULL, &card.sector_size);
             if (card.result == Ready) {
@@ -104,10 +105,10 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_DELETE_INDEX:
-            tp_sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            tp_sprintf(card.file_name_buffer, card.file_name);
+            sprintf(card.file_name_buffer, card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -120,7 +121,7 @@ void MemfilesMenu::draw() {
         }
     }
 
-    tp_sprintf(lines[MEMFILE_SLOT_INDEX].value, " <%d>", l_fileNo);
+    sprintf(lines[MEMFILE_SLOT_INDEX].value, " <%d>", l_fileNo);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

@@ -4,6 +4,7 @@
 #include "utils/draw.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "rels/include/cxx.h"
 
 _Font Font::font;
 
@@ -26,7 +27,7 @@ KEEP_FUNC FontCode Font::loadFont(const char* path) {
     }
 
     uint32_t size = font.header.glyph_count * sizeof(_Glyph);
-    font.glyphs = (_Glyph*)tp_memalign(-32, size);
+    font.glyphs = new (-32, HEAP_ARCHIVE) _Glyph[font.header.glyph_count];
     if (font.glyphs == nullptr) {
         DVDClose(&fileInfo);
         font.loadCode = FontCode::FNT_ERR_MEM;
@@ -34,14 +35,14 @@ KEEP_FUNC FontCode Font::loadFont(const char* path) {
     }
 
     if (DVDReadPrio(&fileInfo, font.glyphs, size, sizeof(font.header), 2) < (int32_t)size) {
-        tp_free(font.glyphs);
+        delete font.glyphs;
         DVDClose(&fileInfo);
         font.loadCode = FontCode::FNT_ERR_READ;
         return font.loadCode;
     }
 
     if (load_texture_offset(path, &font.texture, sizeof(font.header) + size) != TexCode::TEX_OK) {
-        tp_free(font.glyphs);
+        delete font.glyphs;
         DVDClose(&fileInfo);
         font.loadCode = FontCode::FNT_ERR_TEXTURE;
         return font.loadCode;
@@ -54,11 +55,11 @@ KEEP_FUNC FontCode Font::loadFont(const char* path) {
 
 void Font::free_font() {
     if (font.glyphs != nullptr) {
-        tp_free(font.glyphs);
+        delete font.glyphs;
         font.glyphs = 0;
     }
     free_texture(&font.texture);
-    tp_memset(&font, 0, sizeof(_Font));
+    memset(&font, 0, sizeof(_Font));
     // The next line is redundant, but is still there for good measure
     font.loadCode = FontCode::FNT_UNLOADED;
 }
@@ -107,7 +108,7 @@ float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
 }
 
 void Font::renderChars(const char* str, float x, float y, uint32_t color, float size) {
-    int len = tp_strlen(str);
+    int len = strlen(str);
     for (int i = 0; i < len; i++) {
         x = renderChar(str[i], x, y, color, size);
     }
@@ -138,7 +139,7 @@ float Font::getCharWidth(char c, float size) {
 }
 
 float Font::getStrWidth(const char* str, float size) {
-    int len = tp_strlen(str);
+    int len = strlen(str);
     float str_size = 0.f;
     for (int i = 0; i < len; i++) {
         str_size += getCharWidth(str[i], size);

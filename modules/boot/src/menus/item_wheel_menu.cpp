@@ -4,6 +4,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define ITEM_WHEEL_SLOTS 24
 #define MAX_ITEMS 58
@@ -18,7 +19,7 @@
 #define DEFAULT_BTN GZPad::PLUS
 #endif
 
-ItemWheelMenu::ItemWheelMenu()
+KEEP_FUNC ItemWheelMenu::ItemWheelMenu()
     : Menu(), lines{
                   {"Slot 0:", SLOT_0, "", false, nullptr, false},
                   {"Slot 1:", SLOT_1, "", false, nullptr, false},
@@ -179,7 +180,7 @@ void ItemWheelMenu::draw() {
     updateListIdx();
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_INVENTORY_MENU);
+        GZ_setMenu(MN_INVENTORY_INDEX);
         return;
     }
 
@@ -188,12 +189,12 @@ void ItemWheelMenu::draw() {
 
         for (int j = 0; j < MAX_ITEMS; j++) {
             if (l_lookupTbl[j].item_id == item_id) {
-                tp_sprintf(lines[slot_no].value, " <%s>",
+                sprintf(lines[slot_no].value, " <%s>",
                            item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
             }
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
-                tp_sprintf(lines[slot_no].description,
+                sprintf(lines[slot_no].description,
                            "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
                            slot_no, l_lookupTbl[j].name);
             } else {

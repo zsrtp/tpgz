@@ -35,8 +35,8 @@ KEEP_FUNC void Timer::drawTimer() {
 
     char timerF[5] = {0};
     char timerS[8] = {0};
-    tp_sprintf(timerF, "%d", sTimer);
-    tp_sprintf(timerS, "%.2f", sTimerSec);
+    sprintf(timerF, "%d", sTimer);
+    sprintf(timerS, "%.2f", sTimerSec);
 
     Font::GZ_drawStr(timerF, (g_spriteOffsets[TIMER_SPR_INDEX].x),
                      (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
@@ -53,7 +53,7 @@ KEEP_FUNC void Timer::drawIGT() {
     static int sTimerMin = 0;
     static float sTimerSec = 0.0f;
 
-    if (g_timerEnabled && !tp_fopScnRq.isLoading) {
+    if (g_timerEnabled && !fopScnRq.isLoading) {
         sTimer++;
         sTimerSec = sTimer / FRAME_RATE;
 
@@ -78,7 +78,7 @@ KEEP_FUNC void Timer::drawIGT() {
     }
 
     char buf[16] = {0};
-    tp_sprintf(buf, "%02d:%02d:%05.2f", sTimerHour, sTimerMin, sTimerSec);
+    sprintf(buf, "%02d:%02d:%05.2f", sTimerHour, sTimerMin, sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[IGT_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }
@@ -90,7 +90,7 @@ KEEP_FUNC void Timer::drawLoadTimer() {
     static int sTimer = 0;
     static float sTimerSec = 0.0f;
 
-    if (tp_fopScnRq.isLoading) {
+    if (fopScnRq.isLoading) {
         sTimer++;
         sTimerSec = sTimer / FRAME_RATE;
     }
@@ -102,7 +102,7 @@ KEEP_FUNC void Timer::drawLoadTimer() {
     }
 
     char buf[8] = {0};
-    tp_sprintf(buf, "%.2f", sTimerSec);
+    sprintf(buf, "%.2f", sTimerSec);
     Font::GZ_drawStr(buf, g_spriteOffsets[LOAD_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }

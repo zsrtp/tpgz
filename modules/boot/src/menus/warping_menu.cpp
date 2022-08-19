@@ -6,6 +6,7 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/utils.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define SPAWN_OFFSET 4
 #define SPAWN_READ_LENGTH 32
@@ -15,7 +16,7 @@
 #define ROOM_OFFSET 64
 #define DEFAULT_LAYER 0xFF
 
-WarpingMenu::WarpingMenu()
+KEEP_FUNC WarpingMenu::WarpingMenu()
     : Menu(), lines{{"type:", WARP_TYPE_INDEX, "The type of stage", false},
                     {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
                     {"room:", WARP_ROOM_INDEX, "Current room name", false},
@@ -58,19 +59,19 @@ void GZWarp_loadNextInfo(void* buffer, signed long& counter, signed long length,
 void GZWarp_setStagePath(int current_stage_type) {
     switch (current_stage_type) {
     case DUNGEON:
-        tp_strcpy(l_filePath, "tpgz/stage_info/dungeon.bin");
+        strcpy(l_filePath, "tpgz/stage_info/dungeon.bin");
         break;
     case OVERWORLD:
-        tp_strcpy(l_filePath, "tpgz/stage_info/overworld.bin");
+        strcpy(l_filePath, "tpgz/stage_info/overworld.bin");
         break;
     case INTERIOR:
-        tp_strcpy(l_filePath, "tpgz/stage_info/interior.bin");
+        strcpy(l_filePath, "tpgz/stage_info/interior.bin");
         break;
     case CAVE:
-        tp_strcpy(l_filePath, "tpgz/stage_info/cave.bin");
+        strcpy(l_filePath, "tpgz/stage_info/cave.bin");
         break;
     case SPECIAL:
-        tp_strcpy(l_filePath, "tpgz/stage_info/special.bin");
+        strcpy(l_filePath, "tpgz/stage_info/special.bin");
         break;
     }
 }
@@ -83,7 +84,7 @@ void GZWarp_loadPrevStageInfo() {
 }
 
 void GZWarp_loadPrevRoomInfo() {
-    tp_sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx -= ROOM_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
@@ -97,14 +98,14 @@ void GZWarp_loadNextStageInfo() {
 }
 
 void GZWarp_loadNextRoomInfo() {
-    tp_sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx += ROOM_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void GZWarp_loadNextSpawnInfo() {
-    tp_sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
+    sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
                (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -112,7 +113,7 @@ void GZWarp_loadNextSpawnInfo() {
 }
 
 void GZWarp_loadPrevSpawnInfo() {
-    tp_sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
+    sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
                (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -139,7 +140,7 @@ void WarpingMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -242,23 +243,23 @@ void WarpingMenu::draw() {
         }
     }
 
-    // temp fix for tp_sprintf warning
+    // temp fix for sprintf warning
     char tmpbuf[32];
 
-    tp_strcpy(tmpbuf, stage_types[l_typeIdx]);
-    tp_sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
+    strcpy(tmpbuf, stage_types[l_typeIdx]);
+    sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
 
-    tp_strcpy(tmpbuf, l_warpInfo.stage_info.stage_name);
-    tp_sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
+    strcpy(tmpbuf, l_warpInfo.stage_info.stage_name);
+    sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
 
-    tp_strcpy(tmpbuf, l_warpInfo.room_info.room_name);
-    tp_sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
+    strcpy(tmpbuf, l_warpInfo.room_info.room_name);
+    sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
 
-    tp_sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", l_warpInfo.spawn_info.spawn_id[0]);
+    sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", l_warpInfo.spawn_info.spawn_id[0]);
     if (l_warpLayer == DEFAULT_LAYER) {
-        tp_sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
+        sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
     } else {
-        tp_sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", l_warpLayer);
+        sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", l_warpLayer);
     }
 
     cursor.move(0, MENU_LINE_NUM);

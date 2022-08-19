@@ -4,8 +4,8 @@
 80012084:dbg_inst
 
 // memory
-80258df0:memset
-80258dec:memcpy
+8000443c:memset
+80004338:memcpy
 8024db10:memalign
 
 // OSModule.o
@@ -69,11 +69,19 @@
 8024d82c:do_unlink
 80521610:m_heap
 
+// f_op_draw_tag.o
+80466268:matrixInfo
+
 // f_op_scene_req.o
 // data
+80521190:g_dComIfAc_gameInfo
 805209d4:freezeActors
+805210a8:sConsole
+805210b0:bossFlags
+805210d4:fopAc_ac_c__stopStatus
 //l_fopScnRq_IsUsingOfOverlap
-80520930:isLoading
+805210f0:isLoading
+80521130:homeMenuSts
 
 // f_ap_game.o
 8001e868:fapGm_Execute
@@ -236,6 +244,10 @@
 
 // JUTConsoleManager
 802e61ac:draw
+
+805215f5:sPauseTimer
+
+CC008000:wgPipe
 
 80006920:SECallback_int_
 80006974:drawCallback_J2DOrthoGraph

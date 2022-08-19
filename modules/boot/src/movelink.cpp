@@ -13,20 +13,20 @@
 #define DIST_FROM_LINK (600)
 
 #ifdef GCN_PLATFORM
-#define CONTROL_Y (tp_mPadStatus.stick_y)
-#define CONTROL_X (tp_mPadStatus.stick_x)
-#define VERTICAL_DISPLACEMENT (tp_mPadStatus.substick_y)
-#define HORIZONTAL_DISPLACEMENT (tp_mPadStatus.substick_x)
-#define SPEED_PREDICATE (tp_mPadButton.mButton & CButton::Z)
+#define CONTROL_Y (mPadStatus.stick_y)
+#define CONTROL_X (mPadStatus.stick_x)
+#define VERTICAL_DISPLACEMENT (mPadStatus.substick_y)
+#define HORIZONTAL_DISPLACEMENT (mPadStatus.substick_x)
+#define SPEED_PREDICATE (mPadButton.mButton & CButton::Z)
 #endif
 
 #ifdef WII_PLATFORM
-#define CONTROL_Y ((tp_mPad.mHoldButton & CButton::C) == 0 ? tp_mPad.stick.y * 72 : 0)
-#define CONTROL_X ((tp_mPad.mHoldButton & CButton::C) == 0 ? -tp_mPad.stick.x * 72 : 0)
-#define VERTICAL_DISPLACEMENT ((tp_mPad.mHoldButton & CButton::C) != 0 ? tp_mPad.stick.y * 59 : 0)
+#define CONTROL_Y ((mPad.mHoldButton & CButton::C) == 0 ? mPad.stick.y * 72 : 0)
+#define CONTROL_X ((mPad.mHoldButton & CButton::C) == 0 ? -mPad.stick.x * 72 : 0)
+#define VERTICAL_DISPLACEMENT ((mPad.mHoldButton & CButton::C) != 0 ? mPad.stick.y * 59 : 0)
 #define HORIZONTAL_DISPLACEMENT                                                                    \
-    ((tp_mPad.mHoldButton & CButton::C) != 0 ? -tp_mPad.stick.x * 59 : 0)
-#define SPEED_PREDICATE (tp_mPad.mHoldButton & CButton::Z)
+    ((mPad.mHoldButton & CButton::C) != 0 ? -mPad.stick.x * 59 : 0)
+#define SPEED_PREDICATE (mPad.mHoldButton & CButton::Z)
 #endif
 
 #define WHITE_RGBA 0xFFFFFFFF
@@ -50,8 +50,8 @@ float angle = 0.0f;
 
 KEEP_FUNC void execute() {
     if (g_moveLinkEnabled) {
-        auto& cam_target = tp_matrixInfo.matrix_info->target;
-        auto& cam_pos = tp_matrixInfo.matrix_info->pos;
+        auto& cam_target = matrixInfo.matrix_info->target;
+        auto& cam_pos = matrixInfo.matrix_info->pos;
 
         cXyz& link_pos = dComIfGp_getPlayer()->mCurrent.mPosition;
         int16_t& link_angle = dComIfGp_getPlayer()->mCollisionRot.mY;
@@ -74,23 +74,23 @@ KEEP_FUNC void execute() {
         cam_target.x = link_pos.x;
         cam_target.y = link_pos.y + 200.f;
         cam_target.z = link_pos.z;
-        cam_pos.z = link_pos.z - DIST_FROM_LINK * tp_cos(angle);
-        cam_pos.x = link_pos.x - DIST_FROM_LINK * tp_sin(angle);
+        cam_pos.z = link_pos.z - DIST_FROM_LINK * cos(angle);
+        cam_pos.x = link_pos.x - DIST_FROM_LINK * sin(angle);
         cam_pos.y = link_pos.y + 200.f;
 
         if (!init_once) {
             // Initialize the pitch and yaw to the current angle of the camera
-            yaw = tp_atan2(cam_target.z - cam_pos.z, cam_target.x - cam_pos.x);
-            double horizontal = tp_sqrt((cam_target.x - cam_pos.x) * (cam_target.x - cam_pos.x) +
+            yaw = atan2(cam_target.z - cam_pos.z, cam_target.x - cam_pos.x);
+            double horizontal = sqrt((cam_target.x - cam_pos.x) * (cam_target.x - cam_pos.x) +
                                         (cam_target.z - cam_pos.z) * (cam_target.z - cam_pos.z));
-            pitch = tp_atan2(cam_target.y - cam_pos.y, horizontal);
+            pitch = atan2(cam_target.y - cam_pos.y, horizontal);
             init_once = true;
         }
 
         // Calculate the translation
         double dy = VERTICAL_DISPLACEMENT;
-        double dx = CONTROL_Y * tp_cos(yaw) * tp_cos(pitch) - CONTROL_X * tp_sin(yaw);
-        double dz = CONTROL_Y * tp_sin(yaw) * tp_cos(pitch) + CONTROL_X * tp_cos(yaw);
+        double dx = CONTROL_Y * cos(yaw) * cos(pitch) - CONTROL_X * sin(yaw);
+        double dz = CONTROL_Y * sin(yaw) * cos(pitch) + CONTROL_X * cos(yaw);
 
         auto speed = SPEED_PREDICATE != 0 ? CAM_FAST_SPEED : CAM_SPEED;
 
@@ -118,10 +118,10 @@ KEEP_FUNC void execute() {
     char link_z[20];
     uint8_t cursor_x_max = 1;
 
-    tp_sprintf(link_angle, "angle: %05d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
-    tp_sprintf(link_x, "x-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
-    tp_sprintf(link_y, "y-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
-    tp_sprintf(link_z, "z-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
+    sprintf(link_angle, "angle: %05d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+    sprintf(link_x, "x-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
+    sprintf(link_y, "y-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
+    sprintf(link_z, "z-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
 
     if (link_angle_selected) {
         cursor_x_max = 5;

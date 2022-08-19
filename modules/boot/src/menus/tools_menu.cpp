@@ -13,10 +13,11 @@
 #include "umd.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "rels/include/defines.h"
 
 #define MAX_TUNIC_COLORS 7
 
-ToolsMenu::ToolsMenu()
+KEEP_FUNC ToolsMenu::ToolsMenu()
     : Menu(),
       lines{{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area",
              true, &g_tools[RELOAD_AREA_INDEX].active},
@@ -91,7 +92,7 @@ void ToolsMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -237,7 +238,7 @@ void ToolsMenu::draw() {
         }
     }
 
-    tp_sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunicCol_opt[l_tunicCol_idx].member);
+    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunicCol_opt[l_tunicCol_idx].member);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
 

@@ -4,6 +4,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
@@ -25,7 +26,7 @@
 #define CONTROL_TEXT "1/2"
 #endif
 
-ActorSpawnMenu::ActorSpawnMenu()
+KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu()
     : Menu(), l_actorType(-1),
       lines{
           {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
@@ -49,7 +50,7 @@ void ActorSpawnMenu::draw() {
             cursor.lock_y = false;
             l_paramsSelected = false;
         } else {
-            GZ_setMenu(GZ_SCENE_MENU);
+            GZ_setMenu(MN_SCENE_INDEX);
             return;
         }
     }
@@ -92,7 +93,7 @@ void ActorSpawnMenu::draw() {
     }
 
     char buf[9];
-    tp_sprintf(buf, "%08X", l_actorParams);
+    sprintf(buf, "%08X", l_actorParams);
     if (l_paramsSelected) {
         if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
             if (l_paramIdx == 7) {
@@ -121,8 +122,8 @@ void ActorSpawnMenu::draw() {
                          GZ_checkDropShadows());
     }
 
-    tp_sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", l_actorID);
-    tp_sprintf(lines[ACTOR_SUBTYPE_INDEX].value, " <%d>", l_actorType);
+    sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", l_actorID);
+    sprintf(lines[ACTOR_SUBTYPE_INDEX].value, " <%d>", l_actorType);
 
     cursor.move(8, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

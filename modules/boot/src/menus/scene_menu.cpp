@@ -3,8 +3,9 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
-SceneMenu::SceneMenu()
+KEEP_FUNC SceneMenu::SceneMenu()
     : Menu(), lines{
                   {"disable bg music", DISABLE_BG_INDEX, "Disables background and enemy music",
                    true, &g_sceneFlags[DISABLE_BG_INDEX].active},
@@ -94,7 +95,7 @@ void SceneMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -106,18 +107,18 @@ void SceneMenu::draw() {
     }
     int current_minute = (int)((4.0f * current_time) - current_hour * 60);
 
-    tp_sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
-    tp_sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
+    sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
+    sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         g_sceneFlags[cursor.y].active = !g_sceneFlags[cursor.y].active;
 
         switch (cursor.y) {
         case ACTOR_MENU_INDEX:
-            GZ_setMenu(GZ_SPAWN_MENU);
+            GZ_setMenu(MN_ACTOR_SPAWNER_INDEX);
             return;
         case ACTOR_LIST_INDEX:
-            GZ_setMenu(GZ_ACLIST_MENU);
+            GZ_setMenu(MN_ACTOR_LIST_INDEX);
             return;
         }
     }

@@ -1,7 +1,8 @@
 #include "menus/practice_menu.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
-PracticeMenu::PracticeMenu()
+KEEP_FUNC PracticeMenu::PracticeMenu()
     : Menu(), lines{
                   {"any%", ANY_INDEX, "Any% practice saves", false},
                   {"100%", HUNDO_INDEX, "100% practice saves", false},
@@ -15,20 +16,20 @@ special* last_special_ptr;
 
 void PracticeMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case ANY_INDEX:
-            GZ_setMenu(GZ_ANY_SAVES_MENU);
+            GZ_setMenu(MN_ANY_SAVES_INDEX);
             return;
         case HUNDO_INDEX:
-            GZ_setMenu(GZ_HUNDO_SAVES_MENU);
+            GZ_setMenu(MN_HUNDO_SAVES_INDEX);
             return;
         case AD_INDEX:
-            GZ_setMenu(GZ_AD_SAVES_MENU);
+            GZ_setMenu(MN_AD_SAVES_INDEX);
             return;
         }
     }

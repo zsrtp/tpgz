@@ -2,6 +2,7 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/settings_menu.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_DISPLAY_LINES 15
 #define WHITE_RGBA 0xFFFFFFFF
@@ -9,7 +10,7 @@
 #define LINE_X_OFFSET 20.0f
 #define LINE_BYTE_OFFSET 100.0f
 
-MemoryEditorMenu::MemoryEditorMenu() : Menu() {}
+KEEP_FUNC MemoryEditorMenu::MemoryEditorMenu() : Menu() {}
 
 uint32_t MemoryEditorMenu::mAddressIndex = 0x80000000;
 
@@ -22,7 +23,7 @@ uint8_t l_cycleB = 0;
 
 void MemoryEditorMenu::drawMemEditor() {
     char index[9] = {0};
-    tp_sprintf(index, "%08X", mAddressIndex);
+    sprintf(index, "%08X", mAddressIndex);
 
     if (l_idxSelected) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
@@ -92,15 +93,15 @@ void MemoryEditorMenu::drawMemEditor() {
         char b6[3];
         char b7[3];
 
-        tp_sprintf(address, "%08X ", mAddressIndex + (i * 8));
-        tp_sprintf(b0, "%02X", *(uint8_t*)(mAddressIndex + (i * 8)));
-        tp_sprintf(b1, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 1));
-        tp_sprintf(b2, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 2));
-        tp_sprintf(b3, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 3));
-        tp_sprintf(b4, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 4));
-        tp_sprintf(b5, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 5));
-        tp_sprintf(b6, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 6));
-        tp_sprintf(b7, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 7));
+        sprintf(address, "%08X ", mAddressIndex + (i * 8));
+        sprintf(b0, "%02X", *(uint8_t*)(mAddressIndex + (i * 8)));
+        sprintf(b1, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 1));
+        sprintf(b2, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 2));
+        sprintf(b3, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 3));
+        sprintf(b4, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 4));
+        sprintf(b5, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 5));
+        sprintf(b6, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 6));
+        sprintf(b7, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 7));
 
         float address_offset = Font::getStrWidth(address) + LINE_X_OFFSET;
         float b_offset = Font::getStrWidth(" 00");
@@ -180,7 +181,7 @@ void MemoryEditorMenu::draw() {
             cursor.lock_x = false;
             cursor.lock_y = false;
         } else {
-            GZ_setMenu(GZ_MEMORY_MENU);
+            GZ_setMenu(MN_MEMORY_INDEX);
             return;
         }
     }

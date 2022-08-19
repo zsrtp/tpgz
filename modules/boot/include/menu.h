@@ -46,7 +46,8 @@ enum MenuIndex {
     MN_FLAG_LOG_INDEX,
     MN_AD_SAVES_INDEX,
     MN_MEM_FILES_INDEX,
-    MN_ACTOR_SPAWNER_INDEX
+    MN_ACTOR_SPAWNER_INDEX,
+    MN_ACTOR_LIST_INDEX
 };
 
 void GZ_drawMenu();

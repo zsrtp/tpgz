@@ -1,8 +1,9 @@
 #include "menus/hundo_saves_menu.h"
 #include "gz_flags.h"
 #include "save_specials.h"
+#include "rels/include/defines.h"
 
-HundoSavesMenu::HundoSavesMenu()
+KEEP_FUNC HundoSavesMenu::HundoSavesMenu()
     : Menu(), lines{
                   {"goats 1", HND_GOATS_1_INDEX, "Goat herding 1"},
                   {"ordon gate clip", HND_ORDON_GATE_CLIP_INDEX, "Gate clip outside Ordon Spring"},
@@ -117,14 +118,14 @@ void HundoSavesMenu::draw() {
     };
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_PRACTICE_MENU);
-        GZ_setReturnMenu(GZ_NO_MENU);
+        GZ_setMenu(MN_PRACTICE_INDEX);
+        GZ_setReturnMenu(MN_NONE_INDEX);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
-        GZ_setReturnMenu(GZ_HUNDO_SAVES_MENU);
+        GZ_setReturnMenu(MN_HUNDO_SAVES_INDEX);
     }
 
     cursor.move(0, MENU_LINE_NUM);

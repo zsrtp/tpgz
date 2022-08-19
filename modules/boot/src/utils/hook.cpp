@@ -50,7 +50,7 @@ HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
 HOOK_DEF(void, setSpecialGravity, (float, float, int));
 HOOK_DEF(uint32_t, checkCastleTownUseItem, (uint16_t));
 HOOK_DEF(uint32_t, query042, (void*, void*, int));
-HOOK_DEF(void*, cc_at_check, (void*, int*));
+//HOOK_DEF(void*, cc_at_check, (void*, int*));
 
 HOOK_DEF(void, onEventBit, (void*, uint16_t));
 HOOK_DEF(void, offEventBit, (void*, uint16_t));
@@ -127,9 +127,9 @@ static char buf[40];
 void onEventBitHook(void* addr, uint16_t pFlag) {
     if (g_flagLogEnabled) {
         if (addr == &g_dComIfG_gameInfo.info.mTmp) {
-            tp_sprintf(buf, "%s[0x%X] : %X | ON", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
+            sprintf(buf, "%s[0x%X] : %X | ON", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
-            tp_sprintf(buf, "%s[0x%X] : %X | ON", "Event", pFlag >> 8, pFlag & 0xFF);
+            sprintf(buf, "%s[0x%X] : %X | ON", "Event", pFlag >> 8, pFlag & 0xFF);
         }
         FIFOQueue::push(buf, Queue, 0xFFFFFF00);
     }
@@ -140,9 +140,9 @@ void onEventBitHook(void* addr, uint16_t pFlag) {
 void offEventBitHook(void* addr, uint16_t pFlag) {
     if (g_flagLogEnabled) {
         if (addr == &g_dComIfG_gameInfo.info.mTmp) {
-            tp_sprintf(buf, "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
+            sprintf(buf, "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
         } else {
-            tp_sprintf(buf, "%s[0x%X] : %X | OFF", "Event", pFlag >> 8, pFlag & 0xFF);
+            sprintf(buf, "%s[0x%X] : %X | OFF", "Event", pFlag >> 8, pFlag & 0xFF);
         }
         FIFOQueue::push(buf, Queue, 0xFFFFFF00);
     }
@@ -154,16 +154,16 @@ void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
     int tmp = pFlag;
     if (g_flagLogEnabled) {
         if (pFlag < 0x80) {
-            tp_sprintf(buf, "%s[%d] : %d | ON", "Memory Switch", tmp >> 5, tmp & 0x1F);
+            sprintf(buf, "%s[%d] : %d | ON", "Memory Switch", tmp >> 5, tmp & 0x1F);
         } else if (pFlag < 0xC0) {
             tmp -= 0x80;
-            tp_sprintf(buf, "%s[%d] : %d | ON", "Dan Switch", tmp >> 5, tmp & 0x1F);
+            sprintf(buf, "%s[%d] : %d | ON", "Dan Switch", tmp >> 5, tmp & 0x1F);
         } else if (pFlag < 0xE0) {
             tmp -= 0xC0;
-            tp_sprintf(buf, "%s[%d] : %d | ON", "Zone Switch", tmp >> 5, tmp & 0x1F);
+            sprintf(buf, "%s[%d] : %d | ON", "Zone Switch", tmp >> 5, tmp & 0x1F);
         } else {
             tmp -= 0xE0;
-            tp_sprintf(buf, "%s[%d] : %d | ON", "Zone OneSwitch", tmp >> 5, tmp & 0x1F);
+            sprintf(buf, "%s[%d] : %d | ON", "Zone OneSwitch", tmp >> 5, tmp & 0x1F);
         }
         FIFOQueue::push(buf, Queue, 0xFFFFFF00);
     }

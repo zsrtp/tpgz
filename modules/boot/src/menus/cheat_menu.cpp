@@ -3,19 +3,27 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "rels/include/patch.h"
 #include "libtp_c/include/msl_c/string.h"
+#include "libtp_c/include/defines.h"
 #include "menus/cheats_menu.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
+#define cc_at_check cc_at_check__FP10fopAc_ac_cP11dCcU_AtInfo
 #endif
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
+#define cc_at_check cc_at_check_fopAc_ac_c
 #endif
+
+extern "C" {
+void* cc_at_check(void*, void*);
+}
 
 bool l_doorCollision;
 
-CheatsMenu::CheatsMenu()
+KEEP_FUNC CheatsMenu::CheatsMenu()
     : Menu(), lines{
                   {"infinite air", InfiniteAir, "Gives infinite air underwater", true,
                    &g_cheats[InfiniteAir].active},
@@ -70,16 +78,16 @@ void GZ_applyCheats() {
     }
 
     if (GZ_checkCheat(InvincibleEnemies)) {
-        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
+        *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x60000000;  // nop
-        DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
     } else {
-        *reinterpret_cast<uint32_t*>(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET) =
+        *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x7C030050;  // sub r0, r0, r3
-        DCFlushRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
-        ICInvalidateRange((void*)(tp_cc_at_check_addr + INVINCIBLE_ENEMIES_OFFSET),
+        DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET), sizeof(uint32_t));
+        ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
     }
 

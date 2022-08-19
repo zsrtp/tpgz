@@ -14,7 +14,7 @@ namespace Draw {
 KEEP_FUNC void init() {
     load_texture("tpgz/tex/blank.tex", &blankTex);
     if (blankTex.loadCode != TexCode::TEX_OK) {
-        tp_osReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
+        OSReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
     }
 }
 
@@ -31,8 +31,8 @@ KEEP_FUNC void begin(uint16_t n, GXTexObj* tex) {
 }
 
 KEEP_FUNC void begin(uint16_t n, uint8_t primitive, GXTexObj* tex) {
-    GX_LoadTexObj(tex, (uint8_t)GX_TEXMAP0);
-    GX_Begin(primitive, GX_VTXFMT0, n);
+    GXLoadTexObj(tex, (uint8_t)GX_TEXMAP0);
+    GXBegin(primitive, GX_VTXFMT0, n);
 }
 
 KEEP_FUNC void begin_outline(uint16_t n) {
@@ -40,15 +40,15 @@ KEEP_FUNC void begin_outline(uint16_t n) {
 }
 
 KEEP_FUNC void begin_outline(uint16_t n, uint8_t width) {
-    GX_LoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
-    GX_SetLineWidth(width, GX_TO_ZERO);
-    GX_Begin(GX_LINESTRIP, GX_VTXFMT0, n);
+    GXLoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
+    GXSetLineWidth(width, GX_TO_ZERO);
+    GXBegin(GX_LINESTRIP, GX_VTXFMT0, n);
 }
 
 KEEP_FUNC void add_vertex(uint32_t color, Vec2 point, Vec2 tex) {
-    GX_Position2f32(point.x, point.y);
-    GX_Color1u32(color);
-    GX_TexCoord2f32(tex.x, tex.y);
+    GXPosition2f32(point.x, point.y);
+    GXColor1u32(color);
+    GXTexCoord2f32(tex.x, tex.y);
 }
 
 KEEP_FUNC void add_vertex(uint32_t color, Vec2 point) {
@@ -56,7 +56,7 @@ KEEP_FUNC void add_vertex(uint32_t color, Vec2 point) {
 }
 
 KEEP_FUNC void end() {
-    GX_End();
+    GXEnd();
 }
 
 KEEP_FUNC void drawQuad(uint32_t color, Vec2 p[4]) {

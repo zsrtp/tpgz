@@ -68,9 +68,16 @@
 80263A5C:do_link
 80263D28:do_unlink
 
+// f_op_draw_tag.o
+803f3db0:matrixInfo
+
 // f_op_scene_req.o
 // data
+804525d0:g_dComIfAc_gameInfo
 804525D4:freezeActors
+80452C50:sConsole
+80452C58:bossFlags
+80452c7c:fopAc_ac_c__stopStatus
 80452CA0:isLoading
 
 // f_ap_game.o
@@ -244,6 +251,9 @@
 80369a14:strlen
 80369754:strchr
 
+// math.o
+80182c30:fastSqrt
+
 // m_Do_controller_pad.o
 // data
 803DF288:cpadInfo
@@ -390,6 +400,10 @@
 // OSInterrupt.o
 8033E4F4:OSDisableInterrupts
 8033E51C:OSRestoreInterrupts
+
+804530ED:sPauseTimer
+
+CC008000:wgPipe
 
 800056c0:version_check__Fv
 80005728:CheckHeap1__9HeapCheckFv

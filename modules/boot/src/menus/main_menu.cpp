@@ -1,8 +1,9 @@
 #include "menus/main_menu.h"
 #include "fifo_queue.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
-MainMenu::MainMenu()
+KEEP_FUNC MainMenu::MainMenu()
     : Menu(), lines{
                   {"cheats", CHEAT_INDEX, "Toggle cheats", false},
                   {"flags", FLAGS_INDEX, "Toggle in-game flags", false},
@@ -28,31 +29,31 @@ void MainMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case CHEAT_INDEX:
-            GZ_setMenu(GZ_CHEAT_MENU);
+            GZ_setMenu(MN_CHEAT_INDEX);
             return;
         case FLAGS_INDEX:
-            GZ_setMenu(GZ_FLAGS_MENU);
+            GZ_setMenu(MN_FLAGS_INDEX);
             return;
         case INVENTORY_INDEX:
-            GZ_setMenu(GZ_INVENTORY_MENU);
+            GZ_setMenu(MN_INVENTORY_INDEX);
             return;
         case MEMORY_INDEX:
-            GZ_setMenu(GZ_MEMORY_MENU);
+            GZ_setMenu(MN_MEMORY_INDEX);
             return;
         case PRACTICE_INDEX:
-            GZ_setMenu(GZ_PRACTICE_MENU);
+            GZ_setMenu(MN_PRACTICE_INDEX);
             return;
         case SCENE_INDEX:
-            GZ_setMenu(GZ_SCENE_MENU);
+            GZ_setMenu(MN_SCENE_INDEX);
             return;
         case SETTINGS_INDEX:
-            GZ_setMenu(GZ_SETTINGS_MENU);
+            GZ_setMenu(MN_SETTINGS_INDEX);
             return;
         case TOOLS_INDEX:
-            GZ_setMenu(GZ_TOOLS_MENU);
+            GZ_setMenu(MN_TOOLS_INDEX);
             return;
         case WARPING_INDEX:
-            GZ_setMenu(GZ_WARP_MENU);
+            GZ_setMenu(MN_WARPING_INDEX);
             return;
         }
     }

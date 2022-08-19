@@ -11,7 +11,7 @@
 #define INCREMENT_FACTOR 1.05f
 #define MAX_SPEED 20.f
 
-PosSettingsMenu::PosSettingsMenu()
+KEEP_FUNC PosSettingsMenu::PosSettingsMenu()
     : Menu(), l_selItem(POSITION_SETTINGS_NO_SELECTION),
       lines{{"main menu", SpritesIndex::MENU_INDEX, "Change main menu position", false},
             {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},
@@ -43,7 +43,7 @@ void PosSettingsMenu::draw() {
             l_selItem = POSITION_SETTINGS_NO_SELECTION;
         } else {
             init_once = false;
-            GZ_setMenu(GZ_SETTINGS_MENU);
+            GZ_setMenu(MN_SETTINGS_INDEX);
             return;
         }
     }

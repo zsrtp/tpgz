@@ -1,9 +1,10 @@
 #include "menus/any_saves_menu.h"
 #include "gz_flags.h"
 #include "save_specials.h"
+#include "rels/include/defines.h"
 
 #ifdef GCN_PLATFORM
-AnySavesMenu::AnySavesMenu()
+KEEP_FUNC AnySavesMenu::AnySavesMenu()
     : Menu(), lines{
                   {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
                   {"back in time", BACK_IN_TIME_INDEX, "Back in Time off the Ordon Spring bridge"},
@@ -58,7 +59,7 @@ AnySavesMenu::AnySavesMenu()
               } {}
 #endif
 #ifdef WII_PLATFORM
-AnySavesMenu::AnySavesMenu()
+KEEP_FUNC AnySavesMenu::AnySavesMenu()
     : Menu(),
       lines{{"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
             {"back in time", BACK_IN_TIME_INDEX, "Back In Time off the Ordon Spring bridge"},
@@ -156,15 +157,15 @@ void AnySavesMenu::draw() {
 #endif
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_PRACTICE_MENU);
-        GZ_setReturnMenu(GZ_NO_MENU);
+        GZ_setMenu(MN_PRACTICE_INDEX);
+        GZ_setReturnMenu(MN_NONE_INDEX);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
-        GZ_setReturnMenu(GZ_ANY_SAVES_MENU);
+        GZ_setReturnMenu(MN_ANY_SAVES_INDEX);
     }
 
     cursor.move(0, sizeof(lines) / sizeof(lines[0]));

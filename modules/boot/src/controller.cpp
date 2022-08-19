@@ -19,13 +19,13 @@
 #define REPEAT_DELAY 5
 
 #ifdef GCN_PLATFORM
-#define buttonStatus (tp_mPadStatus.button)
+#define buttonStatus (mPadStatus.button)
 #define A_BUTTON (CButton::A)
 #define ITEM_WHEEL_BUTTON (CButton::DPAD_DOWN)
 #define TRIGGER_BUTTONS (CButton::L | CButton::R)
 #endif
 #ifdef WII_PLATFORM
-#define buttonStatus (tp_mPad.mHoldButton)
+#define buttonStatus (mPad.mHoldButton)
 #define A_BUTTON (CButton::A)
 #define ITEM_WHEEL_BUTTON (CButton::MINUS)
 #define TRIGGER_BUTTONS (CButton::Z | CButton::C)
@@ -105,12 +105,12 @@ KEEP_FUNC void GZ_readController() {
         setGamepadTrig(0);
 
 #ifdef WII_PLATFORM
-        tp_mPad.mTrigButton = 0;
+        mPad.mTrigButton = 0;
 #endif
 
 #ifdef GCN_PLATFORM
         buttonStatus = 0x0;
-        tp_mPadButton.mRepeat = 0x0;
+        mPadButton.mRepeat = 0x0;
 #endif
     } else {
         g_cursorEnabled = false;

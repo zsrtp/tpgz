@@ -61,7 +61,7 @@ void warpToPosition() {
 
 void execute() {
     // reset counters on load
-    if (tp_fopScnRq.isLoading == 1) {
+    if (fopScnRq.isLoading == 1) {
         counter_difference = 0;
         after_cs_val = 0;
         got_it = false;
@@ -93,7 +93,7 @@ void execute() {
                 (counter_difference < WARP_CS_FRAMES) &&
                 (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 int final_val = WARP_CS_FRAMES - counter_difference;
-                tp_sprintf(buf, "%df early", final_val);
+                sprintf(buf, "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
@@ -109,7 +109,7 @@ void execute() {
             else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
                      after_cs_val > 0 &&
                      (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
-                tp_sprintf(buf, "%df late", after_cs_val);
+                sprintf(buf, "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }
         }

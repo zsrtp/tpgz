@@ -10,9 +10,9 @@ void loadFile(const char* filePath, void* buffer, signed long length, signed lon
         if (bytesRead > 0) {
             DVDClose(&fileInfo);
         } else {
-            tp_osReport("no bytes read!");
+            OSReport("no bytes read!");
         }
     } else {
-        tp_osReport("failed to open file %s", filePath);
+        OSReport("failed to open file %s", filePath);
     }
 }

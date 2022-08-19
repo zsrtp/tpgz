@@ -2,8 +2,9 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
-AmountsMenu::AmountsMenu()
+KEEP_FUNC AmountsMenu::AmountsMenu()
     : Menu(), lines{
                   {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
                   {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
@@ -29,7 +30,7 @@ void AmountsMenu::draw() {
     l_rupeeNum = dComIfGs_getRupee();
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_INVENTORY_MENU);
+        GZ_setMenu(MN_INVENTORY_INDEX);
         return;
     }
 
@@ -68,14 +69,14 @@ void AmountsMenu::draw() {
         break;
     }
 
-    tp_sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", l_arrowNum);
-    tp_sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", l_bag1Num);
-    tp_sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", l_bag2Num);
-    tp_sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", l_bag3Num);
-    tp_sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", l_seedNum);
-    tp_sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", l_hpNum);
-    tp_sprintf(lines[POE_COUNT_INDEX].value, " <%d>", l_poeNum);
-    tp_sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", l_rupeeNum);
+    sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", l_arrowNum);
+    sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", l_bag1Num);
+    sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", l_bag2Num);
+    sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", l_bag3Num);
+    sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", l_seedNum);
+    sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", l_hpNum);
+    sprintf(lines[POE_COUNT_INDEX].value, " <%d>", l_poeNum);
+    sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", l_rupeeNum);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

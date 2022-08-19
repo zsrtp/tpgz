@@ -3,6 +3,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_ORDON_SWORD_OPT 3
 #define MAX_MASTER_SWORD_OPT 3
@@ -16,7 +17,7 @@
 #define MAX_ARROW_CAPACITY_OPT 3
 #define MAX_HIDDEN_SKILL_OPT 2
 
-PauseMenu::PauseMenu()
+KEEP_FUNC PauseMenu::PauseMenu()
     : Menu(),
       lines{{"ordon sword:", ORDON_SWORD_INDEX, "Wooden Sword / Ordon Sword", false, nullptr,
              MAX_ORDON_SWORD_OPT},
@@ -234,7 +235,7 @@ void PauseMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         init = false;
-        GZ_setMenu(GZ_INVENTORY_MENU);
+        GZ_setMenu(MN_INVENTORY_INDEX);
         resetIndex();
         return;
     }
@@ -373,16 +374,16 @@ void PauseMenu::draw() {
 
     setEquipment();
 
-    tp_sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordonSword_opt[l_ordonSword_idx].member);
-    tp_sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", masterSword_opt[l_masterSword_idx].member);
-    tp_sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", woodShield_opt[l_woodShield_idx].member);
-    tp_sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hyShield_opt[l_hyShield_idx].member);
-    tp_sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", tunic_opt[l_tunic_idx].member);
-    tp_sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
-    tp_sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magicArmor_opt[l_magicArmor_idx].member);
-    tp_sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bombCap_opt[l_bombCap_idx].member);
-    tp_sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_opt[l_wallet_idx].member);
-    tp_sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrowCap_opt[l_arrowCap_idx].member);
+    sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordonSword_opt[l_ordonSword_idx].member);
+    sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", masterSword_opt[l_masterSword_idx].member);
+    sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", woodShield_opt[l_woodShield_idx].member);
+    sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hyShield_opt[l_hyShield_idx].member);
+    sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", tunic_opt[l_tunic_idx].member);
+    sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
+    sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magicArmor_opt[l_magicArmor_idx].member);
+    sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bombCap_opt[l_bombCap_idx].member);
+    sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_opt[l_wallet_idx].member);
+    sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrowCap_opt[l_arrowCap_idx].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

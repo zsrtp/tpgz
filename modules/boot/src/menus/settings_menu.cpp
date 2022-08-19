@@ -3,6 +3,7 @@
 #include "utils/card.h"
 #include "gz_flags.h"
 #include "fifo_queue.h"
+#include "rels/include/defines.h"
 
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
@@ -11,7 +12,7 @@
 ListMember font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
                          "lib-serif", "lib-serif-bold", "press-start-2p"};
 
-SettingsMenu::SettingsMenu()
+KEEP_FUNC SettingsMenu::SettingsMenu()
     : Menu(), lines{
                   {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
                    "Load area: reload last area | Load file = reload last file", false, nullptr,
@@ -40,7 +41,7 @@ void SettingsMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
@@ -51,13 +52,13 @@ void SettingsMenu::draw() {
             g_dropShadows = !g_dropShadows;
             break;
         case POS_SETTINGS_MENU_INDEX:
-            GZ_setMenu(GZ_POS_SETTINGS_MENU);
+            GZ_setMenu(MN_POS_SETTINGS_INDEX);
             return;
         case SAVE_CARD_INDEX: {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            tp_sprintf(storage.file_name_buffer, storage.file_name);
+            sprintf(storage.file_name_buffer, storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
             if (storage.result == Ready) {
@@ -72,7 +73,7 @@ void SettingsMenu::draw() {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            tp_sprintf(storage.file_name_buffer, storage.file_name);
+            sprintf(storage.file_name_buffer, storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
             if (storage.result == Ready) {
@@ -87,7 +88,7 @@ void SettingsMenu::draw() {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            tp_sprintf(storage.file_name_buffer, storage.file_name);
+            sprintf(storage.file_name_buffer, storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
             if (storage.result == Ready) {
@@ -138,7 +139,7 @@ void SettingsMenu::draw() {
         if (old_font != g_fontType) {
             if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
                 char buf[40];
-                tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
+                sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
                 Font::loadFont(buf);
             }
         }
@@ -149,9 +150,9 @@ void SettingsMenu::draw() {
         break;
     }
 
-    tp_sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_opt[g_reloadType].member);
-    tp_sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursorCol_opt[g_cursorColorType].member);
-    tp_sprintf(lines[FONT_INDEX].value, " <%s>", font_opt[g_fontType].member);
+    sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_opt[g_reloadType].member);
+    sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursorCol_opt[g_cursorColorType].member);
+    sprintf(lines[FONT_INDEX].value, " <%s>", font_opt[g_fontType].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
@@ -159,7 +160,7 @@ void SettingsMenu::draw() {
 void SettingsMenu::initFont() {
     if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
         char buf[40] = {0};
-        tp_sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
+        sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
         Font::loadFont(buf);
     }
 }

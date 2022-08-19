@@ -1,6 +1,7 @@
 #include "utils/disc.h"
 #include "libtp_c/include/msl_c/math.h"
 #include "libtp_c/include/msl_c/string.h"
+#include "rels/include/cxx.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -8,7 +9,7 @@ extern "C" {
 
 int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offset) {
     constexpr const uint32_t buf_size = 0x20;
-    uint8_t* buf = (uint8_t*)tp_memalign(-32, buf_size);
+    uint8_t* buf = new (-32) uint8_t[buf_size];
     int32_t read_bytes = 0;
 
     while (size > 0) {
@@ -17,13 +18,13 @@ int32_t dvd_read(DVDFileInfo* file_info, void* data, int32_t size, int32_t offse
             break;
         }
         int32_t rem_size = buf_size - (offset & (buf_size - 1));
-        tp_memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (buf_size - 1)),
+        memcpy((void*)((uint32_t)data + read_bytes), buf + (offset & (buf_size - 1)),
                   MIN(rem_size, size));
         read_bytes += MIN(rem_size, size);
         size -= rem_size;
         offset += rem_size;
     }
-    tp_free(buf);
+    delete[] buf;
     return read_bytes;
 }
 

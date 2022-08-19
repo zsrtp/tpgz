@@ -6,13 +6,14 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_DISPLAY_LINES 8
 #define WHITE_RGBA 0xFFFFFFFF
 #define MAX_RECORD_OPTIONS 4
 #define FLAG_RECORD_INDEX 0
 
-FlagRecordsMenu::FlagRecordsMenu() : Menu() {}
+KEEP_FUNC FlagRecordsMenu::FlagRecordsMenu() : Menu() {}
 
 #ifdef GCN_PLATFORM
 #define SCRL_FORW_BUTTON (GZPad::X)
@@ -57,7 +58,7 @@ void FlagRecordsMenu::drawFlagRecord(uint8_t* record) {
         }
 
         char offset[6];
-        tp_sprintf(offset, "0x%02X:", idx_num);
+        sprintf(offset, "0x%02X:", idx_num);
 
         float flag_x_offset = x_offset + Font::getStrWidth(offset);
         for (int bit = 0; bit < 8; bit++) {
@@ -102,7 +103,7 @@ void FlagRecordsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         free_texture(&l_flagOnTex);
         free_texture(&l_flagOffTex);
-        GZ_setMenu(GZ_FLAGS_MENU);
+        GZ_setMenu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -155,7 +156,7 @@ void FlagRecordsMenu::draw() {
 
     ListMember rec_opt[MAX_RECORD_OPTIONS] = {"stage", "event", "minigame", "danbit"};
     char record_type[9];
-    tp_sprintf(record_type, " <%s>", rec_opt[l_recIdx].member);
+    sprintf(record_type, " <%s>", rec_opt[l_recIdx].member);
     uint32_t color = cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA;
 
     GZ_drawText(record_type, 12.0f, 60.f, color, GZ_checkDropShadows());

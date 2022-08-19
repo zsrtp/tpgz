@@ -28,7 +28,7 @@ void CoroTDChecker::execute() {
     static uint32_t sFrameCount = 0;
 
     // reset counters on load
-    if (tp_fopScnRq.isLoading) {
+    if (fopScnRq.isLoading) {
         sFrameCount = 0;
         sGoalHit = false;
         sTimerStarted = false;
@@ -45,13 +45,13 @@ void CoroTDChecker::execute() {
             if (!sGoalHit && ITEM_BUTTON_HELD_CHECK && ITEM_BUTTON_DOWN_CHECK) {
                 char buf[20];
                 if (sFrameCount < 10) {
-                    tp_sprintf(buf, "%df early", 10 - sFrameCount);
+                    sprintf(buf, "%df early", 10 - sFrameCount);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
                 } else if (sFrameCount == 10) {
                     FIFOQueue::push("got it", Queue, 0x00CC0000);
                     sGoalHit = true;
                 } else if (sFrameCount > 10) {
-                    tp_sprintf(buf, "%df late", sFrameCount - 10);
+                    sprintf(buf, "%df late", sFrameCount - 10);
                     FIFOQueue::push(buf, Queue, 0x99000000);
                 }
             }

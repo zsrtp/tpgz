@@ -41,13 +41,13 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
 };
 
 #ifdef GCN_PLATFORM
-#define HOLD_BTNS tp_cPadInfo[0].mButtonFlags
-#define TRIG_BTNS tp_cPadInfo[0].mPressedButtonFlags
+#define HOLD_BTNS cPadInfo[0].mButtonFlags
+#define TRIG_BTNS cPadInfo[0].mPressedButtonFlags
 #endif
 
 #ifdef WII_PLATFORM
-#define HOLD_BTNS tp_mPad.mHoldButton
-#define TRIG_BTNS tp_mPad.mTrigButton
+#define HOLD_BTNS mPad.mHoldButton
+#define TRIG_BTNS mPad.mTrigButton
 #endif
 
 KEEP_FUNC void GZ_frameAdvance() {

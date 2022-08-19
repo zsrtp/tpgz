@@ -9,7 +9,7 @@
 
 void SaveMngSpecial_BossFlags() {
     gSaveManager.injectDefault_during();
-    tp_bossFlags = 0xFF;
+    bossFlags = 0xFF;
 }
 
 void SaveMngSpecial_Goats1() {
@@ -162,8 +162,8 @@ void SaveMngSpecial_Stallord2() {
         dComIfGp_getPlayer()->mCurrent.mPosition.y = 300.3158f;
         dComIfGp_getPlayer()->mCurrent.mPosition.z = 2195.0237f;
         dComIfGp_getPlayer()->mCollisionRot.mY = 39350;
-        // tp_matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
-        // tp_matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
+        // matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
+        // matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
     }
 }
 

@@ -28,22 +28,22 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
 
 KEEP_FUNC void FIFOQueue::push(const char* msg, _FIFOQueue& Queue) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
-        tp_strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
+        strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
         Queue.messages[i].RGBA = Queue.messages[i - 1].RGBA;
     }
-    tp_strcpy(Queue.messages[0].msg, msg);
+    strcpy(Queue.messages[0].msg, msg);
     Queue.messages[0].ttl = 120;
     Queue.messages[0].RGBA = 0xFFFFFF00;
 };
 
 KEEP_FUNC void FIFOQueue::push(const char* msg, _FIFOQueue& Queue, int RGBA) {
     for (int i = MAX_MESSAGES - 1; i > 0; i--) {
-        tp_strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
+        strcpy(Queue.messages[i].msg, Queue.messages[i - 1].msg);
         Queue.messages[i].ttl = Queue.messages[i - 1].ttl;
         Queue.messages[i].RGBA = Queue.messages[i - 1].RGBA;
     }
-    tp_strcpy(Queue.messages[0].msg, msg);
+    strcpy(Queue.messages[0].msg, msg);
     Queue.messages[0].ttl = 120;
     Queue.messages[0].RGBA = RGBA;
 };

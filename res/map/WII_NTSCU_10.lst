@@ -69,10 +69,18 @@
 8024dc9c:do_unlink
 8053ae30:m_heap
 
+// f_op_draw_tag.o
+8047e368:matrixInfo
+
 // f_op_scene_req.o
 // data
+8053a9c8:g_dComIfAc_gameInfo
 8053a9cc:freezeActors
+8053a8e0:sConsole
+8053a8e8:bossFlags
+8053a90c:fopAc_ac_c__stopStatus
 8053a928:isLoading
+8053A968:homeMenuSts
 
 // f_ap_game.o
 8001e6b0:fapGm_Execute
@@ -505,6 +513,10 @@
 
 // JUTConsoleManager
 802fb3ac:draw
+
+8053ae1d:sPauseTimer
+
+CC008000:wgPipe
 
 80006920:SECallback_int_
 80006974:drawCallback_J2DOrthoGraph

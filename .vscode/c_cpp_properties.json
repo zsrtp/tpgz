@@ -9,8 +9,8 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
-                "PLATFORM_GCN",
-                "GCN_NTSCU"
+                "GCN_NTSCU",
+                "REL_MODULE"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
@@ -44,8 +44,8 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
-                "PLATFORM_GCN",
-                "GCN_PAL"
+                "GCN_PAL",
+                "REL_MODULE"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
@@ -79,8 +79,8 @@
             ],
             "defines": [
                 "GCN_PLATFORM",
-                "PLATFORM_GCN",
-                "GCN_NTSCJ"
+                "GCN_NTSCJ",
+                "REL_MODULE"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
@@ -114,8 +114,8 @@
             ],
             "defines": [
                 "WII_PLATFORM",
-                "PLATFORM_WII",
-                "WII_NTSCU_10"
+                "WII_NTSCU_10",
+                "REL_MODULE"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
@@ -149,8 +149,8 @@
             ],
             "defines": [
                 "WII_PLATFORM",
-                "PLATFORM_WII",
-                "WII_PAL"
+                "WII_PAL",
+                "REL_MODULE"
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",

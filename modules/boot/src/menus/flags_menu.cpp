@@ -1,9 +1,10 @@
 #include "menus/flags_menu.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 bool g_flagLogEnabled;
 
-FlagsMenu::FlagsMenu()
+KEEP_FUNC FlagsMenu::FlagsMenu()
     : Menu(), lines{
                   {"general flags", GENERAL_FLAGS_INDEX, "General flags", false},
                   {"dungeon flags", DUNGEON_FLAGS_INDEX, "Dungeon flags", false},
@@ -14,26 +15,26 @@ FlagsMenu::FlagsMenu()
 
 void FlagsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_MAIN_MENU);
+        GZ_setMenu(MN_MAIN_MENU_INDEX);
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case GENERAL_FLAGS_INDEX:
-            GZ_setMenu(GZ_GEN_FLAGS_MENU);
+            GZ_setMenu(MN_GENERAL_FLAGS_INDEX);
             return;
         case DUNGEON_FLAGS_INDEX:
-            GZ_setMenu(GZ_DUN_FLAGS_MENU);
+            GZ_setMenu(MN_DUNGEON_FLAGS_INDEX);
             return;
         case PORTAL_FLAGS_INDEX:
-            GZ_setMenu(GZ_PORTAL_FLAGS_MENU);
+            GZ_setMenu(MN_PORTAL_FLAGS_INDEX);
             return;
         case FLAG_RECORDS_INDEX:
-            GZ_setMenu(GZ_FLAG_RECORD_MENU);
+            GZ_setMenu(MN_FLAG_RECORDS_INDEX);
             return;
         case FLAG_LOG_INDEX:
-            GZ_setMenu(GZ_FLAG_LOG_MENU);
+            GZ_setMenu(MN_FLAG_LOG_INDEX);
             return;
         }
     }

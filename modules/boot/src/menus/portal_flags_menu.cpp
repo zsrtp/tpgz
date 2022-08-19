@@ -1,10 +1,11 @@
 #include "menus/flags_menu.h"
 #include "gz_flags.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "rels/include/defines.h"
 
 #define MAX_REGION_OPTIONS 6
 
-PortalFlagsMenu::PortalFlagsMenu()
+KEEP_FUNC PortalFlagsMenu::PortalFlagsMenu()
     : Menu(),
       lines{
           {"region:", SELECT_REGION_INDEX, "Select region flag", false, nullptr,
@@ -69,7 +70,7 @@ void PortalFlagsMenu::draw() {
     l_mirrorWarp = getSaveSwitch(dSv_memory_c::DESERT, 40);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(GZ_FLAGS_MENU);
+        GZ_setMenu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -146,7 +147,7 @@ void PortalFlagsMenu::draw() {
         "ordon", "faron", "eldin", "lanayru", "desert", "snowpeak",
     };
 
-    tp_sprintf(lines[SELECT_REGION_INDEX].value, " <%s>", region_opt[l_selRegion].member);
+    sprintf(lines[SELECT_REGION_INDEX].value, " <%s>", region_opt[l_selRegion].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

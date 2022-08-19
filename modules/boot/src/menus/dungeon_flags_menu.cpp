@@ -2,10 +2,11 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "menus/flags_menu.h"
 #include "gz_flags.h"
+#include "rels/include/defines.h"
 
 #define MAX_DUNGEON_OPTIONS 9
 
-DungeonFlagsMenu::DungeonFlagsMenu()
+KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu()
     : Menu(), lines{
                   {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
                    MAX_DUNGEON_OPTIONS},
@@ -48,7 +49,7 @@ void DungeonFlagsMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         init_once = false;
-        GZ_setMenu(GZ_FLAGS_MENU);
+        GZ_setMenu(MN_FLAGS_INDEX);
         return;
     }
 
@@ -138,7 +139,7 @@ void DungeonFlagsMenu::draw() {
             setSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY);
             break;
         case CLEAR_DUNGEON_FLAGS_INDEX:
-            tp_memset(&dComIfGs_getSavedata().mSave[area_id].mBit, 0, sizeof(dSv_memBit_c));
+            memset(&dComIfGs_getSavedata().mSave[area_id].mBit, 0, sizeof(dSv_memBit_c));
             l_keyNum = 0;
             break;
         }
@@ -152,8 +153,8 @@ void DungeonFlagsMenu::draw() {
         "City in the Sky",   "Palace of Twilight", "Hyrule Castle",
     };
 
-    tp_sprintf(lines[SMALL_KEY_FLAG_INDEX].value, " <%d>", l_keyNum);
-    tp_sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dun_opt[l_selDun].member);
+    sprintf(lines[SMALL_KEY_FLAG_INDEX].value, " <%d>", l_keyNum);
+    sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dun_opt[l_selDun].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

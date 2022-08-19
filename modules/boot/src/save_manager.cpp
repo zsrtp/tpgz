@@ -21,12 +21,12 @@ char currentFileName[80];
 SaveManager gSaveManager;
 
 void SaveManager::injectSave(void* buffer) {
-    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, 2392);
+    memcpy((void*)&g_dComIfG_gameInfo, buffer, 2392);
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
 void SaveManager::injectMemfile(void* buffer) {
-    tp_memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
+    memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 };
 
@@ -56,7 +56,7 @@ void SaveManager::injectDefault_during() {
         g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo;
     g_dComIfG_gameInfo.play.mNextStage.mPoint =
         g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
-    tp_strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
+    strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
               (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
     g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
@@ -105,10 +105,10 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     SaveManager::injectDefault_before();
 
     // Load the corresponding file path and properties
-    tp_sprintf(currentFileName, "tpgz/save_files/%s.bin", category);
+    sprintf(currentFileName, "tpgz/save_files/%s.bin", category);
     loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
              sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
-    tp_sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category,
+    sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category,
                gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
@@ -125,7 +125,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
             gSaveManager.mPracticeSaveInfo.counter;
     }
 
-    tp_bossFlags = 0;
+    bossFlags = 0;
 
     // If the selected file was a special, run the special callbacks
     if (i_specials) {
@@ -145,7 +145,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
 
     // Store all the info in case file reload is used
     last_save_index = id;
-    tp_strcpy(last_category, category);
+    strcpy(last_category, category);
     last_special_ptr = i_specials;
     last_special_size = size;
 }
@@ -175,7 +175,7 @@ uint32_t setWaterDropColorInstr = 0x60000000;
 
 void SaveManager::triggerLoad() {
     // Loading hasn't started yet, run the before load function and initiate loading
-    if (!tp_fopScnRq.isLoading && !gSaveManager.loading_initiated) {
+    if (!fopScnRq.isLoading && !gSaveManager.loading_initiated) {
         // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
         setWaterDropColorInstr = *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL);
         *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) = 0x60000000;  // nop
@@ -187,7 +187,7 @@ void SaveManager::triggerLoad() {
     }
 
     // Loading has started, run the during load function
-    if (tp_fopScnRq.isLoading && g_dComIfG_gameInfo.play.mNextStage.enabled) {
+    if (fopScnRq.isLoading && g_dComIfG_gameInfo.play.mNextStage.enabled) {
         if (gSaveManager.mPracticeFileOpts.inject_options_during_load) {
             gSaveManager.mPracticeFileOpts.inject_options_during_load();
         }
@@ -197,7 +197,7 @@ void SaveManager::triggerLoad() {
 
     if (gSaveManager.loading_initiated) {
         // Loading has completed, run the after load function
-        if (!tp_fopScnRq.isLoading) {
+        if (!fopScnRq.isLoading) {
             // Patch back in setWaterDropColor call
             *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) =
                 setWaterDropColorInstr;  // bl daAlink_c::setWaterDropColor
@@ -222,7 +222,7 @@ void SaveManager::triggerLoad() {
             }
         }
         // should clean this up eventually
-        if (tp_fopScnRq.isLoading && gSaveManager.repeat_during &&
+        if (fopScnRq.isLoading && gSaveManager.repeat_during &&
             gSaveManager.repeat_count != apply_during_counter) {
             if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
                 gSaveManager.mPracticeFileOpts.inject_options_after_load();
@@ -247,9 +247,9 @@ void SaveManager::setLinkInfo() {
 }
 
 void SaveManager::setPositionCamera() {
-    if (tp_matrixInfo.matrix_info) {
-        tp_matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
-        tp_matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
+    if (matrixInfo.matrix_info) {
+        matrixInfo.matrix_info->target = gSaveManager.mPracticeSaveInfo.cam_target;
+        matrixInfo.matrix_info->pos = gSaveManager.mPracticeSaveInfo.cam_pos;
     }
 
     if (dComIfGp_getPlayer()) {
