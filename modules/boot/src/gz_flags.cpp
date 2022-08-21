@@ -2,7 +2,7 @@
 #include "fifo_queue.h"
 #include "gorge.h"
 #include "bit.h"
-#include "menus/scene_menu.h"
+#include "scene.h"
 #include "tools.h"
 #include "rollcheck.h"
 #include "utils/audio.h"

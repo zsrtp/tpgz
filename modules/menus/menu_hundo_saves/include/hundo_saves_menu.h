@@ -87,10 +87,11 @@ enum HundoPracticeIndex {
 
 class HundoSavesMenu : public Menu {
 public:
-    HundoSavesMenu();
+    HundoSavesMenu(Cursor&);
+    virtual ~HundoSavesMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
     Line lines[78];

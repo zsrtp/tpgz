@@ -1,18 +1,18 @@
-#include "menus/flags_menu.h"
+#include "menus/menu_flags/include/flags_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-bool g_flagLogEnabled;
-
-KEEP_FUNC FlagsMenu::FlagsMenu()
-    : Menu(), lines{
+KEEP_FUNC FlagsMenu::FlagsMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"general flags", GENERAL_FLAGS_INDEX, "General flags", false},
                   {"dungeon flags", DUNGEON_FLAGS_INDEX, "Dungeon flags", false},
                   {"portal flags", PORTAL_FLAGS_INDEX, "Warp portal flags", false},
                   {"flag records", FLAG_RECORDS_INDEX, "Edit flag records", false},
                   {"flag log", FLAG_LOG_INDEX, "Toggle the flag log", false},
               } {}
+
+FlagsMenu::~FlagsMenu() {}
 
 void FlagsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
@@ -21,7 +21,7 @@ void FlagsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (cursor.y) {
+        switch (m_cursor.y) {
         case GENERAL_FLAGS_INDEX:
             g_menuMgr->push(MN_GENERAL_FLAGS_INDEX);
             return;
@@ -40,6 +40,6 @@ void FlagsMenu::draw() {
         }
     }
 
-    cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
+    m_cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

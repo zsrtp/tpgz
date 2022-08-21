@@ -1,7 +1,5 @@
 #pragma once
 
-#include "menu.h"
-
 #define SCENE_AMNT 7
 
 enum SceneIndex {
@@ -34,14 +32,3 @@ void GZ_freezeActors();
 void GZ_unfreezeActors();
 void GZ_hideActors();
 void GZ_showActors();
-
-class SceneMenu : public Menu {
-public:
-    SceneMenu();
-    virtual void draw();
-
-    Cursor cursor;
-
-private:
-    Line lines[11];
-};

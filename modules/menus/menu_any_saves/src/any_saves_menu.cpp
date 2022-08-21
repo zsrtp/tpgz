@@ -1,12 +1,12 @@
-#include "menus/any_saves_menu.h"
+#include "menus/menu_any_saves/include/any_saves_menu.h"
 #include "gz_flags.h"
 #include "save_specials.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM
-KEEP_FUNC AnySavesMenu::AnySavesMenu()
-    : Menu(), lines{
+KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
                   {"back in time", BACK_IN_TIME_INDEX, "Back in Time off the Ordon Spring bridge"},
                   {"goats", GOATS_INDEX, "Goat herding 2"},
@@ -60,8 +60,8 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu()
               } {}
 #endif
 #ifdef WII_PLATFORM
-KEEP_FUNC AnySavesMenu::AnySavesMenu()
-    : Menu(),
+KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor),
       lines{{"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
             {"back in time", BACK_IN_TIME_INDEX, "Back In Time off the Ordon Spring bridge"},
             {"goats", GOATS_INDEX, "Goat herding 2"},
@@ -117,6 +117,8 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu()
             {"horseback ganon", HORSEBACK_GANON_INDEX, "The horseback Ganondorf fight"}} {};
 #endif
 
+AnySavesMenu::~AnySavesMenu() {}
+
 void AnySavesMenu::draw() {
 #ifdef GCN_PLATFORM
     special AnySpecials[ANY_SPECIALS_AMNT] = {
@@ -163,11 +165,11 @@ void AnySavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "any", AnySpecials,
+        SaveManager::loadSave(m_cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
         g_menuMgr->hide();
     }
 
-    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
+    m_cursor.move(0, sizeof(lines) / sizeof(lines[0]));
+    GZ_drawMenuLines(lines, m_cursor.y, sizeof(lines) / sizeof(lines[0]));
 }

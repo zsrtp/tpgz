@@ -1,5 +1,5 @@
 #include "gz_flags.h"
-#include "menus/flags_menu.h"
+#include "menus/general_flags_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 #include "rels/include/defines.h"

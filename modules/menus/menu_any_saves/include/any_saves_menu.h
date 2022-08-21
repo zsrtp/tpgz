@@ -52,7 +52,10 @@ enum AnyPracticeIndex {
     DARKNUT_INDEX,
     HC_TOWER_INDEX,
     BEAST_GANON_INDEX,
-    HORSEBACK_GANON_INDEX
+    HORSEBACK_GANON_INDEX,
+
+    // Entry used as a count of entries
+    ANY_SAVES_COUNT
 };
 #endif
 #ifdef WII_PLATFORM
@@ -109,22 +112,26 @@ enum AnyPracticeIndex {
     DARKNUT_INDEX,
     HC_TOWER_INDEX,
     BEAST_GANON_INDEX,
-    HORSEBACK_GANON_INDEX
+    HORSEBACK_GANON_INDEX,
+
+    // Entry used as a count of entries
+    ANY_SAVES_COUNT
 };
 #endif
 
 class AnySavesMenu : public Menu {
 public:
-    AnySavesMenu();
+    AnySavesMenu(Cursor& cursor);
+    virtual ~AnySavesMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
 #ifdef GCN_PLATFORM
-    Line lines[49];
+    Line lines[ANY_SAVES_COUNT];
 #endif
 #ifdef WII_PLATFORM
-    Line lines[52];
+    Line lines[ANY_SAVES_COUNT];
 #endif
 };

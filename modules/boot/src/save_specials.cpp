@@ -6,23 +6,24 @@
 #include "libtp_c/include/f_op/f_op_actor_iter.h"
 #include "libtp_c/include/rel/d/a/b/d_a_b_ds.h"
 #include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
+#include "rels/include/defines.h"
 
-void SaveMngSpecial_BossFlags() {
+KEEP_FUNC void SaveMngSpecial_BossFlags() {
     gSaveManager.injectDefault_during();
     bossFlags = 0xFF;
 }
 
-void SaveMngSpecial_Goats1() {
+KEEP_FUNC void SaveMngSpecial_Goats1() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(5);
 }
 
-void SaveMngSpecial_Goats2() {
+KEEP_FUNC void SaveMngSpecial_Goats2() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(4);
 }
 
-void SaveMngSpecial_Hugo() {
+KEEP_FUNC void SaveMngSpecial_Hugo() {
     gSaveManager.injectDefault_during();
     dComIfGs_onSwitch(47, 0);   // midna trigger off
     dComIfGs_offSwitch(63, 0);  // hugo alive
@@ -34,7 +35,7 @@ void SaveMngSpecial_Hugo() {
 #define HUGO_ACTOR_ID 466
 #endif
 
-void SaveMngSpecial_SpawnHugo() {
+KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
     gSaveManager.setSaveAngle(40166);
     gSaveManager.setSavePosition(2.9385, 396.9580, -18150.087);
     gSaveManager.setLinkInfo();
@@ -62,29 +63,29 @@ void SaveMngSpecial_SpawnHugo() {
     }
 }
 
-void SaveMngSpecial_PurpleMist() {
+KEEP_FUNC void SaveMngSpecial_PurpleMist() {
     gSaveManager.injectDefault_during();
     dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
-void SaveMngSpecial_KargOoB() {
+KEEP_FUNC void SaveMngSpecial_KargOoB() {
     gSaveManager.mPracticeFileOpts.inject_options_before_load = nullptr;
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
     dComIfGs_setTransformStatus(STATUS_HUMAN);
 }
 
-void SaveMngSpecial_WaterfallSidehop() {
+KEEP_FUNC void SaveMngSpecial_WaterfallSidehop() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 10.0f;  // link spawns swimming forward
 }
 
-void SaveMngSpecial_KB2Skip() {
+KEEP_FUNC void SaveMngSpecial_KB2Skip() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(3);
 }
 
-void SaveMngSpecial_Escort() {
+KEEP_FUNC void SaveMngSpecial_Escort() {
     gSaveManager.injectDefault_during();
     setNextStageRoom(0xD);
     setNextStagePoint(98);
@@ -92,29 +93,29 @@ void SaveMngSpecial_Escort() {
     dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
-void SaveMngSpecial_Dangoro() {
+KEEP_FUNC void SaveMngSpecial_Dangoro() {
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x200000;  // turn off intro cs, start fight
 }
 
-void SaveMngSpecial_Norgor() {
+KEEP_FUNC void SaveMngSpecial_Norgor() {
     g_meter2_info.mRentalBombBag = 0;  // Rental Bomb Bag Idx set to bag 0
     dComIfGs_setItem(SLOT_15, NORMAL_BOMB);
     dComIfGs_setBombNum(0, 30);
     dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, SLOT_15);
 }
 
-void SaveMngSpecial_LakebedBKSkip() {
+KEEP_FUNC void SaveMngSpecial_LakebedBKSkip() {
     gSaveManager.injectDefault_during();
     dComIfGs_onSwitch(2, 0);    // bridge turned
     dComIfGs_onSwitch(122, 0);  // dungeon intro cs off
 }
 
-void SaveMngSpecial_Darkhammer() {
+KEEP_FUNC void SaveMngSpecial_Darkhammer() {
     dComIfGs_onEventBit(0x0B02);
     dComIfGs_onEventBit(0x0B04);  // iza bomb bag stolen
 }
 
-void SaveMngSpecial_Morpheel() {
+KEEP_FUNC void SaveMngSpecial_Morpheel() {
     dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;                        // clawshot
     dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EQUIP_HEAVY_BOOTS);  // ib
     gSaveManager.setSaveAngle(10754);
@@ -122,7 +123,7 @@ void SaveMngSpecial_Morpheel() {
     gSaveManager.setLinkInfo();
 }
 
-void SaveMngSpecial_Iza1Skip() {
+KEEP_FUNC void SaveMngSpecial_Iza1Skip() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
     setNextStageName("F_SP112");                       // set stage to river
@@ -131,13 +132,13 @@ void SaveMngSpecial_Iza1Skip() {
     setNextStageLayer(4);
 }
 
-void SaveMngSpecial_Stallord() {
+KEEP_FUNC void SaveMngSpecial_Stallord() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
     setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
-void SaveMngSpecial_Stallord2() {
+KEEP_FUNC void SaveMngSpecial_Stallord2() {
     gSaveManager.mPracticeFileOpts.inject_options_after_counter = 20;
 
     daB_DS_c* stallord = (daB_DS_c*)fopAcM_SearchByName(246);          // stallord proc name
@@ -167,7 +168,7 @@ void SaveMngSpecial_Stallord2() {
     }
 }
 
-void SaveMngSpecial_Stallord2_init() {
+KEEP_FUNC void SaveMngSpecial_Stallord2_init() {
     gSaveManager.repeat_during = true;
     gSaveManager.repeat_count = 120;
 
@@ -176,54 +177,54 @@ void SaveMngSpecial_Stallord2_init() {
     setNextStagePoint(1);                                          // spawn at in front of stally
 }
 
-void SaveMngSpecial_SPRBossKey() {
+KEEP_FUNC void SaveMngSpecial_SPRBossKey() {
     gSaveManager.injectDefault_during();
     setNextStageRoom(0xB);  // boss key room
     setNextStagePoint(0);   // default spawn
 }
 
-void SaveMngSpecial_ToTEarlyPoe() {
+KEEP_FUNC void SaveMngSpecial_ToTEarlyPoe() {
     gSaveManager.injectDefault_during();
     gSaveManager.setSaveAngle(49299);
     gSaveManager.setSavePosition(-2462.85f, 2750.0f, -7.10f);
     gSaveManager.setLinkInfo();
 }
 
-void SaveMngSpecial_ToTEarlyHP() {
+KEEP_FUNC void SaveMngSpecial_ToTEarlyHP() {
     gSaveManager.injectDefault_during();
     gSaveManager.setSaveAngle(49152);
     gSaveManager.setSavePosition(-8000.50f, 5100.0f, -3226.17f);
     gSaveManager.setLinkInfo();
 }
 
-void SaveMngSpecial_HugoArchery() {
+KEEP_FUNC void SaveMngSpecial_HugoArchery() {
     gSaveManager.injectDefault_during();
     // g_dComIfG_gameInfo.temp_flags.flags[14] = 0xC0;  // start archery minigame
 }
 
-void SaveMngSpecial_CityPoeCycle() {
+KEEP_FUNC void SaveMngSpecial_CityPoeCycle() {
     gSaveManager.injectDefault_during();
     gSaveManager.setSaveAngle(71);
     gSaveManager.setSavePosition(-14005.31f, 3000.0f, -15854.05f);
     gSaveManager.setLinkInfo();
 }
 
-void SaveMngSpecial_FanTower() {
+KEEP_FUNC void SaveMngSpecial_FanTower() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset city switches
 }
 
-void SaveMngSpecial_Argorok() {
+KEEP_FUNC void SaveMngSpecial_Argorok() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x10000;
 }
 
-void SaveMngSpecial_Palace1() {
+KEEP_FUNC void SaveMngSpecial_Palace1() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset palace switches
 }
 
-void SaveMngSpecial_Palace2() {
+KEEP_FUNC void SaveMngSpecial_Palace2() {
     dComIfGp_getPlayer()->mEquipItem = 3;  // master sword
     gSaveManager.injectDefault_during();
     gSaveManager.setSaveAngle(32731);
@@ -231,7 +232,7 @@ void SaveMngSpecial_Palace2() {
     gSaveManager.setLinkInfo();
 }
 
-void SaveMngSpecial_CaveOfOrdeals() {
+KEEP_FUNC void SaveMngSpecial_CaveOfOrdeals() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;
 }

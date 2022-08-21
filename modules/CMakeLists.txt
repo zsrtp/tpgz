@@ -42,7 +42,6 @@ function(tpgz_add_main_module module_name module_srcs)
     endif()
 
     file(GLOB relative_module_name LIST_DIRECTORIES true RELATIVE ${TPGZ_MODULE_SRC_DIR} CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR})
-    message("glob: ${relative_module_name}")
     add_custom_command(OUTPUT ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel
         DEPENDS ${module_name} ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst
         COMMAND ${TPGZ_ELF2REL_EXE} $<TARGET_FILE:${module_name}> -s ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst --rel-id ${TPGZ_MODULE_ID_COUNTER} -o ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)

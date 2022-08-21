@@ -1,6 +1,6 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/memory_editor_menu.h"
-#include "menus/memory_menu.h"
+#include "menus/watches_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"

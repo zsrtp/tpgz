@@ -1,4 +1,4 @@
-#include "menus/flags_menu.h"
+#include "menus/flag_log_menu.h"
 #include "flaglog.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"

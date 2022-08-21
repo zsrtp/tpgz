@@ -1,4 +1,4 @@
-#include "menus/scene_menu.h"
+#include "menus/menu_scene/include/scene_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
@@ -6,8 +6,8 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC SceneMenu::SceneMenu()
-    : Menu(), lines{
+KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"disable bg music", DISABLE_BG_INDEX, "Disables background and enemy music",
                    true, &g_sceneFlags[DISABLE_BG_INDEX].active},
                   {"disable sfx", DISABLE_SFX_INDEX, "Disables sound effects", true,
@@ -28,72 +28,10 @@ KEEP_FUNC SceneMenu::SceneMenu()
                   {"actor list", ACTOR_LIST_INDEX, "Display info from the actor list", false},
               } {}
 
-SceneItem g_sceneFlags[SCENE_AMNT] = {
-    {FREEZE_ACTOR_INDEX, false}, {HIDE_ACTOR_INDEX, false},    {DISABLE_BG_INDEX, false},
-    {DISABLE_SFX_INDEX, false},  {FREEZE_CAMERA_INDEX, false}, {HIDE_HUD_INDEX, false},
-    {FREEZE_TIME_INDEX, false},
-};
-
-void GZ_freezeTime() {
-    if (g_sceneFlags[FREEZE_TIME_INDEX].active) {
-        dStage_roomControl_c__setTimePass(TIME_STOP);
-    }
-}
-
-bool l_initCamLock;
-void GZ_freezeCamera() {
-    l_initCamLock = true;
-    dComIfGp_getEventManager().mCameraPlay = 1;
-}
-
-void GZ_unfreezeCamera() {
-    if (l_initCamLock) {
-        dComIfGp_getEventManager().mCameraPlay = 0;
-        l_initCamLock = false;
-    }
-}
-
-bool l_initHide;
-void GZ_hideHUD() {
-    g_drawHIO.mHUDAlpha = 0.0f;
-    l_initHide = true;
-}
-
-void GZ_showHUD() {
-    if (l_initHide) {
-        g_drawHIO.mHUDAlpha = 1.0f;
-        l_initHide = false;
-    }
-}
-
-bool l_initActorFreeze;
-void GZ_freezeActors() {
-    l_initActorFreeze = true;
-    g_dComIfAc_gameInfo.freeze = true;
-}
-
-void GZ_unfreezeActors() {
-    if (l_initActorFreeze) {
-        g_dComIfAc_gameInfo.freeze = false;
-        l_initActorFreeze = false;
-    }
-}
-
-bool l_initActorHide;
-void GZ_hideActors() {
-    l_initActorHide = true;
-    fopAc_ac_c__stopStatus |= 0x100;
-}
-
-void GZ_showActors() {
-    if (l_initActorHide) {
-        fopAc_ac_c__stopStatus &= ~0x100;
-        l_initActorHide = false;
-    }
-}
+SceneMenu::~SceneMenu() {}
 
 void SceneMenu::draw() {
-    cursor.setMode(Cursor::MODE_LIST);
+    m_cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
@@ -112,9 +50,9 @@ void SceneMenu::draw() {
     sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_sceneFlags[cursor.y].active = !g_sceneFlags[cursor.y].active;
+        g_sceneFlags[m_cursor.y].active = !g_sceneFlags[m_cursor.y].active;
 
-        switch (cursor.y) {
+        switch (m_cursor.y) {
         case ACTOR_MENU_INDEX:
             g_menuMgr->push(MN_ACTOR_SPAWNER_INDEX);
             return;
@@ -124,7 +62,7 @@ void SceneMenu::draw() {
         }
     }
 
-    switch (cursor.y) {
+    switch (m_cursor.y) {
     case TIME_HOURS_INDEX:
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
             dComIfGs_setTime(current_time + 15.0f);
@@ -147,6 +85,6 @@ void SceneMenu::draw() {
         dComIfGs_setTime(current_time + 360.0f);
     }
 
-    cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
+    m_cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

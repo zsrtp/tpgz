@@ -23,25 +23,25 @@ enum MenuIndex {
     MN_NONE_INDEX = -1,
     MN_MAIN_MENU_INDEX = 0,
     MN_CHEAT_INDEX,
+    MN_FLAGS_INDEX,
     MN_INVENTORY_INDEX,
+    MN_MEMORY_INDEX,
     MN_PRACTICE_INDEX,
+    MN_SCENE_INDEX,
     MN_SETTINGS_INDEX,
     MN_TOOLS_INDEX,
     MN_WARPING_INDEX,
     MN_ITEM_WHELL_INDEX,
-    MN_MEMORY_INDEX,
+    MN_ANY_SAVES_INDEX,
+    MN_HUNDO_SAVES_INDEX,
     MN_WATCHES_INDEX,
     MN_MEMORY_EDITOR_INDEX,
-    MN_FLAGS_INDEX,
     MN_GENERAL_FLAGS_INDEX,
     MN_DUNGEON_FLAGS_INDEX,
     MN_PORTAL_FLAGS_INDEX,
     MN_FLAG_RECORDS_INDEX,
-    MN_SCENE_INDEX,
     MN_PAUSE_INDEX,
     MN_AMOUNTS_INDEX,
-    MN_ANY_SAVES_INDEX,
-    MN_HUNDO_SAVES_INDEX,
     MN_POS_SETTINGS_INDEX,
     MN_FLAG_LOG_INDEX,
     MN_AD_SAVES_INDEX,
@@ -56,14 +56,6 @@ enum MenuIndex {
 extern "C" {
 extern const char* g_menuPaths[MN_COUNT];
 }
-
-// void GZ_drawMenu();
-// void GZ_setMenu(int idx);
-// void GZ_clearMenu();
-// bool GZ_checkMenuOpen();
-// bool GZ_checkReturnMenu();
-// void GZ_returnMenu();
-// void GZ_setReturnMenu(int menu_idx);
 
 #define LIST_COUNT(list) (sizeof(list) / sizeof((list)[0]))
 #define MENU_LINE_NUM LIST_COUNT(lines)

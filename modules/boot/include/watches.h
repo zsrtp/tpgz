@@ -1,5 +1,6 @@
 #pragma once
-#include "menu.h"
+
+#include <cstdint>
 
 #define MAX_WATCHES 10
 
@@ -21,23 +22,3 @@ struct MemoryWatch {
 };
 
 extern MemoryWatch g_watches[MAX_WATCHES];
-
-class MemoryMenu : public Menu {
-public:
-    MemoryMenu();
-    virtual void draw();
-
-    Cursor cursor;
-
-private:
-    Line lines[3];
-};
-
-class WatchesMenu : public Menu {
-public:
-    WatchesMenu();
-    virtual void draw();
-    void drawMemoryLines();
-
-    Cursor cursor;
-};

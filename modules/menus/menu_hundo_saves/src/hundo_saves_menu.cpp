@@ -1,11 +1,11 @@
-#include "menus/hundo_saves_menu.h"
+#include "menus/menu_hundo_saves/include/hundo_saves_menu.h"
 #include "gz_flags.h"
 #include "save_specials.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC HundoSavesMenu::HundoSavesMenu()
-    : Menu(), lines{
+KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"goats 1", HND_GOATS_1_INDEX, "Goat herding 1"},
                   {"ordon gate clip", HND_ORDON_GATE_CLIP_INDEX, "Gate clip outside Ordon Spring"},
                   {"goats 2", HND_GOATS_2_INDEX, "Goat herding 2"},
@@ -88,6 +88,8 @@ KEEP_FUNC HundoSavesMenu::HundoSavesMenu()
                   {"horseback ganon", HND_HORSEBACK_GANON_INDEX, "The Horseback Ganondorf fight"},
               } {}
 
+HundoSavesMenu::~HundoSavesMenu() {}
+
 void HundoSavesMenu::draw() {
     special HundoSpecials[HND_SPECIALS_AMNT] = {
         special(HND_GOATS_1_INDEX, SaveMngSpecial_Goats1, nullptr),
@@ -124,10 +126,10 @@ void HundoSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::loadSave(m_cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
         g_menuMgr->hide();
     }
 
-    cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
+    m_cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

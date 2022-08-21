@@ -1,11 +1,10 @@
 #pragma once
 
 #include "cheats.h"
-#include "menus/memory_menu.h"
+#include "watches.h"
 #include "menus/position_settings_menu.h"
-#include "menus/scene_menu.h"
+#include "scene.h"
 #include "tools.h"
-#include "menus/hundo_saves_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
