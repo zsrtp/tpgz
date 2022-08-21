@@ -12,7 +12,7 @@ void MenuState::load(bool isCreated) {
     if (rel->isLoaded()) {
         return;
     }
-    rel->load(true);
+    rel->loadFixed(true);
     if (isCreated && create_hook) {
         create_hook();
     }
@@ -40,7 +40,7 @@ void MenuState::del() {
             unload_hook();
         }
     } else {
-        rel->load(true);
+        rel->loadFixed(true);
     }
     if (delete_hook) {
         delete_hook();
