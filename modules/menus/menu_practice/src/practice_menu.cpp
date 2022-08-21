@@ -1,4 +1,4 @@
-#include "menu_practice/include/practice_menu.h"
+#include "menus/menu_practice/include/practice_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"

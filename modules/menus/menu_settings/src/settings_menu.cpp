@@ -1,4 +1,4 @@
-#include "menu_settings/include/settings_menu.h"
+#include "menus/menu_settings/include/settings_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "utils/card.h"
 #include "gz_flags.h"

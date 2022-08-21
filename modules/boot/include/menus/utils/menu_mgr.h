@@ -113,7 +113,6 @@ public:
     friend class MenuStateConstIterator;
     friend class MenuStateIterator;
 };
-}  // namespace menus
 
 enum MenuCommandId {
     MC_NONE,
@@ -128,6 +127,7 @@ struct MenuCommand {
     MenuCommandId cmd_id;
     int menu_id;
 };
+}  // namespace menus
 
 class MenuMgr {
 public:
@@ -205,7 +205,7 @@ public:
 private:
     menus::MenuStateList states;
     bool is_open;
-    MenuCommand command;
+    menus::MenuCommand command;
 
     void handleOpen();
     void handleHide();

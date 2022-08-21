@@ -1,5 +1,5 @@
 #include <main.h>
-#include "menu_cheats/include/cheats_menu.h"
+#include "menus/menu_settings/include/settings_menu.h"
 #include "handlers/draw_handler.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
@@ -10,7 +10,7 @@ void onDraw();
 void onUnload();
 void onDelete();
 
-CheatsMenu* l_menu;
+SettingsMenu* l_settingsMenu;
 
 namespace tpgz::modules {
 void main() {
@@ -32,17 +32,17 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new CheatsMenu(*(Cursor*)g_menuMgr->getPersistentData());
+    l_settingsMenu = new SettingsMenu(*(Cursor*)g_menuMgr->getPersistentData());
     g_drawHandler->addHandler(onDraw);
 }
 
 void onDraw() {
-    l_menu->draw();
+    l_settingsMenu->draw();
 }
 
 void onUnload() {
     g_drawHandler->removeHandler(onDraw);
-    delete l_menu;
+    delete l_settingsMenu;
 }
 
 void onDelete() {

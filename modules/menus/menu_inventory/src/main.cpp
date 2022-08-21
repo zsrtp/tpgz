@@ -1,5 +1,5 @@
 #include <main.h>
-#include "menu_inventory/include/inventory_menu.h"
+#include "menus/menu_inventory/include/inventory_menu.h"
 #include "handlers/draw_handler.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"

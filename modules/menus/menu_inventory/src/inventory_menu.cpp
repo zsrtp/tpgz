@@ -1,4 +1,4 @@
-#include "menu_inventory/include/inventory_menu.h"
+#include "menus/menu_inventory/include/inventory_menu.h"
 #include "font.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"

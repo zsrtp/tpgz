@@ -1,4 +1,4 @@
-#include "menu_cheats/include/cheats_menu.h"
+#include "menus/menu_cheats/include/cheats_menu.h"
 #include "cheats.h"
 #include "commands.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"

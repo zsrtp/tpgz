@@ -227,46 +227,46 @@ KEEP_FUNC size_t MenuMgr::getStackSize() const {
 }
 
 void MenuMgr::handleCommands() {
-    if (command.cmd_id == MC_NONE) {
+    if (command.cmd_id == menus::MC_NONE) {
         return;
     }
     switch (command.cmd_id) {
-    case MC_OPEN:
+    case menus::MC_OPEN:
         handleOpen();
         break;
-    case MC_HIDE:
+    case menus::MC_HIDE:
         handleHide();
         break;
-    case MC_PUSH:
+    case menus::MC_PUSH:
         handlePush(command.menu_id);
         break;
-    case MC_POP:
+    case menus::MC_POP:
         handlePop();
         break;
-    case MC_CLEAR:
+    case menus::MC_CLEAR:
         handleClear();
         break;
-    case MC_NONE:
+    case menus::MC_NONE:
         break;
     }
-    command = {MC_NONE, MN_NONE_INDEX};
+    command = {menus::MC_NONE, MN_NONE_INDEX};
 }
 
 KEEP_FUNC void MenuMgr::open() {
-    command = {MC_OPEN, MN_NONE_INDEX};
+    command = {menus::MC_OPEN, MN_NONE_INDEX};
 }
 KEEP_FUNC void MenuMgr::hide() {
-    command = {MC_HIDE, MN_NONE_INDEX};
+    command = {menus::MC_HIDE, MN_NONE_INDEX};
 }
 
 KEEP_FUNC void MenuMgr::push(int menu_id) {
-    command = {MC_PUSH, menu_id};
+    command = {menus::MC_PUSH, menu_id};
 }
 KEEP_FUNC void MenuMgr::pop() {
-    command = {MC_POP, MN_NONE_INDEX};
+    command = {menus::MC_POP, MN_NONE_INDEX};
 }
 KEEP_FUNC void MenuMgr::clear() {
-    command = {MC_CLEAR, MN_NONE_INDEX};
+    command = {menus::MC_CLEAR, MN_NONE_INDEX};
 }
 
 KEEP_FUNC void MenuMgr::handleOpen() {

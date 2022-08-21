@@ -1,5 +1,5 @@
 #include <main.h>
-#include "menu_settings/include/settings_menu.h"
+#include "menus/menu_practice/include/practice_menu.h"
 #include "handlers/draw_handler.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
@@ -10,7 +10,7 @@ void onDraw();
 void onUnload();
 void onDelete();
 
-SettingsMenu* l_settingsMenu;
+PracticeMenu* l_warpMenu;
 
 namespace tpgz::modules {
 void main() {
@@ -32,17 +32,17 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_settingsMenu = new SettingsMenu(*(Cursor*)g_menuMgr->getPersistentData());
+    l_warpMenu = new PracticeMenu(*(Cursor*)g_menuMgr->getPersistentData());
     g_drawHandler->addHandler(onDraw);
 }
 
 void onDraw() {
-    l_settingsMenu->draw();
+    l_warpMenu->draw();
 }
 
 void onUnload() {
     g_drawHandler->removeHandler(onDraw);
-    delete l_settingsMenu;
+    delete l_warpMenu;
 }
 
 void onDelete() {
