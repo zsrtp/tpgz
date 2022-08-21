@@ -403,4 +403,8 @@ bool GZModule::isLoaded() {
     return m_loaded;
 }
 
+const char* GZModule::getPath() const {
+    return m_path;
+}
+
 }  // namespace tpgz::dyn

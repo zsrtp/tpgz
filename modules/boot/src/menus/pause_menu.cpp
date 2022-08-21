@@ -4,6 +4,7 @@
 #include "libtp_c/include/utils.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_ORDON_SWORD_OPT 3
 #define MAX_MASTER_SWORD_OPT 3
@@ -235,7 +236,7 @@ void PauseMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         init = false;
-        GZ_setMenu(MN_INVENTORY_INDEX);
+        g_menuMgr->pop();
         resetIndex();
         return;
     }

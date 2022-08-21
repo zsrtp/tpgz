@@ -1,12 +1,13 @@
 #include "menus/flag_records_menu.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menus/settings_menu.h"
+#include "settings.h"
 #include "utils/draw.h"
 #include "utils/texture.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_DISPLAY_LINES 8
 #define WHITE_RGBA 0xFFFFFFFF
@@ -103,7 +104,7 @@ void FlagRecordsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         free_texture(&l_flagOnTex);
         free_texture(&l_flagOffTex);
-        GZ_setMenu(MN_FLAGS_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

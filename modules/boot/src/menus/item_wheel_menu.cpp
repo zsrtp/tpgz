@@ -5,6 +5,7 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define ITEM_WHEEL_SLOTS 24
 #define MAX_ITEMS 58
@@ -180,7 +181,7 @@ void ItemWheelMenu::draw() {
     updateListIdx();
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_INVENTORY_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

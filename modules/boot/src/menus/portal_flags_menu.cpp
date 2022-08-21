@@ -2,6 +2,7 @@
 #include "gz_flags.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_REGION_OPTIONS 6
 
@@ -70,7 +71,7 @@ void PortalFlagsMenu::draw() {
     l_mirrorWarp = getSaveSwitch(dSv_memory_c::DESERT, 40);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_FLAGS_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

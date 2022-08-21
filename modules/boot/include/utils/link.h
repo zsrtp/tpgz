@@ -4,6 +4,8 @@
 
 void GZ_displayLinkInfo();
 
+void GZ_setTunicColor();
+
 inline void GZ_patchLinkColor() {
 #ifdef WII_PLATFORM
 #ifdef WII_NTSCU_10

@@ -2,10 +2,10 @@
 #include <cstdio>
 #include "utils/draw.h"
 #include "fifo_queue.h"
-#include "menus/settings_menu.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define INITAL_SPEED 1.0f
 #define INCREMENT_FACTOR 1.05f
@@ -43,7 +43,7 @@ void PosSettingsMenu::draw() {
             l_selItem = POSITION_SETTINGS_NO_SELECTION;
         } else {
             init_once = false;
-            GZ_setMenu(MN_SETTINGS_INDEX);
+            g_menuMgr->pop();
             return;
         }
     }

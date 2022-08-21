@@ -1,11 +1,10 @@
 #pragma once
 
-#include "menus/cheats_menu.h"
+#include "cheats.h"
 #include "menus/memory_menu.h"
 #include "menus/position_settings_menu.h"
 #include "menus/scene_menu.h"
-#include "menus/settings_menu.h"
-#include "menus/tools_menu.h"
+#include "tools.h"
 #include "menus/hundo_saves_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
@@ -138,7 +137,7 @@ struct GZSaveHeader {
 
 struct GZSaveLayout {
     Cheat mCheats[CHEAT_AMNT];
-    Tool mTools[TOOL_AMNT];
+    Tool mTools[TOOLS_COUNT];
     SceneItem mSceneFlags[SCENE_AMNT];
     MemoryWatch mWatches[MAX_WATCHES];
     Vec2 mSpriteOffsets[SPRITES_AMNT];

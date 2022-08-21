@@ -6,6 +6,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_SAVE_SLOTS 20
 
@@ -58,7 +59,7 @@ void MemfilesMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MEMORY_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

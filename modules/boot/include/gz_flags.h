@@ -3,7 +3,7 @@
 #include "font.h"
 #include "cheats.h"
 #include "save_manager.h"
-#include "menus/settings_menu.h"
+#include "settings.h"
 #include "fifo_queue.h"
 
 #ifdef WII_PLATFORM

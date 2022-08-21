@@ -1,19 +1,16 @@
-#include "menus/settings_menu.h"
+#include "menu_settings/include/settings_menu.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "utils/card.h"
 #include "gz_flags.h"
 #include "fifo_queue.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_RELOAD_OPTIONS 2
 #define MAX_CURSOR_COLOR_OPTIONS 6
-#define FONT_OPTIONS_COUNT (sizeof(font_opt) / sizeof(font_opt[0]))
 
-ListMember font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
-                         "lib-serif", "lib-serif-bold", "press-start-2p"};
-
-KEEP_FUNC SettingsMenu::SettingsMenu()
-    : Menu(), lines{
+KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
                    "Load area: reload last area | Load file = reload last file", false, nullptr,
                    MAX_RELOAD_OPTIONS},
@@ -31,28 +28,24 @@ KEEP_FUNC SettingsMenu::SettingsMenu()
                    "Change menu object positions (A to toggle selection, DPad to move)", false},
               } {}
 
-bool g_dropShadows;
-bool g_swap_equips_flag;
-uint32_t g_reloadType;
-uint32_t g_fontType = 0;
-uint32_t g_cursorColorType;
+SettingsMenu::~SettingsMenu() {}
 
 void SettingsMenu::draw() {
-    cursor.setMode(Cursor::MODE_LIST);
+    m_cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     // static Storage storage;
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (cursor.y) {
+        switch (m_cursor.y) {
         case DROP_SHADOWS_INDEX:
             g_dropShadows = !g_dropShadows;
             break;
         case POS_SETTINGS_MENU_INDEX:
-            GZ_setMenu(MN_POS_SETTINGS_INDEX);
+            g_menuMgr->push(MN_POS_SETTINGS_INDEX);
             return;
         case SAVE_CARD_INDEX: {
             static Storage storage;
@@ -111,56 +104,48 @@ void SettingsMenu::draw() {
                                                           "orange", "yellow", "purple"};
 
     // handle list rendering
-    switch (cursor.y) {
+    switch (m_cursor.y) {
     case AREA_RELOAD_BEHAVIOR_INDEX:
-        cursor.x = g_reloadType;
-        cursor.move(MAX_RELOAD_OPTIONS, MENU_LINE_NUM);
+        m_cursor.x = g_reloadType;
+        m_cursor.move(MAX_RELOAD_OPTIONS, MENU_LINE_NUM);
 
-        if (cursor.y == AREA_RELOAD_BEHAVIOR_INDEX) {
-            g_reloadType = cursor.x;
+        if (m_cursor.y == AREA_RELOAD_BEHAVIOR_INDEX) {
+            g_reloadType = m_cursor.x;
         }
         break;
     case CURSOR_COLOR_INDEX:
-        cursor.x = g_cursorColorType;
-        cursor.move(MAX_CURSOR_COLOR_OPTIONS, MENU_LINE_NUM);
+        m_cursor.x = g_cursorColorType;
+        m_cursor.move(MAX_CURSOR_COLOR_OPTIONS, MENU_LINE_NUM);
 
-        if (cursor.y == CURSOR_COLOR_INDEX) {
-            g_cursorColorType = cursor.x;
+        if (m_cursor.y == CURSOR_COLOR_INDEX) {
+            g_cursorColorType = m_cursor.x;
         }
         break;
     case FONT_INDEX: {
-        cursor.x = g_fontType;
+        m_cursor.x = g_fontType;
         uint32_t old_font = g_fontType;
-        cursor.move(FONT_OPTIONS_COUNT, MENU_LINE_NUM);
+        m_cursor.move(FONT_OPTIONS_COUNT, MENU_LINE_NUM);
 
-        if (cursor.y == FONT_INDEX) {
-            g_fontType = cursor.x;
+        if (m_cursor.y == FONT_INDEX) {
+            g_fontType = m_cursor.x;
         }
         if (old_font != g_fontType) {
             if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
                 char buf[40];
-                sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
+                sprintf(buf, "tpgz/fonts/%s.fnt", g_font_opt[g_fontType].member);
                 Font::loadFont(buf);
             }
         }
         break;
     }
     default:
-        cursor.move(0, MENU_LINE_NUM);
+        m_cursor.move(0, MENU_LINE_NUM);
         break;
     }
 
     sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_opt[g_reloadType].member);
     sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursorCol_opt[g_cursorColorType].member);
-    sprintf(lines[FONT_INDEX].value, " <%s>", font_opt[g_fontType].member);
+    sprintf(lines[FONT_INDEX].value, " <%s>", g_font_opt[g_fontType].member);
 
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
-}
-
-void SettingsMenu::initFont() {
-    if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
-        char buf[40] = {0};
-        sprintf(buf, "tpgz/fonts/%s.fnt", font_opt[g_fontType].member);
-        Font::loadFont(buf);
-    }
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

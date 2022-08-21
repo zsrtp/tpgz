@@ -15,6 +15,8 @@ public:
 
     bool isLoaded();
 
+    const char* getPath() const;
+
 private:
     uint8_t m_loaded;
     const char* m_path;

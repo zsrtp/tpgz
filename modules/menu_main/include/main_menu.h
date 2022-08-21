@@ -14,10 +14,11 @@ enum MainMenuIndex {
 
 class MainMenu : public Menu {
 public:
-    MainMenu();
+    MainMenu(Cursor&);
+    virtual ~MainMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
     Line lines[9];

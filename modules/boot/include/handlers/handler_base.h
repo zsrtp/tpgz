@@ -30,30 +30,40 @@ public:
         return nullptr;
     }
 
-    CallbackIterator& operator++() {
+    CallbackIterator<T>& operator++() {
         if (curr != nullptr) {
             curr = curr->next;
         }
         return *this;
     }
 
-    CallbackIterator operator++(int) {
-        CallbackIterator old = *this;
+    CallbackIterator<T> operator++(int) {
+        CallbackIterator<T> old = *this;
         operator++();
         return old;
     }
 
-    CallbackIterator& operator--() {
+    CallbackIterator<T>& operator--() {
         if (curr != nullptr) {
             curr = curr->prev;
         }
         return *this;
     }
 
-    CallbackIterator operator--(int) {
-        CallbackIterator old = *this;
+    CallbackIterator<T> operator--(int) {
+        CallbackIterator<T> old = *this;
         operator--();
         return old;
+    }
+
+    operator bool() const { return curr != nullptr && curr->elem != nullptr; }
+
+    bool hasNext() const {
+        return curr && curr->next != nullptr;
+    }
+
+    bool hasPrev() const {
+        return curr && curr->prev != nullptr;
     }
 };
 
@@ -75,10 +85,10 @@ public:
             return;
         }
         CallbackNode<T>* item = new CallbackNode<T>;
-        item->prev = first;
+        CallbackNode<T>* last = getLast();
+        item->prev = last;
         item->next = nullptr;
         item->elem = cb;
-        CallbackNode<T>* last = getLast();
         if (last == nullptr) {
             first = item;
             return;
@@ -101,13 +111,23 @@ public:
             if (next != nullptr) {
                 next->prev = prev;
             }
+            if (first == item) {
+                first = nullptr;
+            }
             delete item;
             return true;
         }
         return false;
     }
 
-    CallbackIterator<T> iter() { return CallbackIterator<T>(this); }
+    CallbackIterator<T> begin() { return CallbackIterator<T>(this); }
+    CallbackIterator<T> end() {
+        CallbackIterator<T> it = CallbackIterator<T>(this);
+        while (it.hasNext()) {
+            ++it;
+        }
+        return it;
+    }
 
 private:
     CallbackNode<T>* first;
@@ -142,8 +162,7 @@ public:
 
     bool removeHandler(T* handler) { return callbacks.remove(handler); }
     void handleAll(void* param) {
-        CallbackIterator<T> it = callbacks.iter();
-        for (CallbackIterator<T> it = callbacks.iter(); *it != nullptr; ++it) {
+        for (CallbackIterator<T> it = callbacks.begin(); it; ++it) {
             T* handler = *it;
             handle(handler, param);
         }

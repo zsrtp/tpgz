@@ -3,6 +3,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC AmountsMenu::AmountsMenu()
     : Menu(), lines{
@@ -30,7 +31,7 @@ void AmountsMenu::draw() {
     l_rupeeNum = dComIfGs_getRupee();
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_INVENTORY_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

@@ -1,9 +1,9 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/memory_editor_menu.h"
 #include "menus/memory_menu.h"
-#include "menus/settings_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define WATCH_COLUMNS 6
 #define WATCH_ADDRESS_X_OFFSET 25.0f
@@ -422,7 +422,7 @@ void WatchesMenu::draw() {
             g_watches[cursor.y].line_selected = false;
             cursor.lock_y = false;
         } else {
-            GZ_setMenu(MN_MEMORY_INDEX);
+            g_menuMgr->pop();
             return;
         }
     }
@@ -451,7 +451,7 @@ void WatchesMenu::draw() {
         } else {
             MemoryEditorMenu::mAddressIndex = g_watches[cursor.y].address;
         }
-        GZ_setMenu(MN_MEMORY_EDITOR_INDEX);
+        g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
     }
 
     if (GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_LEFT)) {

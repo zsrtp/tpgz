@@ -3,6 +3,7 @@
 #include "menus/flags_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_DUNGEON_OPTIONS 9
 
@@ -49,7 +50,7 @@ void DungeonFlagsMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         init_once = false;
-        GZ_setMenu(MN_FLAGS_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

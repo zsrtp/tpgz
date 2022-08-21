@@ -1,10 +1,11 @@
-#include "menus/main_menu.h"
+#include "main_menu.h"
 #include "fifo_queue.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC MainMenu::MainMenu()
-    : Menu(), lines{
+KEEP_FUNC MainMenu::MainMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor), lines{
                   {"cheats", CHEAT_INDEX, "Toggle cheats", false},
                   {"flags", FLAGS_INDEX, "Toggle in-game flags", false},
                   {"inventory", INVENTORY_INDEX, "Set items and equipment", false},
@@ -17,46 +18,47 @@ KEEP_FUNC MainMenu::MainMenu()
                   {"warping", WARPING_INDEX, "Warp to any area", false},
               } {}
 
+KEEP_FUNC MainMenu::~MainMenu() {}
+
 void MainMenu::draw() {
-    cursor.move(0, MENU_LINE_NUM);
+    m_cursor.move(0, MENU_LINE_NUM);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_clearMenu();
-        GZ_setFifoVisible(true);
+        g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (cursor.y) {
+        switch (m_cursor.y) {
         case CHEAT_INDEX:
-            GZ_setMenu(MN_CHEAT_INDEX);
+            g_menuMgr->push(MN_CHEAT_INDEX);
             return;
         case FLAGS_INDEX:
-            GZ_setMenu(MN_FLAGS_INDEX);
+            g_menuMgr->push(MN_FLAGS_INDEX);
             return;
         case INVENTORY_INDEX:
-            GZ_setMenu(MN_INVENTORY_INDEX);
+            g_menuMgr->push(MN_INVENTORY_INDEX);
             return;
         case MEMORY_INDEX:
-            GZ_setMenu(MN_MEMORY_INDEX);
+            g_menuMgr->push(MN_MEMORY_INDEX);
             return;
         case PRACTICE_INDEX:
-            GZ_setMenu(MN_PRACTICE_INDEX);
+            g_menuMgr->push(MN_PRACTICE_INDEX);
             return;
         case SCENE_INDEX:
-            GZ_setMenu(MN_SCENE_INDEX);
+            g_menuMgr->push(MN_SCENE_INDEX);
             return;
         case SETTINGS_INDEX:
-            GZ_setMenu(MN_SETTINGS_INDEX);
+            g_menuMgr->push(MN_SETTINGS_INDEX);
             return;
         case TOOLS_INDEX:
-            GZ_setMenu(MN_TOOLS_INDEX);
+            g_menuMgr->push(MN_TOOLS_INDEX);
             return;
         case WARPING_INDEX:
-            GZ_setMenu(MN_WARPING_INDEX);
+            g_menuMgr->push(MN_WARPING_INDEX);
             return;
         }
     }
 
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

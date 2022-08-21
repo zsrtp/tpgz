@@ -3,6 +3,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu()
     : Menu(), lines{
@@ -50,7 +51,7 @@ void GeneralFlagsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_FLAGS_INDEX);
+        g_menuMgr->pop();
         return;
     }
 

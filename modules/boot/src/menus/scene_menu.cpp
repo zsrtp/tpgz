@@ -4,6 +4,7 @@
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC SceneMenu::SceneMenu()
     : Menu(), lines{
@@ -95,7 +96,7 @@ void SceneMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
@@ -115,10 +116,10 @@ void SceneMenu::draw() {
 
         switch (cursor.y) {
         case ACTOR_MENU_INDEX:
-            GZ_setMenu(MN_ACTOR_SPAWNER_INDEX);
+            g_menuMgr->push(MN_ACTOR_SPAWNER_INDEX);
             return;
         case ACTOR_LIST_INDEX:
-            GZ_setMenu(MN_ACTOR_LIST_INDEX);
+            g_menuMgr->push(MN_ACTOR_LIST_INDEX);
             return;
         }
     }

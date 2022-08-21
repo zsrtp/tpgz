@@ -1,6 +1,7 @@
 #include "menus/memory_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC MemoryMenu::MemoryMenu()
     : Menu(), lines{
@@ -11,20 +12,20 @@ KEEP_FUNC MemoryMenu::MemoryMenu()
 
 void MemoryMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case 0:
-            GZ_setMenu(MN_WATCHES_INDEX);
+            g_menuMgr->push(MN_WATCHES_INDEX);
             return;
         case 1:
-            GZ_setMenu(MN_MEMORY_EDITOR_INDEX);
+            g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
             return;
         case 2:
-            GZ_setMenu(MN_MEM_FILES_INDEX);
+            g_menuMgr->push(MN_MEM_FILES_INDEX);
             return;
         }
     }

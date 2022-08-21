@@ -1,8 +1,9 @@
 #include "menus/memory_editor_menu.h"
 #include "libtp_c/include/msl_c/string.h"
-#include "menus/settings_menu.h"
+#include "settings.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_DISPLAY_LINES 15
 #define WHITE_RGBA 0xFFFFFFFF
@@ -181,7 +182,7 @@ void MemoryEditorMenu::draw() {
             cursor.lock_x = false;
             cursor.lock_y = false;
         } else {
-            GZ_setMenu(MN_MEMORY_INDEX);
+            g_menuMgr->pop();
             return;
         }
     }

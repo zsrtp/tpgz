@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "settings.h"
 #include "fifo_queue.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -8,12 +9,14 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/utils.h"
 #include "menus/memfiles_menu.h"
-#include "menus/practice_menu.h"
+#include "gz_flags.h"
 #include "save_manager.h"
 #include "utils/card.h"
 #include "utils/loading.h"
 #include "rels/include/defines.h"
 #include "rels/include/cxx.h"
+#include "menus/utils/menu_mgr.h"
+#include "rels/include/defines.h"
 
 #ifdef WII_PLATFORM
 KEEP_VAR void* g_tmpBuf;
@@ -189,7 +192,7 @@ int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_t sector_s
     return result;
 }
 
-void GZ_storeMemCard(Storage& storage) {
+KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
     GZSaveFile save_file;
     GZ_setupSaveFile(save_file);
     GZ_storeSaveLayout(save_file.data);
@@ -252,7 +255,7 @@ void GZ_storeMemfile(Storage& storage) {
     }
 }
 
-void GZ_deleteMemCard(Storage& storage) {
+KEEP_FUNC void GZ_deleteMemCard(Storage& storage) {
     storage.result = StorageDelete(0, storage.file_name_buffer);
     if (storage.result == Ready) {
         FIFOQueue::push("deleted card!", Queue);
@@ -283,7 +286,7 @@ void GZ_loadMemCard(Storage& storage) {
         if (storage.result == Ready) {
             FIFOQueue::push("loaded card!", Queue);
             GZ_loadSaveLayout(save_file.data);
-            SettingsMenu::initFont();
+            GZ_initFont();
         } else {
             char buff[32];
             sprintf(buff, "failed to load: %d", storage.result);
@@ -309,7 +312,7 @@ void GZ_loadMemfile(Storage& storage) {
             set_position_data = true;
             g_injectSave = true;
             g_fifoVisible = true;
-            GZ_setMenu(MN_NONE_INDEX);
+            g_menuMgr->hide();
         } else {
             char buff[32];
             sprintf(buff, "failed to load: %d", storage.result);

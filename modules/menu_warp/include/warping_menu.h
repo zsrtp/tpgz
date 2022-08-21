@@ -35,10 +35,11 @@ struct WarpInfo {
 
 class WarpingMenu : public Menu {
 public:
-    WarpingMenu();
+    WarpingMenu(Cursor&);
+    virtual ~WarpingMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
     Line lines[7];

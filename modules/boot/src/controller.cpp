@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -77,7 +78,7 @@ KEEP_FUNC void GZ_readController() {
     }
 
     GZ_applyCheats();
-    if (GZ_checkMenuOpen() == true) {
+    if (g_menuMgr->isOpen()) {
 #ifdef GCN_PLATFORM
         uint16_t current_input = GZ_getButtonStatus();
 

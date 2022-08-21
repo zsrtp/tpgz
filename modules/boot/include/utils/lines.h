@@ -8,6 +8,8 @@
 #define MAX_LINE_LENGTH 50
 #define MAX_DESCRIPTION_LENGTH 100
 
+extern uint32_t g_cursorColor;
+
 struct ListMember {
     char member[MAX_LIST_MEMBER_LENGTH];
 };

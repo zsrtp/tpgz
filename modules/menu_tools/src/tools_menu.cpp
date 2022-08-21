@@ -1,4 +1,4 @@
-#include "menus/tools_menu.h"
+#include "menu_tools/include/tools_menu.h"
 #include "commands.h"
 #include "free_cam.h"
 #include "gorge.h"
@@ -14,11 +14,12 @@
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #define MAX_TUNIC_COLORS 7
 
-KEEP_FUNC ToolsMenu::ToolsMenu()
-    : Menu(),
+KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor)
+    : Menu(), m_cursor(cursor),
       lines{{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area",
              true, &g_tools[RELOAD_AREA_INDEX].active},
             {"frame advance", FRAME_ADVANCE_INDEX, "Use " FRAME_ADVANCE_TEXT " to frame advance",
@@ -73,48 +74,35 @@ KEEP_FUNC ToolsMenu::ToolsMenu()
              MAX_TUNIC_COLORS}} {
 }
 
-int g_tunic_color;
-
-Tool g_tools[TOOL_AMNT] = {
-    {RELOAD_AREA_INDEX, false},   {FRAME_ADVANCE_INDEX, false}, {FAST_BONK_INDEX, false},
-    {FAST_MOVEMENT_INDEX, false}, {GORGE_INDEX, false},
-#ifdef WII_PLATFORM
-    {BIT_INDEX, false},
-#endif
-    {COROTD_INDEX, false},        {UMD_INDEX, false},           {INPUT_VIEWER_INDEX, false},
-    {LINK_DEBUG_INDEX, false},    {HEAP_DEBUG_INDEX, false},    {SAND_INDEX, false},
-    {ROLL_INDEX, false},          {TELEPORT_INDEX, false},      {TURBO_MODE_INDEX, false},
-    {TIMER_INDEX, false},         {LOAD_TIMER_INDEX, false},    {IGT_TIMER_INDEX, false},
-    {FREE_CAM_INDEX, false},      {MOVE_LINK_INDEX, false},
-};
+ToolsMenu::~ToolsMenu() {}
 
 void ToolsMenu::draw() {
-    cursor.setMode(Cursor::MODE_LIST);
+    m_cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     ListMember tunicCol_opt[MAX_TUNIC_COLORS] = {"green",  "blue",  "red",  "orange",
                                                  "yellow", "white", "cycle"};
 
-    if (cursor.y == TUNIC_COLOR_INDEX) {
-        cursor.x = l_tunicCol_idx;
-        cursor.move(MAX_TUNIC_COLORS, MENU_LINE_NUM);
+    if (m_cursor.y == TUNIC_COLOR_INDEX) {
+        m_cursor.x = l_tunicCol_idx;
+        m_cursor.move(MAX_TUNIC_COLORS, MENU_LINE_NUM);
 
-        if (cursor.y == TUNIC_COLOR_INDEX) {
-            l_tunicCol_idx = cursor.x;
+        if (m_cursor.y == TUNIC_COLOR_INDEX) {
+            l_tunicCol_idx = m_cursor.x;
         }
         g_tunic_color = l_tunicCol_idx;
     } else {
-        cursor.move(0, MENU_LINE_NUM);
+        m_cursor.move(0, MENU_LINE_NUM);
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_tools[cursor.y].active = !g_tools[cursor.y].active;
-        if (g_tools[cursor.y].active) {
-            switch (cursor.y) {
+        g_tools[m_cursor.y].active = !g_tools[m_cursor.y].active;
+        if (g_tools[m_cursor.y].active) {
+            switch (m_cursor.y) {
             case FRAME_ADVANCE_INDEX:
                 GZCmd_enable(Commands::CMD_FRAME_PAUSE);
                 break;
@@ -186,7 +174,7 @@ void ToolsMenu::draw() {
                 break;
             }
         } else {
-            switch (cursor.y) {
+            switch (m_cursor.y) {
             case FRAME_ADVANCE_INDEX:
                 GZCmd_disable(Commands::CMD_FRAME_PAUSE);
                 break;
@@ -239,77 +227,5 @@ void ToolsMenu::draw() {
     }
 
     sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunicCol_opt[l_tunicCol_idx].member);
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
-}
-
-KEEP_FUNC void ToolsMenu::setTunicColor() {
-    static int16_t cycle_r = 0;
-    static int16_t cycle_g = 0;
-    static int16_t cycle_b = 0;
-
-    if (dComIfGp_getPlayer()) {
-        int16_t r = 0;
-        int16_t g = 0;
-        int16_t b = 0;
-
-        switch (g_tunic_color) {
-        case GREEN:
-        default:
-            r = 0x10;
-            g = 0x10;
-            b = 0x10;
-            break;
-        case BLUE:
-            r = 0x00;
-            g = 0x08;
-            b = 0x20;
-            break;
-        case RED:
-            r = 0x18;
-            g = 0x00;
-            b = 0x00;
-            break;
-        case ORANGE:
-            r = 0x20;
-            g = 0x10;
-            b = 0x00;
-            break;
-        case YELLOW:
-            r = 0x20;
-            g = 0x20;
-            b = 0x00;
-            break;
-        case WHITE:
-            r = 0x20;
-            g = 0x1C;
-            b = 0x20;
-            break;
-        case CYCLE:
-            if (cycle_r < 0x0010 && (cycle_g == 0x0000 && cycle_b == 0x0000)) {
-                cycle_r += 0x0001;
-            } else if (cycle_g < 0x0010 && (cycle_b == 0x0000 && cycle_r == 0x0010)) {
-                cycle_g += 0x0001;
-            } else if (cycle_b < 0x0010 && (cycle_g == 0x0010 && cycle_r == 0x0010)) {
-                cycle_b += 0x0001;
-            } else if (cycle_r > 0x0000 && (cycle_g == 0x0010 && cycle_b == 0x0010)) {
-                cycle_r -= 0x0001;
-            } else if (cycle_g > 0x0000 && (cycle_b == 0x0010 && cycle_r == 0x0000)) {
-                cycle_g -= 0x0001;
-            } else {
-                cycle_b -= 0x0001;
-            }
-
-            r = cycle_r;
-            g = cycle_g;
-            b = cycle_b;
-            break;
-        }
-
-        dComIfGp_getPlayer()->field_0x32a0[0].mColor.r = r - 0x10;
-        dComIfGp_getPlayer()->field_0x32a0[0].mColor.g = g - 0x10;
-        dComIfGp_getPlayer()->field_0x32a0[0].mColor.b = b - 0x10;
-        dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = r - 0x10;
-        dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = g - 0x10;
-        dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = b - 0x10;
-    }
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

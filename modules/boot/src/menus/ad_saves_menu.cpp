@@ -2,6 +2,7 @@
 #include "gz_flags.h"
 #include "save_specials.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC ADSavesMenu::ADSavesMenu()
     : Menu(), lines{
@@ -64,14 +65,13 @@ void ADSavesMenu::draw() {
     };
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_PRACTICE_INDEX);
-        GZ_setReturnMenu(MN_NONE_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
-        GZ_setReturnMenu(MN_AD_SAVES_INDEX);
+        g_menuMgr->hide();
     }
 
     cursor.move(0, MENU_LINE_NUM);

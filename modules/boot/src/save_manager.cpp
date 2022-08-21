@@ -2,8 +2,9 @@
 #include "fs.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
-#include "menus/settings_menu.h"
-#include "menus/practice_menu.h"
+#include "settings.h"
+#include "gz_flags.h"
+#include "practice.h"
 #include "menus/memfiles_menu.h"
 #include "save_manager.h"
 #include "menu.h"
@@ -13,6 +14,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "menus/utils/menu_mgr.h"
 
 int apply_after_counter = 0;
 int apply_during_counter = 0;
@@ -98,7 +100,7 @@ void SaveManager::defaultLoad() {
     gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::injectDefault_after;
     g_injectSave = true;
     g_fifoVisible = true;
-    GZ_setMenu(MN_NONE_INDEX);
+    g_menuMgr->hide();
 }
 
 void SaveManager::loadSave(uint32_t id, const char* category, special i_specials[], int size) {

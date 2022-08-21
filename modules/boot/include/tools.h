@@ -1,14 +1,5 @@
 #pragma once
 
-#include "menu.h"
-
-#ifdef WII_PLATFORM
-#define TOOL_AMNT 21
-#endif
-#ifdef GCN_PLATFORM
-#define TOOL_AMNT 20
-#endif
-
 enum ToolsIndex {
     RELOAD_AREA_INDEX,
     FRAME_ADVANCE_INDEX,
@@ -32,20 +23,16 @@ enum ToolsIndex {
     IGT_TIMER_INDEX,
     FREE_CAM_INDEX,
     MOVE_LINK_INDEX,
-    TUNIC_COLOR_INDEX
+    TUNIC_COLOR_INDEX,
+
+    // Entry used as a counter
+    TOOLS_COUNT
 };
 
 struct Tool {
     enum ToolsIndex id;
     bool active;
 };
-
-void GZ_applyCheats();
-
-extern Tool g_tools[TOOL_AMNT];
-
-extern int g_tunic_color;
-extern bool g_tunic_color_flag;
 
 enum tunic_color { GREEN, BLUE, RED, ORANGE, YELLOW, WHITE, CYCLE, TUNIC_COLOR_COUNT };
 
@@ -57,16 +44,6 @@ struct TunicColor {
 #define TUNIC_COLOR_AMNT 7
 extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 
-class ToolsMenu : public Menu {
-public:
-    ToolsMenu();
-    virtual void draw();
-    static void setTunicColor();
+extern Tool g_tools[TOOLS_COUNT];
 
-    Cursor cursor;
-
-private:
-    uint8_t l_tunicCol_idx;
-
-    Line lines[TOOL_AMNT];
-};
+extern int g_tunic_color;

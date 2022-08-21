@@ -7,8 +7,8 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
-#include "menus/settings_menu.h"
-#include "menus/tools_menu.h"
+#include "settings.h"
+#include "menus/utils/menu_mgr.h"
 #include "movelink.h"
 #include "timer.h"
 #include "utils/card.h"
@@ -88,7 +88,7 @@ KEEP_FUNC void draw() {
 }
 }
 
-void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
+inline void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
     if (g_tools[id].active) {
         rel.load(true);
     } else {
@@ -102,17 +102,21 @@ KEEP_FUNC void GZ_controlTools() {
 
 KEEP_FUNC void GZ_controlMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
-        if (GZ_checkReturnMenu()) {
-            GZ_returnMenu();
-        } else {
-            GZ_setMenu(MN_MAIN_MENU_INDEX);
+        if (!g_menuMgr->isOpen()) {
+            if (g_menuMgr->getStackSize() > 0) {
+                g_menuMgr->open();
+            } else {
+                g_menuMgr->push(MN_MAIN_MENU_INDEX);
+            }
         }
 
         g_fifoVisible = false;
     }
 
+    g_menuMgr->handleCommands();
+
     if (fopScnRq.isLoading) {
-        GZ_clearMenu();
+        g_menuMgr->hide();
         g_moveLinkEnabled = false;
         last_frame_was_loading = true;
         g_freeCamEnabled = false;
@@ -159,7 +163,7 @@ KEEP_FUNC void GZ_controlTurbo() {
 #endif
 
 #ifdef WII_PLATFORM
-        if (!GZ_checkMenuOpen()) {
+        if (!g_menuMgr->isOpen()) {
             mPad.mTrigButton = mPad.mHoldButton;
         }
 #endif
@@ -167,7 +171,7 @@ KEEP_FUNC void GZ_controlTurbo() {
 }
 
 KEEP_FUNC void GZ_renderMenuTitle() {
-    if (GZ_checkMenuOpen()) {
+    if (g_menuMgr->isOpen()) {
         Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
                          g_cursorColor, g_dropShadows);
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {

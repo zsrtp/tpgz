@@ -6,10 +6,11 @@
 
 class InventoryMenu : public Menu {
 public:
-    InventoryMenu();
+    InventoryMenu(Cursor&);
+    virtual ~InventoryMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
     Line lines[3];

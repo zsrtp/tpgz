@@ -2,11 +2,11 @@
 #include "libtp_c/include/msl_c/string.h"
 #include "menus/memory_menu.h"
 #include "menus/position_settings_menu.h"
-#include "menus/settings_menu.h"
+#include "settings.h"
 #include "libtp_c/include/JSystem/JKernel/JKRExpHeap.h"
 #include "libtp_c/include/m_Do/m_Do_ext.h"
 #include "rels/include/defines.h"
-#include "menus/tools_menu.h"
+#include "tools.h"
 
 KEEP_FUNC void GZ_drawWatches() {
     for (int i = 0; i < MAX_WATCHES; i++) {

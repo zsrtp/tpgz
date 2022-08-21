@@ -5,10 +5,11 @@
 
 class CheatsMenu : public Menu {
 public:
-    CheatsMenu();
+    CheatsMenu(Cursor&);
+    virtual ~CheatsMenu();
     virtual void draw();
 
-    Cursor cursor;
+    Cursor& m_cursor;
 
 private:
     Line lines[CHEAT_AMNT];

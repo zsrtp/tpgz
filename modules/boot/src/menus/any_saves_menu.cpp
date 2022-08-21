@@ -2,6 +2,7 @@
 #include "gz_flags.h"
 #include "save_specials.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM
 KEEP_FUNC AnySavesMenu::AnySavesMenu()
@@ -157,15 +158,14 @@ void AnySavesMenu::draw() {
 #endif
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_PRACTICE_INDEX);
-        GZ_setReturnMenu(MN_NONE_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         SaveManager::loadSave(cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
-        GZ_setReturnMenu(MN_ANY_SAVES_INDEX);
+        g_menuMgr->hide();
     }
 
     cursor.move(0, sizeof(lines) / sizeof(lines[0]));

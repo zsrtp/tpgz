@@ -1,11 +1,12 @@
 #include "menus/actor_spawn_menu.h"
 #include "menus/memory_editor_menu.h"
-#include "menus/settings_menu.h"
+#include "settings.h"
 #include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
@@ -30,7 +31,7 @@ void ActorListMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_SCENE_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
@@ -87,7 +88,7 @@ void ActorListMenu::draw() {
             switch (cursor.y) {
             case ACTOR_ID_INDEX:
                 MemoryEditorMenu::mAddressIndex = (uint32_t)actorData;
-                GZ_setMenu(MN_MEMORY_EDITOR_INDEX);
+                g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
                 return;
             }
         }

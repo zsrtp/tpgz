@@ -37,20 +37,9 @@ struct Cursor {
         }
     }
 
-    void reset() {
-        mode = MODE_SINGLE_COLUMN;
-        x = 0;
-        y = 0;
-        lock_x = false;
-        lock_y = false;
-    }
-
-    void lock(bool x, bool y) {
-        lock_x = x;
-        lock_y = y;
-    }
-
-    void setMode(uint8_t m) { mode = m; }
+    void reset();
+    void lock(bool x, bool y);
+    void setMode(uint8_t m);
 
     int x = 0;
     int y = 0;

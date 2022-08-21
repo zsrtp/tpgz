@@ -1,6 +1,7 @@
 #include "menus/flags_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
+#include "menus/utils/menu_mgr.h"
 
 bool g_flagLogEnabled;
 
@@ -15,26 +16,26 @@ KEEP_FUNC FlagsMenu::FlagsMenu()
 
 void FlagsMenu::draw() {
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        GZ_setMenu(MN_MAIN_MENU_INDEX);
+        g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case GENERAL_FLAGS_INDEX:
-            GZ_setMenu(MN_GENERAL_FLAGS_INDEX);
+            g_menuMgr->push(MN_GENERAL_FLAGS_INDEX);
             return;
         case DUNGEON_FLAGS_INDEX:
-            GZ_setMenu(MN_DUNGEON_FLAGS_INDEX);
+            g_menuMgr->push(MN_DUNGEON_FLAGS_INDEX);
             return;
         case PORTAL_FLAGS_INDEX:
-            GZ_setMenu(MN_PORTAL_FLAGS_INDEX);
+            g_menuMgr->push(MN_PORTAL_FLAGS_INDEX);
             return;
         case FLAG_RECORDS_INDEX:
-            GZ_setMenu(MN_FLAG_RECORDS_INDEX);
+            g_menuMgr->push(MN_FLAG_RECORDS_INDEX);
             return;
         case FLAG_LOG_INDEX:
-            GZ_setMenu(MN_FLAG_LOG_INDEX);
+            g_menuMgr->push(MN_FLAG_LOG_INDEX);
             return;
         }
     }
