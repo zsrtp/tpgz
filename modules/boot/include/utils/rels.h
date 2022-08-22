@@ -19,7 +19,7 @@ public:
 
 private:
     uint8_t m_loaded;
-    const char* m_path;
+    char m_path[64];
 
     OSModuleInfo* m_rel;
     void* m_bss;

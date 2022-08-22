@@ -317,7 +317,9 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
     }
     menus::MenuState* state = new menus::MenuState();
     state->id = menu_id;
-    state->rel = new tpgz::dyn::GZModule(g_menuPaths[menu_id]);
+    char buf[64];
+    snprintf(buf, sizeof(buf), "/tpgz/rels/menus/%s.rel", g_menuPaths[menu_id]);
+    state->rel = new tpgz::dyn::GZModule(buf);
     states.push(state);
     state->load(true);
     is_open = true;

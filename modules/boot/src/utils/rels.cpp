@@ -3,6 +3,7 @@
 #include "rels/include/memory.h"
 #include "gcn_c/include/dvd.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
+#include "libtp_c/include/msl_c/string.h"
 
 extern "C" {
 #ifndef WII_PLATFORM
@@ -15,7 +16,9 @@ void resize1_JKRHeap(void* ptr, uint32_t size, void* heap);
 
 namespace tpgz::dyn {
 
-GZModule::GZModule(const char* path) : m_path(path) {}
+GZModule::GZModule(const char* path) {
+    strncpy(m_path, path, sizeof(m_path));
+}
 GZModule::~GZModule() {
     if (m_loaded) {
         close();
