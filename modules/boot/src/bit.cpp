@@ -1,5 +1,6 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
+#include <cstdio>
 #include "libtp_c/include/msl_c/math.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -69,13 +70,13 @@ void BiTIndicator::execute() {
             GZ_getButtonPressed(GZPad::HOME) && homeMenuSts.is_visible == 0 &&
             !fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
-                sprintf(buf, "Got it");
+                snprintf(buf, sizeof(buf), "Got it");
             }
             if ((int)dt > TARGET_FRAME) {
-                sprintf(buf, "%d frames early", (int)dt - TARGET_FRAME);
+                snprintf(buf, sizeof(buf), "%d frames early", (int)dt - TARGET_FRAME);
             }
             if ((int)dt < TARGET_FRAME) {
-                sprintf(buf, "%d frames late", TARGET_FRAME - (int)dt);
+                snprintf(buf, sizeof(buf), "%d frames late", TARGET_FRAME - (int)dt);
             }
             FIFOQueue::push(buf, Queue);
         }
