@@ -1,5 +1,5 @@
 #include "menus/pause_menu.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 #include "gz_flags.h"
@@ -375,16 +375,16 @@ void PauseMenu::draw() {
 
     setEquipment();
 
-    sprintf(lines[ORDON_SWORD_INDEX].value, " <%s>", ordonSword_opt[l_ordonSword_idx].member);
-    sprintf(lines[MASTER_SWORD_INDEX].value, " <%s>", masterSword_opt[l_masterSword_idx].member);
-    sprintf(lines[WOOD_SHIELD_INDEX].value, " <%s>", woodShield_opt[l_woodShield_idx].member);
-    sprintf(lines[HYLIAN_SHIELD_INDEX].value, " <%s>", hyShield_opt[l_hyShield_idx].member);
-    sprintf(lines[HERO_TUNIC_INDEX].value, " <%s>", tunic_opt[l_tunic_idx].member);
-    sprintf(lines[ZORA_ARMOR_INDEX].value, " <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
-    sprintf(lines[MAGIC_ARMOR_INDEX].value, " <%s>", magicArmor_opt[l_magicArmor_idx].member);
-    sprintf(lines[BOMB_CAPACITY_INDEX].value, " <%s>", bombCap_opt[l_bombCap_idx].member);
-    sprintf(lines[WALLET_INDEX].value, " <%s>", wallet_opt[l_wallet_idx].member);
-    sprintf(lines[ARROW_CAPACITY_INDEX].value, " <%s>", arrowCap_opt[l_arrowCap_idx].member);
+    snprintf(lines[ORDON_SWORD_INDEX].value, sizeof(lines[ORDON_SWORD_INDEX].value), " <%s>", ordonSword_opt[l_ordonSword_idx].member);
+    snprintf(lines[MASTER_SWORD_INDEX].value, sizeof(lines[MASTER_SWORD_INDEX].value), " <%s>", masterSword_opt[l_masterSword_idx].member);
+    snprintf(lines[WOOD_SHIELD_INDEX].value, sizeof(lines[WOOD_SHIELD_INDEX].value), " <%s>", woodShield_opt[l_woodShield_idx].member);
+    snprintf(lines[HYLIAN_SHIELD_INDEX].value, sizeof(lines[HYLIAN_SHIELD_INDEX].value), " <%s>", hyShield_opt[l_hyShield_idx].member);
+    snprintf(lines[HERO_TUNIC_INDEX].value, sizeof(lines[HERO_TUNIC_INDEX].value), " <%s>", tunic_opt[l_tunic_idx].member);
+    snprintf(lines[ZORA_ARMOR_INDEX].value, sizeof(lines[ZORA_ARMOR_INDEX].value), " <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
+    snprintf(lines[MAGIC_ARMOR_INDEX].value, sizeof(lines[MAGIC_ARMOR_INDEX].value), " <%s>", magicArmor_opt[l_magicArmor_idx].member);
+    snprintf(lines[BOMB_CAPACITY_INDEX].value, sizeof(lines[BOMB_CAPACITY_INDEX].value), " <%s>", bombCap_opt[l_bombCap_idx].member);
+    snprintf(lines[WALLET_INDEX].value, sizeof(lines[WALLET_INDEX].value), " <%s>", wallet_opt[l_wallet_idx].member);
+    snprintf(lines[ARROW_CAPACITY_INDEX].value, sizeof(lines[ARROW_CAPACITY_INDEX].value), " <%s>", arrowCap_opt[l_arrowCap_idx].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

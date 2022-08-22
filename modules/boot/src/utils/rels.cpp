@@ -1,9 +1,9 @@
 #include "utils/rels.h"
+#include <cstring>
 #include "rels/include/cxx.h"
 #include "rels/include/memory.h"
 #include "gcn_c/include/dvd.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
-#include "libtp_c/include/msl_c/string.h"
 
 extern "C" {
 #ifndef WII_PLATFORM

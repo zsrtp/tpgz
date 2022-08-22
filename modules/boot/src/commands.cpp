@@ -8,7 +8,6 @@
 #endif
 #include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "practice.h"
 #include "settings.h"
 #include "movelink.h"

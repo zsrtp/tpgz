@@ -1,5 +1,5 @@
 #include "menus/memory_editor_menu.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "settings.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
@@ -24,7 +24,7 @@ uint8_t l_cycleB = 0;
 
 void MemoryEditorMenu::drawMemEditor() {
     char index[9] = {0};
-    sprintf(index, "%08X", mAddressIndex);
+    snprintf(index, sizeof(index), "%08X", mAddressIndex);
 
     if (l_idxSelected) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
@@ -94,15 +94,15 @@ void MemoryEditorMenu::drawMemEditor() {
         char b6[3];
         char b7[3];
 
-        sprintf(address, "%08X ", mAddressIndex + (i * 8));
-        sprintf(b0, "%02X", *(uint8_t*)(mAddressIndex + (i * 8)));
-        sprintf(b1, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 1));
-        sprintf(b2, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 2));
-        sprintf(b3, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 3));
-        sprintf(b4, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 4));
-        sprintf(b5, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 5));
-        sprintf(b6, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 6));
-        sprintf(b7, "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 7));
+        snprintf(address, sizeof(address), "%08X ", mAddressIndex + (i * 8));
+        snprintf(b0, sizeof(b0), "%02X", *(uint8_t*)(mAddressIndex + (i * 8)));
+        snprintf(b1, sizeof(b1), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 1));
+        snprintf(b2, sizeof(b2), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 2));
+        snprintf(b3, sizeof(b3), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 3));
+        snprintf(b4, sizeof(b4), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 4));
+        snprintf(b5, sizeof(b5), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 5));
+        snprintf(b6, sizeof(b6), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 6));
+        snprintf(b7, sizeof(b7), "%02X", *(uint8_t*)((mAddressIndex + (i * 8)) + 7));
 
         float address_offset = Font::getStrWidth(address) + LINE_X_OFFSET;
         float b_offset = Font::getStrWidth(" 00");

@@ -1,9 +1,9 @@
+#include <cstdio>
 #include "gorge.h"
 #include "controller.h"
 #include "fifo_queue.h"
 #include "fs.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
@@ -93,7 +93,7 @@ void execute() {
                 (counter_difference < WARP_CS_FRAMES) &&
                 (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
                 int final_val = WARP_CS_FRAMES - counter_difference;
-                sprintf(buf, "%df early", final_val);
+                snprintf(buf, sizeof(buf), "%df early", final_val);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             }
 
@@ -109,7 +109,7 @@ void execute() {
             else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
                      after_cs_val > 0 &&
                      (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
-                sprintf(buf, "%df late", after_cs_val);
+                snprintf(buf, sizeof(buf), "%df late", after_cs_val);
                 FIFOQueue::push(buf, Queue, 0x99000000);
             }
         }

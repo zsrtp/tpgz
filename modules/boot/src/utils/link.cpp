@@ -1,5 +1,5 @@
 #include "utils/link.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "menus/position_settings_menu.h"
 #include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -12,7 +12,7 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         return;
     }
     char time[12] = {0};
-    sprintf(time, "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
+    snprintf(time, sizeof(time), "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
             g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
     Font::GZ_drawStr(time, g_spriteOffsets[DEBUG_INFO_INDEX].x, g_spriteOffsets[DEBUG_INFO_INDEX].y,
                      0xFFFFFFFF, g_dropShadows);
@@ -25,12 +25,12 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         char link_y[20];
         char link_z[20];
 
-        sprintf(link_angle, "angle: %d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
-        sprintf(y_angle, "y-angle: %d", dComIfGp_getPlayer()->mLookAngleY);
-        sprintf(link_speed, "speed: %.4f", dComIfGp_getPlayer()->mSpeedF);
-        sprintf(link_x, "x-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
-        sprintf(link_y, "y-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
-        sprintf(link_z, "z-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
+        snprintf(link_angle, sizeof(link_angle), "angle: %d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+        snprintf(y_angle, sizeof(y_angle), "y-angle: %d", dComIfGp_getPlayer()->mLookAngleY);
+        snprintf(link_speed, sizeof(link_speed), "speed: %.4f", dComIfGp_getPlayer()->mSpeedF);
+        snprintf(link_x, sizeof(link_x), "x-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
+        snprintf(link_y, sizeof(link_y), "y-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
+        snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
 
         Font::GZ_drawStr(link_angle, g_spriteOffsets[DEBUG_INFO_INDEX].x,
                          g_spriteOffsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_dropShadows);

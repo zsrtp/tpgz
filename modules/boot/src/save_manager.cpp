@@ -1,6 +1,5 @@
-
+#include <cstdio>
 #include "fs.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
 #include "settings.h"
 #include "gz_flags.h"
@@ -107,10 +106,10 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     SaveManager::injectDefault_before();
 
     // Load the corresponding file path and properties
-    sprintf(currentFileName, "tpgz/save_files/%s.bin", category);
+    snprintf(currentFileName, sizeof(currentFileName), "tpgz/save_files/%s.bin", category);
     loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
              sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
-    sprintf(currentFileName, "tpgz/save_files/%s/%s.bin", category,
+    snprintf(currentFileName, sizeof(currentFileName), "tpgz/save_files/%s/%s.bin", category,
             gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
@@ -147,7 +146,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
 
     // Store all the info in case file reload is used
     last_save_index = id;
-    strcpy(last_category, category);
+    strncpy(last_category, category, sizeof(last_category));
     last_special_ptr = i_specials;
     last_special_size = size;
 }

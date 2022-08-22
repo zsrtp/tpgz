@@ -1,5 +1,4 @@
 #pragma once
-#include <cinttypes>
 
 namespace tpgz::modules {
 void main();

@@ -1,29 +1,34 @@
-#include "libtp_c/include/msl_c/string.h"
+#include "menus/menu_dungeon_flags/include/dungeon_flags_menu.h"
+#include <cstdio>
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "menus/dungeon_flags_menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
 #define MAX_DUNGEON_OPTIONS 9
 
-KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu()
-    : Menu(), lines{
-                  {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
-                   MAX_DUNGEON_OPTIONS},
-                  {"small keys", SMALL_KEY_FLAG_INDEX, "Selected dungeon small keys", false,
-                   nullptr, 5},
-                  {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, &l_mapFlag},
-                  {"have compass", COMPASS_FLAG_INDEX, "Give selected dungeon compass", true,
-                   &l_compassFlag},
-                  {"have boss key", BOSS_KEY_FLAG_INDEX, "Give selected dungeon boss key", true,
-                   &l_bosskeyFlag},
-                  {"miniboss dead", DEFEAT_MINIBOSS_FLAG_INDEX,
-                   "Selected dungeon miniboss is defeated", true, &l_minibossFlag},
-                  {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true,
-                   &l_bossFlag},
-                  {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"},
-              } {}
+KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu(DungeonFlagsData& data)
+    : Menu(), cursor(data.cursor), init_once(data.init_once), l_mapFlag(data.l_mapFlag),
+      l_compassFlag(data.l_compassFlag), l_bosskeyFlag(data.l_bosskeyFlag),
+      l_minibossFlag(data.l_minibossFlag), l_bossFlag(data.l_bossFlag), l_selDun(data.l_selDun),
+      l_keyNum(data.l_keyNum),
+      lines{
+          {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
+           MAX_DUNGEON_OPTIONS},
+          {"small keys", SMALL_KEY_FLAG_INDEX, "Selected dungeon small keys", false, nullptr, 5},
+          {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, &l_mapFlag},
+          {"have compass", COMPASS_FLAG_INDEX, "Give selected dungeon compass", true,
+           &l_compassFlag},
+          {"have boss key", BOSS_KEY_FLAG_INDEX, "Give selected dungeon boss key", true,
+           &l_bosskeyFlag},
+          {"miniboss dead", DEFEAT_MINIBOSS_FLAG_INDEX, "Selected dungeon miniboss is defeated",
+           true, &l_minibossFlag},
+          {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true,
+           &l_bossFlag},
+          {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"},
+      } {}
+
+DungeonFlagsMenu::~DungeonFlagsMenu() {}
 
 bool getSaveDungeonItem(int32_t stage, int32_t flag) {
     return dSv_memBit_c__isDungeonItem(&dComIfGs_getSavedata().mSave[stage].mBit, flag);
@@ -154,8 +159,8 @@ void DungeonFlagsMenu::draw() {
         "City in the Sky",   "Palace of Twilight", "Hyrule Castle",
     };
 
-    sprintf(lines[SMALL_KEY_FLAG_INDEX].value, " <%d>", l_keyNum);
-    sprintf(lines[SELECT_DUNGEON_INDEX].value, " <%s>", dun_opt[l_selDun].member);
+    snprintf(lines[SMALL_KEY_FLAG_INDEX].value, sizeof(lines[SMALL_KEY_FLAG_INDEX].value), " <%d>", l_keyNum);
+    snprintf(lines[SELECT_DUNGEON_INDEX].value, sizeof(lines[SELECT_DUNGEON_INDEX].value), " <%s>", dun_opt[l_selDun].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

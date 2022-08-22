@@ -13,6 +13,8 @@ const char* g_menuPaths[MN_COUNT] = {
     "menu_settings",
     "menu_tools",
     "menu_warp",
+    "menu_general_flags",
+    "menu_dungeon_flags",
     "menu_wheel",
     "menu_any_saves",
     "menu_hundo_saves",

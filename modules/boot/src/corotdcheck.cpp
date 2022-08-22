@@ -1,7 +1,7 @@
+#include <cstdio>
 #include "corotdcheck.h"
 #include "controller.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
@@ -45,13 +45,13 @@ void CoroTDChecker::execute() {
             if (!sGoalHit && ITEM_BUTTON_HELD_CHECK && ITEM_BUTTON_DOWN_CHECK) {
                 char buf[20];
                 if (sFrameCount < 10) {
-                    sprintf(buf, "%df early", 10 - sFrameCount);
+                    snprintf(buf, sizeof(buf), "%df early", 10 - sFrameCount);
                     FIFOQueue::push(buf, Queue, 0x0000FF00);
                 } else if (sFrameCount == 10) {
                     FIFOQueue::push("got it", Queue, 0x00CC0000);
                     sGoalHit = true;
                 } else if (sFrameCount > 10) {
-                    sprintf(buf, "%df late", sFrameCount - 10);
+                    snprintf(buf, sizeof(buf), "%df late", sFrameCount - 10);
                     FIFOQueue::push(buf, Queue, 0x99000000);
                 }
             }

@@ -3,7 +3,6 @@
 #include "commands.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "rels/include/patch.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/defines.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"

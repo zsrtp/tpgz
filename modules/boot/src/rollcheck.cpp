@@ -1,7 +1,7 @@
 #include "rollcheck.h"
+#include <cstdio>
 #include "controller.h"
 #include "fifo_queue.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 
@@ -52,12 +52,12 @@ void RollIndicator::execute() {
 
             if (counter_difference > 15 && counter_difference < 19 && GZ_getButtonPressed(A) &&
                 !GZ_getButtonHold(A)) {
-                sprintf(buf, "%df early", ROLL_FRAMES - counter_difference);
+                snprintf(buf, sizeof(buf), "%df early", ROLL_FRAMES - counter_difference);
                 FIFOQueue::push(buf, Queue, 0x0000FF00);
             } else if (counter_difference == 19 && GZ_getButtonPressed(A) && !GZ_getButtonHold(A)) {
                 FIFOQueue::push("<3", Queue, 0x00CC0000);
             } else if (missed_counter > 0 && missed_pressed_a == false) {
-                sprintf(buf, "%df late", missed_counter);
+                snprintf(buf, sizeof(buf), "%df late", missed_counter);
                 FIFOQueue::push(buf, Queue, 0x99000000);
                 missed_counter = 0;
                 counter_difference = 0;

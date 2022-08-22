@@ -1,7 +1,7 @@
+#include <cstdio>
 #include "menus/actor_spawn_menu.h"
 #include "menus/memory_editor_menu.h"
 #include "settings.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "gz_flags.h"
@@ -62,27 +62,27 @@ void ActorListMenu::draw() {
 
     if (actorData != NULL) {
         char addressBuf[18];
-        sprintf(addressBuf, "Address: %08X", (uint32_t)actorData);
+        snprintf(addressBuf, sizeof(addressBuf), "Address: %08X", (uint32_t)actorData);
         GZ_drawText(addressBuf, 25.0f, 100.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char nameBuf[13];
-        sprintf(nameBuf, "Proc ID: %d", actorData->mBase.mProcName);
+        snprintf(nameBuf, sizeof(nameBuf), "Proc ID: %d", actorData->mBase.mProcName);
         GZ_drawText(nameBuf, 25.0f, 120.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char paramBuf[17];
-        sprintf(paramBuf, "Params: %08X", actorData->mBase.mParameters);
+        snprintf(paramBuf, sizeof(paramBuf), "Params: %08X", actorData->mBase.mParameters);
         GZ_drawText(paramBuf, 25.0f, 140.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char angleBuf[14];
-        sprintf(angleBuf, "Angle: %d", actorData->mCollisionRot.mY);
+        snprintf(angleBuf, sizeof(angleBuf), "Angle: %d", actorData->mCollisionRot.mY);
         GZ_drawText(angleBuf, 25.0f, 160.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char posBuf[50];
-        sprintf(posBuf, "Position: %.1f %.1f %.1f", actorData->mCurrent.mPosition.x,
+        snprintf(posBuf, sizeof(posBuf), "Position: %.1f %.1f %.1f", actorData->mCurrent.mPosition.x,
                 actorData->mCurrent.mPosition.y, actorData->mCurrent.mPosition.z);
         GZ_drawText(posBuf, 25.0f, 180.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
-        sprintf(lines[ACTOR_ID_INDEX].value, " <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);
+        snprintf(lines[ACTOR_ID_INDEX].value, sizeof(lines[ACTOR_ID_INDEX].value), " <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);
 
         if (GZ_getButtonTrig(MEM_SWITCH_BTN)) {
             switch (cursor.y) {

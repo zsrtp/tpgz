@@ -1,34 +1,39 @@
+#include "menus/menu_general_flags/include/general_flags_menu.h"
 #include "gz_flags.h"
-#include "menus/general_flags_menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/utils.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu()
-    : Menu(), lines{
-                  {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
-                  {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled",
-                   true, &l_rupeeFlag},
-                  {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true,
-                   &l_eponaStolen},
-                  {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true,
-                   &l_eponaTamed},
-                  {"map warping", MAP_WARPING_INDEX, "Toggle flag for map warping", true,
-                   &l_mapWarping},
-                  {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true,
-                   &l_midnaCharge},
-                  {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true,
-                   &l_midnaHealed},
-                  {"midna on back", MIDNA_ON_BACK,
-                   "Toggle flag for Midna appearing on Wolf Link's back", true, &l_midnaRide},
-                  {"midna available", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna",
-                   true, &l_midnaZ},
-                  {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping",
-                   true, &l_transformWarp},
-                  {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for wolf sense", true,
-                   &l_wolfSense},
-              } {}
+KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu(GeneralFlagsData& data)
+    : Menu(), m_cursor(data.cursor), l_bossFlag(data.l_bossFlag), l_rupeeFlag(data.l_rupeeFlag),
+      l_midnaCharge(data.l_midnaCharge), l_transformWarp(data.l_transformWarp),
+      l_midnaZ(data.l_midnaZ), l_eponaStolen(data.l_eponaStolen), l_eponaTamed(data.l_eponaTamed),
+      l_mapWarping(data.l_mapWarping), l_midnaHealed(data.l_midnaHealed),
+      l_midnaRide(data.l_midnaRide), l_wolfSense(data.l_wolfSense),
+      lines{
+          {"boss flag", BOSS_FLAG_INDEX, "Sets the boss flag value", true, &l_bossFlag},
+          {"rupee cutscenes", RUPEE_CS_FLAG_INDEX, "Toggle rupee cutscenes being enabled", true,
+           &l_rupeeFlag},
+          {"epona stolen", EPONA_STOLEN_INDEX, "Toggle flag for Epona being stolen", true,
+           &l_eponaStolen},
+          {"epona tamed", EPONA_TAMED_INDEX, "Toggle flag for Epona being tamed", true,
+           &l_eponaTamed},
+          {"map warping", MAP_WARPING_INDEX, "Toggle flag for map warping", true, &l_mapWarping},
+          {"midna charge", MIDNA_CHARGE_INDEX, "Toggle flag for Midna charge", true,
+           &l_midnaCharge},
+          {"midna healed", MIDNA_HEALTHY, "Toggle flag for Midna being healed", true,
+           &l_midnaHealed},
+          {"midna on back", MIDNA_ON_BACK, "Toggle flag for Midna appearing on Wolf Link's back",
+           true, &l_midnaRide},
+          {"midna available", MIDNA_Z_INDEX, "Toggle flag for being able to call Midna", true,
+           &l_midnaZ},
+          {"transform/warp", TRANSFORM_WARP_INDEX, "Toggle flag for transforming/warping", true,
+           &l_transformWarp},
+          {"wolf sense", WOLF_SENSE_INDEX, "Toggle flag for wolf sense", true, &l_wolfSense},
+      } {}
+
+GeneralFlagsMenu::~GeneralFlagsMenu() {}
 
 void GeneralFlagsMenu::draw() {
     // update flags
@@ -56,7 +61,7 @@ void GeneralFlagsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (cursor.y) {
+        switch (m_cursor.y) {
         case BOSS_FLAG_INDEX:
             if (l_bossFlag) {
                 bossFlags = 0;
@@ -109,6 +114,6 @@ void GeneralFlagsMenu::draw() {
         }
     }
 
-    cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
+    m_cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

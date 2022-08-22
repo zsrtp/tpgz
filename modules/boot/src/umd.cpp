@@ -1,10 +1,10 @@
 #include "umd.h"
+#include <cstdio>
 #include "controller.h"
 #include "gz_flags.h"
 #include "fifo_queue.h"
 #include "fs.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
@@ -75,7 +75,7 @@ void UMDIndicator::execute() {
                             else
                                 firstPressedButton = 1;
 
-                            sprintf(buf, "got first %s", getPressedButtonText());
+                            snprintf(buf, sizeof(buf), "got first %s", getPressedButtonText());
                             FIFOQueue::push(buf, Queue, 0x00CC0000);
                         }
 
@@ -90,13 +90,13 @@ void UMDIndicator::execute() {
                             // Ensure this is the button that needs to be pressed
                             if ((firstPressedButton == 0 && GZ_getButtonPressed(B)) ||
                                 (firstPressedButton == 1 && GZ_getButtonPressed(A))) {
-                                sprintf(buf, "%df late on second %s", counter_difference - 1,
+                                snprintf(buf, sizeof(buf), "%df late on second %s", counter_difference - 1,
                                         getPressedButtonText());
                                 FIFOQueue::push(buf, Queue, 0x99000000);
                                 exitCheck = true;
                             }
                         } else {  // Missed first button
-                            sprintf(buf, "%df late on first %s", counter_difference,
+                            snprintf(buf, sizeof(buf), "%df late on first %s", counter_difference,
                                     getPressedButtonText());
                             FIFOQueue::push(buf, Queue, 0x99000000);
                             exitCheck = true;

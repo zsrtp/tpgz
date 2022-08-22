@@ -1,3 +1,4 @@
+#include <cstdio>
 #include "commands.h"
 #include "settings.h"
 #include "fifo_queue.h"
@@ -6,7 +7,6 @@
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/utils.h"
 #include "menus/memfiles_menu.h"
 #include "gz_flags.h"
@@ -211,7 +211,7 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
             } else {
                 OSReport("failed to save");
                 char buff[32];
-                sprintf(buff, "failed to save: %d", storage.result);
+                snprintf(buff, sizeof(buff), "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
             }
             storage.result = StorageClose(&storage.info);
@@ -247,7 +247,7 @@ void GZ_storeMemfile(Storage& storage) {
                 FIFOQueue::push("saved memfile!", Queue);
             } else {
                 char buff[32];
-                sprintf(buff, "failed to save: %d", storage.result);
+                snprintf(buff, sizeof(buff), "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
             }
             storage.result = StorageClose(&storage.info);
@@ -261,7 +261,7 @@ KEEP_FUNC void GZ_deleteMemCard(Storage& storage) {
         FIFOQueue::push("deleted card!", Queue);
     } else {
         char buff[32];
-        sprintf(buff, "failed to delete: %d", storage.result);
+        snprintf(buff, sizeof(buff), "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
     }
 }
@@ -272,7 +272,7 @@ void GZ_deleteMemfile(Storage& storage) {
         FIFOQueue::push("deleted memfile!", Queue);
     } else {
         char buff[32];
-        sprintf(buff, "failed to delete: %d", storage.result);
+        snprintf(buff, sizeof(buff), "failed to delete: %d", storage.result);
         FIFOQueue::push(buff, Queue);
     }
 }
@@ -289,7 +289,7 @@ void GZ_loadMemCard(Storage& storage) {
             GZ_initFont();
         } else {
             char buff[32];
-            sprintf(buff, "failed to load: %d", storage.result);
+            snprintf(buff, sizeof(buff), "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);
         }
         storage.result = StorageClose(&storage.info);
@@ -315,7 +315,7 @@ void GZ_loadMemfile(Storage& storage) {
             g_menuMgr->hide();
         } else {
             char buff[32];
-            sprintf(buff, "failed to load: %d", storage.result);
+            snprintf(buff, sizeof(buff), "failed to load: %d", storage.result);
             FIFOQueue::push(buff, Queue);
         }
         storage.result = StorageClose(&storage.info);
@@ -331,7 +331,7 @@ void GZ_loadGZSave(bool& card_load) {
         static Storage storage;
         storage.file_name = FILE_NAME;
         storage.sector_size = SECTOR_SIZE;
-        sprintf(storage.file_name_buffer, (char*)storage.file_name);
+        snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer), (char*)storage.file_name);
 #ifndef WII_PLATFORM
         storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
         if (storage.result == Ready) {

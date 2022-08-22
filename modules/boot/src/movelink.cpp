@@ -1,6 +1,6 @@
 #include "movelink.h"
+#include <cstdio>
 #include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "settings.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -118,10 +118,10 @@ KEEP_FUNC void execute() {
     char link_z[20];
     uint8_t cursor_x_max = 1;
 
-    sprintf(link_angle, "angle: %05d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
-    sprintf(link_x, "x-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
-    sprintf(link_y, "y-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
-    sprintf(link_z, "z-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
+    snprintf(link_angle, sizeof(link_angle), "angle: %05d", (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+    snprintf(link_x, sizeof(link_x), "x-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
+    snprintf(link_y, sizeof(link_y), "y-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
+    snprintf(link_z, sizeof(link_z), "z-pos: % 010.2f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
 
     if (link_angle_selected) {
         cursor_x_max = 5;

@@ -1,4 +1,5 @@
 #include "gz_flags.h"
+#include <cstring>
 #include "fifo_queue.h"
 #include "gorge.h"
 #include "bit.h"

@@ -1,5 +1,5 @@
 #include "menus/menu_settings/include/settings_menu.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "utils/card.h"
 #include "gz_flags.h"
 #include "fifo_queue.h"
@@ -51,7 +51,7 @@ void SettingsMenu::draw() {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            sprintf(storage.file_name_buffer, storage.file_name);
+            snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer), storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
             if (storage.result == Ready) {
@@ -66,7 +66,7 @@ void SettingsMenu::draw() {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            sprintf(storage.file_name_buffer, storage.file_name);
+            snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer), storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
             if (storage.result == Ready) {
@@ -81,7 +81,7 @@ void SettingsMenu::draw() {
             static Storage storage;
             storage.file_name = "tpgz01";
             storage.sector_size = SECTOR_SIZE;
-            sprintf(storage.file_name_buffer, storage.file_name);
+            snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer), storage.file_name);
 #ifndef WII_PLATFORM
             storage.result = CARDProbeEx(0, nullptr, &storage.sector_size);
             if (storage.result == Ready) {
@@ -132,7 +132,7 @@ void SettingsMenu::draw() {
         if (old_font != g_fontType) {
             if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
                 char buf[40];
-                sprintf(buf, "tpgz/fonts/%s.fnt", g_font_opt[g_fontType].member);
+                snprintf(buf, sizeof(buf), "tpgz/fonts/%s.fnt", g_font_opt[g_fontType].member);
                 Font::loadFont(buf);
             }
         }
@@ -143,9 +143,9 @@ void SettingsMenu::draw() {
         break;
     }
 
-    sprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, " <%s>", reload_opt[g_reloadType].member);
-    sprintf(lines[CURSOR_COLOR_INDEX].value, " <%s>", cursorCol_opt[g_cursorColorType].member);
-    sprintf(lines[FONT_INDEX].value, " <%s>", g_font_opt[g_fontType].member);
+    snprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, sizeof(lines[AREA_RELOAD_BEHAVIOR_INDEX].value), " <%s>", reload_opt[g_reloadType].member);
+    snprintf(lines[CURSOR_COLOR_INDEX].value, sizeof(lines[CURSOR_COLOR_INDEX].value), " <%s>", cursorCol_opt[g_cursorColorType].member);
+    snprintf(lines[FONT_INDEX].value, sizeof(lines[FONT_INDEX].value), " <%s>", g_font_opt[g_fontType].member);
 
     GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

@@ -5,7 +5,6 @@
 #include "menus/position_settings_menu.h"
 #include "scene.h"
 #include "tools.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 

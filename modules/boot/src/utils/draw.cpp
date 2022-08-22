@@ -1,6 +1,5 @@
 #include "utils/draw.h"
 #include "libtp_c/include/addrs.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "gcn_c/include/gfx.h"
 #include "utils/texture.h"

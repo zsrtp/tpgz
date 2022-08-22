@@ -1,9 +1,9 @@
 #include "menus/menu_warp/include/warping_menu.h"
+#include <cstdio>
 #include "commands.h"
 #include "fifo_queue.h"
 #include "fs.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/utils.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
@@ -87,7 +87,7 @@ void GZWarp_loadPrevStageInfo() {
 }
 
 void GZWarp_loadPrevRoomInfo() {
-    sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx -= ROOM_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
@@ -101,14 +101,14 @@ void GZWarp_loadNextStageInfo() {
 }
 
 void GZWarp_loadNextRoomInfo() {
-    sprintf(l_filePath, "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
     l_roomIdx += ROOM_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void GZWarp_loadNextSpawnInfo() {
-    sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
             (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -116,7 +116,7 @@ void GZWarp_loadNextSpawnInfo() {
 }
 
 void GZWarp_loadPrevSpawnInfo() {
-    sprintf(l_filePath, "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
             (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -250,19 +250,19 @@ void WarpingMenu::draw() {
     char tmpbuf[32];
 
     strcpy(tmpbuf, stage_types[l_typeIdx]);
-    sprintf(lines[WARP_TYPE_INDEX].value, " <%s>", tmpbuf);
+    snprintf(lines[WARP_TYPE_INDEX].value, sizeof(lines[WARP_TYPE_INDEX].value), " <%s>", tmpbuf);
 
     strcpy(tmpbuf, l_warpInfo.stage_info.stage_name);
-    sprintf(lines[WARP_STAGE_INDEX].value, " <%s>", tmpbuf);
+    snprintf(lines[WARP_STAGE_INDEX].value, sizeof(lines[WARP_STAGE_INDEX].value), " <%s>", tmpbuf);
 
     strcpy(tmpbuf, l_warpInfo.room_info.room_name);
-    sprintf(lines[WARP_ROOM_INDEX].value, " <%s>", tmpbuf);
+    snprintf(lines[WARP_ROOM_INDEX].value, sizeof(lines[WARP_ROOM_INDEX].value), " <%s>", tmpbuf);
 
-    sprintf(lines[WARP_SPAWN_INDEX].value, " <%d>", l_warpInfo.spawn_info.spawn_id[0]);
+    snprintf(lines[WARP_SPAWN_INDEX].value, sizeof(lines[WARP_SPAWN_INDEX].value), " <%d>", l_warpInfo.spawn_info.spawn_id[0]);
     if (l_warpLayer == DEFAULT_LAYER) {
-        sprintf(lines[WARP_LAYER_INDEX].value, " <default>");
+        snprintf(lines[WARP_LAYER_INDEX].value, sizeof(lines[WARP_LAYER_INDEX].value), " <default>");
     } else {
-        sprintf(lines[WARP_LAYER_INDEX].value, " <%d>", l_warpLayer);
+        snprintf(lines[WARP_LAYER_INDEX].value, sizeof(lines[WARP_LAYER_INDEX].value), " <%d>", l_warpLayer);
     }
 
     m_cursor.move(0, MENU_LINE_NUM);

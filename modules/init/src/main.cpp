@@ -13,7 +13,6 @@
 #include "utils/draw.h"
 #include "utils/link.h"
 #include "utils/hook.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "rels/include/cxx.h"
 #include "handlers/draw_handler.h"
 #include "handlers/pre_loop_handler.h"

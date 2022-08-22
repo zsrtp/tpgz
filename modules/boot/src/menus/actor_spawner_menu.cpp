@@ -1,6 +1,6 @@
 #include "menus/actor_spawn_menu.h"
+#include <cstdio>
 #include "settings.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "gz_flags.h"
@@ -94,7 +94,7 @@ void ActorSpawnMenu::draw() {
     }
 
     char buf[9];
-    sprintf(buf, "%08X", l_actorParams);
+    snprintf(buf, sizeof(buf), "%08X", l_actorParams);
     if (l_paramsSelected) {
         if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
             if (l_paramIdx == 7) {
@@ -123,8 +123,8 @@ void ActorSpawnMenu::draw() {
                          GZ_checkDropShadows());
     }
 
-    sprintf(lines[ACTOR_ID_INDEX].value, " <%d>", l_actorID);
-    sprintf(lines[ACTOR_SUBTYPE_INDEX].value, " <%d>", l_actorType);
+    snprintf(lines[ACTOR_ID_INDEX].value, sizeof(lines[ACTOR_ID_INDEX].value), " <%d>", l_actorID);
+    snprintf(lines[ACTOR_SUBTYPE_INDEX].value, sizeof(lines[ACTOR_SUBTYPE_INDEX].value), " <%d>", l_actorType);
 
     cursor.move(8, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

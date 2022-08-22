@@ -1,6 +1,6 @@
-#include "libtp_c/include/msl_c/string.h"
-#include "menus/memory_editor_menu.h"
 #include "menus/watches_menu.h"
+#include "menus/memory_editor_menu.h"
+#include <cstdio>
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
@@ -61,39 +61,39 @@ void WatchesMenu::drawMemoryLines() {
         char watch_offset[7];
         char watch_visible[4];
 
-        sprintf(watch_address, "0x%08X", g_watches[i].address);
-        sprintf(watch_x, "%.0f", g_watches[i].x);
-        sprintf(watch_y, "%.0f", g_watches[i].y);
-        sprintf(watch_hex, "%s", g_watches[i].hex ? "true" : "false");
+        snprintf(watch_address, sizeof(watch_address), "0x%08X", g_watches[i].address);
+        snprintf(watch_x, sizeof(watch_x), "%.0f", g_watches[i].x);
+        snprintf(watch_y, sizeof(watch_y), "%.0f", g_watches[i].y);
+        snprintf(watch_hex, sizeof(watch_hex), "%s", g_watches[i].hex ? "true" : "false");
 
         switch (g_watches[i].type) {
         case u8:
-            sprintf(watch_type, "u8");
+            snprintf(watch_type, sizeof(watch_type), "u8");
             break;
         case u16:
-            sprintf(watch_type, "u16");
+            snprintf(watch_type, sizeof(watch_type), "u16");
             break;
         case u32:
-            sprintf(watch_type, "u32");
+            snprintf(watch_type, sizeof(watch_type), "u32");
             break;
         case i8:
-            sprintf(watch_type, "s8");
+            snprintf(watch_type, sizeof(watch_type), "s8");
             break;
         case i16:
-            sprintf(watch_type, "s16");
+            snprintf(watch_type, sizeof(watch_type), "s16");
             break;
         case i32:
-            sprintf(watch_type, "s32");
+            snprintf(watch_type, sizeof(watch_type), "s32");
             break;
         case f32:
-            sprintf(watch_type, "f32");
+            snprintf(watch_type, sizeof(watch_type), "f32");
             break;
         case string:
-            sprintf(watch_type, "str");
+            snprintf(watch_type, sizeof(watch_type), "str");
             break;
         }
-        sprintf(watch_offset, "0x%04X", g_watches[i].offset);
-        sprintf(watch_visible, "%s", g_watches[i].visible ? "[X]" : "[ ]");
+        snprintf(watch_offset, sizeof(watch_offset), "0x%04X", g_watches[i].offset);
+        snprintf(watch_visible, sizeof(watch_visible), "%s", g_watches[i].visible ? "[X]" : "[ ]");
 
         if (g_watches[i].line_selected) {
             switch (cursor.x) {
@@ -169,7 +169,7 @@ void WatchesMenu::drawMemoryLines() {
                     if (g_watches[i].x > 600) {
                         g_watches[i].x = 600;
                     }
-                    sprintf(watch_x, "<%.0f>", g_watches[i].x);
+                    snprintf(watch_x, sizeof(watch_x), "<%.0f>", g_watches[i].x);
                     GZ_drawText(watch_x, watch_x_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -207,7 +207,7 @@ void WatchesMenu::drawMemoryLines() {
                     if (g_watches[i].y > 500) {
                         g_watches[i].y = 500;
                     }
-                    sprintf(watch_y, "<%.0f>", g_watches[i].y);
+                    snprintf(watch_y, sizeof(watch_y), "<%.0f>", g_watches[i].y);
                     GZ_drawText(watch_y, watch_y_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -236,7 +236,7 @@ void WatchesMenu::drawMemoryLines() {
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
                         g_watches[i].hex = !g_watches[i].hex;
                     }
-                    sprintf(watch_hex, "<%s>", g_watches[i].hex ? "true" : "false");
+                    snprintf(watch_hex, sizeof(watch_hex), "<%s>", g_watches[i].hex ? "true" : "false");
                     GZ_drawText(watch_hex, watch_hex_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -274,28 +274,28 @@ void WatchesMenu::drawMemoryLines() {
                     }
                     switch (g_watches[i].type) {
                     case u8:
-                        sprintf(watch_type, "<u8>");
+                        snprintf(watch_type, sizeof(watch_type), "<u8>");
                         break;
                     case u16:
-                        sprintf(watch_type, "<u16>");
+                        snprintf(watch_type, sizeof(watch_type), "<u16>");
                         break;
                     case u32:
-                        sprintf(watch_type, "<u32>");
+                        snprintf(watch_type, sizeof(watch_type), "<u32>");
                         break;
                     case i8:
-                        sprintf(watch_type, "<s8>");
+                        snprintf(watch_type, sizeof(watch_type), "<s8>");
                         break;
                     case i16:
-                        sprintf(watch_type, "<s16>");
+                        snprintf(watch_type, sizeof(watch_type), "<s16>");
                         break;
                     case i32:
-                        sprintf(watch_type, "<s32>");
+                        snprintf(watch_type, sizeof(watch_type), "<s32>");
                         break;
                     case f32:
-                        sprintf(watch_type, "<f32>");
+                        snprintf(watch_type, sizeof(watch_type), "<f32>");
                         break;
                     case string:
-                        sprintf(watch_type, "<str>");
+                        snprintf(watch_type, sizeof(watch_type), "<str>");
                     }
                     GZ_drawText(watch_type, watch_type_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());

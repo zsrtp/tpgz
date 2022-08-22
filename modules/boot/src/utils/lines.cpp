@@ -1,6 +1,5 @@
 #include "utils/lines.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 #include "settings.h"
 #include "utils/draw.h"

@@ -1,10 +1,10 @@
-﻿#include "libtp_c/include/dolphin/mtx/vec.h"
-#include "input_viewer.h"
+﻿#include "input_viewer.h"
+#include <cstdio>
+#include "libtp_c/include/dolphin/mtx/vec.h"
 #include "controller.h"
 #include "font.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "menus/position_settings_menu.h"
 #include "settings.h"
 #include "utils/draw.h"
@@ -256,8 +256,8 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
     char control_x[5];  // control stick x
     char control_y[5];  // control stick y
 
-    sprintf(control_x, "%3d", (int8_t)(mPad.stick.x * 99.f));
-    sprintf(control_y, "%3d", (int8_t)(mPad.stick.y * 99.f));
+    snprintf(control_x, sizeof(control_x), "%3d", (int8_t)(mPad.stick.x * 99.f));
+    snprintf(control_y, sizeof(control_y), "%3d", (int8_t)(mPad.stick.y * 99.f));
 
     Font::GZ_drawStr(control_x, pos.x, pos.y + 65.f * scale, is_shadow ? 0x00000060 : 0xFFFFFFFF,
                      false, 10 * scale);

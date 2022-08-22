@@ -1,5 +1,5 @@
 #include "menus/menu_scene/include/scene_menu.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 #include "gz_flags.h"
@@ -46,8 +46,8 @@ void SceneMenu::draw() {
     }
     int current_minute = (int)((4.0f * current_time) - current_hour * 60);
 
-    sprintf(lines[TIME_HOURS_INDEX].value, " <%d>", current_hour);
-    sprintf(lines[TIME_MINUTES_INDEX].value, " <%d>", current_minute);
+    snprintf(lines[TIME_HOURS_INDEX].value, sizeof(lines[TIME_HOURS_INDEX].value), " <%d>", current_hour);
+    snprintf(lines[TIME_MINUTES_INDEX].value, sizeof(lines[TIME_MINUTES_INDEX].value), " <%d>", current_minute);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         g_sceneFlags[m_cursor.y].active = !g_sceneFlags[m_cursor.y].active;

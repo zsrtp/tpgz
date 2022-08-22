@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 
 struct ActorMemory {

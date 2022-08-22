@@ -4,7 +4,6 @@
 #include "font.h"
 #include "free_cam.h"
 #include "gz_flags.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
 #include "settings.h"

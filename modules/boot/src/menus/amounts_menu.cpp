@@ -1,5 +1,5 @@
 #include "menus/amounts_menu.h"
-#include "libtp_c/include/msl_c/string.h"
+#include <cstdio>
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
@@ -70,14 +70,14 @@ void AmountsMenu::draw() {
         break;
     }
 
-    sprintf(lines[ARROW_AMMO_INDEX].value, " <%d>", l_arrowNum);
-    sprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, " <%d>", l_bag1Num);
-    sprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, " <%d>", l_bag2Num);
-    sprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, " <%d>", l_bag3Num);
-    sprintf(lines[SLINGSHOT_AMMO_INDEX].value, " <%d>", l_seedNum);
-    sprintf(lines[HEART_PIECE_COUNT_INDEX].value, " <%d>", l_hpNum);
-    sprintf(lines[POE_COUNT_INDEX].value, " <%d>", l_poeNum);
-    sprintf(lines[RUPEE_COUNT_INDEX].value, " <%d>", l_rupeeNum);
+    snprintf(lines[ARROW_AMMO_INDEX].value, sizeof(lines[ARROW_AMMO_INDEX].value), " <%d>", l_arrowNum);
+    snprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_1_AMMO_INDEX].value), " <%d>", l_bag1Num);
+    snprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_2_AMMO_INDEX].value), " <%d>", l_bag2Num);
+    snprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_3_AMMO_INDEX].value), " <%d>", l_bag3Num);
+    snprintf(lines[SLINGSHOT_AMMO_INDEX].value, sizeof(lines[SLINGSHOT_AMMO_INDEX].value), " <%d>", l_seedNum);
+    snprintf(lines[HEART_PIECE_COUNT_INDEX].value, sizeof(lines[HEART_PIECE_COUNT_INDEX].value), " <%d>", l_hpNum);
+    snprintf(lines[POE_COUNT_INDEX].value, sizeof(lines[POE_COUNT_INDEX].value), " <%d>", l_poeNum);
+    snprintf(lines[RUPEE_COUNT_INDEX].value, sizeof(lines[RUPEE_COUNT_INDEX].value), " <%d>", l_rupeeNum);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

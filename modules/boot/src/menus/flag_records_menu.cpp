@@ -1,10 +1,10 @@
 #include "menus/flag_records_menu.h"
+#include <cstdio>
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "settings.h"
 #include "utils/draw.h"
 #include "utils/texture.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
@@ -59,7 +59,7 @@ void FlagRecordsMenu::drawFlagRecord(uint8_t* record) {
         }
 
         char offset[6];
-        sprintf(offset, "0x%02X:", idx_num);
+        snprintf(offset, sizeof(offset), "0x%02X:", idx_num);
 
         float flag_x_offset = x_offset + Font::getStrWidth(offset);
         for (int bit = 0; bit < 8; bit++) {
@@ -157,7 +157,7 @@ void FlagRecordsMenu::draw() {
 
     ListMember rec_opt[MAX_RECORD_OPTIONS] = {"stage", "event", "minigame", "danbit"};
     char record_type[9];
-    sprintf(record_type, " <%s>", rec_opt[l_recIdx].member);
+    snprintf(record_type, sizeof(record_type), " <%s>", rec_opt[l_recIdx].member);
     uint32_t color = cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA;
 
     GZ_drawText(record_type, 12.0f, 60.f, color, GZ_checkDropShadows());

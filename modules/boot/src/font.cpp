@@ -1,5 +1,4 @@
 #include "font.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "utils/disc.h"
 #include "utils/draw.h"
 #include "gz_flags.h"

@@ -1,7 +1,7 @@
 #include "utils/texture.h"
+#include <cstring>
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "utils/disc.h"
 #include "gcn_c/include/dvd.h"
 #include "gcn_c/include/gfx.h"

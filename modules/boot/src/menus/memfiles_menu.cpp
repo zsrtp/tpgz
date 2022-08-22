@@ -1,6 +1,6 @@
 #include "menus/memfiles_menu.h"
+#include <cstdio>
 #include "utils/card.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
@@ -78,10 +78,10 @@ void MemfilesMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case MEMFILE_SAVE_INDEX:
-            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            sprintf(card.file_name_buffer, card.file_name);
+            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -92,10 +92,10 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_LOAD_INDEX:
-            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            sprintf(card.file_name_buffer, card.file_name);
+            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, NULL, &card.sector_size);
             if (card.result == Ready) {
@@ -106,10 +106,10 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_DELETE_INDEX:
-            sprintf(fileBuf, "tpgz_s%d", l_fileNo);
+            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
             card.file_name = fileBuf;
             card.sector_size = SECTOR_SIZE;
-            sprintf(card.file_name_buffer, card.file_name);
+            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -122,7 +122,7 @@ void MemfilesMenu::draw() {
         }
     }
 
-    sprintf(lines[MEMFILE_SLOT_INDEX].value, " <%d>", l_fileNo);
+    snprintf(lines[MEMFILE_SLOT_INDEX].value, sizeof(lines[MEMFILE_SLOT_INDEX].value), " <%d>", l_fileNo);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

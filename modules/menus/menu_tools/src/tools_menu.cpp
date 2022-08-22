@@ -1,11 +1,11 @@
 #include "menus/menu_tools/include/tools_menu.h"
+#include <cstdio>
 #include "commands.h"
 #include "free_cam.h"
 #include "gorge.h"
 #ifdef WII_PLATFORM
 #include "bit.h"
 #endif
-#include "libtp_c/include/msl_c/string.h"
 #include "movelink.h"
 #include "rollcheck.h"
 #include "timer.h"
@@ -226,6 +226,6 @@ void ToolsMenu::draw() {
         }
     }
 
-    sprintf(lines[TUNIC_COLOR_INDEX].value, " <%s>", tunicCol_opt[l_tunicCol_idx].member);
+    snprintf(lines[TUNIC_COLOR_INDEX].value, sizeof(lines[TUNIC_COLOR_INDEX].value), " <%s>", tunicCol_opt[l_tunicCol_idx].member);
     GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

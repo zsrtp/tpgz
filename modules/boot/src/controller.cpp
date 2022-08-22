@@ -3,7 +3,6 @@
 #include "commands.h"
 #include "gz_flags.h"
 #include "controller.h"
-#include "libtp_c/include/msl_c/string.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "menu.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
