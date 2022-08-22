@@ -1,7 +1,7 @@
 #include "utils/memory.h"
 #include <cstdio>
 #include "watches.h"
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "settings.h"
 #include "libtp_c/include/JSystem/JKernel/JKRExpHeap.h"
 #include "libtp_c/include/m_Do/m_Do_ext.h"

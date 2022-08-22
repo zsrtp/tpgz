@@ -1,6 +1,6 @@
 #include "utils/link.h"
 #include <cstdio>
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/m_Do/m_Do_audio.h"

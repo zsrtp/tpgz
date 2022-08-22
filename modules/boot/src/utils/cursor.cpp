@@ -3,9 +3,9 @@
 #include "settings.h"
 #include "rels/include/defines.h"
 
-bool g_cursorEnabled = false;
+KEEP_VAR bool g_cursorEnabled = false;
 
-void Cursor::move(int max_x, int max_y) {
+KEEP_FUNC void Cursor::move(int max_x, int max_y) {
     if (!g_cursorEnabled) {
         return;
     }
@@ -55,7 +55,7 @@ void Cursor::move(int max_x, int max_y) {
     }
 }
 
-void Cursor::reset() {
+KEEP_FUNC void Cursor::reset() {
     mode = MODE_SINGLE_COLUMN;
     x = 0;
     y = 0;
@@ -63,12 +63,12 @@ void Cursor::reset() {
     lock_y = false;
 }
 
-void Cursor::lock(bool x, bool y) {
+KEEP_FUNC void Cursor::lock(bool x, bool y) {
     lock_x = x;
     lock_y = y;
 }
 
-void Cursor::setMode(uint8_t m) { mode = m; }
+KEEP_FUNC void Cursor::setMode(uint8_t m) { mode = m; }
 
 KEEP_FUNC void GZ_setCursorColor() {
     switch (g_cursorColorType) {

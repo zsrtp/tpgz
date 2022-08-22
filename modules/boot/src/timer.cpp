@@ -1,7 +1,7 @@
 #include "timer.h"
 #include <cstdio>
 #include "font.h"
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "settings.h"
 #include "tools.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"

@@ -24,7 +24,7 @@ void main() {
     Hook::applyHooks();
     Font::loadFont("/tpgz/fonts/consola.fnt");
     Draw::init();
-    PosSettingsMenu::initDefaults();
+    GZ_PosSettings_initDefaults();
     GZ_patchLinkColor();
 #ifdef WII_PLATFORM
     g_tmpBuf = new (-0x200) uint8_t[0x4000];

@@ -1,19 +1,20 @@
 #include "utils/lines.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "settings.h"
 #include "utils/draw.h"
 #include "utils/texture.h"
+#include "rels/include/defines.h"
 
-uint32_t g_cursorColor;
+KEEP_VAR uint32_t g_cursorColor;
 uint32_t min_line = 0;
 uint32_t max_line = 15;
 
-float maxF(float a, float b) {
+KEEP_FUNC float maxF(float a, float b) {
     return MAX(a, b);
 }
 
-void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES) {
+KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES) {
     float x_offset = g_spriteOffsets[MENU_INDEX].x;
     float y_offset = 0.0f;
 

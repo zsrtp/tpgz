@@ -52,7 +52,7 @@ KEEP_FUNC FontCode Font::loadFont(const char* path) {
     return font.loadCode;
 }
 
-void Font::free_font() {
+KEEP_FUNC void Font::free_font() {
     if (font.glyphs != nullptr) {
         delete font.glyphs;
         font.glyphs = 0;
@@ -95,7 +95,7 @@ bool Font::lookupGlyph(char c, DecodedGlyph& glyph) {
     return true;
 }
 
-float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
+KEEP_FUNC float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
     DecodedGlyph glyph;
     if (lookupGlyph(c, glyph)) {
         auto positioned = glyph.position(x, y, size / font.header.base_size);
@@ -106,21 +106,21 @@ float Font::renderChar(char c, float x, float y, uint32_t color, float size) {
     }
 }
 
-void Font::renderChars(const char* str, float x, float y, uint32_t color, float size) {
+KEEP_FUNC void Font::renderChars(const char* str, float x, float y, uint32_t color, float size) {
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
         x = renderChar(str[i], x, y, color, size);
     }
 }
 
-void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
+KEEP_FUNC void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
     if (drop_shadows) {
         renderChar(c, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
     renderChar(c, x, y, color, size);
 }
 
-void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
+KEEP_FUNC void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
                       float size) {
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
@@ -128,7 +128,7 @@ void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool dr
     renderChars(str, x, y, color, size);
 }
 
-float Font::getCharWidth(char c, float size) {
+KEEP_FUNC float Font::getCharWidth(char c, float size) {
     DecodedGlyph glyph;
     if (lookupGlyph(c, glyph)) {
         return glyph.width * size / font.header.base_size;
@@ -137,7 +137,7 @@ float Font::getCharWidth(char c, float size) {
     }
 }
 
-float Font::getStrWidth(const char* str, float size) {
+KEEP_FUNC float Font::getStrWidth(const char* str, float size) {
     int len = strlen(str);
     float str_size = 0.f;
     for (int i = 0; i < len; i++) {
@@ -147,7 +147,7 @@ float Font::getStrWidth(const char* str, float size) {
 }
 
 // returns the width of the rendered string
-float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
+KEEP_FUNC float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
                         uint32_t color) {
     float pos = 0.0f;
     for (size_t i = 0; i <= max_char; ++i) {

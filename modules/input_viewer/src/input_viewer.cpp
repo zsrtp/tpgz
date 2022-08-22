@@ -5,7 +5,7 @@
 #include "font.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "settings.h"
 #include "utils/draw.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"

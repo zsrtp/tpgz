@@ -22,6 +22,7 @@
 enum MenuIndex {
     MN_NONE_INDEX = -1,
     MN_MAIN_MENU_INDEX = 0,
+    // Main menu's sub menus
     MN_CHEAT_INDEX,
     MN_FLAGS_INDEX,
     MN_INVENTORY_INDEX,
@@ -31,23 +32,29 @@ enum MenuIndex {
     MN_SETTINGS_INDEX,
     MN_TOOLS_INDEX,
     MN_WARPING_INDEX,
+    // Flags menu's sub menus
     MN_GENERAL_FLAGS_INDEX,
     MN_DUNGEON_FLAGS_INDEX,
-    MN_ITEM_WHELL_INDEX,
-    MN_ANY_SAVES_INDEX,
-    MN_HUNDO_SAVES_INDEX,
-    MN_WATCHES_INDEX,
-    MN_MEMORY_EDITOR_INDEX,
     MN_PORTAL_FLAGS_INDEX,
     MN_FLAG_RECORDS_INDEX,
+    MN_FLAG_LOG_INDEX,
+    // Inventory menu's sub menus
+    MN_ITEM_WHELL_INDEX,
     MN_PAUSE_INDEX,
     MN_AMOUNTS_INDEX,
-    MN_POS_SETTINGS_INDEX,
-    MN_FLAG_LOG_INDEX,
-    MN_AD_SAVES_INDEX,
+    // Memory menu's sub menus
+    MN_WATCHES_INDEX,
+    MN_MEMORY_EDITOR_INDEX,
     MN_MEM_FILES_INDEX,
+    // Practice menu's sub menus
+    MN_ANY_SAVES_INDEX,
+    MN_HUNDO_SAVES_INDEX,
+    MN_AD_SAVES_INDEX,
+    // Scene menu's sub menus
     MN_ACTOR_SPAWNER_INDEX,
     MN_ACTOR_LIST_INDEX,
+    // Setting menu's sub menus
+    MN_POS_SETTINGS_INDEX,
 
     // This entry is used only to get a count of the number of valid entries.
     MN_COUNT

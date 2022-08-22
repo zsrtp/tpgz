@@ -4,7 +4,7 @@
 #include "settings.h"
 #include "gz_flags.h"
 #include "practice.h"
-#include "menus/memfiles_menu.h"
+#include "memfiles.h"
 #include "save_manager.h"
 #include "menu.h"
 #include "utils/loading.h"

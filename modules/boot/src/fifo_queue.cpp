@@ -1,6 +1,6 @@
 #include "fifo_queue.h"
 #include "font.h"
-#include "menus/position_settings_menu.h"
+#include "pos_settings.h"
 #include "rels/include/defines.h"
 
 KEEP_VAR bool g_fifoVisible;

@@ -14,7 +14,7 @@ file(GLOB_RECURSE TPGZ_EXTERNAL_REL_ASM CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/e
 list(APPEND TPGZ_EXTERNAL_REL_SRC ${TPGZ_EXTERNAL_REL_CPP})
 list(APPEND TPGZ_EXTERNAL_REL_SRC ${TPGZ_EXTERNAL_REL_ASM})
 
-include_directories(${CMAKE_SOURCE_DIR}/external/rels/include)
+include_directories(${CMAKE_SOURCE_DIR}/external/)
 
 # Definition of the functions which sets up REL modules
 function(tpgz_add_main_module module_name module_srcs)

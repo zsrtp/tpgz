@@ -1,5 +1,5 @@
 // Taken from https://github.com/zsrtp/GC-Randomizer/blob/stable/source/patch.cpp
-#include "patch.h"
+#include "rels/include/patch.h"
 #include "libtp_c/include/dolphin/os/OSCache.h"
 #include <stdint.h>
 

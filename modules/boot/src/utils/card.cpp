@@ -8,7 +8,7 @@
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/msl_c/math.h"
 #include "libtp_c/include/utils.h"
-#include "menus/memfiles_menu.h"
+#include "memfiles.h"
 #include "gz_flags.h"
 #include "save_manager.h"
 #include "utils/card.h"
@@ -176,7 +176,7 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
     return result;
 }
 
-int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_t sector_size) {
+KEEP_FUNC int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_t sector_size) {
     int32_t result = Ready;
 #define assert_result(stmt)                                                                        \
     if ((result = (stmt)) != Ready) {                                                              \
@@ -219,7 +219,7 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
     }
 }
 
-void GZ_storeMemfile(Storage& storage) {
+KEEP_FUNC void GZ_storeMemfile(Storage& storage) {
     PositionData posData;
     posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
     posData.cam.target = matrixInfo.matrix_info->target;
@@ -266,7 +266,7 @@ KEEP_FUNC void GZ_deleteMemCard(Storage& storage) {
     }
 }
 
-void GZ_deleteMemfile(Storage& storage) {
+KEEP_FUNC void GZ_deleteMemfile(Storage& storage) {
     storage.result = StorageDelete(0, storage.file_name_buffer);
     if (storage.result == Ready) {
         FIFOQueue::push("deleted memfile!", Queue);
@@ -277,7 +277,7 @@ void GZ_deleteMemfile(Storage& storage) {
     }
 }
 
-void GZ_loadMemCard(Storage& storage) {
+KEEP_FUNC void GZ_loadMemCard(Storage& storage) {
     storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
     if (storage.result == Ready) {
         GZSaveFile save_file;
@@ -296,7 +296,7 @@ void GZ_loadMemCard(Storage& storage) {
     }
 }
 
-void GZ_loadMemfile(Storage& storage) {
+KEEP_FUNC void GZ_loadMemfile(Storage& storage) {
     storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
     if (storage.result == Ready) {
         PositionData posData;
@@ -325,7 +325,7 @@ void GZ_loadMemfile(Storage& storage) {
 #define FRAME_COUNT 200
 #define FILE_NAME "tpgz01"
 
-void GZ_loadGZSave(bool& card_load) {
+KEEP_FUNC void GZ_loadGZSave(bool& card_load) {
     uint8_t frame_count = cCt_getFrameCount();
     if (card_load && frame_count > FRAME_COUNT) {
         static Storage storage;

@@ -1,5 +1,6 @@
 #include "gz_flags.h"
 #include <cstring>
+#include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
 #include "bit.h"
@@ -12,10 +13,11 @@
 #include "utils/loading.h"
 #include "flaglog.h"
 #include "save_manager.h"
-#include "menus/memfiles_menu.h"
+#include "memfiles.h"
 #include "corotdcheck.h"
 #include "umd.h"
 #include "utils/draw.h"
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "rels/include/defines.h"
 
 bool g_injectSave = false;
@@ -37,7 +39,7 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
     {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
     {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-    {&g_injectMemfile, GAME_LOOP, MemfilesMenu::setLinkPosition},
+    {&g_injectMemfile, GAME_LOOP, GZ_setLinkPosition},
 };
 
 #ifdef GCN_PLATFORM
