@@ -395,16 +395,16 @@ void PauseMenu::draw() {
 
     setEquipment();
 
-    snprintf(lines[ORDON_SWORD_INDEX].value, sizeof(lines[ORDON_SWORD_INDEX].value), " <%s>", ordonSword_opt[l_ordonSword_idx].member);
-    snprintf(lines[MASTER_SWORD_INDEX].value, sizeof(lines[MASTER_SWORD_INDEX].value), " <%s>", masterSword_opt[l_masterSword_idx].member);
-    snprintf(lines[WOOD_SHIELD_INDEX].value, sizeof(lines[WOOD_SHIELD_INDEX].value), " <%s>", woodShield_opt[l_woodShield_idx].member);
-    snprintf(lines[HYLIAN_SHIELD_INDEX].value, sizeof(lines[HYLIAN_SHIELD_INDEX].value), " <%s>", hyShield_opt[l_hyShield_idx].member);
-    snprintf(lines[HERO_TUNIC_INDEX].value, sizeof(lines[HERO_TUNIC_INDEX].value), " <%s>", tunic_opt[l_tunic_idx].member);
-    snprintf(lines[ZORA_ARMOR_INDEX].value, sizeof(lines[ZORA_ARMOR_INDEX].value), " <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
-    snprintf(lines[MAGIC_ARMOR_INDEX].value, sizeof(lines[MAGIC_ARMOR_INDEX].value), " <%s>", magicArmor_opt[l_magicArmor_idx].member);
-    snprintf(lines[BOMB_CAPACITY_INDEX].value, sizeof(lines[BOMB_CAPACITY_INDEX].value), " <%s>", bombCap_opt[l_bombCap_idx].member);
-    snprintf(lines[WALLET_INDEX].value, sizeof(lines[WALLET_INDEX].value), " <%s>", wallet_opt[l_wallet_idx].member);
-    snprintf(lines[ARROW_CAPACITY_INDEX].value, sizeof(lines[ARROW_CAPACITY_INDEX].value), " <%s>", arrowCap_opt[l_arrowCap_idx].member);
+    lines[ORDON_SWORD_INDEX].printf(" <%s>", ordonSword_opt[l_ordonSword_idx].member);
+    lines[MASTER_SWORD_INDEX].printf(" <%s>", masterSword_opt[l_masterSword_idx].member);
+    lines[WOOD_SHIELD_INDEX].printf(" <%s>", woodShield_opt[l_woodShield_idx].member);
+    lines[HYLIAN_SHIELD_INDEX].printf(" <%s>", hyShield_opt[l_hyShield_idx].member);
+    lines[HERO_TUNIC_INDEX].printf(" <%s>", tunic_opt[l_tunic_idx].member);
+    lines[ZORA_ARMOR_INDEX].printf(" <%s>", zoraArmor_opt[l_zoraArmor_idx].member);
+    lines[MAGIC_ARMOR_INDEX].printf(" <%s>", magicArmor_opt[l_magicArmor_idx].member);
+    lines[BOMB_CAPACITY_INDEX].printf(" <%s>", bombCap_opt[l_bombCap_idx].member);
+    lines[WALLET_INDEX].printf(" <%s>", wallet_opt[l_wallet_idx].member);
+    lines[ARROW_CAPACITY_INDEX].printf(" <%s>", arrowCap_opt[l_arrowCap_idx].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

@@ -250,19 +250,19 @@ void WarpingMenu::draw() {
     char tmpbuf[32];
 
     strcpy(tmpbuf, stage_types[l_typeIdx]);
-    snprintf(lines[WARP_TYPE_INDEX].value, sizeof(lines[WARP_TYPE_INDEX].value), " <%s>", tmpbuf);
+    lines[WARP_TYPE_INDEX].printf(" <%s>", tmpbuf);
 
     strcpy(tmpbuf, l_warpInfo.stage_info.stage_name);
-    snprintf(lines[WARP_STAGE_INDEX].value, sizeof(lines[WARP_STAGE_INDEX].value), " <%s>", tmpbuf);
+    lines[WARP_STAGE_INDEX].printf(" <%s>", tmpbuf);
 
     strcpy(tmpbuf, l_warpInfo.room_info.room_name);
-    snprintf(lines[WARP_ROOM_INDEX].value, sizeof(lines[WARP_ROOM_INDEX].value), " <%s>", tmpbuf);
+    lines[WARP_ROOM_INDEX].printf(" <%s>", tmpbuf);
 
-    snprintf(lines[WARP_SPAWN_INDEX].value, sizeof(lines[WARP_SPAWN_INDEX].value), " <%d>", l_warpInfo.spawn_info.spawn_id[0]);
+    lines[WARP_SPAWN_INDEX].printf(" <%d>", l_warpInfo.spawn_info.spawn_id[0]);
     if (l_warpLayer == DEFAULT_LAYER) {
-        snprintf(lines[WARP_LAYER_INDEX].value, sizeof(lines[WARP_LAYER_INDEX].value), " <default>");
+        lines[WARP_LAYER_INDEX].printf(" <default>");
     } else {
-        snprintf(lines[WARP_LAYER_INDEX].value, sizeof(lines[WARP_LAYER_INDEX].value), " <%d>", l_warpLayer);
+        lines[WARP_LAYER_INDEX].printf(" <%d>", l_warpLayer);
     }
 
     m_cursor.move(0, MENU_LINE_NUM);

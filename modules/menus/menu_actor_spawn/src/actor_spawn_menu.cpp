@@ -131,8 +131,8 @@ void ActorSpawnMenu::draw() {
                          GZ_checkDropShadows());
     }
 
-    snprintf(lines[ACTOR_ID_INDEX].value, sizeof(lines[ACTOR_ID_INDEX].value), " <%d>", l_actorID);
-    snprintf(lines[ACTOR_SUBTYPE_INDEX].value, sizeof(lines[ACTOR_SUBTYPE_INDEX].value), " <%d>", l_actorType);
+    lines[ACTOR_ID_INDEX].printf(" <%d>", l_actorID);
+    lines[ACTOR_SUBTYPE_INDEX].printf(" <%d>", l_actorType);
 
     cursor.move(8, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

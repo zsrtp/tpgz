@@ -143,9 +143,9 @@ void SettingsMenu::draw() {
         break;
     }
 
-    snprintf(lines[AREA_RELOAD_BEHAVIOR_INDEX].value, sizeof(lines[AREA_RELOAD_BEHAVIOR_INDEX].value), " <%s>", reload_opt[g_reloadType].member);
-    snprintf(lines[CURSOR_COLOR_INDEX].value, sizeof(lines[CURSOR_COLOR_INDEX].value), " <%s>", cursorCol_opt[g_cursorColorType].member);
-    snprintf(lines[FONT_INDEX].value, sizeof(lines[FONT_INDEX].value), " <%s>", g_font_opt[g_fontType].member);
+    lines[AREA_RELOAD_BEHAVIOR_INDEX].printf(" <%s>", reload_opt[g_reloadType].member);
+    lines[CURSOR_COLOR_INDEX].printf(" <%s>", cursorCol_opt[g_cursorColorType].member);
+    lines[FONT_INDEX].printf(" <%s>", g_font_opt[g_fontType].member);
 
     GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }

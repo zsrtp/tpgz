@@ -195,7 +195,7 @@ void ItemWheelMenu::draw() {
 
         for (int j = 0; j < MAX_ITEMS; j++) {
             if (l_lookupTbl[j].item_id == item_id) {
-                snprintf(lines[slot_no].value, sizeof(lines[slot_no].value), " <%s>",
+                lines[slot_no].printf(" <%s>",
                         item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
             }
 

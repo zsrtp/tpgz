@@ -170,7 +170,7 @@ void PortalFlagsMenu::draw() {
         "ordon", "faron", "eldin", "lanayru", "desert", "snowpeak",
     };
 
-    snprintf(lines[SELECT_REGION_INDEX].value, sizeof(lines[SELECT_REGION_INDEX].value), " <%s>", region_opt[l_selRegion].member);
+    lines[SELECT_REGION_INDEX].printf(" <%s>", region_opt[l_selRegion].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

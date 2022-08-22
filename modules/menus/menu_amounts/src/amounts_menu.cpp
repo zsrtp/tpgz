@@ -75,20 +75,20 @@ void AmountsMenu::draw() {
         break;
     }
 
-    snprintf(lines[ARROW_AMMO_INDEX].value, sizeof(lines[ARROW_AMMO_INDEX].value), " <%d>",
+    lines[ARROW_AMMO_INDEX].printf(" <%d>",
              l_arrowNum);
-    snprintf(lines[BOMB_BAG_1_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_1_AMMO_INDEX].value),
+    lines[BOMB_BAG_1_AMMO_INDEX].printf(
              " <%d>", l_bag1Num);
-    snprintf(lines[BOMB_BAG_2_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_2_AMMO_INDEX].value),
+    lines[BOMB_BAG_2_AMMO_INDEX].printf(
              " <%d>", l_bag2Num);
-    snprintf(lines[BOMB_BAG_3_AMMO_INDEX].value, sizeof(lines[BOMB_BAG_3_AMMO_INDEX].value),
+    lines[BOMB_BAG_3_AMMO_INDEX].printf(
              " <%d>", l_bag3Num);
-    snprintf(lines[SLINGSHOT_AMMO_INDEX].value, sizeof(lines[SLINGSHOT_AMMO_INDEX].value), " <%d>",
+    lines[SLINGSHOT_AMMO_INDEX].printf(" <%d>",
              l_seedNum);
-    snprintf(lines[HEART_PIECE_COUNT_INDEX].value, sizeof(lines[HEART_PIECE_COUNT_INDEX].value),
+    lines[HEART_PIECE_COUNT_INDEX].printf(
              " <%d>", l_hpNum);
-    snprintf(lines[POE_COUNT_INDEX].value, sizeof(lines[POE_COUNT_INDEX].value), " <%d>", l_poeNum);
-    snprintf(lines[RUPEE_COUNT_INDEX].value, sizeof(lines[RUPEE_COUNT_INDEX].value), " <%d>",
+    lines[POE_COUNT_INDEX].printf(" <%d>", l_poeNum);
+    lines[RUPEE_COUNT_INDEX].printf(" <%d>",
              l_rupeeNum);
 
     cursor.move(0, MENU_LINE_NUM);

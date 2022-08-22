@@ -159,8 +159,8 @@ void DungeonFlagsMenu::draw() {
         "City in the Sky",   "Palace of Twilight", "Hyrule Castle",
     };
 
-    snprintf(lines[SMALL_KEY_FLAG_INDEX].value, sizeof(lines[SMALL_KEY_FLAG_INDEX].value), " <%d>", l_keyNum);
-    snprintf(lines[SELECT_DUNGEON_INDEX].value, sizeof(lines[SELECT_DUNGEON_INDEX].value), " <%s>", dun_opt[l_selDun].member);
+    lines[SMALL_KEY_FLAG_INDEX].printf(" <%d>", l_keyNum);
+    lines[SELECT_DUNGEON_INDEX].printf(" <%s>", dun_opt[l_selDun].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

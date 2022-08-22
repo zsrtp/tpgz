@@ -46,8 +46,8 @@ void SceneMenu::draw() {
     }
     int current_minute = (int)((4.0f * current_time) - current_hour * 60);
 
-    snprintf(lines[TIME_HOURS_INDEX].value, sizeof(lines[TIME_HOURS_INDEX].value), " <%d>", current_hour);
-    snprintf(lines[TIME_MINUTES_INDEX].value, sizeof(lines[TIME_MINUTES_INDEX].value), " <%d>", current_minute);
+    lines[TIME_HOURS_INDEX].printf(" <%d>", current_hour);
+    lines[TIME_MINUTES_INDEX].printf(" <%d>", current_minute);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         g_sceneFlags[m_cursor.y].active = !g_sceneFlags[m_cursor.y].active;

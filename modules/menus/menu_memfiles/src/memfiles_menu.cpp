@@ -92,7 +92,7 @@ void MemfilesMenu::draw() {
         }
     }
 
-    snprintf(lines[MEMFILE_SLOT_INDEX].value, sizeof(lines[MEMFILE_SLOT_INDEX].value), " <%d>", l_fileNo);
+    lines[MEMFILE_SLOT_INDEX].printf(" <%d>", l_fileNo);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

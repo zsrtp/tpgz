@@ -25,7 +25,7 @@ struct Line {
     char value[sizeof(Line::line)] = {0};
 
     template <typename... Args>
-    void printf(const char* fmt, Args... args) {
+    inline void printf(const char* fmt, Args... args) {
         snprintf(value, sizeof(value), fmt, args...);
     }
 };

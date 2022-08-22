@@ -226,6 +226,6 @@ void ToolsMenu::draw() {
         }
     }
 
-    snprintf(lines[TUNIC_COLOR_INDEX].value, sizeof(lines[TUNIC_COLOR_INDEX].value), " <%s>", tunicCol_opt[l_tunicCol_idx].member);
+    lines[TUNIC_COLOR_INDEX].printf(" <%s>", tunicCol_opt[l_tunicCol_idx].member);
     GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
 }
