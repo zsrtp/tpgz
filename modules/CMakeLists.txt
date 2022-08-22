@@ -42,15 +42,15 @@ function(tpgz_add_main_module module_name module_srcs)
     endif()
 
     file(GLOB relative_module_name LIST_DIRECTORIES true RELATIVE ${TPGZ_MODULE_SRC_DIR} CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR})
-    add_custom_command(OUTPUT ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel
+    add_custom_command(OUTPUT ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel
         DEPENDS ${module_name} ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst
-        COMMAND ${TPGZ_ELF2REL_EXE} $<TARGET_FILE:${module_name}> -s ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst --rel-id ${TPGZ_MODULE_ID_COUNTER} -o ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)
+        COMMAND ${TPGZ_ELF2REL_EXE} $<TARGET_FILE:${module_name}> -s ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst --rel-id ${TPGZ_MODULE_ID_COUNTER} -o ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.lst
         DEPENDS ${module_name} ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst
         COMMAND ${Python3_EXECUTABLE} ${TPGZ_RELMAPPER_EXE} -o ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.lst -i ${CMAKE_SOURCE_DIR}/res/map/${PLATFORM}_${REGION}.lst -s ${TPGZ_MODULE_ID_COUNTER} $<TARGET_FILE:${module_name}>)
     add_custom_target(${module_name}_rel
-        DEPENDS ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.lst)
-    set_property(TARGET ${module_name}_rel PROPERTY TPGZ_MODULE_FILE ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)
+        DEPENDS ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.lst)
+    set_property(TARGET ${module_name}_rel PROPERTY TPGZ_MODULE_FILE ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel)
 
     set_property(TARGET modules PROPERTY TPGZ_MAIN_MODULE_LST ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.lst)
     set_property(TARGET modules PROPERTY TPGZ_MAIN_MODULE_TRG ${module_name}_rel)
@@ -93,12 +93,12 @@ function(tpgz_add_module module_name module_srcs)
     endif()
 
     file(GLOB relative_module_name LIST_DIRECTORIES true RELATIVE ${TPGZ_MODULE_SRC_DIR} CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR})
-    add_custom_command(OUTPUT ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel
+    add_custom_command(OUTPUT ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel
         DEPENDS ${module_name} ${TPGZ_MAIN_MODULE_TRG} ${TPGZ_MAIN_MODULE_LST}
-        COMMAND ${TPGZ_ELF2REL_EXE} $<TARGET_FILE:${module_name}> -s ${TPGZ_MAIN_MODULE_LST} --rel-id ${TPGZ_MODULE_ID_COUNTER} -o ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)
+        COMMAND ${TPGZ_ELF2REL_EXE} $<TARGET_FILE:${module_name}> -s ${TPGZ_MAIN_MODULE_LST} --rel-id ${TPGZ_MODULE_ID_COUNTER} -o ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel)
     add_custom_target(${module_name}_rel
-        DEPENDS ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)
-    set_property(TARGET ${module_name}_rel PROPERTY TPGZ_MODULE_FILE ${TPGZ_MODULE_OUT_DIR}/${relative_module_name}.rel)
+        DEPENDS ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel)
+    set_property(TARGET ${module_name}_rel PROPERTY TPGZ_MODULE_FILE ${TPGZ_MODULE_OUT_DIR}/${module_name}.rel)
 
     add_dependencies(modules ${module_name}_rel)
     set_property(TARGET modules APPEND PROPERTY TPGZ_MODULES ${module_name})
