@@ -9,7 +9,7 @@ extern "C" {
 #ifndef WII_PLATFORM
 #define resize1_JKRHeap resize__7JKRHeapFPvUlP7JKRHeap
 #else
-#define resize1_JKRHeap JKRHeap__resize_void
+#define resize1_JKRHeap JKRHeap__resize_void____unsigned_long__JKRHeap___
 #endif
 void resize1_JKRHeap(void* ptr, uint32_t size, void* heap);
 }
@@ -274,7 +274,7 @@ bool GZModule::load(bool negativeAlignment, bool fixedLinking) {
 
     // Allocate bytes for the file
     // REL files need to be in MEM1 to function properly, so put it in the Zelda heap
-    uint8_t* fileData = new (alignment, HEAP_ZELDA) uint8_t[length];
+    uint8_t* fileData = new (alignment) uint8_t[length];
     clear_DC_IC_Cache(fileData, length);
 
     // Read the REL from the disc

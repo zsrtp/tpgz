@@ -175,15 +175,15 @@ void putSaveHook(void* addr, int stageNo) {
 }
 
 #ifdef WII_PLATFORM
-#define draw_console JUTConsoleManager__draw_void_
+#define draw_console JUTConsoleManager__draw_void__const
 #define f_fapGm_Execute fapGm_Execute_void_
-#define clawshot_checkbg daAlink_c__checkHookshotStickBG_cBgS_PolyInfo
-#define set_special_gravity daAlink_c__setSpecialGravity_float_
-#define checkCastleTownUseItem daAlink_c__checkCastleTownUseItem_unsigned
-#define query042 dMsgFlow_c__query042_mesg_flow_node_branch
-#define f_onSwitch dSv_info_c__onSwitch_int_
-#define f_onEventBit dSv_event_c__onEventBit_unsigned
-#define f_offEventBit dSv_event_c__offEventBit_unsigned
+#define clawshot_checkbg daAlink_c__checkHookshotStickBG_cBgS_PolyInfo___
+#define set_special_gravity daAlink_c__setSpecialGravity_float__float__int_
+#define checkCastleTownUseItem daAlink_c__checkCastleTownUseItem_unsigned_short_
+#define query042 dMsgFlow_c__query042_mesg_flow_node_branch____fopAc_ac_c____int_
+#define f_onSwitch dSv_info_c__onSwitch_int__int_
+#define f_onEventBit dSv_event_c__onEventBit_unsigned_short_
+#define f_offEventBit dSv_event_c__offEventBit_unsigned_short_
 #define f_putSave dSv_info_c__putSave_int_
 #define f_myExceptionCallback myExceptionCallback_unsigned
 #else

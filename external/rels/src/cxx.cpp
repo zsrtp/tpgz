@@ -42,11 +42,7 @@ void* getHeapPtr(int32_t id) {
     constexpr uint32_t heapPtrArraySize = sizeof(heapPtrArray) / sizeof(heapPtrArray[0]);
     if ((id < 0) || (static_cast<uint32_t>(id) >= heapPtrArraySize)) {
         // The id is invalid, so use the archive heap by default
-#ifndef WII_PLATFORM
         id = HEAP_ARCHIVE;
-#else
-        id = HEAP_ZELDA;
-#endif
     }
 
     return *heapPtrArray[id];

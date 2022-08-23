@@ -13,7 +13,7 @@
 #endif
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
-#define cc_at_check cc_at_check_fopAc_ac_c
+#define cc_at_check cc_at_check_fopAc_ac_c____dCcU_AtInfo___
 #endif
 
 extern "C" {

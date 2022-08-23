@@ -13,11 +13,7 @@ void MenuState::load(bool isCreated) {
     if (rel->isLoaded()) {
         return;
     }
-#ifndef WII_PLATFORM
     rel->loadFixed(true);
-#else
-    rel->load(true);
-#endif
     if (isCreated && create_hook) {
         create_hook();
     }
@@ -45,11 +41,7 @@ void MenuState::del() {
             unload_hook();
         }
     } else {
-#ifndef WII_PLATFORM
         rel->loadFixed(true);
-#else
-        rel->load(true);
-#endif
     }
     if (delete_hook) {
         delete_hook();
