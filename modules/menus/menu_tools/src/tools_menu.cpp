@@ -18,8 +18,8 @@
 
 #define MAX_TUNIC_COLORS 7
 
-KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor),
+KEEP_FUNC ToolsMenu::ToolsMenu(ToolsData& data)
+    : Menu(), m_cursor(data.cursor), l_tunicCol_idx(data.l_tunicCol_idx),
       lines{{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area",
              true, &g_tools[RELOAD_AREA_INDEX].active},
             {"frame advance", FRAME_ADVANCE_INDEX, "Use " FRAME_ADVANCE_TEXT " to frame advance",
@@ -78,6 +78,8 @@ ToolsMenu::~ToolsMenu() {}
 
 void ToolsMenu::draw() {
     m_cursor.setMode(Cursor::MODE_LIST);
+
+    l_tunicCol_idx = g_tunic_color;
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
