@@ -274,7 +274,7 @@ bool GZModule::load(bool negativeAlignment, bool fixedLinking) {
 
     // Allocate bytes for the file
     // REL files need to be in MEM1 to function properly, so put it in the Zelda heap
-    uint8_t* fileData = new (alignment) uint8_t[length];
+    uint8_t* fileData = new (alignment, HEAP_ZELDA) uint8_t[length];
     clear_DC_IC_Cache(fileData, length);
 
     // Read the REL from the disc
