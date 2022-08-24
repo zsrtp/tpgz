@@ -57,7 +57,7 @@ namespace tpgz::modules {
 void main() {
     // Run the initialization module.
     tpgz::dyn::GZModule* initRel = new tpgz::dyn::GZModule("/tpgz/rels/init.rel");
-    initRel->load(true);
+    initRel->loadFixed(true);
     // The initialization module doesn't need to be kept in memory once ran.
     // initRel->close(); // This code is implicitly ran in the destructor.
     delete initRel;
@@ -89,7 +89,7 @@ KEEP_FUNC void draw() {
 
 inline void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
     if (g_tools[id].active) {
-        rel.load(true);
+        rel.loadFixed(true);
     } else {
         rel.close();
     }
