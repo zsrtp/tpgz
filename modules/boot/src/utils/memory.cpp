@@ -11,7 +11,7 @@
 KEEP_FUNC void GZ_drawWatches() {
     for (int i = 0; i < MAX_WATCHES; i++) {
         if (g_watches[i].visible) {
-            char rendered_value[8];
+            char rendered_value[9];
             switch (g_watches[i].type) {
             case u32:
                 if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {

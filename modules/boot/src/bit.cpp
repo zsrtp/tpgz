@@ -19,6 +19,8 @@
 #define BOOTS_TERM_VEL -300.0
 #define TARGET_FRAME 28
 
+#define LAST_Y_GROUND_POS (dComIfGp_getPlayer()->field_0x3404)
+
 static char buf[30];
 
 void BiTIndicator::setPosition() {
@@ -38,7 +40,7 @@ void BiTIndicator::execute() {
         const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
         const double dist_from_last_ground =
             (dComIfGp_getPlayer()->mCurrent.mPosition.y -
-             dComIfGp_getPlayer()->mFallHeight);
+             LAST_Y_GROUND_POS);
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;
