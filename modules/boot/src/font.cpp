@@ -6,6 +6,7 @@
 #include "rels/include/cxx.h"
 
 _Font Font::font;
+extern bool isWidescreen;
 
 KEEP_FUNC FontCode Font::loadFont(const char* path) {
     DVDFileInfo fileInfo;
@@ -70,8 +71,8 @@ void PositionedGlyph::render(uint32_t color, Texture* texture) {
 PositionedGlyph DecodedGlyph::position(float _x, float _y, float factor) {
     float vty = _y - metrics.ascender * factor;
     float vby = _y + metrics.descender * factor;
-    float vrx = _x + (width + offset) * factor;
-    float vlx = _x + offset * factor;
+    float vrx = _x + (width + offset) * factor * (isWidescreen ? 0.75f : 1.0f);
+    float vlx = _x + offset * factor * (isWidescreen ? 0.75f : 1.0f);
 
     float tty = glyph->minY;
     float tby = glyph->maxY;
@@ -80,7 +81,7 @@ PositionedGlyph DecodedGlyph::position(float _x, float _y, float factor) {
 
     return {{{vlx, vty}, {vrx, vty}, {vrx, vby}, {vlx, vby}},
             {{tlx, tty}, {trx, tty}, {trx, tby}, {tlx, tby}},
-            (_x + width * factor)};
+            (_x + width * factor * (isWidescreen ? 0.75f : 1.0f))};
 }
 
 bool Font::lookupGlyph(char c, DecodedGlyph& glyph) {
@@ -102,7 +103,7 @@ KEEP_FUNC float Font::renderChar(char c, float x, float y, uint32_t color, float
         positioned.render(color, &font.texture);
         return positioned.next_x;
     } else {
-        return x + font.glyphs[' '].width * size / font.header.base_size;
+        return x + font.glyphs[' '].width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
     }
 }
 
@@ -131,9 +132,9 @@ KEEP_FUNC void Font::GZ_drawStr(const char* str, float x, float y, uint32_t colo
 KEEP_FUNC float Font::getCharWidth(char c, float size) {
     DecodedGlyph glyph;
     if (lookupGlyph(c, glyph)) {
-        return glyph.width * size / font.header.base_size;
+        return glyph.width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
     } else {
-        return font.glyphs[' '].width * size / font.header.base_size;
+        return font.glyphs[' '].width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
     }
 }
 

@@ -26,6 +26,7 @@
 #include "handlers/pre_loop_handler.h"
 #include "handlers/post_loop_handler.h"
 
+extern bool isWidescreen;
 _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
@@ -174,7 +175,7 @@ KEEP_FUNC void GZ_renderMenuTitle() {
         Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
                          g_cursorColor, g_dropShadows);
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
-            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f}, {30, 30},
+            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f}, {30 * (isWidescreen ? 0.75f : 1.0f), 30},
                            &l_gzIconTex._texObj);
         }
     }
