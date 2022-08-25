@@ -141,6 +141,41 @@
             ]
         },
         {
+            "name": "Wii US 1.2",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_NTSCU_12",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
             "name": "Wii PAL",
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",

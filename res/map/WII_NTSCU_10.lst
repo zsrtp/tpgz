@@ -124,7 +124,7 @@
 800c8a4c:checkDownAttackState
 800be190:procCoMetamorphoseInit
 80109fa8:checkEventRun
-8044B5CC:linkStatus
+//8044B5CC:linkStatus
 800d89b0:checkBootsMoveAnime
 8010d2f8:procCoTalkInit
 
@@ -429,7 +429,7 @@
 8002f640:getLayerNo_common_common
 //80141264:dComIfGs_isItemFirstBit
 8003827c:isFirstBit
-804929f4:player_get_item
+//804929f4:player_get_item
 80033c20:dComIfGs_Wolf_Change_Check
 80033970:dComIfG_getStageRes
 
@@ -459,7 +459,7 @@
 
 //d_meter2_info.o
 804bcb78:g_meter2_info
-804bcb94:wZButtonPtr
+//804bcb94:wZButtonPtr
 
 //d_a_shop_item_static.o
 803d0538:shopItemData
@@ -517,6 +517,7 @@
 8053ae1d:sPauseTimer
 
 CC008000:wgPipe
+
 80006920:SECallback_int__int_
 80006974:drawCallback_J2DOrthoGraph____void___
 80006ab8:dHomeButton_c__create__int__void___

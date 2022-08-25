@@ -41,6 +41,9 @@ HOOK_DEF(void, draw, (void*));
 #ifdef WII_NTSCU_10
 #define CRASH_ADDRESS (0x80537560)
 #endif
+#ifdef WII_NTSCU_12
+#define CRASH_ADDRESS (0x8051d5e0)
+#endif
 #ifdef WII_PAL
 #define CRASH_ADDRESS (0x8051DEE0)
 #endif
