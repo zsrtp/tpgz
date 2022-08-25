@@ -140,6 +140,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
                     gSaveManager.mPracticeFileOpts.inject_options_after_load =
                         i_specials[i].CallbackAfter;
                 }
+                break;
             }
         }
     }

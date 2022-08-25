@@ -120,51 +120,52 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
 AnySavesMenu::~AnySavesMenu() {}
 
 void AnySavesMenu::draw() {
-#ifdef GCN_PLATFORM
-    special AnySpecials[ANY_SPECIALS_AMNT] = {
-        special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
-        special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
-        special(NORGOR_INDEX, nullptr, SaveMngSpecial_Norgor),
-        special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
-        special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
-        special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
-        special(STALLORD2_INDEX, SaveMngSpecial_Stallord2_init, SaveMngSpecial_Stallord2),
-        special(FRST_ESCAPE_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(GORGE_VOID_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(RUPEE_ROLL_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(LANAYRU_GATE_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
-        special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
-        special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
-        special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
-        special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
-        special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
-    };
-#endif
-#ifdef WII_PLATFORM
-    special AnySpecials[ANY_SPECIALS_AMNT] = {
-        special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
-        special(KARG_FLIGHT_INDEX, SaveMngSpecial_KargOoB, nullptr),
-        special(MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
-        special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
-        special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
-        special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
-        special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
-        special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
-        special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
-        special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
-    };
-#endif
-
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
         return;
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+#ifdef GCN_PLATFORM
+        special AnySpecials[] = {
+            special(ORDON_GATE_CLIP_INDEX, nullptr, SaveMngSpecial_OrdonRock),
+            special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
+            special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
+            special(NORGOR_INDEX, nullptr, SaveMngSpecial_Norgor),
+            special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
+            special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
+            special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+            special(STALLORD2_INDEX, SaveMngSpecial_Stallord2_init, SaveMngSpecial_Stallord2),
+            special(FRST_ESCAPE_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(GORGE_VOID_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(RUPEE_ROLL_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(LANAYRU_GATE_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
+            special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
+            special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
+            special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
+            special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
+            special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+        };
+#endif
+#ifdef WII_PLATFORM
+        special AnySpecials[] = {
+            special(ORDON_GATE_CLIP_INDEX, nullptr, SaveMngSpecial_OrdonRock),
+            special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
+            special(KARG_FLIGHT_INDEX, SaveMngSpecial_KargOoB, nullptr),
+            special(MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
+            special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+            special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+            special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
+            special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
+            special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
+            special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
+            special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
+            special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+        };
+#endif
         SaveManager::loadSave(m_cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
         g_menuMgr->hide();

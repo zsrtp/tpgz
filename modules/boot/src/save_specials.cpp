@@ -1,4 +1,5 @@
 #include "save_specials.h"
+#include <functional>
 #include "gz_flags.h"
 #include "libtp_c/include/utils.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -7,6 +8,49 @@
 #include "libtp_c/include/rel/d/a/b/d_a_b_ds.h"
 #include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
 #include "rels/include/defines.h"
+
+fopAc_ac_c* find_actor(std::function<bool(fopAc_ac_c&)> const& predicate) {
+    if (predicate == nullptr) {
+        return nullptr;
+    }
+    node_class* node = g_fopAcTg_Queue.mpHead;
+    fopAc_ac_c* actorData = NULL;
+    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
+        if (node != NULL) {
+            create_tag_class* tag = (create_tag_class*)node;
+            fopAc_ac_c* tmpData = (fopAc_ac_c*)tag->mpTagData;
+            if (predicate(*tmpData)) {
+                actorData = tmpData;
+                break;
+            }
+            node = node->mpNextNode;
+        }
+    }
+    return actorData;
+}
+
+#if defined(GCN_PLATFORM) || defined(WII_NTSCU_12)
+#define ROCK_ID 765
+#elif defined(WII_PLATFORM)
+#define ROCK_ID 763
+#endif
+
+KEEP_FUNC void SaveMngSpecial_OrdonRock() {
+    gSaveManager.setSaveAngle(32768);
+    gSaveManager.setSavePosition(400.0f, 307.5f, -11270.2f);
+    gSaveManager.setLinkInfo();
+
+    cXyz position(400.0f, 307.8f, -11365.f);
+
+    fopAc_ac_c* actorData = find_actor([](fopAc_ac_c& act) {
+        return act.mBase.mProcName == ROCK_ID && act.mBase.mParameters == 0x00FF6511;
+    });
+
+    if (actorData != NULL) {
+        actorData->mCurrent.mPosition = position;
+        actorData->mCollisionRot.mY = 5880;
+    }
+}
 
 KEEP_FUNC void SaveMngSpecial_BossFlags() {
     gSaveManager.injectDefault_during();
@@ -29,7 +73,7 @@ KEEP_FUNC void SaveMngSpecial_Hugo() {
     dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
-#ifdef GCN_PLATFORM
+#if defined(GCN_PLATFORM) || defined(WII_NTSCU_12)
 #define HUGO_ACTOR_ID 468
 #elif defined(WII_PLATFORM)
 #define HUGO_ACTOR_ID 466
@@ -43,19 +87,9 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
     cXyz position(-289.9785, 401.5400, -18533.078);
 
     // Find hugo in the actor list
-    node_class* node = g_fopAcTg_Queue.mpHead;
-    fopAc_ac_c* actorData = NULL;
-    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
-        if (node != NULL) {
-            create_tag_class* tag = (create_tag_class*)node;
-            fopAc_ac_c* tmpData = (fopAc_ac_c*)tag->mpTagData;
-            if (tmpData->mBase.mProcName == HUGO_ACTOR_ID) {
-                actorData = tmpData;
-                break;
-            }
-            node = node->mpNextNode;
-        }
-    }
+    fopAc_ac_c* actorData = find_actor([](auto& act) {
+        return act.mBase.mProcName == HUGO_ACTOR_ID;
+    });
 
     if (actorData != NULL) {
         actorData->mCurrent.mPosition = position;

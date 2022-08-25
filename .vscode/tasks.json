@@ -68,9 +68,6 @@
             "args": [
                 "iso"
             ],
-            "dependsOn": [
-                "Build"
-            ],
             "dependsOrder": "sequence",
             "runOptions": {
                 "instanceLimit": 1
@@ -101,8 +98,7 @@
                 "patch"
             ],
             "dependsOn": [
-                "Clean",
-                "Build GC US"
+                "Clean"
             ],
             "dependsOrder": "sequence",
             "runOptions": {
@@ -134,7 +130,7 @@
                 "wii_us12",
                 "wii_pal"
             ],
-            "default": "GCN_NTSCU"
+            "default": "gc_us"
         }
     ]
 }

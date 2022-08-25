@@ -1,5 +1,7 @@
 #pragma once
 
+void SaveMngSpecial_OrdonRock();
+
 void SaveMngSpecial_BossFlags();
 
 void SaveMngSpecial_Goats1();

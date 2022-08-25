@@ -38,3 +38,10 @@ extern "C" void __cxa_pure_virtual() {
     while (1)
         ;
 }
+
+namespace std {
+void __throw_bad_function_call() {
+    while (true)
+        ;
+}
+}  // namespace std
