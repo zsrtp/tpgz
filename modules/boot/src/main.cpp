@@ -26,7 +26,11 @@
 #include "handlers/pre_loop_handler.h"
 #include "handlers/post_loop_handler.h"
 
+#ifdef WII_PLATFORM
 extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
 _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;

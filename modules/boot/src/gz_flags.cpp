@@ -84,7 +84,11 @@ KEEP_FUNC void GZ_frameAdvance() {
     }
 }
 
+#ifdef WII_PLATFORM
 extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
 void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex) {
     if (g_framePaused) {
         if (sPauseTimer == 1) {

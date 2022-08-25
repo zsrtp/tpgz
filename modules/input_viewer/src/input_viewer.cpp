@@ -281,8 +281,8 @@ void InputViewer::drawViewer(Vec2 pos, float scale, bool is_shadow, bool wide_sc
 #endif
 }
 
-extern bool isWidescreen;
 #ifdef WII_PLATFORM
+extern bool isWidescreen;
 #define IS_WIDESCREEN isWidescreen
 #else
 #define IS_WIDESCREEN (false)
