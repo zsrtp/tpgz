@@ -138,7 +138,8 @@ void onEventBitHook(void* addr, uint16_t pFlag) {
 void offEventBitHook(void* addr, uint16_t pFlag) {
     if (g_flagLogEnabled) {
         if (addr == &g_dComIfG_gameInfo.info.mTmp) {
-            snprintf(buf, sizeof(buf), "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8, pFlag & 0xFF);
+            snprintf(buf, sizeof(buf), "%s[0x%X] : %X | OFF", "Event Tmp", pFlag >> 8,
+                     pFlag & 0xFF);
         } else {
             snprintf(buf, sizeof(buf), "%s[0x%X] : %X | OFF", "Event", pFlag >> 8, pFlag & 0xFF);
         }

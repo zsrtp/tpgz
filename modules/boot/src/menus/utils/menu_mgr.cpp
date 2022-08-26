@@ -212,7 +212,7 @@ MenuStateNode* MenuStateList::getLast() {
 }
 }  // namespace menus
 
-KEEP_FUNC MenuMgr::MenuMgr(): is_open(false) {}
+KEEP_FUNC MenuMgr::MenuMgr() : is_open(false) {}
 KEEP_FUNC MenuMgr::~MenuMgr() {}
 
 KEEP_FUNC bool MenuMgr::isOpen() const {
@@ -332,7 +332,7 @@ KEEP_FUNC void MenuMgr::handlePop() {
         menus::MenuState* state = *end;
         state->load(false);
     }
-    
+
     if (!end) {
         is_open = false;
         GZ_setFifoVisible(true);

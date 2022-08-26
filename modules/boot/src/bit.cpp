@@ -39,8 +39,7 @@ void BiTIndicator::execute() {
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
         const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
         const double dist_from_last_ground =
-            (dComIfGp_getPlayer()->mCurrent.mPosition.y -
-             LAST_Y_GROUND_POS);
+            (dComIfGp_getPlayer()->mCurrent.mPosition.y - LAST_Y_GROUND_POS);
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;

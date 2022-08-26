@@ -107,7 +107,8 @@ KEEP_FUNC float Font::renderChar(char c, float x, float y, uint32_t color, float
         positioned.render(color, &font.texture);
         return positioned.next_x;
     } else {
-        return x + font.glyphs[' '].width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
+        return x + font.glyphs[' '].width * size / font.header.base_size *
+                       (isWidescreen ? 0.75f : 1.0f);
     }
 }
 
@@ -118,15 +119,16 @@ KEEP_FUNC void Font::renderChars(const char* str, float x, float y, uint32_t col
     }
 }
 
-KEEP_FUNC void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shadows, float size) {
+KEEP_FUNC void Font::GZ_drawChar(char c, float x, float y, uint32_t color, bool drop_shadows,
+                                 float size) {
     if (drop_shadows) {
         renderChar(c, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
     renderChar(c, x, y, color, size);
 }
 
-KEEP_FUNC void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
-                      float size) {
+KEEP_FUNC void Font::GZ_drawStr(const char* str, float x, float y, uint32_t color,
+                                bool drop_shadows, float size) {
     if (drop_shadows) {
         renderChars(str, x + 1.0f, y + 1.0f, DROP_SHADOWS_RGBA, size);
     }
@@ -138,7 +140,8 @@ KEEP_FUNC float Font::getCharWidth(char c, float size) {
     if (lookupGlyph(c, glyph)) {
         return glyph.width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
     } else {
-        return font.glyphs[' '].width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
+        return font.glyphs[' '].width * size / font.header.base_size *
+               (isWidescreen ? 0.75f : 1.0f);
     }
 }
 
@@ -152,8 +155,8 @@ KEEP_FUNC float Font::getStrWidth(const char* str, float size) {
 }
 
 // returns the width of the rendered string
-KEEP_FUNC float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx, size_t max_char,
-                        uint32_t color) {
+KEEP_FUNC float GZ_drawSelectChar(const char* str, float x, float y, size_t char_idx,
+                                  size_t max_char, uint32_t color) {
     float pos = 0.0f;
     for (size_t i = 0; i <= max_char; ++i) {
         Font::GZ_drawChar(str[i], x + pos, y, char_idx == i ? CURSOR_RGBA : color,

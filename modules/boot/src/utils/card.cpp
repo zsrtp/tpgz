@@ -331,7 +331,8 @@ KEEP_FUNC void GZ_loadGZSave(bool& card_load) {
         static Storage storage;
         storage.file_name = FILE_NAME;
         storage.sector_size = SECTOR_SIZE;
-        snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer), (char*)storage.file_name);
+        snprintf(storage.file_name_buffer, sizeof(storage.file_name_buffer),
+                 (char*)storage.file_name);
 #ifndef WII_PLATFORM
         storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
         if (storage.result == Ready) {

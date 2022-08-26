@@ -2,7 +2,7 @@
 #include <cstdio>
 
 ListMember g_font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
-                         "lib-serif", "lib-serif-bold", "press-start-2p"};
+                           "lib-serif", "lib-serif-bold", "press-start-2p"};
 
 bool g_dropShadows;
 bool g_swap_equips_flag;

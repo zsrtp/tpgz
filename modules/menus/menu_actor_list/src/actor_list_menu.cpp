@@ -87,8 +87,7 @@ void ActorListMenu::draw() {
                  actorData->mCurrent.mPosition.z);
         GZ_drawText(posBuf, 25.0f, 180.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
-        lines[ACTOR_ID_INDEX].printf(" <%d / %d>",
-                 l_index, g_fopAcTg_Queue.mSize - 1);
+        lines[ACTOR_ID_INDEX].printf(" <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);
 
         if (GZ_getButtonTrig(MEM_SWITCH_BTN)) {
             switch (cursor.y) {

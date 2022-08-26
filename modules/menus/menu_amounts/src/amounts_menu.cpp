@@ -75,21 +75,14 @@ void AmountsMenu::draw() {
         break;
     }
 
-    lines[ARROW_AMMO_INDEX].printf(" <%d>",
-             l_arrowNum);
-    lines[BOMB_BAG_1_AMMO_INDEX].printf(
-             " <%d>", l_bag1Num);
-    lines[BOMB_BAG_2_AMMO_INDEX].printf(
-             " <%d>", l_bag2Num);
-    lines[BOMB_BAG_3_AMMO_INDEX].printf(
-             " <%d>", l_bag3Num);
-    lines[SLINGSHOT_AMMO_INDEX].printf(" <%d>",
-             l_seedNum);
-    lines[HEART_PIECE_COUNT_INDEX].printf(
-             " <%d>", l_hpNum);
+    lines[ARROW_AMMO_INDEX].printf(" <%d>", l_arrowNum);
+    lines[BOMB_BAG_1_AMMO_INDEX].printf(" <%d>", l_bag1Num);
+    lines[BOMB_BAG_2_AMMO_INDEX].printf(" <%d>", l_bag2Num);
+    lines[BOMB_BAG_3_AMMO_INDEX].printf(" <%d>", l_bag3Num);
+    lines[SLINGSHOT_AMMO_INDEX].printf(" <%d>", l_seedNum);
+    lines[HEART_PIECE_COUNT_INDEX].printf(" <%d>", l_hpNum);
     lines[POE_COUNT_INDEX].printf(" <%d>", l_poeNum);
-    lines[RUPEE_COUNT_INDEX].printf(" <%d>",
-             l_rupeeNum);
+    lines[RUPEE_COUNT_INDEX].printf(" <%d>", l_rupeeNum);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

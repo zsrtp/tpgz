@@ -1,0 +1,1 @@
+find . -type f \( ! -path './external/*' -or -path './external/rels/*' \) ! -path './build*'  -type f -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx|c\)' | xargs clang-format-10 -i

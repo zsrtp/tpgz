@@ -5,10 +5,10 @@
 
 KEEP_FUNC MemoryMenu::MemoryMenu(Cursor& cursor)
     : Menu(), m_cursor(cursor), lines{
-                  {"watches", 0, "Manage memory watches", false},
-                  {"memory editor", 1, "View/edit memory", false},
-                  {"mem files", 2, "Save/Load memory files", false},
-              } {}
+                                    {"watches", 0, "Manage memory watches", false},
+                                    {"memory editor", 1, "View/edit memory", false},
+                                    {"mem files", 2, "Save/Load memory files", false},
+                                } {}
 
 MemoryMenu::~MemoryMenu() {}
 

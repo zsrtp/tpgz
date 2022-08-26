@@ -7,26 +7,27 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor), lines{
-                  {"disable bg music", DISABLE_BG_INDEX, "Disables background and enemy music",
-                   true, &g_sceneFlags[DISABLE_BG_INDEX].active},
-                  {"disable sfx", DISABLE_SFX_INDEX, "Disables sound effects", true,
-                   &g_sceneFlags[DISABLE_SFX_INDEX].active},
-                  {"freeze actors", FREEZE_ACTOR_INDEX, "Freezes actors", true,
-                   &g_sceneFlags[FREEZE_ACTOR_INDEX].active},
-                  {"freeze camera", FREEZE_CAMERA_INDEX, "Locks the camera in place", true,
-                   &g_sceneFlags[FREEZE_CAMERA_INDEX].active},
-                  {"hide actors", HIDE_ACTOR_INDEX, "Hides actors", true,
-                   &g_sceneFlags[HIDE_ACTOR_INDEX].active},
-                  {"hide hud", HIDE_HUD_INDEX, "Hides the heads-up display", true,
-                   &g_sceneFlags[HIDE_HUD_INDEX].active},
-                  {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true,
-                   &g_sceneFlags[FREEZE_TIME_INDEX].active},
-                  {"time (hrs):", TIME_HOURS_INDEX, "The current in-game hour", false},
-                  {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false},
-                  {"actor spawner", ACTOR_MENU_INDEX, "Spawn Actors at current position", false},
-                  {"actor list", ACTOR_LIST_INDEX, "Display info from the actor list", false},
-              } {}
+    : Menu(), m_cursor(cursor),
+      lines{
+          {"disable bg music", DISABLE_BG_INDEX, "Disables background and enemy music", true,
+           &g_sceneFlags[DISABLE_BG_INDEX].active},
+          {"disable sfx", DISABLE_SFX_INDEX, "Disables sound effects", true,
+           &g_sceneFlags[DISABLE_SFX_INDEX].active},
+          {"freeze actors", FREEZE_ACTOR_INDEX, "Freezes actors", true,
+           &g_sceneFlags[FREEZE_ACTOR_INDEX].active},
+          {"freeze camera", FREEZE_CAMERA_INDEX, "Locks the camera in place", true,
+           &g_sceneFlags[FREEZE_CAMERA_INDEX].active},
+          {"hide actors", HIDE_ACTOR_INDEX, "Hides actors", true,
+           &g_sceneFlags[HIDE_ACTOR_INDEX].active},
+          {"hide hud", HIDE_HUD_INDEX, "Hides the heads-up display", true,
+           &g_sceneFlags[HIDE_HUD_INDEX].active},
+          {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true,
+           &g_sceneFlags[FREEZE_TIME_INDEX].active},
+          {"time (hrs):", TIME_HOURS_INDEX, "The current in-game hour", false},
+          {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false},
+          {"actor spawner", ACTOR_MENU_INDEX, "Spawn Actors at current position", false},
+          {"actor list", ACTOR_LIST_INDEX, "Display info from the actor list", false},
+      } {}
 
 SceneMenu::~SceneMenu() {}
 

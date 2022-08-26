@@ -115,6 +115,35 @@
                 "showReuseMessage": true,
                 "clear": false
             }
+        },
+        {
+            "label": "Formatting",
+            "type": "shell",
+            "detail": "Formats the code using clang-format-10",
+            "group": "none",
+            "icon": {
+                "id": "file-code",
+                "color": "terminal.ansiWhite"
+            },
+            "command": [
+                "sh",
+                "${workspaceFolder}/external/misc/run-clang-format.sh"
+            ],
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": false,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true,
+                "close": true
+            }
         }
     ],
     "inputs": [

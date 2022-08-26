@@ -5,11 +5,14 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC InventoryMenu::InventoryMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor), lines{
-                  {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
-                  {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
-                  {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false},
-              } {}
+    : Menu(),
+      m_cursor(cursor), lines{
+                            {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
+                            {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection",
+                             false},
+                            {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts",
+                             false},
+                        } {}
 
 InventoryMenu::~InventoryMenu() {}
 

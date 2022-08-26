@@ -87,9 +87,8 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
     cXyz position(-289.9785, 401.5400, -18533.078);
 
     // Find hugo in the actor list
-    fopAc_ac_c* actorData = find_actor([](auto& act) {
-        return act.mBase.mProcName == HUGO_ACTOR_ID;
-    });
+    fopAc_ac_c* actorData =
+        find_actor([](auto& act) { return act.mBase.mProcName == HUGO_ACTOR_ID; });
 
     if (actorData != NULL) {
         actorData->mCurrent.mPosition = position;

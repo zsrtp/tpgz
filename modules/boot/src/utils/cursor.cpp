@@ -68,7 +68,9 @@ KEEP_FUNC void Cursor::lock(bool x, bool y) {
     lock_y = y;
 }
 
-KEEP_FUNC void Cursor::setMode(uint8_t m) { mode = m; }
+KEEP_FUNC void Cursor::setMode(uint8_t m) {
+    mode = m;
+}
 
 KEEP_FUNC void GZ_setCursorColor() {
     switch (g_cursorColorType) {

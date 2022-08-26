@@ -17,6 +17,7 @@ public:
     void drawMemoryLines();
 
     Cursor& cursor;
+
 private:
     uint8_t& button_held_counter;
     float& l_scrollSpeed;

@@ -110,7 +110,7 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
              sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
     snprintf(currentFileName, sizeof(currentFileName), "tpgz/save_files/%s/%s.bin", category,
-            gSaveManager.mPracticeSaveInfo.filename);
+             gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
     if (size != 0xFF) {

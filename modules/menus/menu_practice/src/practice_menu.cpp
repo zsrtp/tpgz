@@ -4,11 +4,12 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor), lines{
-                  {"any%", ANY_INDEX, "Any% practice saves", false},
-                  {"100%", HUNDO_INDEX, "100% practice saves", false},
-                  {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
-              } {}
+    : Menu(),
+      m_cursor(cursor), lines{
+                            {"any%", ANY_INDEX, "Any% practice saves", false},
+                            {"100%", HUNDO_INDEX, "100% practice saves", false},
+                            {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
+                        } {}
 
 PracticeMenu::~PracticeMenu() {}
 

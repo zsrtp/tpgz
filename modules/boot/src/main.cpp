@@ -179,8 +179,8 @@ KEEP_FUNC void GZ_renderMenuTitle() {
         Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
                          g_cursorColor, g_dropShadows);
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
-            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f}, {30 * (isWidescreen ? 0.75f : 1.0f), 30},
-                           &l_gzIconTex._texObj);
+            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f},
+                           {30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_gzIconTex._texObj);
         }
     }
 }
@@ -191,11 +191,11 @@ Texture l_framePlayTex;
 KEEP_FUNC void GZ_renderPlayPause() {
     if (g_tools[FRAME_ADVANCE_INDEX].active) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
-            load_texture("tpgz/tex/framePause.tex", &l_framePauseTex);
+            load_texture("/tpgz/tex/framePause.tex", &l_framePauseTex);
         }
 
         if (l_framePlayTex.loadCode == TexCode::TEX_UNLOADED) {
-            load_texture("tpgz/tex/framePlay.tex", &l_framePlayTex);
+            load_texture("/tpgz/tex/framePlay.tex", &l_framePlayTex);
         }
 
         GZ_drawFrameTex(&l_framePauseTex, &l_framePlayTex);

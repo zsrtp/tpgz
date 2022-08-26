@@ -90,14 +90,14 @@ void UMDIndicator::execute() {
                             // Ensure this is the button that needs to be pressed
                             if ((firstPressedButton == 0 && GZ_getButtonPressed(B)) ||
                                 (firstPressedButton == 1 && GZ_getButtonPressed(A))) {
-                                snprintf(buf, sizeof(buf), "%df late on second %s", counter_difference - 1,
-                                        getPressedButtonText());
+                                snprintf(buf, sizeof(buf), "%df late on second %s",
+                                         counter_difference - 1, getPressedButtonText());
                                 FIFOQueue::push(buf, Queue, 0x99000000);
                                 exitCheck = true;
                             }
                         } else {  // Missed first button
                             snprintf(buf, sizeof(buf), "%df late on first %s", counter_difference,
-                                    getPressedButtonText());
+                                     getPressedButtonText());
                             FIFOQueue::push(buf, Queue, 0x99000000);
                             exitCheck = true;
                         }

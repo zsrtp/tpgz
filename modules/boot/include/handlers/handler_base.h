@@ -58,13 +58,9 @@ public:
 
     operator bool() const { return curr != nullptr && curr->elem != nullptr; }
 
-    bool hasNext() const {
-        return curr && curr->next != nullptr;
-    }
+    bool hasNext() const { return curr && curr->next != nullptr; }
 
-    bool hasPrev() const {
-        return curr && curr->prev != nullptr;
-    }
+    bool hasPrev() const { return curr && curr->prev != nullptr; }
 };
 
 template <typename T>

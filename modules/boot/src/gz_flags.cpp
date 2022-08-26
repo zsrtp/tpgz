@@ -92,9 +92,11 @@ extern bool isWidescreen;
 void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex) {
     if (g_framePaused) {
         if (sPauseTimer == 1) {
-            Draw::drawRect(0xFFFFFFFF, {550.0f, 5.0f}, {32 * (isWidescreen ? 0.75f : 1.0f), 32}, &pauseTex->_texObj);
+            Draw::drawRect(0xFFFFFFFF, {550.0f, 5.0f}, {32 * (isWidescreen ? 0.75f : 1.0f), 32},
+                           &pauseTex->_texObj);
         } else {
-            Draw::drawRect(0xFFFFFFFF, {550.0f, 5.0f}, {32 * (isWidescreen ? 0.75f : 1.0f), 32}, &playTex->_texObj);
+            Draw::drawRect(0xFFFFFFFF, {550.0f, 5.0f}, {32 * (isWidescreen ? 0.75f : 1.0f), 32},
+                           &playTex->_texObj);
         }
     }
 }

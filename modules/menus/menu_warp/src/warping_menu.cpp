@@ -19,13 +19,13 @@
 
 KEEP_FUNC WarpingMenu::WarpingMenu(Cursor& cursor)
     : Menu(), m_cursor(cursor), lines{{"type:", WARP_TYPE_INDEX, "The type of stage", false},
-                    {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
-                    {"room:", WARP_ROOM_INDEX, "Current room name", false},
-                    {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
-                    {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
-                    {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-                    {"save", SAVE_LOCATION_INDEX, "Set savefile location to selected location",
-                     false}} {}
+                                      {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
+                                      {"room:", WARP_ROOM_INDEX, "Current room name", false},
+                                      {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
+                                      {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
+                                      {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
+                                      {"save", SAVE_LOCATION_INDEX,
+                                       "Set savefile location to selected location", false}} {}
 
 WarpingMenu::~WarpingMenu() {}
 
@@ -87,7 +87,8 @@ void GZWarp_loadPrevStageInfo() {
 }
 
 void GZWarp_loadPrevRoomInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin",
+             l_warpInfo.stage_info.stage_id);
     l_roomIdx -= ROOM_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
@@ -101,23 +102,24 @@ void GZWarp_loadNextStageInfo() {
 }
 
 void GZWarp_loadNextRoomInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin", l_warpInfo.stage_info.stage_id);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin",
+             l_warpInfo.stage_info.stage_id);
     l_roomIdx += ROOM_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
                         l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
 void GZWarp_loadNextSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
-            (int)l_warpInfo.room_info.room_id[0]);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+             l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
                         l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
 void GZWarp_loadPrevSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin", l_warpInfo.stage_info.stage_id,
-            (int)l_warpInfo.room_info.room_id[0]);
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+             l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
                         l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
