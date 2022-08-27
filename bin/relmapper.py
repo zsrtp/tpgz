@@ -283,7 +283,7 @@ class ELFFile():
 
 def main():
     EXCLUDED_ENTRIES = ["^_prolog$", "^_epilog$", "^_unresolved$",
-                        "^_ZN3mod4mainEv$", "^_ZN3mod4exitEv$",
+                        "^_ZN4tpgz7modules4mainEv$", "^_ZN4tpgz7modules4exitEv$",
                         r"^_rest(?:g|f)pr_[a-zA-Z0-9_]*_x$",
                         r"^_(?:c|d)tors_(?:start|end)$",
                         r"^__(?:s?bss|stack)_(?:start|end)$",
