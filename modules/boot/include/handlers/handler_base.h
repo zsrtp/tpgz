@@ -108,7 +108,7 @@ public:
                 next->prev = prev;
             }
             if (first == item) {
-                first = nullptr;
+                first = next;
             }
             delete item;
             return true;

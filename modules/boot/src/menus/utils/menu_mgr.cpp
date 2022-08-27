@@ -173,7 +173,7 @@ bool MenuStateList::remove(MenuState* state) {
             next->prev = prev;
         }
         if (m_first == item) {
-            m_first = nullptr;
+            m_first = next;
         }
         delete item;
         return true;
