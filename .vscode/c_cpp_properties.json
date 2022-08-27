@@ -14,7 +14,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -49,7 +49,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -84,7 +84,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -119,7 +119,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -154,7 +154,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {
@@ -189,7 +189,7 @@
             ],
             "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
             "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
+            "cppStandard": "gnu++20",
             "intelliSenseMode": "gcc-x86",
             "mergeConfigurations": false,
             "browse": {

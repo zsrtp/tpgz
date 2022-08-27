@@ -3,19 +3,25 @@
 
 #include <rels/include/cxx.h>
 #include <rels/include/defines.h>
+#include <cstddef>
+#include <concepts>
+#include <type_traits>
 
 namespace handler {
 template <typename T>
+concept Function = std::is_function_v<T>;
+
+template <Function T>
 struct CallbackNode {
     CallbackNode<T>* prev;
     CallbackNode<T>* next;
     T* elem;
 };
 
-template <typename T>
+template <Function T>
 class CallbackList;
 
-template <typename T>
+template <Function T>
 class CallbackIterator {
     CallbackNode<T>* curr;
 
@@ -56,14 +62,66 @@ public:
         return old;
     }
 
+    inline bool operator==(const CallbackIterator<T>& rhs) const { return this->curr == rhs.curr; }
+
     operator bool() const { return curr != nullptr && curr->elem != nullptr; }
 
-    bool hasNext() const { return curr && curr->next != nullptr; }
+    bool hasNext() const { return curr != nullptr && curr->next != nullptr; }
 
-    bool hasPrev() const { return curr && curr->prev != nullptr; }
+    bool hasPrev() const { return curr != nullptr && curr->prev != nullptr; }
 };
 
-template <typename T>
+template <Function T>
+class CallbackConstIterator {
+    const CallbackNode<T>* curr;
+
+public:
+    CallbackConstIterator(const CallbackList<T>* list);
+    virtual ~CallbackConstIterator() {}
+
+    const T* operator*() const {
+        if (curr != nullptr) {
+            return curr->elem;
+        }
+        return nullptr;
+    }
+
+    CallbackConstIterator<T>& operator++() {
+        if (curr != nullptr) {
+            curr = curr->next;
+        }
+        return *this;
+    }
+
+    CallbackConstIterator<T> operator++(int) {
+        auto old = *this;
+        operator++();
+        return old;
+    }
+
+    CallbackConstIterator<T>& operator--() {
+        if (curr != nullptr) {
+            curr = curr->prev;
+        }
+        return *this;
+    }
+
+    CallbackConstIterator<T> operator--(int) {
+        auto old = *this;
+        operator--();
+        return old;
+    }
+
+    inline bool operator==(const CallbackConstIterator<T>& rhs) const { return this->curr == rhs.curr; }
+
+    operator bool() const { return curr != nullptr && curr->elem != nullptr; }
+
+    bool hasNext() const { return curr != nullptr && curr->next != nullptr; }
+
+    bool hasPrev() const { return curr != nullptr && curr->prev != nullptr; }
+};
+
+template <Function T>
 class CallbackList {
 public:
     CallbackList() {}
@@ -117,8 +175,17 @@ public:
     }
 
     CallbackIterator<T> begin() { return CallbackIterator<T>(this); }
+    CallbackConstIterator<T> begin() const { return CallbackConstIterator<T>(this); }
+
     CallbackIterator<T> end() {
-        CallbackIterator<T> it = CallbackIterator<T>(this);
+        auto it = CallbackIterator<T>(this);
+        while (it.hasNext()) {
+            ++it;
+        }
+        return it;
+    }
+    CallbackConstIterator<T> end() const {
+        auto it = CallbackConstIterator<T>(this);
         while (it.hasNext()) {
             ++it;
         }
@@ -128,7 +195,7 @@ public:
 private:
     CallbackNode<T>* first;
 
-    CallbackNode<T>* getLast() {
+    CallbackNode<T>* getLast() const {
         if (first == nullptr) {
             return nullptr;
         }
@@ -141,14 +208,20 @@ private:
 
 public:
     friend class CallbackIterator<T>;
+    friend class CallbackConstIterator<T>;
 };
 
-template <typename T>
+template <Function T>
 CallbackIterator<T>::CallbackIterator(CallbackList<T>* list) {
     curr = list->first;
 }
 
-template <typename T>
+template <Function T>
+CallbackConstIterator<T>::CallbackConstIterator(const CallbackList<T>* list) {
+    curr = list->first;
+}
+
+template <Function T>
 class HandlerBase {
 public:
     HandlerBase() {}
@@ -158,10 +231,18 @@ public:
 
     bool removeHandler(T* handler) { return callbacks.remove(handler); }
     void handleAll(void* param) {
-        for (CallbackIterator<T> it = callbacks.begin(); it; ++it) {
+        for (auto it = callbacks.begin(); it; ++it) {
             T* handler = *it;
             handle(handler, param);
         }
+    }
+
+    size_t getStackSize() const {
+        size_t count = 0;
+        for (auto it = callbacks.begin(); it; ++it) {
+            ++count;
+        }
+        return count;
     }
 
 protected:

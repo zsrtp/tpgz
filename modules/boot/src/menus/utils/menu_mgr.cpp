@@ -1,5 +1,6 @@
 #include "menus/utils/menu_mgr.h"
 #include <cstdio>
+#include <iterator>
 #include "menu.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
@@ -187,14 +188,14 @@ MenuStateConstIterator MenuStateList::begin() const {
     return MenuStateConstIterator(this);
 }
 MenuStateIterator MenuStateList::end() {
-    MenuStateIterator it = begin();
+    auto it = begin();
     while (it.hasNext()) {
         ++it;
     }
     return it;
 }
 MenuStateConstIterator MenuStateList::end() const {
-    MenuStateConstIterator it = begin();
+    auto it = begin();
     while (it.hasNext()) {
         ++it;
     }
@@ -308,9 +309,9 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
         menus::MenuState* state = *end;
         state->unload(false);
     }
-    menus::MenuState* state = new menus::MenuState();
+    auto* state = new menus::MenuState();
     state->id = menu_id;
-    char buf[64];
+    char buf[45];
     snprintf(buf, sizeof(buf), "/tpgz/rels/menus/menu_%s.rel", g_menuPaths[menu_id]);
     state->rel = new tpgz::dyn::GZModule(buf);
     states.push(state);
