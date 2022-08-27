@@ -112,7 +112,9 @@ public:
         return old;
     }
 
-    inline bool operator==(const CallbackConstIterator<T>& rhs) const { return this->curr == rhs.curr; }
+    inline bool operator==(const CallbackConstIterator<T>& rhs) const {
+        return this->curr == rhs.curr;
+    }
 
     operator bool() const { return curr != nullptr && curr->elem != nullptr; }
 

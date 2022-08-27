@@ -86,7 +86,9 @@ public:
     MenuStateConstIterator operator++(int);
     MenuStateConstIterator& operator--();
     MenuStateConstIterator operator--(int);
-    inline bool operator==(const MenuStateConstIterator& rhs) const { return this->curr == rhs.curr; }
+    inline bool operator==(const MenuStateConstIterator& rhs) const {
+        return this->curr == rhs.curr;
+    }
     operator bool() const;
 
     bool hasNext() const;
