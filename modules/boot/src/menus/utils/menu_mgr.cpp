@@ -5,16 +5,16 @@
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 
-extern "C" {
 KEEP_VAR MenuMgr* g_menuMgr;
-}
 
 namespace menus {
+MenuState::MenuState(int id, const char* relPath) : id(id), rel(relPath) {}
+MenuState::~MenuState() {}
 void MenuState::load(bool isCreated) {
-    if (rel->isLoaded()) {
+    if (rel.isLoaded()) {
         return;
     }
-    rel->loadFixed(true);
+    rel.loadFixed(true);
     if (isCreated && create_hook) {
         create_hook();
     }
@@ -24,7 +24,7 @@ void MenuState::load(bool isCreated) {
 }
 
 void MenuState::unload(bool isDeleted) {
-    if (!rel || !rel->isLoaded()) {
+    if (!rel.isLoaded()) {
         return;
     }
     if (unload_hook) {
@@ -33,183 +33,21 @@ void MenuState::unload(bool isDeleted) {
     if (isDeleted && delete_hook) {
         delete_hook();
     }
-    rel->close();
+    rel.close();
 }
 
 void MenuState::del() {
-    if (rel->isLoaded()) {
+    if (rel.isLoaded()) {
         if (unload_hook) {
             unload_hook();
         }
     } else {
-        rel->loadFixed(true);
+        rel.loadFixed(true);
     }
     if (delete_hook) {
         delete_hook();
     }
-    rel->close();
-}
-
-MenuStateIterator::MenuStateIterator(MenuStateList* list) {
-    curr = list->m_first;
-}
-MenuStateIterator::~MenuStateIterator() {}
-MenuState* MenuStateIterator::operator*() {
-    if (curr != nullptr) {
-        return curr->elem;
-    }
-    return nullptr;
-}
-MenuStateIterator& MenuStateIterator::operator++() {
-    if (curr != nullptr) {
-        curr = curr->next;
-    }
-    return *this;
-}
-MenuStateIterator MenuStateIterator::operator++(int) {
-    MenuStateIterator old = *this;
-    operator++();
-    return old;
-}
-MenuStateIterator& MenuStateIterator::operator--() {
-    if (curr != nullptr) {
-        curr = curr->prev;
-    }
-    return *this;
-}
-MenuStateIterator MenuStateIterator::operator--(int) {
-    MenuStateIterator old = *this;
-    operator--();
-    return old;
-}
-MenuStateIterator::operator bool() const {
-    return curr != nullptr && curr->elem != nullptr;
-}
-bool MenuStateIterator::hasNext() const {
-    return curr && curr->next != nullptr;
-}
-bool MenuStateIterator::hasPrev() const {
-    return curr && curr->prev != nullptr;
-}
-
-MenuStateConstIterator::MenuStateConstIterator(const MenuStateList* list) {
-    curr = list->m_first;
-}
-MenuStateConstIterator::~MenuStateConstIterator() {}
-const MenuState* MenuStateConstIterator::operator*() const {
-    if (curr != nullptr) {
-        return curr->elem;
-    }
-    return nullptr;
-}
-MenuStateConstIterator& MenuStateConstIterator::operator++() {
-    if (curr != nullptr) {
-        curr = curr->next;
-    }
-    return *this;
-}
-MenuStateConstIterator MenuStateConstIterator::operator++(int) {
-    MenuStateConstIterator old = *this;
-    operator++();
-    return old;
-}
-MenuStateConstIterator& MenuStateConstIterator::operator--() {
-    if (curr != nullptr) {
-        curr = curr->prev;
-    }
-    return *this;
-}
-MenuStateConstIterator MenuStateConstIterator::operator--(int) {
-    MenuStateConstIterator old = *this;
-    operator--();
-    return old;
-}
-MenuStateConstIterator::operator bool() const {
-    return curr != nullptr && curr->elem != nullptr;
-}
-bool MenuStateConstIterator::hasNext() const {
-    return curr->next != nullptr;
-}
-bool MenuStateConstIterator::hasPrev() const {
-    return curr->prev != nullptr;
-}
-
-MenuStateList::MenuStateList() {}
-MenuStateList::~MenuStateList() {
-    MenuStateNode* item = getLast();
-    while (item != nullptr) {
-        MenuStateNode* prev = item->prev;
-        delete item;
-        item = prev;
-    }
-}
-void MenuStateList::push(MenuState* state) {
-    if (state == nullptr) {
-        return;
-    }
-    MenuStateNode* item = new MenuStateNode;
-    MenuStateNode* last = getLast();
-    item->prev = last;
-    item->next = nullptr;
-    item->elem = state;
-    if (last == nullptr) {
-        m_first = item;
-        return;
-    }
-    item->prev = last;
-    last->next = item;
-}
-bool MenuStateList::remove(MenuState* state) {
-    MenuStateNode* item = m_first;
-    while (item != nullptr && item->elem != state) {
-        item = item->next;
-    }
-    if (item != nullptr) {
-        MenuStateNode* prev = item->prev;
-        MenuStateNode* next = item->next;
-        if (prev != nullptr) {
-            prev->next = next;
-        }
-        if (next != nullptr) {
-            next->prev = prev;
-        }
-        if (m_first == item) {
-            m_first = next;
-        }
-        delete item;
-        return true;
-    }
-    return false;
-}
-MenuStateIterator MenuStateList::begin() {
-    return MenuStateIterator(this);
-}
-MenuStateConstIterator MenuStateList::begin() const {
-    return MenuStateConstIterator(this);
-}
-MenuStateIterator MenuStateList::end() {
-    auto it = begin();
-    while (it.hasNext()) {
-        ++it;
-    }
-    return it;
-}
-MenuStateConstIterator MenuStateList::end() const {
-    auto it = begin();
-    while (it.hasNext()) {
-        ++it;
-    }
-    return it;
-}
-MenuStateNode* MenuStateList::getLast() {
-    if (m_first == nullptr) {
-        return nullptr;
-    }
-    MenuStateNode* item = m_first;
-    while (item->next != nullptr) {
-        item = item->next;
-    }
-    return item;
+    rel.close();
 }
 }  // namespace menus
 
@@ -221,11 +59,11 @@ KEEP_FUNC bool MenuMgr::isOpen() const {
 }
 
 KEEP_FUNC size_t MenuMgr::getStackSize() const {
-    size_t count = 0;
-    for (auto it = states.begin(); it; ++it) {
-        ++count;
-    }
-    return count;
+    return states.size();
+}
+
+KEEP_FUNC bool MenuMgr::isEmpty() const {
+    return states.empty();
 }
 
 void MenuMgr::handleCommands() {
@@ -272,27 +110,25 @@ KEEP_FUNC void MenuMgr::clear() {
 }
 
 KEEP_FUNC void MenuMgr::handleOpen() {
-    auto end = states.end();
-    if (!end) {
+    if (states.empty()) {
         is_open = false;
         return;
     }
     if (is_open) {
         return;
     }
-    auto state = *end;
+    auto state = states.top();
     state->load(false);
     is_open = true;
 }
 KEEP_FUNC void MenuMgr::handleHide() {
-    auto end = states.end();
-    if (!end || !(*end)->rel->isLoaded()) {
+    if (states.empty() || !(states.top())->rel.isLoaded()) {
         is_open = false;
     }
     if (!is_open) {
         return;
     }
-    auto state = *end;
+    auto state = states.top();
     state->unload(false);
     is_open = false;
     GZ_setFifoVisible(true);
@@ -303,50 +139,43 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
         // If menu ID is invalid, do nothing.
         return;
     }
-    auto end = states.end();
-    if (is_open && end) {
+    if (is_open && !states.empty()) {
         // Hide the currently opened menu, but keep it on the stack.
-        menus::MenuState* state = *end;
+        menus::MenuState* state = states.top();
         state->unload(false);
     }
-    auto* state = new menus::MenuState();
-    state->id = menu_id;
     char buf[45];
     snprintf(buf, sizeof(buf), "/tpgz/rels/menus/menu_%s.rel", g_menuPaths[menu_id]);
-    state->rel = new tpgz::dyn::GZModule(buf);
+    auto* state = new menus::MenuState(menu_id, buf);
     states.push(state);
     state->load(true);
     is_open = true;
 }
 
 KEEP_FUNC void MenuMgr::handlePop() {
-    auto end = states.end();
-    if (end) {
-        menus::MenuState* state = *(end--);
+    if (!states.empty()) {
+        menus::MenuState* state = states.top();
         state->del();
-        states.remove(state);
-        delete state->rel;
+        states.pop();
         delete state;
     }
 
-    if (end && is_open) {
-        menus::MenuState* state = *end;
+    if (!states.empty() && is_open) {
+        menus::MenuState* state = states.top();
         state->load(false);
     }
 
-    if (!end) {
+    if (states.empty()) {
         is_open = false;
         GZ_setFifoVisible(true);
     }
 }
 
 KEEP_FUNC void MenuMgr::handleClear() {
-    auto it = states.end();
-    while (it) {
-        menus::MenuState* state = *(it--);
+    while (!states.empty()) {
+        menus::MenuState* state = states.top();
         state->del();
-        states.remove(state);
-        delete state->rel;
+        states.pop();
         delete state;
     }
     is_open = false;
@@ -354,44 +183,38 @@ KEEP_FUNC void MenuMgr::handleClear() {
 }
 
 KEEP_FUNC void MenuMgr::setPersistentData(void* data) {
-    auto state = *states.end();
-    if (state) {
-        state->data = data;
+    if (!states.empty()) {
+        states.top()->data = data;
     }
 }
 
 KEEP_FUNC void* MenuMgr::getPersistentData() {
-    auto state = *states.end();
-    if (state) {
-        return state->data;
+    if (!states.empty()) {
+        return states.top()->data;
     }
     return nullptr;
 }
 
 KEEP_FUNC void MenuMgr::setCreateHook(void (*createHook)()) {
-    auto state = *states.end();
-    if (state) {
-        state->create_hook = createHook;
+    if (!states.empty()) {
+        states.top()->create_hook = createHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setLoadHook(void (*loadHook)()) {
-    auto state = *states.end();
-    if (state) {
-        state->load_hook = loadHook;
+    if (!states.empty()) {
+        states.top()->load_hook = loadHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setUnloadHook(void (*unloadHook)()) {
-    auto state = *states.end();
-    if (state) {
-        state->unload_hook = unloadHook;
+    if (!states.empty()) {
+        states.top()->unload_hook = unloadHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setDeleteHook(void (*deleteHook)()) {
-    auto state = *states.end();
-    if (state) {
-        state->delete_hook = deleteHook;
+    if (!states.empty()) {
+        states.top()->delete_hook = deleteHook;
     }
 }

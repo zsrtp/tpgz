@@ -44,4 +44,16 @@ void __throw_bad_function_call() {
     while (true)
         ;
 }
+void __throw_length_error(char const*) {
+    while (true)
+        ;
+}
+void __throw_bad_array_new_length() {
+    while (true)
+        ;
+}
+void __throw_bad_alloc() {
+    while (true)
+        ;
+}
 }  // namespace std

@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <concepts>
 #include <type_traits>
+#include <deque>
 
 namespace handler {
 template <typename T>

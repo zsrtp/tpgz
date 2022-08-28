@@ -107,7 +107,7 @@ KEEP_FUNC void GZ_controlTools() {
 KEEP_FUNC void GZ_controlMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
         if (!g_menuMgr->isOpen()) {
-            if (g_menuMgr->getStackSize() > 0) {
+            if (!g_menuMgr->isEmpty()) {
                 g_menuMgr->open();
             } else {
                 g_menuMgr->push(MN_MAIN_MENU_INDEX);

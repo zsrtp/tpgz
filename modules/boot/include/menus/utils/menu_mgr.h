@@ -1,14 +1,17 @@
 #ifndef TPGZ_MENUS_UTILS_MENU_MGR_H
 #define TPGZ_MENUS_UTILS_MENU_MGR_H
 
-#include <stddef.h>
+#include <cstddef>
+#include <stack>
 #include "utils/rels.h"
 
 // Namespace for internal classes.
 namespace menus {
 struct MenuState {
+    MenuState(int id, const char* relPath);
+    virtual ~MenuState();
     int id;
-    tpgz::dyn::GZModule* rel;
+    tpgz::dyn::GZModule rel;
     void* data;
     // Lifecyce hooks
     void (*create_hook)();
@@ -47,76 +50,6 @@ struct MenuState {
      */
     void del();
 };
-struct MenuStateNode {
-    MenuStateNode* prev;
-    MenuStateNode* next;
-    MenuState* elem;
-};
-
-class MenuStateList;
-
-class MenuStateIterator {
-    MenuStateNode* curr;
-
-public:
-    MenuStateIterator(MenuStateList* list);
-    virtual ~MenuStateIterator();
-
-    MenuState* operator*();
-    MenuStateIterator& operator++();
-    MenuStateIterator operator++(int);
-    MenuStateIterator& operator--();
-    MenuStateIterator operator--(int);
-    inline bool operator==(const MenuStateIterator& rhs) const { return this->curr == rhs.curr; }
-    operator bool() const;
-
-    bool hasNext() const;
-    bool hasPrev() const;
-};
-
-class MenuStateConstIterator {
-    const MenuStateNode* curr;
-
-public:
-    MenuStateConstIterator(const MenuStateList* list);
-    virtual ~MenuStateConstIterator();
-
-    const MenuState* operator*() const;
-    MenuStateConstIterator& operator++();
-    MenuStateConstIterator operator++(int);
-    MenuStateConstIterator& operator--();
-    MenuStateConstIterator operator--(int);
-    inline bool operator==(const MenuStateConstIterator& rhs) const {
-        return this->curr == rhs.curr;
-    }
-    operator bool() const;
-
-    bool hasNext() const;
-    bool hasPrev() const;
-};
-
-class MenuStateList {
-public:
-    MenuStateList();
-    virtual ~MenuStateList();
-
-    void push(MenuState* elem);
-    bool remove(MenuState* elem);
-
-    MenuStateIterator begin();
-    MenuStateConstIterator begin() const;
-    MenuStateIterator end();
-    MenuStateConstIterator end() const;
-
-private:
-    MenuStateNode* m_first;
-
-    MenuStateNode* getLast();
-
-public:
-    friend class MenuStateConstIterator;
-    friend class MenuStateIterator;
-};
 
 enum MenuCommandId { MC_NONE, MC_OPEN, MC_HIDE, MC_PUSH, MC_POP, MC_CLEAR };
 
@@ -134,6 +67,7 @@ public:
     bool isOpen() const;
 
     size_t getStackSize() const;
+    bool isEmpty() const;
 
     void handleCommands();
 
@@ -200,7 +134,7 @@ public:
     void setDeleteHook(void (*deleteHook)());
 
 private:
-    menus::MenuStateList states;
+    std::stack<menus::MenuState*> states;
     bool is_open;
     menus::MenuCommand command;
 
@@ -212,8 +146,6 @@ private:
     void handleClear();
 };
 
-extern "C" {
 extern MenuMgr* g_menuMgr;
-}
 
 #endif  // !TPGZ_MENUS_UTILS_MENU_MGR_H
