@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -40,6 +41,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -75,6 +77,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -110,6 +113,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -145,6 +149,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [
@@ -180,6 +185,7 @@
             "includePath": [
                 "${workspaceFolder}/modules/boot/include/**",
                 "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
                 "${workspaceFolder}/external/**"
             ],
             "defines": [

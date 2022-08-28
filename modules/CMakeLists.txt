@@ -7,14 +7,15 @@ set(TPGZ_MODULE_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 make_directory(${TPGZ_MODULE_OUT_DIR})
 
-# Get source from external/rels. They are sources that have to be compiled with every REL module.
-file(GLOB_RECURSE TPGZ_EXTERNAL_REL_CPP CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/external/rels/src/*.cpp")
-file(GLOB_RECURSE TPGZ_EXTERNAL_REL_ASM CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/external/rels/src/*.s")
+# Get source from common/rels. They are sources that have to be compiled with every REL module.
+file(GLOB_RECURSE TPGZ_EXTERNAL_REL_CPP CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/common/rels/src/*.cpp")
+file(GLOB_RECURSE TPGZ_EXTERNAL_REL_ASM CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/common/rels/src/*.s")
 
 list(APPEND TPGZ_EXTERNAL_REL_SRC ${TPGZ_EXTERNAL_REL_CPP})
 list(APPEND TPGZ_EXTERNAL_REL_SRC ${TPGZ_EXTERNAL_REL_ASM})
 
 include_directories(${CMAKE_SOURCE_DIR}/external/)
+include_directories(${CMAKE_SOURCE_DIR}/common/)
 
 # Definition of the functions which sets up REL modules
 function(tpgz_add_main_module module_name module_srcs)
@@ -32,7 +33,7 @@ function(tpgz_add_main_module module_name module_srcs)
         PUBLIC ${module_srcs} ${TPGZ_EXTERNAL_REL_SRC})
     target_link_libraries(${module_name} tp_c gcn_c)
     set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported)
-    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/external/rels/src/cxx.ld)
+    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/common/rels/src/cxx.ld)
 
     if(module_inc_paths)
         target_include_directories(${module_name} PUBLIC ${module_inc_paths})
@@ -81,7 +82,7 @@ function(tpgz_add_module module_name module_srcs)
     target_sources(${module_name}
         PUBLIC ${module_srcs} ${TPGZ_EXTERNAL_REL_SRC})
     set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported)
-    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/external/rels/src/cxx.ld)
+    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/common/rels/src/cxx.ld)
 
     target_include_directories(${module_name} PUBLIC ${TPGZ_MAIN_MODULE_INC})
 

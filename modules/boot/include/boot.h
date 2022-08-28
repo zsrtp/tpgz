@@ -8,7 +8,7 @@ namespace tpgz::modules {
  * That's also why we create a custom namespace to avoid confusing the compiler with the actual main
  *function whilst still having a neat starting function for you to begin your Twilight Princess mod
  *development! Note: If you want to change the namespace "mod" you will have to make adjustments to
- *rel.cpp in external/rels!
+ *rel.cpp in common/rels!
  *
  * This main function is going to be executed once at the beginning of the game,
  * assuming the REL got loaded in the first place.
