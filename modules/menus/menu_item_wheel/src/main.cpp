@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new ItemWheelMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<ItemWheelData>());
+    l_menu = new ItemWheelMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                               *g_menuMgr->getPersistentData<ItemWheelData>());
     g_drawHandler->addHandler(onDraw);
 }
 

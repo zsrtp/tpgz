@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new FlagRecordsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<FlagRecordsData>());
+    l_menu = new FlagRecordsMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                                 *g_menuMgr->getPersistentData<FlagRecordsData>());
     g_drawHandler->addHandler(onDraw);
 }
 

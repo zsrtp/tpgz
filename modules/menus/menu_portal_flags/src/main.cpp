@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new PortalFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<PortalFlagsData>());
+    l_menu = new PortalFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                                 *g_menuMgr->getPersistentData<PortalFlagsData>());
     g_drawHandler->addHandler(onDraw);
 }
 

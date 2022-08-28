@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new AmountsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<AmountsData>());
+    l_menu = new AmountsMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                             *g_menuMgr->getPersistentData<AmountsData>());
     g_drawHandler->addHandler(onDraw);
 }
 

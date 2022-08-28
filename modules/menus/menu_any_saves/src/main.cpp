@@ -47,5 +47,4 @@ void onUnload() {
     delete l_menu;
 }
 
-void onDelete() {
-}
+void onDelete() {}

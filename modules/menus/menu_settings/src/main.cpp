@@ -47,5 +47,4 @@ void onUnload() {
     delete l_settingsMenu;
 }
 
-void onDelete() {
-}
+void onDelete() {}

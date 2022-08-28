@@ -47,5 +47,4 @@ void onUnload() {
     delete l_warpMenu;
 }
 
-void onDelete() {
-}
+void onDelete() {}

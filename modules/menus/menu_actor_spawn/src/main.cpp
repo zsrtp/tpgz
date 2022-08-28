@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new ActorSpawnMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<ActorSpawnData>());
+    l_menu = new ActorSpawnMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                                *g_menuMgr->getPersistentData<ActorSpawnData>());
     g_drawHandler->addHandler(onDraw);
 }
 

@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_toolsMenu = new ToolsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<ToolsData>());
+    l_toolsMenu = new ToolsMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                                *g_menuMgr->getPersistentData<ToolsData>());
     g_drawHandler->addHandler(onDraw);
 }
 

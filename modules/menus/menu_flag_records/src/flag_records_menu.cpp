@@ -15,8 +15,8 @@
 #define FLAG_RECORD_INDEX 0
 
 KEEP_FUNC FlagRecordsMenu::FlagRecordsMenu(Cursor& cursor, FlagRecordsData& data)
-    : Menu(cursor), l_bitIdx(data.l_bitIdx), l_recIdx(data.l_recIdx),
-      l_flagOnTex(data.l_flagOnTex), l_flagOffTex(data.l_flagOffTex) {}
+    : Menu(cursor), l_bitIdx(data.l_bitIdx), l_recIdx(data.l_recIdx), l_flagOnTex(data.l_flagOnTex),
+      l_flagOffTex(data.l_flagOffTex) {}
 
 FlagRecordsMenu::~FlagRecordsMenu() {}
 

@@ -47,5 +47,4 @@ void onUnload() {
     delete l_inventoryMenu;
 }
 
-void onDelete() {
-}
+void onDelete() {}

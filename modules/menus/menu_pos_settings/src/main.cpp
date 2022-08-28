@@ -35,7 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new PosSettingsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<PosSettingsData>());
+    l_menu = new PosSettingsMenu(*g_menuMgr->getPermanentData<Cursor>(),
+                                 *g_menuMgr->getPersistentData<PosSettingsData>());
     g_drawHandler->addHandler(onDraw);
 }
 
