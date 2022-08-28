@@ -36,9 +36,7 @@ public:
         }
     }
 
-    size_t getStackSize() const {
-        return std::distance(callbacks.begin(), callbacks.end());
-    }
+    size_t getStackSize() const { return std::distance(callbacks.begin(), callbacks.end()); }
 
 protected:
     virtual void handle(T* handler, void* param) = 0;
