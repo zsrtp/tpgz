@@ -29,11 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new DungeonFlagsData);
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    DungeonFlagsData* data = (DungeonFlagsData*)g_menuMgr->getPersistentData();
-    l_menu = new DungeonFlagsMenu(*data);
+    l_menu = new DungeonFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<DungeonFlagsData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -47,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (DungeonFlagsData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<DungeonFlagsData>();
+    delete data;
+    g_menuMgr->setPersistentData<DungeonFlagsData>(nullptr);
 }

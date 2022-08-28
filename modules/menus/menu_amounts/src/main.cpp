@@ -29,11 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new AmountsData);
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    AmountsData* data = (AmountsData*)g_menuMgr->getPersistentData();
-    l_menu = new AmountsMenu(*data);
+    l_menu = new AmountsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<AmountsData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -47,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (AmountsData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<AmountsData>();
+    delete data;
+    g_menuMgr->setPersistentData<AmountsData>(nullptr);
 }

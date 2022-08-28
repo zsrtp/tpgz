@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <stack>
 #include "utils/rels.h"
+#include "utils/cursor.h"
+#include "menu.h"
 
 // Namespace for internal classes.
 namespace menus {
@@ -96,13 +98,49 @@ public:
      *
      * @param data Pointer to the data to keep between load/unload.
      */
-    void setPersistentData(void* data);
+    template <typename T = void>
+    inline void setPersistentData(T* data) {
+        if (!states.empty()) {
+            states.top()->data = data;
+        }
+    }
     /**
      * @brief Get the Persistent Data object of the current menu.
      *
      * @return void* Pointer to the data kept between load/unload.
      */
-    void* getPersistentData();
+    template <typename T = void>
+    inline T* getPersistentData() {
+        if (!states.empty()) {
+            return (T*)states.top()->data;
+        }
+        return nullptr;
+    }
+
+    /**
+     * @brief Set the Permanent Data object of the current menu.
+     *
+     * @param data Pointer to the data to keep all the time.
+     */
+    template <typename T = void>
+    inline void setPermanentData(T* data) {
+        if (!states.empty()) {
+            permanentData[states.top()->id] = data;
+        }
+    }
+    /**
+     * @brief Get the Permanent Data object of the current menu.
+     *
+     * @return void* Pointer to the data kept all the time.
+     */
+    template <typename T = void>
+    inline T* getPermanentData() {
+        if (!states.empty()) {
+            return (T*)permanentData[states.top()->id];
+        }
+        return nullptr;
+    }
+
     /**
      * @brief Set the function to call when loading the menu for the first
      *        time. It's a good place to setup the persistent data for the
@@ -135,6 +173,7 @@ public:
 
 private:
     std::stack<menus::MenuState*> states;
+    void* permanentData[MN_COUNT];
     bool is_open;
     menus::MenuCommand command;
 

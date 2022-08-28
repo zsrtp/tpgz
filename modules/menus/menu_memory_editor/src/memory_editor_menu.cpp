@@ -12,7 +12,7 @@
 #define LINE_X_OFFSET 20.0f
 #define LINE_BYTE_OFFSET 100.0f
 
-MemoryEditorMenu::MemoryEditorMenu(Cursor& cursor) : Menu(), cursor(cursor) {}
+MemoryEditorMenu::MemoryEditorMenu(Cursor& cursor) : Menu(cursor) {}
 
 MemoryEditorMenu::~MemoryEditorMenu() {}
 

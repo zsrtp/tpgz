@@ -8,17 +8,14 @@
 #define MEMFILE_DELETE_INDEX 3
 
 struct MemfilesData {
-    Cursor cursor;
     uint8_t l_fileNo = 1;
 };
 
 class MemfilesMenu : public Menu {
 public:
-    MemfilesMenu(MemfilesData&);
+    MemfilesMenu(Cursor&, MemfilesData&);
     virtual ~MemfilesMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     uint8_t& l_fileNo;

@@ -1,7 +1,6 @@
 #include "menu.h"
 
 struct PauseData {
-    Cursor cursor;
     uint8_t l_ordonSword_idx;
     uint8_t l_masterSword_idx;
     uint8_t l_woodShield_idx;
@@ -43,11 +42,9 @@ enum PauseIndex {
 
 class PauseMenu : public Menu {
 public:
-    PauseMenu(PauseData&);
+    PauseMenu(Cursor&, PauseData&);
     virtual ~PauseMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     uint8_t& l_ordonSword_idx;

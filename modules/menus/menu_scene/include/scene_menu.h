@@ -9,8 +9,6 @@ public:
     virtual ~SceneMenu();
     virtual void draw();
 
-    Cursor& m_cursor;
-
 private:
     Line lines[11];
 };

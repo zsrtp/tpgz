@@ -60,16 +60,17 @@ enum MenuIndex {
     MN_COUNT
 };
 
-extern "C" {
 extern const char* g_menuPaths[MN_COUNT];
-}
 
 #define LIST_COUNT(list) (sizeof(list) / sizeof((list)[0]))
 #define MENU_LINE_NUM LIST_COUNT(lines)
 
 class Menu {
 public:
-    Menu() {}
+    Menu(Cursor& cursor);
 
     virtual void draw() = 0;
+
+protected:
+    Cursor& cursor;
 };

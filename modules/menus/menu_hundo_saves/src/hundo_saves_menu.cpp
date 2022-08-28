@@ -5,7 +5,7 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor),
+    : Menu(cursor),
       lines{
           {"goats 1", HND_GOATS_1_INDEX, "Goat herding 1"},
           {"ordon gate clip", HND_ORDON_GATE_CLIP_INDEX, "Gate clip outside Ordon Spring"},
@@ -126,10 +126,10 @@ void HundoSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(m_cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
         g_menuMgr->hide();
     }
 
-    m_cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

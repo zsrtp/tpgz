@@ -29,10 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new WatchesData());
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    l_menu = new WatchesMenu(*(WatchesData*)g_menuMgr->getPersistentData());
+    l_menu = new WatchesMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<WatchesData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -46,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (WatchesData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<WatchesData>();
+    delete data;
+    g_menuMgr->setPersistentData<WatchesData>(nullptr);
 }

@@ -5,7 +5,7 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
-    : Menu(), cursor(cursor),
+    : Menu(cursor),
       lines{
           {"ordon gate clip", AD_ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
           {"back in time", AD_BIT_INDEX, "Back in Time off the Ordon Spring bridge"},

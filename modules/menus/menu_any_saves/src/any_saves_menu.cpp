@@ -6,7 +6,7 @@
 
 #ifdef GCN_PLATFORM
 KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor),
+    : Menu(cursor),
       lines{
           {"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
           {"back in time", BACK_IN_TIME_INDEX, "Back in Time off the Ordon Spring bridge"},
@@ -61,7 +61,7 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
 #endif
 #ifdef WII_PLATFORM
 KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor),
+    : Menu(cursor),
       lines{{"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
             {"back in time", BACK_IN_TIME_INDEX, "Back In Time off the Ordon Spring bridge"},
             {"goats", GOATS_INDEX, "Goat herding 2"},
@@ -166,11 +166,11 @@ void AnySavesMenu::draw() {
             special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
         };
 #endif
-        SaveManager::loadSave(m_cursor.y, "any", AnySpecials,
+        SaveManager::loadSave(cursor.y, "any", AnySpecials,
                               sizeof(AnySpecials) / sizeof(AnySpecials[0]));
         g_menuMgr->hide();
     }
 
-    m_cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, m_cursor.y, sizeof(lines) / sizeof(lines[0]));
+    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
+    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
 }

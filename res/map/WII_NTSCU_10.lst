@@ -514,6 +514,9 @@
 // JUTConsoleManager
 802fb3ac:draw
 
+// mem.o
+803c0914:memmove
+
 8053ae1d:sPauseTimer
 
 CC008000:wgPipe

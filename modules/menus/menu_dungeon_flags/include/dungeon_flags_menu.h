@@ -2,7 +2,6 @@
 #include "menu.h"
 
 struct DungeonFlagsData {
-    Cursor cursor;
     bool init_once = false;
     bool l_mapFlag;
     bool l_compassFlag;
@@ -26,11 +25,9 @@ enum DungeonFlagsIndex {
 
 class DungeonFlagsMenu : public Menu {
 public:
-    DungeonFlagsMenu(DungeonFlagsData&);
+    DungeonFlagsMenu(Cursor&, DungeonFlagsData&);
     virtual ~DungeonFlagsMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     bool& init_once;

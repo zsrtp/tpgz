@@ -125,8 +125,6 @@ public:
     virtual ~AnySavesMenu();
     virtual void draw();
 
-    Cursor& m_cursor;
-
 private:
 #ifdef GCN_PLATFORM
     Line lines[ANY_SAVES_COUNT];

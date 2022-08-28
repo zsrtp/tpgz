@@ -2,7 +2,6 @@
 #include "menu.h"
 
 struct WatchesData {
-    Cursor cursor;
     uint8_t button_held_counter = 0;
     float l_scrollSpeed = 1.0f;
     uint8_t l_addrIdx = 3;
@@ -11,12 +10,10 @@ struct WatchesData {
 
 class WatchesMenu : public Menu {
 public:
-    WatchesMenu(WatchesData&);
+    WatchesMenu(Cursor&, WatchesData&);
     virtual ~WatchesMenu();
     virtual void draw();
     void drawMemoryLines();
-
-    Cursor& cursor;
 
 private:
     uint8_t& button_held_counter;

@@ -21,8 +21,8 @@
 #define MEMORY_TEXT "1"
 #endif
 
-WatchesMenu::WatchesMenu(WatchesData& data)
-    : Menu(), cursor(data.cursor), button_held_counter(data.button_held_counter),
+WatchesMenu::WatchesMenu(Cursor& cursor, WatchesData& data)
+    : Menu(cursor), button_held_counter(data.button_held_counter),
       l_scrollSpeed(data.l_scrollSpeed), l_addrIdx(data.l_addrIdx), l_offsetIdx(data.l_offsetIdx) {}
 
 WatchesMenu::~WatchesMenu() {}

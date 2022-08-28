@@ -5,7 +5,6 @@
 #define POSITION_SETTINGS_NO_SELECTION ((uint8_t)-1)
 
 struct PosSettingsData {
-    Cursor cursor;
     bool init_once;
     float l_cursorSpeed;
     uint8_t l_selItem = POSITION_SETTINGS_NO_SELECTION;
@@ -13,11 +12,9 @@ struct PosSettingsData {
 
 class PosSettingsMenu : public Menu {
 public:
-    PosSettingsMenu(PosSettingsData&);
+    PosSettingsMenu(Cursor&, PosSettingsData&);
     virtual ~PosSettingsMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     bool& init_once;

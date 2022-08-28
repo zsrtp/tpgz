@@ -5,19 +5,16 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC InventoryMenu::InventoryMenu(Cursor& cursor)
-    : Menu(),
-      m_cursor(cursor), lines{
-                            {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
-                            {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection",
-                             false},
-                            {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts",
-                             false},
-                        } {}
+    : Menu(cursor), lines{
+                        {"item wheel", ITEM_WHEEL_INDEX, "Modify the item wheel", false},
+                        {"pause menu", PAUSE_MENU_INDEX, "Modify the pause menu collection", false},
+                        {"amounts", AMOUNTS_MENU_INDEX, "Modify ammo / collectible amounts", false},
+                    } {}
 
 InventoryMenu::~InventoryMenu() {}
 
 void InventoryMenu::draw() {
-    m_cursor.move(0, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
@@ -25,7 +22,7 @@ void InventoryMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (m_cursor.y) {
+        switch (cursor.y) {
         case ITEM_WHEEL_INDEX:
             g_menuMgr->push(MN_ITEM_WHELL_INDEX);
             return;
@@ -38,5 +35,5 @@ void InventoryMenu::draw() {
         }
     }
 
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

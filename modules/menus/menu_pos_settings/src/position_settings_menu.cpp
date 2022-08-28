@@ -11,8 +11,8 @@
 #define INCREMENT_FACTOR 1.05f
 #define MAX_SPEED 20.f
 
-KEEP_FUNC PosSettingsMenu::PosSettingsMenu(PosSettingsData& data)
-    : Menu(), cursor(data.cursor), init_once(data.init_once), l_cursorSpeed(data.l_cursorSpeed),
+KEEP_FUNC PosSettingsMenu::PosSettingsMenu(Cursor& cursor, PosSettingsData& data)
+    : Menu(cursor), init_once(data.init_once), l_cursorSpeed(data.l_cursorSpeed),
       l_selItem(data.l_selItem),
       lines{{"main menu", SpritesIndex::MENU_INDEX, "Change main menu position", false},
             {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},

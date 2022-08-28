@@ -8,6 +8,4 @@ public:
 
 private:
     void drawMemEditor();
-
-    Cursor& cursor;
 };

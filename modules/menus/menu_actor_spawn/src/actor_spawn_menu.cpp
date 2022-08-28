@@ -27,8 +27,8 @@
 #define CONTROL_TEXT "1/2"
 #endif
 
-KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu(ActorSpawnData& data)
-    : Menu(), cursor(data.cursor), l_actorID(data.l_actorID), l_actorParams(data.l_actorParams),
+KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu(Cursor& cursor, ActorSpawnData& data)
+    : Menu(cursor), l_actorID(data.l_actorID), l_actorParams(data.l_actorParams),
       l_actorType(data.l_actorType), l_paramIdx(data.l_paramIdx),
       l_paramsSelected(data.l_paramsSelected),
       lines{

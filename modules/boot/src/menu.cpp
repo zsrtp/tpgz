@@ -1,6 +1,6 @@
 #include "menu.h"
+#include "rels/include/defines.h"
 
-extern "C" {
 // This array must correspond to the order of the MenuIndex enum.
 const char* g_menuPaths[MN_COUNT] = {
     "main",         "cheats",        "flags",        "inventory",  "memory",        "practice",
@@ -9,4 +9,5 @@ const char* g_menuPaths[MN_COUNT] = {
     "watches",      "memory_editor", "memfiles",     "any_saves",  "hundo_saves",   "ad_saves",
     "actor_spawn",  "actor_list",    "pos_settings",
 };
-}
+
+KEEP_FUNC Menu::Menu(Cursor& cursor) : cursor(cursor) {}

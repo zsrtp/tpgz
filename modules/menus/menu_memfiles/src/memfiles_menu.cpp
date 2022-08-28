@@ -15,8 +15,8 @@ bool g_injectMemfile;
 bool set_position_data;
 PositionData memfile_posdata;
 
-KEEP_FUNC MemfilesMenu::MemfilesMenu(MemfilesData& data)
-    : Menu(), cursor(data.cursor),
+KEEP_FUNC MemfilesMenu::MemfilesMenu(Cursor& cursor, MemfilesData& data)
+    : Menu(cursor),
       l_fileNo(data.l_fileNo), lines{
                                    {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
                                    {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},

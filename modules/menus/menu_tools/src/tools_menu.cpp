@@ -18,8 +18,8 @@
 
 #define MAX_TUNIC_COLORS 7
 
-KEEP_FUNC ToolsMenu::ToolsMenu(ToolsData& data)
-    : Menu(), m_cursor(data.cursor), l_tunicCol_idx(data.l_tunicCol_idx),
+KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
+    : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
       lines{{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area",
              true, &g_tools[RELOAD_AREA_INDEX].active},
             {"frame advance", FRAME_ADVANCE_INDEX, "Use " FRAME_ADVANCE_TEXT " to frame advance",
@@ -77,7 +77,7 @@ KEEP_FUNC ToolsMenu::ToolsMenu(ToolsData& data)
 ToolsMenu::~ToolsMenu() {}
 
 void ToolsMenu::draw() {
-    m_cursor.setMode(Cursor::MODE_LIST);
+    cursor.setMode(Cursor::MODE_LIST);
 
     l_tunicCol_idx = g_tunic_color;
 
@@ -89,22 +89,22 @@ void ToolsMenu::draw() {
     ListMember tunicCol_opt[MAX_TUNIC_COLORS] = {"green",  "blue",  "red",  "orange",
                                                  "yellow", "white", "cycle"};
 
-    if (m_cursor.y == TUNIC_COLOR_INDEX) {
-        m_cursor.x = l_tunicCol_idx;
-        m_cursor.move(MAX_TUNIC_COLORS, MENU_LINE_NUM);
+    if (cursor.y == TUNIC_COLOR_INDEX) {
+        cursor.x = l_tunicCol_idx;
+        cursor.move(MAX_TUNIC_COLORS, MENU_LINE_NUM);
 
-        if (m_cursor.y == TUNIC_COLOR_INDEX) {
-            l_tunicCol_idx = m_cursor.x;
+        if (cursor.y == TUNIC_COLOR_INDEX) {
+            l_tunicCol_idx = cursor.x;
         }
         g_tunic_color = l_tunicCol_idx;
     } else {
-        m_cursor.move(0, MENU_LINE_NUM);
+        cursor.move(0, MENU_LINE_NUM);
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_tools[m_cursor.y].active = !g_tools[m_cursor.y].active;
-        if (g_tools[m_cursor.y].active) {
-            switch (m_cursor.y) {
+        g_tools[cursor.y].active = !g_tools[cursor.y].active;
+        if (g_tools[cursor.y].active) {
+            switch (cursor.y) {
             case FRAME_ADVANCE_INDEX:
                 GZCmd_enable(Commands::CMD_FRAME_PAUSE);
                 break;
@@ -176,7 +176,7 @@ void ToolsMenu::draw() {
                 break;
             }
         } else {
-            switch (m_cursor.y) {
+            switch (cursor.y) {
             case FRAME_ADVANCE_INDEX:
                 GZCmd_disable(Commands::CMD_FRAME_PAUSE);
                 break;
@@ -229,5 +229,5 @@ void ToolsMenu::draw() {
     }
 
     lines[TUNIC_COLOR_INDEX].printf(" <%s>", tunicCol_opt[l_tunicCol_idx].member);
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

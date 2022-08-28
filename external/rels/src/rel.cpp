@@ -56,4 +56,8 @@ void __throw_bad_alloc() {
     while (true)
         ;
 }
+void __throw_out_of_range(char const*) {
+    while (true)
+        ;
+}
 }  // namespace std

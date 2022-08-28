@@ -2,7 +2,6 @@
 #include "menu.h"
 
 struct GeneralFlagsData {
-    Cursor cursor;
     bool l_bossFlag;
     bool l_rupeeFlag;
     bool l_midnaCharge;
@@ -32,11 +31,9 @@ enum GeneralFlagsIndex {
 
 class GeneralFlagsMenu : public Menu {
 public:
-    GeneralFlagsMenu(GeneralFlagsData&);
+    GeneralFlagsMenu(Cursor&, GeneralFlagsData&);
     virtual ~GeneralFlagsMenu();
     virtual void draw();
-
-    Cursor& m_cursor;
 
 private:
     bool& l_bossFlag;

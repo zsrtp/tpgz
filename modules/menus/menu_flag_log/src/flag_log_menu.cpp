@@ -5,7 +5,7 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC FlagLogMenu::FlagLogMenu(Cursor& cursor)
-    : Menu(), cursor(cursor), lines{{"log activated", 0, "toggle flag logger on/off", true,
+    : Menu(cursor), lines{{"log activated", 0, "toggle flag logger on/off", true,
                                      &g_flagLogEnabled}} {}
 
 FlagLogMenu::~FlagLogMenu() {}

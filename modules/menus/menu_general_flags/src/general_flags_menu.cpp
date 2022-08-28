@@ -5,8 +5,8 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu(GeneralFlagsData& data)
-    : Menu(), m_cursor(data.cursor), l_bossFlag(data.l_bossFlag), l_rupeeFlag(data.l_rupeeFlag),
+KEEP_FUNC GeneralFlagsMenu::GeneralFlagsMenu(Cursor& cursor, GeneralFlagsData& data)
+    : Menu(cursor), l_bossFlag(data.l_bossFlag), l_rupeeFlag(data.l_rupeeFlag),
       l_midnaCharge(data.l_midnaCharge), l_transformWarp(data.l_transformWarp),
       l_midnaZ(data.l_midnaZ), l_eponaStolen(data.l_eponaStolen), l_eponaTamed(data.l_eponaTamed),
       l_mapWarping(data.l_mapWarping), l_midnaHealed(data.l_midnaHealed),
@@ -61,7 +61,7 @@ void GeneralFlagsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (m_cursor.y) {
+        switch (cursor.y) {
         case BOSS_FLAG_INDEX:
             if (l_bossFlag) {
                 bossFlags = 0;
@@ -114,6 +114,6 @@ void GeneralFlagsMenu::draw() {
         }
     }
 
-    m_cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

@@ -1,7 +1,6 @@
 #include "menu.h"
 
 struct AmountsData {
-    Cursor cursor;
     uint8_t l_arrowNum;
     uint8_t l_bag1Num;
     uint8_t l_bag2Num;
@@ -25,11 +24,9 @@ enum AmountsIndex {
 
 class AmountsMenu : public Menu {
 public:
-    AmountsMenu(AmountsData&);
+    AmountsMenu(Cursor&, AmountsData&);
     virtual ~AmountsMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     uint8_t& l_arrowNum;

@@ -1,7 +1,6 @@
 #include "menu.h"
 
 struct ActorListData {
-    Cursor cursor;
     uint16_t l_index;
 };
 
@@ -11,11 +10,9 @@ enum {
 
 class ActorListMenu : public Menu {
 public:
-    ActorListMenu(ActorListData&);
+    ActorListMenu(Cursor&, ActorListData&);
     virtual ~ActorListMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     uint16_t& l_index;

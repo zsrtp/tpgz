@@ -4,12 +4,11 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
-    : Menu(),
-      m_cursor(cursor), lines{
-                            {"any%", ANY_INDEX, "Any% practice saves", false},
-                            {"100%", HUNDO_INDEX, "100% practice saves", false},
-                            {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
-                        } {}
+    : Menu(cursor), lines{
+                        {"any%", ANY_INDEX, "Any% practice saves", false},
+                        {"100%", HUNDO_INDEX, "100% practice saves", false},
+                        {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
+                    } {}
 
 PracticeMenu::~PracticeMenu() {}
 
@@ -20,7 +19,7 @@ void PracticeMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        switch (m_cursor.y) {
+        switch (cursor.y) {
         case ANY_INDEX:
             g_menuMgr->push(MN_ANY_SAVES_INDEX);
             return;
@@ -33,6 +32,6 @@ void PracticeMenu::draw() {
         }
     }
 
-    m_cursor.move(0, MENU_LINE_NUM);
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

@@ -7,8 +7,6 @@ public:
     virtual ~FlagLogMenu();
     virtual void draw();
 
-    Cursor& cursor;
-
 private:
     Line lines[1];
 };

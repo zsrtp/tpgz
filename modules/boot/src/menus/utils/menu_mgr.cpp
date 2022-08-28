@@ -182,19 +182,6 @@ KEEP_FUNC void MenuMgr::handleClear() {
     GZ_setFifoVisible(true);
 }
 
-KEEP_FUNC void MenuMgr::setPersistentData(void* data) {
-    if (!states.empty()) {
-        states.top()->data = data;
-    }
-}
-
-KEEP_FUNC void* MenuMgr::getPersistentData() {
-    if (!states.empty()) {
-        return states.top()->data;
-    }
-    return nullptr;
-}
-
 KEEP_FUNC void MenuMgr::setCreateHook(void (*createHook)()) {
     if (!states.empty()) {
         states.top()->create_hook = createHook;

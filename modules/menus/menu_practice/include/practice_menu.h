@@ -9,8 +9,6 @@ public:
     virtual ~PracticeMenu();
     virtual void draw();
 
-    Cursor& m_cursor;
-
 private:
     Line lines[3];
 };

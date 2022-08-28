@@ -29,11 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new FlagRecordsData);
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    FlagRecordsData* data = (FlagRecordsData*)g_menuMgr->getPersistentData();
-    l_menu = new FlagRecordsMenu(*data);
+    l_menu = new FlagRecordsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<FlagRecordsData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -47,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (FlagRecordsData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<FlagRecordsData>();
+    delete data;
+    g_menuMgr->setPersistentData<FlagRecordsData>(nullptr);
 }

@@ -8,8 +8,8 @@
 
 #define MAX_REGION_OPTIONS 6
 
-KEEP_FUNC PortalFlagsMenu::PortalFlagsMenu(PortalFlagsData& data)
-    : Menu(), cursor(data.cursor), l_mapRegion(data.l_mapRegion), l_selRegion(data.l_selRegion),
+KEEP_FUNC PortalFlagsMenu::PortalFlagsMenu(Cursor& cursor, PortalFlagsData& data)
+    : Menu(cursor), l_mapRegion(data.l_mapRegion), l_selRegion(data.l_selRegion),
       l_springWarp(data.l_springWarp), l_sfaronWarp(data.l_sfaronWarp),
       l_nfaronWarp(data.l_nfaronWarp), l_groveWarp(data.l_groveWarp), l_gorgeWarp(data.l_gorgeWarp),
       l_kakWarp(data.l_kakWarp), l_mountainWarp(data.l_mountainWarp),

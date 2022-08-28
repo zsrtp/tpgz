@@ -21,8 +21,8 @@
 #define CONTROL_TEXT "C"
 #endif
 
-KEEP_FUNC ActorListMenu::ActorListMenu(ActorListData& data)
-    : Menu(), cursor(data.cursor),
+KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
+    : Menu(cursor),
       l_index(data.l_index), lines{
                                  {"index:", ACTOR_ID_INDEX,
                                   "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)",

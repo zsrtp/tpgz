@@ -7,8 +7,8 @@
 
 #define MAX_DUNGEON_OPTIONS 9
 
-KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu(DungeonFlagsData& data)
-    : Menu(), cursor(data.cursor), init_once(data.init_once), l_mapFlag(data.l_mapFlag),
+KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu(Cursor& cursor, DungeonFlagsData& data)
+    : Menu(cursor), init_once(data.init_once), l_mapFlag(data.l_mapFlag),
       l_compassFlag(data.l_compassFlag), l_bosskeyFlag(data.l_bosskeyFlag),
       l_minibossFlag(data.l_minibossFlag), l_bossFlag(data.l_bossFlag), l_selDun(data.l_selDun),
       l_keyNum(data.l_keyNum),

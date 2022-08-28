@@ -5,8 +5,8 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-KEEP_FUNC AmountsMenu::AmountsMenu(AmountsData& data)
-    : Menu(), cursor(data.cursor), l_arrowNum(data.l_arrowNum), l_bag1Num(data.l_bag1Num),
+KEEP_FUNC AmountsMenu::AmountsMenu(Cursor& cursor, AmountsData& data)
+    : Menu(cursor), l_arrowNum(data.l_arrowNum), l_bag1Num(data.l_bag1Num),
       l_bag2Num(data.l_bag2Num), l_bag3Num(data.l_bag3Num), l_seedNum(data.l_seedNum),
       l_poeNum(data.l_poeNum), l_hpNum(data.l_hpNum), l_rupeeNum(data.l_rupeeNum),
       lines{

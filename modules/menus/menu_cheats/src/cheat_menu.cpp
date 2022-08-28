@@ -9,7 +9,7 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
-    : Menu(), m_cursor(cursor),
+    : Menu(cursor),
       lines{
           {"infinite air", InfiniteAir, "Gives infinite air underwater", true,
            &g_cheats[InfiniteAir].active},
@@ -47,7 +47,7 @@ KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
 CheatsMenu::~CheatsMenu() {}
 
 void CheatsMenu::draw() {
-    m_cursor.move(0, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
@@ -55,8 +55,8 @@ void CheatsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_cheats[m_cursor.y].active = !g_cheats[m_cursor.y].active;
+        g_cheats[cursor.y].active = !g_cheats[cursor.y].active;
     }
 
-    GZ_drawMenuLines(lines, m_cursor.y, MENU_LINE_NUM);
+    GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

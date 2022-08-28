@@ -15,8 +15,6 @@ public:
     virtual ~FlagsMenu();
     virtual void draw();
 
-    Cursor& m_cursor;
-
 private:
     Line lines[5];
 };

@@ -18,8 +18,8 @@
 #define MAX_ARROW_CAPACITY_OPT 3
 #define MAX_HIDDEN_SKILL_OPT 2
 
-KEEP_FUNC PauseMenu::PauseMenu(PauseData& data)
-    : Menu(), cursor(data.cursor), l_ordonSword_idx(data.l_ordonSword_idx),
+KEEP_FUNC PauseMenu::PauseMenu(Cursor& cursor, PauseData& data)
+    : Menu(cursor), l_ordonSword_idx(data.l_ordonSword_idx),
       l_masterSword_idx(data.l_masterSword_idx), l_woodShield_idx(data.l_woodShield_idx),
       l_hyShield_idx(data.l_hyShield_idx), l_tunic_idx(data.l_tunic_idx),
       l_zoraArmor_idx(data.l_zoraArmor_idx), l_magicArmor_idx(data.l_magicArmor_idx),

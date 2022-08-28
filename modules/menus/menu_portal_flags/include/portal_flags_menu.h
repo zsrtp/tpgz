@@ -2,7 +2,6 @@
 #include "menu.h"
 
 struct PortalFlagsData {
-    Cursor cursor;
     bool l_mapRegion;
     uint8_t l_selRegion;
     bool l_springWarp;
@@ -44,11 +43,9 @@ enum PortalFlagsIndex {
 
 class PortalFlagsMenu : public Menu {
 public:
-    PortalFlagsMenu(PortalFlagsData&);
+    PortalFlagsMenu(Cursor&, PortalFlagsData&);
     virtual ~PortalFlagsMenu();
     virtual void draw();
-
-    Cursor& cursor;
 
 private:
     bool& l_mapRegion;

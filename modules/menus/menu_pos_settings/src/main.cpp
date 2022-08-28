@@ -29,10 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new PosSettingsData());
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    l_menu = new PosSettingsMenu(*(PosSettingsData*)g_menuMgr->getPersistentData());
+    l_menu = new PosSettingsMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<PosSettingsData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -46,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (PosSettingsData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<PosSettingsData>();
+    delete data;
+    g_menuMgr->setPersistentData<PosSettingsData>(nullptr);
 }

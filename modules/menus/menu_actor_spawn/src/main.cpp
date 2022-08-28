@@ -29,10 +29,13 @@ void exit() {
 
 void onCreate() {
     g_menuMgr->setPersistentData(new ActorSpawnData());
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
+    }
 }
 
 void onLoad() {
-    l_menu = new ActorSpawnMenu(*(ActorSpawnData*)g_menuMgr->getPersistentData());
+    l_menu = new ActorSpawnMenu(*g_menuMgr->getPermanentData<Cursor>(), *g_menuMgr->getPersistentData<ActorSpawnData>());
     g_drawHandler->addHandler(onDraw);
 }
 
@@ -46,7 +49,7 @@ void onUnload() {
 }
 
 void onDelete() {
-    auto data = g_menuMgr->getPersistentData();
-    delete (ActorSpawnData*)data;
-    g_menuMgr->setPersistentData(nullptr);
+    auto data = g_menuMgr->getPersistentData<ActorSpawnData>();
+    delete data;
+    g_menuMgr->setPersistentData<ActorSpawnData>(nullptr);
 }

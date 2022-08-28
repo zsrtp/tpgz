@@ -4,7 +4,6 @@
 #define ITEM_WHEEL_SLOTS 24
 
 struct ItemWheelData {
-    Cursor cursor;
     int l_listIdx;
 };
 
@@ -15,13 +14,11 @@ struct ItemLookup {
 
 class ItemWheelMenu : public Menu {
 public:
-    ItemWheelMenu(ItemWheelData&);
+    ItemWheelMenu(Cursor&, ItemWheelData&);
     virtual ~ItemWheelMenu();
     virtual void draw();
     void updateListIdx();
     void fixSpecialItems(int i);
-
-    Cursor& cursor;
 
 private:
     int& l_listIdx;
