@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.16)
 
 # Check if the platform is valid
 if(NOT DEFINED PLATFORM)
@@ -19,6 +19,7 @@ else()
 endif()
 
 if(NOT DEFINED REGION)
+    # If the region is not defined, set one by default (the first in the supported list)
     list(GET TPGZ_SUPPORTED_REGIONS 0 REGION_ELEMENT)
     set(REGION ${REGION_ELEMENT} CACHE STRING "The region of the version to be patched.")
     message(STATUS "REGION not defined, defaulting to ${REGION}")
@@ -33,8 +34,10 @@ if(DEFINED PR_TEST)
     set(RUN_PR_TEST "-DPR_TEST=1")
 endif()
 
+# Start configuring the build directory
 message(STATUS "Configuring for ${PLATFORM}_${REGION}...")
 
+# These two lists are used as a map to get the right ISO file name for each version.
 set(TPGZ_ISO_VERSIONS GCN_NTSCU GCN_NTSCJ GCN_PAL WII_NTSCU_10 WII_NTSCU_12 WII_PAL)
 set(TPGZ_ISO_FILES    GZ2E01    GZ2J01    GZ2P01  RZDE01       RZDE01_2     RZDP01)
 
