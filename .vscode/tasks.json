@@ -4,6 +4,28 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Setup",
+            "type": "shell",
+            "detail": "Sets up the build folder",
+            "group": "build",
+            "icon": {
+                "id": "add",
+                "color": "terminal.ansiYellow"
+            },
+            "command": "mkdir -p build_${input:version} && pushd build_${input:version} && cmake .. -DPLATFORM=$(echo \"${input:version}\" | cut -c 1-3 | tr '[:lower:]' '[:upper:]') -DREGION=$(echo \"${input:version}\" | cut -c 5- | tr '[:lower:]' '[:upper:]') -GNinja; popd",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "echo": true,
+                "revealProblems": "onProblem",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
             "label": "Clean",
             "type": "shell",
             "detail": "Cleans generated build files",
@@ -15,6 +37,9 @@
             "command": "ninja",
             "args": [
                 "clean"
+            ],
+            "dependsOn": [
+                "Setup"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/build_${input:version}"
@@ -40,6 +65,9 @@
             },
             "command": "ninja",
             "args": [],
+            "dependsOn": [
+                "Setup"
+            ],
             "runOptions": {
                 "instanceLimit": 1
             },
@@ -67,6 +95,9 @@
             "command": "ninja",
             "args": [
                 "iso"
+            ],
+            "dependsOn": [
+                "Setup"
             ],
             "dependsOrder": "sequence",
             "runOptions": {
@@ -98,7 +129,7 @@
                 "patch"
             ],
             "dependsOn": [
-                "Clean"
+                "Setup"
             ],
             "dependsOrder": "sequence",
             "runOptions": {
@@ -135,6 +166,7 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
+            "problemMatcher": "$lessc",
             "presentation": {
                 "echo": false,
                 "revealProblems": "onProblem",
@@ -152,14 +184,14 @@
             "type": "pickString",
             "description": "The platform to build for",
             "options": [
-                "gc_us",
-                "gc_pal",
-                "gc_jp",
-                "wii_us10",
-                "wii_us12",
+                "gcn_ntscu",
+                "gcn_pal",
+                "gcn_ntscj",
+                "wii_ntscu_10",
+                "wii_ntscu_12",
                 "wii_pal"
             ],
-            "default": "gc_us"
+            "default": "gcn_ntscu"
         }
     ]
 }

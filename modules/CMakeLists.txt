@@ -32,7 +32,7 @@ function(tpgz_add_main_module module_name module_srcs)
     target_sources(${module_name}
         PUBLIC ${module_srcs} ${TPGZ_EXTERNAL_REL_SRC})
     target_link_libraries(${module_name} tp_c gcn_c)
-    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported)
+    set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS -Wl,-Map,${module_name}.map -Wl,--gc-sections,--gc-keep-exported -lstdc++)
     set_property(TARGET ${module_name} APPEND PROPERTY LINK_OPTIONS ${CMAKE_SOURCE_DIR}/common/rels/src/cxx.ld)
 
     if(module_inc_paths)
