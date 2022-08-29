@@ -13,6 +13,7 @@
 		"ms-vscode.makefile-tools",
 		"ms-vscode.hexeditor",
 		"twxs.cmake",
+		"Gruntfuggly.todo-tree",
 		"bungcip.better-toml",
 		"mhutchie.git-graph"
 	],
