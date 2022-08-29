@@ -20,15 +20,7 @@ libs = ["libtpgz.a"]
 
 [files]
 # textures
-"tpgz/tex/file.tex" = "../res/tex/file.tex"
-"tpgz/tex/folder_empty.tex" = "../res/tex/folder_empty.tex"
-"tpgz/tex/folder_full.tex" = "../res/tex/folder_full.tex"
-"tpgz/tex/blank.tex" = "../res/tex/blank.tex"
-"tpgz/tex/tpgz.tex" = "../res/tex/tpgz.tex"
-"tpgz/tex/flagOn.tex" = "../res/tex/flagOn.tex"
-"tpgz/tex/flagOff.tex" = "../res/tex/flagOff.tex"
-"tpgz/tex/framePlay.tex" = "../res/tex/framePlay.tex"
-"tpgz/tex/framePause.tex" = "../res/tex/framePause.tex"
+"tpgz/tex" = "../res/tex"
 
 # fonts
 "tpgz/fonts" = "../res/fonts"
