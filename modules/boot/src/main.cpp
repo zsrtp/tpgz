@@ -35,7 +35,7 @@ _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
-tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/input_viewer.rel");
+tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
