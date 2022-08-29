@@ -67,7 +67,19 @@ We will first review the big picture of how the Compilation Pipeline works befor
 
 **TPGZ** uses **CMake** as a project configurator. This allows for the choice between two different generators: *Ninja* and *Makefile*.
 
-// TODO
+The first step of the pipeline is to import all the external libraries and cmake configuration files for the required tools. Based on the values of `PLATFORM` and `REGION` provided when configuring the build folder, cmake imports the data from the corresponding script under `cmake/`.<br>
+We also import the various executables needed during compilation. For instance, we import the toolchain file `cmake/CheckDevkitPro.cmake` which sets up how to compile the code into ELF and static libraries. This takes care of the compilation part of the pipeline.<br>
+We also import scripts like `bin/elf2rel` (from the repo [**spm-rel-loader**](https://github.com/SeekyCt/spm-rel-loader/releases/tag/elf2rel-13-6-2022)) and `bin/relmapper.py` (from [**TP Rando**](https://github.com/lunarsoap5/Randomizer/tree/master/GameCube)) which are used to link the generated ELF files against the game and themselves to produce REL modules.<br>
+- `relmapper.py` takes in the compiled ELF modules and extract the address/offset mapping of the symbols into a list of those mappings (`.lst` file), which is then used to link other ELF modules against that module.<br>
+- `elf2rel` takes an ELF module and a `.lst` mapping file and links the module against the file to produce a REL module.
+
+The next step is to configure the files used by the patcher. There are two of them: `RomHack.toml` and `patch.asm`.
+
+- `RomHack.toml` is the main configuration file used by the patcher to know what file to inject, and in which place; How to inject the main code; What file contains the assembly patching instructions; And some metadata about the project structure.
+- `patch.asm` is a file referenced by `RomHack.toml` which contains a sequence of assembly patches. The main one is the bootloader, and three minor bug fixes to improve stability and enable debug features.
+
+Once the patcher configuration files are setup, we start to setup the dummy library and all the modules to be compiled and build the dependency tree between all of them. This enables **CMake** to know which files to rebuild when some file has been touched.<br>
+We also add two custom targets to build a patched ISO, as well as one to build a patch file. See the section [How to use](#how-to-use) for more details.
 
 ### How to use
 
@@ -108,13 +120,77 @@ The available targets are:
 
 ## REL Support
 
-// TODO
+**TPGZ** supports dynamically loading and unloading relocatable modules (REL). A REL module is a binary file that contains executable code, as well as data on how to link the module against other modules already loaded.<br>
+There are two ways to load a REL module: Normally, or Fixed.
 
-### Main Components
+- The normal way will allocate space for both the code, and the uninitialized data (BSS area), and also some space for the relocation data. We then call `OSLink` on the data to apply the relocations using the relocation data from already loaded modules. This replaces the correct address of each symbol from outside of the module in the right place. We then keep the relocation data in place for the next modules that will get loaded.
 
-// TODO
+- The fixed way does the same thing as the normal way, but after we apply the relocations, we free the relocation data to save space. We usually use this for modules that won't be linked against.
 
-### Main module
+### REL Code Examples
+
+To extract code into a separate module, we first have to make a folder under the `modules` directory. It must contain the following hierarchy structure:
+
+```
++-+ modules/example/
+  +-+ include/
+  | +-+ main.h
+  +-+ src/
+  | +-+ main.cpp
+  +-+ CMakeLists.txt
+```
+
+> The file `CMakeFiles.txt` is identical for all modules.
+
+Here is the basic file content for a module:
+
+```c++
+// main.h
+#pragma once
+
+namespace tpgz::modules {
+void main();
+void exit();
+}  // namespace tpgz::modules
+```
+
+```c++
+// main.cpp
+#include <main.h>
+
+namespace tpgz::modules {
+void main() {}
+void exit() {}
+}  // namespace tpgz::modules
+```
+
+> The function `main` will be run right after loading the module, and `exit` will be right before unloading. They are a good place to setup your module.<br>
+> Once compiled, the module will be available to load under the path `/tpgz/rels/...` (here it would be under `/tpgz/rels/example.rel`).
+
+**TPGZ** provides a class to handle loading and unloading modules.
+
+```c++
+#include <utils/rels.h>
+
+// ...
+
+auto* example = new tpgz::dyn::GZModule("/tpgz/rels/example.rel");
+// When loading the module, we also call its `main()` function.
+example->loadFixed(/* negativeAlignment = */ true);
+
+// When we don't need the module anymore, we unload it.
+// Before unloading a module, its `exit()` method is automatically called.
+example->close(); // This line is optional if you delete the GZModule object.
+delete example;
+```
+
+> You will typically load RELs from the main module (see [Main Module](#main-module) for more details), although it is possible to load a module from an other module.
+
+## Main Components
+
+Here, we list how some of the main components of **TPGZ** work.
+
+### Main Module
 
 // TODO
 
@@ -131,6 +207,8 @@ The available targets are:
 // TODO
 
 ## IDE setup
+
+You can use any IDE to code for TPGZ, but the project has some facilities to help with development on **VSCode**.
 
 ### Tasks
 
