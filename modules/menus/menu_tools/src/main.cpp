@@ -1,6 +1,6 @@
 #include <main.h>
 #include "menus/menu_tools/include/tools_menu.h"
-#include "handlers/draw_handler.h"
+#include "events/draw_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
 
@@ -37,7 +37,7 @@ void onCreate() {
 void onLoad() {
     l_toolsMenu = new ToolsMenu(*g_menuMgr->getPermanentData<Cursor>(),
                                 *g_menuMgr->getPersistentData<ToolsData>());
-    g_drawHandler->addHandler(onDraw);
+    g_drawListener->addListener(onDraw);
 }
 
 void onDraw() {
@@ -45,7 +45,7 @@ void onDraw() {
 }
 
 void onUnload() {
-    g_drawHandler->removeHandler(onDraw);
+    g_drawListener->removeListener(onDraw);
     delete l_toolsMenu;
 }
 

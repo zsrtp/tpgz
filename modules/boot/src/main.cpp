@@ -22,9 +22,9 @@
 #include "rels/include/cxx.h"
 #include "utils/rels.h"
 #include "rels/include/defines.h"
-#include "handlers/draw_handler.h"
-#include "handlers/pre_loop_handler.h"
-#include "handlers/post_loop_handler.h"
+#include "events/draw_listener.h"
+#include "events/pre_loop_listener.h"
+#include "events/post_loop_listener.h"
 
 #ifdef WII_PLATFORM
 extern bool isWidescreen;
@@ -79,16 +79,16 @@ void exit() {}
 extern "C" {
 
 KEEP_FUNC void game_loop() {
-    g_PreLoopHandler->handleAll(nullptr);
+    g_PreLoopListener->dispatchAll(nullptr);
 }
 
 KEEP_FUNC void post_game_loop() {
-    g_PostLoopHandler->handleAll(nullptr);
+    g_PostLoopListener->dispatchAll(nullptr);
 }
 
 KEEP_FUNC void draw() {
     setupRendering();
-    g_drawHandler->handleAll(nullptr);
+    g_drawListener->dispatchAll(nullptr);
 }
 }
 

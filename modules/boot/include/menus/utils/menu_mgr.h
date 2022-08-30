@@ -152,7 +152,7 @@ public:
     /**
      * @brief Set the function to call everytime we load the menu.
      *        It's a good place to hook the module's functions to the
-     *        appropriate handlers.
+     *        appropriate listeners.
      *
      * @param loadHook
      */

@@ -1,6 +1,6 @@
 #include <main.h>
 #include "menus/menu_practice/include/practice_menu.h"
-#include "handlers/draw_handler.h"
+#include "events/draw_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
 
@@ -35,7 +35,7 @@ void onCreate() {
 
 void onLoad() {
     l_warpMenu = new PracticeMenu(*g_menuMgr->getPermanentData<Cursor>());
-    g_drawHandler->addHandler(onDraw);
+    g_drawListener->addListener(onDraw);
 }
 
 void onDraw() {
@@ -43,7 +43,7 @@ void onDraw() {
 }
 
 void onUnload() {
-    g_drawHandler->removeHandler(onDraw);
+    g_drawListener->removeListener(onDraw);
     delete l_warpMenu;
 }
 

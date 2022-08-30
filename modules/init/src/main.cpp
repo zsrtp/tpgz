@@ -14,9 +14,9 @@
 #include "utils/link.h"
 #include "utils/hook.h"
 #include "rels/include/cxx.h"
-#include "handlers/draw_handler.h"
-#include "handlers/pre_loop_handler.h"
-#include "handlers/post_loop_handler.h"
+#include "events/draw_listener.h"
+#include "events/pre_loop_listener.h"
+#include "events/post_loop_listener.h"
 
 namespace tpgz::modules {
 void main() {
@@ -32,37 +32,37 @@ void main() {
 
     g_menuMgr = new MenuMgr();
     g_fifoVisible = true;
-    // Init the draw handler
-    g_drawHandler = new DrawHandler();
+    // Init the draw listener
+    g_drawListener = new DrawListener();
     // Setup the render order
-    g_drawHandler->addHandler(GZ_renderMenuTitle);
-    g_drawHandler->addHandler(GZ_renderFifoQueue);
-    g_drawHandler->addHandler(GZ_displayLinkInfo);
-    g_drawHandler->addHandler(GZ_drawHeapInfo);
-    g_drawHandler->addHandler(Timer::drawTimer);
-    g_drawHandler->addHandler(Timer::drawLoadTimer);
-    g_drawHandler->addHandler(Timer::drawIGT);
-    // g_drawHandler->addHandler(GZ_drawMenu);
-    g_drawHandler->addHandler(GZ_drawWatches);
-    g_drawHandler->addHandler(GZ_renderPlayPause);
-    // Init the pre-loop handler
-    g_PreLoopHandler = new PreLoopHandler();
-    g_PreLoopHandler->addHandler(GZ_controlCardLoad);
-    g_PreLoopHandler->addHandler(GZ_controlMenu);
-    g_PreLoopHandler->addHandler(GZ_controlSavingTmp);
-    g_PreLoopHandler->addHandler(GZ_controlFlags_PreLoop);
-    g_PreLoopHandler->addHandler(GZ_controlTurbo);
-    g_PreLoopHandler->addHandler(GZ_setCursorColor);
-    g_PreLoopHandler->addHandler(GZ_setTunicColor);
-    g_PreLoopHandler->addHandler(GZ_frameAdvance);
-    g_PreLoopHandler->addHandler(FreeCam::execute);
-    g_PreLoopHandler->addHandler(MoveLink::execute);
-    g_PreLoopHandler->addHandler(GZ_controlTools);
-    // Init the post-loop handler
-    g_PostLoopHandler = new PostLoopHandler();
-    g_PostLoopHandler->addHandler(GZ_controlFlags_PostLoop);
-    g_PostLoopHandler->addHandler(GZ_setCursorColor);
-    g_PostLoopHandler->addHandler(GZ_setTunicColor);
+    g_drawListener->addListener(GZ_renderMenuTitle);
+    g_drawListener->addListener(GZ_renderFifoQueue);
+    g_drawListener->addListener(GZ_displayLinkInfo);
+    g_drawListener->addListener(GZ_drawHeapInfo);
+    g_drawListener->addListener(Timer::drawTimer);
+    g_drawListener->addListener(Timer::drawLoadTimer);
+    g_drawListener->addListener(Timer::drawIGT);
+    // g_drawListener->addListener(GZ_drawMenu);
+    g_drawListener->addListener(GZ_drawWatches);
+    g_drawListener->addListener(GZ_renderPlayPause);
+    // Init the pre-loop listener
+    g_PreLoopListener = new PreLoopListener();
+    g_PreLoopListener->addListener(GZ_controlCardLoad);
+    g_PreLoopListener->addListener(GZ_controlMenu);
+    g_PreLoopListener->addListener(GZ_controlSavingTmp);
+    g_PreLoopListener->addListener(GZ_controlFlags_PreLoop);
+    g_PreLoopListener->addListener(GZ_controlTurbo);
+    g_PreLoopListener->addListener(GZ_setCursorColor);
+    g_PreLoopListener->addListener(GZ_setTunicColor);
+    g_PreLoopListener->addListener(GZ_frameAdvance);
+    g_PreLoopListener->addListener(FreeCam::execute);
+    g_PreLoopListener->addListener(MoveLink::execute);
+    g_PreLoopListener->addListener(GZ_controlTools);
+    // Init the post-loop listener
+    g_PostLoopListener = new PostLoopListener();
+    g_PostLoopListener->addListener(GZ_controlFlags_PostLoop);
+    g_PostLoopListener->addListener(GZ_setCursorColor);
+    g_PostLoopListener->addListener(GZ_setTunicColor);
 }
 void exit() {}
 

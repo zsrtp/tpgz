@@ -1,6 +1,6 @@
 #include <main.h>
 #include "menus/menu_general_flags/include/general_flags_menu.h"
-#include "handlers/draw_handler.h"
+#include "events/draw_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
 
@@ -37,7 +37,7 @@ void onCreate() {
 void onLoad() {
     l_menu = new GeneralFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(),
                                   *g_menuMgr->getPersistentData<GeneralFlagsData>());
-    g_drawHandler->addHandler(onDraw);
+    g_drawListener->addListener(onDraw);
 }
 
 void onDraw() {
@@ -45,7 +45,7 @@ void onDraw() {
 }
 
 void onUnload() {
-    g_drawHandler->removeHandler(onDraw);
+    g_drawListener->removeListener(onDraw);
     delete l_menu;
 }
 

@@ -7,7 +7,7 @@ This is an overview of the **TPGZ** project from a development perspective. It w
 - [REL Support](#rel-support)
 - [Main Components](#main-components)
   - [Main module](#main-module)
-  - [Handlers](#handlers)
+  - [Listeners](#listeners)
   - [Settings](#settings)
   - [Menus](#menus)
 - [IDE setup](#ide-setup)
@@ -69,7 +69,7 @@ We will first review the big picture of how the Compilation Pipeline works befor
 **TPGZ** uses **CMake** as a project configurator. This allows for the choice between two different generators: *Ninja* and *Makefile*.
 
 The first step of the pipeline is to import all the external libraries and cmake configuration files for the required tools. Based on the values of `PLATFORM` and `REGION` provided when configuring the build folder, cmake imports the data from the corresponding script under `cmake/`.<br>
-We also import the various executables needed during compilation. For instance, we import the toolchain file `cmake/CheckDevkitPro.cmake` which sets up how to compile the code into ELF and static libraries. This takes care of the compilation part of the pipeline.<br>
+We also import the various executables needed during compilation. For instance, we import the toolchain file `cmake/CheckDevkitPro.cmake` which defines how to compile the code into ELF and static libraries. This takes care of the compilation part of the pipeline.<br>
 We also import scripts like `bin/elf2rel` (from the repo [**spm-rel-loader**](https://github.com/SeekyCt/spm-rel-loader/releases/tag/elf2rel-13-6-2022)) and `bin/relmapper.py` (from [**TP Rando**](https://github.com/lunarsoap5/Randomizer/tree/master/GameCube)) which are used to link the generated ELF files against the game and between themselves to produce REL modules.<br>
 - `relmapper.py` takes in the compiled ELF modules and extract the address/offset mapping of the symbols into a list of those mappings (`.lst` file), which is then used to link other ELF modules against that module.<br>
 - `elf2rel` takes an ELF module and a `.lst` mapping file and links the module against the file to produce a REL module.
@@ -206,11 +206,16 @@ Here, we list how some of the main components of **TPGZ** work.
 
 ### Main Module
 
-**TPGZ** loads into the game using a bootloader that is patched into the game statically. This bootloader launches the `boot` module, which stays loaded for as long as the console is on. 
+**TPGZ** loads into the game using a bootloader that is patched into the game statically. This bootloader launches the `boot` module, which stays loaded for as long as the console is on. This module has many purposes:
+
+- Hooking into the game's code.
+- Holding global data that is access by all the sub modules.
+- Providing [Lsiteners](#Listeners) for sub modules to hook into. 
+- ...
 
 // TODO Continue...
 
-### Handlers
+### Listeners
 
 // TODO
 
