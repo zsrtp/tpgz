@@ -24,7 +24,7 @@ The repository structure is separated like so:
 - `/.github/workflows`: Contains the configuration of the different workflows used to check the good quality of the code. This is not a folder you should usually need to interact with.
 - `.vscode`: Contains the configuration files for **VSCode**. More details in the section [*IDE Setup*](#ide-setup).
 - `bin`: Contains the executable binaries and scripts that are used by the compilation pipeline. More details in the section [*Compilation pipeline*](#compilation-pipeline).
-- `build_...`: User created. Rquired in order to build the project. More details in *Compilation Pipeline* and [*IDE Setup*](#ide-setup).
+- `build_...`: User created. Rquired in order to build the project. More details in [*Compilation Pipeline*](#compilation-pipeline) and [*IDE Setup*](#ide-setup).
 - `cmake`: Contains **CMake** scripts used in the compilation pipeline to import libraries, tools, configurations, ..., from outside the project. More details in [*Compilation pipeline*](#compilation-pipeline).
 - `common`: Contains the code samples that are reused between modules.
 - `docs`: Contains useful documentation files.
@@ -69,7 +69,7 @@ We will first review the big picture of how the Compilation Pipeline works befor
 
 The first step of the pipeline is to import all the external libraries and cmake configuration files for the required tools. Based on the values of `PLATFORM` and `REGION` provided when configuring the build folder, cmake imports the data from the corresponding script under `cmake/`.<br>
 We also import the various executables needed during compilation. For instance, we import the toolchain file `cmake/CheckDevkitPro.cmake` which sets up how to compile the code into ELF and static libraries. This takes care of the compilation part of the pipeline.<br>
-We also import scripts like `bin/elf2rel` (from the repo [**spm-rel-loader**](https://github.com/SeekyCt/spm-rel-loader/releases/tag/elf2rel-13-6-2022)) and `bin/relmapper.py` (from [**TP Rando**](https://github.com/lunarsoap5/Randomizer/tree/master/GameCube)) which are used to link the generated ELF files against the game and themselves to produce REL modules.<br>
+We also import scripts like `bin/elf2rel` (from the repo [**spm-rel-loader**](https://github.com/SeekyCt/spm-rel-loader/releases/tag/elf2rel-13-6-2022)) and `bin/relmapper.py` (from [**TP Rando**](https://github.com/lunarsoap5/Randomizer/tree/master/GameCube)) which are used to link the generated ELF files against the game and between themselves to produce REL modules.<br>
 - `relmapper.py` takes in the compiled ELF modules and extract the address/offset mapping of the symbols into a list of those mappings (`.lst` file), which is then used to link other ELF modules against that module.<br>
 - `elf2rel` takes an ELF module and a `.lst` mapping file and links the module against the file to produce a REL module.
 
@@ -109,6 +109,8 @@ cmake .. -DPLATFORM="<Platform>" -DREGION="<Region>" -N "<Generator>"
 
 Where `<Platform>` is one of `GCN`, `WII`; `<Region>` is one of `NTSCU`, `NTSCJ`, `PAL` for the `GCN` platform, and one of `NTSCU_10`, `NTSCU_12`, `PAL` for the `WII` platform; `<Generator>` is one of `Ninja`, `Unix Makefiles`.
 
+> If you're using **VSCode**, you can instead run the *Setup* task. But it is not required, as any other build task will call the *Setup* task before.
+
 Once the build folder is configured, you can run `ninja` or `make` depending on the generator you chose to build the project.
 
 There are special target that can be provided to the generator command to get either a patched ISO or a patch file.<br>
@@ -124,8 +126,9 @@ The available targets are:
 There are two ways to load a REL module: Normally, or Fixed.
 
 - The normal way will allocate space for both the code, and the uninitialized data (BSS area), and also some space for the relocation data. We then call `OSLink` on the data to apply the relocations using the relocation data from already loaded modules. This replaces the correct address of each symbol from outside of the module in the right place. We then keep the relocation data in place for the next modules that will get loaded.
+  > If a REL references something that isn't currently linked, the addresses to those references will be set to `0x00000000`. However, the assembly that get that address would be modified after the appropriate REL gets linked, and the cache for the entire text section of the rel  with the modified assembly would be cleared.
 
-- The fixed way does the same thing as the normal way, but after we apply the relocations, we free the relocation data to save space. We usually use this for modules that won't be linked against.
+- The fixed way will first allocate space for the code and the relocation data. Then we call `OSLinkFixed` to link against the already loaded modules and the game's DOL. Then, we resize the allocated data to free the part that held the relocation data and let it be repurposed. The BSS area is allocated and initialized after that.
 
 ### REL Code Examples
 
@@ -192,7 +195,7 @@ Here, we list how some of the main components of **TPGZ** work.
 
 ### Main Module
 
-// TODO
+**TPGZ** loads into the game using a bootloader that is patched into the game statically. This bootloader launches the `boot` module, which stays loaded for as long as the console is on. 
 
 ### Handlers
 
@@ -220,6 +223,8 @@ A few **VSCode** tasks are provided to ease the build process a little bit. The 
 - ***Generate ISO***: Builds the project and generates a patched ISO. The built version's dump must be in the `isos` folder with the right name. See the section [Folder Structure](#folder-structure) for more details.
 - ***Generate patch***: Builds the project and generates a patch file ready to distribute.
 - ***Formatting***: Formats all the project's source files with the correct formatting.
+
+> It is not required to run the *Setup* task, as all the build tasks will run it before themselves.
 
 ### Dev Container
 
