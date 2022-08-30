@@ -172,6 +172,9 @@ void SaveManager::loadSavefile(const char* fileName) {
 #if (WII_NTSCU_12)
 #define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800c3d98)
 #endif
+#if (WII_NTSCJ)
+#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800c3c0c)
+#endif
 #if (WII_PAL)
 #define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C3DD4)
 #endif

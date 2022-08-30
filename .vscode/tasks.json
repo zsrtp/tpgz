@@ -189,6 +189,7 @@
                 "gcn_ntscj",
                 "wii_ntscu_10",
                 "wii_ntscu_12",
+                "wii_ntscj",
                 "wii_pal"
             ],
             "default": "gcn_ntscu"

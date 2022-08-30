@@ -38,6 +38,7 @@ The repository structure is separated like so:
   - `GCN_NTSCJ` -> `GZ2J01.iso`
   - `WII_NTSCU_10` -> `RZDE01.iso`
   - `WII_NTSCU_12` -> `RZDE01_2.iso`
+  - `WII_NTSCJ` -> `RZDJ01.iso`
   - `WII_PAL` -> `RZDP01.iso`
 - `modules`: Each folder contains a module compiled independently and which produce a dynamically relocatable module (REL) which can be loaded and unloaded as needed. More details in the section [*REL Support*](#rel-support).
 - `modules/boot`: This is the main module of the project. It is the first loaded, and is never removed. More details in the section [*Main module*](#main-module).
@@ -97,6 +98,7 @@ mkdir build
 > - `GCN_NTSCJ` -> `build_gcn_ntscj`
 > - `WII_NTSCU_10` -> `build_wii_ntscu_10`
 > - `WII_NTSCU_12` -> `build_wii_ntscu_12`
+> - `WII_NTSCJ` -> `build_wii_ntscj`
 > - `WII_PAL` -> `build_wii_pal`
 >
 > This is to keep compatibility with **VSCode**'s tasks. More details in the section [IDE Setup](#ide-setup).
@@ -107,7 +109,7 @@ Once the build folder exists, go into it and configure the folder with the comma
 cmake .. -DPLATFORM="<Platform>" -DREGION="<Region>" -N "<Generator>"
 ```
 
-Where `<Platform>` is one of `GCN`, `WII`; `<Region>` is one of `NTSCU`, `NTSCJ`, `PAL` for the `GCN` platform, and one of `NTSCU_10`, `NTSCU_12`, `PAL` for the `WII` platform; `<Generator>` is one of `Ninja`, `Unix Makefiles`.
+Where `<Platform>` is one of `GCN`, `WII`; `<Region>` is one of `NTSCU`, `NTSCJ`, `PAL` for the `GCN` platform, and one of `NTSCU_10`, `NTSCU_12`, `NTSCJ`, `PAL` for the `WII` platform; `<Generator>` is one of `Ninja`, `Unix Makefiles`.
 
 > If you're using **VSCode**, you can instead run the *Setup* task. But it is not required, as any other build task will call the *Setup* task before.
 
@@ -152,7 +154,15 @@ Here is the basic file content for a module:
 #pragma once
 
 namespace tpgz::modules {
+/**
+ * @brief This function will be called once, right after
+ *        the module has been loaded and linked.
+ */
 void main();
+/**
+ * @brief This function will be called once, right before
+ *        the module will be unlinked and unloaded.
+ */
 void exit();
 }  // namespace tpgz::modules
 ```
@@ -184,6 +194,7 @@ example->loadFixed(/* negativeAlignment = */ true);
 // When we don't need the module anymore, we unload it.
 // Before unloading a module, its `exit()` method is automatically called.
 example->close(); // This line is optional if you delete the GZModule object.
+                  // But we keep it here for demonstration purposes.
 delete example;
 ```
 
@@ -196,6 +207,8 @@ Here, we list how some of the main components of **TPGZ** work.
 ### Main Module
 
 **TPGZ** loads into the game using a bootloader that is patched into the game statically. This bootloader launches the `boot` module, which stays loaded for as long as the console is on. 
+
+// TODO Continue...
 
 ### Handlers
 

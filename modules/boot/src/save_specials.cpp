@@ -29,10 +29,10 @@ fopAc_ac_c* find_actor(std::function<bool(fopAc_ac_c&)> const& predicate) {
     return actorData;
 }
 
-#if defined(GCN_PLATFORM) || defined(WII_NTSCU_12)
-#define ROCK_ID 765
-#elif defined(WII_PLATFORM)
+#if defined(WII_NTSCU_10) || defined(WII_PAL)
 #define ROCK_ID 763
+#else
+#define ROCK_ID 765
 #endif
 
 KEEP_FUNC void SaveMngSpecial_OrdonRock() {
@@ -73,10 +73,10 @@ KEEP_FUNC void SaveMngSpecial_Hugo() {
     dComIfGs_offSwitch(63, 0);  // hugo alive
 }
 
-#if defined(GCN_PLATFORM) || defined(WII_NTSCU_12)
-#define HUGO_ACTOR_ID 468
-#elif defined(WII_PLATFORM)
+#if defined(WII_NTSCU_10) || defined(WII_PAL)
 #define HUGO_ACTOR_ID 466
+#else
+#define HUGO_ACTOR_ID 468
 #endif
 
 KEEP_FUNC void SaveMngSpecial_SpawnHugo() {

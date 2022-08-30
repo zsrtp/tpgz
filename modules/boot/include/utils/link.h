@@ -18,6 +18,11 @@ inline void GZ_patchLinkColor() {
 #define SWORD_UP_GREEN_ADDR 0x80117df8
 #define SWORD_UP_BLUE_ADDR 0x80117e10
 #endif
+#ifdef WII_NTSCJ
+#define SWORD_UP_RED_ADDR 0x80117bec
+#define SWORD_UP_GREEN_ADDR 0x80117c04
+#define SWORD_UP_BLUE_ADDR 0x80117c1c
+#endif
 #ifdef WII_PAL
 #define SWORD_UP_RED_ADDR 0x80117d64
 #define SWORD_UP_GREEN_ADDR 0x80117d7c
