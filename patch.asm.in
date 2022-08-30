@@ -4,8 +4,8 @@
 @TPGZ_CFG_LOADER_JMP_ADDR@:
 u32 @TPGZ_CFG_LOADER_JMP@
 
-; Patch doTag bug
-@TPGZ_CFG_DOTAG_ADDR@:
+; Patch setTag bug
+@TPGZ_CFG_SETTAG_ADDR@:
 u32 0x60000000
 
 ; Patch the setWaterDropEffect function to allow for custom tunic colors
