@@ -132,7 +132,7 @@ There are two ways to load a REL module: Normally, or Fixed.
 - The normal way will allocate space for both the code, and the uninitialized data (BSS area), and also some space for the relocation data. We then call `OSLink` on the data to apply the relocations using the relocation data from already loaded modules. This replaces the correct address of each symbol from outside of the module in the right place. We then keep the relocation data in place for the next modules that will get loaded.
   > If a REL references something that isn't currently linked, the addresses to those references will be set to `0x00000000`. However, the assembly that get that address would be modified after the appropriate REL gets linked, and the cache for the entire text section of the rel  with the modified assembly would be cleared.
 
-- The fixed way will first allocate space for the code and the relocation data. Then we call `OSLinkFixed` to link against the already loaded modules and the game's DOL. Then, we resize the allocated data to free the part that held the relocation data and let it be repurposed. The BSS area is allocated and initialized after that.
+- The fixed way will first allocate space for the code and the relocation data. Then we call `OSLinkFixed` to link against the already loaded modules and the game's DOL. Then, we resize the allocated data to free the part that held the relocation data (excepted the part that holds the relocation against other RELs) and let it be repurposed. The BSS area is allocated and initialized after that.
 
 ### REL Code Examples
 
