@@ -1,4 +1,5 @@
-#include "free_cam.h"
+#include "features/free_cam/include/free_cam.h"
+#include "global_data.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/math.h"
 #include "menu.h"
@@ -10,8 +11,6 @@
 #define ROTATION_SPEED (0.002)
 #define FREECAM_FAST_SPEED (2.0)
 #define FREECAM_SPEED (0.2)
-
-bool g_freeCamEnabled;
 
 #ifdef GCN_PLATFORM
 #define CONTROL_Y (mPadStatus.stick_y)

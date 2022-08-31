@@ -296,9 +296,9 @@ KEEP_FUNC void InputViewer::draw() {
     pos.x += g_spriteOffsets[VIEWER_INDEX].x;
     pos.y += g_spriteOffsets[VIEWER_INDEX].y;
 #ifdef GCN_PLATFORM
-    float scale = 1.0f;  // 0.5f * cos(TP::get_frame_count() / 20.f) + 1.0f;
+    float scale = 1.0f;
 #elif defined(WII_PLATFORM)
-    float scale = 1.2f;
+    float scale = 1.4f;
 #endif
     if (g_dropShadows)
         drawViewer({pos.x + 1.f, pos.y + 1.f}, scale, true, IS_WIDESCREEN);

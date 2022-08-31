@@ -1,7 +1,7 @@
 #include "menus/menu_tools/include/tools_menu.h"
 #include <cstdio>
 #include "commands.h"
-#include "free_cam.h"
+#include "global_data.h"
 #include "gorge.h"
 #ifdef WII_PLATFORM
 #include "bit.h"
@@ -15,6 +15,15 @@
 #include "rels/include/defines.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+
+#ifdef GCN_PLATFORM
+#define FREE_CAM_MOVEMENT_TEXT "Stick/L/R"
+#define FREE_CAM_VIEW_TEXT "C-stick"
+#endif
+#ifdef WII_PLATFORM
+#define FREE_CAM_MOVEMENT_TEXT "Stick+DPad"
+#define FREE_CAM_VIEW_TEXT "C+Stick"
+#endif
 
 #define MAX_TUNIC_COLORS 7
 

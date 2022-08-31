@@ -2,7 +2,6 @@
 #include "boot.h"
 #include "fifo_queue.h"
 #include "font.h"
-#include "free_cam.h"
 #include "gz_flags.h"
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
@@ -55,7 +54,6 @@ void main() {
     g_PreLoopListener->addListener(GZ_setCursorColor);
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
-    g_PreLoopListener->addListener(FreeCam::execute);
     g_PreLoopListener->addListener(MoveLink::execute);
     g_PreLoopListener->addListener(GZ_controlTools);
     // Init the post-loop listener

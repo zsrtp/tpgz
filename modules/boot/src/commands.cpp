@@ -1,6 +1,6 @@
 #include "commands.h"
 #include "controller.h"
-#include "free_cam.h"
+#include "global_data.h"
 #include "fs.h"
 #include "gorge.h"
 #ifdef WII_PLATFORM

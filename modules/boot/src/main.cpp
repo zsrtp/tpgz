@@ -2,7 +2,7 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "font.h"
-#include "free_cam.h"
+#include "global_data.h"
 #include "gz_flags.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "menu.h"
@@ -36,6 +36,7 @@ bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
 tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
+tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -91,16 +92,19 @@ KEEP_FUNC void draw() {
 }
 }
 
-inline void GZ_controlModule(size_t id, tpgz::dyn::GZModule& rel) {
-    if (g_tools[id].active) {
+inline void controlModule(size_t id, tpgz::dyn::GZModule& rel) {
+    if (g_tools[id].active && !rel.isLoaded()) {
         rel.loadFixed(true);
-    } else {
+    }
+    if (!g_tools[id].active && rel.isLoaded()) {
         rel.close();
     }
 }
 
 KEEP_FUNC void GZ_controlTools() {
-    GZ_controlModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
+    // Put modules that toggles with the state of g_tools
+    controlModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
+    controlModule(FREE_CAM_INDEX, g_FreeCam_rel);
 }
 
 KEEP_FUNC void GZ_controlMenu() {
