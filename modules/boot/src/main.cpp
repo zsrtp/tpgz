@@ -8,7 +8,6 @@
 #include "menu.h"
 #include "settings.h"
 #include "menus/utils/menu_mgr.h"
-#include "movelink.h"
 #include "timer.h"
 #include "utils/card.h"
 #include "utils/draw.h"
@@ -37,6 +36,7 @@ Texture l_gzIconTex;
 bool last_frame_was_loading = false;
 tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
+tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -105,6 +105,7 @@ KEEP_FUNC void GZ_controlTools() {
     // Put modules that toggles with the state of g_tools
     controlModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
     controlModule(FREE_CAM_INDEX, g_FreeCam_rel);
+    controlModule(MOVE_LINK_INDEX, g_MoveLink_rel);
 }
 
 KEEP_FUNC void GZ_controlMenu() {

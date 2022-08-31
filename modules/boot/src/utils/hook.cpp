@@ -9,7 +9,7 @@
 #include "fifo_queue.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "utils/card.h"
-#include "movelink.h"
+#include "global_data.h"
 #include "memfiles.h"
 #include "rels/include/cxx.h"
 #include "rels/include/defines.h"

@@ -6,7 +6,6 @@
 #ifdef WII_PLATFORM
 #include "bit.h"
 #endif
-#include "movelink.h"
 #include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -19,10 +18,19 @@
 #ifdef GCN_PLATFORM
 #define FREE_CAM_MOVEMENT_TEXT "Stick/L/R"
 #define FREE_CAM_VIEW_TEXT "C-stick"
+#define MOVE_LINK_MOVEMENT_TEXT "Stick/C"
+#define MOVE_LINK_ANGLE_TEXT "C-left/right"
 #endif
 #ifdef WII_PLATFORM
 #define FREE_CAM_MOVEMENT_TEXT "Stick+DPad"
 #define FREE_CAM_VIEW_TEXT "C+Stick"
+#define MOVE_LINK_MOVEMENT_TEXT "Stick"
+#define MOVE_LINK_ANGLE_TEXT "C+Stick"
+#endif
+
+#ifdef GCN_PLATFORM
+#endif
+#ifdef WII_PLATFORM
 #endif
 
 #define MAX_TUNIC_COLORS 7

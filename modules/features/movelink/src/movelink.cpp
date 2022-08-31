@@ -1,5 +1,6 @@
-#include "movelink.h"
+#include "features/movelink/include/movelink.h"
 #include <cstdio>
+#include "global_data.h"
 #include "libtp_c/include/msl_c/math.h"
 #include "settings.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
@@ -31,8 +32,6 @@
 
 #define WHITE_RGBA 0xFFFFFFFF
 #define LINE_X_OFFSET 20.0f
-
-bool g_moveLinkEnabled;
 
 namespace MoveLink {
 /* static Cursor cursor;

@@ -6,7 +6,6 @@
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
 
-#include "movelink.h"
 #include "utils/memory.h"
 #include "utils/card.h"
 #include "utils/draw.h"
@@ -54,7 +53,6 @@ void main() {
     g_PreLoopListener->addListener(GZ_setCursorColor);
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
-    g_PreLoopListener->addListener(MoveLink::execute);
     g_PreLoopListener->addListener(GZ_controlTools);
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
