@@ -11,7 +11,6 @@ This is an overview of the **TPGZ** project from a development perspective. It w
 - [Main Components](#main-components)
   - [Main module](#main-module)
   - [Listeners](#listeners)
-  - [Settings](#settings)
   - [Menus](#menus)
 - [IDE setup](#ide-setup)
   - [Tasks](#tasks)
@@ -290,15 +289,22 @@ void called_when_pressing_A(void* ptr, float x) {
 }
 ```
 
-### Settings
-
-// TODO
-
 ### Menus
 
-All the menus in **TPGZ** are dynamically loaded. They have their own folder `/modules/menus/` where they are defined.
+All the menus in **TPGZ** are dynamically loaded. They have their own folder `/modules/menus/` where they are defined. Every menu is setup on the premise that they will be loaded and handled by the **Menu Manager** (`MenuMgr`).<br>
+The **Menu Manager** handles the loading and unloading of the menus, as well as which menu to display. Every time we open a sub menu, the current menu is unloaded, but its **State** is kept on a stack. When we leave a sub menu, we pop its **State** from the stack and load the previous one.<br>
+A **Menu State** is constituted of a menu ID, a pointer to some data we want to keep between loads (as long as the state is on the stack), and some callbacks for specific events.
 
-// TODO Continue...
+The events that are kept in the state are called *Lifecycle hooks*.
+
+- `createHook`: This callback is run when we load the menu for the first time. It's a good place to initialize the persistent data you want to keep between loads.
+- `loadHook`: This callback is run every time the menu is loaded into memory. It's a good place to register some listeners (for example, a draw listener to render the menu).
+- `unloadHook`: This callback is run every time the menu is unloaded from memory. It's a good place to unregister your listeners.
+- `deleteHook`: This callback is run once before getting ride of the menu state. It's a good place to free the persistent data you allocated.
+
+The menu manager also provides a way to keep data permanently for each menu. It is called *Permanent Data*. This data will always be available for the given menu and will never be freed by the **MenuMgr**.
+
+> You can look at the Tools Menu (`/modules/menus/menu_tools/`) as an example of a typical menu implementation.
 
 ## IDE setup
 

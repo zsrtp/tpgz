@@ -30,8 +30,8 @@ public:
         return true;
     }
 
-    template <typename... Args> requires std::invocable<T, Args...>
-    void dispatchAll(Args... args) {
+    template <typename... Args>
+    void dispatchAll(Args... args) requires std::invocable<T, Args...> {
         for (T* cb : callbacks) {
             cb(args...);
         }
