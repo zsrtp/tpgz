@@ -47,13 +47,12 @@ tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 #define INTERNAL_GZ_VERSION "<unk>"
 #endif
 
+#define BUTTONS (GZ_getButtonStatus())
 #ifdef GCN_PLATFORM
-#define BUTTONS (mPadStatus.button)
 #define CANCEL_LOAD_BUTTONS (CButton::L | CButton::R | CButton::B)
 #define SHOW_MENU_BUTTONS (CButton::L | CButton::R | CButton::DPAD_DOWN)
 #endif
 #ifdef WII_PLATFORM
-#define BUTTONS (mPad.mHoldButton)
 #define CANCEL_LOAD_BUTTONS (CButton::Z | CButton::C | CButton::B)
 #define SHOW_MENU_BUTTONS (CButton::Z | CButton::C | CButton::MINUS)
 #endif
@@ -79,16 +78,16 @@ void exit() {}
 extern "C" {
 
 KEEP_FUNC void game_loop() {
-    g_PreLoopListener->dispatchAll(nullptr);
+    g_PreLoopListener->dispatchAll();
 }
 
 KEEP_FUNC void post_game_loop() {
-    g_PostLoopListener->dispatchAll(nullptr);
+    g_PostLoopListener->dispatchAll();
 }
 
 KEEP_FUNC void draw() {
     setupRendering();
-    g_drawListener->dispatchAll(nullptr);
+    g_drawListener->dispatchAll();
 }
 }
 

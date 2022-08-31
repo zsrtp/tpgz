@@ -5,14 +5,7 @@
 
 typedef void(PreLoopCallback_t)();
 
-class PreLoopListener : public events::ListenerBase<PreLoopCallback_t> {
-public:
-    PreLoopListener();
-    virtual ~PreLoopListener();
-
-protected:
-    void dispatch(PreLoopCallback_t* cb, void*);
-};
+typedef events::ListenerBase<PreLoopCallback_t> PreLoopListener;
 
 extern PreLoopListener* g_PreLoopListener;
 

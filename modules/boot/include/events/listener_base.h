@@ -11,7 +11,7 @@
 
 namespace events {
 template <typename T>
-concept Function = std::is_function_v<T>;
+concept Function = std::is_function_v<std::remove_pointer_t<T>>;
 
 template <Function T>
 class ListenerBase {
@@ -30,19 +30,17 @@ public:
         return true;
     }
 
-    void dispatchAll(void* param) {
-        for (auto cb : callbacks) {
-            dispatch(cb, param);
+    template <typename... Args> requires std::invocable<T, Args...>
+    void dispatchAll(Args... args) {
+        for (T* cb : callbacks) {
+            cb(args...);
         }
     }
 
     size_t getStackSize() const { return std::distance(callbacks.begin(), callbacks.end()); }
 
-protected:
-    virtual void dispatch(T* listener, void* param) = 0;
-
 private:
-    std::deque<T*> callbacks;
+    std::deque<std::remove_pointer_t<T>*> callbacks;
 };
 
 }  // namespace events

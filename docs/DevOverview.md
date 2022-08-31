@@ -4,7 +4,10 @@ This is an overview of the **TPGZ** project from a development perspective. It w
 
 - [Folder Structure](#folder-structure)
 - [Compilation Pipeline](#compilation-pipeline)
+  - [How it works](#how-it-works)
+  - [How to use](#how-to-use)
 - [REL Support](#rel-support)
+  - [REL Code Examples](#rel-code-examples)
 - [Main Components](#main-components)
   - [Main module](#main-module)
   - [Listeners](#listeners)
@@ -20,19 +23,19 @@ This is an overview of the **TPGZ** project from a development perspective. It w
 
 The repository structure is separated like so:
 
-- `/.devcontainer`: Used to setup the dev container allowing a standardized development environment. More details in the section [*IDE Setup*](#ide-setup).
-- `/.github/workflows`: Contains the configuration of the different workflows used to check the good quality of the code. This is not a folder you should usually need to interact with.
-- `.vscode`: Contains the configuration files for **VSCode**. More details in the section [*IDE Setup*](#ide-setup).
-- `bin`: Contains the executable binaries and scripts that are used by the compilation pipeline. More details in the section [*Compilation pipeline*](#compilation-pipeline).
-- `build_...`: User created. Rquired in order to build the project. More details in [*Compilation Pipeline*](#compilation-pipeline) and [*IDE Setup*](#ide-setup).
-- `cmake`: Contains **CMake** scripts used in the compilation pipeline to import libraries, tools, configurations, ..., from outside the project. More details in [*Compilation pipeline*](#compilation-pipeline).
-- `common`: Contains the code samples that are reused between modules.
-- `docs`: Contains useful documentation files.
-- `external`: Contains libraries that the project links against, as well as scripts useful during development.
-- `external/gcn_c`: Contains DolphinOS bindings that can be used to interface with the game's code.
-- `external/libtp_c`: Contains bindings that are specific for Twilight Princess that can be used to interface with the game's code.
-- `external/misc`: Contains scripts useful during development (for example, generating save files metadata, or converting an image/font into our custom file format).
-- `isos`: User created. Contains the dump of each version of the game provided by the user. They must comply with the folling mapping depending on the version of the game:
+- `/.devcontainer/`: Used to setup the dev container allowing a standardized development environment. More details in the section [*IDE Setup*](#ide-setup).
+- `/.github/workflows/`: Contains the configuration of the different workflows used to check the good quality of the code. This is not a folder you should usually need to interact with.
+- `/.vscode/`: Contains the configuration files for **VSCode**. More details in the section [*IDE Setup*](#ide-setup).
+- `/bin/`: Contains the executable binaries and scripts that are used by the compilation pipeline. More details in the section [*Compilation pipeline*](#compilation-pipeline).
+- `/build_.../`: User created. Rquired in order to build the project. More details in [*Compilation Pipeline*](#compilation-pipeline) and [*IDE Setup*](#ide-setup).
+- `/cmake/`: Contains **CMake** scripts used in the compilation pipeline to import libraries, tools, configurations, ..., from outside the project. More details in [*Compilation pipeline*](#compilation-pipeline).
+- `/common/`: Contains the code samples that are reused between modules.
+- `/docs/`: Contains useful documentation files.
+- `/external/`: Contains libraries that the project links against, as well as scripts useful during development.
+- `/external/gcn_c/`: Contains DolphinOS bindings that can be used to interface with the game's code.
+- `/external/libtp_c/`: Contains bindings that are specific for Twilight Princess that can be used to interface with the game's code.
+- `/external/misc/`: Contains scripts useful during development (for example, generating save files metadata, or converting an image/font into our custom file format).
+- `/isos/`: User created. Contains the dump of each version of the game provided by the user. They must comply with the folling mapping depending on the version of the game:
   - `GCN_NTSCU` -> `GZ2E01.iso`
   - `GCN_PAL` -> `GZ2P01.iso`
   - `GCN_NTSCJ` -> `GZ2J01.iso`
@@ -40,23 +43,23 @@ The repository structure is separated like so:
   - `WII_NTSCU_12` -> `RZDE01_2.iso`
   - `WII_NTSCJ` -> `RZDJ01.iso`
   - `WII_PAL` -> `RZDP01.iso`
-- `modules`: Each folder contains a module compiled independently and which produce a dynamically relocatable module (REL) which can be loaded and unloaded as needed. More details in the section [*REL Support*](#rel-support).
-- `modules/boot`: This is the main module of the project. It is the first loaded, and is never removed. More details in the section [*Main module*](#main-module).
-- `modules/init`: This module contains all the initialization code, which is all the code that is only ran when initially loading **TPGZ**, and then never ran again.
-- `modules/features`: Contains the modules handling the various features of **TPGZ**.
-- `modules/menus`: Contains the modules handling the various menus of **TPGZ**.
-- `res`: Non-code resources used by **TPGZ**.
-- `res/bin`: Binary data which is injected into the game.
-- `res/fonts`: The fonts used to display text in **TPGZ**. They were made from TrueType fonts converted into a custom font format using the script found at `external/misc/font2fnt.py`.
-- `res/icons`: The original pictures that were used to generate the textures in `res/tex`.
-- `res/map`: The files that contain the mapping between the symbols name and their address in the game. They are used in the compilation pipeline to link the modules against the game.
-- `res/save_files`: The files that contains the data to load into the questlog of the game, as well as some metadata on how to load them.
-- `res/save_files_wii`: Wii specific save files. Although GC's questlog data and Wii's are intercompatible, Wii any% saves were made using a different route, requiring a different set of saves.
-- `res/stage_info`: Metadata containing the information on where it is possible to warp.
-- `res/tex`: The texture files which are used by **TPGZ**.
-- `src`: Because the parcher we are using cannot handle to not inject a static library into the DOL of the game, we have to provide a minimal library that contains almost nothing. It will be fixed in the future.
-- `patch.asm.in`: Template of a configuration file for the patcher that will be converted into `patch.asm` in the build folder after CMake replaces the required fileds. It will contain addresses to patch values into.
-- `RomHack.toml.in`: Template of a configuration file for the patcher that will be converted into `RomHack.toml` in the build folder after CMake replaces the required fields. It will contain what files to inject into the game, as well as how to patch it.
+- `/modules/`: Each folder contains a module compiled independently and which produce a dynamically relocatable module (REL) which can be loaded and unloaded as needed. More details in the section [*REL Support*](#rel-support).
+- `/modules/boot/`: This is the main module of the project. It is the first loaded, and is never removed. More details in the section [*Main module*](#main-module).
+- `/modules/init/`: This module contains all the initialization code, which is all the code that is only ran when initially loading **TPGZ**, and then never ran again.
+- `/modules/features/`: Contains the modules handling the various features of **TPGZ**.
+- `/modules/menus/`: Contains the modules handling the various menus of **TPGZ**.
+- `/res/`: Non-code resources used by **TPGZ**.
+- `/res/bin/`: Binary data which is injected into the game.
+- `/res/fonts/`: The fonts used to display text in **TPGZ**. They were made from TrueType fonts converted into a custom font format using the script found at `external/misc/font2fnt.py`.
+- `/res/icons/`: The original pictures that were used to generate the textures in `res/tex`.
+- `/res/map/`: The files that contain the mapping between the symbols name and their address in the game. They are used in the compilation pipeline to link the modules against the game.
+- `/res/save_files/`: The files that contains the data to load into the questlog of the game, as well as some metadata on how to load them.
+- `/res/save_files_wii/`: Wii specific save files. Although GC's questlog data and Wii's are intercompatible, Wii any% saves were made using a different route, requiring a different set of saves.
+- `/res/stage_info/`: Metadata containing the information on where it is possible to warp.
+- `/res/tex/`: The texture files which are used by **TPGZ**.
+- `/src/`: Because the parcher we are using cannot handle to not inject a static library into the DOL of the game, we have to provide a minimal library that contains almost nothing. It will be fixed in the future.
+- `/patch.asm.in`: Template of a configuration file for the patcher that will be converted into `patch.asm` in the build folder after CMake replaces the required fileds. It will contain addresses to patch values into.
+- `/RomHack.toml.in`: Template of a configuration file for the patcher that will be converted into `RomHack.toml` in the build folder after CMake replaces the required fields. It will contain what files to inject into the game, as well as how to patch it.
 
 ---
 
@@ -109,7 +112,7 @@ Once the build folder exists, go into it and configure the folder with the comma
 cmake .. -DPLATFORM="<Platform>" -DREGION="<Region>" -N "<Generator>"
 ```
 
-Where `<Platform>` is one of `GCN`, `WII`; `<Region>` is one of `NTSCU`, `NTSCJ`, `PAL` for the `GCN` platform, and one of `NTSCU_10`, `NTSCU_12`, `NTSCJ`, `PAL` for the `WII` platform; `<Generator>` is one of `Ninja`, `Unix Makefiles`.
+Where `<Platform>` is one of `GCN`, `WII`; `<Region>` is one of `NTSCU`, `NTSCJ`, `PAL` for the `GCN` platform, and one of `NTSCU_10`, `NTSCU_12`, `NTSCJ`, `PAL` for the `WII` platform; `<Generator>` is one of `Ninja` or `Unix Makefiles`.
 
 > If you're using **VSCode**, you can instead run the *Setup* task. But it is not required, as any other build task will call the *Setup* task before.
 
@@ -211,13 +214,81 @@ Here, we list how some of the main components of **TPGZ** work.
 - Hooking into the game's code.
 - Holding global data that is access by all the sub modules.
 - Providing [Lsiteners](#Listeners) for sub modules to hook into. 
-- ...
+- Handling REL modules loading.
 
-// TODO Continue...
+> Currently, the main module also contains the majority of the code for the features. But in the long term, all the features that are not required to be in the main module will be extracted into sub modules.
 
 ### Listeners
 
-// TODO
+A listener is an object which stores callback functions which get called at specific events. Existing listener are:
+
+- **DrawListener**: This listener calls its callbacks when the `draw` hook is called.
+- **PreLoopListener**: This listener calls its callbacks right before the game loop starts it next iteration.
+- **PostLoopListener**: This listener calls its callbacks right after the game loop finishes its current iteration.
+
+#### Listener examples
+
+```c++
+// This is an example for using a listener
+#include "font.h"
+#include "events/draw_listener.h"
+
+// This is a function we want to run in the drawing thread.
+void renderMe() {
+    GZ_drawText("This text will be rendered in green", 50.f, 50.f,
+                /* color = */ 0x00FF00FF, /* shadow = */ true);
+}
+
+// ...
+
+// We can register a function to be called in the draw thread in this way.
+g_drawListener.addListener(renderMe);
+
+// If we don't want to stop the function from being called, we can remove it.
+g_drawListener.removeListener(renderMe);
+```
+
+```c++
+// This is an example for how to define a handler
+
+// example_listener.h
+#include "events/listener_base.h"
+
+typedef void (ExampleCallback_t)(void*, float);
+
+typedef events::ListenerBase<ExampleCallback_t> ExampleListener;
+
+ExampleListener g_exampleListener;
+
+
+// somewhere_else.cpp
+#include "example_listener.h"
+#include "controller.h"
+
+void called_when_pressing_A(void* ptr, float x);
+
+// ...
+
+// We can register a function to call back when we need to.
+g_exampleListener.addListener(called_when_pressing_A);
+
+// ...
+
+void called_every_gameloop() {
+    // Some data we want to pass to the callbacks
+    void* ptr = ...;
+    float x = ...;
+
+    if (GZ_getButtonStatus() == CButton::A) {
+        // Here, we will call all the registered functions.
+        g_exampleListener.dispatchAll(ptr, x);
+    }
+}
+
+void called_when_pressing_A(void* ptr, float x) {
+    // Do something...
+}
+```
 
 ### Settings
 
@@ -225,11 +296,13 @@ Here, we list how some of the main components of **TPGZ** work.
 
 ### Menus
 
-// TODO
+All the menus in **TPGZ** are dynamically loaded. They have their own folder `/modules/menus/` where they are defined.
+
+// TODO Continue...
 
 ## IDE setup
 
-You can use any IDE to code for TPGZ, but the project has some facilities to help with development on **VSCode**.
+You can use any IDE to code for **TPGZ**, but the project has some facilities to help with development on **VSCode**.
 
 ### Tasks
 

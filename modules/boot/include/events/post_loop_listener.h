@@ -5,14 +5,7 @@
 
 typedef void(PostLoopCallback_t)();
 
-class PostLoopListener : public events::ListenerBase<PostLoopCallback_t> {
-public:
-    PostLoopListener();
-    virtual ~PostLoopListener();
-
-protected:
-    void dispatch(PostLoopCallback_t* cb, void*);
-};
+typedef events::ListenerBase<PostLoopCallback_t> PostLoopListener;
 
 extern PostLoopListener* g_PostLoopListener;
 
