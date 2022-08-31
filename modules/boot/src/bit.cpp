@@ -64,10 +64,8 @@ void BiTIndicator::execute() {
         //     log.PrintLog(buf, DEBUG);
         // }
 
-        if (strcmp((const char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
-                   "F_SP104") == 0 &&
-            GZ_getButtonPressed(GZPad::HOME) && homeMenuSts.is_visible == 0 &&
-            !fopScnRq.isLoading) {
+        if (daAlink_c__checkStageName("F_SP104") && GZ_getButtonPressed(GZPad::HOME) &&
+            homeMenuSts.is_visible == 0 && !fopScnRq.isLoading) {
             if ((int)dt == TARGET_FRAME) {
                 snprintf(buf, sizeof(buf), "Got it");
             }
