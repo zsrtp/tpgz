@@ -159,7 +159,7 @@ void AnySavesMenu::draw() {
             special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
             special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
-            special(DARK_HAMMER_INDEX, nullptr, SaveMngSpecial_Darkhammer),//SaveMngSpecial_BossFlags
+            special(DARK_HAMMER_INDEX, nullptr, SaveMngSpecial_Darkhammer),
             special(FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
             special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
             special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
