@@ -3,6 +3,11 @@
 #include "events/draw_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
+#include "rels/include/cxx.h"
+
+void* operator new(unsigned int size, std::align_val_t align) {
+    return new ((int)align) uint8_t[size];
+}
 
 void onCreate();
 void onLoad();
@@ -28,13 +33,13 @@ void exit() {
 }  // namespace tpgz::modules
 
 void onCreate() {
-    if (!g_menuMgr->getPermanentData<Cursor>()) {
-        g_menuMgr->setPermanentData(new Cursor);
+    if (!g_menuMgr->getPermanentData<WarpingData>()) {
+        g_menuMgr->setPermanentData(new WarpingData);
     }
 }
 
 void onLoad() {
-    l_menu = new WarpingMenu(*g_menuMgr->getPermanentData<Cursor>());
+    l_menu = new WarpingMenu(*g_menuMgr->getPermanentData<WarpingData>());
     g_drawListener->addListener(onDraw);
 }
 

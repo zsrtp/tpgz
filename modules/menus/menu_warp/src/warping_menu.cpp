@@ -17,49 +17,42 @@
 #define ROOM_OFFSET 64
 #define DEFAULT_LAYER 0xFF
 
-KEEP_FUNC WarpingMenu::WarpingMenu(Cursor& cursor)
-    : Menu(cursor), lines{{"type:", WARP_TYPE_INDEX, "The type of stage", false},
-                          {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
-                          {"room:", WARP_ROOM_INDEX, "Current room name", false},
-                          {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
-                          {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
-                          {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
-                          {"save", SAVE_LOCATION_INDEX,
-                           "Set savefile location to selected location", false}} {}
+KEEP_FUNC WarpingMenu::WarpingMenu(WarpingData& data)
+    : Menu(data.cursor), l_warpInfo(data.l_warpInfo), l_warpLayer(data.l_warpLayer),
+      l_typeIdx(data.l_typeIdx), l_stageIdx(data.l_stageIdx), l_roomIdx(data.l_roomIdx),
+      l_spawnIdx(data.l_spawnIdx), l_dataLoaded(data.l_dataLoaded), lines{
+                                       {"type:", WARP_TYPE_INDEX, "The type of stage", false},
+                                       {"stage:", WARP_STAGE_INDEX, "Current stage name", false},
+                                       {"room:", WARP_ROOM_INDEX, "Current room name", false},
+                                       {"spawn:", WARP_SPAWN_INDEX, "Current spawn number", false},
+                                       {"layer:", WARP_LAYER_INDEX, "Current layer number", false},
+                                       {"warp", WARP_BUTTON_INDEX, "Trigger warp", false},
+                                       {"save", SAVE_LOCATION_INDEX,
+                                        "Set savefile location to selected location", false}} {}
 
 WarpingMenu::~WarpingMenu() {}
-
-uint8_t l_warpLayer = 0xFF;
-bool l_dataLoaded = false;
-int l_typeIdx = 0;
-signed long l_stageIdx = 0;
-signed long l_roomIdx = 0;
-signed long l_spawnIdx = 0;
-
-char l_filePath[89];
-WarpInfo l_warpInfo;
 
 enum { DUNGEON, OVERWORLD, INTERIOR, CAVE, SPECIAL };
 
 char stage_types[5][10] = {"dungeon", "overworld", "interior", "cave", "special"};
 
-void GZWarp_loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
-                         int offset) {
+void WarpingMenu::loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                               int offset) {
     if (counter < 0) {
         counter = (max_num * offset) - offset;
     }
     loadFile(l_filePath, buffer, length, counter);
 }
 
-void GZWarp_loadNextInfo(void* buffer, signed long& counter, signed long length, char max_num,
-                         int offset) {
+void WarpingMenu::loadNextInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                               int offset) {
     if (counter == (offset * max_num)) {
         counter = 0;
     }
     loadFile(l_filePath, buffer, length, counter);
 }
 
-void GZWarp_setStagePath(int current_stage_type) {
+void WarpingMenu::setStagePath(int current_stage_type) {
     switch (current_stage_type) {
     case DUNGEON:
         strcpy(l_filePath, "tpgz/stage_info/dungeon.bin");
@@ -79,66 +72,66 @@ void GZWarp_setStagePath(int current_stage_type) {
     }
 }
 
-void GZWarp_loadPrevStageInfo() {
-    GZWarp_setStagePath(l_typeIdx);
+void WarpingMenu::loadPrevStageInfo() {
+    WarpingMenu::setStagePath(l_typeIdx);
     l_stageIdx -= STAGE_OFFSET;
-    GZWarp_loadPrevInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
-                        l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
+    WarpingMenu::loadPrevInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
+                              l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
 }
 
-void GZWarp_loadPrevRoomInfo() {
+void WarpingMenu::loadPrevRoomInfo() {
     snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin",
              l_warpInfo.stage_info.stage_id);
     l_roomIdx -= ROOM_OFFSET;
-    GZWarp_loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
-                        l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
+    WarpingMenu::loadPrevInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
+                              l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
-void GZWarp_loadNextStageInfo() {
-    GZWarp_setStagePath(l_typeIdx);
+void WarpingMenu::loadNextStageInfo() {
+    WarpingMenu::setStagePath(l_typeIdx);
     l_stageIdx += STAGE_OFFSET;
-    GZWarp_loadNextInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
-                        l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
+    WarpingMenu::loadNextInfo(&l_warpInfo.stage_info, l_stageIdx, STAGE_READ_LENGTH,
+                              l_warpInfo.stage_info.num_stages, STAGE_OFFSET);
 }
 
-void GZWarp_loadNextRoomInfo() {
+void WarpingMenu::loadNextRoomInfo() {
     snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/rooms.bin",
              l_warpInfo.stage_info.stage_id);
     l_roomIdx += ROOM_OFFSET;
-    GZWarp_loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
-                        l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
+    WarpingMenu::loadNextInfo(&l_warpInfo.room_info, l_roomIdx, ROOM_READ_LENGTH,
+                              l_warpInfo.room_info.num_rooms, ROOM_OFFSET);
 }
 
-void GZWarp_loadNextSpawnInfo() {
+void WarpingMenu::loadNextSpawnInfo() {
     snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
-    GZWarp_loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
-                        l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
+    WarpingMenu::loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
+                              l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
-void GZWarp_loadPrevSpawnInfo() {
+void WarpingMenu::loadPrevSpawnInfo() {
     snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
-    GZWarp_loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
-                        l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
+    WarpingMenu::loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
+                              l_warpInfo.spawn_info.num_spawns, SPAWN_OFFSET);
 }
 
-void GZWarp_loadDefaultStage() {
+void WarpingMenu::loadDefaultStage() {
     l_stageIdx = -64;
-    GZWarp_setStagePath(l_typeIdx);
-    GZWarp_loadNextStageInfo();
+    WarpingMenu::setStagePath(l_typeIdx);
+    WarpingMenu::loadNextStageInfo();
 }
 
-void GZWarp_loadDefaultRoom() {
+void WarpingMenu::loadDefaultRoom() {
     l_roomIdx = -64;
-    GZWarp_loadNextRoomInfo();
+    WarpingMenu::loadNextRoomInfo();
 }
 
-void GZWarp_loadDefaultSpawn() {
+void WarpingMenu::loadDefaultSpawn() {
     l_spawnIdx = -4;
-    GZWarp_loadNextSpawnInfo();
+    WarpingMenu::loadNextSpawnInfo();
 }
 
 void WarpingMenu::draw() {
@@ -150,9 +143,9 @@ void WarpingMenu::draw() {
     }
 
     if (!l_dataLoaded) {
-        GZWarp_loadDefaultStage();
-        GZWarp_loadDefaultRoom();
-        GZWarp_loadDefaultSpawn();
+        WarpingMenu::loadDefaultStage();
+        WarpingMenu::loadDefaultRoom();
+        WarpingMenu::loadDefaultSpawn();
         l_dataLoaded = true;
     }
 
@@ -163,24 +156,24 @@ void WarpingMenu::draw() {
             if (l_typeIdx > 4) {
                 l_typeIdx = 0;
             }
-            GZWarp_loadDefaultStage();
-            GZWarp_loadDefaultRoom();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadDefaultStage();
+            WarpingMenu::loadDefaultRoom();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_STAGE_INDEX:
-            GZWarp_loadNextStageInfo();
-            GZWarp_loadDefaultRoom();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadNextStageInfo();
+            WarpingMenu::loadDefaultRoom();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_ROOM_INDEX:
-            GZWarp_loadNextRoomInfo();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadNextRoomInfo();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_SPAWN_INDEX:
-            GZWarp_loadNextSpawnInfo();
+            WarpingMenu::loadNextSpawnInfo();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_LAYER_INDEX:
@@ -199,24 +192,24 @@ void WarpingMenu::draw() {
             if (l_typeIdx < 0) {
                 l_typeIdx = 4;
             }
-            GZWarp_loadDefaultStage();
-            GZWarp_loadDefaultRoom();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadDefaultStage();
+            WarpingMenu::loadDefaultRoom();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_STAGE_INDEX:
-            GZWarp_loadPrevStageInfo();
-            GZWarp_loadDefaultRoom();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadPrevStageInfo();
+            WarpingMenu::loadDefaultRoom();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_ROOM_INDEX:
-            GZWarp_loadPrevRoomInfo();
-            GZWarp_loadDefaultSpawn();
+            WarpingMenu::loadPrevRoomInfo();
+            WarpingMenu::loadDefaultSpawn();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_SPAWN_INDEX:
-            GZWarp_loadPrevSpawnInfo();
+            WarpingMenu::loadPrevSpawnInfo();
             l_warpLayer = DEFAULT_LAYER;
             break;
         case WARP_LAYER_INDEX:

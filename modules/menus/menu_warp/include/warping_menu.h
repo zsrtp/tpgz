@@ -33,12 +33,47 @@ struct WarpInfo {
     SpawnInfo spawn_info;
 } __attribute__((aligned(32)));
 
+struct WarpingData {
+    Cursor cursor;
+    WarpInfo l_warpInfo;
+    uint8_t l_warpLayer = 0xFF;
+    int l_typeIdx;
+    signed long l_stageIdx;
+    signed long l_roomIdx;
+    signed long l_spawnIdx;
+    bool l_dataLoaded;
+};
+
 class WarpingMenu : public Menu {
 public:
-    WarpingMenu(Cursor&);
+    WarpingMenu(WarpingData&);
     virtual ~WarpingMenu();
     virtual void draw();
 
 private:
+    void loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                      int offset);
+    void loadNextInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                      int offset);
+    void setStagePath(int current_stage_type);
+    void loadPrevStageInfo();
+    void loadPrevRoomInfo();
+    void loadNextStageInfo();
+    void loadNextRoomInfo();
+    void loadNextSpawnInfo();
+    void loadPrevSpawnInfo();
+    void loadDefaultStage();
+    void loadDefaultRoom();
+    void loadDefaultSpawn();
+
+    WarpInfo& l_warpInfo;
+    uint8_t& l_warpLayer;
+    int& l_typeIdx;
+    signed long& l_stageIdx;
+    signed long& l_roomIdx;
+    signed long& l_spawnIdx;
+    bool& l_dataLoaded;
+    char l_filePath[89];
+
     Line lines[7];
 };
