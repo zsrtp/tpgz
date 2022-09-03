@@ -98,6 +98,10 @@ void* operator new[](size_t size, int32_t alignment, int32_t id) {
     return allocateMemoryFromHeapId(size, alignment, id);
 }
 
+void* operator new(unsigned int size, std::align_val_t alignment) {
+    return allocateMemoryFromMainHeap(size, (int)alignment);
+}
+
 void operator delete(void* ptr) {
     return __dl_JKRHeap(ptr);
 }

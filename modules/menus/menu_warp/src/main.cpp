@@ -5,10 +5,6 @@
 #include "utils/draw.h"
 #include "rels/include/cxx.h"
 
-void* operator new(unsigned int size, std::align_val_t align) {
-    return new ((int)align) uint8_t[size];
-}
-
 void onCreate();
 void onLoad();
 void onDraw();
