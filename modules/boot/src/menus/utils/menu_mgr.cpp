@@ -120,6 +120,7 @@ KEEP_FUNC void MenuMgr::handleOpen() {
     auto state = states.top();
     state->load(false);
     is_open = true;
+    GZ_setFifoVisible(false);
 }
 KEEP_FUNC void MenuMgr::handleHide() {
     if (states.empty() || !(states.top())->rel.isLoaded()) {
@@ -150,6 +151,7 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
     states.push(state);
     state->load(true);
     is_open = true;
+    GZ_setFifoVisible(false);
 }
 
 KEEP_FUNC void MenuMgr::handlePop() {
@@ -163,6 +165,7 @@ KEEP_FUNC void MenuMgr::handlePop() {
     if (!states.empty() && is_open) {
         menus::MenuState* state = states.top();
         state->load(false);
+        GZ_setFifoVisible(false);
     }
 
     if (states.empty()) {

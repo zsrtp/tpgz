@@ -78,21 +78,40 @@ void exit() {}
 // Game hooks
 extern "C" {
 
+/**
+ * @brief Hooked to run right before the next main loop starts.
+ */
 KEEP_FUNC void game_loop() {
+    // Call all the functions registered to be run before the main loop.
     g_PreLoopListener->dispatchAll();
 }
 
+/**
+ * @brief Hooked to run right after the current main loop finishes.
+ */
 KEEP_FUNC void post_game_loop() {
+    // Call all the functions registered to be run after the main loop.
     g_PostLoopListener->dispatchAll();
 }
 
+/**
+ * @brief Hooked to run in the render thread.
+ */
 KEEP_FUNC void draw() {
+    // Setup the graphic library for our drawing utility API.
     setupRendering();
+    // Call all the functions registered to be run in the render thread.
     g_drawListener->dispatchAll();
 }
 }
 
-inline void controlModule(size_t id, tpgz::dyn::GZModule& rel) {
+/**
+ * @brief Loads into memory the RELs for each tool which is active.
+ * 
+ * @param id    The ID of the tool (index in g_tools).
+ * @param rel   The GZModule object used to load the REL.
+ */
+inline void handleModule(size_t id, tpgz::dyn::GZModule& rel) {
     if (g_tools[id].active && !rel.isLoaded()) {
         rel.loadFixed(true);
     }
@@ -101,14 +120,21 @@ inline void controlModule(size_t id, tpgz::dyn::GZModule& rel) {
     }
 }
 
-KEEP_FUNC void GZ_controlTools() {
+/**
+ * @brief   Handles when to load tools into memory.
+ *          Registered to run before the main loop.
+ */
+KEEP_FUNC void GZ_handleTools() {
     // Put modules that toggles with the state of g_tools
-    controlModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
-    controlModule(FREE_CAM_INDEX, g_FreeCam_rel);
-    controlModule(MOVE_LINK_INDEX, g_MoveLink_rel);
+    handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
+    handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
+    handleModule(MOVE_LINK_INDEX, g_MoveLink_rel);
 }
 
-KEEP_FUNC void GZ_controlMenu() {
+/**
+ * @brief Handles when to show/hid the menus.
+ */
+KEEP_FUNC void GZ_handleMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
         if (!g_menuMgr->isOpen()) {
             if (!g_menuMgr->isEmpty()) {
@@ -121,17 +147,17 @@ KEEP_FUNC void GZ_controlMenu() {
         g_fifoVisible = false;
     }
 
-    g_menuMgr->handleCommands();
-
     if (fopScnRq.isLoading) {
         g_menuMgr->hide();
         g_moveLinkEnabled = false;
         last_frame_was_loading = true;
         g_freeCamEnabled = false;
     }
+
+    g_menuMgr->handleCommands();
 }
 
-KEEP_FUNC void GZ_controlCardLoad() {
+KEEP_FUNC void GZ_handleCardLoad() {
     // Button combo to bypass the automatic loading of the save file
     // in case of crash caused by the load.
     if (BUTTONS == CANCEL_LOAD_BUTTONS && l_loadCard) {
@@ -142,7 +168,7 @@ KEEP_FUNC void GZ_controlCardLoad() {
     GZ_loadGZSave(l_loadCard);
 }
 
-KEEP_FUNC void GZ_controlSavingTmp() {
+KEEP_FUNC void GZ_handleSavingTmp() {
     // save temp flags and tears after every loading zone
     if (last_frame_was_loading && !fopScnRq.isLoading) {
         memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
@@ -156,15 +182,15 @@ KEEP_FUNC void GZ_controlSavingTmp() {
     }
 }
 
-KEEP_FUNC void GZ_controlFlags_PreLoop() {
+KEEP_FUNC void GZ_handleFlags_PreLoop() {
     GZ_execute(GAME_LOOP);
 }
 
-KEEP_FUNC void GZ_controlFlags_PostLoop() {
+KEEP_FUNC void GZ_handleFlags_PostLoop() {
     GZ_execute(POST_GAME_LOOP);
 }
 
-KEEP_FUNC void GZ_controlTurbo() {
+KEEP_FUNC void GZ_handleTurbo() {
     if (g_tools[TURBO_MODE_INDEX].active) {
 #ifdef GCN_PLATFORM
         cPadInfo[0].mPressedButtonFlags = cPadInfo[0].mButtonFlags;

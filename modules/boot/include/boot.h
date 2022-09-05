@@ -19,13 +19,13 @@ void exit();
 }  // namespace tpgz::modules
 
 extern tpgz::dyn::GZModule g_InputViewer_rel;
-void GZ_controlTools();
-void GZ_controlMenu();
-void GZ_controlCardLoad();
-void GZ_controlSavingTmp();
-void GZ_controlFlags_PreLoop();
-void GZ_controlFlags_PostLoop();
-void GZ_controlTurbo();
+void GZ_handleTools();
+void GZ_handleMenu();
+void GZ_handleCardLoad();
+void GZ_handleSavingTmp();
+void GZ_handleFlags_PreLoop();
+void GZ_handleFlags_PostLoop();
+void GZ_handleTurbo();
 
 void GZ_renderMenuTitle();
 void GZ_renderPlayPause();

@@ -45,18 +45,18 @@ void main() {
     g_drawListener->addListener(GZ_renderPlayPause);
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
-    g_PreLoopListener->addListener(GZ_controlCardLoad);
-    g_PreLoopListener->addListener(GZ_controlMenu);
-    g_PreLoopListener->addListener(GZ_controlSavingTmp);
-    g_PreLoopListener->addListener(GZ_controlFlags_PreLoop);
-    g_PreLoopListener->addListener(GZ_controlTurbo);
+    g_PreLoopListener->addListener(GZ_handleCardLoad);
+    g_PreLoopListener->addListener(GZ_handleMenu);
+    g_PreLoopListener->addListener(GZ_handleSavingTmp);
+    g_PreLoopListener->addListener(GZ_handleFlags_PreLoop);
+    g_PreLoopListener->addListener(GZ_handleTurbo);
     g_PreLoopListener->addListener(GZ_setCursorColor);
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
-    g_PreLoopListener->addListener(GZ_controlTools);
+    g_PreLoopListener->addListener(GZ_handleTools);
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
-    g_PostLoopListener->addListener(GZ_controlFlags_PostLoop);
+    g_PostLoopListener->addListener(GZ_handleFlags_PostLoop);
     g_PostLoopListener->addListener(GZ_setCursorColor);
     g_PostLoopListener->addListener(GZ_setTunicColor);
 }

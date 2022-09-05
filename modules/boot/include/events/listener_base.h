@@ -10,18 +10,41 @@
 #include <algorithm>
 
 namespace events {
-template <typename T>
-concept Function = std::is_function_v<std::remove_pointer_t<T>>;
+/**
+ * @brief C++20 Concept to constrain the types to executable functions.
+ *
+ * @tparam T Constraint to be a function.
+ */
+template <typename Callback>
+concept Function = std::is_function_v<std::remove_pointer_t<Callback>>;
 
-template <Function T>
+/**
+ * @brief Listener class, made to produce listeners which can dispatch events to registered
+ * functions.
+ *
+ * @tparam Callback The signature of the callback functions to register.
+ */
+template <Function Callback>
 class ListenerBase {
 public:
     ListenerBase() {}
     virtual ~ListenerBase() {}
 
-    void addListener(T* listener) { callbacks.push_back(listener); }
+    /**
+     * @brief Registeres a listener to run at the listened event.
+     * 
+     * @param listener Function to register.
+     */
+    void addListener(Callback* listener) { callbacks.push_back(listener); }
 
-    bool removeListener(T* listener) {
+    /**
+     * @brief Unregisters a function.
+     * 
+     * @param listener Function to unregister
+     * @return true The function was previously registered and has been removed.
+     * @return false The function was not previously registered.
+     */
+    bool removeListener(Callback* listener) {
         auto it = std::find(callbacks.begin(), callbacks.end(), listener);
         if (it == callbacks.end()) {
             return false;
@@ -30,17 +53,23 @@ public:
         return true;
     }
 
+    /**
+     * @brief Calls all the registered functions with the given arguments.
+     * 
+     * @tparam Args 
+     * @param args 
+     */
     template <typename... Args>
-    void dispatchAll(Args... args) requires std::invocable<T, Args...> {
-        for (T* cb : callbacks) {
+    void dispatchAll(Args... args) requires std::invocable<Callback, Args...> {
+        for (Callback* cb : callbacks) {
             cb(args...);
         }
     }
 
-    size_t getStackSize() const { return std::distance(callbacks.begin(), callbacks.end()); }
+    size_t getCount() const { return std::distance(callbacks.begin(), callbacks.end()); }
 
 private:
-    std::deque<std::remove_pointer_t<T>*> callbacks;
+    std::deque<std::remove_pointer_t<Callback>*> callbacks;
 };
 
 }  // namespace events

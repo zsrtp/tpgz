@@ -144,7 +144,7 @@ public:
     /**
      * @brief Set the function to call when loading the menu for the first
      *        time. It's a good place to setup the persistent data for the
-     *        menu.
+     *        menu. (Acts on the top module of the stack)
      *
      * @param createHook
      */
@@ -152,13 +152,14 @@ public:
     /**
      * @brief Set the function to call everytime we load the menu.
      *        It's a good place to hook the module's functions to the
-     *        appropriate listeners.
+     *        appropriate listeners. (Acts on the top module of the stack)
      *
      * @param loadHook
      */
     void setLoadHook(void (*loadHook)());
     /**
      * @brief Set the function to call everytime we unload the menu.
+     *        (Acts on the top module of the stack)
      *
      * @param unloadHook
      */
@@ -166,6 +167,7 @@ public:
     /**
      * @brief Set the function to call right before unloading and destroying
      *        the menu. It's a good place to destroy the persistent data.
+     *        (Acts on the top module of the stack)
      *
      * @param deleteHook
      */
