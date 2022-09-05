@@ -26,7 +26,7 @@ The repository structure is separated like so:
 - `/.github/workflows/`: Contains the configuration of the different workflows used to check the good quality of the code. This is not a folder you should usually need to interact with.
 - `/.vscode/`: Contains the configuration files for **VSCode**. More details in the section [*IDE Setup*](#ide-setup).
 - `/bin/`: Contains the executable binaries and scripts that are used by the compilation pipeline. More details in the section [*Compilation pipeline*](#compilation-pipeline).
-- `/build_.../`: User created. Rquired in order to build the project. More details in [*Compilation Pipeline*](#compilation-pipeline) and [*IDE Setup*](#ide-setup).
+- `/build_.../`: **User created**. Rquired in order to build the project. More details in [*Compilation Pipeline*](#compilation-pipeline) and [*IDE Setup*](#ide-setup).
 - `/cmake/`: Contains **CMake** scripts used in the compilation pipeline to import libraries, tools, configurations, ..., from outside the project. More details in [*Compilation pipeline*](#compilation-pipeline).
 - `/common/`: Contains the code samples that are reused between modules.
 - `/docs/`: Contains useful documentation files.
@@ -34,7 +34,7 @@ The repository structure is separated like so:
 - `/external/gcn_c/`: Contains DolphinOS bindings that can be used to interface with the game's code.
 - `/external/libtp_c/`: Contains bindings that are specific for Twilight Princess that can be used to interface with the game's code.
 - `/external/misc/`: Contains scripts useful during development (for example, generating save files metadata, or converting an image/font into our custom file format).
-- `/isos/`: User created. Contains the dump of each version of the game provided by the user. They must comply with the folling mapping depending on the version of the game:
+- `/isos/`: **User created**. Contains the dump of each version of the game provided by the user. They must comply with the folling mapping depending on the version of the game:
   - `GCN_NTSCU` -> `GZ2E01.iso`
   - `GCN_PAL` -> `GZ2P01.iso`
   - `GCN_NTSCJ` -> `GZ2J01.iso`
@@ -243,7 +243,7 @@ void renderMe() {
 // We can register a function to be called in the draw thread in this way.
 g_drawListener.addListener(renderMe);
 
-// If we don't want to stop the function from being called, we can remove it.
+// If we want to stop the function from being called, we can remove it.
 g_drawListener.removeListener(renderMe);
 ```
 
@@ -295,14 +295,16 @@ All the menus in **TPGZ** are dynamically loaded. They have their own folder `/m
 The **Menu Manager** handles the loading and unloading of the menus, as well as which menu to display. Every time we open a sub menu, the current menu is unloaded, but its **State** is kept on a stack. When we leave a sub menu, we pop its **State** from the stack and load the previous one.<br>
 A **Menu State** is constituted of a menu ID, a pointer to some data we want to keep between loads (as long as the state is on the stack), and some callbacks for specific events.
 
-The events that are kept in the state are called *Lifecycle hooks*.
+The callbacks that are kept in the state are called *Lifecycle hooks*.
 
 - `createHook`: This callback is run when we load the menu for the first time. It's a good place to initialize the persistent data you want to keep between loads.
 - `loadHook`: This callback is run every time the menu is loaded into memory. It's a good place to register some listeners (for example, a draw listener to render the menu).
 - `unloadHook`: This callback is run every time the menu is unloaded from memory. It's a good place to unregister your listeners.
 - `deleteHook`: This callback is run once before getting ride of the menu state. It's a good place to free the persistent data you allocated.
 
-The menu manager also provides a way to keep data permanently for each menu. It is called *Permanent Data*. This data will always be available for the given menu and will never be freed by the **MenuMgr**.
+Lifecycle hooks should be set/unset in the main/exit functions of the menu's module.
+
+The menu manager also provides a way to keep data permanently for each menu. It is called *Permanent Data*. This data will always be available for the given menu and will never be freed by the **MenuMgr**. (Since permanent data is never freed, it is recommended to avoid keeping large amount of data in there.)
 
 > You can look at the Tools Menu (`/modules/menus/menu_tools/`) as an example of a typical menu implementation.
 
@@ -325,4 +327,4 @@ A few **VSCode** tasks are provided to ease the build process a little bit. The 
 
 ### Dev Container
 
-The folder `.devcontainer` contains configuration files that can be used by **VSCode**'s extention [**Remote Container**](https://code.visualstudio.com/docs/remote/containers) and with [***Docker***](https://www.docker.com/) installed on your system to make a development container that can provide a standardized environment that is guarentied to build the project.
+The folder `.devcontainer` contains configuration files that can be used by **VSCode**'s extension [**Remote Container**](https://code.visualstudio.com/docs/remote/containers) and with [***Docker***](https://www.docker.com/) installed on your system to make a development container that can provide a standardized environment that is guaranteed to build the project.
