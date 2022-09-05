@@ -107,7 +107,7 @@ KEEP_FUNC void draw() {
 
 /**
  * @brief Loads into memory the RELs for each tool which is active.
- * 
+ *
  * @param id    The ID of the tool (index in g_tools).
  * @param rel   The GZModule object used to load the REL.
  */

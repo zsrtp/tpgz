@@ -32,14 +32,14 @@ public:
 
     /**
      * @brief Registeres a listener to run at the listened event.
-     * 
+     *
      * @param listener Function to register.
      */
     void addListener(Callback* listener) { callbacks.push_back(listener); }
 
     /**
      * @brief Unregisters a function.
-     * 
+     *
      * @param listener Function to unregister
      * @return true The function was previously registered and has been removed.
      * @return false The function was not previously registered.
@@ -55,9 +55,9 @@ public:
 
     /**
      * @brief Calls all the registered functions with the given arguments.
-     * 
-     * @tparam Args 
-     * @param args 
+     *
+     * @tparam Args
+     * @param args
      */
     template <typename... Args>
     void dispatchAll(Args... args) requires std::invocable<Callback, Args...> {
