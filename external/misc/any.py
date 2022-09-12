@@ -124,7 +124,7 @@ if PLATFORM is Platform.WII:
         "hyrule_castle",
         "darknut",
         "tower_climb",
-        "zelda_fight",
+        "beast_ganon",
         "horseback_ganon",
     ]
 

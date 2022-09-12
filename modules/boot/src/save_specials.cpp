@@ -269,3 +269,8 @@ KEEP_FUNC void SaveMngSpecial_CaveOfOrdeals() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;
 }
+
+KEEP_FUNC void BeastGanonSpecial_setLayer() {
+    gSaveManager.injectDefault_during();
+    setNextStageLayer(1);
+}

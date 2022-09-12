@@ -164,6 +164,7 @@ void AnySavesMenu::draw() {
             special(ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
             special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
             special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+            special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
 #endif
         SaveManager::loadSave(cursor.y, "any", AnySpecials,
