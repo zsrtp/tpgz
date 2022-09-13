@@ -16,14 +16,10 @@ jobs:
       with:
         token: ${{secrets.MY_REPO_PAT}}
         submodules: recursive
-    - name: Enable PR Test Flag
-      run: export PR_TEST=1
     - name: Move ISO
-      run: mv /RZDE01.iso ./
+      run: mkdir -p ./isos/ && mv /RZDE01.iso ./isos/RZDE01.iso
     - name: Compiler Test
-      run: make PLATFORM=WII REGION=NTSCU_10
-    - name: Linker Test
-      run: romhack build --raw
+      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=WII -DREGION=NTSCU_10 && make iso && cd ..
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgzw.iso &
