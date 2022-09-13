@@ -19,7 +19,7 @@ jobs:
     - name: Move ISO
       run: mkdir -p ./isos/ && mv /GZ2E01.iso ./isos/GZ2E01.iso
     - name: Compiler Test
-      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=GCN -DREGION=NTSCU && make iso && cd ..
+      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=GCN -DREGION=NTSCU && make -j$(nproc) iso && cd ..
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &

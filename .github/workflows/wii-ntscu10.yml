@@ -19,7 +19,7 @@ jobs:
     - name: Move ISO
       run: mkdir -p ./isos/ && mv /RZDE01.iso ./isos/RZDE01.iso
     - name: Compiler Test
-      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=WII -DREGION=NTSCU_10 && make iso && cd ..
+      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=WII -DREGION=NTSCU_10 && make -j$(nproc) iso && cd ..
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgzw.iso &
