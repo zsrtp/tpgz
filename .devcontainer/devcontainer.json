@@ -11,6 +11,7 @@
 	"extensions": [
 		"ms-vscode.cpptools-extension-pack",
 		"ms-vscode.makefile-tools",
+		"ms-python.python",
 		"ms-vscode.hexeditor",
 		"twxs.cmake",
 		"Gruntfuggly.todo-tree",
