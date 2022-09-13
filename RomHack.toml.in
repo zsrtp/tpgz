@@ -1,0 +1,44 @@
+[info]
+game-name = "tpgz"
+full-game-name = "Twilight Princess Practice Rom"
+developer-name = "Twilight Princess Community"
+full-developer-name = "Speedrun Community"
+
+[src]
+iso = "@TPGZ_CFG_SRC_ISO@"
+patch = "patch.asm"
+map = "@TPGZ_CFG_SRC_MAP@"
+
+[build]
+map = "@TPGZ_CFG_BLD_MAP@"
+iso = "@TPGZ_CFG_BLD_ISO@"
+
+[link]
+entries = ["apply_lib_hooks"]
+base = "@TPGZ_CFG_LINK_BASE@"
+libs = ["libtpgz.a"]
+
+[files]
+# textures
+"tpgz/tex" = "../res/tex"
+
+# fonts
+"tpgz/fonts" = "../res/fonts"
+
+# any% saves
+"tpgz/save_files/any.bin" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any.bin"
+"tpgz/save_files/any" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any"
+
+# 100% saves
+"tpgz/save_files/hundo.bin" = "../res/save_files/hundo.bin"
+"tpgz/save_files/hundo" = "../res/save_files/hundo"
+
+# All Dungeons saves
+"tpgz/save_files/ad.bin" = "../res/save_files/ad.bin"
+"tpgz/save_files/ad" = "../res/save_files/ad"
+
+# warp info
+"tpgz/stage_info" = "../res/stage_info"
+
+# REL modules
+"tpgz/rels" = "modules/rels"
