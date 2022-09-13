@@ -1,0 +1,27 @@
+name: Wii NTSC-J Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscj
+      options: --shm-size=128m --ulimit core=-1 --privileged=true
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        token: ${{secrets.MY_REPO_PAT}}
+        submodules: recursive
+    - name: Move ISO
+      run: mkdir -p ./isos/ && mv /RZDE01.iso ./isos/RZDJ01.iso
+    - name: Compiler Test
+      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=WII -DREGION=NTSC-J && make -j$(nproc) iso && cd ..
+    - name: Boot Dolphin
+      run: |
+        dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgzw.iso &
+        sleep 15
+        /dme -c 0x8051b460
