@@ -217,7 +217,7 @@ Here, we list how some of the main components of **TPGZ** work.
 
 > Currently, the main module also contains the majority of the code for the features. But in the long term, all the features that are not required to be in the main module will be extracted into sub modules.
 
-When sub modules reference a symbol (static variable/function) from the main module, the symbol might need to be forced to not be "optimised away" by the linker, which may be the case when the symbol is only used in sub modules without ever being referenced in the main module. To that end, there are preprocessor macros defined in `common/rels/include/defines.h` (`KEEP_VAR` and `KEE_FUNC`) which can be used to tell the linker to keep the symbol in the final binary.
+When sub modules reference a symbol (static variable/function) from the main module, the symbol might need to be forced to not be "optimised away" by the linker, which may be the case when the symbol is only used in sub modules without ever being referenced in the main module. To that end, there are preprocessor macros defined in `common/rels/include/defines.h` (`KEEP_VAR` and `KEEP_FUNC`) which can be used to tell the linker to keep the symbol in the final binary.
 
 ### Listeners
 
