@@ -17,7 +17,7 @@ jobs:
         token: ${{secrets.MY_REPO_PAT}}
         submodules: recursive
     - name: Move ISO
-      run: mkdir -p ./isos/ && mv /RZDE01_02.iso ./isos/RZDE01_02.iso
+      run: mkdir -p ./isos/ && mv /RZDE01_2.iso ./isos/RZDE01_2.iso
     - name: Compiler Test
       run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=WII -DREGION=NTSCU_12 && make -j$(nproc) iso && cd ..
     - name: Boot Dolphin
