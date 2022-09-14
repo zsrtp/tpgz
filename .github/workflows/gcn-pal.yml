@@ -16,14 +16,10 @@ jobs:
       with:
         token: ${{secrets.MY_REPO_PAT}}
         submodules: recursive
-    - name: Enable PR Test Flag
-      run: export PR_TEST=1
     - name: Move ISO
-      run: mv /GZ2P01.iso ./
+      run: mkdir -p ./isos/ && mv /GZ2P01.iso ./isos/GZ2P01.iso
     - name: Compiler Test
-      run: make PLATFORM=GCN REGION=PAL
-    - name: Linker Test
-      run: romhack build --raw
+      run: mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=GCN -DREGION=PAL && make -j$(nproc) iso && cd ..
     - name: Boot Dolphin
       run: |
         dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgz.iso &

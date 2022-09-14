@@ -1,0 +1,53 @@
+#pragma once
+
+#include <stdint.h>
+#include "controller.h"
+
+#ifdef GCN_PLATFORM
+#define SCROLL_P10_BTN GZPad::X
+#define SCROLL_M10_BTN GZPad::Y
+#endif
+
+#ifdef WII_PLATFORM
+#define SCROLL_P10_BTN GZPad::TWO
+#define SCROLL_M10_BTN GZPad::ONE
+#endif
+
+struct Cursor {
+    enum Mode {
+        MODE_SINGLE_COLUMN,
+        MODE_LIST,
+        MODE_UNRESTRICTED,
+    };
+
+    Cursor() { reset(); }
+
+    void move(int max_x, int max_y);
+
+    template <typename T>
+    static void moveList(T& index) {
+        if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
+            index--;
+        } else if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
+            index++;
+        } else if (GZ_getButtonRepeat(SCROLL_M10_BTN)) {
+            index -= 10;
+        } else if (GZ_getButtonRepeat(SCROLL_P10_BTN)) {
+            index += 10;
+        }
+    }
+
+    void reset();
+    void lock(bool x, bool y);
+    void setMode(uint8_t m);
+
+    int x = 0;
+    int y = 0;
+    uint8_t mode = 0;
+    bool lock_x = false;
+    bool lock_y = false;
+};
+
+extern bool g_cursorEnabled;
+
+void GZ_setCursorColor();

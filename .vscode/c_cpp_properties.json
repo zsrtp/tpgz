@@ -1,0 +1,257 @@
+{
+    "configurations": [
+        {
+            "name": "GC US",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_NTSCU",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "GC PAL",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_PAL",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "GC JP",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "GCN_PLATFORM",
+                "GCN_NTSCJ",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii US 1.0",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_NTSCU_10",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii US 1.2",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_NTSCU_12",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii JP",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_NTSCJ",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        },
+        {
+            "name": "Wii PAL",
+            "includePath": [
+                "${workspaceFolder}/modules/boot/include/**",
+                "${workspaceFolder}/modules/**",
+                "${workspaceFolder}/common/**",
+                "${workspaceFolder}/external/**"
+            ],
+            "defines": [
+                "WII_PLATFORM",
+                "WII_PAL",
+                "REL_MODULE"
+            ],
+            "compilerPath": "/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++20",
+            "intelliSenseMode": "gcc-x86",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-g",
+                "-c",
+                "-Os",
+                "-Wall",
+                "-DGEKKO",
+                "-mrvl",
+                "-mcpu=750",
+                "-meabi",
+                "-mhard-float"
+            ]
+        }
+    ],
+    "version": 4
+}

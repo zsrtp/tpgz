@@ -4,9 +4,10 @@
 *.iso
 *.map
 regional-patch.asm
-build/
-.vscode/
-!.vscode/c_cpp_properties.json
+build*/
+isos/
+.vscode/*.log
+.vscode/settings.json
 external/fonts/target
 external/fonts/build
 Updater.log

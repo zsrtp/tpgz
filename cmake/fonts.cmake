@@ -1,0 +1,1 @@
+# TODO Automate the font processing, to make it as easy as add a font in the font folder and it would be included in the romhack.
