@@ -33,10 +33,10 @@ WORKDIR /etc
 RUN sudo ln -sf /proc/self/mounts mtab
 RUN sudo dkp-pacman -S --noconfirm gamecube-dev wii-dev
 
-# Install the patchers
-WORKDIR /workspaces/romhack/wii
-RUN curl -L https://github.com/zsrtp/romhack-compiler/releases/download/v0.1.1-r2/romhack-v0.1.1-r2-linux-x64-musl.zip | bsdtar -xvf -
-RUN chmod +x romhack
-WORKDIR /workspaces/romhack/gc
-RUN curl -L https://github.com/zsrtp/romhack-compiler/releases/download/v0.1.1-r2/romhack-v0.1.1-r2-linux-x64-musl-gc.zip | bsdtar -xvf -
-RUN chmod +x romhack
+# # Install the patchers
+# WORKDIR /workspaces/romhack/wii
+# RUN curl -L https://github.com/zsrtp/romhack-compiler/releases/download/v0.1.1-r2/romhack-v0.1.1-r2-linux-x64-musl.zip | bsdtar -xvf -
+# RUN chmod +x romhack
+# WORKDIR /workspaces/romhack/gc
+# RUN curl -L https://github.com/zsrtp/romhack-compiler/releases/download/v0.1.1-r2/romhack-v0.1.1-r2-linux-x64-musl-gc.zip | bsdtar -xvf -
+# RUN chmod +x romhack
