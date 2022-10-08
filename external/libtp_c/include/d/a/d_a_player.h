@@ -222,12 +222,24 @@ public:
         return sumouCameraMode;
     }
 
-    int checkNoResetFlg0(daPy_FLG0 pFlag) const { return mNoResetFlg0 & pFlag; }
-    int checkNoResetFlg1(daPy_FLG1 pFlag) const { return mNoResetFlg1 & pFlag; }
-    int checkNoResetFlg2(daPy_FLG2 pFlag) const { return mNoResetFlg2 & pFlag; }
-    void onNoResetFlg0(int pFlg) { mNoResetFlg0 |= pFlg; }
-    void onEndResetFlg1(daPy_ERFLG1 pFlg) { mEndResetFlg1 |= pFlg; }
-    int checkWolf() { return checkNoResetFlg1(IS_WOLF); }
+    int checkNoResetFlg0(daPy_FLG0 pFlag) const {
+        return mNoResetFlg0 & pFlag;
+    }
+    int checkNoResetFlg1(daPy_FLG1 pFlag) const {
+        return mNoResetFlg1 & pFlag;
+    }
+    int checkNoResetFlg2(daPy_FLG2 pFlag) const {
+        return mNoResetFlg2 & pFlag;
+    }
+    void onNoResetFlg0(int pFlg) {
+        mNoResetFlg0 |= pFlg;
+    }
+    void onEndResetFlg1(daPy_ERFLG1 pFlg) {
+        mEndResetFlg1 |= pFlg;
+    }
+    int checkWolf() {
+        return checkNoResetFlg1(IS_WOLF);
+    }
 };
 
 #endif /* D_A_D_A_PLAYER_H */

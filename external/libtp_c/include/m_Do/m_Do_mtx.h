@@ -14,11 +14,11 @@ extern "C" void PSMTXTrans(Mtx matrix, float x_trans, float y_trans, float z_tra
 #endif
 extern Mtx mDoMtx_stack_c__now;
 
-LIBTP_DEFINE_FUNC(mDoMtx_XYZrotM__FPA4_fsss, mDoMtx_XYZrotM_float,
-                  void, mDoMtx_XYZrotM, (Mtx, short, short, short))
+LIBTP_DEFINE_FUNC(mDoMtx_XYZrotM__FPA4_fsss, mDoMtx_XYZrotM_float, void, mDoMtx_XYZrotM,
+                  (Mtx, short, short, short))
 
-LIBTP_DEFINE_FUNC(scaleM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__scaleM_float_,
-                  void, mDoMtx_stack_c__scaleM, (float, float, float))
+LIBTP_DEFINE_FUNC(scaleM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__scaleM_float_, void,
+                  mDoMtx_stack_c__scaleM, (float, float, float))
 
 class mDoMtx_stack_c {
 public:

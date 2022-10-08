@@ -2746,7 +2746,7 @@ extern daAlinkHIO_wlSwim_c1 daAlinkHIO_wlSwim;
 #endif
 extern daAlinkHIO_hookshot_c1 daAlinkHIO_hookshot;
 
-LIBTP_DEFINE_FUNC(checkStageName__9daAlink_cFPCc, daAlink_c__checkStageName_char_const___,
-                  int, daAlink_c__checkStageName, (const char*))
+LIBTP_DEFINE_FUNC(checkStageName__9daAlink_cFPCc, daAlink_c__checkStageName_char_const___, int,
+                  daAlink_c__checkStageName, (const char*))
 
 #endif /* D_A_D_A_ALINK_H */

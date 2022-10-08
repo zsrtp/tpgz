@@ -342,8 +342,9 @@ struct TitleScreenInfo {
 };
 extern TitleScreenInfo l_fpcNdRq_Queue;
 
-LIBTP_DEFINE_FUNC(getLayerNo_common_common__14dComIfG_play_cFPCcii, dComIfG_play_c__getLayerNo_common_common_char_const____int__int_,
-                  int, tp_getLayerNo, (const char* stageName, int roomId, int layerOverride))
+LIBTP_DEFINE_FUNC(getLayerNo_common_common__14dComIfG_play_cFPCcii,
+                  dComIfG_play_c__getLayerNo_common_common_char_const____int__int_, int,
+                  tp_getLayerNo, (const char* stageName, int roomId, int layerOverride))
 
 // Inline Functions
 inline void dComIfGs_setItem(int slot_no, uint8_t item_no) {
@@ -556,17 +557,18 @@ inline uint8_t dComIfGs_getSelectItemIndex(int idx) {
         &g_dComIfG_gameInfo.info.getPlayer().getPlayerStatusA(), idx);
 }
 
-LIBTP_DEFINE_FUNC(dComIfGs_setSelectItemIndex__FiUc, dComIfGs_setSelectItemIndex_int__unsigned_char_,
-                  void, dComIfGs_setSelectItemIndex, (int32_t idx, uint8_t item))
+LIBTP_DEFINE_FUNC(dComIfGs_setSelectItemIndex__FiUc,
+                  dComIfGs_setSelectItemIndex_int__unsigned_char_, void,
+                  dComIfGs_setSelectItemIndex, (int32_t idx, uint8_t item))
 
-LIBTP_DEFINE_FUNC(dComIfGs_getMixItemIndex__Fi, dComIfGs_getMixItemIndex_int_,
-                  uint8_t, dComIfGs_getMixItemIndex, (int32_t idx))
+LIBTP_DEFINE_FUNC(dComIfGs_getMixItemIndex__Fi, dComIfGs_getMixItemIndex_int_, uint8_t,
+                  dComIfGs_getMixItemIndex, (int32_t idx))
 
 LIBTP_DEFINE_FUNC(dComIfGs_setMixItemIndex__FiUc, dComIfGs_setMixItemIndex_int__unsigned_char_,
                   void, dComIfGs_setMixItemIndex, (int32_t idx, uint8_t item))
 
 inline void dComIfGp_setItem(uint8_t slot, uint8_t i_no) {
-                  g_dComIfG_gameInfo.play.setItem(slot, i_no);
+    g_dComIfG_gameInfo.play.setItem(slot, i_no);
 }
 /*
 inline uint32_t dComIfGp_getNowVibration(void) {
@@ -630,11 +632,11 @@ inline dEvent_manager_c& dComIfGp_getEventManager() {
 }
 #else
 
-LIBTP_DEFINE_FUNC(dComIfGp_getEvent__Fv, dComIfGp_getEvent__Fv,
-                  dEvt_control_c&, dComIfGp_getEvent, (void))
+LIBTP_DEFINE_FUNC(dComIfGp_getEvent__Fv, dComIfGp_getEvent__Fv, dEvt_control_c&, dComIfGp_getEvent,
+                  (void))
 
-LIBTP_DEFINE_FUNC(dComIfGp_getEventManager__Fv, ,
-                  dEvent_manager_c&, dComIfGp_getEventManager, (void))
+LIBTP_DEFINE_FUNC(dComIfGp_getEventManager__Fv, , dEvent_manager_c&, dComIfGp_getEventManager,
+                  (void))
 #endif
 
 inline void dComIfGs_setTime(float pTime) {
@@ -665,8 +667,8 @@ inline bool dComIfGs_isItemFirstBit(uint8_t flag) {
 }
 #else
 
-LIBTP_DEFINE_FUNC(dComIfGs_isItemFirstBit__FUc, dComIfGs_isItemFirstBit__FUc,
-                  bool, dComIfGs_isItemFirstBit, (uint8_t item))
+LIBTP_DEFINE_FUNC(dComIfGs_isItemFirstBit__FUc, dComIfGs_isItemFirstBit__FUc, bool,
+                  dComIfGs_isItemFirstBit, (uint8_t item))
 #endif
 
 inline uint8_t dComIfGs_getWalletSize() {
@@ -736,15 +738,14 @@ inline uint16_t dComIfGs_getRupee() {
 }
 #else
 
-LIBTP_DEFINE_FUNC(dComIfGs_getRupee__Fv, dComIfGs_getRupee__Fv,
-                  uint16_t, dComIfGs_getRupee, (void))
+LIBTP_DEFINE_FUNC(dComIfGs_getRupee__Fv, dComIfGs_getRupee__Fv, uint16_t, dComIfGs_getRupee, (void))
 #endif
 
-LIBTP_DEFINE_FUNC(dComIfGs_onOneZoneSwitch__Fii, dComIfGs_onOneZoneSwitch_int__int_,
-                  void, dComIfGs_onOneZoneSwitch, (int, int))
+LIBTP_DEFINE_FUNC(dComIfGs_onOneZoneSwitch__Fii, dComIfGs_onOneZoneSwitch_int__int_, void,
+                  dComIfGs_onOneZoneSwitch, (int, int))
 
-LIBTP_DEFINE_FUNC(dComIfGs_onZoneSwitch__Fii, dComIfGs_onZoneSwitch_int__int_,
-                  void, dComIfGs_onZoneSwitch, (int, int))
+LIBTP_DEFINE_FUNC(dComIfGs_onZoneSwitch__Fii, dComIfGs_onZoneSwitch_int__int_, void,
+                  dComIfGs_onZoneSwitch, (int, int))
 
 class dComIfAc_gameInfo {
 public:

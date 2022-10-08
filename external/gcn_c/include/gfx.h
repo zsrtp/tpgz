@@ -146,17 +146,28 @@
  * triangle strips or fans instead of discrete triangles.
  * @{
  */
-#define GX_POINTS 0xB8        /*!< Draws a series of points. Each vertex is a single point. */
-#define GX_LINES 0xA8         /*!< Draws a series of unconnected line segments. Each pair of vertices makes a line. */
-#define GX_LINESTRIP 0xB0     /*!< Draws a series of lines. Each vertex (besides the first) makes a line between it and the previous. */
-#define GX_TRIANGLES 0x90     /*!< Draws a series of unconnected triangles. Three vertices make a single triangle. */
-#define GX_TRIANGLESTRIP 0x98 /*!< Draws a series of triangles. Each triangle (besides the first) shares a side with the previous triangle. \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                               * Each vertex (besides the first two) completes a triangle. */
-#define GX_TRIANGLEFAN 0xA0   /*!< Draws a single triangle fan. The first vertex is the "centerpoint". The second and third vertex complete  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                               * the first triangle. Each subsequent vertex completes another triangle which shares a side with the previous \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                               * triangle (except the first triangle) and has the centerpoint vertex as one of the vertices. */
-#define GX_QUADS 0x80         /*!< Draws a series of unconnected quads. Every four vertices completes a quad. Internally, each quad is \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                               * translated into a pair of triangles. */
+#define GX_POINTS 0xB8 /*!< Draws a series of points. Each vertex is a single point. */
+#define GX_LINES                                                                                   \
+    0xA8 /*!< Draws a series of unconnected line segments. Each pair of vertices makes a line. */
+#define GX_LINESTRIP                                                                               \
+    0xB0 /*!< Draws a series of lines. Each vertex (besides the first) makes a line between it and \
+            the previous. */
+#define GX_TRIANGLES                                                                               \
+    0x90 /*!< Draws a series of unconnected triangles. Three vertices make a single triangle. */
+#define GX_TRIANGLESTRIP                                                                           \
+    0x98 /*!< Draws a series of triangles. Each triangle (besides the first) shares a side with    \
+          * the previous triangle. \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Each vertex                                                                                       \
+          * (besides the first two) completes a triangle. */
+#define GX_TRIANGLEFAN                                                                             \
+    0xA0 /*!< Draws a single triangle fan. The first vertex is the "centerpoint". The second and   \
+          * third vertex complete  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \             \
+          * the first triangle. Each subsequent vertex completes another triangle which shares a   \
+          * side with the previous \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ triangle                                                                                          \
+          * (except the first triangle) and has the centerpoint vertex as one of the vertices. */
+#define GX_QUADS                                                                                   \
+    0x80 /*!< Draws a series of unconnected quads. Every four vertices completes a quad.           \
+          * Internally, each quad is \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \           \
+          * translated into a pair of triangles. */
 /*! @} */
 
 #define GX_SRC_REG 0
@@ -351,19 +362,24 @@
 /*! \addtogroup texgentyp Texture coordinate generation type
  * @{
  */
-#define GX_TG_MTX3x4 0 /*!< 2x4 matrix multiply on the input attribute and generate S,T texture coordinates. */
-#define GX_TG_MTX2x4 1 /*!< 3x4 matrix multiply on the input attribute and generate S,T,Q coordinates; S,T are then divided \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                        * by Q to produce the actual 2D texture coordinates. */
-#define GX_TG_BUMP0 2  /*!< Use light 0 in the bump map calculation. */
-#define GX_TG_BUMP1 3  /*!< Use light 1 in the bump map calculation. */
-#define GX_TG_BUMP2 4  /*!< Use light 2 in the bump map calculation. */
-#define GX_TG_BUMP3 5  /*!< Use light 3 in the bump map calculation. */
-#define GX_TG_BUMP4 6  /*!< Use light 4 in the bump map calculation. */
-#define GX_TG_BUMP5 7  /*!< Use light 5 in the bump map calculation. */
-#define GX_TG_BUMP6 8  /*!< Use light 6 in the bump map calculation. */
-#define GX_TG_BUMP7 9  /*!< Use light 7 in the bump map calculation. */
-#define GX_TG_SRTG 10  /*!< Coordinates generated from vertex lighting results; one of the color channel results is converted \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                        * into texture coordinates. */
+#define GX_TG_MTX3x4                                                                               \
+    0 /*!< 2x4 matrix multiply on the input attribute and generate S,T texture coordinates. */
+#define GX_TG_MTX2x4                                                                               \
+    1 /*!< 3x4 matrix multiply on the input attribute and generate S,T,Q coordinates; S,T are then \
+       * divided \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ by Q to produce the actual 2D                                                                     \
+       * texture coordinates. */
+#define GX_TG_BUMP0 2 /*!< Use light 0 in the bump map calculation. */
+#define GX_TG_BUMP1 3 /*!< Use light 1 in the bump map calculation. */
+#define GX_TG_BUMP2 4 /*!< Use light 2 in the bump map calculation. */
+#define GX_TG_BUMP3 5 /*!< Use light 3 in the bump map calculation. */
+#define GX_TG_BUMP4 6 /*!< Use light 4 in the bump map calculation. */
+#define GX_TG_BUMP5 7 /*!< Use light 5 in the bump map calculation. */
+#define GX_TG_BUMP6 8 /*!< Use light 6 in the bump map calculation. */
+#define GX_TG_BUMP7 9 /*!< Use light 7 in the bump map calculation. */
+#define GX_TG_SRTG                                                                                 \
+    10 /*!< Coordinates generated from vertex lighting results; one of the color channel results   \
+        * is converted \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ into texture                                                                                      \
+        * coordinates. */
 /*! @} */
 
 /*! \addtogroup texgensrc Texture coordinate source
@@ -475,9 +491,12 @@
 /*! \addtogroup tevdefmode TEV combiner operation
  * \brief Color/Alpha combiner modes for GXSetTevOp().
  *
- * \details For these equations, <i>Cv</i> is the output color for the stage, <i>Cr</i> is the output color of previous stage, and <i>Ct</i> is the texture color. <i>Av</i> is the output
- * alpha for a stage, <i>Ar</i> is the output alpha of previous stage, and <i>At</i> is the texture alpha. As a special case, rasterized color
- * (<tt>GX_CC_RASC</tt>) is used as <i>Cr</i> and rasterized alpha (<tt>GX_CA_RASA</tt>) is used as <i>Ar</i> at the first TEV stage because there is no previous stage.
+ * \details For these equations, <i>Cv</i> is the output color for the stage, <i>Cr</i> is the
+ * output color of previous stage, and <i>Ct</i> is the texture color. <i>Av</i> is the output alpha
+ * for a stage, <i>Ar</i> is the output alpha of previous stage, and <i>At</i> is the texture alpha.
+ * As a special case, rasterized color
+ * (<tt>GX_CC_RASC</tt>) is used as <i>Cr</i> and rasterized alpha (<tt>GX_CA_RASA</tt>) is used as
+ * <i>Ar</i> at the first TEV stage because there is no previous stage.
  *
  * @{
  */
@@ -529,8 +548,9 @@
 /*! @} */
 
 /*! \addtogroup tevstage TEV stage
- * \details The GameCube's Graphics Processor (GP) can use up to 16 stages to compute a texel for a particular surface.
- * By default, each texture will use two stages, but it can be configured through various functions calls.
+ * \details The GameCube's Graphics Processor (GP) can use up to 16 stages to compute a texel for a
+ * particular surface. By default, each texture will use two stages, but it can be configured
+ * through various functions calls.
  *
  * \note This is different from \ref texmapid s, where textures are loaded into.
  * @{
@@ -653,8 +673,10 @@
 #define GX_TEXMAP6 6 /*!< Texture map slot 6 */
 #define GX_TEXMAP7 7 /*!< Texture map slot 7 */
 #define GX_MAX_TEXMAP 8
-#define GX_TEXMAP_NULL 0xff     /*!< No texmap */
-#define GX_TEXMAP_DISABLE 0x100 /*!< Disable texmap lookup for this texmap slot (use bitwise OR with a texture map slot). */
+#define GX_TEXMAP_NULL 0xff /*!< No texmap */
+#define GX_TEXMAP_DISABLE                                                                          \
+    0x100 /*!< Disable texmap lookup for this texmap slot (use bitwise OR with a texture map       \
+             slot). */
 /*! @} */
 
 /*! \addtogroup alphaop Alpha combine control
@@ -1035,23 +1057,30 @@
  * the triangle. A coverage of 1 indicates that only 1 pixel in the quad intersected the triangle.
  * @{
  */
-#define GX_PERF0_VERTICES 0      /*!< Number of vertices processed by the GP. */
-#define GX_PERF0_CLIP_VTX 1      /*!< Number of vertices that were clipped by the GP. */
-#define GX_PERF0_CLIP_CLKS 2     /*!< Number of GP clocks spent clipping. */
-#define GX_PERF0_XF_WAIT_IN 3    /*!< Number of cycles the XF is waiting on input. If the XF is waiting a large percentage \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                                  * of the total time, it may indicate that the CPU is not supplying data fast enough to   \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                                  * keep the GP busy. */
-#define GX_PERF0_XF_WAIT_OUT 4   /*!< Number of cycles the XF waits to send its output to the rest of the GP pipeline. If \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                                  * the XF cannot output, it may indicate that the GP is currently fill-rate limited. */
-#define GX_PERF0_XF_XFRM_CLKS 5  /*!< Number of cycles the transform engine is busy. */
-#define GX_PERF0_XF_LIT_CLKS 6   /*!< Number of cycles the lighting engine is busy. */
-#define GX_PERF0_XF_BOT_CLKS 7   /*!< Number of cycles the bottom of the pipe (result combiner) is busy. */
+#define GX_PERF0_VERTICES 0  /*!< Number of vertices processed by the GP. */
+#define GX_PERF0_CLIP_VTX 1  /*!< Number of vertices that were clipped by the GP. */
+#define GX_PERF0_CLIP_CLKS 2 /*!< Number of GP clocks spent clipping. */
+#define GX_PERF0_XF_WAIT_IN                                                                        \
+    3 /*!< Number of cycles the XF is waiting on input. If the XF is waiting a large percentage    \
+       * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \                                       \
+       * of the total time, it may indicate that the CPU is not supplying data fast enough to      \
+       * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keep the GP busy. */
+#define GX_PERF0_XF_WAIT_OUT                                                                       \
+    4 /*!< Number of cycles the XF waits to send its output to the rest of the GP pipeline. If     \
+       * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the XF cannot output, it may indicate                                                             \
+       * that the GP is currently fill-rate limited. */
+#define GX_PERF0_XF_XFRM_CLKS 5 /*!< Number of cycles the transform engine is busy. */
+#define GX_PERF0_XF_LIT_CLKS 6  /*!< Number of cycles the lighting engine is busy. */
+#define GX_PERF0_XF_BOT_CLKS                                                                       \
+    7 /*!< Number of cycles the bottom of the pipe (result combiner) is busy. */
 #define GX_PERF0_XF_REGLD_CLKS 8 /*!< Number of cycles are spent loading XF state registers. */
 #define GX_PERF0_XF_REGRD_CLKS 9 /*!< Number of cycles the XF reads the state registers. */
 #define GX_PERF0_CLIP_RATIO 10
-#define GX_PERF0_TRIANGLES 11           /*!< Number of triangles. */
-#define GX_PERF0_TRIANGLES_CULLED 12    /*!< Number of triangles that <i>failed</i> the front-face/back-face culling test. */
-#define GX_PERF0_TRIANGLES_PASSED 13    /*!< Number of triangles that <i>passed</i> the front-face/back-face culling test. */
+#define GX_PERF0_TRIANGLES 11 /*!< Number of triangles. */
+#define GX_PERF0_TRIANGLES_CULLED                                                                  \
+    12 /*!< Number of triangles that <i>failed</i> the front-face/back-face culling test. */
+#define GX_PERF0_TRIANGLES_PASSED                                                                  \
+    13 /*!< Number of triangles that <i>passed</i> the front-face/back-face culling test. */
 #define GX_PERF0_TRIANGLES_SCISSORED 14 /*!< Number of triangles that are scissored. */
 #define GX_PERF0_TRIANGLES_0TEX 15
 #define GX_PERF0_TRIANGLES_1TEX 16
@@ -1072,8 +1101,10 @@
 #define GX_PERF0_QUAD_3CVG 31    /*!< Number of quads with 3 pixel coverage. */
 #define GX_PERF0_QUAD_4CVG 32    /*!< Number of quads with 4 pixel coverage. */
 #define GX_PERF0_AVG_QUAD_CNT 33 /*!< Average quad count; average based on what is unknown */
-#define GX_PERF0_CLOCKS 34       /*!< Number of GP clocks that have elapsed since the previous call to GXReadGP0Metric(). */
-#define GX_PERF0_NONE 35         /*!< Disables performance measurement for perf0 and resets the counter. */
+#define GX_PERF0_CLOCKS                                                                            \
+    34 /*!< Number of GP clocks that have elapsed since the previous call to GXReadGP0Metric(). */
+#define GX_PERF0_NONE 35 /*!< Disables performance measurement for perf0 and resets the counter.   \
+                          */
 /*! @} */
 
 /*! \addtogroup perf1metrics Performance counter 1 metric
@@ -1090,10 +1121,12 @@
  * \note <tt>GX_PERF1_VC_*</tt> count different vertex cache stall conditions.
  * @{
  */
-#define GX_PERF1_TEXELS 0      /*!< Number of texels processed by the GP. */
-#define GX_PERF1_TX_IDLE 1     /*!< Number of clocks that the texture unit (TX) is idle. */
-#define GX_PERF1_TX_REGS 2     /*!< Number of GP clocks spent writing to state registers in the TX unit. */
-#define GX_PERF1_TX_MEMSTALL 3 /*!< Number of GP clocks the TX unit is stalled waiting for main memory. */
+#define GX_PERF1_TEXELS 0  /*!< Number of texels processed by the GP. */
+#define GX_PERF1_TX_IDLE 1 /*!< Number of clocks that the texture unit (TX) is idle. */
+#define GX_PERF1_TX_REGS                                                                           \
+    2 /*!< Number of GP clocks spent writing to state registers in the TX unit. */
+#define GX_PERF1_TX_MEMSTALL                                                                       \
+    3 /*!< Number of GP clocks the TX unit is stalled waiting for main memory. */
 #define GX_PERF1_TC_CHECK1_2 4
 #define GX_PERF1_TC_CHECK3_4 5
 #define GX_PERF1_TC_CHECK5_6 6
@@ -1106,14 +1139,21 @@
 #define GX_PERF1_VC_MISSREP_FULL 13
 #define GX_PERF1_VC_STREAMBUF_LOW 14
 #define GX_PERF1_VC_ALL_STALLS 15
-#define GX_PERF1_VERTICES 16    /*!< Number of vertices processed by the GP. */
-#define GX_PERF1_FIFO_REQ 17    /*!< Number of lines (32B) read from the GP FIFO. */
-#define GX_PERF1_CALL_REQ 18    /*!< Number of lines (32B) read from called display lists. */
-#define GX_PERF1_VC_MISS_REQ 19 /*!< Number vertex cache miss request. Each miss requests a 32B transfer from main memory. */
-#define GX_PERF1_CP_ALL_REQ 20  /*!< Counts all requests (32B/request) from the GP Command Processor (CP). It should be equal to \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
-                                 * the sum of counts returned by <tt>GX_PERF1_FIFO_REQ</tt>, <tt>GX_PERF1_CALL_REQ</tt>, and <tt>GX_PERF1_VC_MISS_REQ</tt>. */
-#define GX_PERF1_CLOCKS 21      /*!< Number of GP clocks that have elapsed since the last call to GXReadGP1Metric(). */
-#define GX_PERF1_NONE 22        /*!< Disables performance measurement for perf1 and resets the counter. */
+#define GX_PERF1_VERTICES 16 /*!< Number of vertices processed by the GP. */
+#define GX_PERF1_FIFO_REQ 17 /*!< Number of lines (32B) read from the GP FIFO. */
+#define GX_PERF1_CALL_REQ 18 /*!< Number of lines (32B) read from called display lists. */
+#define GX_PERF1_VC_MISS_REQ                                                                       \
+    19 /*!< Number vertex cache miss request. Each miss requests a 32B transfer from main memory.  \
+        */
+#define GX_PERF1_CP_ALL_REQ                                                                        \
+    20 /*!< Counts all requests (32B/request) from the GP Command Processor (CP). It should be     \
+        * equal to \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the sum of counts returned                                                                        \
+        * by <tt>GX_PERF1_FIFO_REQ</tt>, <tt>GX_PERF1_CALL_REQ</tt>, and                           \
+        * <tt>GX_PERF1_VC_MISS_REQ</tt>. */
+#define GX_PERF1_CLOCKS                                                                            \
+    21 /*!< Number of GP clocks that have elapsed since the last call to GXReadGP1Metric(). */
+#define GX_PERF1_NONE 22 /*!< Disables performance measurement for perf1 and resets the counter.   \
+                          */
 /*! @} */
 
 /*! \addtogroup tlutname TLUT name

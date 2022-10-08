@@ -173,7 +173,8 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
     assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.mCursorColType,
                       sizeof(save_file.data.mCursorColType));
     assert_read_entry(SV_FONT_INDEX, &save_file.data.mFontType, sizeof(save_file.data.mFontType));
-    assert_read_entry(SV_SWAP_EQUIPS_INDEX, &save_file.data.mSwapEquips, sizeof(save_file.data.mSwapEquips));
+    assert_read_entry(SV_SWAP_EQUIPS_INDEX, &save_file.data.mSwapEquips,
+                      sizeof(save_file.data.mSwapEquips));
 #undef assert_read_entry
 #undef assert_result
 
