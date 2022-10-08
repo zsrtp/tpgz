@@ -10,7 +10,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 
 #define GZ_SAVE_VERSION_NUMBER 0
-#define GZ_SAVE_ENTRIES_AMNT 10
+#define GZ_SAVE_ENTRIES_AMNT 11
 
 #ifdef GCN_NTSCU
 #define sTmpBuf 0x803ecf40
@@ -125,6 +125,7 @@ enum GZSaveIndex {
     SV_CURSOR_COLOR_INDEX = 7,
     SV_COMMANDS = 8,
     SV_FONT_INDEX = 9,
+    SV_SWAP_EQUIPS_INDEX = 10,
 };
 
 struct GZSaveHeader {
@@ -145,6 +146,7 @@ struct GZSaveLayout {
     int mReloadType;
     int mCursorColType;
     int mFontType;
+    bool mSwapEquips;
 };
 
 struct GZSaveFile {

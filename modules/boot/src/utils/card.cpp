@@ -84,6 +84,7 @@ void GZ_storeSaveLayout(GZSaveLayout& save_layout) {
     save_layout.mReloadType = g_reloadType;
     save_layout.mCursorColType = g_cursorColorType;
     save_layout.mFontType = g_fontType;
+    save_layout.mSwapEquips = g_swap_equips_flag;
 }
 
 void GZ_loadSaveLayout(GZSaveLayout& save_layout) {
@@ -97,6 +98,7 @@ void GZ_loadSaveLayout(GZSaveLayout& save_layout) {
     g_reloadType = save_layout.mReloadType;
     g_cursorColorType = save_layout.mCursorColType;
     g_fontType = save_layout.mFontType;
+    g_swap_equips_flag = save_layout.mSwapEquips;
 }
 
 void GZ_loadPositionData(PositionData& pos_data) {
@@ -125,6 +127,7 @@ void GZ_setupSaveFile(GZSaveFile& save_file) {
     set_entry(SV_AREA_RELOAD_INDEX, mReloadType);
     set_entry(SV_CURSOR_COLOR_INDEX, mCursorColType);
     set_entry(SV_FONT_INDEX, mFontType);
+    set_entry(SV_SWAP_EQUIPS_INDEX, mSwapEquips);
 #undef set_entry
 }
 
@@ -170,6 +173,7 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
     assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.mCursorColType,
                       sizeof(save_file.data.mCursorColType));
     assert_read_entry(SV_FONT_INDEX, &save_file.data.mFontType, sizeof(save_file.data.mFontType));
+    assert_read_entry(SV_SWAP_EQUIPS_INDEX, &save_file.data.mSwapEquips, sizeof(save_file.data.mSwapEquips));
 #undef assert_read_entry
 #undef assert_result
 
