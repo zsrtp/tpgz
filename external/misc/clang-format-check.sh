@@ -4,7 +4,7 @@ clangFormatTargets=$(find . -type f ! -path './build*'  -type f -regex '.*\.\(cp
 
 for inputFile in $clangFormatTargets
 do
-    clang-format-10 -style=file $inputFile > $inputFile-formatted
+    clang-format -style=file $inputFile > $inputFile-formatted
     diff $inputFile $inputFile-formatted
     if [ $? != 0 ] ; then
         exit 1
