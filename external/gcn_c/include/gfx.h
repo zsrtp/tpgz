@@ -156,13 +156,13 @@
     0x90 /*!< Draws a series of unconnected triangles. Three vertices make a single triangle. */
 #define GX_TRIANGLESTRIP                                                                           \
     0x98 /*!< Draws a series of triangles. Each triangle (besides the first) shares a side with    \
-          * the previous triangle. \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Each vertex                                                                                       \
+          * the previous triangle. \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Each vertex \
           * (besides the first two) completes a triangle. */
 #define GX_TRIANGLEFAN                                                                             \
     0xA0 /*!< Draws a single triangle fan. The first vertex is the "centerpoint". The second and   \
           * third vertex complete  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \             \
           * the first triangle. Each subsequent vertex completes another triangle which shares a   \
-          * side with the previous \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ triangle                                                                                          \
+          * side with the previous \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ triangle    \
           * (except the first triangle) and has the centerpoint vertex as one of the vertices. */
 #define GX_QUADS                                                                                   \
     0x80 /*!< Draws a series of unconnected quads. Every four vertices completes a quad.           \
@@ -366,7 +366,7 @@
     0 /*!< 2x4 matrix multiply on the input attribute and generate S,T texture coordinates. */
 #define GX_TG_MTX2x4                                                                               \
     1 /*!< 3x4 matrix multiply on the input attribute and generate S,T,Q coordinates; S,T are then \
-       * divided \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ by Q to produce the actual 2D                                                                     \
+       * divided \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ by Q to produce the actual 2D \
        * texture coordinates. */
 #define GX_TG_BUMP0 2 /*!< Use light 0 in the bump map calculation. */
 #define GX_TG_BUMP1 3 /*!< Use light 1 in the bump map calculation. */
@@ -378,7 +378,7 @@
 #define GX_TG_BUMP7 9 /*!< Use light 7 in the bump map calculation. */
 #define GX_TG_SRTG                                                                                 \
     10 /*!< Coordinates generated from vertex lighting results; one of the color channel results   \
-        * is converted \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ into texture                                                                                      \
+        * is converted \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ into texture            \
         * coordinates. */
 /*! @} */
 
@@ -1067,7 +1067,7 @@
        * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keep the GP busy. */
 #define GX_PERF0_XF_WAIT_OUT                                                                       \
     4 /*!< Number of cycles the XF waits to send its output to the rest of the GP pipeline. If     \
-       * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the XF cannot output, it may indicate                                                             \
+       * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the XF cannot output, it may indicate \
        * that the GP is currently fill-rate limited. */
 #define GX_PERF0_XF_XFRM_CLKS 5 /*!< Number of cycles the transform engine is busy. */
 #define GX_PERF0_XF_LIT_CLKS 6  /*!< Number of cycles the lighting engine is busy. */
@@ -1103,8 +1103,9 @@
 #define GX_PERF0_AVG_QUAD_CNT 33 /*!< Average quad count; average based on what is unknown */
 #define GX_PERF0_CLOCKS                                                                            \
     34 /*!< Number of GP clocks that have elapsed since the previous call to GXReadGP0Metric(). */
-#define GX_PERF0_NONE 35 /*!< Disables performance measurement for perf0 and resets the counter.   \
-                          */
+#define GX_PERF0_NONE                                                                              \
+    35 /*!< Disables performance measurement for perf0 and resets the counter.                     \
+        */
 /*! @} */
 
 /*! \addtogroup perf1metrics Performance counter 1 metric
@@ -1147,13 +1148,14 @@
         */
 #define GX_PERF1_CP_ALL_REQ                                                                        \
     20 /*!< Counts all requests (32B/request) from the GP Command Processor (CP). It should be     \
-        * equal to \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the sum of counts returned                                                                        \
+        * equal to \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ the sum of counts returned  \
         * by <tt>GX_PERF1_FIFO_REQ</tt>, <tt>GX_PERF1_CALL_REQ</tt>, and                           \
         * <tt>GX_PERF1_VC_MISS_REQ</tt>. */
 #define GX_PERF1_CLOCKS                                                                            \
     21 /*!< Number of GP clocks that have elapsed since the last call to GXReadGP1Metric(). */
-#define GX_PERF1_NONE 22 /*!< Disables performance measurement for perf1 and resets the counter.   \
-                          */
+#define GX_PERF1_NONE                                                                              \
+    22 /*!< Disables performance measurement for perf1 and resets the counter.                     \
+        */
 /*! @} */
 
 /*! \addtogroup tlutname TLUT name
