@@ -135,7 +135,7 @@ KEEP_FUNC void GZ_handleTools() {
  * @brief Handles when to show/hid the menus.
  */
 KEEP_FUNC void GZ_handleMenu() {
-    if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
+    if (BUTTONS == SHOW_MENU_BUTTONS && l_fopScnRq_IsUsingOfOverlap != 1 && !g_moveLinkEnabled) {
         if (!g_menuMgr->isOpen()) {
             if (!g_menuMgr->isEmpty()) {
                 g_menuMgr->open();
@@ -147,7 +147,7 @@ KEEP_FUNC void GZ_handleMenu() {
         g_fifoVisible = false;
     }
 
-    if (fopScnRq.isLoading) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1) {
         g_menuMgr->hide();
         g_moveLinkEnabled = false;
         last_frame_was_loading = true;
@@ -170,7 +170,7 @@ KEEP_FUNC void GZ_handleCardLoad() {
 
 KEEP_FUNC void GZ_handleSavingTmp() {
     // save temp flags and tears after every loading zone
-    if (last_frame_was_loading && !fopScnRq.isLoading) {
+    if (last_frame_was_loading && l_fopScnRq_IsUsingOfOverlap == 0) {
         memcpy(gSaveManager.mAreaReloadOpts.temp_flags, &g_dComIfG_gameInfo.info.mMemory,
                sizeof(g_dComIfG_gameInfo.info.mMemory));
 

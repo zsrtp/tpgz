@@ -65,7 +65,7 @@ void BiTIndicator::execute() {
         // }
 
         if (daAlink_c__checkStageName("F_SP104") && GZ_getButtonPressed(GZPad::HOME) &&
-            homeMenuSts.is_visible == 0 && !fopScnRq.isLoading) {
+            homeMenuSts.is_visible == 0 && l_fopScnRq_IsUsingOfOverlap == 0) {
             if ((int)dt == TARGET_FRAME) {
                 snprintf(buf, sizeof(buf), "Got it");
             }

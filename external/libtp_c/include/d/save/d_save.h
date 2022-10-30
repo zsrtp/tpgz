@@ -716,7 +716,6 @@ public:
     const dSv_zoneBit_c& getBit() const { return mBit; }
     dSv_zoneActor_c& getActor() { return mActor; }
     const dSv_zoneActor_c& getActor() const { return mActor; }
-
     int8_t& getRoomNo() { return mRoomNo; }
 
     /* 0x00 */ int8_t mRoomNo;
@@ -736,6 +735,22 @@ public:
     /* 0x18 */ float mLastSpeedF;
     /* 0x1C */ uint32_t mLastMode;
     /* 0x20 */ int16_t mLastAngleY;
+
+    s16 getStartPoint() const { return mStartPoint; }
+    u32 getLastMode() const { return mLastMode; }
+    s8 getRoomNo() const { return mRoomNo; }
+    u32 getRoomParam() const { return mRoomParam; }
+    cXyz& getRoomPos() { return mRoomPos; }
+    s16 getRoomAngleY() const { return mRoomAngleY; }
+
+    void setRoom(const cXyz& i_position, s16 i_angleY, s8 i_roomNo);
+    void setRoomParam(u32 param) { mRoomParam = param; }
+    void setStartPoint(s16 point) { mStartPoint = point; }
+    void setLastSceneInfo(f32 speed, u32 mode, s16 angle) {
+        mLastSpeedF = speed;
+        mLastMode = mode;
+        mLastAngleY = angle;
+    }
 };  // Size: 0x24
 
 class dSv_turnRestart_c {
@@ -784,6 +799,7 @@ public:
     dSv_zone_c* getZones() { return mZone; }
     dSv_player_c& getPlayer() { return mSavedata.getPlayer(); }
     dSv_event_c& getTmp() { return mTmp; }
+    dSv_restart_c& getRestart() { return mRestart; }
 
     /* 0x000 */ dSv_save_c mSavedata;
     /* 0x958 */ dSv_memory_c mMemory;

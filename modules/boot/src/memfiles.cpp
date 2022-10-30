@@ -15,7 +15,7 @@ uint16_t l_tmpAngle = g_dComIfG_gameInfo.info.mRestart.mRoomAngleY;
 KEEP_FUNC void GZ_setLinkPosition() {
     static int8_t sLoadDelay = 10;
 
-    if (fopScnRq.isLoading == 1) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1) {
         sLoadDelay--;
     }
 

@@ -17,6 +17,10 @@ KEEP_FUNC void setReturnPlace(const char* stage, int8_t room, uint8_t spawn) {
                                    room, spawn);
 }
 
+KEEP_FUNC void setRestartPoint(int16_t point) {
+    g_dComIfG_gameInfo.info.getRestart().setStartPoint(point);
+}
+
 KEEP_FUNC void setNextStageName(const char* name) {
     strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage, name);
 }

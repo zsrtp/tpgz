@@ -66,28 +66,28 @@ void WatchesMenu::drawMemoryLines() {
         snprintf(watch_hex, sizeof(watch_hex), "%s", g_watches[i].hex ? "true" : "false");
 
         switch (g_watches[i].type) {
-        case u8:
+        case mem_u8:
             snprintf(watch_type, sizeof(watch_type), "u8");
             break;
-        case u16:
+        case mem_u16:
             snprintf(watch_type, sizeof(watch_type), "u16");
             break;
-        case u32:
+        case mem_u32:
             snprintf(watch_type, sizeof(watch_type), "u32");
             break;
-        case i8:
+        case mem_i8:
             snprintf(watch_type, sizeof(watch_type), "s8");
             break;
-        case i16:
+        case mem_i16:
             snprintf(watch_type, sizeof(watch_type), "s16");
             break;
-        case i32:
+        case mem_i32:
             snprintf(watch_type, sizeof(watch_type), "s32");
             break;
-        case f32:
+        case mem_f32:
             snprintf(watch_type, sizeof(watch_type), "f32");
             break;
-        case string:
+        case mem_string:
             snprintf(watch_type, sizeof(watch_type), "str");
             break;
         }
@@ -259,42 +259,42 @@ void WatchesMenu::drawMemoryLines() {
             case WatchType:
                 if (g_watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                        if (g_watches[i].type == string) {
-                            g_watches[i].type = u8;
-                        } else if (g_watches[i].type >= u8 && g_watches[i].type < string) {
+                        if (g_watches[i].type == mem_string) {
+                            g_watches[i].type = mem_u8;
+                        } else if (g_watches[i].type >= mem_u8 && g_watches[i].type < mem_string) {
                             g_watches[i].type++;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                        if (g_watches[i].type == u8) {
-                            g_watches[i].type = string;
-                        } else if (g_watches[i].type > u8 && g_watches[i].type <= string) {
+                        if (g_watches[i].type == mem_u8) {
+                            g_watches[i].type = mem_string;
+                        } else if (g_watches[i].type > mem_u8 && g_watches[i].type <= mem_string) {
                             g_watches[i].type--;
                         }
                     }
                     switch (g_watches[i].type) {
-                    case u8:
+                    case mem_u8:
                         snprintf(watch_type, sizeof(watch_type), "<u8>");
                         break;
-                    case u16:
+                    case mem_u16:
                         snprintf(watch_type, sizeof(watch_type), "<u16>");
                         break;
-                    case u32:
+                    case mem_u32:
                         snprintf(watch_type, sizeof(watch_type), "<u32>");
                         break;
-                    case i8:
+                    case mem_i8:
                         snprintf(watch_type, sizeof(watch_type), "<s8>");
                         break;
-                    case i16:
+                    case mem_i16:
                         snprintf(watch_type, sizeof(watch_type), "<s16>");
                         break;
-                    case i32:
+                    case mem_i32:
                         snprintf(watch_type, sizeof(watch_type), "<s32>");
                         break;
-                    case f32:
+                    case mem_f32:
                         snprintf(watch_type, sizeof(watch_type), "<f32>");
                         break;
-                    case string:
+                    case mem_string:
                         snprintf(watch_type, sizeof(watch_type), "<str>");
                     }
                     GZ_drawText(watch_type, watch_type_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,

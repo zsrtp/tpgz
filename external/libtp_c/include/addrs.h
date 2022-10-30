@@ -1,6 +1,8 @@
 #ifndef LIB_TP_ADDRS
 #define LIB_TP_ADDRS
 
+#include "dolphin.h"
+
 #ifndef REL_MODULE
 #ifdef GCN_NTSCU
 // System
@@ -54,7 +56,7 @@
 #define tp_zelAudio_addr 0x803DBF4C
 #define tp_gameInfo_addr 0x804061C0
 #define tp_sConsole_addr 0x80450C90
-#define tp_fopScnRq_addr 0x80450CE0
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x80450CE0
 #define tp_titleScreenPtr_addr 0x803A3A38
 #define tp_matrixPtr_addr 0x803F1E10
 #define tp_rng_addr 0x80451168
@@ -300,7 +302,7 @@
 #define tp_zelAudio_addr 0x803ddeec
 #define tp_gameInfo_addr 0x80408160
 #define tp_sConsole_addr 0x80452c50
-#define tp_fopScnRq_addr 0x80452ca0
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x80452ca0
 #define tp_titleScreenPtr_addr 0x803a5718
 #define tp_matrixPtr_addr 0x803f3db0
 #define tp_rng_addr 0x80453130
@@ -540,7 +542,7 @@
 #define tp_zelAudio_addr 0x803d608c
 #define tp_gameInfo_addr 0x80400300
 #define tp_sConsole_addr 0x8044add0
-#define tp_fopScnRq_addr 0x8044ae20
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x8044ae20
 #define tp_titleScreenPtr_addr 0x8039db98
 #define tp_matrixPtr_addr 0x803ebf50
 #define tp_rng_addr 0x8044b2a8
@@ -780,7 +782,7 @@
 #define tp_zelAudio_addr 0x8044a6ac
 #define tp_gameInfo_addr 0x80492928
 #define tp_sConsole_addr 0x8053a8e0
-#define tp_fopScnRq_addr 0x8053a928
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x8053a928
 #define tp_titleScreenPtr_addr 0x804813e0
 #define tp_matrixPtr_addr 0x8047e368
 #define tp_rng_addr 0x8053ae58
@@ -1015,7 +1017,7 @@
 #define tp_zelAudio_addr 0x804325ac
 #define tp_gameInfo_addr 0x8047a828
 #define tp_sConsole_addr 0x805210a8
-#define tp_fopScnRq_addr 0x805210f0
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x805210f0
 #define tp_titleScreenPtr_addr 0x804692e0
 #define tp_matrixPtr_addr 0x80466268
 #define tp_rng_addr 0x80521638
@@ -1250,7 +1252,7 @@
 #define tp_zelAudio_addr 0x80431cac
 #define tp_gameInfo_addr 0x80479f30
 #define tp_sConsole_addr 0x805208e8
-#define tp_fopScnRq_addr 0x80520930
+#define tp_l_fopScnRq_IsUsingOfOverlap_addr 0x80520930
 #define tp_titleScreenPtr_addr 0x804689e8
 #define tp_matrixPtr_addr 0x80465970
 #define tp_rng_addr 0x80520e78

@@ -7,6 +7,9 @@
 // Toggles save event flags
 void setEventFlag(uint16_t flag);
 
+// Set stage restart info
+void setRestartPoint(int16_t point);
+
 // Set Savefile spawn info
 void setReturnPlace(const char* stage, int8_t room, uint8_t spawn);
 

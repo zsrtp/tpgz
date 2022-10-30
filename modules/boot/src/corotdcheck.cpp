@@ -28,7 +28,7 @@ void CoroTDChecker::execute() {
     static uint32_t sFrameCount = 0;
 
     // reset counters on load
-    if (fopScnRq.isLoading) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1) {
         sFrameCount = 0;
         sGoalHit = false;
         sTimerStarted = false;

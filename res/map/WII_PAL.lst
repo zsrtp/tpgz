@@ -79,8 +79,7 @@
 805210a8:sConsole
 805210b0:bossFlags
 805210d4:fopAc_ac_c__stopStatus
-//l_fopScnRq_IsUsingOfOverlap
-805210f0:isLoading
+805210f0:l_fopScnRq_IsUsingOfOverlap
 80521130:homeMenuSts
 
 // f_ap_game.o

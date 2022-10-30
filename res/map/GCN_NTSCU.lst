@@ -32,7 +32,7 @@
 80450C90:sConsole
 80450C98:bossFlags
 80450CBC:fopAc_ac_c__stopStatus
-80450CE0:isLoading
+80450CE0:l_fopScnRq_IsUsingOfOverlap
 
 // f_ap_game.o
 80018A6C:fapGm_Execute

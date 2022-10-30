@@ -53,7 +53,7 @@ KEEP_FUNC void Timer::drawIGT() {
     static int sTimerMin = 0;
     static float sTimerSec = 0.0f;
 
-    if (g_timerEnabled && !fopScnRq.isLoading) {
+    if (g_timerEnabled && l_fopScnRq_IsUsingOfOverlap == 0) {
         sTimer++;
         sTimerSec = sTimer / FRAME_RATE;
 
@@ -90,7 +90,7 @@ KEEP_FUNC void Timer::drawLoadTimer() {
     static int sTimer = 0;
     static float sTimerSec = 0.0f;
 
-    if (fopScnRq.isLoading) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1) {
         sTimer++;
         sTimerSec = sTimer / FRAME_RATE;
     }

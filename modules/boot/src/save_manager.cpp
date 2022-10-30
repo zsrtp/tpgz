@@ -13,6 +13,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
+#include "libtp_c/include/utils.h"
 #include "menus/utils/menu_mgr.h"
 
 int apply_after_counter = 0;
@@ -51,14 +52,15 @@ void SaveManager::injectDefault_during() {
                               g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo, 0xFF);
 
     // Next stage info
-    g_dComIfG_gameInfo.info.mRestart.mStartPoint =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
-    g_dComIfG_gameInfo.play.mNextStage.mRoomNo =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
-    strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
-           (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
+    setRestartPoint(g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().mPlayerStatus);
+    setNextStageName(g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().mName);
+    setNextStageRoom(g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().mRoomNo);
+    setNextStagePoint(g_dComIfG_gameInfo.info.getPlayer().getPlayerReturnPlace().mPlayerStatus);
+    
+
+    // strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
+    //        (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
+
     g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
     // fixes some bug causing link to auto drown, figure out later
@@ -183,7 +185,7 @@ uint32_t setWaterDropColorInstr = 0x60000000;
 
 void SaveManager::triggerLoad() {
     // Loading hasn't started yet, run the before load function and initiate loading
-    if (!fopScnRq.isLoading && !gSaveManager.loading_initiated) {
+    if (l_fopScnRq_IsUsingOfOverlap == 0 && !gSaveManager.loading_initiated) {
         // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
         setWaterDropColorInstr = *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL);
         *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) = 0x60000000;  // nop
@@ -195,7 +197,7 @@ void SaveManager::triggerLoad() {
     }
 
     // Loading has started, run the during load function
-    if (fopScnRq.isLoading && g_dComIfG_gameInfo.play.mNextStage.enabled) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1 && g_dComIfG_gameInfo.play.mNextStage.enabled) {
         if (gSaveManager.mPracticeFileOpts.inject_options_during_load) {
             gSaveManager.mPracticeFileOpts.inject_options_during_load();
         }
@@ -205,7 +207,7 @@ void SaveManager::triggerLoad() {
 
     if (gSaveManager.loading_initiated) {
         // Loading has completed, run the after load function
-        if (!fopScnRq.isLoading) {
+        if (l_fopScnRq_IsUsingOfOverlap == 0) {
             // Patch back in setWaterDropColor call
             *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) =
                 setWaterDropColorInstr;  // bl daAlink_c::setWaterDropColor
@@ -230,7 +232,7 @@ void SaveManager::triggerLoad() {
             }
         }
         // should clean this up eventually
-        if (fopScnRq.isLoading && gSaveManager.repeat_during &&
+        if (l_fopScnRq_IsUsingOfOverlap == 1 && gSaveManager.repeat_during &&
             gSaveManager.repeat_count != apply_during_counter) {
             if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
                 gSaveManager.mPracticeFileOpts.inject_options_after_load();

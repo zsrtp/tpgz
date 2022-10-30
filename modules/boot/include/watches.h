@@ -4,7 +4,16 @@
 
 #define MAX_WATCHES 10
 
-enum MemoryType { u8, i8, u16, i16, u32, i32, f32, string };
+enum MemoryType { 
+    mem_u8, 
+    mem_i8, 
+    mem_u16, 
+    mem_i16, 
+    mem_u32, 
+    mem_i32, 
+    mem_f32, 
+    mem_string 
+};
 
 enum MemoryColumns { WatchAddress, WatchX, WatchY, WatchHex, WatchType, WatchOffset };
 
@@ -13,7 +22,7 @@ struct MemoryWatch {
     float x = 400.0f;
     float y = 100.0f;
     bool hex = false;
-    uint8_t type = string;
+    uint8_t type = mem_string;
     uint16_t offset = 0x0000;
     uint32_t value;
     bool visible = false;

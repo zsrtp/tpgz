@@ -61,7 +61,7 @@ void warpToPosition() {
 
 void execute() {
     // reset counters on load
-    if (fopScnRq.isLoading == 1) {
+    if (l_fopScnRq_IsUsingOfOverlap == 1) {
         counter_difference = 0;
         after_cs_val = 0;
         got_it = false;

@@ -567,6 +567,10 @@ LIBTP_DEFINE_FUNC(dComIfGs_getMixItemIndex__Fi, dComIfGs_getMixItemIndex_int_, u
 LIBTP_DEFINE_FUNC(dComIfGs_setMixItemIndex__FiUc, dComIfGs_setMixItemIndex_int__unsigned_char_,
                   void, dComIfGs_setMixItemIndex, (int32_t idx, uint8_t item))
 
+LIBTP_DEFINE_FUNC(setRoom__13dSv_restart_cFRC4cXyzsSc, 
+                  setRoom__13dSv_restart_cFRC4cXyzsSc, // wrong, fix later
+                  void, dSv_restart_c__setRoom, (const cXyz& i_position, int16_t i_angleY, int8_t i_roomNo))
+
 inline void dComIfGp_setItem(uint8_t slot, uint8_t i_no) {
     g_dComIfG_gameInfo.play.setItem(slot, i_no);
 }
@@ -577,6 +581,14 @@ inline uint32_t dComIfGp_getNowVibration(void) {
 inline char* dComIfGp_getStartStageName(void) {
     return g_dComIfG_gameInfo.play.getStartStageName();
 }*/
+
+inline void dComIfGs_setStartPoint(int16_t point) {
+    g_dComIfG_gameInfo.info.getRestart().setStartPoint(point);
+}
+
+inline void dComIfGs_setRestartRoom(const cXyz& i_position, s16 i_angle, s8 i_roomNo) {
+    g_dComIfG_gameInfo.info.getRestart().setRoom(i_position, i_angle, i_roomNo);
+}
 
 inline void dComIfGp_setNextStage(const char* stage, int8_t room, int16_t point, int8_t layer,
                                   int8_t wipe, uint8_t wipe_speed) {

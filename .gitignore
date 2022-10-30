@@ -14,3 +14,4 @@ Updater.log
 __pycache__
 RomHack.toml
 *.patch
+.DS_Store
