@@ -50,12 +50,28 @@ KEEP_FUNC void add_vertex(uint32_t color, Vec2 point, Vec2 tex) {
     GXTexCoord2f32(tex.x, tex.y);
 }
 
+KEEP_FUNC void add_vertex(uint32_t color, Vec point, Vec2 tex) {
+    GXPosition2f32(point.x, point.y);
+    GXColor1u32(color);
+    // GXTexCoord2f32(tex.x, tex.y);
+}
+
 KEEP_FUNC void add_vertex(uint32_t color, Vec2 point) {
+    add_vertex(color, point, {0.0f, 0.0f});
+}
+
+KEEP_FUNC void add_vertex(uint32_t color, Vec point) {
     add_vertex(color, point, {0.0f, 0.0f});
 }
 
 KEEP_FUNC void end() {
     GXEnd();
+}
+
+KEEP_FUNC void draw3DLine(uint32_t color, Vec p) {
+    begin(1, GX_LINESTRIP);
+    // add_vertex(color, p);
+    end();
 }
 
 KEEP_FUNC void drawQuad(uint32_t color, Vec2 p[4]) {

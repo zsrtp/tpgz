@@ -250,7 +250,8 @@
                 "-mcpu=750",
                 "-meabi",
                 "-mhard-float"
-            ]
+            ],
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

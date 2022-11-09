@@ -21,6 +21,7 @@ void add_vertex(uint32_t color, Vec2 point);
 void add_vertex(uint32_t color, Vec2 point, Vec2 tex);
 void end();
 
+void draw3DLine(uint32_t color, Vec p);
 void drawQuad(uint32_t color, Vec2 p[4]);
 void drawQuad(uint32_t color, Vec2 p[4], GXTexObj* texture);
 void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4]);
