@@ -18,7 +18,6 @@ void exit();
 
 }  // namespace tpgz::modules
 
-extern tpgz::dyn::GZModule g_InputViewer_rel;
 void GZ_handleTools();
 void GZ_handleMenu();
 void GZ_handleCardLoad();

@@ -5,7 +5,7 @@
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "utils/texture.h"
 
-extern Texture blankTex;
+extern Texture* blankTex;
 
 namespace Draw {
 void init();

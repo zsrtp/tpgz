@@ -7,13 +7,16 @@
 
 #define DEFAULT_WIDTH 0x06
 
-Texture blankTex;
+Texture* blankTex = nullptr;
 
 namespace Draw {
 KEEP_FUNC void init() {
-    load_texture("tpgz/tex/blank.tex", &blankTex);
-    if (blankTex.loadCode != TexCode::TEX_OK) {
-        OSReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
+    if (blankTex == nullptr) {
+        blankTex = new Texture;
+    }
+    load_texture("tpgz/tex/blank.tex", blankTex);
+    if (blankTex->loadCode != TexCode::TEX_OK) {
+        OSReport("Could not load blank texture (Code: %d)\n", (*blankTex).loadCode);
     }
 }
 
@@ -22,7 +25,7 @@ KEEP_FUNC void begin(uint16_t n) {
 }
 
 KEEP_FUNC void begin(uint16_t n, uint8_t primitive) {
-    begin(n, primitive, &blankTex._texObj);
+    begin(n, primitive, &(*blankTex)._texObj);
 }
 
 KEEP_FUNC void begin(uint16_t n, GXTexObj* tex) {
@@ -39,7 +42,7 @@ KEEP_FUNC void begin_outline(uint16_t n) {
 }
 
 KEEP_FUNC void begin_outline(uint16_t n, uint8_t width) {
-    GXLoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
+    GXLoadTexObj(&(*blankTex)._texObj, (uint8_t)GX_TEXMAP0);
     GXSetLineWidth(width, GX_TO_ZERO);
     GXBegin(GX_LINESTRIP, GX_VTXFMT0, n);
 }
@@ -75,11 +78,11 @@ KEEP_FUNC void draw3DLine(uint32_t color, Vec p) {
 }
 
 KEEP_FUNC void drawQuad(uint32_t color, Vec2 p[4]) {
-    drawQuad(color, p, &blankTex._texObj);
+    drawQuad(color, p, &(*blankTex)._texObj);
 }
 
 KEEP_FUNC void drawQuad(uint32_t color, Vec2 p[4], Vec2 tex[4]) {
-    drawQuad(color, p, tex, &blankTex._texObj);
+    drawQuad(color, p, tex, &(*blankTex)._texObj);
 }
 
 KEEP_FUNC void drawQuad(uint32_t color, Vec2 p[4], GXTexObj* texture) {
@@ -116,7 +119,7 @@ KEEP_FUNC void drawQuadOutline(uint32_t color, Vec2 p[4], uint8_t width) {
 }
 
 KEEP_FUNC void drawRect(uint32_t color, Vec2 pos, Vec2 dim) {
-    drawRect(color, pos, dim, &blankTex._texObj);
+    drawRect(color, pos, dim, &(*blankTex)._texObj);
 }
 
 KEEP_FUNC void drawRect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
@@ -130,7 +133,7 @@ KEEP_FUNC void drawRect(uint32_t color, Vec2 pos, Vec2 dim, GXTexObj* texture) {
 }
 
 KEEP_FUNC void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4]) {
-    drawRect(color, pos, dim, tex, &blankTex._texObj);
+    drawRect(color, pos, dim, tex, &(*blankTex)._texObj);
 }
 
 KEEP_FUNC void drawRect(uint32_t color, Vec2 pos, Vec2 dim, Vec2 tex[4], GXTexObj* texture) {

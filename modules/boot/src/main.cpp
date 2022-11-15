@@ -34,9 +34,9 @@ _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
-tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
-tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
-tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
+tpgz::dyn::GZModule* g_InputViewer_rel;
+tpgz::dyn::GZModule* g_FreeCam_rel;
+tpgz::dyn::GZModule* g_MoveLink_rel;
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -60,12 +60,18 @@ tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
 
 namespace tpgz::modules {
 void main() {
+    OSReport("[TPGZ] Inital load...");
     // Run the initialization module.
     tpgz::dyn::GZModule* initRel = new tpgz::dyn::GZModule("/tpgz/rels/init.rel");
     initRel->loadFixed(true);
     // The initialization module doesn't need to be kept in memory once ran.
     // initRel->close(); // This code is implicitly ran in the destructor.
     delete initRel;
+
+    // Create the objects for the features with external modules.
+    g_InputViewer_rel = new tpgz::dyn::GZModule("/tpgz/rels/features/input_viewer.rel");
+    g_FreeCam_rel = new tpgz::dyn::GZModule("/tpgz/rels/features/free_cam.rel");
+    g_MoveLink_rel = new tpgz::dyn::GZModule("/tpgz/rels/features/movelink.rel");
 
     if (l_gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
         load_texture("/tpgz/tex/tpgz.tex", &l_gzIconTex);
@@ -126,9 +132,9 @@ inline void handleModule(size_t id, tpgz::dyn::GZModule& rel) {
  */
 KEEP_FUNC void GZ_handleTools() {
     // Put modules that toggles with the state of g_tools
-    handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
-    handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
-    handleModule(MOVE_LINK_INDEX, g_MoveLink_rel);
+    handleModule(INPUT_VIEWER_INDEX, *g_InputViewer_rel);
+    handleModule(FREE_CAM_INDEX, *g_FreeCam_rel);
+    handleModule(MOVE_LINK_INDEX, *g_MoveLink_rel);
 }
 
 /**
