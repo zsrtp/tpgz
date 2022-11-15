@@ -34,7 +34,9 @@
 #define CONTROL_X ((mPad.mHoldButton & CButton::C) == 0 ? -mPad.stick.x * 72 : 0)
 #define VERTICAL_DISPLACEMENT ((mPad.mHoldButton & CButton::C) != 0 ? mPad.stick.y * 59 : 0)
 #define HORIZONTAL_DISPLACEMENT ((mPad.mHoldButton & CButton::C) != 0 ? -mPad.stick.x * 59 : 0)
-#define SPEED_PREDICATE (mPad.mHoldButton & CButton::Z)
+#define SPEED_PREDICATE_1 (mPad.mHoldButton & CButton::Z)
+#define SPEED_PREDICATE_2 (mPad.mHoldButton & CButton::A)
+#define LOCK_CAMERA (mPad.mHoldButton & CButton::B)
 #endif
 
 #define WHITE_RGBA 0xFFFFFFFF
