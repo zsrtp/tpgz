@@ -3,23 +3,15 @@
 # [Choice] Ubuntu version (use ubuntu-22.04 or ubuntu-18.04 on local arm64/Apple Silicon): ubuntu-22.04, ubuntu-20.04, ubuntu-18.04
 ARG VARIANT="jammy"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
-USER vscode
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN dpkg --add-architecture i386
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends build-essential python3-pip libarchive-tools clang-format-10 clang-format cmake ninja-build libtinfo5
 
-RUN sudo dpkg --add-architecture i386
-RUN sudo apt-get update && sudo apt-get install -y build-essential
-RUN sudo apt-get install -y python3-pip
-RUN sudo apt-get install -y libarchive-tools 
-RUN sudo apt-get install -y clang-format-10
-RUN sudo apt-get install -y cmake
-# RUN sudo apt-get install -y wine64
-# RUN sudo apt-get install -y wine
-RUN sudo apt-get install -y ninja-build
-RUN sudo apt-get upgrade -y
-RUN sudo apt-get install -y libtinfo5
+USER vscode
 
 RUN python3 -m pip install Pillow
 
