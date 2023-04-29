@@ -13,6 +13,7 @@
 #include "memfiles.h"
 #include "rels/include/cxx.h"
 #include "rels/include/defines.h"
+#include "save_manager.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -64,6 +65,8 @@ HOOK_DEF(void, putSave, (void*, int));
 
 HOOK_DEF(void, dCcS__draw, (void));
 HOOK_DEF(void, BeforeOfPaint, (void));
+
+HOOK_DEF(int, dScnPly__phase_1, (void*));
 
 namespace Hook {
 void gameLoopHook(void) {
@@ -174,11 +177,19 @@ void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
 
 // Stops temp flags from being stored to save when loading memfile
 void putSaveHook(void* addr, int stageNo) {
-    if (g_injectMemfile) {
+    if (SaveManager::s_injectMemfile) {
         return;
     } else {
         return putSaveTrampoline(addr, stageNo);
     }
+}
+
+int saveInjectHook(void* i_scene) {
+    if (SaveManager::s_injectSave || SaveManager::s_injectMemfile) {
+        SaveManager::loadData();
+    }
+    
+    return dScnPly__phase_1Trampoline(i_scene);
 }
 
 #ifdef WII_PLATFORM
@@ -205,6 +216,7 @@ void putSaveHook(void* addr, int stageNo) {
 #define f_offEventBit offEventBit__11dSv_event_cFUs
 #define f_putSave putSave__10dSv_info_cFi
 #define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
+#define f_dScnPly__phase_1 phase_1__FP9dScnPly_c
 #endif
 
 extern "C" {
@@ -220,6 +232,7 @@ void f_onEventBit(void*, uint16_t);
 void f_offEventBit(void*, uint16_t);
 void f_putSave(void*, int);
 void f_myExceptionCallback();
+int f_dScnPly__phase_1(void*);
 }
 
 KEEP_FUNC void applyHooks() {
@@ -236,6 +249,7 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(onEventBit, &f_onEventBit, onEventBitHook);
     APPLY_HOOK(offEventBit, &f_offEventBit, offEventBitHook);
     APPLY_HOOK(putSave, &f_putSave, putSaveHook);
+    APPLY_HOOK(dScnPly__phase_1, &f_dScnPly__phase_1, saveInjectHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

@@ -7,12 +7,12 @@
 #include "fifo_queue.h"
 
 #ifdef WII_PLATFORM
-#define MAX_GZ_FLAGS 16
+#define MAX_GZ_FLAGS 14
 #define FRAME_ADVANCE_BTN GZPad::TWO
 #define FRAME_ADVANCE_PAD CButton::TWO
 #endif
 #ifdef GCN_PLATFORM
-#define MAX_GZ_FLAGS 15
+#define MAX_GZ_FLAGS 13
 #define FRAME_ADVANCE_BTN GZPad::R
 #define FRAME_ADVANCE_PAD CButton::R
 #endif
@@ -24,7 +24,6 @@ struct GZFlag {
     void (*mpDeactiveFunc)();
 };
 
-extern bool g_injectSave;
 extern bool g_framePaused;
 
 enum LoopPhase { GAME_LOOP, POST_GAME_LOOP };

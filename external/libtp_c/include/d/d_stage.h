@@ -40,9 +40,20 @@ struct stage_camera2_data_class {};
 
 struct stage_arrow_class {};
 
-struct stage_actor_data_class {};
+class stage_actor_data_class {
+public:
+    /* 0x00 */ char mName[8];
+    /* 0x08 */ uint32_t mParameter;
+    /* 0x0C */ cXyz mSpawnPos;
+    /* 0x18 */ csXyz mAngle;
+    /* 0x1E */ uint16_t mEnemyNo;
+};  // Size: 0x20
 
-struct stage_actor_class {};
+class stage_actor_class {
+public:
+    /* 0x0 */ int mEntryNum;
+    /* 0x4 */ stage_actor_data_class* mEntries;
+};
 
 struct roomRead_class {};
 

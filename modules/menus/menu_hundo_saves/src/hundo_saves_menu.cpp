@@ -126,7 +126,7 @@ void HundoSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
         g_menuMgr->hide();
     }
 

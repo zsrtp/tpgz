@@ -18,9 +18,9 @@
 #include "umd.h"
 #include "utils/draw.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "rels/include/defines.h"
 
-bool g_injectSave = false;
 bool g_framePaused = false;
 
 GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
@@ -31,7 +31,6 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute},
     {&g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute},
     {&g_tools[UMD_INDEX].active, POST_GAME_LOOP, UMDIndicator::execute},
-    {&g_injectSave, GAME_LOOP, SaveManager::triggerLoad},
     {&g_sceneFlags[FREEZE_ACTOR_INDEX].active, GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors},
     {&g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP, GZ_hideActors, GZ_showActors},
     {&g_sceneFlags[FREEZE_CAMERA_INDEX].active, GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera},
@@ -39,7 +38,6 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
     {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
     {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
     {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-    {&g_injectMemfile, GAME_LOOP, GZ_setLinkPosition},
 };
 
 #ifdef GCN_PLATFORM
@@ -110,5 +108,13 @@ void GZ_execute(int phase) {
                 g_gzFlags[i].mpDeactiveFunc();
             }
         }
+    }
+
+    if (!fopScnRq.isLoading && (SaveManager::s_injectSave || SaveManager::s_injectMemfile) && dComIfGp_getPlayer() != nullptr) {
+        if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
+            gSaveManager.mPracticeFileOpts.inject_options_after_load();
+        }
+        SaveManager::s_injectSave = false;
+        SaveManager::s_injectMemfile = false;
     }
 }

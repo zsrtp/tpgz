@@ -303,15 +303,9 @@ KEEP_FUNC void GZ_loadMemfile(Storage& storage) {
         storage.result = GZ_readMemfile(&storage, posData, storage.sector_size);
         if (storage.result == Ready) {
             FIFOQueue::push("loaded memfile!", Queue);
-            g_injectMemfile = true;
             SaveManager::injectDefault_before();
-            SaveManager::injectMemfile(MEMFILE_BUF);
-            SaveManager::injectDefault_during();
-            SaveManager::injectDefault_after();
+            SaveManager::triggerMemfileLoad();
             GZ_loadPositionData(posData);
-            set_position_data = true;
-            g_injectSave = true;
-            g_fifoVisible = true;
             g_menuMgr->hide();
         } else {
             char buff[32];

@@ -168,8 +168,8 @@ void AnySavesMenu::draw() {
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
 #endif
-        SaveManager::loadSave(cursor.y, "any", AnySpecials,
-                              sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        SaveManager::triggerLoad(cursor.y, "any", AnySpecials,
+                                 sizeof(AnySpecials) / sizeof(AnySpecials[0]));
         g_menuMgr->hide();
     }
 

@@ -15,89 +15,35 @@
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "menus/utils/menu_mgr.h"
 
-int apply_after_counter = 0;
-int apply_during_counter = 0;
-int injection_counter = 0;
-char currentFileName[80];
+static char l_filename[80];
 SaveManager gSaveManager;
 
+bool SaveManager::s_injectSave = false;
+bool SaveManager::s_injectMemfile = false;
+
 void SaveManager::injectSave(void* buffer) {
-    memcpy((void*)&g_dComIfG_gameInfo, buffer, 2392);
+    memcpy(&g_dComIfG_gameInfo, buffer, 0x9F8);
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
-};
+}
 
 void SaveManager::injectMemfile(void* buffer) {
-    memcpy((void*)&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
+    memcpy(&g_dComIfG_gameInfo, buffer, sizeof(dSv_info_c));
     dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
-};
+}
 
 void SaveManager::injectDefault_before() {
     g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 0.0f;
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
     g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint = 0;
 }
 
-void SaveManager::injectDefault_during() {
-    // Load the save file over game info
-    if (!g_injectMemfile) {
-        SaveManager::loadSavefile(currentFileName);
-    } else {
-        SaveManager::injectMemfile(MEMFILE_BUF);
-    }
-
-    // Get default state based on file info
-    int state = tp_getLayerNo((char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName,
-                              g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo, 0xFF);
-
-    // Next stage info
-    g_dComIfG_gameInfo.info.mRestart.mStartPoint =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
-    g_dComIfG_gameInfo.play.mNextStage.mRoomNo =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mRoomNo;
-    g_dComIfG_gameInfo.play.mNextStage.mPoint =
-        g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mPlayerStatus;
-    strcpy((char*)g_dComIfG_gameInfo.play.mNextStage.mStage,
-           (char*)g_dComIfG_gameInfo.info.getPlayer().mPlayerReturnPlace.mName);
-    g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
-
-    // fixes some bug causing link to auto drown, figure out later
-    dComIfGs_setOxygen(600);
-    dComIfGs_setNowOxygen(600);
-    dComIfGs_setMaxOxygen(600);
-
-#ifdef GCN_PLATFORM
-    if (g_swap_equips_flag) {
-        uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_X);
-        uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_X);
-
-        dComIfGs_setSelectItemIndex(SELECT_ITEM_X, dComIfGs_getSelectItemIndex(SELECT_ITEM_Y));
-        dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, tmp);
-        dComIfGs_setMixItemIndex(SELECT_ITEM_X, dComIfGs_getMixItemIndex(SELECT_ITEM_Y));
-        dComIfGs_setMixItemIndex(SELECT_ITEM_Y, tmp_mix);
-    }
-#endif
-    // add wii swap equip logic here later
-#ifdef WII_PLATFORM
-    if (g_swap_equips_flag) {
-        uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_LEFT);
-        uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_LEFT);
-
-        dComIfGs_setSelectItemIndex(SELECT_ITEM_LEFT,
-                                    dComIfGs_getSelectItemIndex(SELECT_ITEM_RIGHT));
-        dComIfGs_setSelectItemIndex(SELECT_ITEM_RIGHT, tmp);
-        dComIfGs_setMixItemIndex(SELECT_ITEM_LEFT, dComIfGs_getMixItemIndex(SELECT_ITEM_RIGHT));
-        dComIfGs_setMixItemIndex(SELECT_ITEM_RIGHT, tmp_mix);
-    }
-#endif
-}
+void SaveManager::injectDefault_during() {}
 
 void SaveManager::injectDefault_after() {}
 
 void SaveManager::defaultLoad() {
     gSaveManager.mPracticeFileOpts.inject_options_during_load = SaveManager::injectDefault_during;
     gSaveManager.mPracticeFileOpts.inject_options_after_load = SaveManager::injectDefault_after;
-    g_injectSave = true;
     g_fifoVisible = true;
     g_menuMgr->hide();
 }
@@ -106,10 +52,10 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     SaveManager::injectDefault_before();
 
     // Load the corresponding file path and properties
-    snprintf(currentFileName, sizeof(currentFileName), "tpgz/save_files/%s.bin", category);
-    loadFile(currentFileName, &gSaveManager.mPracticeSaveInfo,
-             sizeof(gSaveManager.mPracticeSaveInfo), id * sizeof(gSaveManager.mPracticeSaveInfo));
-    snprintf(currentFileName, sizeof(currentFileName), "tpgz/save_files/%s/%s.bin", category,
+    snprintf(l_filename, sizeof(l_filename), "tpgz/save_files/%s.bin", category);
+    loadFile(l_filename, &gSaveManager.mPracticeSaveInfo, sizeof(gSaveManager.mPracticeSaveInfo),
+             id * sizeof(gSaveManager.mPracticeSaveInfo));
+    snprintf(l_filename, sizeof(l_filename), "tpgz/save_files/%s/%s.bin", category,
              gSaveManager.mPracticeSaveInfo.filename);
 
     // 0xFF is used to identify a call from file reload, which doesn't need to run the default load
@@ -152,96 +98,89 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     last_special_size = size;
 }
 
-void SaveManager::loadSavefile(const char* fileName) {
-    loadFile(fileName, MEMFILE_BUF, 2400, 0);
-    SaveManager::injectSave(MEMFILE_BUF);
+void SaveManager::loadSavefile(const char* l_filename) {
+    loadFile(l_filename, MEMFILE_BUF, 2400, 0);
 }
 
-#if (GCN_NTSCU)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CCE08)
-#endif
-#if (GCN_PAL)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CD014)
-#endif
-#if (GCN_NTSCJ)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800CCE40)
-#endif
-#if (WII_NTSCU_10)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C38BC)
-#endif
-#if (WII_NTSCU_12)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800c3d98)
-#endif
-#if (WII_NTSCJ)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800c3c0c)
-#endif
-#if (WII_PAL)
-#define SET_WATER_DROP_COLOR_BL ((uint32_t*)0x800C3DD4)
-#endif
+KEEP_FUNC void SaveManager::triggerLoad(uint32_t id, const char* category, special i_specials[],
+                                        int size) {
+    loadSave(id, category, i_specials, size);
+ 
+    SaveManager::loadSavefile(l_filename);
+    dSv_save_c* save = (dSv_save_c*)MEMFILE_BUF;
 
-uint32_t setWaterDropColorInstr = 0x60000000;
+    int state = tp_getLayerNo(save->getPlayer().mPlayerReturnPlace.mName,
+                              save->getPlayer().mPlayerReturnPlace.mRoomNo, 0xFF);
 
-void SaveManager::triggerLoad() {
-    // Loading hasn't started yet, run the before load function and initiate loading
-    if (!fopScnRq.isLoading && !gSaveManager.loading_initiated) {
-        // Patch out setWaterDropColor call temporarily (prevents a crash in some scenarios)
-        setWaterDropColorInstr = *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL);
-        *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) = 0x60000000;  // nop
-        DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
-        ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
+    g_dComIfG_gameInfo.info.mRestart.mStartPoint =
+        save->getPlayer().mPlayerReturnPlace.mPlayerStatus;
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = save->getPlayer().mPlayerReturnPlace.mRoomNo;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = save->getPlayer().mPlayerReturnPlace.mPlayerStatus;
+    strcpy(g_dComIfG_gameInfo.play.mNextStage.mStage, save->getPlayer().mPlayerReturnPlace.mName);
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
 
-        // Trigger loading
-        g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    // inject options after initial stage set since some options change stage loc
+    if (gSaveManager.mPracticeFileOpts.inject_options_during_load) {
+        gSaveManager.mPracticeFileOpts.inject_options_during_load();
     }
 
-    // Loading has started, run the during load function
-    if (fopScnRq.isLoading && g_dComIfG_gameInfo.play.mNextStage.enabled) {
-        if (gSaveManager.mPracticeFileOpts.inject_options_during_load) {
-            gSaveManager.mPracticeFileOpts.inject_options_during_load();
-        }
-        gSaveManager.loading_initiated = true;
-        g_dComIfG_gameInfo.play.mNextStage.enabled = false;
+    g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    s_injectSave = true;
+}
+
+KEEP_FUNC void SaveManager::triggerMemfileLoad() {
+    // GZ_readMemfile already puts the savedata in g_tmpBuf
+    dSv_save_c* save = (dSv_save_c*)MEMFILE_BUF;
+
+    int state = tp_getLayerNo(save->getPlayer().mPlayerReturnPlace.mName,
+                              save->getPlayer().mPlayerReturnPlace.mRoomNo, 0xFF);
+
+    g_dComIfG_gameInfo.info.mRestart.mStartPoint =
+        save->getPlayer().mPlayerReturnPlace.mPlayerStatus;
+    g_dComIfG_gameInfo.play.mNextStage.mRoomNo = save->getPlayer().mPlayerReturnPlace.mRoomNo;
+    g_dComIfG_gameInfo.play.mNextStage.mPoint = save->getPlayer().mPlayerReturnPlace.mPlayerStatus;
+    strcpy(g_dComIfG_gameInfo.play.mNextStage.mStage, save->getPlayer().mPlayerReturnPlace.mName);
+    g_dComIfG_gameInfo.play.mNextStage.mLayer = state;
+
+    gSaveManager.mPracticeFileOpts.inject_options_after_load = GZ_setLinkPosition;
+
+    g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    s_injectMemfile = true;
+}
+
+// runs at the beginning of phase_1 of dScnPly_c load sequence
+KEEP_FUNC void SaveManager::loadData() {
+    if (s_injectMemfile) {
+        SaveManager::injectMemfile(MEMFILE_BUF);
+    } else {
+        SaveManager::injectSave(MEMFILE_BUF);
     }
 
-    if (gSaveManager.loading_initiated) {
-        // Loading has completed, run the after load function
-        if (!fopScnRq.isLoading) {
-            // Patch back in setWaterDropColor call
-            *reinterpret_cast<uint32_t*>(SET_WATER_DROP_COLOR_BL) =
-                setWaterDropColorInstr;  // bl daAlink_c::setWaterDropColor
-            DCFlushRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
-            ICInvalidateRange((void*)(SET_WATER_DROP_COLOR_BL), sizeof(uint32_t));
+// swap equip logic
+#ifdef GCN_PLATFORM
+    if (g_swap_equips_flag) {
+        uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_X);
+        uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_X);
 
-            if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
-                gSaveManager.mPracticeFileOpts.inject_options_after_load();
-            }
-
-            if (gSaveManager.mPracticeFileOpts.inject_options_after_counter ==
-                apply_after_counter) {
-                apply_after_counter = 0;
-                gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
-                gSaveManager.mPracticeFileOpts.inject_options_after_counter = 0;
-                gSaveManager.loading_initiated = false;
-
-                g_injectSave = false;
-                g_injectMemfile = false;
-            } else {
-                apply_after_counter++;
-            }
-        }
-        // should clean this up eventually
-        if (fopScnRq.isLoading && gSaveManager.repeat_during &&
-            gSaveManager.repeat_count != apply_during_counter) {
-            if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
-                gSaveManager.mPracticeFileOpts.inject_options_after_load();
-            }
-            apply_during_counter++;
-        } else {
-            apply_during_counter = 0;
-            gSaveManager.repeat_during = false;
-            gSaveManager.repeat_count = 0;
-        }
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_X, dComIfGs_getSelectItemIndex(SELECT_ITEM_Y));
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, tmp);
+        dComIfGs_setMixItemIndex(SELECT_ITEM_X, dComIfGs_getMixItemIndex(SELECT_ITEM_Y));
+        dComIfGs_setMixItemIndex(SELECT_ITEM_Y, tmp_mix);
     }
+#endif
+
+#ifdef WII_PLATFORM
+    if (g_swap_equips_flag) {
+        uint8_t tmp = dComIfGs_getSelectItemIndex(SELECT_ITEM_LEFT);
+        uint8_t tmp_mix = dComIfGs_getMixItemIndex(SELECT_ITEM_LEFT);
+
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_LEFT,
+                                    dComIfGs_getSelectItemIndex(SELECT_ITEM_RIGHT));
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_RIGHT, tmp);
+        dComIfGs_setMixItemIndex(SELECT_ITEM_LEFT, dComIfGs_getMixItemIndex(SELECT_ITEM_RIGHT));
+        dComIfGs_setMixItemIndex(SELECT_ITEM_RIGHT, tmp_mix);
+    }
+#endif
 }
 
 void SaveManager::setLinkInfo() {

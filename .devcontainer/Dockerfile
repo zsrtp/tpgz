@@ -24,6 +24,7 @@ RUN sudo apt-get install -y libtinfo5
 RUN python3 -m pip install Pillow
 
 # Install DevkitPPC
+RUN sudo ln -sf /proc/self/mounts /etc/mtab
 WORKDIR /tmp
 COPY install-devkitpro-pacman install-devkitpro-pacman
 RUN sudo chmod +x ./install-devkitpro-pacman

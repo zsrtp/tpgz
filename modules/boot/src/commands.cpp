@@ -15,6 +15,7 @@
 #include "timer.h"
 #include "utils/loading.h"
 #include "gz_flags.h"
+#include "save_manager.h"
 
 bool reload_area_flag = false;
 bool g_timerEnabled = false;
@@ -84,7 +85,8 @@ void GZCmd_resetTimer() {
 }
 
 void GZCmd_reloadArea() {
-    g_injectSave = true;
+    g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    SaveManager::s_injectSave = true;
 
     if (g_reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
@@ -107,13 +109,14 @@ void GZCmd_reloadArea() {
 
 void GZCmd_loadGorgeVoid() {
     if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
-        SaveManager::loadSavefile("tpgz/save_files/any/gorge_void.bin");
+        /* SaveManager::loadSavefile("tpgz/save_files/any/gorge_void.bin");
         gSaveManager.mPracticeFileOpts.inject_options_before_load =
             SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load =
             GorgeVoidIndicator::warpToPosition;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState;
-        g_injectSave = true;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState; */
+
+        SaveManager::triggerLoad(8, "any", nullptr, 0xFF);
     }
 }
 
@@ -127,7 +130,8 @@ void GZCmd_bitPractice() {
             SaveManager::injectDefault_during;
         gSaveManager.mPracticeFileOpts.inject_options_after_load = BiTIndicator::setPosition;
         gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;
-        g_injectSave = true;
+        g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+        SaveManager::s_injectSave = true;
     }
 }
 #endif

@@ -86,6 +86,9 @@ public:
     int repeat_count = 0;
     bool repeat_during = false;
 
+    static bool s_injectSave;
+    static bool s_injectMemfile;
+
 public:
     static void injectSave(void* buffer);
     static void injectMemfile(void* buffer);
@@ -96,10 +99,13 @@ public:
     static void loadSave(uint32_t id, const char* category, special* i_specials = nullptr,
                          int size = 0);
     static void loadSavefile(const char* fileName);
-    static void triggerLoad();
+    static void triggerLoad(uint32_t id, const char* category, special i_specials[], int size);
+    static void triggerMemfileLoad();
     static void defaultLoad();
     static void setLinkInfo();
     static void setPositionCamera();
+
+    static void loadData();
 
     void setSavePosition(float x, float y, float z) {
         mPracticeSaveInfo.position.x = x;
