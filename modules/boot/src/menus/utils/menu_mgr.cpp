@@ -117,19 +117,19 @@ KEEP_FUNC void MenuMgr::handleOpen() {
     if (is_open) {
         return;
     }
-    auto state = states.top();
+    auto state = *states.begin();
     state->load(false);
     is_open = true;
     GZ_setFifoVisible(false);
 }
 KEEP_FUNC void MenuMgr::handleHide() {
-    if (states.empty() || !(states.top())->rel.isLoaded()) {
+    if (states.empty() || !(*states.begin())->rel.isLoaded()) {
         is_open = false;
     }
     if (!is_open) {
         return;
     }
-    auto state = states.top();
+    auto state = *states.begin();
     state->unload(false);
     is_open = false;
     GZ_setFifoVisible(true);
@@ -142,7 +142,7 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
     }
     if (is_open && !states.empty()) {
         // Hide the currently opened menu, but keep it on the stack.
-        menus::MenuState* state = states.top();
+        menus::MenuState* state = *states.begin();
         state->unload(false);
     }
     char buf[45];
@@ -156,14 +156,14 @@ KEEP_FUNC void MenuMgr::handlePush(int menu_id) {
 
 KEEP_FUNC void MenuMgr::handlePop() {
     if (!states.empty()) {
-        menus::MenuState* state = states.top();
+        menus::MenuState* state = *states.begin();
         state->del();
         states.pop();
         delete state;
     }
 
     if (!states.empty() && is_open) {
-        menus::MenuState* state = states.top();
+        menus::MenuState* state = *states.begin();
         state->load(false);
         GZ_setFifoVisible(false);
     }
@@ -176,7 +176,7 @@ KEEP_FUNC void MenuMgr::handlePop() {
 
 KEEP_FUNC void MenuMgr::handleClear() {
     while (!states.empty()) {
-        menus::MenuState* state = states.top();
+        menus::MenuState* state = *states.begin();
         state->del();
         states.pop();
         delete state;
@@ -187,24 +187,24 @@ KEEP_FUNC void MenuMgr::handleClear() {
 
 KEEP_FUNC void MenuMgr::setCreateHook(void (*createHook)()) {
     if (!states.empty()) {
-        states.top()->create_hook = createHook;
+        (*states.begin())->create_hook = createHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setLoadHook(void (*loadHook)()) {
     if (!states.empty()) {
-        states.top()->load_hook = loadHook;
+        (*states.begin())->load_hook = loadHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setUnloadHook(void (*unloadHook)()) {
     if (!states.empty()) {
-        states.top()->unload_hook = unloadHook;
+        (*states.begin())->unload_hook = unloadHook;
     }
 }
 
 KEEP_FUNC void MenuMgr::setDeleteHook(void (*deleteHook)()) {
     if (!states.empty()) {
-        states.top()->delete_hook = deleteHook;
+        (*states.begin())->delete_hook = deleteHook;
     }
 }

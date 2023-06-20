@@ -46,7 +46,7 @@ void MemfilesMenu::draw() {
     }
 
     static Storage card;
-    char fileBuf[9];
+    char fileBuf[10];
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case MEMFILE_SAVE_INDEX:

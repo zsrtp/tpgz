@@ -6,14 +6,14 @@
 #include <cstddef>
 #include <concepts>
 #include <type_traits>
-#include <deque>
+#include <boot/include/utils/containers/deque.h>
 #include <algorithm>
 
 namespace events {
 /**
  * @brief C++20 Concept to constrain the types to executable functions.
  *
- * @tparam T Constraint to be a function.
+ * @tparam Callback Constraint to be a function.
  */
 template <typename Callback>
 concept Function = std::is_function_v<std::remove_pointer_t<Callback>>;
@@ -45,12 +45,13 @@ public:
      * @return false The function was not previously registered.
      */
     bool removeListener(Callback* listener) {
-        auto it = std::find(callbacks.begin(), callbacks.end(), listener);
-        if (it == callbacks.end()) {
-            return false;
+        for (auto it = callbacks.begin(); it != callbacks.end(); ++it) {
+            if (*it == listener) {
+                callbacks.erase(it);
+                return true;
+            }
         }
-        callbacks.erase(it);
-        return true;
+        return false;
     }
 
     /**
@@ -69,7 +70,7 @@ public:
     size_t getCount() const { return std::distance(callbacks.begin(), callbacks.end()); }
 
 private:
-    std::deque<std::remove_pointer_t<Callback>*> callbacks;
+    tpgz::containers::deque<std::remove_pointer_t<Callback>*> callbacks;
 };
 
 }  // namespace events
