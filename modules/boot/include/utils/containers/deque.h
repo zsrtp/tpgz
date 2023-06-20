@@ -11,7 +11,7 @@
 
 namespace tpgz::containers {
 
-template<typename T>
+template <typename T>
 class deque {
 private:
     struct Node {
@@ -28,21 +28,13 @@ public:
     public:
         iterator(Node* pNode) : node(pNode) {}
 
-        T& operator*() {
-            return node->data;
-        }
+        T& operator*() { return node->data; }
 
-        T& operator*() const {
-            return node->data;
-        }
+        T& operator*() const { return node->data; }
 
-        T* operator-> () {
-            return &(node->data);
-        }
+        T* operator->() { return &(node->data); }
 
-        T* operator-> () const {
-            return &(node->data);
-        }
+        T* operator->() const { return &(node->data); }
 
         iterator& operator++() {
             node = node->next;
@@ -66,13 +58,9 @@ public:
             return temp;
         }
 
-        bool operator==(const iterator& other) const {
-            return node == other.node;
-        }
+        bool operator==(const iterator& other) const { return node == other.node; }
 
-        bool operator!=(const iterator& other) const {
-            return !(*this == other);
-        }
+        bool operator!=(const iterator& other) const { return !(*this == other); }
         friend class deque;
     };
 
@@ -86,9 +74,7 @@ private:
 public:
     deque() : head(nullptr), tail(nullptr), _size(0) {}
 
-    ~deque() {
-        clear();
-    }
+    ~deque() { clear(); }
 
     void erase(iterator it) {
         Node* currentNode = it.node;
@@ -190,21 +176,13 @@ public:
         }
     }
 
-    T& front() {
-        return head->data;
-    }
+    T& front() { return head->data; }
 
-    T& back() {
-        return tail->data;
-    }
+    T& back() { return tail->data; }
 
-    size_t size() const {
-        return _size.load();
-    }
+    size_t size() const { return _size.load(); }
 
-    bool empty() const {
-        return _size.load() == 0;
-    }
+    bool empty() const { return _size.load() == 0; }
 
     void clear() {
         while (!empty()) {
@@ -212,31 +190,19 @@ public:
         }
     }
 
-    iterator begin() {
-        return iterator(head);
-    }
+    iterator begin() { return iterator(head); }
 
-    iterator end() {
-        return iterator(nullptr);
-    }
+    iterator end() { return iterator(nullptr); }
 
-    const_iterator begin() const {
-        return const_iterator(head);
-    }
+    const_iterator begin() const { return const_iterator(head); }
 
-    const_iterator end() const {
-        return const_iterator(nullptr);
-    }
+    const_iterator end() const { return const_iterator(nullptr); }
 
-    const_iterator cbegin() const {
-        return begin();
-    }
+    const_iterator cbegin() const { return begin(); }
 
-    const_iterator cend() const {
-        return end();
-    }
+    const_iterator cend() const { return end(); }
 };
 
-}
+}  // namespace tpgz::containers
 
 #endif

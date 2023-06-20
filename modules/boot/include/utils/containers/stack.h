@@ -27,21 +27,13 @@ public:
     public:
         iterator(Node* pNode) : node(pNode) {}
 
-        T& operator*() {
-            return node->data;
-        }
+        T& operator*() { return node->data; }
 
-        T& operator*() const {
-            return node->data;
-        }
+        T& operator*() const { return node->data; }
 
-        T* operator-> () {
-            return &(node->data);
-        }
+        T* operator->() { return &(node->data); }
 
-        T* operator-> () const {
-            return &(node->data);
-        }
+        T* operator->() const { return &(node->data); }
 
         iterator& operator++() {
             node = node->next;
@@ -54,13 +46,9 @@ public:
             return temp;
         }
 
-        bool operator==(const iterator& other) const {
-            return node == other.node;
-        }
+        bool operator==(const iterator& other) const { return node == other.node; }
 
-        bool operator!=(const iterator& other) const {
-            return !(*this == other);
-        }
+        bool operator!=(const iterator& other) const { return !(*this == other); }
     };
 
 private:
@@ -69,9 +57,7 @@ private:
 public:
     stack() : top(nullptr) {}
 
-    ~stack() {
-        clear();
-    }
+    ~stack() { clear(); }
 
     void erase(iterator it) {
         Node* currentTop = top.load();
@@ -108,7 +94,8 @@ public:
 
     void pop() {
         Node* oldTop = top.load();
-        while (oldTop != nullptr && !std::atomic_compare_exchange_strong(&top, &oldTop, oldTop->next)) {
+        while (oldTop != nullptr &&
+               !std::atomic_compare_exchange_strong(&top, &oldTop, oldTop->next)) {
             oldTop = top.load();
         }
         if (oldTop != nullptr) {
@@ -116,9 +103,7 @@ public:
         }
     }
 
-    bool empty() const {
-        return top.load() == nullptr;
-    }
+    bool empty() const { return top.load() == nullptr; }
 
     void clear() {
         while (!empty()) {
@@ -136,15 +121,11 @@ public:
         return count;
     }
 
-    iterator begin() {
-        return iterator(top.load());
-    }
+    iterator begin() { return iterator(top.load()); }
 
-    iterator end() {
-        return iterator(nullptr);
-    }
+    iterator end() { return iterator(nullptr); }
 };
 
-}
+}  // namespace tpgz::containers
 
 #endif
