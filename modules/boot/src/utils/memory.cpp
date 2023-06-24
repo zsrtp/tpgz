@@ -130,11 +130,11 @@ KEEP_FUNC void GZ_drawHeapInfo() {
 
         Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", pos.x, pos.y, 0xFFFFFFFF,
                          g_dropShadows);
-        char zelBuf[22];
+        char zelBuf[26];
         snprintf(zelBuf, sizeof(zelBuf), "  Zelda %5d / %5d", zeldaFree >> 10, zeldaTotal >> 10);
-        char gameBuf[22];
+        char gameBuf[26];
         snprintf(gameBuf, sizeof(gameBuf), "   Game %5d / %5d", gameFree >> 10, gameTotal >> 10);
-        char arcBuf[22];
+        char arcBuf[26];
         snprintf(arcBuf, sizeof(arcBuf), "Archive %5d / %5d", archiveFree >> 10,
                  archiveTotal >> 10);
 

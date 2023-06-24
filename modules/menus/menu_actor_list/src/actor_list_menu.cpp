@@ -69,7 +69,7 @@ void ActorListMenu::draw() {
         snprintf(addressBuf, sizeof(addressBuf), "Address: %08X", (uint32_t)actorData);
         GZ_drawText(addressBuf, 25.0f, 100.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
-        char nameBuf[13];
+        char nameBuf[16];
         snprintf(nameBuf, sizeof(nameBuf), "Proc ID: %d", actorData->mBase.mProcName);
         GZ_drawText(nameBuf, 25.0f, 120.f, 0xFFFFFFFF, GZ_checkDropShadows());
 

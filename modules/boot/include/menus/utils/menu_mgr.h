@@ -2,7 +2,7 @@
 #define TPGZ_MENUS_UTILS_MENU_MGR_H
 
 #include <cstddef>
-#include <stack>
+#include <boot/include/utils/containers/stack.h>
 #include "utils/rels.h"
 #include "utils/cursor.h"
 #include "menu.h"
@@ -101,7 +101,7 @@ public:
     template <typename T = void>
     inline void setPersistentData(T* data) {
         if (!states.empty()) {
-            states.top()->data = data;
+            (*states.begin())->data = data;
         }
     }
     /**
@@ -112,7 +112,7 @@ public:
     template <typename T = void>
     inline T* getPersistentData() {
         if (!states.empty()) {
-            return (T*)states.top()->data;
+            return (T*)(*states.begin())->data;
         }
         return nullptr;
     }
@@ -125,7 +125,7 @@ public:
     template <typename T = void>
     inline void setPermanentData(T* data) {
         if (!states.empty()) {
-            permanentData[states.top()->id] = data;
+            permanentData[(*states.begin())->id] = data;
         }
     }
     /**
@@ -136,7 +136,7 @@ public:
     template <typename T = void>
     inline T* getPermanentData() {
         if (!states.empty()) {
-            return (T*)permanentData[states.top()->id];
+            return (T*)permanentData[(*states.begin())->id];
         }
         return nullptr;
     }
@@ -174,7 +174,7 @@ public:
     void setDeleteHook(void (*deleteHook)());
 
 private:
-    std::stack<menus::MenuState*> states;
+    tpgz::containers::stack<menus::MenuState*> states;
     void* permanentData[MN_COUNT];
     bool is_open;
     menus::MenuCommand command;

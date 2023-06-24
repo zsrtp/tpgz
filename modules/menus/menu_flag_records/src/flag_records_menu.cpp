@@ -62,7 +62,7 @@ void FlagRecordsMenu::drawFlagRecord(uint8_t* record) {
             idx_num = i;
         }
 
-        char offset[6];
+        char offset[12];
         snprintf(offset, sizeof(offset), "0x%02X:", idx_num);
 
         float flag_x_offset = x_offset + Font::getStrWidth(offset);
