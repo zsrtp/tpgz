@@ -11,19 +11,19 @@ KEEP_FUNC void GZ_displayLinkInfo() {
     if (!g_tools[LINK_DEBUG_INDEX].active) {
         return;
     }
-    char time[12] = {0};
+    char time[14] = {0};
     snprintf(time, sizeof(time), "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
              g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
     Font::GZ_drawStr(time, g_spriteOffsets[DEBUG_INFO_INDEX].x, g_spriteOffsets[DEBUG_INFO_INDEX].y,
                      0xFFFFFFFF, g_dropShadows);
 
     if (dComIfGp_getPlayer()) {
-        char link_angle[20];
-        char y_angle[20];
-        char link_speed[20];
-        char link_x[20];
-        char link_y[20];
-        char link_z[20];
+        char link_angle[22];
+        char y_angle[22];
+        char link_speed[22];
+        char link_x[22];
+        char link_y[22];
+        char link_z[22];
 
         snprintf(link_angle, sizeof(link_angle), "angle: %d",
                  (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);

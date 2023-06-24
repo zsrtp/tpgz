@@ -91,7 +91,7 @@ add_subdirectory(modules)
 
 add_library(tpgz STATIC "${CPPFILES}")
 add_dependencies(tpgz tp_c gcn_c modules)
-set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++17 -Wall ${DEVKITPRO_MACHDEP}")
+set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++20 -Wall ${DEVKITPRO_MACHDEP}")
 
 get_target_property(TPGZ_MODULES modules TPGZ_MODULES)
 foreach(module ${TPGZ_MODULES})

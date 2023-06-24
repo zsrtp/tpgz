@@ -1,5 +1,4 @@
 #include "save_specials.h"
-#include <functional>
 #include "gz_flags.h"
 #include "libtp_c/include/utils.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -9,7 +8,9 @@
 #include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
 #include "rels/include/defines.h"
 
-fopAc_ac_c* find_actor(std::function<bool(fopAc_ac_c&)> const& predicate) {
+typedef bool (*predicate_t)(fopAc_ac_c&);
+
+fopAc_ac_c* find_actor(predicate_t const& predicate) {
     if (predicate == nullptr) {
         return nullptr;
     }
