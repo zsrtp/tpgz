@@ -204,6 +204,7 @@ int saveInjectHook(void* i_scene) {
 #define f_offEventBit dSv_event_c__offEventBit_unsigned_short_
 #define f_putSave dSv_info_c__putSave_int_
 #define f_myExceptionCallback myExceptionCallback_unsigned
+#define f_dScnPly__phase_1 phase_1_dScnPly_c___
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
