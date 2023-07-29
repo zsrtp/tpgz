@@ -124,6 +124,9 @@ KEEP_FUNC void SaveMngSpecial_Escort() {
     setNextStageRoom(0xD);
     setNextStagePoint(98);
     setNextStageLayer(2);
+}
+
+KEEP_FUNC void SaveMngSpecial_EscortKeys() {
     dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
@@ -226,9 +229,10 @@ KEEP_FUNC void SaveMngSpecial_ToTEarlyPoe() {
 
 KEEP_FUNC void SaveMngSpecial_ToTEarlyHP() {
     gSaveManager.injectDefault_during();
-    gSaveManager.setSaveAngle(49152);
-    gSaveManager.setSavePosition(-8000.50f, 5100.0f, -3226.17f);
+    gSaveManager.setSaveAngle(0);
+    gSaveManager.setSavePosition(-6626.f, 5250.0f, -5587.f);
     gSaveManager.setLinkInfo();
+    dComIfGs_onSwitch(224, 4);   // gate moved to correct pos
 }
 
 KEEP_FUNC void SaveMngSpecial_HugoArchery() {
@@ -241,6 +245,10 @@ KEEP_FUNC void SaveMngSpecial_CityPoeCycle() {
     gSaveManager.setSaveAngle(71);
     gSaveManager.setSavePosition(-14005.31f, 3000.0f, -15854.05f);
     gSaveManager.setLinkInfo();
+}
+
+KEEP_FUNC void SaveMngSpecial_AeralfosSkip() {
+    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;  // clawshot out
 }
 
 KEEP_FUNC void SaveMngSpecial_FanTower() {

@@ -2,7 +2,7 @@
 
 #include "menu.h"
 
-#define HND_SPECIALS_AMNT 26
+#define HND_SPECIALS_AMNT 28
 
 enum HundoPracticeIndex {
     HND_GOATS_1_INDEX,
@@ -15,6 +15,7 @@ enum HundoPracticeIndex {
     HND_FRST_2_INDEX,
     HND_OOKLESS_INDEX,
     HND_ELDIN_TWILIGHT_INDEX,
+    HND_BOMB_HOUSE_SKIP_INDEX,
     HND_LANAYRU_GATE_CLIP_INDEX,
     HND_PILLAR_CLIP_INDEX,
     HND_LAKEBED_1_INDEX,
@@ -27,7 +28,8 @@ enum HundoPracticeIndex {
     HND_COROTD_INDEX,
     HND_GM_INDEX,
     HND_DANGORO_INDEX,
-    HND_KB_1_INDEX,
+    HND_POST_GM_INDEX,
+    HND_ELDIN_COLLECTION_INDEX,
     HND_LAKEBED_BK_SKIP_INDEX,
     HND_MORPHEEL_INDEX,
     HND_STAR_1_INDEX,
@@ -35,6 +37,7 @@ enum HundoPracticeIndex {
     HND_MDH_BRIDGE_INDEX,
     HND_POST_MDH_INDEX,
     HND_IZA_1_SKIP_INDEX,
+    HND_IZA_2_INDEX,
     HND_LH_CAVE_INDEX,
     HND_BULBLIN_CAMP_INDEX,
     HND_AG_INDEX,
@@ -77,6 +80,7 @@ enum HundoPracticeIndex {
     HND_COO_10_INDEX,
     HND_COO_20_INDEX,
     HND_COO_30_INDEX,
+    HND_COO_40_INDEX,
     HND_CATS_INDEX,
     HND_HYRULE_INDEX,
     HND_DARKNUT_SKIP_INDEX,
@@ -92,5 +96,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[78];
+    Line lines[82];
 };

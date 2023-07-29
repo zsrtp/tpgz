@@ -17,6 +17,7 @@ void SaveMngSpecial_WaterfallSidehop();
 
 void SaveMngSpecial_KB2Skip();
 void SaveMngSpecial_Escort();
+void SaveMngSpecial_EscortKeys();
 
 void SaveMngSpecial_Dangoro();
 
@@ -38,6 +39,7 @@ void SaveMngSpecial_ToTEarlyHP();
 
 void SaveMngSpecial_HugoArchery();
 
+void SaveMngSpecial_AeralfosSkip();
 void SaveMngSpecial_CityPoeCycle();
 void SaveMngSpecial_FanTower();
 void SaveMngSpecial_Argorok();
