@@ -6,6 +6,7 @@
 KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"any%", ANY_INDEX, "Any% practice saves", false},
+                        {"any% BiTE", ANY_BITE_INDEX, "Any% (BiTE route) practice saves", false},
                         {"100%", HUNDO_INDEX, "100% practice saves", false},
                         {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
                     } {}
@@ -22,6 +23,9 @@ void PracticeMenu::draw() {
         switch (cursor.y) {
         case ANY_INDEX:
             g_menuMgr->push(MN_ANY_SAVES_INDEX);
+            return;
+        case ANY_BITE_INDEX:
+            g_menuMgr->push(MN_ANY_BITE_SAVES_INDEX);
             return;
         case HUNDO_INDEX:
             g_menuMgr->push(MN_HUNDO_SAVES_INDEX);

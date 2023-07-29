@@ -3,6 +3,8 @@
 #include "practice.h"
 #include "gz_flags.h"
 
+#define PRACTICE_MENU_NUM 4
+
 class PracticeMenu : public Menu {
 public:
     PracticeMenu(Cursor&);
@@ -10,5 +12,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[3];
+    Line lines[PRACTICE_MENU_NUM];
 };

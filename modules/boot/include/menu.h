@@ -8,7 +8,7 @@
 #include "utils/cursor.h"
 #include "utils/lines.h"
 
-#define MAX_MENU_RENDER_FLAGS 27
+#define MAX_MENU_RENDER_FLAGS 28
 
 #ifdef GCN_PLATFORM
 #define SELECTION_BUTTON (GZPad::A)
@@ -48,6 +48,7 @@ enum MenuIndex {
     MN_MEM_FILES_INDEX,
     // Practice menu's sub menus
     MN_ANY_SAVES_INDEX,
+    MN_ANY_BITE_SAVES_INDEX,
     MN_HUNDO_SAVES_INDEX,
     MN_AD_SAVES_INDEX,
     // Scene menu's sub menus

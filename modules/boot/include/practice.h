@@ -2,9 +2,13 @@
 
 #include "save_manager.h"
 
-#define ANY_INDEX 0
-#define HUNDO_INDEX 1
-#define AD_INDEX 2
+enum {
+    ANY_INDEX,
+    ANY_BITE_INDEX,
+    HUNDO_INDEX,
+    AD_INDEX,
+};
+
 #define REQ_POS 1
 #define REQ_CAM 2
 
