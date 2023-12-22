@@ -85,10 +85,9 @@ void GZCmd_resetTimer() {
 }
 
 void GZCmd_reloadArea() {
-    g_dComIfG_gameInfo.play.mNextStage.enabled = true;
-    SaveManager::s_injectSave = true;
+     g_dComIfG_gameInfo.play.mNextStage.enabled = true;
 
-    if (g_reloadType == LOAD_AREA) {
+    if (g_reloadType == LOAD_AREA|| SaveManager::s_injectSave == false) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
                sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
@@ -104,6 +103,7 @@ void GZCmd_reloadArea() {
         gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
     } else {
         SaveManager::loadSave(last_save_index, last_category, last_special_ptr, 0xFF);
+        SaveManager::s_injectSave = true;
     }
 }
 
