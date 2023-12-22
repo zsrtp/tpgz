@@ -32,12 +32,16 @@ void SaveManager::injectMemfile(void* buffer) {
 }
 
 void SaveManager::injectDefault_before() {
-    g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 0.0f;
-    g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
-    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
+   // g_dComIfG_gameInfo.info.mRestart.mLastSpeedF = 0.0f;
+    //g_dComIfG_gameInfo.play.mNextStage.wipe = 13;  // instant load
+   // g_dComIfG_gameInfo.info.mRestart.mLastMode = 0;
 }
 
-void SaveManager::injectDefault_during() {}
+void SaveManager::injectDefault_during() {
+        dComIfGs_setOxygen(600);
+    dComIfGs_setNowOxygen(600);
+    dComIfGs_setMaxOxygen(600);
+}
 
 void SaveManager::injectDefault_after() {}
 

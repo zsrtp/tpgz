@@ -1,6 +1,7 @@
 #include "menu.h"
 
 struct AmountsData {
+    uint16_t l_healthNum;
     uint8_t l_arrowNum;
     uint8_t l_bag1Num;
     uint8_t l_bag2Num;
@@ -12,6 +13,7 @@ struct AmountsData {
 };
 
 enum AmountsIndex {
+    HEALTH_INDEX,
     ARROW_AMMO_INDEX,
     BOMB_BAG_1_AMMO_INDEX,
     BOMB_BAG_2_AMMO_INDEX,
@@ -29,6 +31,7 @@ public:
     virtual void draw();
 
 private:
+    uint16_t& l_healthNum;
     uint8_t& l_arrowNum;
     uint8_t& l_bag1Num;
     uint8_t& l_bag2Num;
@@ -38,5 +41,5 @@ private:
     uint16_t& l_hpNum;
     uint16_t& l_rupeeNum;
 
-    Line lines[8];
+    Line lines[9];
 };
