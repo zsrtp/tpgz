@@ -6,12 +6,14 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC AmountsMenu::AmountsMenu(Cursor& cursor, AmountsData& data)
-    : Menu(cursor), l_healthNum(data.l_healthNum), l_arrowNum(data.l_arrowNum),
+    : Menu(cursor), l_healthNum(data.l_healthNum), l_maxHealthNum(data.l_maxHealthNum),
+      l_extraHealthNum(data.l_extraHealthNum), l_arrowNum(data.l_arrowNum),
       l_bag1Num(data.l_bag1Num), l_bag2Num(data.l_bag2Num), l_bag3Num(data.l_bag3Num),
       l_seedNum(data.l_seedNum), l_poeNum(data.l_poeNum), l_hpNum(data.l_hpNum),
       l_rupeeNum(data.l_rupeeNum),
       lines{
-          {"health:", HEALTH_INDEX, "Modify the current health by quarter"},
+          {"health:", HEALTH_INDEX, "Current health by quarter"},
+          {"hearts:", MAX_HEALTH_INDEX, "Amount of hearts collected"},
           {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
           {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
           {"bomb bag 2 num:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
@@ -29,6 +31,8 @@ void AmountsMenu::draw() {
 
     // update amounts
     l_healthNum = dComIfGs_getLife();
+    l_extraHealthNum = dComIfGs_getMaxLife() % 5;
+    l_maxHealthNum = dComIfGs_getMaxLife() / 5;
     l_arrowNum = dComIfGs_getArrowNum();
     l_bag1Num = dComIfGs_getBombNum(BOMB_BAG_1);
     l_bag2Num = dComIfGs_getBombNum(BOMB_BAG_2);
@@ -46,10 +50,22 @@ void AmountsMenu::draw() {
     switch (cursor.y) {
     case HEALTH_INDEX:
         Cursor::moveList(l_healthNum);
-        if (l_healthNum > l_hpNum) {
-            dComIfGs_setLife(l_hpNum);  // Don't allow the player to go overflow
+        if (l_healthNum > l_maxHealthNum * 4) {
+            l_healthNum = l_maxHealthNum * 4;  // Don't allow the player to go overflow
         }
         dComIfGs_setLife(l_healthNum);
+        break;
+    case MAX_HEALTH_INDEX:
+        Cursor::moveList(l_maxHealthNum);
+        if (l_hpNum > 20) {
+            l_maxHealthNum = 20;  // Don't allow the player to go overflow
+        }
+        dComIfGs_setMaxLife((l_maxHealthNum * 5) +
+                            l_extraHealthNum);  // Add hearts with current heartpiece
+        if (l_healthNum > l_maxHealthNum * 4) {
+            l_healthNum = l_maxHealthNum * 4;  // Don't allow the player to go overflow in hearts
+            dComIfGs_setLife(l_healthNum);
+        }
         break;
     case ARROW_AMMO_INDEX:
         Cursor::moveList(l_arrowNum);
@@ -85,6 +101,7 @@ void AmountsMenu::draw() {
         break;
     }
     lines[HEALTH_INDEX].printf("<%d>", l_healthNum);
+    lines[MAX_HEALTH_INDEX].printf("<%d>", l_maxHealthNum);
     lines[ARROW_AMMO_INDEX].printf(" <%d>", l_arrowNum);
     lines[BOMB_BAG_1_AMMO_INDEX].printf(" <%d>", l_bag1Num);
     lines[BOMB_BAG_2_AMMO_INDEX].printf(" <%d>", l_bag2Num);
