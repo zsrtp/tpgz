@@ -57,7 +57,7 @@ void AmountsMenu::draw() {
         break;
     case MAX_HEALTH_INDEX:
         Cursor::moveList(l_maxHealthNum);
-        if (l_hpNum > 20) {
+        if (l_maxHealthNum > 20) {
             l_maxHealthNum = 20;  // Don't allow the player to go overflow
         }
         dComIfGs_setMaxLife((l_maxHealthNum * 5) +
