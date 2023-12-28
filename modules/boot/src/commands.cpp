@@ -85,9 +85,10 @@ void GZCmd_resetTimer() {
 }
 
 void GZCmd_reloadArea() {
-     g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    g_dComIfG_gameInfo.play.mNextStage.enabled = true;
+    SaveManager::s_injectSave = true;
 
-    if (g_reloadType == LOAD_AREA|| SaveManager::s_injectSave == false) {
+    if (g_reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
                sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
@@ -103,19 +104,17 @@ void GZCmd_reloadArea() {
         gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
     } else {
         SaveManager::loadSave(last_save_index, last_category, last_special_ptr, 0xFF);
-        SaveManager::s_injectSave = true;
     }
 }
 
 void GZCmd_loadGorgeVoid() {
     if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
-         SaveManager::loadSavefile("tpgz/save_files/any/gorge_void.bin");
+        /* SaveManager::loadSavefile("tpgz/save_files/any/gorge_void.bin");
         gSaveManager.mPracticeFileOpts.inject_options_before_load =
             SaveManager::injectDefault_before;
         gSaveManager.mPracticeFileOpts.inject_options_during_load =
             GorgeVoidIndicator::warpToPosition;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState;
-        gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;
+        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState; */
 
         SaveManager::triggerLoad(8, "any", nullptr, 0xFF);
     }

@@ -45,6 +45,6 @@ private:
     uint8_t& l_poeNum;
     uint16_t& l_hpNum;
     uint16_t& l_rupeeNum;
-  
-    Line lines[9];
+
+    Line lines[10];
 };

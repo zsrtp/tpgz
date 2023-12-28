@@ -14,7 +14,6 @@ KEEP_FUNC AmountsMenu::AmountsMenu(Cursor& cursor, AmountsData& data)
       lines{
           {"health:", HEALTH_INDEX, "Current health by quarter"},
           {"hearts:", MAX_HEALTH_INDEX, "Amount of hearts collected"},
-
           {"arrows:", ARROW_AMMO_INDEX, "Current arrow count"},
           {"bomb bag 1 num:", BOMB_BAG_1_AMMO_INDEX, "Amount of bombs in bag 1"},
           {"bomb bag 2 num:", BOMB_BAG_2_AMMO_INDEX, "Amount of bombs in bag 2"},
@@ -68,12 +67,6 @@ void AmountsMenu::draw() {
             dComIfGs_setLife(l_healthNum);
         }
         break;
-    Cursor::moveList(l_healthNum);
-     if (l_healthNum < 1) {
-            l_healthNum = 1;  // Don't allow the player to go under 1 quarter heart
-        }
-    dComIfGs_setLife(l_healthNum);
-    break;
     case ARROW_AMMO_INDEX:
         Cursor::moveList(l_arrowNum);
         dComIfGs_setArrowNum(l_arrowNum);
@@ -107,7 +100,6 @@ void AmountsMenu::draw() {
         dComIfGs_setRupee(l_rupeeNum);
         break;
     }
-  
     lines[HEALTH_INDEX].printf("<%d>", l_healthNum);
     lines[MAX_HEALTH_INDEX].printf("<%d>", l_maxHealthNum);
     lines[ARROW_AMMO_INDEX].printf(" <%d>", l_arrowNum);
