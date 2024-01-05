@@ -61,7 +61,5 @@ public:
     virtual void draw();
 
 private:
-#ifdef GCN_PLATFORM
     Line lines[ANY_BITE_SAVES_COUNT];
-#endif
 };

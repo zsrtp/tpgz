@@ -6,7 +6,9 @@
 KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"any%", ANY_INDEX, "Any% practice saves", false},
+#ifdef GCN_PLATFORM
                         {"any% BiTE", ANY_BITE_INDEX, "Any% (BiTE route) practice saves", false},
+#endif
                         {"100%", HUNDO_INDEX, "100% practice saves", false},
                         {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
                     } {}
