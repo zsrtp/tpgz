@@ -7,13 +7,13 @@
 class cM3dGPla {
 public:
     cXyz mNormal;
-    float mD;
+    f32 mD;
     cM3dGPla();
-    cM3dGPla(const cXyz*, float);
+    cM3dGPla(const cXyz*, f32);
     virtual ~cM3dGPla();
 
     const cXyz& GetNP() const { return mNormal; }
-    float GetD() const { return mD; }
+    f32 GetD() const { return mD; }
 };
 
 #endif

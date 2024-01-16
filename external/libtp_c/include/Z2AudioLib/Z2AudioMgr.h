@@ -43,7 +43,7 @@ public:
     /* 0x0000 */ Z2SeMgr mSeMgr;
     /* 0x03E4 */ Z2SeqMgr mSeqMgr;
 #ifndef WII_NTSCU_10
-    uint8_t _p1[0x4];
+    u8 _p1[0x4];
 #endif
     /* 0x04B4 */ Z2SceneMgr mSceneMgr;
     /* 0x04D4 */ Z2StatusMgr mStatusMgr;

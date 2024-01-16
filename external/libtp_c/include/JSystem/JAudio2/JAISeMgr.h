@@ -39,7 +39,7 @@ public:
 #ifdef WII_PLATFORM
 class JAISeMgr {
 public:
-    /* 0x000 */ uint8_t field_0x0[0x18];
+    /* 0x000 */ u8 field_0x0[0x18];
     /* 0x018 */ JAISeCategoryMgr mCategoryMgrs[16];
     /* 0x6D8 */ JAISoundParamsMove mParams;
 };  // Size: 0x728

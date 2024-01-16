@@ -36,23 +36,23 @@ class cCcD_TriAttr {};
 
 class cCcD_DivideInfo {
 public:
-    /* 0x00 */ uint32_t field_0x0;
-    /* 0x04 */ uint32_t field_0x4;
-    /* 0x08 */ uint32_t field_0x8;
+    /* 0x00 */ u32 field_0x0;
+    /* 0x04 */ u32 field_0x4;
+    /* 0x08 */ u32 field_0x8;
     /* 0x0C */ void* vtable;
 };
 
 class cCcD_DivideArea : public cM3dGAab {
 public:
     /* 0x1C */ bool mXDiffIsZero;
-    /* 0x20 */ float mScaledXDiff;
-    /* 0x24 */ float mInvScaledXDiff;
+    /* 0x20 */ f32 mScaledXDiff;
+    /* 0x24 */ f32 mInvScaledXDiff;
     /* 0x28 */ bool mYDiffIsZero;
-    /* 0x2C */ float mScaledYDiff;
-    /* 0x30 */ float mInvScaledYDiff;
+    /* 0x2C */ f32 mScaledYDiff;
+    /* 0x30 */ f32 mInvScaledYDiff;
     /* 0x34 */ bool mZDiffIsZero;
-    /* 0x38 */ float mScaledZDiff;
-    /* 0x3C */ float mInvScaledZDiff;
+    /* 0x38 */ f32 mScaledZDiff;
+    /* 0x3C */ f32 mInvScaledZDiff;
 };  // Size = 0x40
 
 static_assert(sizeof(cCcD_DivideArea) == 0x40);
@@ -75,9 +75,9 @@ public:
     /* 0x00 */ cXyz field_0x00;
     /* 0x0C */ fopAc_ac_c* mActor;
     /* 0x10 */ int mApid;
-    /* 0x14 */ uint8_t mWeight;
-    /* 0x15 */ uint8_t field_0x15;
-    /* 0x16 */ uint8_t mTg;
+    /* 0x14 */ u8 mWeight;
+    /* 0x15 */ u8 field_0x15;
+    /* 0x16 */ u8 mTg;
     /* 0x18 */ void* vtable;
 };  // Size = 0x1C
 
@@ -94,7 +94,7 @@ class cCcD_Obj;
 class cCcD_ObjAt : cCcD_ObjCommonBase {
 public:
     /* 0x10 */ int mType;
-    /* 0x14 */ uint8_t mAtp;
+    /* 0x14 */ u8 mAtp;
 };
 #pragma pack(pop)
 
@@ -110,7 +110,7 @@ public:
 class cCcD_ObjHitInf {
 public:
     /* 0x000 */ cCcD_ObjAt mObjAt;
-    /* 0x015 */ uint8_t field_0x15[3];  // padding?
+    /* 0x015 */ u8 field_0x15[3];  // padding?
     /* 0x018 */ cCcD_ObjTg mObjTg;
     /* 0x02C */ cCcD_ObjCo mObjCo;
     /* 0x03C */ void* vtable;

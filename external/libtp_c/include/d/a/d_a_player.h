@@ -12,7 +12,7 @@
 class daPy_sightPacket_c : dDlst_base_c {
 public:
     /* 0x04 */ bool mDrawFlag;
-    /* 0x05 */ uint8_t field_0x5[3];
+    /* 0x05 */ u8 field_0x5[3];
     /* 0x08 */ cXyz mPos;
     /* 0x14 */ Mtx field_0x14;
     /* 0x44 */ ResTIMG* field_0x44;
@@ -27,15 +27,15 @@ class daPy_anmHeap_c {
 public:
     enum daAlinkHEAP_TYPE {};
 
-    uint16_t getIdx() const { return mIdx; }
+    u16 getIdx() const { return mIdx; }
     void resetIdx() { mIdx = 0xffff; }
     void resetPriIdx() { mPriIdx = 0xffff; }
     void resetArcNo() { mArcNo = 0xffff; }
 
-    /* 0x00 */ uint16_t mIdx;
-    /* 0x02 */ uint16_t mPriIdx;
-    /* 0x04 */ uint16_t mArcNo;
-    /* 0x06 */ uint16_t field_0x06;
+    /* 0x00 */ u16 mIdx;
+    /* 0x02 */ u16 mPriIdx;
+    /* 0x04 */ u16 mArcNo;
+    /* 0x06 */ u16 field_0x06;
     /* 0x08 */ int mBufferSize;
     /* 0x0C */ void* mBuffer;
     /* 0x10 */ JKRHeap* mAnimeHeap;
@@ -43,19 +43,19 @@ public:
 
 class daPy_actorKeep_c {
 public:
-    uint32_t getID(void) const { return mID; }
-    void setID(uint32_t id) { mID = id; }
+    u32 getID(void) const { return mID; }
+    void setID(u32 id) { mID = id; }
     fopAc_ac_c* getActor(void) const { return mActor; }
 
-    uint32_t mID;
+    u32 mID;
     fopAc_ac_c* mActor;
 };
 
 #pragma pack(push, 1)
 class daPy_frameCtrl_c : public J3DFrameCtrl {
 public:
-    uint16_t getEndFlg() { return mEndFlg; }
-    uint16_t getNowSetFlg() { return mNowSetFlg; }
+    u16 getEndFlg() { return mEndFlg; }
+    u16 getNowSetFlg() { return mNowSetFlg; }
     void onEndFlg() { mEndFlg = 1; }
     void onNowSetFlg() { mNowSetFlg = 1; }
     void offNowSetFlg() { mNowSetFlg = 0; }
@@ -64,38 +64,38 @@ public:
         mNowSetFlg = 0;
     }
 
-    /* 0x14 */ uint16_t mEndFlg;
-    /* 0x16 */ uint16_t mNowSetFlg;
+    /* 0x14 */ u16 mEndFlg;
+    /* 0x16 */ u16 mNowSetFlg;
 };
 #pragma pack(pop)
 
 class daPy_demo_c {
 public:
-    void setDemoType(uint16_t pType) { mDemoType = pType; }
-    uint16_t getDemoType() const { return mDemoType; }
+    void setDemoType(u16 pType) { mDemoType = pType; }
+    u16 getDemoType() const { return mDemoType; }
 
-    /* 0x00 */ uint16_t mDemoType;
-    /* 0x02 */ int16_t mDemoMoveAngle;
-    /* 0x04 */ int16_t mTimer;
-    /* 0x06 */ int16_t mParam2;
+    /* 0x00 */ u16 mDemoType;
+    /* 0x02 */ s16 mDemoMoveAngle;
+    /* 0x04 */ s16 mTimer;
+    /* 0x06 */ s16 mParam2;
     /* 0x08 */ int mParam0;
     /* 0x0C */ int mParam1;
     /* 0x10 */ int mDemoMode;
-    /* 0x14 */ float mStick;
+    /* 0x14 */ f32 mStick;
     /* 0x18 */ cXyz mDemoPos0;
 };  // Size = 0x24
 
 class daPy_py_c : public fopAc_ac_c {
 public:
-    /* 0x0568 */ uint8_t mCutType;
-    /* 0x0569 */ uint8_t mComboCutCount;
+    /* 0x0568 */ u8 mCutType;
+    /* 0x0569 */ u8 mComboCutCount;
 #ifdef WII_PLATFORM
-    uint8_t unk_field0[4];  // might be part of fopAc_ac_c, fix later
+    u8 unk_field0[4];  // might be part of fopAc_ac_c, fix later
 #endif
-    /* 0x056A */ uint8_t mSpecialMode;  // maybe needs better name
-    /* 0x056B */ uint8_t field_0x56b;
-    /* 0x056C */ int16_t mDamageTimer;
-    /* 0x056E */ uint16_t mSwordUpTimer;
+    /* 0x056A */ u8 mSpecialMode;  // maybe needs better name
+    /* 0x056B */ u8 field_0x56b;
+    /* 0x056C */ s16 mDamageTimer;
+    /* 0x056E */ u16 mSwordUpTimer;
     /* 0x0570 */ int mNoResetFlg0;
     /* 0x0574 */ int mNoResetFlg1;
     /* 0x0578 */ int mNoResetFlg2;
@@ -105,10 +105,10 @@ public:
     /* 0x0588 */ int mEndResetFlg0;
     /* 0x058C */ int mEndResetFlg1;
     /* 0x0590 */ int mEndResetFlg2;
-    /* 0x0594 */ float field_0x594;
-    /* 0x0598 */ uint8_t field_0x598[0x4];
-    /* 0x059C */ int16_t mLookAngleY;
-    /* 0x059E */ uint8_t field_0x59e[0x6];
+    /* 0x0594 */ f32 field_0x594;
+    /* 0x0598 */ u8 field_0x598[0x4];
+    /* 0x059C */ s16 mLookAngleY;
+    /* 0x059E */ u8 field_0x59e[0x6];
     /* 0x05A4 */ cXyz mHeadTopPos;
     /* 0x05B0 */ cXyz mItemPos;
     /* 0x05BC */ cXyz mSwordTopPos;
@@ -116,7 +116,7 @@ public:
     /* 0x05D4 */ cXyz mRightHandPos;
     /* 0x05E0 */ cXyz mLeftFootPosP;
     /* 0x05EC */ cXyz mRightFootPosP;
-    /* 0x05F8 */ uint8_t field_0x5f8[0xC];
+    /* 0x05F8 */ u8 field_0x5f8[0xC];
     /* 0x0604 */ daPy_demo_c mDemo;
     void* vtable;
 

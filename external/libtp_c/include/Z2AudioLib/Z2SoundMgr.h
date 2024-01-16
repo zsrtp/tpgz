@@ -24,9 +24,9 @@ class Z2SoundMgr {
 public:
     /* 0x000 */ void* vtable;
     /* 0x004 */ JAISeMgr mSeMgr;
-    /* 0x728 */ uint8_t field_0x728[4];
+    /* 0x728 */ u8 field_0x728[4];
     /* 0x72C */ JAISeqMgr mSeqMgr;
-    /* 0x7A0 */ uint8_t field_0x7a0[4];
+    /* 0x7A0 */ u8 field_0x7a0[4];
     /* 0x7A4 */ JAIStreamMgr mStreamMgr;
     /* 0x814 */ JAISoundID field_0x80c;
 };

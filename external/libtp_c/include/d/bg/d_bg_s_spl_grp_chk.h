@@ -12,8 +12,8 @@ public:
     /* 0x10 */ cBgS_Chk field_0x10;
     /* 0x24 */ dBgS_Chk field_0x24;
     /* 0x3C */ cXyz m_ground;
-    /* 0x48 */ float mRoof;
-    /* 0x4C */ float mHeight;
+    /* 0x48 */ f32 mRoof;
+    /* 0x4C */ f32 mHeight;
     /* 0x50 */ int field_0x50;
 };  // Size = 0x54
 

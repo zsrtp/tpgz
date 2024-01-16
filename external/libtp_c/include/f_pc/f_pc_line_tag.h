@@ -6,7 +6,7 @@
 
 typedef struct line_tag {
     create_tag_class mBase;
-    int32_t mLineListID;
+    s32 mLineListID;
 } line_tag;
 
 #endif

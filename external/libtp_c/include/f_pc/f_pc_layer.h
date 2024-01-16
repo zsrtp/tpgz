@@ -11,13 +11,13 @@ typedef struct process_node_class process_node_class;
 
 typedef struct layer_class {
     node_class mNode;
-    uint32_t mLayerID;
+    u32 mLayerID;
     node_lists_tree_class mNodeListTree;
     process_node_class* mpPcNode;
     node_list_class mCancelList;
     struct {
-        int16_t mCreatingCount;
-        int16_t mDeletingCount;
+        s16 mCreatingCount;
+        s16 mDeletingCount;
     } counts;
 } layer_class;
 

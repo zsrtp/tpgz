@@ -1,7 +1,7 @@
 #ifndef JSULIST_H
 #define JSULIST_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 #include <cstddef>
 
 template <typename T>
@@ -55,12 +55,12 @@ public:
 
     JSUPtrLink* getLastLink() const { return mTail; }
 
-    uint32_t getNumLinks() const { return mLength; }
+    u32 getNumLinks() const { return mLength; }
 
 private:
     JSUPtrLink* mHead;
     JSUPtrLink* mTail;
-    uint32_t mLength;
+    u32 mLength;
 };
 
 template <typename T>
@@ -86,7 +86,7 @@ public:
 
     JSULink<T>* getEnd() const { return NULL; }
 
-    uint32_t getNumLinks() const { return this->JSUPtrList::getNumLinks(); }
+    u32 getNumLinks() const { return this->JSUPtrList::getNumLinks(); }
 };
 
 template <typename T>
@@ -142,7 +142,7 @@ private:
 // Tree
 //
 
-#define JSU_TREE_FROM_LINK(T, LINK) (JSUTree<T>*)(((uint8_t*)(LINK)) - 12)
+#define JSU_TREE_FROM_LINK(T, LINK) (JSUTree<T>*)(((u8*)(LINK)) - 12)
 #define JSU_TREE_LINK_IF_NOT_NULL(TREE)                                                            \
     if (TREE) {                                                                                    \
         TREE = (JSUTree<T>*)(&(TREE)->mLink);                                                      \
@@ -172,7 +172,7 @@ public:
 
     JSUTree<T>* getPrevChild() const { return (JSUTree<T>*)this->getPrev(); }
 
-    uint32_t getNumChildren() const { return this->getNumLinks(); }
+    u32 getNumChildren() const { return this->getNumLinks(); }
 
     T* getObject() const { return (T*)this->getObjectPtr(); }
 

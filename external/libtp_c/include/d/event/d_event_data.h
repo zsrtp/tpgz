@@ -12,7 +12,7 @@ struct dEvDtData_c {};
 
 class dEvDtFlag_c {
 public:
-    uint32_t mFlags[320];
+    u32 mFlags[320];
 };  // Size = 0x500
 
 struct event_binary_data_header {};
@@ -26,10 +26,10 @@ public:
     /* 0x08 */ dEvDtStaff_c* mStaffP;
     /* 0x0C */ dEvDtCut_c* mCutP;
     /* 0x10 */ dEvDtData_c* mDataP;
-    /* 0x14 */ float* mFDataP;
-    /* 0x18 */ int32_t* mIDataP;
+    /* 0x14 */ f32* mFDataP;
+    /* 0x18 */ s32* mIDataP;
     /* 0x1C */ char* mSDataP;
-    /* 0x20 */ int32_t mRoomNo;
+    /* 0x20 */ s32 mRoomNo;
 };  // Size = 0x24
 
 #endif /* D_EVENT_D_EVENT_DATA_H */

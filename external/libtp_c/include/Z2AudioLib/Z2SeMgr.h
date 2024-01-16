@@ -5,18 +5,18 @@
 #include "../dolphin/mtx/vec.h"
 
 struct Z2MultiSeMgr {
-    /* 0x00 */ float mVolumeScale;
-    /* 0x04 */ float mMaxVolume;
-    /* 0x08 */ float mMaxPowL;
-    /* 0x0C */ float mMaxPowR;
-    /* 0x10 */ float mMaxPowB;
-    /* 0x14 */ float mMaxPowF;
-    /* 0x18 */ int8_t mPosCount;
+    /* 0x00 */ f32 mVolumeScale;
+    /* 0x04 */ f32 mMaxVolume;
+    /* 0x08 */ f32 mMaxPowL;
+    /* 0x0C */ f32 mMaxPowR;
+    /* 0x10 */ f32 mMaxPowB;
+    /* 0x14 */ f32 mMaxPowF;
+    /* 0x18 */ s8 mPosCount;
 };  // Size = 0x1C
 
 struct Z2MultiSeObj : Z2MultiSeMgr {
-    /* 0x1C */ uint32_t field_0x1c;
-    /* 0x20 */ uint8_t field_0x20;
+    /* 0x1C */ u32 field_0x1c;
+    /* 0x20 */ u8 field_0x20;
 };  // Size = 0x24
 
 class Z2SeMgr {
@@ -24,28 +24,28 @@ public:
     /* 0x000 */ JAISoundHandle mSoundHandle[24];
     /* 0x060 */ JAISoundHandles field_0x60;
 #ifdef WII_PLATFORM
-    /* 0x68 */ uint32_t field_0x68;
-    /* 0x6C */ uint8_t field_0x6c[0x10];
+    /* 0x68 */ u32 field_0x68;
+    /* 0x6C */ u8 field_0x6c[0x10];
 #endif
     /* 0x068 */ Z2MultiSeObj mLevelObjSe[10];
-    /* 0x1D0 */ uint8_t mLevelObjectSeCount;
+    /* 0x1D0 */ u8 mLevelObjectSeCount;
     /* 0x1D4 */ Z2MultiSeObj mMultiTriggerSe[10];
-    /* 0x33C */ uint8_t mMultiTriggerSeCount;
-    /* 0x33D */ uint8_t field_0x33d[0x60];
-    /* 0x3A0 */ uint32_t mModY[8];
-    /* 0x3C0 */ uint8_t field_0x3c0;
-    /* 0x3C1 */ uint8_t field_0x3c1;
-    /* 0x3C2 */ uint8_t field_0x3c2;
-    /* 0x3C3 */ uint8_t field_0x3c3;
-    /* 0x3C4 */ uint8_t field_0x3c4;
-    /* 0x3C5 */ uint8_t field_0x3c5;
-    /* 0x3C6 */ uint8_t field_0x3c6;
-    /* 0x3C7 */ uint8_t field_0x3c7;
-    /* 0x3C8 */ uint8_t field_0x3c8;
-    /* 0x3C9 */ uint8_t field_0x3c9;
-    /* 0x3CA */ uint8_t field_0x3ca;
-    /* 0x3CB */ uint8_t field_0x3cb;
-    /* 0x3CC */ uint8_t mCrowdSize;
+    /* 0x33C */ u8 mMultiTriggerSeCount;
+    /* 0x33D */ u8 field_0x33d[0x60];
+    /* 0x3A0 */ u32 mModY[8];
+    /* 0x3C0 */ u8 field_0x3c0;
+    /* 0x3C1 */ u8 field_0x3c1;
+    /* 0x3C2 */ u8 field_0x3c2;
+    /* 0x3C3 */ u8 field_0x3c3;
+    /* 0x3C4 */ u8 field_0x3c4;
+    /* 0x3C5 */ u8 field_0x3c5;
+    /* 0x3C6 */ u8 field_0x3c6;
+    /* 0x3C7 */ u8 field_0x3c7;
+    /* 0x3C8 */ u8 field_0x3c8;
+    /* 0x3C9 */ u8 field_0x3c9;
+    /* 0x3CA */ u8 field_0x3ca;
+    /* 0x3CB */ u8 field_0x3cb;
+    /* 0x3CC */ u8 mCrowdSize;
 };  // Size = 0x3D0
 
 // JAISoundID's for sound effects

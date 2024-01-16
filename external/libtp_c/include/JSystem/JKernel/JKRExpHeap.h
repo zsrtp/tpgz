@@ -10,22 +10,22 @@ public:
         friend class JKRExpHeap;
 
     public:
-        void newGroupId(uint8_t groupId) { this->mGroupId = groupId; }
+        void newGroupId(u8 groupId) { this->mGroupId = groupId; }
         // bool isValid() const { return this->mMagic == 'HM'; }
         bool _isTempMemBlock() const { return (this->mFlags & 0x80) ? true : false; }
         int getAlignment() const { return this->mFlags & 0x7f; }
         void* getContent() const { return (void*)(this + 1); }
         CMemBlock* getPrevBlock() const { return this->mPrev; }
         CMemBlock* getNextBlock() const { return this->mNext; }
-        uint32_t getSize() const { return this->size; }
-        uint8_t getGroupId() const { return this->mGroupId; }
-        static CMemBlock* getBlock(void* data) { return (CMemBlock*)((uint32_t)data + -0x10); }
+        u32 getSize() const { return this->size; }
+        u8 getGroupId() const { return this->mGroupId; }
+        static CMemBlock* getBlock(void* data) { return (CMemBlock*)((u32)data + -0x10); }
 
     private:
-        uint16_t mMagic;
-        uint8_t mFlags;  // a|bbbbbbb a=temporary b=alignment
-        uint8_t mGroupId;
-        uint32_t size;
+        u16 mMagic;
+        u8 mFlags;  // a|bbbbbbb a=temporary b=alignment
+        u8 mGroupId;
+        u32 size;
         CMemBlock* mPrev;
         CMemBlock* mNext;
     };
@@ -34,11 +34,11 @@ public:
 public:
     CMemBlock* getHeadUsedList() const { return mHeadUsedList; }
 
-    uint8_t field_0x6c;
-    uint8_t mCurrentGroupId;
+    u8 field_0x6c;
+    u8 mCurrentGroupId;
     bool field_0x6e;
     void* field_0x70;
-    uint32_t field_0x74;
+    u32 field_0x74;
     CMemBlock* mHeadFreeList;
     CMemBlock* mTailFreeList;
     CMemBlock* mHeadUsedList;
@@ -68,7 +68,7 @@ extern "C" {
  *	@param alignment The amount of bytes that the address of the memory should be aligned to.
  *Negative values will allocate from the tail of the heap instead of the head.
  */
-void* do_alloc_JKRExpHeap(void* heap, uint32_t size, int32_t alignment);
+void* do_alloc_JKRExpHeap(void* heap, u32 size, s32 alignment);
 
 /**
  *	@brief Frees a number of bytes in a given heap
@@ -85,15 +85,15 @@ void do_free_JKRExpHeap(void* heap, void* ptr);
 // #define archiveHeap (*(JKRExpHeap**)(tp_archiveHeap_addr))
 
 LIBTP_DEFINE_FUNC(getUsedSize__10JKRExpHeapCFUc, JKRExpHeap__getUsedSize_unsigned,
-                  int32_t, JKRExpHeap__getUsedSize, (uint8_t))
+                  s32, JKRExpHeap__getUsedSize, (u8))
 
 LIBTP_DEFINE_FUNC(getFreeSize__7JKRHeapFv, JKRHeap__getFreeSize_void_,
-                  int32_t, JKRHeap__getFreeSize, (JKRHeap* addr))
+                  s32, JKRHeap__getFreeSize, (JKRHeap* addr))
 
 LIBTP_DEFINE_FUNC(getTotalFreeSize__7JKRHeapFv, JKRHeap__getTotalFreeSize_void_,
-                  int32_t, JKRHeap__getTotalFreeSize, (JKRHeap* addr))
+                  s32, JKRHeap__getTotalFreeSize, (JKRHeap* addr))
 
 LIBTP_DEFINE_FUNC(do_getTotalFreeSize__10JKRExpHeapFv, JKRExpHeap__do_getTotalFreeSize_void_,
-                  int32_t, JKRExpHeap__do_getTotalFreeSize, (JKRExpHeap* addr))
+                  s32, JKRExpHeap__do_getTotalFreeSize, (JKRExpHeap* addr))
 
 #endif /* JKREXPHEAP_H */

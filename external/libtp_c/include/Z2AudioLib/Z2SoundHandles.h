@@ -8,10 +8,10 @@ class Z2SoundHandlePool : public JAISoundHandle, JSULink<Z2SoundHandlePool> {};
 
 class Z2SoundHandles : protected JSUList<Z2SoundHandlePool> {
 public:
-    uint32_t getNumHandles() const { return this->getNumLinks(); }
+    u32 getNumHandles() const { return this->getNumLinks(); }
 
 private:
-    uint8_t mNumHandles;
+    u8 mNumHandles;
 };
 
 #endif /* Z2SOUNDHANDLES_H */

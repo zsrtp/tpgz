@@ -2,7 +2,7 @@
 #define J3DPACKET_H
 
 #include "../../dolphin/mtx/mtx.h"
-#include <stdint.h>
+#include "../../dolphin/types.h"
 #include <cstddef>
 
 class J3DMatPacket;
@@ -19,24 +19,24 @@ class J3DPacket;
 class J3DDrawBuffer {
 public:
     J3DPacket** mpBuf;
-    uint32_t mBufSize;
-    uint32_t mDrawType;
-    uint32_t mSortType;
-    float mZNear;
-    float mZFar;
-    float mZRatio;
+    u32 mBufSize;
+    u32 mDrawType;
+    u32 mSortType;
+    f32 mZNear;
+    f32 mZFar;
+    f32 mZRatio;
     Mtx* mpZMtx;
     J3DPacket* mpCallBackPacket;
 };
 
-typedef void (*J3DDrawBuffer__entryImm_t)(J3DDrawBuffer*, J3DPacket* packet, uint16_t);
+typedef void (*J3DDrawBuffer__entryImm_t)(J3DDrawBuffer*, J3DPacket* packet, u16);
 #define J3DDrawBuffer__entryImm ((J3DDrawBuffer__entryImm_t)J3DDrawBuffer__entryImm_addr)
 
 class J3DDisplayListObj {
 public:
     void* mpData[2];
-    uint32_t mSize;
-    uint32_t mCapacity;
+    u32 mSize;
+    u32 mCapacity;
 };
 
 class J3DPacket {
@@ -73,7 +73,7 @@ public:
     J3DShape* mpShape;
     J3DMtxBuffer* mpMtxBuffer;
     Mtx* mpViewMtx;
-    uint32_t mDiffFlag;
+    u32 mDiffFlag;
     J3DModel* mpModel;
 };
 
@@ -82,7 +82,7 @@ public:
     J3DShapePacket* mpShapePacket;
     J3DShapePacket* mpFirstShapePacket;
     J3DMaterial* mpMaterial;
-    int32_t mSortFlags;
+    s32 mSortFlags;
     J3DTexture* mpTexture;
     J3DMaterialAnm* mpMaterialAnm;
 };

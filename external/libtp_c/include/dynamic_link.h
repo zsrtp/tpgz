@@ -14,9 +14,9 @@
 
 // Should try to fill in the variables at some point
 struct DynamicModuleControl {
-    uint8_t unk_0[0x10];
+    u8 unk_0[0x10];
     OSModuleInfo* moduleInfo;
-    uint8_t unk_10[0x18];
+    u8 unk_10[0x18];
 } __attribute__((__packed__));
 
 // This size may not be correct

@@ -41,13 +41,18 @@ void GZ_applyCheats() {
     }
 
     if (GZ_checkCheat(InvincibleEnemies)) {
+        /* Patch cc_at_check instruction to nop out health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x60000000;  // nop
         DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                      sizeof(uint32_t));
         ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
+
+        /* Special handle for Staltroops */
+        
     } else {
+        /* Unpatch cc_at_check instruction to restore health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x7C030050;  // sub r0, r0, r3
         DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
@@ -118,8 +123,8 @@ void GZ_applyCheats() {
             l_doorCollision = false;
         }
     }
-#ifdef WII_PLATFORM
 
+#ifdef WII_PLATFORM
     if (GZ_checkCheat(GaleLJA)) {
         if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
             dComIfGp_getPlayer()->mEquipItem == NO_ITEM) {

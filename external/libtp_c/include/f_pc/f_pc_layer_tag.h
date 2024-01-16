@@ -8,8 +8,8 @@
 typedef struct layer_management_tag_class {
     create_tag_class mCreateTag;
     layer_class* mpLayer;
-    uint16_t mNodeListID;
-    uint16_t mNodeListIdx;
+    u16 mNodeListID;
+    u16 mNodeListIdx;
 } layer_management_tag_class;
 
 #endif

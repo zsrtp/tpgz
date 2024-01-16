@@ -21,10 +21,10 @@ struct dCcD_SrcCps {};
 
 class dCcD_GStts : cCcD_GStts {
 public:
-    /* 0x04 */ uint8_t mAt;
-    /* 0x05 */ uint8_t mTg;
-    /* 0x06 */ uint8_t mRoomId;
-    /* 0x08 */ uint16_t field_0x08;
+    /* 0x04 */ u8 mAt;
+    /* 0x05 */ u8 mTg;
+    /* 0x06 */ u8 mRoomId;
+    /* 0x08 */ u16 field_0x08;
     /* 0x0C */ int mAtApid;
     /* 0x10 */ int mAtOldApid;
     /* 0x14 */ int mTgApid;
@@ -40,36 +40,36 @@ public:
 class dCcD_GAtTgCoCommonBase {
 public:
     /* 0x00 */ void* mBase;  // type dCcD_SrcGAtTgCoCommonBase*
-    /* 0x04 */ uint32_t mRPrm;
-    /* 0x08 */ uint32_t field_0x08;
-    /* 0x0C */ uint32_t field_0x0C;
+    /* 0x04 */ u32 mRPrm;
+    /* 0x08 */ u32 field_0x08;
+    /* 0x0C */ u32 field_0x0C;
     /* 0x10 */ fopAc_ac_c* mAc;
-    /* 0x14 */ int8_t mEffCounter;
-    /* 0x15 */ uint8_t field_0x15[3];
+    /* 0x14 */ s8 mEffCounter;
+    /* 0x15 */ u8 field_0x15[3];
     /* 0x18 */ void* vtable;
 };  // Size = 0x1C
 
 class dCcD_GObjAt : dCcD_GAtTgCoCommonBase {
 public:
-    /* 0x1C */ uint8_t mSe;
-    /* 0x1D */ uint8_t mMtrl;
-    /* 0x1E */ uint8_t mHitMark;
-    /* 0x1F */ uint8_t mSpl;
+    /* 0x1C */ u8 mSe;
+    /* 0x1D */ u8 mMtrl;
+    /* 0x1E */ u8 mHitMark;
+    /* 0x1F */ u8 mSpl;
     /* 0x20 */ cXyz mHitPos;
     /* 0x2C */ cXyz mVec;
     /* 0x38 */ cXyz mRVec;
 };  // Size = 0x44
 class dCcD_GObjTg : dCcD_GAtTgCoCommonBase {
 public:
-    /* 0x1C */ uint8_t mSe;
-    /* 0x1D */ uint8_t mMtrl;
-    /* 0x1E */ uint8_t mHitMark;
-    /* 0x1F */ uint8_t mSpl;
+    /* 0x1C */ u8 mSe;
+    /* 0x1D */ u8 mMtrl;
+    /* 0x1E */ u8 mHitMark;
+    /* 0x1F */ u8 mSpl;
     /* 0x20 */ cXyz mVec;
     /* 0x2C */ cXyz mRVec;
     /* 0x38 */ cXyz mHitPos;
-    /* 0x44 */ int16_t* mShieldFrontRangeYAngle;
-    /* 0x48 */ int16_t mShieldRange;
+    /* 0x44 */ s16* mShieldFrontRangeYAngle;
+    /* 0x48 */ s16 mShieldRange;
 };  // Size = 0x4A ?
 class dCcD_GObjCo : dCcD_GAtTgCoCommonBase {
 public:

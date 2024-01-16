@@ -1,7 +1,7 @@
 #ifndef JGEOMETRY_H
 #define JGEOMETRY_H
 
-#include <stdint.h>
+#include "../dolphin/types.h"
 
 namespace JGeometry {
 
@@ -27,14 +27,14 @@ struct TVec2 {
         y = other.y;
     }
 
-    void setMin(const TVec2<float>& min) {
+    void setMin(const TVec2<f32>& min) {
         if (min.x <= x)
             x = min.x;
         if (min.y <= y)
             y = min.y;
     }
 
-    void setMax(const TVec2<float>& max) {
+    void setMax(const TVec2<f32>& max) {
         if (x <= max.x)
             x = max.x;
         if (y <= max.y)
@@ -63,35 +63,35 @@ struct TBox {
 };
 
 template <>
-struct TBox<TVec2<float>> {
-    float getWidth() const { return f.x - i.x; }
-    float getHeight() const { return f.y - i.y; }
+struct TBox<TVec2<f32>> {
+    f32 getWidth() const { return f.x - i.x; }
+    f32 getHeight() const { return f.y - i.y; }
 
     bool isValid() const { return f.isAbove(i); }
 
-    void addPos(const TVec2<float>& pos) {
+    void addPos(const TVec2<f32>& pos) {
         i.add(pos);
         f.add(pos);
     }
 
-    bool intersect(const TBox<TVec2<float>>& other) {
+    bool intersect(const TBox<TVec2<f32>>& other) {
         i.setMax(other.i);
         f.setMin(other.f);
         return isValid();
     }
 
-    TVec2<float> i, f;
+    TVec2<f32> i, f;
 };
 
 template <typename T>
 struct TBox2 : TBox<TVec2<T>> {
     TBox2() {}
-    TBox2(float x0, float y0, float x1, float y1) { set(x0, y0, x1, y1); }
+    TBox2(f32 x0, f32 y0, f32 x1, f32 y1) { set(x0, y0, x1, y1); }
 
     inline const TBox2& operator=(const TBox2& rhs) { *(TBox<TVec2<T>>*)this = rhs; }
     void set(const TBox2& other) { set(other.i, other.f); }
-    void set(const TVec2<float>& i, const TVec2<float> f) { this->i.set(i), this->f.set(f); }
-    void set(float x0, float y0, float x1, float y1) {
+    void set(const TVec2<f32>& i, const TVec2<f32> f) { this->i.set(i), this->f.set(f); }
+    void set(f32 x0, f32 y0, f32 x1, f32 y1) {
         this->i.set(x0, y0);
         this->f.set(x1, y1);
     }

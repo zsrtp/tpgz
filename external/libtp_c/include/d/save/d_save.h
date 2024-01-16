@@ -3,7 +3,7 @@
 
 #include "../../SSystem/SComponent/c_xyz.h"
 #include "../../defines.h"
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 #define DEFAULT_SELECT_ITEM_INDEX 0
 #define MAX_SELECT_ITEM 3
@@ -365,208 +365,208 @@ enum BombBags { BOMB_BAG_1, BOMB_BAG_2, BOMB_BAG_3 };
 
 class dSv_player_status_a_c {
 public:
-    uint16_t& getMaxLife() { return mMaxLife; }
-    uint16_t& getLife() { return mLife; }
-    uint16_t& getRupee() { return mRupee; }
-    uint16_t& getOil() { return mOil; }
-    uint8_t& getWalletSize() { return mWalletSize; }
-    uint8_t getSelectEquip(int item) const { return mSelectEquip[item]; }
-    uint8_t getTransformStatus() const { return mTransformStatus; }
+    u16& getMaxLife() { return mMaxLife; }
+    u16& getLife() { return mLife; }
+    u16& getRupee() { return mRupee; }
+    u16& getOil() { return mOil; }
+    u8& getWalletSize() { return mWalletSize; }
+    u8 getSelectEquip(int item) const { return mSelectEquip[item]; }
+    u8 getTransformStatus() const { return mTransformStatus; }
 
-    void setOil(uint16_t oil) { mOil = oil; }
-    void setMaxOil(uint16_t max) { mMaxOil = max; }
-    void setWalletSize(uint8_t size) { mWalletSize = size; }
-    void setMagic(uint8_t magic) { mMagic = magic; }
-    void setMaxMagic(uint8_t max) { mMaxMagic = max; }
-    void setRupee(uint16_t rupees) { mRupee = rupees; }
-    void setLife(uint16_t life) { mLife = life; }
-    void setMaxLife(uint8_t max) { mMaxLife = max; }
-    void setSelectEquip(int item_index, uint8_t item) { mSelectEquip[item_index] = item; }
-    void setTransformStatus(uint8_t status) { mTransformStatus = status; }
+    void setOil(u16 oil) { mOil = oil; }
+    void setMaxOil(u16 max) { mMaxOil = max; }
+    void setWalletSize(u8 size) { mWalletSize = size; }
+    void setMagic(u8 magic) { mMagic = magic; }
+    void setMaxMagic(u8 max) { mMaxMagic = max; }
+    void setRupee(u16 rupees) { mRupee = rupees; }
+    void setLife(u16 life) { mLife = life; }
+    void setMaxLife(u8 max) { mMaxLife = max; }
+    void setSelectEquip(int item_index, u8 item) { mSelectEquip[item_index] = item; }
+    void setTransformStatus(u8 status) { mTransformStatus = status; }
 
-    /* 0x00 */ uint16_t mMaxLife;
-    /* 0x02 */ uint16_t mLife;
-    /* 0x04 */ uint16_t mRupee;
-    /* 0x06 */ uint16_t mMaxOil;
-    /* 0x08 */ uint16_t mOil;
-    /* 0x0A */ uint8_t unk10;
-    /* 0x0B */ uint8_t mSelectItem[4];
-    /* 0x0F */ uint8_t mMixItem[4];
-    /* 0x13 */ uint8_t mSelectEquip[6];
-    /* 0x19 */ uint8_t mWalletSize;
-    /* 0x1A */ uint8_t mMaxMagic;
-    /* 0x1B */ uint8_t mMagic;
-    /* 0x1C */ uint8_t mMagicFlag;
-    /* 0x1D */ uint8_t unk29;
-    /* 0x1E */ uint8_t mTransformStatus;
-    /* 0x1F */ uint8_t unk31[3];
+    /* 0x00 */ u16 mMaxLife;
+    /* 0x02 */ u16 mLife;
+    /* 0x04 */ u16 mRupee;
+    /* 0x06 */ u16 mMaxOil;
+    /* 0x08 */ u16 mOil;
+    /* 0x0A */ u8 unk10;
+    /* 0x0B */ u8 mSelectItem[4];
+    /* 0x0F */ u8 mMixItem[4];
+    /* 0x13 */ u8 mSelectEquip[6];
+    /* 0x19 */ u8 mWalletSize;
+    /* 0x1A */ u8 mMaxMagic;
+    /* 0x1B */ u8 mMagic;
+    /* 0x1C */ u8 mMagicFlag;
+    /* 0x1D */ u8 unk29;
+    /* 0x1E */ u8 mTransformStatus;
+    /* 0x1F */ u8 unk31[3];
 };  // Size: 0x28
 
 class dSv_player_status_b_c {
 public:
-    void setTime(float pTime) { mTime = pTime; }
-    float getTime() const { return mTime; }
-    void offTransformLV(int32_t flag) { mTransformLevelFlag &= ~(1 << flag); }
+    void setTime(f32 pTime) { mTime = pTime; }
+    f32 getTime() const { return mTime; }
+    void offTransformLV(s32 flag) { mTransformLevelFlag &= ~(1 << flag); }
 
     /* 0x00 */ int64_t mDateIpl;
-    /* 0x08 */ uint8_t mTransformLevelFlag;
-    /* 0x09 */ uint8_t mDarkClearLevelFlag;
-    /* 0x0A */ uint8_t unk10;
-    /* 0x0B */ uint8_t unk11;
-    /* 0x0C */ float mTime;
-    /* 0x10 */ uint16_t mDate;
-    /* 0x12 */ uint8_t unk18[3];
+    /* 0x08 */ u8 mTransformLevelFlag;
+    /* 0x09 */ u8 mDarkClearLevelFlag;
+    /* 0x0A */ u8 unk10;
+    /* 0x0B */ u8 unk11;
+    /* 0x0C */ f32 mTime;
+    /* 0x10 */ u16 mDate;
+    /* 0x12 */ u8 unk18[3];
 };  // Size: 0x18
 
 class dSv_horse_place_c {
 public:
     /* 0x00 */ cXyz mPos;
-    /* 0x0C */ uint16_t mAngleY;
+    /* 0x0C */ u16 mAngleY;
     /* 0x0E */ char mName[8];
-    /* 0x16 */ uint8_t mSpawnId;
-    /* 0x17 */ uint8_t mRoomNo;
+    /* 0x16 */ u8 mSpawnId;
+    /* 0x17 */ u8 mRoomNo;
 };  // Size: 0x18
 
 class dSv_player_return_place_c {
 public:
     /* 0x00 */ char mName[8];
-    /* 0x08 */ uint8_t mPlayerStatus;
-    /* 0x09 */ int8_t mRoomNo;
-    /* 0x0A */ uint8_t unk10;
-    /* 0x0B */ uint8_t unk11;
+    /* 0x08 */ u8 mPlayerStatus;
+    /* 0x09 */ s8 mRoomNo;
+    /* 0x0A */ u8 unk10;
+    /* 0x0B */ u8 unk11;
 };  // Size: 0xC
 
 class dSv_player_field_last_stay_info_c {
 public:
     /* 0x00 */ cXyz mPos;
-    /* 0x0C */ int16_t mAngleY;
+    /* 0x0C */ s16 mAngleY;
     /* 0x0E */ char mName[8];
-    /* 0x16 */ uint8_t mLastSpawnId;
-    /* 0x17 */ uint8_t mRegionNo;
+    /* 0x16 */ u8 mLastSpawnId;
+    /* 0x17 */ u8 mRegionNo;
     /* 0x18 */ bool mFieldDataExistFlag;
-    /* 0x19 */ uint8_t mRegion;
-    /* 0x1A */ uint8_t unk26[2];
+    /* 0x19 */ u8 mRegion;
+    /* 0x1A */ u8 unk26[2];
 };  // Size: 0x1C
 
 class dSv_player_last_mark_info_c {
 public:
     const char* getName() { return mName; }
     cXyz getPos() { return mPos; }
-    int16_t getAngleY() { return mAngleY; }
-    int8_t getRoomNo() { return mRoomNo; }
+    s16 getAngleY() { return mAngleY; }
+    s8 getRoomNo() { return mRoomNo; }
     char getWarpAcceptStage() { return mWarpAcceptStage; }
 
     /* 0x00 */ cXyz mPos;
-    /* 0x0C */ int16_t mAngleY;
+    /* 0x0C */ s16 mAngleY;
     /* 0x0E */ char mName[8];
-    /* 0x16 */ uint8_t mSpawnId;
-    /* 0x17 */ int8_t mRoomNo;
+    /* 0x16 */ u8 mSpawnId;
+    /* 0x17 */ s8 mRoomNo;
     /* 0x18 */ char mWarpAcceptStage;
-    /* 0x19 */ uint8_t unk25[3];
+    /* 0x19 */ u8 unk25[3];
 };  // Size: 0x1C
 
 class dSv_player_item_c {
 public:
-    /* 0x00 */ uint8_t mItems[24];
-    /* 0x18 */ uint8_t mItemSlots[24];
+    /* 0x00 */ u8 mItems[24];
+    /* 0x18 */ u8 mItemSlots[24];
 };  // Size: 0x30
 
 class dSv_player_get_item_c {
 public:
-    /* 0x0 */ uint32_t mItemFlags[8];
+    /* 0x0 */ u32 mItemFlags[8];
 };  // Size: 0x20
 
 class dSv_player_item_record_c {
 public:
-    void setArrowNum(uint8_t amount) { mArrowNum = amount; }
-    uint8_t getArrowNum() { return mArrowNum; }
-    void setPachinkoNum(uint8_t amount) { mPachinkoNum = amount; }
-    uint8_t getPachinkoNum() { return mPachinkoNum; }
+    void setArrowNum(u8 amount) { mArrowNum = amount; }
+    u8 getArrowNum() { return mArrowNum; }
+    void setPachinkoNum(u8 amount) { mPachinkoNum = amount; }
+    u8 getPachinkoNum() { return mPachinkoNum; }
 
-    /* 0x0 */ uint8_t mArrowNum;
-    /* 0x1 */ uint8_t mBombNum[3];
-    /* 0x4 */ uint8_t mBottleNum[4];
-    /* 0x8 */ uint8_t mPachinkoNum;
-    /* 0x9 */ uint8_t unk5[3];
+    /* 0x0 */ u8 mArrowNum;
+    /* 0x1 */ u8 mBombNum[3];
+    /* 0x4 */ u8 mBottleNum[4];
+    /* 0x8 */ u8 mPachinkoNum;
+    /* 0x9 */ u8 unk5[3];
 };  // Size: 0xC
 
 class dSv_player_item_max_c {
 public:
-    void setArrowNum(uint8_t max) { mItemMax[ARROW_MAX] = max; }
-    uint8_t getArrowNum() { return mItemMax[ARROW_MAX]; }
+    void setArrowNum(u8 max) { mItemMax[ARROW_MAX] = max; }
+    u8 getArrowNum() { return mItemMax[ARROW_MAX]; }
 
-    /* 0x0 */ uint8_t mItemMax[8];
+    /* 0x0 */ u8 mItemMax[8];
 };  // Size: 0x8
 
 class dSv_player_collect_c {
 public:
-    uint8_t getPohNum() { return mPohNum; }
-    void setPohNum(uint8_t num) { mPohNum = num; }
+    u8 getPohNum() { return mPohNum; }
+    void setPohNum(u8 num) { mPohNum = num; }
 
-    /* 0x0 */ uint8_t mItem[8];
-    /* 0x8 */ uint8_t unk8;
-    /* 0x9 */ uint8_t mCrystal;
-    /* 0xA */ uint8_t mMirror;
-    /* 0xB */ uint8_t unk11;
-    /* 0xC */ uint8_t mPohNum;
-    /* 0xD */ uint8_t padding[3];
+    /* 0x0 */ u8 mItem[8];
+    /* 0x8 */ u8 unk8;
+    /* 0x9 */ u8 mCrystal;
+    /* 0xA */ u8 mMirror;
+    /* 0xB */ u8 unk11;
+    /* 0xC */ u8 mPohNum;
+    /* 0xD */ u8 padding[3];
 };  // Size: 0x10
 
 class dSv_player_wolf_c {
 public:
-    /* 0x0 */ uint8_t unk0[3];
-    /* 0x3 */ uint8_t unk3;
+    /* 0x0 */ u8 unk0[3];
+    /* 0x3 */ u8 unk3;
 };  // Size: 0x4
 
 class dSv_light_drop_c {
 public:
-    /* 0x0 */ uint8_t mLightDropNum[4];
-    /* 0x4 */ uint8_t mLightDropGetFlag;
-    /* 0x5 */ uint8_t unk5[3];
+    /* 0x0 */ u8 mLightDropNum[4];
+    /* 0x4 */ u8 mLightDropGetFlag;
+    /* 0x5 */ u8 unk5[3];
 };  // Size: 0x8
 
 class dSv_letter_info_c {
 public:
-    /* 0x00 */ uint32_t mLetterGetFlags[2];
-    /* 0x08 */ uint32_t mLetterReadFlags[2];
-    /* 0x10 */ uint8_t mGetNumber[64];
+    /* 0x00 */ u32 mLetterGetFlags[2];
+    /* 0x08 */ u32 mLetterReadFlags[2];
+    /* 0x10 */ u8 mGetNumber[64];
 };  // Size: 0x50
 
 class dSv_fishing_info_c {
 public:
-    /* 0x00 */ uint16_t mFishCount[16];
-    /* 0x20 */ uint8_t mMaxSize[16];
+    /* 0x00 */ u16 mFishCount[16];
+    /* 0x20 */ u8 mMaxSize[16];
 };  // Size: 0x34
 
 class dSv_player_info_c {
 public:
     char* getLinkName() { return (char*)mPlayerName; }
 
-    /* 0x00 */ uint32_t unk0;
-    /* 0x04 */ uint32_t unk4;
+    /* 0x00 */ u32 unk0;
+    /* 0x04 */ u32 unk4;
     /* 0x08 */ uint64_t mTotalTime;
-    /* 0x10 */ uint16_t unk16;
-    /* 0x12 */ uint16_t mDeathCount;
-    /* 0x14 */ uint8_t mPlayerName[16];
-    /* 0x24 */ uint8_t unk36;
-    /* 0x25 */ uint8_t mHorseName[16];
-    /* 0x35 */ uint8_t unk53;
-    /* 0x36 */ uint8_t mClearCount;
-    /* 0x37 */ uint8_t unk55[5];
+    /* 0x10 */ u16 unk16;
+    /* 0x12 */ u16 mDeathCount;
+    /* 0x14 */ u8 mPlayerName[16];
+    /* 0x24 */ u8 unk36;
+    /* 0x25 */ u8 mHorseName[16];
+    /* 0x35 */ u8 unk53;
+    /* 0x36 */ u8 mClearCount;
+    /* 0x37 */ u8 unk55[5];
 };  // Size: 0x40
 
 class dSv_player_config_c {
 public:
-    /* 0x0 */ uint8_t unk0;
-    /* 0x1 */ uint8_t mSoundMode;
-    /* 0x2 */ uint8_t mAttentionType;  // Lock-On Type; 0 : hold, 1 : switch
-    /* 0x3 */ uint8_t mVibration;      // Rumble status
-    /* 0x4 */ uint8_t unk4;
-    /* 0x5 */ uint8_t unk5;
-    /* 0x6 */ uint16_t mCalibrateDist;  // Wii pointer horizontal calibration. Default is 0x015E
-    /* 0x8 */ uint8_t mCalValue;        // Wii pointer vertical calibration. Default is 0x00
+    /* 0x0 */ u8 unk0;
+    /* 0x1 */ u8 mSoundMode;
+    /* 0x2 */ u8 mAttentionType;  // Lock-On Type; 0 : hold, 1 : switch
+    /* 0x3 */ u8 mVibration;      // Rumble status
+    /* 0x4 */ u8 unk4;
+    /* 0x5 */ u8 unk5;
+    /* 0x6 */ u16 mCalibrateDist;  // Wii pointer horizontal calibration. Default is 0x015E
+    /* 0x8 */ u8 mCalValue;        // Wii pointer vertical calibration. Default is 0x00
     /* 0x9 */ bool mShortCut;           // Wii icon shortcut enabled/disabled.
-    /* 0xA */ uint8_t mCameraControl;   // 0 : normal, 1 : inverted
+    /* 0xA */ u8 mCameraControl;   // 0 : normal, 1 : inverted
     /* 0xB */ bool mPointer;            // Wii pointer enabled/disabled.
 };                                      // Size: 0xC
 
@@ -618,31 +618,31 @@ public:
         /* 0x7 */ STAGE_BOSS_ENEMY_2
     };
 
-    uint8_t getKeyNum() { return mKeyNum; }
-    void setKeyNum(uint8_t num) { mKeyNum = num; }
+    u8 getKeyNum() { return mKeyNum; }
+    void setKeyNum(u8 num) { mKeyNum = num; }
     void offDungeonItem(int flag) { mDungeonItem &= ~(1 << flag); }
 
-    /* 0x00 */ uint32_t mTbox[2];
-    /* 0x08 */ uint32_t mSwitch[4];
-    /* 0x18 */ uint32_t mItem[1];
-    /* 0x1C */ uint8_t mKeyNum;
-    /* 0x1D */ uint8_t mDungeonItem;
+    /* 0x00 */ u32 mTbox[2];
+    /* 0x08 */ u32 mSwitch[4];
+    /* 0x18 */ u32 mItem[1];
+    /* 0x1C */ u8 mKeyNum;
+    /* 0x1D */ u8 mDungeonItem;
 };  // Size: 0x20
 
 class dSv_event_c {
 public:
-    /* 0x0 */ uint8_t mEvent[256];
+    /* 0x0 */ u8 mEvent[256];
 };  // Size: 0x100
 
 class dSv_MiniGame_c {
 public:
-    /* 0x00 */ uint8_t unk0;
-    /* 0x01 */ uint8_t unk1[3];
-    /* 0x04 */ uint32_t mStarTime;
-    /* 0x08 */ uint32_t mBalloonScore;
-    /* 0x0C */ uint32_t mRaceGameTime;
-    /* 0x10 */ uint32_t unk16;
-    /* 0x14 */ uint32_t unk20;
+    /* 0x00 */ u8 unk0;
+    /* 0x01 */ u8 unk1[3];
+    /* 0x04 */ u32 mStarTime;
+    /* 0x08 */ u32 mBalloonScore;
+    /* 0x0C */ u32 mRaceGameTime;
+    /* 0x10 */ u32 unk16;
+    /* 0x14 */ u32 unk20;
 };  // Size: 0x18
 
 class dSv_memory_c {
@@ -681,33 +681,33 @@ public:
 
 class dSv_memory2_c {
 public:
-    /* 0x0 */ uint32_t mVisitedRoom[2];
+    /* 0x0 */ u32 mVisitedRoom[2];
 };  // Size: 0x8
 
 class dSv_danBit_c {
 public:
-    /* 0x00 */ int8_t mStageNo;
-    /* 0x01 */ uint8_t unk1;
-    /* 0x02 */ uint8_t unk2[2];
-    /* 0x04 */ uint32_t mSwitch[2];
-    /* 0x0C */ uint32_t mItem[4];
-    /* 0x1C */ int16_t unk28[16];
+    /* 0x00 */ s8 mStageNo;
+    /* 0x01 */ u8 unk1;
+    /* 0x02 */ u8 unk2[2];
+    /* 0x04 */ u32 mSwitch[2];
+    /* 0x0C */ u32 mItem[4];
+    /* 0x1C */ s16 unk28[16];
 };  // Size: 0x3C
 
 class dSv_zoneBit_c {
 public:
-    /* 0x00 */ uint16_t mSwitch[2];
-    /* 0x04 */ uint16_t mRoomSwitch;
-    /* 0x06 */ uint16_t mItem[2];
-    /* 0x0A */ uint16_t mRoomItem;
-    /* 0x0C */ uint16_t unk12;
+    /* 0x00 */ u16 mSwitch[2];
+    /* 0x04 */ u16 mRoomSwitch;
+    /* 0x06 */ u16 mItem[2];
+    /* 0x0A */ u16 mRoomItem;
+    /* 0x0C */ u16 unk12;
 };  // Size: 0xE
 
 class dSv_zoneActor_c {
 public:
     static const int ACTOR_MAX = 0xFFFF;
 
-    /* 0x00 */ uint32_t mActorFlags[4];
+    /* 0x00 */ u32 mActorFlags[4];
 };  // Size: 0x10
 
 class dSv_zone_c {
@@ -717,25 +717,25 @@ public:
     dSv_zoneActor_c& getActor() { return mActor; }
     const dSv_zoneActor_c& getActor() const { return mActor; }
 
-    int8_t& getRoomNo() { return mRoomNo; }
+    s8& getRoomNo() { return mRoomNo; }
 
-    /* 0x00 */ int8_t mRoomNo;
-    /* 0x01 */ uint8_t unk1;
+    /* 0x00 */ s8 mRoomNo;
+    /* 0x01 */ u8 unk1;
     /* 0x02 */ dSv_zoneBit_c mBit;
     /* 0x10 */ dSv_zoneActor_c mActor;
 };  // Size: 0x20
 
 class dSv_restart_c {
 public:
-    /* 0x00 */ int8_t mRoomNo;
-    /* 0x01 */ uint8_t field_0x01[3];
-    /* 0x04 */ int16_t mStartPoint;
-    /* 0x06 */ int16_t mRoomAngleY;
+    /* 0x00 */ s8 mRoomNo;
+    /* 0x01 */ u8 field_0x01[3];
+    /* 0x04 */ s16 mStartPoint;
+    /* 0x06 */ s16 mRoomAngleY;
     /* 0x08 */ cXyz mRoomPos;
-    /* 0x14 */ uint32_t mRoomParam;
-    /* 0x18 */ float mLastSpeedF;
-    /* 0x1C */ uint32_t mLastMode;
-    /* 0x20 */ int16_t mLastAngleY;
+    /* 0x14 */ u32 mRoomParam;
+    /* 0x18 */ f32 mLastSpeedF;
+    /* 0x1C */ u32 mLastMode;
+    /* 0x20 */ s16 mLastAngleY;
 };  // Size: 0x24
 
 class dSv_turnRestart_c {
@@ -747,16 +747,16 @@ public:
     };  // Size: 0x24
 
     /* 0x00 */ cXyz mPosition;
-    /* 0x0C */ uint32_t mParam;
-    /* 0x10 */ int16_t mAngleY;
-    /* 0x12 */ int8_t unk18;
+    /* 0x0C */ u32 mParam;
+    /* 0x10 */ s16 mAngleY;
+    /* 0x12 */ s8 unk18;
     /* 0x14 */ dSv_turnRestart_camera_c mCamera;
-    /* 0x38 */ float mCameraFvy;
+    /* 0x38 */ f32 mCameraFvy;
 };  // Size: 0x3C
 
 class dSv_reserve_c {
 public:
-    uint8_t unk[80];
+    u8 unk[80];
 };
 
 class dSv_save_c {
@@ -792,11 +792,11 @@ public:
     /* 0xDB4 */ dSv_restart_c mRestart;
     /* 0xDD8 */ dSv_event_c mTmp;
     /* 0xED8 */ dSv_turnRestart_c mTurnRestart;
-    /* 0xF14 */ uint8_t field_0xf14[4];
-    /* 0xF18 */ uint8_t mDataNum;
-    /* 0xF19 */ uint8_t mNewFile;
-    /* 0xF1A */ uint8_t mNoFile;
-    /* 0xF1B */ uint8_t field_0xf1b[13];
+    /* 0xF14 */ u8 field_0xf14[4];
+    /* 0xF18 */ u8 mDataNum;
+    /* 0xF19 */ u8 mNewFile;
+    /* 0xF1A */ u8 mNoFile;
+    /* 0xF1B */ u8 field_0xf1b[13];
     /* 0xF28 */ int64_t mStartTime;
     /* 0xF30 */ int64_t mSaveTotalTime;
 };  // Size: 0xF38
@@ -805,44 +805,44 @@ static_assert(sizeof(dSv_info_c) == 0xF38);
 
 #ifdef WII_PLATFORM
 struct HomeMenuSts {
-    uint8_t is_visible;  //              8053A968 // No idea if it is actually its true purpose, but
+    u8 is_visible;  //              8053A968 // No idea if it is actually its true purpose, but
                          //              it seems to work
 };
 #endif  // WII_PLATFORM
 
 // Functions
 LIBTP_DEFINE_FUNC(setItem__17dSv_player_item_cFiUc, dSv_player_item_c__setItem_int__unsigned_char_,
-                  void, dSv_player_item_c__setItem, (void* addr, int32_t slot, uint8_t item));
+                  void, dSv_player_item_c__setItem, (void* addr, s32 slot, u8 item));
 
 LIBTP_DEFINE_FUNC(getItem__17dSv_player_item_cCFib, dSv_player_item_c__getItem_int__bool__const,
-                  uint8_t, dSv_player_item_c__getItem, (void* addr, int32_t slot, bool is_combo_item));
+                  u8, dSv_player_item_c__getItem, (void* addr, s32 slot, bool is_combo_item));
 
 LIBTP_DEFINE_FUNC(setBombNum__24dSv_player_item_record_cFUcUc, dSv_player_item_record_c__setBombNum_unsigned_char__unsigned_char_,
-                  void, dSv_player_item_record_c__setBombNum, (void* addr, uint8_t idx, uint8_t i_no));
+                  void, dSv_player_item_record_c__setBombNum, (void* addr, u8 idx, u8 i_no));
 
 LIBTP_DEFINE_FUNC(onFirstBit__21dSv_player_get_item_cFUc, dSv_player_get_item_c__onFirstBit_unsigned_char_,
-                  void, dSv_player_get_item_c__onFirstBit, (void* addr, uint8_t item));
+                  void, dSv_player_get_item_c__onFirstBit, (void* addr, u8 item));
 
 LIBTP_DEFINE_FUNC(offFirstBit__21dSv_player_get_item_cFUc, dSv_player_get_item_c__offFirstBit_unsigned_char_,
-                  void, dSv_player_get_item_c__offFirstBit, (void* addr, uint8_t item))
+                  void, dSv_player_get_item_c__offFirstBit, (void* addr, u8 item))
 
 LIBTP_DEFINE_FUNC(getBombNum__24dSv_player_item_record_cCFUc, dSv_player_item_record_c__getBombNum_unsigned_char__const,
-                  uint8_t, dSv_player_item_record_c__getBombNum, (void* addr, uint8_t bag))
+                  u8, dSv_player_item_record_c__getBombNum, (void* addr, u8 bag))
 
 LIBTP_DEFINE_FUNC(getSelectItemIndex__21dSv_player_status_a_cCFi, dSv_player_status_a_c__getSelectItemIndex_int__const,
-                  uint8_t, dSv_player_status_a_c__getSelectItemIndex, (void* addr, int32_t idx));
+                  u8, dSv_player_status_a_c__getSelectItemIndex, (void* addr, s32 idx));
 
 LIBTP_DEFINE_FUNC(isTransformLV__21dSv_player_status_b_cCFi, dSv_player_status_b_c__isTransformLV_int__const,
-                  bool, dSv_player_status_b_c__isTransformLV, (void* addr, int32_t flag))
+                  bool, dSv_player_status_b_c__isTransformLV, (void* addr, s32 flag))
 
 LIBTP_DEFINE_FUNC(onTransformLV__21dSv_player_status_b_cFi, dSv_player_status_b_c__onTransformLV_int_,
-                  void, dSv_player_status_b_c__onTransformLV, (void* addr, int32_t flag))
+                  void, dSv_player_status_b_c__onTransformLV, (void* addr, s32 flag))
 
 LIBTP_DEFINE_FUNC(getLightDropNum__16dSv_light_drop_cCFUc, dSv_light_drop_c__getLightDropNum_unsigned_char__const,
-                  uint8_t, dSv_light_drop_c__getLightDropNum, (void* addr, uint8_t area));
+                  u8, dSv_light_drop_c__getLightDropNum, (void* addr, u8 area));
 
 LIBTP_DEFINE_FUNC(setLightDropNum__16dSv_light_drop_cFUcUc, dSv_light_drop_c__setLightDropNum_unsigned_char__unsigned_char_,
-                  void, dSv_light_drop_c__setLightDropNum, (void* addr, uint8_t area, uint8_t num));
+                  void, dSv_light_drop_c__setLightDropNum, (void* addr, u8 area, u8 num));
 
 LIBTP_DEFINE_FUNC(onSwitch__10dSv_info_cFii, dSv_info_c__onSwitch_int__int_,
                   void, dSv_info_c__onSwitch, (void* addr, int i_no, int i_roomNo))
@@ -860,32 +860,32 @@ LIBTP_DEFINE_FUNC(offSwitch__12dSv_memBit_cFi, dSv_memBit_c__offSwitch_int_,
                   void, dSv_memBit_c__offSwitch, (void* addr, int i_no))
 
 LIBTP_DEFINE_FUNC(getSave__10dSv_info_cFi, dSv_info_c__getSave_int_,
-                  void, tp_getSave, (void* addr, int32_t areaID))
+                  void, tp_getSave, (void* addr, s32 areaID))
 
 LIBTP_DEFINE_FUNC(putSave__10dSv_info_cFi, dSv_info_c__putSave_int_,
-                  void, tp_putSave, (void* addr, int32_t areaID))
+                  void, tp_putSave, (void* addr, s32 areaID))
 
 LIBTP_DEFINE_FUNC(isEventBit__11dSv_event_cCFUs, dSv_event_c__isEventBit_unsigned_short__const,
-                  bool, dSv_event_c__isEventBit, (void* addr, uint16_t flag))
+                  bool, dSv_event_c__isEventBit, (void* addr, u16 flag))
 
 LIBTP_DEFINE_FUNC(onEventBit__11dSv_event_cFUs, dSv_event_c__onEventBit_unsigned_short_,
-                  void, dSv_event_c__onEventBit, (void* addr, uint16_t flag))
+                  void, dSv_event_c__onEventBit, (void* addr, u16 flag))
 
 LIBTP_DEFINE_FUNC(offEventBit__11dSv_event_cFUs, dSv_event_c__offEventBit_unsigned_short_,
-                  void, dSv_event_c__offEventBit, (void* addr, uint16_t flag))
+                  void, dSv_event_c__offEventBit, (void* addr, u16 flag))
 
 LIBTP_DEFINE_FUNC(isDungeonItem__12dSv_memBit_cCFi, dSv_memBit_c__isDungeonItem_int__const,
-                  bool, dSv_memBit_c__isDungeonItem, (void* addr, int32_t flag))
+                  bool, dSv_memBit_c__isDungeonItem, (void* addr, s32 flag))
 
 LIBTP_DEFINE_FUNC(onDungeonItem__12dSv_memBit_cFi, dSv_memBit_c__onDungeonItem_int_,
-                  void, dSv_memBit_c__onDungeonItem, (void* addr, int32_t flag))
+                  void, dSv_memBit_c__onDungeonItem, (void* addr, s32 flag))
 
 LIBTP_DEFINE_FUNC(set__25dSv_player_return_place_cFPCcScUc, dSv_player_return_place_c__set_char_const____signed_char__unsigned_char_,
-                  void, dSv_player_return_place_c__set, (void* addr, char const* i_name, int8_t roomNo, uint8_t pointNo))
+                  void, dSv_player_return_place_c__set, (void* addr, char const* i_name, s8 roomNo, u8 pointNo))
 
 #ifdef WII_PLATFORM
 extern "C" {
-extern bool dSv_player_get_item_c__isFirstBit_unsigned_char__const(void* addr, uint8_t idx);
+extern bool dSv_player_get_item_c__isFirstBit_unsigned_char__const(void* addr, u8 idx);
 }
 
 extern HomeMenuSts homeMenuSts;
