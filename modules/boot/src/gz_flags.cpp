@@ -114,8 +114,6 @@ void GZ_execute(int phase) {
     if (SaveManager::s_applyAfterTimer > 0) {
         SaveManager::s_applyAfterTimer--;
     } else if (SaveManager::s_applyAfterTimer == 0) {
-        FIFOQueue::push("load after options", Queue, 0xFFFFFF00);
-
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
             gSaveManager.mPracticeFileOpts.inject_options_after_load();
         }
