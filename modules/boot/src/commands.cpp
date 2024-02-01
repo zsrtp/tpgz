@@ -1,3 +1,4 @@
+#include "commands.h"
 #include "controller.h"
 #include "global_data.h"
 #include "fs.h"
