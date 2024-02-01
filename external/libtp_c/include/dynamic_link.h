@@ -1,9 +1,3 @@
-/**	@file dynamic_link.h
- *	@brief DynamicModuleControl field
- *
- *  @author Zephiles
- *	@bug No known bugs.
- */
 #ifndef TP_DYNAMIC_LINK_H
 #define TP_DYNAMIC_LINK_H
 
@@ -12,14 +6,27 @@
 #include "dolphin/os/OS.h"
 #include "JSystem/JKernel/JKRExpHeap.h"
 
-// Should try to fill in the variables at some point
-struct DynamicModuleControl {
-    u8 unk_0[0x10];
-    OSModuleInfo* moduleInfo;
-    u8 unk_10[0x18];
-} __attribute__((__packed__));
+struct DynamicModuleControlBase {
+    /* 0x00 */ u16 mLinkCount;
+    /* 0x02 */ u16 mDoLinkCount;
+    /* 0x04 */ DynamicModuleControlBase* mPrev;
+    /* 0x08 */ DynamicModuleControlBase* mNext;
+    /* 0x0C */ void* vtable;
+};
 
-// This size may not be correct
+class mDoDvdThd_callback_c;
+struct DynamicModuleControl : DynamicModuleControlBase {
+    /* 0x10 */ OSModuleInfo* mModule;
+    /* 0x14 */ void* mBss;
+    /* 0x18 */ u32 unk_24;
+    /* 0x1c */ const char* mName;
+    /* 0x20 */ u8 mResourceType;
+    /* 0x21 */ u8 unk_33;
+    /* 0x22 */ u16 mChecksum;
+    /* 0x24 */ s32 mSize;
+    /* 0x28 */ mDoDvdThd_callback_c* mAsyncLoadCallback;
+};
+
 static_assert(sizeof(DynamicModuleControl) == 0x2C);
 
 extern "C" {

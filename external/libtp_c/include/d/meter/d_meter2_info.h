@@ -15,7 +15,7 @@ public:
     class WarpInfo_c {
     public:
         /* 0x00 */ char mStageName[8];
-        /* 0x08 */ cXyz mPosition;
+        /* 0x08 */ cXyz pos;
         /* 0x14 */ s16 mAngle;
         /* 0x16 */ u8 mRoomNo;
         /* 0x17 */ u8 unk79;

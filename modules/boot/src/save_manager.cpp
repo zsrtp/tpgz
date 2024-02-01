@@ -185,11 +185,11 @@ KEEP_FUNC void SaveManager::loadData() {
 
 void SaveManager::setLinkInfo() {
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        dComIfGp_getPlayer()->shape_angle.y = gSaveManager.mPracticeSaveInfo.angle;
         cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
                  gSaveManager.mPracticeSaveInfo.position.y,
                  gSaveManager.mPracticeSaveInfo.position.z);
-        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+        dComIfGp_getPlayer()->current.pos = tmp;
     }
 }
 
@@ -200,10 +200,10 @@ void SaveManager::setPositionCamera() {
     }
 
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        dComIfGp_getPlayer()->shape_angle.y = gSaveManager.mPracticeSaveInfo.angle;
         cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
                  gSaveManager.mPracticeSaveInfo.position.y,
                  gSaveManager.mPracticeSaveInfo.position.z);
-        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+        dComIfGp_getPlayer()->current.pos = tmp;
     }
 }

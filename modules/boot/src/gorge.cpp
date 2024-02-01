@@ -27,7 +27,7 @@ static bool got_it = false;
 static char buf[20];
 
 void initState() {
-    dComIfGs_onSwitch(21, dComIfGp_getPlayer()->mOrig.mRoomNo);
+    dComIfGs_onSwitch(21, dComIfGp_getPlayer()->orig.roomNo);
     dComIfGp_getEvent().mOrder[0].mEventId = 9;
 }
 

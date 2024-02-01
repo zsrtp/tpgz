@@ -52,8 +52,8 @@ KEEP_FUNC void execute() {
         auto& cam_target = matrixInfo.matrix_info->target;
         auto& cam_pos = matrixInfo.matrix_info->pos;
 
-        cXyz& link_pos = dComIfGp_getPlayer()->mCurrent.mPosition;
-        int16_t& link_angle = dComIfGp_getPlayer()->mCollisionRot.mY;
+        cXyz& link_pos = dComIfGp_getPlayer()->current.pos;
+        int16_t& link_angle = dComIfGp_getPlayer()->shape_angle.y;
 
         // Freeze the game to prevent control stick inputs to move link
         dComIfGp_getEvent().mHalt = true;
@@ -63,7 +63,7 @@ KEEP_FUNC void execute() {
 
         // Set Link momentum to 0
         cXyz tmp(0.0f, 0.0f, 0.0f);
-        dComIfGp_getPlayer()->mSpeed = tmp;
+        dComIfGp_getPlayer()->speed = tmp;
 
         if (!init_once) {
             angle = (float)link_angle / 65536.f * (2 * M_PI);
@@ -118,36 +118,36 @@ KEEP_FUNC void execute() {
     uint8_t cursor_x_max = 1;
 
     snprintf(link_angle, sizeof(link_angle), "angle: %05d",
-             (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+             (uint16_t)dComIfGp_getPlayer()->shape_angle.y);
     snprintf(link_x, sizeof(link_x), "x-pos: % 010.2f",
-             dComIfGp_getPlayer()->mCurrent.mPosition.x);
+             dComIfGp_getPlayer()->current.pos.x);
     snprintf(link_y, sizeof(link_y), "y-pos: % 010.2f",
-             dComIfGp_getPlayer()->mCurrent.mPosition.y);
+             dComIfGp_getPlayer()->current.pos.y);
     snprintf(link_z, sizeof(link_z), "z-pos: % 010.2f",
-             dComIfGp_getPlayer()->mCurrent.mPosition.z);
+             dComIfGp_getPlayer()->current.pos.z);
 
     if (link_angle_selected) {
         cursor_x_max = 5;
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCollisionRot.mY += 10000;
+                dComIfGp_getPlayer()->shape_angle.y += 10000;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCollisionRot.mY += 1000;
+                dComIfGp_getPlayer()->shape_angle.y += 1000;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCollisionRot.mY += 100;
+                dComIfGp_getPlayer()->shape_angle.y += 100;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCollisionRot.mY += 10;
+                dComIfGp_getPlayer()->shape_angle.y += 10;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCollisionRot.mY += 1;
+                dComIfGp_getPlayer()->shape_angle.y += 1;
                 break;
             }
             }
@@ -155,23 +155,23 @@ KEEP_FUNC void execute() {
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCollisionRot.mY -= 10000;
+                dComIfGp_getPlayer()->shape_angle.y -= 10000;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCollisionRot.mY -= 1000;
+                dComIfGp_getPlayer()->shape_angle.y -= 1000;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCollisionRot.mY -= 100;
+                dComIfGp_getPlayer()->shape_angle.y -= 100;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCollisionRot.mY -= 10;
+                dComIfGp_getPlayer()->shape_angle.y -= 10;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCollisionRot.mY -= 1;
+                dComIfGp_getPlayer()->shape_angle.y -= 1;
                 break;
             }
             }
@@ -206,44 +206,44 @@ KEEP_FUNC void execute() {
     }
 
     if (link_x_selected) {
-        if (dComIfGp_getPlayer()->mCurrent.mPosition.x <= -999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.x = -999998.99f;
-        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.x >= 999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.x = 999998.99f;
+        if (dComIfGp_getPlayer()->current.pos.x <= -999998.99f) {
+            dComIfGp_getPlayer()->current.pos.x = -999998.99f;
+        } else if (dComIfGp_getPlayer()->current.pos.x >= 999998.99f) {
+            dComIfGp_getPlayer()->current.pos.x = 999998.99f;
         }
         cursor_x_max = 9;
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 100000.0f;
+                dComIfGp_getPlayer()->current.pos.x += 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 10000.0f;
+                dComIfGp_getPlayer()->current.pos.x += 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 1000.0f;
+                dComIfGp_getPlayer()->current.pos.x += 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 100.0f;
+                dComIfGp_getPlayer()->current.pos.x += 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 10.0f;
+                dComIfGp_getPlayer()->current.pos.x += 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 1.0f;
+                dComIfGp_getPlayer()->current.pos.x += 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 0.10f;
+                dComIfGp_getPlayer()->current.pos.x += 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x += 0.01f;
+                dComIfGp_getPlayer()->current.pos.x += 0.01f;
                 break;
             }
             }
@@ -251,35 +251,35 @@ KEEP_FUNC void execute() {
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 100000.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 10000.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 1000.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 100.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 10.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 1.0f;
+                dComIfGp_getPlayer()->current.pos.x -= 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 0.10f;
+                dComIfGp_getPlayer()->current.pos.x -= 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.x -= 0.01f;
+                dComIfGp_getPlayer()->current.pos.x -= 0.01f;
                 break;
             }
             }
@@ -318,44 +318,44 @@ KEEP_FUNC void execute() {
     }
 
     if (link_y_selected) {
-        if (dComIfGp_getPlayer()->mCurrent.mPosition.y <= -999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.y = -999998.99f;
-        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.y >= 999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.y = 999998.99f;
+        if (dComIfGp_getPlayer()->current.pos.y <= -999998.99f) {
+            dComIfGp_getPlayer()->current.pos.y = -999998.99f;
+        } else if (dComIfGp_getPlayer()->current.pos.y >= 999998.99f) {
+            dComIfGp_getPlayer()->current.pos.y = 999998.99f;
         }
         cursor_x_max = 9;
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 100000.0f;
+                dComIfGp_getPlayer()->current.pos.y += 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 10000.0f;
+                dComIfGp_getPlayer()->current.pos.y += 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 1000.0f;
+                dComIfGp_getPlayer()->current.pos.y += 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 100.0f;
+                dComIfGp_getPlayer()->current.pos.y += 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 10.0f;
+                dComIfGp_getPlayer()->current.pos.y += 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 1.0f;
+                dComIfGp_getPlayer()->current.pos.y += 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 0.10f;
+                dComIfGp_getPlayer()->current.pos.y += 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y += 0.01f;
+                dComIfGp_getPlayer()->current.pos.y += 0.01f;
                 break;
             }
             }
@@ -363,35 +363,35 @@ KEEP_FUNC void execute() {
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 100000.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 10000.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 1000.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 100.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 10.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 1.0f;
+                dComIfGp_getPlayer()->current.pos.y -= 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 0.10f;
+                dComIfGp_getPlayer()->current.pos.y -= 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.y -= 0.01f;
+                dComIfGp_getPlayer()->current.pos.y -= 0.01f;
                 break;
             }
             }
@@ -430,44 +430,44 @@ KEEP_FUNC void execute() {
     }
 
     if (link_z_selected) {
-        if (dComIfGp_getPlayer()->mCurrent.mPosition.z <= -999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.z = -999998.99f;
-        } else if (dComIfGp_getPlayer()->mCurrent.mPosition.z >= 999998.99f) {
-            dComIfGp_getPlayer()->mCurrent.mPosition.z = 999998.99f;
+        if (dComIfGp_getPlayer()->current.pos.z <= -999998.99f) {
+            dComIfGp_getPlayer()->current.pos.z = -999998.99f;
+        } else if (dComIfGp_getPlayer()->current.pos.z >= 999998.99f) {
+            dComIfGp_getPlayer()->current.pos.z = 999998.99f;
         }
         cursor_x_max = 9;
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 100000.0f;
+                dComIfGp_getPlayer()->current.pos.z += 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 10000.0f;
+                dComIfGp_getPlayer()->current.pos.z += 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 1000.0f;
+                dComIfGp_getPlayer()->current.pos.z += 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 100.0f;
+                dComIfGp_getPlayer()->current.pos.z += 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 10.0f;
+                dComIfGp_getPlayer()->current.pos.z += 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 1.0f;
+                dComIfGp_getPlayer()->current.pos.z += 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 0.10f;
+                dComIfGp_getPlayer()->current.pos.z += 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z += 0.01f;
+                dComIfGp_getPlayer()->current.pos.z += 0.01f;
                 break;
             }
             }
@@ -475,35 +475,35 @@ KEEP_FUNC void execute() {
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
             switch (cursor.x) {
             case 0: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 100000.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 100000.0f;
                 break;
             }
             case 1: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 10000.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 10000.0f;
                 break;
             }
             case 2: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 1000.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 1000.0f;
                 break;
             }
             case 3: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 100.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 100.0f;
                 break;
             }
             case 4: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 10.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 10.0f;
                 break;
             }
             case 5: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 1.0f;
+                dComIfGp_getPlayer()->current.pos.z -= 1.0f;
                 break;
             }
             case 7: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 0.10f;
+                dComIfGp_getPlayer()->current.pos.z -= 0.10f;
                 break;
             }
             case 8: {
-                dComIfGp_getPlayer()->mCurrent.mPosition.z -= 0.01f;
+                dComIfGp_getPlayer()->current.pos.z -= 0.01f;
                 break;
             }
             }

@@ -1,11 +1,15 @@
 #include "cheats.h"
 #include "commands.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "libtp_c/include/d/d_procname.h"
+#include "libtp_c/include/d/a/d_a_e_zs.h"
 #include "rels/include/patch.h"
 #include "libtp_c/include/defines.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+#include "fifo_queue.h"
 
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
@@ -33,6 +37,8 @@ Cheat g_cheats[CHEAT_AMNT] = {
 
 bool l_doorCollision;
 
+static_assert(sizeof(daE_ZS_c) == 0xA04);
+
 void GZ_applyCheats() {
     if (GZ_checkCheat(MoonJump)) {
         GZCmd_enable(CMD_MOON_JUMP);
@@ -49,8 +55,33 @@ void GZ_applyCheats() {
         ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
 
-        /* Special handle for Staltroops */
-        
+        /* Special handling for any enemy that doesn't use cc_at_check */
+        node_class* node = g_fopAcTg_Queue.mpHead;
+        for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
+            if (node != NULL) {
+                create_tag_class* tag = (create_tag_class*)node;
+                fopEn_enemy_c* actor = (fopEn_enemy_c*)tag->mpTagData;
+                
+                if (actor != NULL) {
+                    switch (fopAcM_GetName(actor)) {
+                    case PROC_E_ZS:
+                        daE_ZS_c* zs = static_cast<daE_ZS_c*>(actor);
+
+                        // if action is damage action
+                        if (zs->mAction == 2) {
+                            zs->mAction = 1; // set back to wait action, mode 0
+                            zs->mMode = 0;
+
+                            zs->mCyl.mGObjInf.OnTgSetBit();  // turn back on hit collision
+                            zs->mCyl.mGObjInf.OnCoSetBit();  // turn back on push collision
+                            zs->mHealth = 20;  // reset health back to max
+                        }
+                        break;
+                    }
+                }
+            }
+            node = node->mpNextNode;
+        }
     } else {
         /* Unpatch cc_at_check instruction to restore health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =

@@ -4,7 +4,7 @@
 #include "../../dolphin/types.h"
 
 struct SVec {
-    s16 mX, mY, mZ;
+    s16 x, y, z;
 };
 
 class csXyz : public SVec {
@@ -13,9 +13,9 @@ public:
     /* inline   */ csXyz() {}
     /* inline   */ csXyz(const csXyz& other) : SVec(other){};
     /* 802673F4 */ csXyz(s16 x, s16 y, s16 z) {
-        mX = x;
-        mY = y;
-        mZ = z;
+        this->x = x;
+        this->y = y;
+        this->z = z;
     }
     /* 80267404 */ csXyz operator+(csXyz&);
     /* 8026745C */ void operator+=(csXyz&);

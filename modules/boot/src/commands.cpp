@@ -46,8 +46,8 @@ void GZCmd_pauseFrame() {
 
 void GZCmd_storePosition() {
     if (dComIfGp_getPlayer()) {
-        sSavePlayerPos = dComIfGp_getPlayer()->mCurrent.mPosition;
-        sSavePlayerAngle = dComIfGp_getPlayer()->mCollisionRot.mY;
+        sSavePlayerPos = dComIfGp_getPlayer()->current.pos;
+        sSavePlayerAngle = dComIfGp_getPlayer()->shape_angle.y;
     }
 
     if (matrixInfo.matrix_info) {
@@ -58,8 +58,8 @@ void GZCmd_storePosition() {
 
 void GZCmd_loadPosition() {
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mCurrent.mPosition = sSavePlayerPos;
-        dComIfGp_getPlayer()->mCollisionRot.mY = sSavePlayerAngle;
+        dComIfGp_getPlayer()->current.pos = sSavePlayerPos;
+        dComIfGp_getPlayer()->shape_angle.y = sSavePlayerAngle;
     }
 
     if (matrixInfo.matrix_info) {
@@ -70,7 +70,7 @@ void GZCmd_loadPosition() {
 
 void GZCmd_moonJump() {
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mSpeed.y = 56.0f;
+        dComIfGp_getPlayer()->speed.y = 56.0f;
     }
 }
 
