@@ -13,7 +13,7 @@ public:
     /* 0x24 */ dBgS_Chk field_0x24;
     /* 0x3C */ cXyz m_pos;
     /* 0x48 */ int field_0x48;
-    /* 0x4C */ float mNowY;
+    /* 0x4C */ f32 mNowY;
 };  // Size = 0x50
 
 class dBgS_LinkRoofChk : dBgS_RoofChk {

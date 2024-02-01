@@ -48,8 +48,8 @@ KEEP_FUNC void SaveMngSpecial_OrdonRock() {
     });
 
     if (actorData != NULL) {
-        actorData->mCurrent.mPosition = position;
-        actorData->mCollisionRot.mY = 5880;
+        actorData->current.pos = position;
+        actorData->shape_angle.y = 5880;
     }
 }
 
@@ -92,8 +92,8 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
         find_actor([](auto& act) { return act.mBase.mProcName == HUGO_ACTOR_ID; });
 
     if (actorData != NULL) {
-        actorData->mCurrent.mPosition = position;
-        actorData->mCollisionRot.mY = 5880;
+        actorData->current.pos = position;
+        actorData->shape_angle.y = 5880;
     }
 }
 
@@ -187,19 +187,19 @@ KEEP_FUNC void SaveMngSpecial_Stallord2() {
         stallord->mActionMode1 = 1;           // make stallord head active
         stallord->mGravity = 0.0f;            // change gravity to 0
         g_env_light.mWeatherPalette = 2;      // set arena light
-        sand->mSpeed.y = 1000.0f;             // move sand out of the way
+        sand->speed.y = 1000.0f;             // move sand out of the way
 
-        dComIfGs_onOneZoneSwitch(6, stallord->mCurrent.mRoomNo);
-        dComIfGs_onZoneSwitch(7, stallord->mCurrent.mRoomNo);  // sets arena to raised
+        dComIfGs_onOneZoneSwitch(6, stallord->current.roomNo);
+        dComIfGs_onZoneSwitch(7, stallord->current.roomNo);  // sets arena to raised
 
-        stallord->mCurrent.mPosition.x = -2097.20f;  //-2397.22f;
-        stallord->mCurrent.mPosition.y = 1022.21f;   // 1697.20f;
-        stallord->mCurrent.mPosition.z = -1246.87f;  // 1131.33f;
+        stallord->current.pos.x = -2097.20f;  //-2397.22f;
+        stallord->current.pos.y = 1022.21f;   // 1697.20f;
+        stallord->current.pos.z = -1246.87f;  // 1131.33f;
 
-        dComIfGp_getPlayer()->mCurrent.mPosition.x = 644.91f;
-        dComIfGp_getPlayer()->mCurrent.mPosition.y = 300.3158f;
-        dComIfGp_getPlayer()->mCurrent.mPosition.z = 2195.0237f;
-        dComIfGp_getPlayer()->mCollisionRot.mY = 39350;
+        dComIfGp_getPlayer()->current.pos.x = 644.91f;
+        dComIfGp_getPlayer()->current.pos.y = 300.3158f;
+        dComIfGp_getPlayer()->current.pos.z = 2195.0237f;
+        dComIfGp_getPlayer()->shape_angle.y = 39350;
         // matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
         // matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
     }

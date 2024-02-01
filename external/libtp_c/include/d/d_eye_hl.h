@@ -9,8 +9,8 @@ class dEyeHL_mng_c {
 public:
     /* 0x00 */ void* vtable;
     /* 0x04 */ ResTIMG* field_0x04;
-    /* 0x08 */ uint16_t field_0x08;
-    /* 0x0A */ uint8_t field_0x0a[2];
+    /* 0x08 */ u16 field_0x08;
+    /* 0x0A */ u8 field_0x0a[2];
     /* 0x0C */ dEyeHL_mng_c* field_0x0c;
     /* 0x10 */ dEyeHL_mng_c* field_0x10;
 };

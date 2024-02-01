@@ -42,8 +42,8 @@ KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu(Cursor& cursor, ActorSpawnData& data)
 ActorSpawnMenu::~ActorSpawnMenu() {}
 
 void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
-    fopAcM_create(id, parameters, &dComIfGp_getPlayer()->mCurrent.mPosition,
-                  dComIfGp_getPlayer()->mCurrent.mRoomNo, &dComIfGp_getPlayer()->mCurrent.mAngle,
+    fopAcM_create(id, parameters, &dComIfGp_getPlayer()->current.pos,
+                  dComIfGp_getPlayer()->current.roomNo, &dComIfGp_getPlayer()->current.angle,
                   nullptr, subtype);
 }
 

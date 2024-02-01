@@ -18,8 +18,9 @@
 static char l_filename[80];
 SaveManager gSaveManager;
 
-bool SaveManager::s_injectSave = false;
-bool SaveManager::s_injectMemfile = false;
+KEEP_VAR bool SaveManager::s_injectSave = false;
+KEEP_VAR bool SaveManager::s_injectMemfile = false;
+KEEP_VAR s8 SaveManager::s_applyAfterTimer = -1;
 
 void SaveManager::injectSave(void* buffer) {
     memcpy(&g_dComIfG_gameInfo, buffer, 0x9F8);
@@ -185,11 +186,11 @@ KEEP_FUNC void SaveManager::loadData() {
 
 void SaveManager::setLinkInfo() {
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        dComIfGp_getPlayer()->shape_angle.y = gSaveManager.mPracticeSaveInfo.angle;
         cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
                  gSaveManager.mPracticeSaveInfo.position.y,
                  gSaveManager.mPracticeSaveInfo.position.z);
-        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+        dComIfGp_getPlayer()->current.pos = tmp;
     }
 }
 
@@ -200,10 +201,10 @@ void SaveManager::setPositionCamera() {
     }
 
     if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->mCollisionRot.mY = gSaveManager.mPracticeSaveInfo.angle;
+        dComIfGp_getPlayer()->shape_angle.y = gSaveManager.mPracticeSaveInfo.angle;
         cXyz tmp(gSaveManager.mPracticeSaveInfo.position.x,
                  gSaveManager.mPracticeSaveInfo.position.y,
                  gSaveManager.mPracticeSaveInfo.position.z);
-        dComIfGp_getPlayer()->mCurrent.mPosition = tmp;
+        dComIfGp_getPlayer()->current.pos = tmp;
     }
 }

@@ -1,7 +1,7 @@
 #ifndef D_BG_D_BG_S_GRP_PASS_CHK_H
 #define D_BG_D_BG_S_GRP_PASS_CHK_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 class cBgS_GrpPassChk {
 public:
@@ -10,7 +10,7 @@ public:
 
 class dBgS_GrpPassChk : public cBgS_GrpPassChk {
 public:
-    uint32_t mGrp;
+    u32 mGrp;
 };
 
 #endif /* D_BG_D_BG_S_GRP_PASS_CHK_H */

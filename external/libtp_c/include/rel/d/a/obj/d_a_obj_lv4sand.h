@@ -9,8 +9,8 @@
  */
 class daObjLv4Sand_c : public fopAc_ac_c {
 public:
-    /* 0x568 */ uint8_t field_0x568[0x58];
-    /* 0x5C0 */ float field_0x5c0;
+    /* 0x568 */ u8 field_0x568[0x58];
+    /* 0x5C0 */ f32 field_0x5c0;
 };
 
 #endif

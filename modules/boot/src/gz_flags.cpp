@@ -110,11 +110,13 @@ void GZ_execute(int phase) {
         }
     }
 
-    if (!fopScnRq.isLoading && (SaveManager::s_injectSave || SaveManager::s_injectMemfile) && dComIfGp_getPlayer() != nullptr) {
+    // Timer set after dScnPly__phase_4, delay until objects are fully loaded
+    if (SaveManager::s_applyAfterTimer > 0) {
+        SaveManager::s_applyAfterTimer--;
+    } else if (SaveManager::s_applyAfterTimer == 0) {
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
             gSaveManager.mPracticeFileOpts.inject_options_after_load();
         }
-        SaveManager::s_injectSave = false;
-        SaveManager::s_injectMemfile = false;
+        SaveManager::s_applyAfterTimer = -1;
     }
 }

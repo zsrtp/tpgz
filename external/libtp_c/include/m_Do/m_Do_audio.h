@@ -1,7 +1,7 @@
 #ifndef M_DO_M_DO_AUDIO_H
 #define M_DO_M_DO_AUDIO_H
 
-#include <stdint.h>
+#include "../dolphin/types.h"
 #include "../addrs.h"
 #include "../Z2AudioLib/Z2AudioMgr.h"
 
@@ -16,7 +16,7 @@ extern mDoAud_zelAudio_c g_mDoAud_zelAudio;
 
 // Functions
 #ifdef GCN_PLATFORM
-typedef void (*mDoAud_seStartLevel_t)(uint32_t, Vec const*, uint32_t, int8_t);
+typedef void (*mDoAud_seStartLevel_t)(u32, Vec const*, u32, s8);
 #define mDoAud_seStartLevel ((mDoAud_seStartLevel_t)mDoAud_seStartLevel_addr)
 
 #endif

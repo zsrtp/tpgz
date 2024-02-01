@@ -1,12 +1,12 @@
 #ifndef JASAUDIORESETER_H
 #define JASAUDIORESETER_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 struct JASAudioReseter {
-    /* 0x0 */ uint32_t field_0x0;
-    /* 0x4 */ float mDSPLevel;
-    /* 0x8 */ int32_t mIsDone;
+    /* 0x0 */ u32 field_0x0;
+    /* 0x4 */ f32 mDSPLevel;
+    /* 0x8 */ s32 mIsDone;
     /* 0xC */ bool field_0xc;
 };  // Size: 0x10
 

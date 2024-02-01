@@ -8,7 +8,7 @@
 typedef struct create_tag_class {
     node_class mpNode;
     void* mpTagData;
-    int8_t mbIsUse;
+    s8 mbIsUse;
 } create_tag_class;
 
 #endif /* C_TAG_H */

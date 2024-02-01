@@ -9,7 +9,7 @@
 #define mPad_ (mPad)
 #endif
 
-void setGamepadButtons(uint16_t buttons) {
+void setGamepadButtons(u16 buttons) {
 #ifdef GCN_PLATFORM
     mPad_.mButton = buttons;
 #endif
@@ -19,7 +19,7 @@ void setGamepadButtons(uint16_t buttons) {
 #endif
 }
 
-void setGamepadTrig(uint16_t buttons) {
+void setGamepadTrig(u16 buttons) {
 #ifdef GCN_PLATFORM
     mPad_.mTrigger = buttons;
 #endif

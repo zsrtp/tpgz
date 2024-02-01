@@ -1,13 +1,13 @@
 #ifndef C_XYZ_H
 #define C_XYZ_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 #include "../../dolphin/mtx/vec.h"
 
 struct cXyz : Vec {
     ~cXyz() {}
     cXyz() {}
-    cXyz(float x, float y, float z) {
+    cXyz(f32 x, f32 y, f32 z) {
         this->x = x;
         this->y = y;
         this->z = z;
@@ -27,12 +27,12 @@ struct cXyz : Vec {
         this->y = vec.y;
         this->z = vec.z;
     }
-    void operator+=(float f) {
+    void operator+=(f32 f) {
         x += f;
         y += f;
         z += f;
     }
-    void operator-=(float f) {
+    void operator-=(f32 f) {
         x -= f;
         y -= f;
         z -= f;
@@ -42,12 +42,12 @@ struct cXyz : Vec {
         y += vec.y;
         z += vec.z;
     }
-    void setAll(float f) {
+    void setAll(f32 f) {
         z = f;
         y = f;
         x = f;
     }
-    void set(float pX, float pY, float pZ) {
+    void set(f32 pX, f32 pY, f32 pZ) {
         x = pX;
         y = pY;
         z = pZ;

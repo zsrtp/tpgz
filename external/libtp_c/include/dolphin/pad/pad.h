@@ -1,7 +1,7 @@
 #ifndef PAD_H
 #define PAD_H
 
-#include <stdint.h>
+#include "../types.h"
 
 typedef enum PADMask {
     PAD_CHAN3_BIT = (1 << 28),
@@ -11,16 +11,16 @@ typedef enum PADMask {
 } PADMask;
 
 typedef struct PADStatus {
-    uint16_t button;
-    int8_t stick_x;
-    int8_t stick_y;
-    int8_t substick_x;
-    int8_t substick_y;
-    uint8_t trigger_left;
-    uint8_t trigger_right;
-    uint8_t analog_a;
-    uint8_t analog_b;
-    int8_t error;
+    u16 button;
+    s8 stick_x;
+    s8 stick_y;
+    s8 substick_x;
+    s8 substick_y;
+    u8 trigger_left;
+    u8 trigger_right;
+    u8 analog_a;
+    u8 analog_b;
+    s8 error;
 } PADStatus;
 
 #endif /* PAD_H */

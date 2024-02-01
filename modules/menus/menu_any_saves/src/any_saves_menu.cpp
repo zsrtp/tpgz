@@ -58,8 +58,7 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
           {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
           {"horseback ganon", HORSEBACK_GANON_INDEX, "The Horseback Ganondorf fight"},
       } {}
-#endif
-#ifdef WII_PLATFORM
+#elif defined(WII_PLATFORM)
 KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
     : Menu(cursor),
       lines{{"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
@@ -107,7 +106,7 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
             {"argorok", ARGOROK_INDEX, "The City in the Sky boss"},
             {"palace of twilight 1", PALACE_1_INDEX, "The first Palace of Twilight segment"},
             {"palace of twilight 2", PALACE_2_INDEX,
-             "The second Palace of Twilight segment (after both Sols)"},
+             "The second Palace of Twilight segment (after first Sols)"},
             {"early platform", EARLY_PLATFORM_INDEX, "Early platform in Palace of Twilight"},
             {"zant", ZANT_INDEX, "The Palace of Twilight boss"},
             {"hyrule castle", HC_INDEX, "The Hyrule Castle segment"},

@@ -88,6 +88,7 @@ public:
 
     static bool s_injectSave;
     static bool s_injectMemfile;
+    static s8 s_applyAfterTimer;
 
 public:
     static void injectSave(void* buffer);

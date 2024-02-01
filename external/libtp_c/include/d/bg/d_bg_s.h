@@ -7,9 +7,9 @@
 
 class cBgS_ChkElm {
     /* 0x00 */ dBgW_Base* bgw_base_pointer;
-    /* 0x04 */ uint8_t used;
-    /* 0x05 */ uint8_t padding[3];
-    /* 0x08 */ uint32_t field_0x8;
+    /* 0x04 */ u8 used;
+    /* 0x05 */ u8 padding[3];
+    /* 0x08 */ u32 field_0x8;
     /* 0x0C */ void* actor_pointer;
     /* 0x10 */ void* vtable;
 };  // Size = 0x14
@@ -24,15 +24,15 @@ class cBgS {
 static_assert(sizeof(cBgS) == 0x1404);
 
 class dBgS_HIO {
-    /* 0x00 */ uint8_t vtable[4];
-    /* 0x04 */ uint8_t field_0x4[2];
-    /* 0x06 */ uint16_t field_0x6;
-    /* 0x08 */ uint16_t field_0x8;
-    /* 0x0A */ uint8_t field_0xa[2];
+    /* 0x00 */ u8 vtable[4];
+    /* 0x04 */ u8 field_0x4[2];
+    /* 0x06 */ u16 field_0x6;
+    /* 0x08 */ u16 field_0x8;
+    /* 0x0A */ u8 field_0xa[2];
     /* 0x0C */ cXyz field_0xc;
     /* 0x18 */ cXyz field_0x18;
     /* 0x24 */ cXyz field_0x24;
-    /* 0x30 */ uint8_t field_0x30[4];
+    /* 0x30 */ u8 field_0x30[4];
 };
 
 class dBgS_Acch;

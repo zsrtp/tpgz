@@ -6,9 +6,9 @@
 #include "f_pc_method_tag.h"
 
 typedef struct process_priority_queue_info {
-    uint32_t mLayer;
-    uint16_t mListID;
-    uint16_t mListPrio;
+    u32 mLayer;
+    u16 mListID;
+    u16 mListPrio;
 } process_priority_queue_info;
 
 typedef struct process_priority_class {

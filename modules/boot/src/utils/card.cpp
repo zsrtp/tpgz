@@ -221,10 +221,10 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
 
 KEEP_FUNC void GZ_storeMemfile(Storage& storage) {
     PositionData posData;
-    posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
+    posData.link = dComIfGp_getPlayer()->current.pos;
     posData.cam.target = matrixInfo.matrix_info->target;
     posData.cam.pos = matrixInfo.matrix_info->pos;
-    posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
+    posData.angle = dComIfGp_getPlayer()->shape_angle.y;
     uint32_t file_size = (uint32_t)(ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) *
                                     storage.sector_size);
 

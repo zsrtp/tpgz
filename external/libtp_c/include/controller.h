@@ -1,9 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include <stdint.h>
+#include "dolphin/types.h"
 
-void setGamepadButtons(uint16_t buttons);
-void setGamepadTrig(uint16_t buttons);
+void setGamepadButtons(u16 buttons);
+void setGamepadTrig(u16 buttons);
 
 #endif

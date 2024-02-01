@@ -1,7 +1,7 @@
 #ifndef JASSOUNDPARAMS_H
 #define JASSOUNDPARAMS_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 struct JASSoundParams {
     void initVolume() { mVolume = 1.0f; }
@@ -19,11 +19,11 @@ struct JASSoundParams {
 
     JASSoundParams() { init(); }
 
-    /* 0x00 */ float mVolume;
-    /* 0x04 */ float mFxMix;
-    /* 0x08 */ float mPitch;
-    /* 0x0C */ float mPan;
-    /* 0x10 */ float mDolby;
+    /* 0x00 */ f32 mVolume;
+    /* 0x04 */ f32 mFxMix;
+    /* 0x08 */ f32 mPitch;
+    /* 0x0C */ f32 mPan;
+    /* 0x10 */ f32 mDolby;
 };  // Size: 0x14
 
 #endif /* JASSOUNDPARAMS_H */

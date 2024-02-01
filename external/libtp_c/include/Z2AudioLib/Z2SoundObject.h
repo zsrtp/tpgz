@@ -14,8 +14,8 @@ public:
     /* 0x10 */ void* vtable;
     /* 0x14 */ Z2SoundStarter* mSoundStarter;
     /* 0x18 */ Vec* mSoundPos;
-    /* 0x1C */ uint16_t field_0x1c;
-    /* 0x1E */ uint8_t field_0x1e;
+    /* 0x1C */ u16 field_0x1c;
+    /* 0x1E */ u8 field_0x1e;
     /* 0x1F */ bool mIsInitialized;
 };
 
@@ -27,9 +27,9 @@ class Z2SoundObjAnime : protected Z2SoundObjBase {
 public:
     /* 0x20 */ void* field_0x20;  // JAUSoundAnimation*
     /* 0x24 */ int field_0x24;
-    /* 0x28 */ float field_0x28;
-    /* 0x2C */ float field_0x2c;
-    /* 0x30 */ float field_0x30;
+    /* 0x28 */ f32 field_0x28;
+    /* 0x2C */ f32 field_0x2c;
+    /* 0x30 */ f32 field_0x30;
     /* 0x34 */ int field_0x34;
     /* 0x38 */ int field_0x38;
     /* 0x3C */ int field_0x3c;

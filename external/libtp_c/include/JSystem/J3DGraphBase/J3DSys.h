@@ -6,7 +6,7 @@
 #include "../../dolphin/gx/GXTexture.h"
 #include "libtp_c/include/addrs.h"
 #include "J3DPacket.h"
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 enum J3DError {
     kJ3DError_Success = 0,
@@ -26,16 +26,16 @@ class J3DPacket;
 struct J3DSys {
     /* 0x000 */ Mtx mViewMtx;
     /* 0x030 */ J3DMtxCalc* mCurrentMtxCalc;
-    /* 0x034 */ uint32_t mFlags;
+    /* 0x034 */ u32 mFlags;
     /* 0x038 */ J3DModel* mModel;
     /* 0x03C */ J3DMatPacket* mMatPacket;
     /* 0x040 */ J3DShapePacket* mShapePacket;
     /* 0x044 */ J3DShape* mShape;
     /* 0x048 */ J3DDrawBuffer* mDrawBuffer[2];
-    /* 0x050 */ uint32_t mDrawMode;
-    /* 0x054 */ uint32_t mMaterialMode;
+    /* 0x050 */ u32 mDrawMode;
+    /* 0x054 */ u32 mMaterialMode;
     /* 0x058 */ J3DTexture* mTexture;
-    /* 0x05C */ uint8_t field_0x5c[0x10C - 0x5C];
+    /* 0x05C */ u8 field_0x5c[0x10C - 0x5C];
     /* 0x10C */ void* mVtxPos;
     /* 0x110 */ void* mVtxNrm;
     /* 0x114 */ _GXColor* mVtxCol;
@@ -62,9 +62,9 @@ struct J3DSys {
 
     void setTexture(J3DTexture* pTex) { mTexture = pTex; }
 
-    void onFlag(uint32_t flag) { mFlags |= flag; }
+    void onFlag(u32 flag) { mFlags |= flag; }
 
-    void offFlag(uint32_t flag) { mFlags &= ~flag; }
+    void offFlag(u32 flag) { mFlags &= ~flag; }
 
     // Type 0: Opa Buffer
     // Type 1: Xlu Buffer

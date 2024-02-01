@@ -1,7 +1,7 @@
 #ifndef JUTGAMEPAD_H
 #define JUTGAMEPAD_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 #include "../../dolphin/mtx/vec.h"
 #include "../../dolphin/pad/pad.h"
 #include "../../addrs.h"
@@ -42,37 +42,37 @@ public:
         Port_4,
     };
 
-    uint32_t getButton() const { return mButton.mButton; }
+    u32 getButton() const { return mButton.mButton; }
 
-    uint32_t getTrigger() const { return mButton.mTrigger; }
+    u32 getTrigger() const { return mButton.mTrigger; }
 
-    float getMainStickX() const { return mMainStick.mPosX; }
+    f32 getMainStickX() const { return mMainStick.mPosX; }
 
-    float getMainStickY() const { return mMainStick.mPosY; }
+    f32 getMainStickY() const { return mMainStick.mPosY; }
 
-    float getMainStickValue() const { return mMainStick.mValue; }
+    f32 getMainStickValue() const { return mMainStick.mValue; }
 
-    int16_t getMainStickAngle() const { return mMainStick.mAngle; }
+    s16 getMainStickAngle() const { return mMainStick.mAngle; }
 
-    float getSubStickX() const { return mSubStick.mPosX; }
+    f32 getSubStickX() const { return mSubStick.mPosX; }
 
-    float getSubStickY() const { return mSubStick.mPosY; }
+    f32 getSubStickY() const { return mSubStick.mPosY; }
 
-    float getSubStickValue() const { return mSubStick.mValue; }
+    f32 getSubStickValue() const { return mSubStick.mValue; }
 
-    int16_t getSubStickAngle() const { return mSubStick.mAngle; }
+    s16 getSubStickAngle() const { return mSubStick.mAngle; }
 
-    uint8_t getAnalogA() const { return mButton.mAnalogA; }
+    u8 getAnalogA() const { return mButton.mAnalogA; }
 
-    uint8_t getAnalogB() const { return mButton.mAnalogB; }
+    u8 getAnalogB() const { return mButton.mAnalogB; }
 
-    uint8_t getAnalogL() const { return mButton.mAnalogL; }
+    u8 getAnalogL() const { return mButton.mAnalogL; }
 
-    uint8_t getAnalogR() const { return mButton.mAnalogR; }
+    u8 getAnalogR() const { return mButton.mAnalogR; }
 
-    int8_t getErrorStatus() const { return mErrorStatus; }
+    s8 getErrorStatus() const { return mErrorStatus; }
 
-    uint32_t testTrigger(uint32_t button) const { return mButton.mTrigger & button; }
+    u32 testTrigger(u32 button) const { return mButton.mTrigger & button; }
 
     bool isPushing3ButtonReset() const {
         bool isPushingReset = false;
@@ -84,21 +84,21 @@ public:
     }
 
     struct CButton {
-        /* 0x00 */ uint32_t mButton;
-        /* 0x04 */ uint32_t mTrigger;  // Pressed Buttons
-        /* 0x08 */ uint32_t mRelease;  // Released Buttons
-        /* 0x0C */ uint8_t mAnalogA;
-        /* 0x0D */ uint8_t mAnalogB;
-        /* 0x0E */ uint8_t mAnalogL;
-        /* 0x0F */ uint8_t mAnalogR;
-        /* 0x10 */ float mAnalogLf;
-        /* 0x14 */ float mAnalogRf;
-        /* 0x18 */ uint32_t mRepeat;
-        /* 0x1C */ uint32_t field_0x1c;
-        /* 0x20 */ uint32_t field_0x20;
-        /* 0x24 */ uint32_t field_0x24;
-        /* 0x28 */ uint32_t field_0x28;
-        /* 0x2C */ uint32_t field_0x2c;
+        /* 0x00 */ u32 mButton;
+        /* 0x04 */ u32 mTrigger;  // Pressed Buttons
+        /* 0x08 */ u32 mRelease;  // Released Buttons
+        /* 0x0C */ u8 mAnalogA;
+        /* 0x0D */ u8 mAnalogB;
+        /* 0x0E */ u8 mAnalogL;
+        /* 0x0F */ u8 mAnalogR;
+        /* 0x10 */ f32 mAnalogLf;
+        /* 0x14 */ f32 mAnalogRf;
+        /* 0x18 */ u32 mRepeat;
+        /* 0x1C */ u32 field_0x1c;
+        /* 0x20 */ u32 field_0x20;
+        /* 0x24 */ u32 field_0x24;
+        /* 0x28 */ u32 field_0x28;
+        /* 0x2C */ u32 field_0x2c;
     };  // Size: 0x30
 
     struct C3ButtonReset {
@@ -106,12 +106,12 @@ public:
     };  // Size: 0x4
 
     struct CStick {
-        /* 0x0 */ float mPosX;
-        /* 0x4 */ float mPosY;
-        /* 0x8 */ float mValue;
-        /* 0xC */ int16_t mAngle;
-        /* 0xE */ int8_t field_0xe;
-        /* 0xF */ int8_t field_0xf;
+        /* 0x0 */ f32 mPosX;
+        /* 0x4 */ f32 mPosY;
+        /* 0x8 */ f32 mValue;
+        /* 0xC */ s16 mAngle;
+        /* 0xE */ s8 field_0xe;
+        /* 0xF */ s8 field_0xf;
     };  // Size: 0x10
 
     struct CRumble {
@@ -121,26 +121,26 @@ public:
             VAL_2 = 2,
         };
 
-        /* 0x00 */ uint32_t field_0x0;
-        /* 0x04 */ uint32_t field_0x4;
-        /* 0x08 */ uint8_t* field_0x8;
-        /* 0x0C */ uint32_t field_0xc;
-        /* 0x10 */ uint8_t* field_0x10;
+        /* 0x00 */ u32 field_0x0;
+        /* 0x04 */ u32 field_0x4;
+        /* 0x08 */ u8* field_0x8;
+        /* 0x0C */ u32 field_0xc;
+        /* 0x10 */ u8* field_0x10;
     };  // Size: 0x14
 
     /* 0x18 */ CButton mButton;
     /* 0x48 */ CStick mMainStick;
     /* 0x58 */ CStick mSubStick;
     /* 0x68 */ CRumble mRumble;
-    /* 0x7C */ int16_t mPortNum;
-    /* 0x7E */ int8_t mErrorStatus;
+    /* 0x7C */ s16 mPortNum;
+    /* 0x7E */ s8 mErrorStatus;
     /* 0x80 */ JSULink<JUTGamePad> mLink;
-    /* 0x90 */ uint32_t mPadRecord;
-    /* 0x94 */ uint32_t mPadReplay;
+    /* 0x90 */ u32 mPadRecord;
+    /* 0x94 */ u32 mPadReplay;
     /* 0x98 */ C3ButtonReset mButtonReset;
-    /* 0x9C */ uint8_t field_0x9c[4];
+    /* 0x9C */ u8 field_0x9c[4];
     /* 0xA0 */ int64_t mResetTime;
-    /* 0xA8 */ uint8_t field_0xa8;
+    /* 0xA8 */ u8 field_0xa8;
 };
 
 #ifdef WII_PLATFORM

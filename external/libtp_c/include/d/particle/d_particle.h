@@ -15,7 +15,7 @@ public:
 class dPa_hermiteEcallBack_c : public dPa_levelEcallBack {
 public:
     /* 0x00 */ void* vtable;
-    /* 0x04 */ float mRate;
+    /* 0x04 */ f32 mRate;
     /* 0x08 */ int mMaxCnt;
     /* 0x0C */ cXyz* field_0xc;
     /* 0x10 */ cXyz* field_0x10;
