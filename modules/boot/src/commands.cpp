@@ -109,29 +109,24 @@ void GZCmd_reloadArea() {
 
 void GZCmd_loadGorgeVoid() {
     if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
-        /* SaveManager::loadSavefile("tpgz/save_files/any/gorge_void.bin");
-        gSaveManager.mPracticeFileOpts.inject_options_before_load =
-            SaveManager::injectDefault_before;
-        gSaveManager.mPracticeFileOpts.inject_options_during_load =
-            GorgeVoidIndicator::warpToPosition;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load = GorgeVoidIndicator::initState; */
+        // TODO: maybe simplify this
+        special sp[] = {
+            special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
+        };
 
-        SaveManager::triggerLoad(8, "any", nullptr, 0xFF);
+        SaveManager::triggerLoad(8, "any", sp, 1);
     }
 }
 
 #ifdef WII_PLATFORM
 void GZCmd_bitPractice() {
     if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
-        SaveManager::loadSavefile("tpgz/save_files/any/ordon_gate_clip.bin");
-        gSaveManager.mPracticeFileOpts.inject_options_before_load =
-            SaveManager::injectDefault_before;
-        gSaveManager.mPracticeFileOpts.inject_options_during_load =
-            SaveManager::injectDefault_during;
-        gSaveManager.mPracticeFileOpts.inject_options_after_load = BiTIndicator::setPosition;
-        gSaveManager.mPracticeFileOpts.inject_options_after_counter = 10;
-        g_dComIfG_gameInfo.play.mNextStage.enabled = true;
-        SaveManager::s_injectSave = true;
+        // TODO: maybe simplify this
+        special sp[] = {
+            special(0, nullptr, BiTIndicator::setPosition),
+        };
+
+        SaveManager::triggerLoad(0, "any", sp, 1);
     }
 }
 #endif

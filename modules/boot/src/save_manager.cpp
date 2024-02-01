@@ -18,8 +18,9 @@
 static char l_filename[80];
 SaveManager gSaveManager;
 
-bool SaveManager::s_injectSave = false;
-bool SaveManager::s_injectMemfile = false;
+KEEP_VAR bool SaveManager::s_injectSave = false;
+KEEP_VAR bool SaveManager::s_injectMemfile = false;
+KEEP_VAR s8 SaveManager::s_applyAfterTimer = -1;
 
 void SaveManager::injectSave(void* buffer) {
     memcpy(&g_dComIfG_gameInfo, buffer, 0x9F8);
