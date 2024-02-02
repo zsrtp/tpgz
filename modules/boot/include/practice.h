@@ -7,6 +7,7 @@ enum {
     ANY_BITE_INDEX,
     HUNDO_INDEX,
     AD_INDEX,
+    GLITCHLESS_INDEX,
 };
 
 #define REQ_POS 1

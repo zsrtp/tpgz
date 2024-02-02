@@ -41,6 +41,10 @@ libs = ["libtpgz.a"]
 "tpgz/save_files/ad.bin" = "../res/save_files/ad.bin"
 "tpgz/save_files/ad" = "../res/save_files/ad"
 
+# Glitchless saves
+"tpgz/save_files/glitchless.bin" = "../res/save_files/glitchless.bin"
+"tpgz/save_files/glitchless" = "../res/save_files/glitchless"
+
 # warp info
 "tpgz/stage_info" = "../res/stage_info"
 
