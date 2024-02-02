@@ -283,3 +283,8 @@ KEEP_FUNC void BeastGanonSpecial_setLayer() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(1);
 }
+
+KEEP_FUNC void SaveMngSpecial_emptyLake() {
+    gSaveManager.injectDefault_during();
+    setNextStageLayer(4);
+}

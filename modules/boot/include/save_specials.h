@@ -50,3 +50,5 @@ void SaveMngSpecial_Palace2();
 void SaveMngSpecial_CaveOfOrdeals();
 
 void BeastGanonSpecial_setLayer();
+
+void SaveMngSpecial_emptyLake();
