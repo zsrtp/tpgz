@@ -4,6 +4,7 @@
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/d/d_procname.h"
 #include "libtp_c/include/d/a/d_a_e_zs.h"
+#include "libtp_c/include/d/a/d_a_e_s1.h"
 #include "rels/include/patch.h"
 #include "libtp_c/include/defines.h"
 #include "gz_flags.h"
@@ -37,8 +38,6 @@ Cheat g_cheats[CHEAT_AMNT] = {
 
 bool l_doorCollision;
 
-static_assert(sizeof(daE_ZS_c) == 0xA04);
-
 void GZ_applyCheats() {
     if (GZ_checkCheat(MoonJump)) {
         GZCmd_enable(CMD_MOON_JUMP);
@@ -64,7 +63,7 @@ void GZ_applyCheats() {
                 
                 if (actor != NULL) {
                     switch (fopAcM_GetName(actor)) {
-                    case PROC_E_ZS:
+                    case PROC_E_ZS: {
                         daE_ZS_c* zs = static_cast<daE_ZS_c*>(actor);
 
                         // if action is damage action
@@ -77,6 +76,16 @@ void GZ_applyCheats() {
                             zs->mHealth = 20;  // reset health back to max
                         }
                         break;
+                    }
+                    case PROC_E_S1: {
+                        e_s1_class* s1 = static_cast<e_s1_class*>(actor);
+                        s1->mHealth = 50;
+
+                        if (s1->mAction == 9 || s1->mAction == 5 || s1->mAction == 10) {
+                            s1->mAction = 0;  // reset action back to idle if in damage/fail action
+                        }
+                        break;
+                    }
                     }
                 }
             }

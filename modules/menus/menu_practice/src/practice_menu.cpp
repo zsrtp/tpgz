@@ -11,6 +11,7 @@ KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
 #endif
                         {"100%", HUNDO_INDEX, "100% practice saves", false},
                         {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
+                        {"glitchless", GLITCHLESS_INDEX, "Glitchless practice saves", false},
                     } {}
 
 PracticeMenu::~PracticeMenu() {}
@@ -34,6 +35,9 @@ void PracticeMenu::draw() {
             return;
         case AD_INDEX:
             g_menuMgr->push(MN_AD_SAVES_INDEX);
+            return;
+        case GLITCHLESS_INDEX:
+            g_menuMgr->push(MN_GLITCHLESS_SAVES_INDEX);
             return;
         }
     }
