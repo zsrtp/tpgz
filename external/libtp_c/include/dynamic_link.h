@@ -6,16 +6,16 @@
 #include "dolphin/os/OS.h"
 #include "JSystem/JKernel/JKRExpHeap.h"
 
-struct DynamicModuleControlBase {
+struct DynamicModuleControlBase_ {
     /* 0x00 */ u16 mLinkCount;
     /* 0x02 */ u16 mDoLinkCount;
-    /* 0x04 */ DynamicModuleControlBase* mPrev;
-    /* 0x08 */ DynamicModuleControlBase* mNext;
+    /* 0x04 */ DynamicModuleControlBase_* mPrev;
+    /* 0x08 */ DynamicModuleControlBase_* mNext;
     /* 0x0C */ void* vtable;
 };
 
 class mDoDvdThd_callback_c;
-struct DynamicModuleControl : DynamicModuleControlBase {
+struct DynamicModuleControl : DynamicModuleControlBase_ {
     /* 0x10 */ OSModuleInfo* mModule;
     /* 0x14 */ void* mBss;
     /* 0x18 */ u32 unk_24;
