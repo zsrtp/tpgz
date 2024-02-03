@@ -60,8 +60,10 @@ void AmountsMenu::draw() {
         if (l_maxHealthNum > 20) {
             l_maxHealthNum = 20;  // Don't allow the player to go overflow
         }
+
         dComIfGs_setMaxLife((l_maxHealthNum * 5) +
                             l_extraHealthNum);  // Add hearts with current heartpiece
+
         if (l_healthNum > l_maxHealthNum * 4) {
             l_healthNum = l_maxHealthNum * 4;  // Don't allow the player to go overflow in hearts
             dComIfGs_setLife(l_healthNum);

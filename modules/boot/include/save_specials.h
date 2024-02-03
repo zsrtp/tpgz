@@ -52,3 +52,5 @@ void SaveMngSpecial_CaveOfOrdeals();
 void BeastGanonSpecial_setLayer();
 
 void SaveMngSpecial_emptyLake();
+
+void SaveMngSpecial_NoSQAeralfos();

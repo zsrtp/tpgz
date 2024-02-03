@@ -288,3 +288,8 @@ KEEP_FUNC void SaveMngSpecial_emptyLake() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(4);
 }
+
+KEEP_FUNC void SaveMngSpecial_NoSQAeralfos() {
+    gSaveManager.injectDefault_during();
+    dComIfGs_setLife(4);  // one heart
+}

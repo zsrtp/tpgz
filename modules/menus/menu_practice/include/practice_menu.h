@@ -3,7 +3,7 @@
 #include "practice.h"
 #include "gz_flags.h"
 
-#define PRACTICE_MENU_NUM 5
+#define PRACTICE_MENU_NUM 6
 
 class PracticeMenu : public Menu {
 public:
