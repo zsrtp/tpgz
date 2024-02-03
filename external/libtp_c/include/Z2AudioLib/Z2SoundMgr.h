@@ -30,6 +30,8 @@ public:
     /* 0x7A4 */ JAIStreamMgr mStreamMgr;
     /* 0x814 */ JAISoundID field_0x80c;
 };
+
+static_assert(sizeof(Z2SoundMgr) == 0x81C);
 #endif
 
 #endif /* Z2SOUNDMGR_H */
