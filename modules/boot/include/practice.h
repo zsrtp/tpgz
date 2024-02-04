@@ -4,7 +4,9 @@
 
 enum {
     ANY_INDEX,
+#ifdef GCN_PLATFORM
     ANY_BITE_INDEX,
+#endif
     HUNDO_INDEX,
     AD_INDEX,
     NOSQ_INDEX,

@@ -9,12 +9,13 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/utils.h"
 
-#define WARP_CS_FRAMES 132
 #ifdef WII_PLATFORM
 #define TARGET_BUTTON Z
+#define WARP_CS_FRAMES 160
 #endif
 #ifdef GCN_PLATFORM
 #define TARGET_BUTTON L
+#define WARP_CS_FRAMES 132
 #endif
 
 namespace GorgeVoidIndicator {
@@ -36,8 +37,10 @@ void warpToPosition() {
     g_dComIfG_gameInfo.info.mMemory.mBit.mSwitch[0] = 0;  // optimize later
     dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
 
+#ifdef GCN_PLATFORM
     // change form to wolf
     dComIfGs_setTransformStatus(STATUS_WOLF);
+#endif
 
     // set loading info
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;

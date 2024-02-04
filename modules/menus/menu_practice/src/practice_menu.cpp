@@ -28,9 +28,11 @@ void PracticeMenu::draw() {
         case ANY_INDEX:
             g_menuMgr->push(MN_ANY_SAVES_INDEX);
             return;
+#ifdef GCN_PLATFORM
         case ANY_BITE_INDEX:
             g_menuMgr->push(MN_ANY_BITE_SAVES_INDEX);
             return;
+#endif
         case HUNDO_INDEX:
             g_menuMgr->push(MN_HUNDO_SAVES_INDEX);
             return;
