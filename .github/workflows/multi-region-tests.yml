@@ -55,6 +55,7 @@ jobs:
     container:
       image: ${{ matrix.container }}
       options: --shm-size=128m --ulimit core=-1 --privileged=true
+    name: ${{ matrix.platform }}-${{ matrix.region }} Test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
