@@ -1,0 +1,66 @@
+name: Wii Tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscu_10
+            iso: RZDE01.iso
+            platform: WII
+            region: NTSCU_10
+            dolphin_memory: 0x80537560
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscu_12
+            iso: RZDE01_2.iso
+            platform: WII
+            region: NTSCU_12
+            dolphin_memory: 0x8051d5e0
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_pal
+            iso: RZDP01.iso
+            platform: WII
+            region: PAL
+            dolphin_memory: 0x8051DEE0
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscj
+            iso: RZDJ01.iso
+            platform: WII
+            region: NTSCJ
+            dolphin_memory: 0x8051b460
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscu
+            iso: GZ2E01.iso
+            platform: GCN
+            region: NTSCU
+            dolphin_memory: 0x80450580
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_pal
+            iso: GZ2P01.iso
+            platform: GCN
+            region: PAL
+            dolphin_memory: 0x80452540
+          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscj
+            iso: GZ2J01.iso
+            platform: GCN
+            region: NTSCJ
+            dolphin_memory: 0x8044A6C0
+    container:
+      image: ${{ matrix.container }}
+      options: --shm-size=128m --ulimit core=-1 --privileged=true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # github.token is now automatically inserted; specifying it explicitly is not typically needed
+          submodules: recursive
+      - name: Move ISO
+        run: mkdir -p ./isos/ && mv /${{ matrix.iso }} ./isos/${{ matrix.iso }}
+      - name: Compiler Test
+        run: |
+          mkdir build && cd build && cmake .. -DPR_TEST=1 -DPLATFORM=${{ matrix.platform }} -DREGION=${{ matrix.region }} && make -j$(nproc) iso && cd ..
+      - name: Boot Dolphin
+        run: |
+          dolphin-emu-nogui --platform=headless --video_backend=Null -e build/tpgzw.iso &
+          sleep 15
+          /dme -c ${{ matrix.dolphin_memory }}
