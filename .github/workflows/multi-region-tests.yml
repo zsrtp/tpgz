@@ -10,50 +10,50 @@ jobs:
     strategy:
       matrix:
         include:
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscu_10
+          - container: wii_ntscu_10
             iso: RZDE01.iso
             platform: WII
             region: NTSCU_10
-            dolphin_memory: 0x80537560
+            dolphin_memory: "0x80537560"
             iso_name: tpgzw.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscu_12
+          - container: wii_ntscu_12
             iso: RZDE01_2.iso
             platform: WII
             region: NTSCU_12
-            dolphin_memory: 0x8051d5e0
+            dolphin_memory: "0x8051d5e0"
             iso_name: tpgzw.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_pal
+          - container: wii_pal
             iso: RZDP01.iso
             platform: WII
             region: PAL
-            dolphin_memory: 0x8051DEE0
+            dolphin_memory: "0x8051DEE0"
             iso_name: tpgzw.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:wii_ntscj
+          - container: wii_ntscj
             iso: RZDJ01.iso
             platform: WII
             region: NTSCJ
-            dolphin_memory: 0x8051b460
+            dolphin_memory: "0x8051b460"
             iso_name: tpgzw.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscu
+          - container: gcn_ntscu
             iso: GZ2E01.iso
             platform: GCN
             region: NTSCU
-            dolphin_memory: 0x80450580
+            dolphin_memory: "0x80450580"
             iso_name: tpgz.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_pal
+          - container: gcn_pal
             iso: GZ2P01.iso
             platform: GCN
             region: PAL
-            dolphin_memory: 0x80452540
+            dolphin_memory: "0x80452540"
             iso_name: tpgz.iso
-          - container: ghcr.io/pheenoh/zsrtp-tpgz:gcn_ntscj
+          - container: gcn_ntscj
             iso: GZ2J01.iso
             platform: GCN
             region: NTSCJ
-            dolphin_memory: 0x8044A6C0
+            dolphin_memory: "0x8044A6C0"
             iso_name: tpgz.iso
     container:
-      image: ${{ matrix.container }}
+      image: ghcr.io/pheenoh/zsrtp-tpgz:${{ matrix.container }}
       options: --shm-size=128m --ulimit core=-1 --privileged=true
     name: ${{ matrix.platform }}-${{ matrix.region }} Test
     steps:
