@@ -11,13 +11,13 @@ jobs:
     steps:
     - name: Download latest release patches
       run: curl -s https://api.github.com/repos/zsrtp/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/
-    - uses: jakejarvis/s3-sync-action@master
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
       with:
-        args: --acl public-read --follow-symlinks
-      env:
-        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-east-2'
-        SOURCE_DIR: 'patches/'
-        DEST_DIR: 'patches/'
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+        role-duration-seconds: 1200
+        role-session-name: GitHubActions
+    - name: Sync directory to S3
+      run: |
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_BUCKET }}/ --delete --acl public-read
