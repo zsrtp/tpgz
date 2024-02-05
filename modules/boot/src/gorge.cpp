@@ -11,7 +11,7 @@
 
 #ifdef WII_PLATFORM
 #define TARGET_BUTTON Z
-#define WARP_CS_FRAMES 160
+#define WARP_CS_FRAMES 132
 #endif
 #ifdef GCN_PLATFORM
 #define TARGET_BUTTON L

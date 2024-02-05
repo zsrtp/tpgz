@@ -206,10 +206,10 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
             storage.result =
                 GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0, storage.sector_size);
             if (storage.result == Ready) {
-                OSReport("saved card!");
+                OSReport("saved card!\n");
                 FIFOQueue::push("saved card!", Queue);
             } else {
-                OSReport("failed to save");
+                OSReport("failed to save\n");
                 char buff[32];
                 snprintf(buff, sizeof(buff), "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
