@@ -85,7 +85,9 @@ enum HundoPracticeIndex {
     HND_DARKNUT_SKIP_INDEX,
     HND_FINAL_TOWER_INDEX,
     HND_BEAST_GANON_INDEX,
-    HND_HORSEBACK_GANON_INDEX
+    HND_HORSEBACK_GANON_INDEX,
+
+    HND_SAVES_MAX,
 };
 
 class HundoSavesMenu : public Menu {
@@ -95,5 +97,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[82];
+    Line lines[HND_SAVES_MAX];
 };

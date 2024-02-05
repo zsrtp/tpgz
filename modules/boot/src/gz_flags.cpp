@@ -119,4 +119,12 @@ void GZ_execute(int phase) {
         }
         SaveManager::s_applyAfterTimer = -1;
     }
+
+    // normally oxygen doesn't get set until going to the file select screen
+    // so this fixes oxygen issues when loading a save from title screen directly after boot
+    if (g_dComIfG_gameInfo.play.mMaxOxygen == 0) {
+        dComIfGs_setOxygen(600);
+        dComIfGs_setNowOxygen(600);
+        dComIfGs_setMaxOxygen(600);
+    }
 }
