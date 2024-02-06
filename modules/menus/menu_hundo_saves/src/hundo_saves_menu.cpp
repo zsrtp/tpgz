@@ -17,6 +17,7 @@ KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
           {"forest temple 2", HND_FRST_2_INDEX, "The Forest Temple segment after boomerang"},
           {"diababa", HND_OOKLESS_INDEX, "Forest Temple boss"},
           {"eldin twilight", HND_ELDIN_TWILIGHT_INDEX, "Eldin Twilight tears"},
+          {"bomb house skip", HND_BOMB_HOUSE_SKIP_INDEX, "Kakariko Bomb House Skip"},
           {"lanayru gate clip", HND_LANAYRU_GATE_CLIP_INDEX, "Gate Clip to Lanayru"},
           {"pillar clip", HND_PILLAR_CLIP_INDEX, "Pillar Clip in Lake Hylia (low water)"},
           {"lakebed 1", HND_LAKEBED_1_INDEX, "The 1st Lakebed Temple segment"},
@@ -29,13 +30,14 @@ KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
           {"coro td", HND_COROTD_INDEX, "Text Displacement with Coro"},
           {"goron mines", HND_GM_INDEX, "The Goron Mines segment"},
           {"dangoro", HND_DANGORO_INDEX, "Goron Mines miniboss"},
-          {"king bulblin 1", HND_KB_1_INDEX, "The King Bulblin 1 fight"},
+          {"post gm", HND_POST_GM_INDEX, "The segment after Goron Mines"},
           {"lakebed bk skip", HND_LAKEBED_BK_SKIP_INDEX, "Boss Key skip in Lakebed Temple"},
           {"morpheel", HND_MORPHEEL_INDEX, "Lakebed Temple boss"},
-          {"star 1", HND_STAR_1_INDEX, "The 1st STAR minigame"},
           {"mdh tower", HND_MDH_TOWER_INDEX, "MDH tower climb"},
           {"mdh bridge", HND_MDH_BRIDGE_INDEX, "MDH castle rooftops"},
           {"post mdh", HND_POST_MDH_INDEX, "Collection cycle after MDH"},
+          {"star 1", HND_STAR_1_INDEX, "The 1st STAR minigame"},
+          {"kb1", HND_KB1_INDEX, "King Bulblin 1 fight"},
           {"iza 1 skip", HND_IZA_1_SKIP_INDEX, "Plumm OoB to skip iza 1"},
           {"lake hylia cave", HND_LH_CAVE_INDEX, "Lake Hylia dark cave"},
           {"bulblin camp", HND_BULBLIN_CAMP_INDEX, "The camp before Arbiter's Grounds"},
@@ -61,7 +63,7 @@ KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
           {"dot skip", HND_DOT_SKIP_INDEX, "Door of Time skip"},
           {"post tot", HND_POST_TOT_INDEX, "Collection cycle after Temple of Time"},
           {"hotspring minigame", HND_HOTSPRING_INDEX, "Goron hotspring water minigame"},
-          {"silver rupee", HND_BELL_INDEX, "Kakariko silver rupee collection"},
+          {"gorge arc", HND_GORGE_ARC_INDEX, "Gorge / South Faron collection"},
           {"ice puzzle", HND_PUZZLE_INDEX, "The Ice Puzzle segment"},
           {"hugo archery", HND_ARCHERY_INDEX, "Archery in Hidden Village"},
           {"city 1", HND_CITY_1_INDEX, "The 1st City in the Sky segment"},
@@ -80,6 +82,7 @@ KEEP_FUNC HundoSavesMenu::HundoSavesMenu(Cursor& cursor)
           {"coo floor 10", HND_COO_10_INDEX, "Cave of Ordeals floor 10"},
           {"coo floor 20", HND_COO_20_INDEX, "Cave of Ordeals floor 20"},
           {"coo floor 30", HND_COO_30_INDEX, "Cave of Ordeals floor 30"},
+          {"coo floor 40", HND_COO_40_INDEX, "Cave of Ordeals floor 40"},
           {"cats minigame", HND_CATS_INDEX, "Hidden Village cats minigame"},
           {"hyrule castle", HND_HYRULE_INDEX, "The Hyrule Castle segment"},
           {"darknut skip", HND_DARKNUT_SKIP_INDEX, "Hyrule Castle 1st Darknut skip"},
@@ -97,18 +100,18 @@ void HundoSavesMenu::draw() {
         special(HND_MIST_INDEX, SaveMngSpecial_PurpleMist, nullptr),
         special(HND_KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
         special(HND_KB_2_INDEX, SaveMngSpecial_KB2Skip, nullptr),
-        special(HND_ESCORT_INDEX, SaveMngSpecial_Escort, nullptr),
+        special(HND_ESCORT_INDEX, SaveMngSpecial_Escort, SaveMngSpecial_EscortKeys),
         special(HND_DANGORO_INDEX, nullptr, SaveMngSpecial_Dangoro),
         special(HND_LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(HND_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
         special(HND_IZA_1_SKIP_INDEX, SaveMngSpecial_Iza1Skip, nullptr),
         special(HND_STALLORD_INDEX, nullptr, SaveMngSpecial_Stallord),
         special(HND_DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, nullptr),
-        special(HND_DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_SPR_BK_ROOM_INDEX, SaveMngSpecial_SPRBossKey, nullptr),
         special(HND_EARLY_POE_INDEX, nullptr, SaveMngSpecial_ToTEarlyPoe),
         special(HND_EARLY_HP_INDEX, nullptr, SaveMngSpecial_ToTEarlyHP),
+        special(HND_AERALFOS_INDEX, nullptr, SaveMngSpecial_AeralfosSkip),
         special(HND_POE_CYCLE_INDEX, nullptr, SaveMngSpecial_CityPoeCycle),
         special(HND_FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
         special(HND_ARGOROK_INDEX, nullptr, SaveMngSpecial_Argorok),
@@ -118,6 +121,7 @@ void HundoSavesMenu::draw() {
         special(HND_COO_10_INDEX, SaveMngSpecial_CaveOfOrdeals, nullptr),
         special(HND_COO_20_INDEX, SaveMngSpecial_CaveOfOrdeals, nullptr),
         special(HND_COO_30_INDEX, SaveMngSpecial_CaveOfOrdeals, nullptr),
+        special(HND_COO_40_INDEX, SaveMngSpecial_CaveOfOrdeals, nullptr),
     };
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
@@ -126,7 +130,7 @@ void HundoSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "hundo", HundoSpecials, HND_SPECIALS_AMNT);
         g_menuMgr->hide();
     }
 

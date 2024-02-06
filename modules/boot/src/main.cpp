@@ -60,6 +60,8 @@ tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
 
 namespace tpgz::modules {
 void main() {
+    OSReportEnable();
+    OSReport("TPGZ is starting...\n");
     // Run the initialization module.
     tpgz::dyn::GZModule* initRel = new tpgz::dyn::GZModule("/tpgz/rels/init.rel");
     initRel->loadFixed(true);

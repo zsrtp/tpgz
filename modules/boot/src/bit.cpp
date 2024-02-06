@@ -24,8 +24,8 @@
 static char buf[30];
 
 void BiTIndicator::setPosition() {
-    dComIfGp_getPlayer()->mCurrent.mPosition = (cXyz){466.622467f, 319.770752f, -11651.3867f};
-    dComIfGp_getPlayer()->mCollisionRot.mY = 32000;
+    dComIfGp_getPlayer()->current.pos = (cXyz){466.622467f, 319.770752f, -11651.3867f};
+    dComIfGp_getPlayer()->shape_angle.y = 32000;
     matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
@@ -37,9 +37,9 @@ void BiTIndicator::execute() {
         const bool has_boots = (dComIfGp_getPlayer()->mNoResetFlg0 & 0x02) != 0;
         const double term_vel = has_boots ? BOOTS_TERM_VEL : NORMAL_TERM_VEL;
         const double acc = has_boots ? BOOTS_ACC : NORMAL_ACC;
-        const double v_y1 = dComIfGp_getPlayer()->mSpeed.y;
+        const double v_y1 = dComIfGp_getPlayer()->speed.y;
         const double dist_from_last_ground =
-            (dComIfGp_getPlayer()->mCurrent.mPosition.y - LAST_Y_GROUND_POS);
+            (dComIfGp_getPlayer()->current.pos.y - LAST_Y_GROUND_POS);
 
         // Calculate how many frames before reaching terminal velocity
         double dt_1 = (term_vel - v_y1) / acc;

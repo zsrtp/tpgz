@@ -29,6 +29,10 @@ libs = ["libtpgz.a"]
 "tpgz/save_files/any.bin" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any.bin"
 "tpgz/save_files/any" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any"
 
+# any% bite saves
+"tpgz/save_files/any_bite.bin" = "../res/save_files/any_bite.bin"
+"tpgz/save_files/any_bite" = "../res/save_files/any_bite"
+
 # 100% saves
 "tpgz/save_files/hundo.bin" = "../res/save_files/hundo.bin"
 "tpgz/save_files/hundo" = "../res/save_files/hundo"
@@ -36,6 +40,14 @@ libs = ["libtpgz.a"]
 # All Dungeons saves
 "tpgz/save_files/ad.bin" = "../res/save_files/ad.bin"
 "tpgz/save_files/ad" = "../res/save_files/ad"
+
+# All Dungeons saves
+"tpgz/save_files/nosq.bin" = "../res/save_files/nosq.bin"
+"tpgz/save_files/nosq" = "../res/save_files/nosq"
+
+# Glitchless saves
+"tpgz/save_files/glitchless.bin" = "../res/save_files/glitchless.bin"
+"tpgz/save_files/glitchless" = "../res/save_files/glitchless"
 
 # warp info
 "tpgz/stage_info" = "../res/stage_info"

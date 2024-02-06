@@ -48,8 +48,8 @@ KEEP_FUNC void SaveMngSpecial_OrdonRock() {
     });
 
     if (actorData != NULL) {
-        actorData->mCurrent.mPosition = position;
-        actorData->mCollisionRot.mY = 5880;
+        actorData->current.pos = position;
+        actorData->shape_angle.y = 5880;
     }
 }
 
@@ -92,8 +92,8 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
         find_actor([](auto& act) { return act.mBase.mProcName == HUGO_ACTOR_ID; });
 
     if (actorData != NULL) {
-        actorData->mCurrent.mPosition = position;
-        actorData->mCollisionRot.mY = 5880;
+        actorData->current.pos = position;
+        actorData->shape_angle.y = 5880;
     }
 }
 
@@ -124,6 +124,9 @@ KEEP_FUNC void SaveMngSpecial_Escort() {
     setNextStageRoom(0xD);
     setNextStagePoint(98);
     setNextStageLayer(2);
+}
+
+KEEP_FUNC void SaveMngSpecial_EscortKeys() {
     dComIfGs_setKeyNum(2);  // give 2 keys for field gates
 }
 
@@ -184,19 +187,19 @@ KEEP_FUNC void SaveMngSpecial_Stallord2() {
         stallord->mActionMode1 = 1;           // make stallord head active
         stallord->mGravity = 0.0f;            // change gravity to 0
         g_env_light.mWeatherPalette = 2;      // set arena light
-        sand->mSpeed.y = 1000.0f;             // move sand out of the way
+        sand->speed.y = 1000.0f;             // move sand out of the way
 
-        dComIfGs_onOneZoneSwitch(6, stallord->mCurrent.mRoomNo);
-        dComIfGs_onZoneSwitch(7, stallord->mCurrent.mRoomNo);  // sets arena to raised
+        dComIfGs_onOneZoneSwitch(6, stallord->current.roomNo);
+        dComIfGs_onZoneSwitch(7, stallord->current.roomNo);  // sets arena to raised
 
-        stallord->mCurrent.mPosition.x = -2097.20f;  //-2397.22f;
-        stallord->mCurrent.mPosition.y = 1022.21f;   // 1697.20f;
-        stallord->mCurrent.mPosition.z = -1246.87f;  // 1131.33f;
+        stallord->current.pos.x = -2097.20f;  //-2397.22f;
+        stallord->current.pos.y = 1022.21f;   // 1697.20f;
+        stallord->current.pos.z = -1246.87f;  // 1131.33f;
 
-        dComIfGp_getPlayer()->mCurrent.mPosition.x = 644.91f;
-        dComIfGp_getPlayer()->mCurrent.mPosition.y = 300.3158f;
-        dComIfGp_getPlayer()->mCurrent.mPosition.z = 2195.0237f;
-        dComIfGp_getPlayer()->mCollisionRot.mY = 39350;
+        dComIfGp_getPlayer()->current.pos.x = 644.91f;
+        dComIfGp_getPlayer()->current.pos.y = 300.3158f;
+        dComIfGp_getPlayer()->current.pos.z = 2195.0237f;
+        dComIfGp_getPlayer()->shape_angle.y = 39350;
         // matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
         // matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
     }
@@ -226,9 +229,10 @@ KEEP_FUNC void SaveMngSpecial_ToTEarlyPoe() {
 
 KEEP_FUNC void SaveMngSpecial_ToTEarlyHP() {
     gSaveManager.injectDefault_during();
-    gSaveManager.setSaveAngle(49152);
-    gSaveManager.setSavePosition(-8000.50f, 5100.0f, -3226.17f);
+    gSaveManager.setSaveAngle(0);
+    gSaveManager.setSavePosition(-6626.f, 5250.0f, -5587.f);
     gSaveManager.setLinkInfo();
+    dComIfGs_onSwitch(224, 4);   // gate moved to correct pos
 }
 
 KEEP_FUNC void SaveMngSpecial_HugoArchery() {
@@ -241,6 +245,10 @@ KEEP_FUNC void SaveMngSpecial_CityPoeCycle() {
     gSaveManager.setSaveAngle(71);
     gSaveManager.setSavePosition(-14005.31f, 3000.0f, -15854.05f);
     gSaveManager.setLinkInfo();
+}
+
+KEEP_FUNC void SaveMngSpecial_AeralfosSkip() {
+    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;  // clawshot out
 }
 
 KEEP_FUNC void SaveMngSpecial_FanTower() {
@@ -274,4 +282,14 @@ KEEP_FUNC void SaveMngSpecial_CaveOfOrdeals() {
 KEEP_FUNC void BeastGanonSpecial_setLayer() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(1);
+}
+
+KEEP_FUNC void SaveMngSpecial_emptyLake() {
+    gSaveManager.injectDefault_during();
+    setNextStageLayer(4);
+}
+
+KEEP_FUNC void SaveMngSpecial_NoSQAeralfos() {
+    gSaveManager.injectDefault_during();
+    dComIfGs_setLife(4);  // one heart
 }

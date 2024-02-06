@@ -1,7 +1,7 @@
 #ifndef JPAPARTICLE_H
 #define JPAPARTICLE_H
 
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 class JPABaseParticle;
 struct _GXTexMapID {};

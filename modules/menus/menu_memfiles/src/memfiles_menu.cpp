@@ -11,8 +11,6 @@
 
 #define MAX_SAVE_SLOTS 20
 
-bool g_injectMemfile;
-bool set_position_data;
 PositionData memfile_posdata;
 
 KEEP_FUNC MemfilesMenu::MemfilesMenu(Cursor& cursor, MemfilesData& data)

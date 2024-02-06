@@ -10,9 +10,9 @@ struct JAISoundParamsProperty {
         field_0x8 = 1.0f;
     }
 
-    /* 0x00 */ float field_0x0;
-    /* 0x04 */ float field_0x4;
-    /* 0x08 */ float field_0x8;
+    /* 0x00 */ f32 field_0x0;
+    /* 0x04 */ f32 field_0x4;
+    /* 0x08 */ f32 field_0x8;
 };  // Size: 0xC
 
 struct JAISoundParamsTransition {
@@ -23,13 +23,13 @@ struct JAISoundParamsTransition {
             field_0x4 = 0.0f;
         }
 
-        void set(float newValue, float param_1, uint32_t param_2) {
+        void set(f32 newValue, f32 param_1, u32 param_2) {
             mCount = param_2;
             field_0x0 = (newValue - param_1) / mCount;
             field_0x4 = newValue;
         }
 
-        float apply(float param_0) {
+        f32 apply(f32 param_0) {
             if (mCount > 1) {
                 mCount--;
                 param_0 += field_0x0;
@@ -42,9 +42,9 @@ struct JAISoundParamsTransition {
             return param_0;
         }
 
-        /* 0x0 */ float field_0x0;
-        /* 0x4 */ float field_0x4;
-        /* 0x8 */ uint32_t mCount;
+        /* 0x0 */ f32 field_0x0;
+        /* 0x4 */ f32 field_0x4;
+        /* 0x8 */ u32 mCount;
     };  // Size: 0xC
 
     void init() {

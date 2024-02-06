@@ -60,7 +60,7 @@ include(cmake/relmapper.cmake)
 include(cmake/fonts.cmake)
 
 project(TPGZ
-        VERSION 0.5.0
+        VERSION 0.6.0
         DESCRIPTION "Twilight Princess speedrunning practice and testing tool"
         HOMEPAGE_URL "tpgz.io"
         LANGUAGES C CXX ASM)

@@ -11,60 +11,60 @@ public:
     // Controller Ports 1 - 4
     enum { PAD_0, PAD_1, PAD_2, PAD_3 };
 
-    static interface_of_controller_pad& getCpadInfo(uint32_t pad) { return cPadInfo[pad]; }
-    static JUTGamePad* getGamePad(uint32_t pad) { return mDoCPd_c__m_gamePad[pad]; }
-    static uint32_t getTrig(uint32_t pad) { return getCpadInfo(pad).mPressedButtonFlags; }
-    static uint32_t getTrigLockL(uint32_t pad) { return getCpadInfo(pad).mTrigLockL; }
-    static uint32_t getTrigLockR(uint32_t pad) { return getCpadInfo(pad).mTrigLockR; }
-    static uint32_t getTrigUp(uint32_t pad) { return getTrig(pad) & CButton::DPAD_UP; }
-    static uint32_t getTrigDown(uint32_t pad) { return getTrig(pad) & CButton::DPAD_DOWN; }
-    static uint32_t getTrigLeft(uint32_t pad) { return getTrig(pad) & CButton::DPAD_LEFT; }
-    static uint32_t getTrigRight(uint32_t pad) { return getTrig(pad) & CButton::DPAD_RIGHT; }
-    static uint32_t getTrigL(uint32_t pad) { return getTrig(pad) & CButton::L; }
-    static uint32_t getTrigR(uint32_t pad) { return getTrig(pad) & CButton::R; }
-    static uint32_t getTrigA(uint32_t pad) { return getTrig(pad) & CButton::A; }
-    static uint32_t getTrigB(uint32_t pad) { return getTrig(pad) & CButton::B; }
-    static uint32_t getTrigZ(uint32_t pad) { return getTrig(pad) & CButton::Z; }
-    static uint32_t getTrigY(uint32_t pad) { return getTrig(pad) & CButton::Y; }
-    static uint32_t getTrigX(uint32_t pad) { return getTrig(pad) & CButton::X; }
-    static uint32_t getTrigStart(uint32_t pad) { return getTrig(pad) & CButton::START; }
-    static uint32_t getHold(uint32_t pad) { return getCpadInfo(pad).mButtonFlags; }
-    static uint32_t getHoldLockL(uint32_t pad) { return getCpadInfo(pad).mHoldLockL; }
-    static uint32_t getHoldLockR(uint32_t pad) { return getCpadInfo(pad).mHoldLockR; }
-    static uint32_t getHoldUp(uint32_t pad) { return getHold(pad) & CButton::DPAD_UP; }
-    static uint32_t getHoldDown(uint32_t pad) { return getHold(pad) & CButton::DPAD_DOWN; }
-    static uint32_t getHoldLeft(uint32_t pad) { return getHold(pad) & CButton::DPAD_LEFT; }
-    static uint32_t getHoldRight(uint32_t pad) { return getHold(pad) & CButton::DPAD_RIGHT; }
-    static uint32_t getHoldL(uint32_t pad) { return getHold(pad) & CButton::L; }
-    static uint32_t getHoldR(uint32_t pad) { return getHold(pad) & CButton::R; }
-    static uint32_t getHoldA(uint32_t pad) { return getHold(pad) & CButton::A; }
-    static uint32_t getHoldB(uint32_t pad) { return getHold(pad) & CButton::B; }
-    static uint32_t getHoldZ(uint32_t pad) { return getHold(pad) & CButton::Z; }
-    static uint32_t getHoldY(uint32_t pad) { return getHold(pad) & CButton::Y; }
-    static uint32_t getHoldX(uint32_t pad) { return getHold(pad) & CButton::X; }
-    static float getStickX(uint32_t pad) { return getCpadInfo(pad).mMainStickPosX; }
-    static float getStickY(uint32_t pad) { return getCpadInfo(pad).mMainStickPosY; }
-    static float getStickValue(uint32_t pad) { return getCpadInfo(pad).mMainStickValue; }
-    static int16_t getStickAngle(uint32_t pad) { return getCpadInfo(pad).mMainStickAngle; }
-    static float getSubStickX(uint32_t pad) { return getCpadInfo(pad).mCStickPosX; }
-    static float getSubStickY(uint32_t pad) { return getCpadInfo(pad).mCStickPosY; }
-    static float getSubStickValue(uint32_t pad) { return getCpadInfo(pad).mCStickValue; }
-    static int16_t getSubStickAngle(uint32_t pad) { return getCpadInfo(pad).mCStickAngle; }
-    static float getAnalogR(uint32_t pad) { return getCpadInfo(pad).mTriggerRight; }
-    static float getAnalogL(uint32_t pad) { return getCpadInfo(pad).mTriggerLeft; }
-    // static int isConnect(uint32_t pad) { return JUTGamePad::getPortStatus(pad) == 0; }
-    // static void stopMotorWaveHard(uint32_t pad) { return
+    static interface_of_controller_pad& getCpadInfo(u32 pad) { return cPadInfo[pad]; }
+    static JUTGamePad* getGamePad(u32 pad) { return mDoCPd_c__m_gamePad[pad]; }
+    static u32 getTrig(u32 pad) { return getCpadInfo(pad).mPressedButtonFlags; }
+    static u32 getTrigLockL(u32 pad) { return getCpadInfo(pad).mTrigLockL; }
+    static u32 getTrigLockR(u32 pad) { return getCpadInfo(pad).mTrigLockR; }
+    static u32 getTrigUp(u32 pad) { return getTrig(pad) & CButton::DPAD_UP; }
+    static u32 getTrigDown(u32 pad) { return getTrig(pad) & CButton::DPAD_DOWN; }
+    static u32 getTrigLeft(u32 pad) { return getTrig(pad) & CButton::DPAD_LEFT; }
+    static u32 getTrigRight(u32 pad) { return getTrig(pad) & CButton::DPAD_RIGHT; }
+    static u32 getTrigL(u32 pad) { return getTrig(pad) & CButton::L; }
+    static u32 getTrigR(u32 pad) { return getTrig(pad) & CButton::R; }
+    static u32 getTrigA(u32 pad) { return getTrig(pad) & CButton::A; }
+    static u32 getTrigB(u32 pad) { return getTrig(pad) & CButton::B; }
+    static u32 getTrigZ(u32 pad) { return getTrig(pad) & CButton::Z; }
+    static u32 getTrigY(u32 pad) { return getTrig(pad) & CButton::Y; }
+    static u32 getTrigX(u32 pad) { return getTrig(pad) & CButton::X; }
+    static u32 getTrigStart(u32 pad) { return getTrig(pad) & CButton::START; }
+    static u32 getHold(u32 pad) { return getCpadInfo(pad).mButtonFlags; }
+    static u32 getHoldLockL(u32 pad) { return getCpadInfo(pad).mHoldLockL; }
+    static u32 getHoldLockR(u32 pad) { return getCpadInfo(pad).mHoldLockR; }
+    static u32 getHoldUp(u32 pad) { return getHold(pad) & CButton::DPAD_UP; }
+    static u32 getHoldDown(u32 pad) { return getHold(pad) & CButton::DPAD_DOWN; }
+    static u32 getHoldLeft(u32 pad) { return getHold(pad) & CButton::DPAD_LEFT; }
+    static u32 getHoldRight(u32 pad) { return getHold(pad) & CButton::DPAD_RIGHT; }
+    static u32 getHoldL(u32 pad) { return getHold(pad) & CButton::L; }
+    static u32 getHoldR(u32 pad) { return getHold(pad) & CButton::R; }
+    static u32 getHoldA(u32 pad) { return getHold(pad) & CButton::A; }
+    static u32 getHoldB(u32 pad) { return getHold(pad) & CButton::B; }
+    static u32 getHoldZ(u32 pad) { return getHold(pad) & CButton::Z; }
+    static u32 getHoldY(u32 pad) { return getHold(pad) & CButton::Y; }
+    static u32 getHoldX(u32 pad) { return getHold(pad) & CButton::X; }
+    static f32 getStickX(u32 pad) { return getCpadInfo(pad).mMainStickPosX; }
+    static f32 getStickY(u32 pad) { return getCpadInfo(pad).mMainStickPosY; }
+    static f32 getStickValue(u32 pad) { return getCpadInfo(pad).mMainStickValue; }
+    static s16 getStickAngle(u32 pad) { return getCpadInfo(pad).mMainStickAngle; }
+    static f32 getSubStickX(u32 pad) { return getCpadInfo(pad).mCStickPosX; }
+    static f32 getSubStickY(u32 pad) { return getCpadInfo(pad).mCStickPosY; }
+    static f32 getSubStickValue(u32 pad) { return getCpadInfo(pad).mCStickValue; }
+    static s16 getSubStickAngle(u32 pad) { return getCpadInfo(pad).mCStickAngle; }
+    static f32 getAnalogR(u32 pad) { return getCpadInfo(pad).mTriggerRight; }
+    static f32 getAnalogL(u32 pad) { return getCpadInfo(pad).mTriggerLeft; }
+    // static int isConnect(u32 pad) { return JUTGamePad::getPortStatus(pad) == 0; }
+    // static void stopMotorWaveHard(u32 pad) { return
     // mDoCPd_c__m_gamePad[pad]->stopMotorWaveHard(); }
 };
 
-inline void mDoCPd_ANALOG_CONV(uint8_t analog, float& param_1) {
+inline void mDoCPd_ANALOG_CONV(u8 analog, f32& param_1) {
     param_1 = analog * (1.0f / 15.0f);
     if (param_1 > 1.0f) {
         param_1 = 1.0f;
     }
 }
 
-inline void mDoCPd_TRIGGER_CONV(uint8_t analog, float& param_1) {
+inline void mDoCPd_TRIGGER_CONV(u8 analog, f32& param_1) {
     param_1 = analog * 0.0071428571827709675f;
     if (param_1 > 1.0f) {
         param_1 = 1.0f;

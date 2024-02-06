@@ -206,10 +206,10 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
             storage.result =
                 GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0, storage.sector_size);
             if (storage.result == Ready) {
-                OSReport("saved card!");
+                OSReport("saved card!\n");
                 FIFOQueue::push("saved card!", Queue);
             } else {
-                OSReport("failed to save");
+                OSReport("failed to save\n");
                 char buff[32];
                 snprintf(buff, sizeof(buff), "failed to save: %d", storage.result);
                 FIFOQueue::push(buff, Queue);
@@ -221,10 +221,10 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
 
 KEEP_FUNC void GZ_storeMemfile(Storage& storage) {
     PositionData posData;
-    posData.link = dComIfGp_getPlayer()->mCurrent.mPosition;
+    posData.link = dComIfGp_getPlayer()->current.pos;
     posData.cam.target = matrixInfo.matrix_info->target;
     posData.cam.pos = matrixInfo.matrix_info->pos;
-    posData.angle = dComIfGp_getPlayer()->mCollisionRot.mY;
+    posData.angle = dComIfGp_getPlayer()->shape_angle.y;
     uint32_t file_size = (uint32_t)(ceil((double)sizeof(dSv_info_c) / (double)storage.sector_size) *
                                     storage.sector_size);
 
@@ -303,15 +303,9 @@ KEEP_FUNC void GZ_loadMemfile(Storage& storage) {
         storage.result = GZ_readMemfile(&storage, posData, storage.sector_size);
         if (storage.result == Ready) {
             FIFOQueue::push("loaded memfile!", Queue);
-            g_injectMemfile = true;
             SaveManager::injectDefault_before();
-            SaveManager::injectMemfile(MEMFILE_BUF);
-            SaveManager::injectDefault_during();
-            SaveManager::injectDefault_after();
+            SaveManager::triggerMemfileLoad();
             GZ_loadPositionData(posData);
-            set_position_data = true;
-            g_injectSave = true;
-            g_fifoVisible = true;
             g_menuMgr->hide();
         } else {
             char buff[32];

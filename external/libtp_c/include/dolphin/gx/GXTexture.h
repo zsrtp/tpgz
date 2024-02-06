@@ -11,17 +11,17 @@ struct _GXColor {
         a = rhs.a;
     }
 
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-    uint8_t a;
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 a;
 };
 
 struct _GXColorS10 {
-    int16_t r;
-    int16_t g;
-    int16_t b;
-    int16_t a;
+    s16 r;
+    s16 g;
+    s16 b;
+    s16 a;
 };
 
 #endif /* GXTEXTURE_H */

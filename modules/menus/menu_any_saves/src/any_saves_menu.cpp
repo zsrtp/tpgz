@@ -19,23 +19,24 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
           {"gorge void", GORGE_VOID_INDEX, "1 frame jump attack into Gorge"},
           {"rupee roll", RUPEE_ROLL_INDEX, "Rupee Roll / Gorge Skip"},
           {"lanayru gate clip", LANAYRU_GATE_CLIP_INDEX, "Gate Clip to Lanayru"},
-          {"pillar clip", PILLAR_CLIP_INDEX, "Pillar Clip in Lake Hylia (low water)"},
-          {"lakebed 1", LAKEBED_1_INDEX, "The 1st Lakebed Temple segment"},
-          {"deku toad", TOAD_INDEX, "Lakebed Temple miniboss"},
           {"kargorok flight", KARG_INDEX, "Clip OoB with trumpet bird"},
           {"eldin twilight", ELDIN_TWILIGHT_INDEX, "Eldin Twilight tears"},
+          {"bomb house skip", BOMB_HOUSE_SKIP_INDEX, "Skip entering the Bomb House"},
           {"lanayru twilight", LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
           {"waterfall sidehop", WATERFALL_SIDEHOP_INDEX, "Waterfall sidehop after Rutela skip"},
           {"boss bug", BOSS_BUG_INDEX, "Lanayru Twilight boss bug"},
           {"iza", IZA_INDEX, "Steal Iza's bomb bag"},
-          {"norgor", NORGOR_INDEX, "Goron bomb bag without water bombs"},
-          {"messenger skip", SPR_WARP_SKIP_INDEX, "LJA to skip the Snowpeak messengers"},
-          {"snowpeak", SPR_INDEX, "The Snowpeak Ruins segment"},
-          {"dark hammer", DARK_HAMMER_INDEX, "Snowpeak Ruins miniboss"},
+          {"plumm oob", PLUMM_OOB_INDEX, "Clip OoB during the Plumm flight"},
+          {"enter lakebed", ELH_INDEX, "Enter Lakebed with Empty Lake Hylia"},
+          {"lakebed", LAKEBED_1_INDEX, "The Lakebed Temple segment"},
+          {"deku toad", TOAD_INDEX, "Lakebed Temple miniboss"},
           {"lakebed bk skip", LAKEBED_BK_SKIP_INDEX, "Boss Key skip in Lakebed Temple"},
           {"morpheel", ONEBOMB_INDEX, "Morpheel fight (no Zora Armor)"},
           {"mdh tower", MDH_TOWER_INDEX, "MDH tower climb"},
           {"mdh bridge", MDH_BRIDGE_INDEX, "MDH castle rooftops"},
+          {"messenger skip", SPR_WARP_SKIP_INDEX, "LJA to skip the Snowpeak messengers"},
+          {"snowpeak", SPR_INDEX, "The Snowpeak Ruins segment"},
+          {"darkhammer", DARK_HAMMER_INDEX, "Snowpeak Ruins miniboss"},
           {"bulblin camp", BULBLIN_CAMP_INDEX, "The camp before Arbiter's Grounds"},
           {"arbiter's grounds", AG_INDEX, "The Arbiter's Grounds segment"},
           {"poe 1 skip", POE_1_SKIP_INDEX, "The pillar jump in Arbiter's Grounds"},
@@ -58,8 +59,7 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
           {"beast ganon", BEAST_GANON_INDEX, "The Beast Ganon fight"},
           {"horseback ganon", HORSEBACK_GANON_INDEX, "The Horseback Ganondorf fight"},
       } {}
-#endif
-#ifdef WII_PLATFORM
+#elif defined(WII_PLATFORM)
 KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
     : Menu(cursor),
       lines{{"ordon gate clip", ORDON_GATE_CLIP_INDEX, "Gate Clip outside Ordon Spring"},
@@ -107,7 +107,7 @@ KEEP_FUNC AnySavesMenu::AnySavesMenu(Cursor& cursor)
             {"argorok", ARGOROK_INDEX, "The City in the Sky boss"},
             {"palace of twilight 1", PALACE_1_INDEX, "The first Palace of Twilight segment"},
             {"palace of twilight 2", PALACE_2_INDEX,
-             "The second Palace of Twilight segment (after both Sols)"},
+             "The second Palace of Twilight segment (after first Sols)"},
             {"early platform", EARLY_PLATFORM_INDEX, "Early platform in Palace of Twilight"},
             {"zant", ZANT_INDEX, "The Palace of Twilight boss"},
             {"hyrule castle", HC_INDEX, "The Hyrule Castle segment"},
@@ -131,7 +131,7 @@ void AnySavesMenu::draw() {
             special(ORDON_GATE_CLIP_INDEX, nullptr, SaveMngSpecial_OrdonRock),
             special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
             special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
-            special(NORGOR_INDEX, nullptr, SaveMngSpecial_Norgor),
+            special(PLUMM_OOB_INDEX, SaveMngSpecial_Iza1Skip, nullptr),
             special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
             special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
             special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
@@ -140,7 +140,6 @@ void AnySavesMenu::draw() {
             special(GORGE_VOID_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(RUPEE_ROLL_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(LANAYRU_GATE_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
-            special(PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),
             special(DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Darkhammer),
@@ -149,6 +148,7 @@ void AnySavesMenu::draw() {
             special(PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
             special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
+            special(ELH_INDEX, SaveMngSpecial_emptyLake, nullptr),
         };
 #endif
 #ifdef WII_PLATFORM
@@ -168,8 +168,8 @@ void AnySavesMenu::draw() {
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
 #endif
-        SaveManager::loadSave(cursor.y, "any", AnySpecials,
-                              sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        SaveManager::triggerLoad(cursor.y, "any", AnySpecials,
+                                 sizeof(AnySpecials) / sizeof(AnySpecials[0]));
         g_menuMgr->hide();
     }
 

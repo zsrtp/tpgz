@@ -8,19 +8,19 @@ namespace JUtility {
 struct TColor : _GXColor {
     TColor() { set(-1); }
 
-    TColor(uint32_t raw) { *(uint32_t*)&r = raw; }
+    TColor(u32 raw) { *(u32*)&r = raw; }
 
-    void set(uint32_t col) { *(uint32_t*)&r = col; }
-    void set(uint8_t oR, uint8_t oG, uint8_t oB, uint8_t oA) {
+    void set(u32 col) { *(u32*)&r = col; }
+    void set(u8 oR, u8 oG, u8 oB, u8 oA) {
         r = oR;
         g = oG;
         b = oB;
         a = oA;
     }
 
-    uint32_t toUInt32() const { return *(uint32_t*)&r; }
+    u32 toUInt32() const { return *(u32*)&r; }
 
-    operator uint32_t() const { return toUInt32(); }
+    operator u32() const { return toUInt32(); }
     void operator=(const TColor& rhs) { ((_GXColor*)this)->operator=(rhs); }
 };
 

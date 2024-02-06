@@ -3,20 +3,20 @@
 #define F_PC_PROFILE_H_
 
 #include "f_pc_method.h"
-#include <stdint.h>
+#include "../dolphin/types.h"
 
 struct nodedraw_method_class;
 
 typedef struct process_profile_definition {
-    int32_t mLayerID;
-    uint16_t mListID;
-    uint16_t mListPrio;
-    int16_t mProcName;
-    int16_t unkA;  // probably padding
+    s32 mLayerID;
+    u16 mListID;
+    u16 mListPrio;
+    s16 mProcName;
+    s16 unkA;  // probably padding
     struct process_method_class* mpPcMtd;
-    int32_t mSize;
-    int32_t mSizeOther;
-    int32_t mParameters;
+    s32 mSize;
+    s32 mSizeOther;
+    s32 mParameters;
 } process_profile_definition;
 
 #endif

@@ -10,7 +10,7 @@ public:
     /* 0x14 */ cBgS_PolyInfo mPolyInfo;
     /* 0x24 */ cXyz m_pos;
     /* 0x30 */ int field_0x30;
-    /* 0x34 */ float mNowY;
+    /* 0x34 */ f32 mNowY;
     /* 0x38 */ void* mWallPrecheck;
 };
 

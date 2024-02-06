@@ -1,11 +1,16 @@
 #include "cheats.h"
 #include "commands.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "libtp_c/include/d/d_procname.h"
+#include "libtp_c/include/d/a/d_a_e_zs.h"
+#include "libtp_c/include/d/a/d_a_e_s1.h"
 #include "rels/include/patch.h"
 #include "libtp_c/include/defines.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+#include "fifo_queue.h"
 
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
@@ -41,13 +46,53 @@ void GZ_applyCheats() {
     }
 
     if (GZ_checkCheat(InvincibleEnemies)) {
+        /* Patch cc_at_check instruction to nop out health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x60000000;  // nop
         DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                      sizeof(uint32_t));
         ICInvalidateRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
                           sizeof(uint32_t));
+
+        /* Special handling for any enemy that doesn't use cc_at_check */
+        node_class* node = g_fopAcTg_Queue.mpHead;
+        for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
+            if (node != NULL) {
+                create_tag_class* tag = (create_tag_class*)node;
+                fopEn_enemy_c* actor = (fopEn_enemy_c*)tag->mpTagData;
+                
+                if (actor != NULL) {
+                    switch (fopAcM_GetName(actor)) {
+                    case PROC_E_ZS: {
+                        daE_ZS_c* zs = static_cast<daE_ZS_c*>(actor);
+
+                        // if action is damage action
+                        if (zs->mAction == 2) {
+                            zs->mAction = 1; // set back to wait action, mode 0
+                            zs->mMode = 0;
+
+                            zs->mCyl.mGObjInf.OnTgSetBit();  // turn back on hit collision
+                            zs->mCyl.mGObjInf.OnCoSetBit();  // turn back on push collision
+                            zs->mHealth = 20;  // reset health back to max
+                        }
+                        break;
+                    }
+                    case PROC_E_S1: {
+                        e_s1_class* s1 = static_cast<e_s1_class*>(actor);
+                        s1->mHealth = 50;
+
+                        if (s1->mAction == 9 || s1->mAction == 5 || s1->mAction == 10) {
+                            s1->mAction = 0;  // reset action back to idle if in damage/fail action
+                        }
+                        break;
+                    }
+                    }
+                }
+            }
+            node = node->mpNextNode;
+        }
     } else {
+        /* Unpatch cc_at_check instruction to restore health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x7C030050;  // sub r0, r0, r3
         DCFlushRange((void*)((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET),
@@ -118,8 +163,8 @@ void GZ_applyCheats() {
             l_doorCollision = false;
         }
     }
-#ifdef WII_PLATFORM
 
+#ifdef WII_PLATFORM
     if (GZ_checkCheat(GaleLJA)) {
         if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
             dComIfGp_getPlayer()->mEquipItem == NO_ITEM) {

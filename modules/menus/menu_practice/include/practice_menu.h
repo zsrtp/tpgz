@@ -3,6 +3,12 @@
 #include "practice.h"
 #include "gz_flags.h"
 
+#ifdef GCN_PLATFORM
+#define PRACTICE_MENU_NUM 6
+#elif defined WII_PLATFORM
+#define PRACTICE_MENU_NUM 5
+#endif
+
 class PracticeMenu : public Menu {
 public:
     PracticeMenu(Cursor&);
@@ -10,5 +16,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[3];
+    Line lines[PRACTICE_MENU_NUM];
 };

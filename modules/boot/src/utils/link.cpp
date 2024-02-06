@@ -26,12 +26,12 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         char link_z[22];
 
         snprintf(link_angle, sizeof(link_angle), "angle: %d",
-                 (uint16_t)dComIfGp_getPlayer()->mCollisionRot.mY);
+                 (uint16_t)dComIfGp_getPlayer()->shape_angle.y);
         snprintf(y_angle, sizeof(y_angle), "y-angle: %d", dComIfGp_getPlayer()->mLookAngleY);
-        snprintf(link_speed, sizeof(link_speed), "speed: %.4f", dComIfGp_getPlayer()->mSpeedF);
-        snprintf(link_x, sizeof(link_x), "x-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.x);
-        snprintf(link_y, sizeof(link_y), "y-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.y);
-        snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->mCurrent.mPosition.z);
+        snprintf(link_speed, sizeof(link_speed), "speed: %.4f", dComIfGp_getPlayer()->speedF);
+        snprintf(link_x, sizeof(link_x), "x-pos: %.4f", dComIfGp_getPlayer()->current.pos.x);
+        snprintf(link_y, sizeof(link_y), "y-pos: %.4f", dComIfGp_getPlayer()->current.pos.y);
+        snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->current.pos.z);
 
         Font::GZ_drawStr(link_angle, g_spriteOffsets[DEBUG_INFO_INDEX].x,
                          g_spriteOffsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_dropShadows);

@@ -1,7 +1,7 @@
 #ifndef M_DO_M_DO_EXT_H
 #define M_DO_M_DO_EXT_H
 
-#include <stdint.h>
+#include "../dolphin/types.h"
 #include "../dolphin/gx/GXTexture.h"
 #include "../JSystem/J3DGraphBase/J3DPacket.h"
 #include "../JSystem/J3DGraphBase/J3DSys.h"
@@ -22,13 +22,13 @@ public:
 class J3DFrameCtrl {
 public:
     void* vtable;
-    uint8_t mAttribute;
+    u8 mAttribute;
     bool mState;
-    int16_t mStart;
-    int16_t mEnd;
-    int16_t mLoop;
-    float mRate;
-    float mFrame;
+    s16 mStart;
+    s16 mEnd;
+    s16 mLoop;
+    f32 mRate;
+    f32 mFrame;
 };
 #pragma pack(pop)
 
@@ -43,7 +43,7 @@ public:
 class mDoExt_btkAnm {
 public:
     mDoExt_baseAnm mBaseAnm;
-    uint32_t field_0x14;
+    u32 field_0x14;
 };
 #pragma pack(pop)
 
@@ -51,7 +51,7 @@ public:
 class mDoExt_brkAnm {
 public:
     mDoExt_baseAnm mBaseAnm;
-    uint32_t field_0x14;
+    u32 field_0x14;
 };
 #pragma pack(pop)
 
@@ -59,7 +59,7 @@ public:
 class mDoExt_bpkAnm {
 public:
     mDoExt_baseAnm mBaseAnm;
-    uint32_t field_0x14;
+    u32 field_0x14;
 };
 #pragma pack(pop)
 
@@ -67,8 +67,8 @@ public:
 class mDoExt_bckAnm {
 public:
     mDoExt_baseAnm mBaseAnm;
-    uint8_t field_0x14[4];
-    uint32_t field_0x18;
+    u8 field_0x14[4];
+    u32 field_0x18;
 };  // Size = 0x1C
 #pragma pack(pop)
 
@@ -79,7 +79,7 @@ public:
 
 class mDoExt_AnmRatioPack {
 public:
-    /* 0x0 */ float mRatio;
+    /* 0x0 */ f32 mRatio;
     /* 0x4 */ J3DAnmTransform* mAnmTransform;
 };  // Size = 0x8
 

@@ -1,7 +1,7 @@
 #ifndef OS_H_
 #define OS_H_
 
-#include <stdint.h>
+#include "../types.h"
 
 // move stuff to appropriate headers later
 
@@ -10,7 +10,7 @@
 
 struct OSThread;
 struct OSMutex {
-    uint8_t unk[24];
+    u8 unk[24];
 };
 
 struct OSMutexLink {
@@ -24,20 +24,20 @@ struct OSMutexQueue {
 };
 
 struct OSContext {
-    uint32_t gpr[32];
-    uint32_t cr;
-    uint32_t lr;
-    uint32_t ctr;
-    uint32_t xer;
+    u32 gpr[32];
+    u32 cr;
+    u32 lr;
+    u32 ctr;
+    u32 xer;
     double fpr[32];
-    uint32_t padding_1;
-    uint32_t fpscr;
-    uint32_t srr0;
-    uint32_t srr1;
-    uint16_t mode;
-    uint16_t state;
-    uint32_t gqr[8];
-    uint32_t padding_2;
+    u32 padding_1;
+    u32 fpscr;
+    u32 srr0;
+    u32 srr1;
+    u16 mode;
+    u16 state;
+    u32 gqr[8];
+    u32 padding_2;
     double ps[32];
 };
 
@@ -63,36 +63,36 @@ struct OSMessageQueue {
     struct OSThreadQueue sending_queue;
     struct OSThreadQueue receiving_queue;
     void** message_array;
-    int32_t num_messages;
-    int32_t first_index;
-    int32_t num_used;
+    s32 num_messages;
+    s32 first_index;
+    s32 num_used;
 };
 
-typedef uint32_t OSTick;
+typedef u32 OSTick;
 
 typedef int64_t OSTime;
 
 struct OSCalendarTime {
-    int32_t seconds;
-    int32_t minutes;
-    int32_t hours;
-    int32_t day_of_month;
-    int32_t month;
-    int32_t year;
-    int32_t week_day;
-    int32_t year_day;
-    int32_t milliseconds;
-    int32_t microseconds;
+    s32 seconds;
+    s32 minutes;
+    s32 hours;
+    s32 day_of_month;
+    s32 month;
+    s32 year;
+    s32 week_day;
+    s32 year_day;
+    s32 milliseconds;
+    s32 microseconds;
 };
 
-typedef int32_t OSHeapHandle;
+typedef s32 OSHeapHandle;
 
 typedef enum OSSoundMode {
     SOUND_MODE_MONO = 0,
     SOUND_MODE_STEREO = 1,
 } OSSoundMode;
 
-typedef uint16_t OSThreadState;
+typedef u16 OSThreadState;
 #define OS_THREAD_STATE_UNINITIALIZED 0
 #define OS_THREAD_STATE_READY 1
 #define OS_THREAD_STATE_RUNNING 2
@@ -102,10 +102,10 @@ typedef uint16_t OSThreadState;
 struct OSThread {
     OSContext context;
     OSThreadState state;
-    uint16_t attributes;
-    int32_t suspend_count;
-    uint32_t effective_priority;
-    uint32_t base_priority;
+    u16 attributes;
+    s32 suspend_count;
+    u32 effective_priority;
+    u32 base_priority;
     void* exit_value;
     OSThreadQueue* queue;
     OSThreadLink link;
@@ -113,35 +113,35 @@ struct OSThread {
     OSMutex* mutex;
     OSMutexQueue owned_mutexes;
     OSThreadLink active_threads_link;
-    uint8_t* stack_base;
-    uint8_t* stack_end;
-    uint8_t* error_code;
+    u8* stack_base;
+    u8* stack_end;
+    u8* error_code;
     void* data[2];
 };
 
 struct OSModuleInfo {
-    uint32_t id;
+    u32 id;
     OSModuleInfo* next;
     OSModuleInfo* prev;
-    uint32_t numSections;
-    uint32_t sectionInfoOffset;
-    uint32_t nameOffset;
-    uint32_t nameSize;
-    uint32_t version;
-    uint32_t bssSize;
-    uint32_t relOffset;
-    uint32_t impOffset;
-    uint32_t impSize;
-    uint8_t prologSection;
-    uint8_t epilogSection;
-    uint8_t unresolvedSection;
-    uint8_t bssSection;
-    uint32_t prologFuncOffset;
-    uint32_t epilogFuncOffset;
-    uint32_t unresolvedFuncOffset;
-    uint32_t moduleAlignment;
-    uint32_t bssAlignment;
-    uint32_t fixSize;
+    u32 numSections;
+    u32 sectionInfoOffset;
+    u32 nameOffset;
+    u32 nameSize;
+    u32 version;
+    u32 bssSize;
+    u32 relOffset;
+    u32 impOffset;
+    u32 impSize;
+    u8 prologSection;
+    u8 epilogSection;
+    u8 unresolvedSection;
+    u8 bssSection;
+    u32 prologFuncOffset;
+    u32 epilogFuncOffset;
+    u32 unresolvedFuncOffset;
+    u32 moduleAlignment;
+    u32 bssAlignment;
+    u32 fixSize;
 } __attribute__((__packed__));
 
 struct OSModuleList {

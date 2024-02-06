@@ -74,7 +74,7 @@ void ADSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::loadSave(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
         g_menuMgr->hide();
     }
 

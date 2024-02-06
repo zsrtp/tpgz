@@ -6,21 +6,21 @@
 
 struct cM3dGSphS {
     Vec mCenter;
-    float mRadius;
+    f32 mRadius;
 };
 
 class cM3dGSph {
 private:
 public:
     cXyz mCenter;
-    float mRadius;
+    f32 mRadius;
 
     virtual ~cM3dGSph();
     const cXyz& GetC(void) const { return mCenter; }
-    const float GetR(void) const { return mRadius; }
-    float GetCX(void) const { return mCenter.GetX(); }
-    float GetCY(void) const { return mCenter.GetY(); }
-    float GetCZ(void) const { return mCenter.GetZ(); }
+    const f32 GetR(void) const { return mRadius; }
+    f32 GetCX(void) const { return mCenter.x; }
+    f32 GetCY(void) const { return mCenter.y; }
+    f32 GetCZ(void) const { return mCenter.z; }
 };
 
 #endif

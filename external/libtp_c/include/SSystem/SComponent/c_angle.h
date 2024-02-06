@@ -2,38 +2,38 @@
 #define C_ANGLE_H
 
 #include "c_xyz.h"
-#include <stdint.h>
+#include "../../dolphin/types.h"
 
 class cSAngle {
 public:
-    int16_t mAngle;
+    s16 mAngle;
 
-    int16_t Val() const { return this->mAngle; }
+    s16 Val() const { return this->mAngle; }
     bool operator<(const cSAngle& other) const { return mAngle < other.mAngle; }
     bool operator>(const cSAngle& other) const { return mAngle > other.mAngle; }
-    operator int16_t(void) const { return mAngle; }
+    operator s16(void) const { return mAngle; }
     void operator=(const cSAngle& other) { mAngle = other.mAngle; }
 };
 
 class cDegree {
 public:
-    float mDegree;
+    f32 mDegree;
 };
 
 class cSPolar {
 public:
-    float mRadial;
+    f32 mRadial;
     cSAngle mAngle1;
     cSAngle mAngle2;
 };
 
 class cSGlobe {
 public:
-    float mRadius;
+    f32 mRadius;
     cSAngle mAzimuth;      // original: V
     cSAngle mInclination;  // original: U
 
-    float R(void) const { return mRadius; }
+    f32 R(void) const { return mRadius; }
     const cSAngle& V(void) const { return mAzimuth; }
     const cSAngle& U(void) const { return mInclination; }
 };

@@ -32,7 +32,7 @@ typedef void (*J2DTextBox__setFont_t)(J2DTextBox* thisx, JUTFont* font);
 typedef void (*J2DTextBox__setString_t)(J2DTextBox* thisx, const char* str, ...);
 #define J2DTextBox__setString ((J2DTextBox__setString_t)J2DTextBox__setString_addr)
 
-typedef void (*J2DTextBox__draw2_t)(J2DTextBox* thisx, float x, float y, float size,
+typedef void (*J2DTextBox__draw2_t)(J2DTextBox* thisx, f32 x, f32 y, f32 size,
                                     J2DTextBoxHBinding binding);
 #define J2DTextBox__draw2 ((J2DTextBox__draw2_t)J2DTextBox__draw2_addr)
 
@@ -41,12 +41,12 @@ public:
     J2DTextBox() { J2DTextBox__J2DTextBox1(this); }
 
     struct TFontSize {
-        /* 0x0 */ float mSizeX;
-        /* 0x4 */ float mSizeY;
+        /* 0x0 */ f32 mSizeX;
+        /* 0x4 */ f32 mSizeY;
     };
 
-    void setFontSize(float sizeX, float sizeY) {
-        float x;
+    void setFontSize(f32 sizeX, f32 sizeY) {
+        f32 x;
         if (sizeX > 0.0f) {
             x = sizeX;
         } else {
@@ -54,7 +54,7 @@ public:
         }
         field_0x11c = x;
 
-        float y;
+        f32 y;
         if (sizeY > 0.0f) {
             y = sizeY;
         } else {
@@ -65,24 +65,24 @@ public:
 
     void setFontSize(TFontSize size) { setFontSize(size.mSizeX, size.mSizeY); }
 
-    void setCharSpace(float space) { mCharSpacing = space; }
+    void setCharSpace(f32 space) { mCharSpacing = space; }
 
 private:
     /* 0x0100 */ JUTFont* mFont;
     /* 0x0104 */ JUtility::TColor mCharColor;
     /* 0x0108 */ JUtility::TColor mGradientColor;
-    /* 0x010C */ float field_0x10c;
-    /* 0x0110 */ float field_0x110;
-    /* 0x0114 */ float mCharSpacing;
-    /* 0x0118 */ float mLineSpacing;
-    /* 0x011C */ float field_0x11c;
-    /* 0x0120 */ float field_0x120;
+    /* 0x010C */ f32 field_0x10c;
+    /* 0x0110 */ f32 field_0x110;
+    /* 0x0114 */ f32 mCharSpacing;
+    /* 0x0118 */ f32 mLineSpacing;
+    /* 0x011C */ f32 field_0x11c;
+    /* 0x0120 */ f32 field_0x120;
     /* 0x0124 */ char* mStringPtr;
     /* 0x0128 */ JUtility::TColor mWhiteColor;
     /* 0x012C */ JUtility::TColor mBlackColor;
-    /* 0x0130 */ uint8_t mFlags;
+    /* 0x0130 */ u8 mFlags;
     /* 0x0131 */ bool mTextFontOwned;
-    /* 0x0132 */ int16_t mStringLength;
+    /* 0x0132 */ s16 mStringLength;
 };
 
 #endif /* J2DTEXTBOX_H */

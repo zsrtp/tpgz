@@ -52,23 +52,24 @@ def main(args=None):
         "gorge_void",
         "rupee_roll",
         "lanayru_gate_clip",
-        "pillar_clip",
-        "lakebed_1",
-        "deku_toad",
         "karg",
         "eldin_twilight",
+        "bomb_house_skip",
         "lanayru_twilight",
         "waterfall_sidehop",
         "boss_bug",
         "iza",
-        "norgor",
-        "spr_warp",
-        "spr",
-        "darkhammer",
+        "plumm_oob",
+        "elh",
+        "lakebed_1",
+        "deku_toad",
         "lakebed_bk_skip",
         "onebomb",
         "mdh_tower",
         "mdh_bridge",
+        "spr_warp",
+        "spr",
+        "darkhammer",
         "camp",
         "ag",
         "poe_1_skip",
@@ -90,6 +91,7 @@ def main(args=None):
         "hc_tower",
         "beast_ganon",
         "horseback_ganon",
+        "ganondorf",
     ]
 
     if args.platform is Platform.WII:
@@ -267,18 +269,6 @@ def main(args=None):
         'requirements': Requirements.POS,
         'pos': (5979.97217, 150.0, -2748.34155),
         'angle': 10114,
-    })
-
-    # norgor
-    update_entry("norgor", {
-        'requirements': Requirements.POS | Requirements.CAM,
-        'pos': (173.71, -186.52, -3633.71),
-        'angle': 46568,
-        'cam': {
-            'pos': (501.768982, -5.045784, -3586.1145),
-            'target': (174.411758, -70.5306549, -3668.91406)
-        },
-        'counter': 15
     })
 
     # snowpeak messenger skip

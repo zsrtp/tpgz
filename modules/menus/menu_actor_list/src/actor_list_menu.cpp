@@ -78,13 +78,13 @@ void ActorListMenu::draw() {
         GZ_drawText(paramBuf, 25.0f, 140.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char angleBuf[14];
-        snprintf(angleBuf, sizeof(angleBuf), "Angle: %d", actorData->mCollisionRot.mY);
+        snprintf(angleBuf, sizeof(angleBuf), "Angle: %d", actorData->shape_angle.y);
         GZ_drawText(angleBuf, 25.0f, 160.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         char posBuf[50];
         snprintf(posBuf, sizeof(posBuf), "Position: %.1f %.1f %.1f",
-                 actorData->mCurrent.mPosition.x, actorData->mCurrent.mPosition.y,
-                 actorData->mCurrent.mPosition.z);
+                 actorData->current.pos.x, actorData->current.pos.y,
+                 actorData->current.pos.z);
         GZ_drawText(posBuf, 25.0f, 180.f, 0xFFFFFFFF, GZ_checkDropShadows());
 
         lines[ACTOR_ID_INDEX].printf(" <%d / %d>", l_index, g_fopAcTg_Queue.mSize - 1);

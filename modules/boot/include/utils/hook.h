@@ -1,5 +1,5 @@
 
-#define HOOK_AMNT 14
+#define HOOK_AMNT 18
 enum HookIndex {
     HK_LIB_INIT_INDEX = 0,
     HK_LIB_GAME_LOOP_INDEX = 1,

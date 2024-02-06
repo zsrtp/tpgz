@@ -13,7 +13,7 @@ namespace Draw {
 KEEP_FUNC void init() {
     load_texture("tpgz/tex/blank.tex", &blankTex);
     if (blankTex.loadCode != TexCode::TEX_OK) {
-        OSReport("Could not load blank texture (Code: %d)", blankTex.loadCode);
+        OSReport("Could not load blank texture (Code: %d)\n", blankTex.loadCode);
     }
 }
 

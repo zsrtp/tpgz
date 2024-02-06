@@ -13,6 +13,7 @@
 #include "memfiles.h"
 #include "rels/include/cxx.h"
 #include "rels/include/defines.h"
+#include "save_manager.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -64,6 +65,9 @@ HOOK_DEF(void, putSave, (void*, int));
 
 HOOK_DEF(void, dCcS__draw, (void));
 HOOK_DEF(void, BeforeOfPaint, (void));
+
+HOOK_DEF(int, dScnPly__phase_1, (void*));
+HOOK_DEF(int, dScnPly__phase_4, (void*));
 
 namespace Hook {
 void gameLoopHook(void) {
@@ -174,11 +178,36 @@ void onSwitchHook(void* addr, int pFlag, int i_roomNo) {
 
 // Stops temp flags from being stored to save when loading memfile
 void putSaveHook(void* addr, int stageNo) {
-    if (g_injectMemfile) {
+    if (SaveManager::s_injectMemfile) {
         return;
     } else {
         return putSaveTrampoline(addr, stageNo);
     }
+}
+
+// Hook to inject save data before dScnPly phase_1 is run
+int saveInjectHook(void* i_scene) {
+    if (SaveManager::s_injectSave || SaveManager::s_injectMemfile) {
+        SaveManager::loadData();
+    }
+    
+    return dScnPly__phase_1Trampoline(i_scene);
+}
+
+// Hook to disable save inject flags after dScnPly phase_4 is run
+int endSaveInjectHook(void* i_scene) {
+    int rt = dScnPly__phase_4Trampoline(i_scene);
+
+    if (SaveManager::s_injectSave || SaveManager::s_injectMemfile) {
+        if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
+            SaveManager::s_applyAfterTimer = 30;
+        }
+
+        SaveManager::s_injectSave = false;
+        SaveManager::s_injectMemfile = false;
+    }
+    
+    return rt;
 }
 
 #ifdef WII_PLATFORM
@@ -193,6 +222,8 @@ void putSaveHook(void* addr, int stageNo) {
 #define f_offEventBit dSv_event_c__offEventBit_unsigned_short_
 #define f_putSave dSv_info_c__putSave_int_
 #define f_myExceptionCallback myExceptionCallback_unsigned
+#define f_dScnPly__phase_1 phase_1_dScnPly_c___
+#define f_dScnPly__phase_4 phase_4_dScnPly_c___
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -205,6 +236,8 @@ void putSaveHook(void* addr, int stageNo) {
 #define f_offEventBit offEventBit__11dSv_event_cFUs
 #define f_putSave putSave__10dSv_info_cFi
 #define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
+#define f_dScnPly__phase_1 phase_1__FP9dScnPly_c
+#define f_dScnPly__phase_4 phase_4__FP9dScnPly_c
 #endif
 
 extern "C" {
@@ -220,6 +253,8 @@ void f_onEventBit(void*, uint16_t);
 void f_offEventBit(void*, uint16_t);
 void f_putSave(void*, int);
 void f_myExceptionCallback();
+int f_dScnPly__phase_1(void*);
+int f_dScnPly__phase_4(void*);
 }
 
 KEEP_FUNC void applyHooks() {
@@ -236,6 +271,8 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(onEventBit, &f_onEventBit, onEventBitHook);
     APPLY_HOOK(offEventBit, &f_offEventBit, offEventBitHook);
     APPLY_HOOK(putSave, &f_putSave, putSaveHook);
+    APPLY_HOOK(dScnPly__phase_1, &f_dScnPly__phase_1, saveInjectHook);
+    APPLY_HOOK(dScnPly__phase_4, &f_dScnPly__phase_4, endSaveInjectHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif
