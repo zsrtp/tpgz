@@ -22,4 +22,4 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
     - name: Sync directory to S3
       run: |
-          aws s3 sync patches/ s3://${{ secrets.AWS_S3_BUCKET }}/patches/ --delete --acl public-read
+          aws s3 sync patches/ s3://${{ secrets.AWS_S3_BUCKET }}/patches/ --acl public-read
