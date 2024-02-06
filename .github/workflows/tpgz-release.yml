@@ -5,6 +5,10 @@ on:
     types:
       - published
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,12 +16,10 @@ jobs:
     - name: Download latest release patches
       run: curl -s https://api.github.com/repos/zsrtp/tpgz/releases/latest | grep "http.*patch" | cut -d ":" -f 2,3 | tr -d \ \" | wget -qi - --directory-prefix patches/
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
         aws-region: ${{ secrets.AWS_REGION }}
-        role-duration-seconds: 1200
-        role-session-name: GitHubActions
     - name: Sync directory to S3
       run: |
           aws s3 sync patches/ s3://${{ secrets.AWS_S3_BUCKET }}/patches/ --delete --acl public-read
