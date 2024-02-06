@@ -111,7 +111,7 @@ void GZ_execute(int phase) {
     }
 
     // Timer set after dScnPly__phase_4, delay until objects are fully loaded
-    if (SaveManager::s_applyAfterTimer > 0) {
+    if (!fopScnRq.isLoading && SaveManager::s_applyAfterTimer > 0) {
         SaveManager::s_applyAfterTimer--;
     } else if (SaveManager::s_applyAfterTimer == 0) {
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
