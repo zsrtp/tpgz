@@ -44,49 +44,49 @@ def main(args=None):
         "boko_push",
         "hugo",
         "faron_twilight",
-        "ems",
+        #"ems",
         "forest_temple",
         "early_rang",
         "forest_escape",
         "gorge_void",
         "rupee_roll",
         "eldin_twilight",
-        "bomb_house_skip",
-        "post_eldin",
+        #"bomb_house_skip",
+        #"post_eldin",
         "lanayru_gate_clip",
-        "karg",
+        #"karg",
         "lanayru_twilight",
-        "waterfall_sidehop",
-        "boss_bug",
+        #"waterfall_sidehop",
+        #"boss_bug",
         "kb2_skip",
         "escort",
         "pillar_clip",
         "lakebed",
-        "deku_toad",
+        #"deku_toad",
         "lakebed_bk_skip",
         "morpheel",
-        "mdh",
-        "peak",
+        #"mdh",
+        #"peak",
         "spr_warp",
         "spr",
-        "camp",
+        #"camp",
         "ag",
-        "poe_1_skip",
+        #"poe_1_skip",
         "death_sword",
         "stallord",
-        "cits_early",
+        #"cits_early",
         "cits_1",
         "aeralfos_skip",
         "cits_2",
-        "fan_tower",
+        #"fan_tower",
         "argorok",
         "palace_1",
         "palace_2",
         "zant",
         "hc",
-        "hc_inside",
-        "beast_ganon",
-        "horseback_ganon",
+        #"hc_inside",
+        #"beast_ganon",
+        #"horseback_ganon",
     ]
 
     any_p = [{**copy.deepcopy(default_entry), "id": i, "filename": name}
@@ -172,11 +172,11 @@ def main(args=None):
     })
 
     # boss bug
-    update_entry("boss_bug", {
-        'requirements': Requirements.POS,
-        'pos': (-89100.00, -18811.2363, 39410.00),
-        'angle': 21504,
-    })
+    #update_entry("boss_bug", {
+    #    'requirements': Requirements.POS,
+    #    'pos': (-89100.00, -18811.2363, 39410.00),
+    #    'angle': 21504,
+    #})
 
     # lakebed bk skip
     update_entry("lakebed_bk_skip", {
@@ -213,16 +213,16 @@ def main(args=None):
     })
 
     # poe 1 skip
-    update_entry("poe_1_skip", {
-        'requirements': Requirements.POS | Requirements.CAM,
-        'pos': (-2046.97168, 0.0, -587.304871),
-        'angle': 49030,
-        'cam': {
-            'pos': (-1779.00293, 213.707397, -584.686768),
-            'target': (-2047.97168, 130.16568, -587.317139)
-        },
-        'counter': 10
-    })
+    #update_entry("poe_1_skip", {
+    #    'requirements': Requirements.POS | Requirements.CAM,
+    #    'pos': (-2046.97168, 0.0, -587.304871),
+    #    'angle': 49030,
+    #    'cam': {
+    #        'pos': (-1779.00293, 213.707397, -584.686768),
+    #        'target': (-2047.97168, 130.16568, -587.317139)
+    #    },
+    #    'counter': 10
+    #})
 
     # city 1
     update_entry("cits_1", {
