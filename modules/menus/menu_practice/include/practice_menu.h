@@ -6,7 +6,7 @@
 #ifdef GCN_PLATFORM
 #define PRACTICE_MENU_NUM 6
 #elif defined WII_PLATFORM
-#define PRACTICE_MENU_NUM 5
+#define PRACTICE_MENU_NUM 4
 #endif
 
 class PracticeMenu : public Menu {

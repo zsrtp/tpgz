@@ -9,7 +9,9 @@ enum {
 #endif
     HUNDO_INDEX,
     AD_INDEX,
+#ifdef GCN_PLATFORM
     NOSQ_INDEX,
+#endif
     GLITCHLESS_INDEX,
 };
 
