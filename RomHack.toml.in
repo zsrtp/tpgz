@@ -41,9 +41,9 @@ libs = ["libtpgz.a"]
 "tpgz/save_files/ad.bin" = "../res/save_files/ad.bin"
 "tpgz/save_files/ad" = "../res/save_files/ad"
 
-# All Dungeons saves
-"tpgz/save_files/nosq.bin" = "../res/save_files/nosq.bin"
-"tpgz/save_files/nosq" = "../res/save_files/nosq"
+# No SQ saves
+@TPGZ_CFG_WII_ONLY@"tpgz/save_files/nosq.bin" = "../res/save_files/nosq.bin"
+@TPGZ_CFG_WII_ONLY@"tpgz/save_files/nosq" = "../res/save_files/nosq"
 
 # Glitchless saves
 "tpgz/save_files/glitchless.bin" = "../res/save_files/glitchless.bin"
