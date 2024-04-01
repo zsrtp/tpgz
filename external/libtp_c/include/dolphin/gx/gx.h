@@ -2196,7 +2196,7 @@ void GXSetTexCoordGen2(GXTexCoordID dst, GXTexGenType type, GXTexGenSrc src, u32
 void GXSetNumTexGens(u8 numTexGens);
 
 void GXGetVtxAttrFmtv(GXVtxFmt param_0, GXVtxAttrFmtList* param_1);
-void GXGetVtxAttrFmt(GXVtxFmt param_0, int param_1, GXCompCnt* param_2, GXCompType* param_3,
+void GXGetVtxAttrFmt(GXVtxFmt param_0, GXAttr param_1, GXCompCnt* param_2, GXCompType* param_3,
                      u8* param_4);
 void GXGetVtxDescv(GXVtxDescList* attrPtr);
 void GXInitLightAttn(GXLightObj* obj, f32 a0, f32 a1, f32 a2, f32 k0, f32 k1, f32 k2);

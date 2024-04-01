@@ -66,6 +66,8 @@ HOOK_DEF(void, putSave, (void*, int));
 
 HOOK_DEF(void, dCcS__draw, (dCcS*));
 HOOK_DEF(void, BeforeOfPaint, (void));
+HOOK_DEF(void, dCcS__MoveAfterCheck, (dCcS*));
+
 
 HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
@@ -215,9 +217,17 @@ void dCcSDrawHook(dCcS* i_this) {
     GZ_drawCc(i_this);
     return dCcS__drawTrampoline(i_this);
 }
+
 void beforeOfPaintHook() {
     BeforeOfPaintTrampoline();
     dDbVw_deleteDrawPacketList();
+}
+
+void dCcSMoveAfterCheckHook(dCcS* i_this) {
+    dCcS_Data::at_obj_count = i_this->mObjAtCount;
+    dCcS_Data::tg_obj_count = i_this->mObjTgCount;
+    dCcS_Data::co_obj_count = i_this->mObjCoCount;
+    return dCcS__MoveAfterCheckTrampoline(i_this);
 }
 
 #ifdef WII_PLATFORM
@@ -234,6 +244,9 @@ void beforeOfPaintHook() {
 #define f_myExceptionCallback myExceptionCallback_unsigned
 #define f_dScnPly__phase_1 phase_1_dScnPly_c___
 #define f_dScnPly__phase_4 phase_4_dScnPly_c___
+#define f_dCcS__Draw dCcS__Draw_void_
+#define f_dScnPly_BeforeOfPaint mDoGph_BeforeOfDraw_void_
+#define f_dCcS__MoveAfterCheck dCcS__MoveAfterCheck_void_
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -250,6 +263,7 @@ void beforeOfPaintHook() {
 #define f_dScnPly__phase_4 phase_4__FP9dScnPly_c
 #define f_dCcS__Draw Draw__4dCcSFv
 #define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
+#define f_dCcS__MoveAfterCheck MoveAfterCheck__4dCcSFv
 #endif
 
 extern "C" {
@@ -269,6 +283,7 @@ int f_dScnPly__phase_1(void*);
 int f_dScnPly__phase_4(void*);
 void f_dCcS__Draw(dCcS*);
 void f_dScnPly_BeforeOfPaint();
+void f_dCcS__MoveAfterCheck(dCcS*);
 }
 
 KEEP_FUNC void applyHooks() {
@@ -290,6 +305,7 @@ KEEP_FUNC void applyHooks() {
 
     APPLY_HOOK(dCcS__draw, &f_dCcS__Draw, dCcSDrawHook);
     APPLY_HOOK(BeforeOfPaint, &f_dScnPly_BeforeOfPaint, beforeOfPaintHook);
+    APPLY_HOOK(dCcS__MoveAfterCheck, &f_dCcS__MoveAfterCheck, dCcSMoveAfterCheckHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

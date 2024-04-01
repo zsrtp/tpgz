@@ -28,6 +28,12 @@ class dCcS;
 void GZ_drawPolygons();
 void GZ_drawCc(dCcS* i_this);
 
+namespace dCcS_Data {
+    extern u16 at_obj_count;
+    extern u16 tg_obj_count;
+    extern u16 co_obj_count;
+}
+
 //----------------------------------------
 //             DRAW PACKETS
 //----------------------------------------

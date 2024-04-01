@@ -438,19 +438,23 @@ void mDoExt_linePacket__draw(mDoExt_linePacket* i_this) {
 
 #define MAX_DRAW_DIST 2000.0f
 
-void dCcD_Cyl_Draw(dCcD_Cyl* i_this, const GXColor& i_color) {
+KEEP_FUNC void dCcD_Cyl_Draw(dCcD_Cyl* i_this, const GXColor& i_color) {
     if (dComIfGp_getPlayer()->current.pos.abs(i_this->mCylAttr.cyl.mCenter) < MAX_DRAW_DIST) {
         dDbVw_drawCylinderXlu(i_this->mCylAttr.cyl.mCenter, i_this->mCylAttr.cyl.GetR(), i_this->mCylAttr.cyl.GetH(), i_color, 1);
     }
 }
 
-void dCcD_Sph_Draw(dCcD_Sph* i_this, const GXColor& i_color) {
+KEEP_FUNC void dCcD_Sph_Draw(dCcD_Sph* i_this, const GXColor& i_color) {
     if (dComIfGp_getPlayer()->current.pos.abs(i_this->mSphAttr.sph.mCenter) < MAX_DRAW_DIST) {
         dDbVw_drawSphereXlu(i_this->mSphAttr.sph.mCenter, i_this->mSphAttr.sph.GetR(), i_color, 1);
     }
 }
 
-void dCcD_Cps_Draw(dCcD_Cps* i_this, const GXColor& i_color) {}
+KEEP_FUNC void dCcD_Cps_Draw(dCcD_Cps* i_this, const GXColor& i_color) {}
+
+u16 dCcS_Data::at_obj_count = 0;
+u16 dCcS_Data::tg_obj_count = 0;
+u16 dCcS_Data::co_obj_count = 0;
 
 KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
     static bool init_vtables = false;
@@ -465,11 +469,11 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
     }
 
     daAlink_c* player = dComIfGp_getPlayer();
-    if (player != NULL) {
+    if (player != NULL && init_vtables) {
         if (g_collisionFlags[VIEW_AT_INDEX].active) {
             //OSReport("At:%d\n", i_this->mObjAtCount);
 
-            for (u16 i = 0; i < 0x100; i++) {
+            for (u16 i = 0; i < dCcS_Data::at_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjAt[i];
                 if (obj != NULL) {
                     static const GXColor at_color = {0xFF, 0x00, 0x00, 0x90};
@@ -479,21 +483,21 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
         }
 
         if (g_collisionFlags[VIEW_TG_INDEX].active) {
-            //OSReport("Tg:%d\n", i_this->mObjTgCount);
+            // OSReport("Tg:%d\n", dCcS_Data::tg_obj_count);
 
-            for (u16 i = 0; i < 0x300; i++) {
+            for (u16 i = 0; i < dCcS_Data::tg_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjTg[i];
                 if (obj != NULL) {
                     static const GXColor tg_color = {0x00, 0xFF, 0x00, 0x90};
                     obj->vtable->Draw(obj, tg_color);
                 }
-            }
+            } 
         }
 
         if (g_collisionFlags[VIEW_CO_INDEX].active) {
             //OSReport("Co:%d\n", i_this->mObjCoCount);
 
-            for (u16 i = 0; i < 0x100; i++) {
+            for (u16 i = 0; i < dCcS_Data::co_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjCo[i];
                 if (obj != NULL) {
                     static const GXColor co_color = {0xFF, 0xFF, 0xFF, 0x90};

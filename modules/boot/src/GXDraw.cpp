@@ -5,9 +5,12 @@
 
 #include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/os/OS.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 
-extern "C" float sinf(float);
-extern "C" float cosf(float);
+extern "C" {
+
+float sinf(float);
+float cosf(float);
 
 static GXVtxDescList vcd[27];
 static GXVtxAttrFmtList vat[27];
@@ -32,7 +35,7 @@ static void RestoreVertState(void) {
 
 #define GET_REG_FIELD(reg, size, shift) ((int)((reg) >> (shift)) & ((1 << (size)) - 1))
 
-void GXGetVtxDesc(GXAttr attr, GXAttrType* type) {
+KEEP_FUNC void GXGetVtxDesc(GXAttr attr, GXAttrType* type) {
     u32 cpType;
 
     switch (attr) {
@@ -106,6 +109,8 @@ void GXGetVtxDesc(GXAttr attr, GXAttrType* type) {
         cpType = 0;
         break;
     }
+
+    // OSReport("GXGetVtxDesc ERROR: %d\n", error);
     *type = (GXAttrType)cpType;
 }
 
@@ -212,7 +217,7 @@ void GXGetVtxAttrFmtv(GXVtxFmt fmt, GXVtxAttrFmtList* vat) {
 }
 
 void GXDrawSphere(u8 numMajor, u8 numMinor) {
-    GXAttrType ttype;
+    GXAttrType ttype = GX_DIRECT;
     f32 radius = 1.0f;
     f32 majorStep = 3.1415927f / numMajor;
     f32 minorStep = 6.2831855f / numMinor;
@@ -223,7 +228,7 @@ void GXDrawSphere(u8 numMajor, u8 numMinor) {
     f32 c;
     f32 x, y;
 
-    GXGetVtxDesc(GX_VA_TEX0, &ttype);
+    //GXGetVtxDesc(GX_VA_TEX0, &ttype);
     GetVertState();
     if (ttype != GX_NONE) {
         GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
@@ -304,4 +309,5 @@ void GXDrawCylinder(u8 numEdges) {
     GXEnd();
 
     RestoreVertState();
+}
 }
