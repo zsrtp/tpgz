@@ -14,6 +14,7 @@ enum SceneIndex {
     TIME_MINUTES_INDEX,
     ACTOR_MENU_INDEX,
     ACTOR_LIST_INDEX,
+    COLLISION_VIEW_INDEX,
 };
 
 struct SceneItem {

@@ -10,4 +10,6 @@ public:
     /* 0x010 */ dBgS_GrpPassChk mGrpPassChkInfo;
 };  // Size = 0x18
 
+static_assert(sizeof(dBgS_Chk) == 0x18);
+
 #endif /* D_BG_D_BG_S_CHK_H */

@@ -4,7 +4,6 @@
 #include "libtp_c/include/msl_c/math.h"
 #include "utils/disc.h"
 #include "gcn_c/include/dvd.h"
-#include "gcn_c/include/gfx.h"
 #include "rels/include/cxx.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
@@ -98,7 +97,7 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
     DVDClose(&fileInfo);
 
     memset(&tex->_texObj, 0, sizeof(GXTexObj));
-    GXInitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, fmt, GX_CLAMP,
+    GXInitTexObj(&tex->_texObj, tex->data, tex->header.width, tex->header.height, (GXTexFmt)fmt, GX_CLAMP,
                  GX_CLAMP, GX_FALSE);
     tex->loadCode = TexCode::TEX_OK;
     return tex->loadCode;
@@ -115,7 +114,7 @@ void free_texture(Texture* tex) {
 }
 
 void setupRendering() {
-    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_SET);
+    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRC_ALPHA, GX_BL_INV_SRC_ALPHA, GX_LO_SET);
 
     GXClearVtxDesc();
     GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
@@ -127,8 +126,8 @@ void setupRendering() {
     GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
 
     GXSetNumTexGens(1);
-    GXSetTexCoordGen2((uint16_t)GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
-                      GX_DTTIDENTITY);
+    GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE,
+                      GX_PTIDENTITY);
 
     GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_TEXC, GX_CC_ZERO);
     GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_RASA, GX_CA_TEXA, GX_CA_ZERO);

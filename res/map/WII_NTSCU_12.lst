@@ -23153,6 +23153,7 @@ CC008000:wgPipe
 8051d074:_MetroTRK_Has_Framing
 8051d080:gRecvBuf
 8051d580:gRecvCB
+80521390:sOldVcdVatCmd__8J3DShape
 0x1,5,0:g_fpcPfLst_ProfileList
 0x2,1,5c:daAndsw_c__Create_void_
 0x2,1,94:daAndsw_c__create_void_

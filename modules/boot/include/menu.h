@@ -56,6 +56,7 @@ enum MenuIndex {
     // Scene menu's sub menus
     MN_ACTOR_SPAWNER_INDEX,
     MN_ACTOR_LIST_INDEX,
+    MN_COLLISION_VIEW_INDEX,
     // Setting menu's sub menus
     MN_POS_SETTINGS_INDEX,
 

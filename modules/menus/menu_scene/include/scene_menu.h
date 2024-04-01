@@ -10,5 +10,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[11];
+    Line lines[12];
 };

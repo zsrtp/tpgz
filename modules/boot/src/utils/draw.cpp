@@ -1,7 +1,6 @@
 #include "utils/draw.h"
 #include "libtp_c/include/addrs.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "gcn_c/include/gfx.h"
 #include "utils/texture.h"
 #include "rels/include/defines.h"
 
@@ -30,8 +29,8 @@ KEEP_FUNC void begin(uint16_t n, GXTexObj* tex) {
 }
 
 KEEP_FUNC void begin(uint16_t n, uint8_t primitive, GXTexObj* tex) {
-    GXLoadTexObj(tex, (uint8_t)GX_TEXMAP0);
-    GXBegin(primitive, GX_VTXFMT0, n);
+    GXLoadTexObj(tex, GX_TEXMAP0);
+    GXBegin((GXPrimitive)primitive, GX_VTXFMT0, n);
 }
 
 KEEP_FUNC void begin_outline(uint16_t n) {
@@ -39,7 +38,7 @@ KEEP_FUNC void begin_outline(uint16_t n) {
 }
 
 KEEP_FUNC void begin_outline(uint16_t n, uint8_t width) {
-    GXLoadTexObj(&blankTex._texObj, (uint8_t)GX_TEXMAP0);
+    GXLoadTexObj(&blankTex._texObj, GX_TEXMAP0);
     GXSetLineWidth(width, GX_TO_ZERO);
     GXBegin(GX_LINESTRIP, GX_VTXFMT0, n);
 }

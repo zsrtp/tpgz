@@ -14,6 +14,7 @@
 #include "rels/include/cxx.h"
 #include "rels/include/defines.h"
 #include "save_manager.h"
+#include "collision_view.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -63,7 +64,7 @@ HOOK_DEF(void, offEventBit, (void*, uint16_t));
 HOOK_DEF(void, onSwitch, (void*, int, int));
 HOOK_DEF(void, putSave, (void*, int));
 
-HOOK_DEF(void, dCcS__draw, (void));
+HOOK_DEF(void, dCcS__draw, (dCcS*));
 HOOK_DEF(void, BeforeOfPaint, (void));
 
 HOOK_DEF(int, dScnPly__phase_1, (void*));
@@ -210,6 +211,15 @@ int endSaveInjectHook(void* i_scene) {
     return rt;
 }
 
+void dCcSDrawHook(dCcS* i_this) {
+    GZ_drawCc(i_this);
+    return dCcS__drawTrampoline(i_this);
+}
+void beforeOfPaintHook() {
+    BeforeOfPaintTrampoline();
+    dDbVw_deleteDrawPacketList();
+}
+
 #ifdef WII_PLATFORM
 #define draw_console JUTConsoleManager__draw_void__const
 #define f_fapGm_Execute fapGm_Execute_void_
@@ -238,6 +248,8 @@ int endSaveInjectHook(void* i_scene) {
 #define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
 #define f_dScnPly__phase_1 phase_1__FP9dScnPly_c
 #define f_dScnPly__phase_4 phase_4__FP9dScnPly_c
+#define f_dCcS__Draw Draw__4dCcSFv
+#define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
 #endif
 
 extern "C" {
@@ -255,6 +267,8 @@ void f_putSave(void*, int);
 void f_myExceptionCallback();
 int f_dScnPly__phase_1(void*);
 int f_dScnPly__phase_4(void*);
+void f_dCcS__Draw(dCcS*);
+void f_dScnPly_BeforeOfPaint();
 }
 
 KEEP_FUNC void applyHooks() {
@@ -273,6 +287,9 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(putSave, &f_putSave, putSaveHook);
     APPLY_HOOK(dScnPly__phase_1, &f_dScnPly__phase_1, saveInjectHook);
     APPLY_HOOK(dScnPly__phase_4, &f_dScnPly__phase_4, endSaveInjectHook);
+
+    APPLY_HOOK(dCcS__draw, &f_dCcS__Draw, dCcSDrawHook);
+    APPLY_HOOK(BeforeOfPaint, &f_dScnPly_BeforeOfPaint, beforeOfPaintHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

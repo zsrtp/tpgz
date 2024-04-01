@@ -2,10 +2,10 @@
 
 #include <cstring>
 #include <cstdarg>
+#include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/addrs.h"
 #include "utils/texture.h"
-#include "gcn_c/include/gfx.h"
 
 #define MAX_GLYPHS 94
 #define DROP_SHADOWS_RGBA 0x000000FF

@@ -49,16 +49,22 @@ public:
     /* 0x1C */ void* vtable;
 };
 
-class cCcD_CpsAttr : public cCcD_ShapeAttr, public cM3dGCps {
+class cCcD_CpsAttr {
 public:
+    cCcD_ShapeAttr shape_base;
+    cM3dGCps cps;
 };
 
-class cCcD_SphAttr : public cCcD_ShapeAttr, public cM3dGSph {
+class cCcD_SphAttr {
 public:
+    cCcD_ShapeAttr shape_base;
+    cM3dGSph sph;
 };  // Size = 0x30
 
-class cCcD_CylAttr : public cCcD_ShapeAttr, public cM3dGCyl {
+class cCcD_CylAttr {
 public:
+    cCcD_ShapeAttr shape_base;
+    cM3dGCyl cyl;
 };  // Size = 0x34
 
 class cCcD_TriAttr {};
@@ -200,12 +206,27 @@ public:
 
 static_assert(sizeof(cCcD_ObjCo) == 0x10);
 
+typedef void (*cCcD_DrawFn)(void*, const GXColor&);
+struct cCcD_GObjInf__vtbl_t {
+    /* 0x00 */ void* RTTI;
+    /* 0x04 */ void* pad;
+    /* 0x08 */ void* dtor;
+    /* 0x0C */ void* GetGObjInf_const;
+    /* 0x10 */ void* GetGObjInf;
+    /* 0x14 */ void* GetShapeAttr_const;
+    /* 0x18 */ void* GetShapeAttr;
+    /* 0x1C */ cCcD_DrawFn Draw;
+    /* 0x20 */ void* ClrAtHit;
+    /* 0x24 */ void* ClrTgHit;
+    /* 0x28 */ void* ClrCoHit;
+};
+
 class cCcD_ObjHitInf {
 public:
     /* 0x000 */ cCcD_ObjAt mObjAt;
     /* 0x018 */ cCcD_ObjTg mObjTg;
     /* 0x02C */ cCcD_ObjCo mObjCo;
-    /* 0x03C */ void* vtable;
+    /* 0x03C */ cCcD_GObjInf__vtbl_t* vtable;
 
     cCcD_ObjAt& GetObjAt() { return mObjAt; }
     cCcD_ObjTg& GetObjTg() { return mObjTg; }

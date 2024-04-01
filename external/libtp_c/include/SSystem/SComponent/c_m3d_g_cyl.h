@@ -13,7 +13,7 @@ class cM3dGSph;
 
 class cM3dGCyl : public cM3dGCylS {
 public:
-    virtual ~cM3dGCyl();
+    void* vtable;
     const cXyz& GetCP(void) const { return mCenter; }
     f32 GetR(void) const { return mRadius; }
     f32 GetH(void) const { return mHeight; }

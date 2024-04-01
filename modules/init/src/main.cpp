@@ -5,6 +5,7 @@
 #include "gz_flags.h"
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
+#include "collision_view.h"
 
 #include "utils/memory.h"
 #include "utils/card.h"
@@ -43,6 +44,7 @@ void main() {
     // g_drawListener->addListener(GZ_drawMenu);
     g_drawListener->addListener(GZ_drawWatches);
     g_drawListener->addListener(GZ_renderPlayPause);
+    
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
     g_PreLoopListener->addListener(GZ_handleCardLoad);
@@ -54,6 +56,7 @@ void main() {
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
     g_PreLoopListener->addListener(GZ_handleTools);
+    g_PreLoopListener->addListener(GZ_drawPolygons);
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
     g_PostLoopListener->addListener(GZ_handleFlags_PostLoop);

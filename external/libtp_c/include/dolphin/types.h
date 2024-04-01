@@ -2,6 +2,7 @@
 #define DOLPHIN_TYPES_H
 
 #include <stdint.h>
+#include "../defines.h"
 
 typedef int8_t s8;
 typedef int16_t s16;

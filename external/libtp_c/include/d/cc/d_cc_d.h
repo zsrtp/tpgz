@@ -286,18 +286,43 @@ public:
 
 static_assert(sizeof(dCcD_GObjInf) == 0x104);
 
+#define dCcD_Cyl_vtable __vt__8dCcD_Cyl
+#ifdef WII_PLATFORM
+#define dCcD_Cyl_vtable dCcD_Cyl____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Cyl_vtable;
+
 class dCcD_Cyl {
 public:
     dCcD_GObjInf mGObjInf;
     cCcD_CylAttr mCylAttr;
 };  // Size = 0x13C
 
-class dCcD_Sph : public dCcD_GObjInf, public cCcD_SphAttr {
+#define dCcD_Sph_vtable __vt__8dCcD_Sph
+#ifdef WII_PLATFORM
+#define dCcD_Sph_vtable dCcD_Sph____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Sph_vtable;
+
+class dCcD_Sph {
 public:
+    dCcD_GObjInf mGObjInf;
+    cCcD_SphAttr mSphAttr;
 };  // Size = 0x138
 
-class dCcD_Cps : public dCcD_GObjInf, public cCcD_CpsAttr {
+#define dCcD_Cps_vtable __vt__8dCcD_Cps
+#ifdef WII_PLATFORM
+#define dCcD_Cps_vtable dCcD_Cps____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Cps_vtable;
+
+class dCcD_Cps {
 public:
+    dCcD_GObjInf mGObjInf;
+    cCcD_CpsAttr mCpsAttr;
 };  // Size = 0x144
 
 class dCcD_Tri {

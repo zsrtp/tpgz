@@ -1,7 +1,7 @@
 #ifndef JUTILITY_H
 #define JUTILITY_H
 
-#include "../dolphin/gx/GXTexture.h"
+#include "../dolphin/gx/gx.h"
 
 namespace JUtility {
 
