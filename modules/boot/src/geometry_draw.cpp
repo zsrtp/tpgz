@@ -4,9 +4,10 @@
 #include "libtp_c/include/JSystem/J3DGraphBase/J3DSys.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/d/bg/d_bg_s_captpoly.h"
+#include "libtp_c/include/msl_c/math.h"
 
 #include <cstdio>
-#include <math.h>
+//#include <math.h>
 #include "font.h"
 
 KEEP_VAR CollisionItem g_collisionFlags[COLLISION_FLAGS_AMNT] = {
@@ -525,7 +526,7 @@ int cM3d_UpMtx_Base(const Vec& param_0, const Vec& param_1, Mtx m) {
         var_f31 = -1.0f;
     }
 
-    f32 var_f30 = acosf(var_f31);
+    f32 var_f30 = (float)acos(var_f31);
     PSMTXRotAxisRad(m, &sp3C, var_f30);
     return 1;
 }
