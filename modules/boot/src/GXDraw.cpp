@@ -6,11 +6,9 @@
 #include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/os/OS.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/msl_c/math.h"
 
 extern "C" {
-
-float sinf(float);
-float cosf(float);
 
 static GXVtxDescList vcd[27];
 static GXVtxAttrFmtList vat[27];
@@ -237,15 +235,15 @@ void GXDrawSphere(u8 numMajor, u8 numMinor) {
     for (i = 0; i < numMajor; i++) {
         a = i * majorStep;
         b = a + majorStep;
-        r0 = radius * sinf(a);
-        r1 = radius * sinf(b);
-        z0 = radius * cosf(a);
-        z1 = radius * cosf(b);
+        r0 = radius * (float)sin(a);
+        r1 = radius * (float)sin(b);
+        z0 = radius * (float)cos(a);
+        z1 = radius * (float)cos(b);
         GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT3, (numMinor + 1) * 2);
         for (j = 0; j <= numMinor; j++) {
             c = j * minorStep;
-            x = cosf(c);
-            y = sinf(c);
+            x = (float)cos(c);
+            y = (float)sin(c);
             GXPosition3f32(x * r1, y * r1, z1);
             GXNormal3f32((x * r1) / radius, (y * r1) / radius, z1 / radius);
             if (ttype != GX_NONE) {
@@ -277,8 +275,8 @@ void GXDrawCylinder(u8 numEdges) {
 
     for (i = 0; i <= numEdges; i++) {
         angle = (3.1415927f * (2.0f * i)) / numEdges;
-        x[i] = cosf(angle);
-        y[i] = sinf(angle);
+        x[i] = (float)cos(angle);
+        y[i] = (float)sin(angle);
     }
 
     GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT3, (numEdges + 1) * 2);

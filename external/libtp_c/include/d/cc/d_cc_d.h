@@ -286,8 +286,9 @@ public:
 
 static_assert(sizeof(dCcD_GObjInf) == 0x104);
 
+#ifndef WII_PLATFORM
 #define dCcD_Cyl_vtable __vt__8dCcD_Cyl
-#ifdef WII_PLATFORM
+#else
 #define dCcD_Cyl_vtable dCcD_Cyl____vt
 #endif
 
@@ -299,8 +300,9 @@ public:
     cCcD_CylAttr mCylAttr;
 };  // Size = 0x13C
 
+#ifndef WII_PLATFORM
 #define dCcD_Sph_vtable __vt__8dCcD_Sph
-#ifdef WII_PLATFORM
+#else
 #define dCcD_Sph_vtable dCcD_Sph____vt
 #endif
 
@@ -312,8 +314,9 @@ public:
     cCcD_SphAttr mSphAttr;
 };  // Size = 0x138
 
+#ifndef WII_PLATFORM
 #define dCcD_Cps_vtable __vt__8dCcD_Cps
-#ifdef WII_PLATFORM
+#else
 #define dCcD_Cps_vtable dCcD_Cps____vt
 #endif
 

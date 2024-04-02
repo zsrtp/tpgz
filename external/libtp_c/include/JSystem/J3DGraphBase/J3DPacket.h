@@ -31,9 +31,9 @@ public:
 
 LIBTP_DEFINE_FUNC(entryImm__13J3DDrawBufferFP9J3DPacketUs, J3DDrawBuffer__entryImm_J3DPacket____unsigned_short_,
                   bool, J3DDrawBuffer__entryImm, (J3DDrawBuffer*, J3DPacket* packet, u16))
-
+#ifndef WII_PLATFORM
 #define J3DPacket__entry entry__9J3DPacketFP13J3DDrawBuffer
-#ifdef WII_PLATFORM
+#else
 #define J3DPacket__entry J3DPacket__entry_J3DDrawBuffer___
 #endif
 
@@ -54,8 +54,9 @@ struct J3DPacket__vtable_t {
     void* dtor;
 };
 
+#ifndef WII_PLATFORM
 #define J3DPacket__vtable __vt__9J3DPacket
-#ifdef WII_PLATFORM
+#else
 #define J3DPacket__vtable J3DPacket____vt
 #endif
 

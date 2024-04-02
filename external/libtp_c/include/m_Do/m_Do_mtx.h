@@ -20,7 +20,7 @@ extern Mtx mDoMtx_stack_c__now;
 LIBTP_DEFINE_FUNC(mDoMtx_XYZrotM__FPA4_fsss, mDoMtx_XYZrotM_float,
                   void, mDoMtx_XYZrotM, (Mtx, short, short, short))
 
-LIBTP_DEFINE_FUNC(scaleM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__scaleM_float_,
+LIBTP_DEFINE_FUNC(scaleM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__scaleM_float__float__float_,
                   void, mDoMtx_stack_c__scaleM, (f32, f32, f32))
 
 LIBTP_DEFINE_FUNC(transM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__transM_float__float__float_,
