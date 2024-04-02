@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "../addrs.h"
+#include "../defines.h"
 
 extern "C" {
 double atan(double x);
@@ -32,5 +33,7 @@ double pow(double x, double y);
 double fastSqrt(double x);
 double sqrt(double x);
 }
+
+LIBTP_DEFINE_FUNC(fabsf__3stdFf, fabsf, float, std__fabsf, (float))
 
 #endif  // !LIB_TP_MATH

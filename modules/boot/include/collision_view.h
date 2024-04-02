@@ -5,6 +5,7 @@
 #include "libtp_c/include/JSystem/J3DGraphBase/J3DPacket.h"
 #include "libtp_c/include/SSystem/SComponent/c_xyz.h"
 #include "libtp_c/include/SSystem/SComponent/c_sxyz.h"
+#include "libtp_c/include/m_Do/m_Do_mtx.h"
 
 #define COLLISION_FLAGS_AMNT 4
 
@@ -177,3 +178,22 @@ public:
 
 void mDoExt_linePacket__dtor(mDoExt_linePacket* i_this);
 void mDoExt_linePacket__draw(mDoExt_linePacket* i_this);
+
+class mDoExt_cylinderMPacket {
+public:
+    mDoExt_cylinderMPacket(Mtx m, const GXColor& color, u8 param_2) {
+        PSMTXCopy(m, mMatrix);
+        mColor = color;
+        _44 = param_2;
+    }
+
+    ~mDoExt_cylinderMPacket() {}
+
+    /* 0x00 */ J3DPacket base;
+    /* 0x10 */ Mtx mMatrix;
+    /* 0x40 */ GXColor mColor;
+    /* 0x44 */ u8 _44;
+};
+
+void mDoExt_cylinderMPacket__dtor(mDoExt_cylinderMPacket* i_this);
+void mDoExt_cylinderMPacket__draw(mDoExt_cylinderMPacket* i_this);

@@ -2,11 +2,11 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/JSystem/J3DGraphBase/J3DSys.h"
-#include "libtp_c/include/m_Do/m_Do_mtx.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/d/bg/d_bg_s_captpoly.h"
 
 #include <cstdio>
+#include <math.h>
 #include "font.h"
 
 KEEP_VAR CollisionItem g_collisionFlags[COLLISION_FLAGS_AMNT] = {
@@ -436,6 +436,106 @@ void mDoExt_linePacket__draw(mDoExt_linePacket* i_this) {
     resetVcdVatCache();
 }
 
+//-------------------------------------------------------
+//                   Cylinder Matrix
+//-------------------------------------------------------
+
+static J3DPacket__vtable_t mDoExt_cylinderMPacket__vtable {
+    (void*)nullptr,  // RTTI
+    (void*)nullptr,  // pad
+    (void*)&J3DPacket__entry,
+    (void*)&mDoExt_cylinderMPacket__draw,
+    (void*)&mDoExt_cylinderMPacket__dtor,
+};
+
+void dDbVw_drawCylinderMXlu(Mtx m, const GXColor& color, u8 param_2) {
+    if (l_drawPacketListNum < DRAW_PACKET_MAX) {
+        mDoExt_cylinderMPacket* cylm = new mDoExt_cylinderMPacket(m, color, param_2);
+        cylm->base.vtable = &mDoExt_cylinderMPacket__vtable;
+
+        dDbVw_setDrawPacketList(&cylm->base, 1);
+    }
+}
+
+void mDoExt_cylinderMPacket__dtor(mDoExt_cylinderMPacket* i_this) {
+    i_this->~mDoExt_cylinderMPacket();
+    delete i_this;
+}
+
+void mDoExt_cylinderMPacket__draw(mDoExt_cylinderMPacket* i_this) {
+    GXSetNumChans(1);
+    GXSetChanCtrl(GX_COLOR0, GX_ENABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT0, GX_DF_CLAMP, GX_AF_NONE);
+    GXSetNumTexGens(0);
+    GXSetNumTevStages(1);
+    GXSetTevColor(GX_TEVREG0, i_this->mColor);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_C0, GX_CC_ZERO);
+    GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
+    GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
+    GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
+
+    if (i_this->_44) {
+        GXSetZMode(GX_ENABLE, GX_LEQUAL, GX_ENABLE);
+    } else {
+        GXSetZMode(GX_DISABLE, GX_LEQUAL, GX_DISABLE);
+    }
+
+    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRC_ALPHA, GX_BL_INV_SRC_ALPHA, GX_LO_CLEAR);
+    GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_OR, GX_ALWAYS, 0);
+    GXSetCullMode(GX_CULL_BACK);
+    GXSetClipMode(GX_CLIP_ENABLE);
+
+    PSMTXConcat(j3dSys.getViewMtx(), i_this->mMatrix, i_this->mMatrix);
+
+    GXLoadPosMtxImm(i_this->mMatrix, 0);
+    mDoMtx_inverseTranspose(i_this->mMatrix, i_this->mMatrix);
+
+    GXLoadNrmMtxImm(i_this->mMatrix, 0);
+    GXSetCurrentMtx(0);
+
+    GXDrawCylinder(8);
+}
+
+#define CM3D_F_ABS_MIN 0.0000038146973f
+inline bool cM3d_IsZero(f32 f) {
+    return std__fabsf(f) < CM3D_F_ABS_MIN;
+}
+
+int cM3d_UpMtx_Base(const Vec& param_0, const Vec& param_1, Mtx m) {
+    if (cM3d_IsZero(PSVECMag(&param_1))) {
+        PSMTXIdentity(m);
+        return 0;
+    }
+
+    Vec sp3C;
+    Vec sp48;
+    PSVECNormalize(&param_1, &sp48);
+    PSVECCrossProduct(&param_0, &sp48, &sp3C);
+
+    if (cM3d_IsZero(PSVECMag(&sp3C))) {
+        sp3C.x = 1.0f;
+        sp3C.y = 0.0f;
+        sp3C.z = 0.0f;
+    }
+
+    f32 var_f31 = PSVECDotProduct(&param_0, &sp48);
+    if (var_f31 > 1.0f) {
+        var_f31 = 1.0f;
+    } else if (var_f31 < -1.0f) {
+        var_f31 = -1.0f;
+    }
+
+    f32 var_f30 = acosf(var_f31);
+    PSMTXRotAxisRad(m, &sp3C, var_f30);
+    return 1;
+}
+
+int cM3d_UpMtx(const Vec& param_0, Mtx m) {
+    static Vec base_y = {0.0f, 1.0f, 0.0f};
+
+    return cM3d_UpMtx_Base(base_y, param_0, m);
+}
+
 #define MAX_DRAW_DIST 2000.0f
 
 KEEP_FUNC void dCcD_Cyl_Draw(dCcD_Cyl* i_this, const GXColor& i_color) {
@@ -450,7 +550,32 @@ KEEP_FUNC void dCcD_Sph_Draw(dCcD_Sph* i_this, const GXColor& i_color) {
     }
 }
 
-KEEP_FUNC void dCcD_Cps_Draw(dCcD_Cps* i_this, const GXColor& i_color) {}
+KEEP_FUNC void dCcD_Cps_Draw(dCcD_Cps* i_this, const GXColor& i_color) {
+    if (dComIfGp_getPlayer()->current.pos.abs(i_this->mCpsAttr.cps.mStart) < MAX_DRAW_DIST) {
+        Mtx up_m;
+        Mtx sp98;
+        Mtx cyl_m;
+        PSMTXIdentity(cyl_m);
+
+        cXyz spD8;
+        i_this->mCpsAttr.cps.CalcVec(&spD8);
+
+        mDoMtx_trans(sp98, i_this->mCpsAttr.cps.GetStartP().x, i_this->mCpsAttr.cps.GetStartP().y, i_this->mCpsAttr.cps.GetStartP().z);
+        cM3d_UpMtx(spD8, up_m);
+        mDoMtx_concat(sp98, up_m, cyl_m);
+
+        mDoMtx_scale(sp98, i_this->mCpsAttr.cps.GetR(), i_this->mCpsAttr.cps.GetLen() * 0.5f, i_this->mCpsAttr.cps.GetR());
+        mDoMtx_concat(cyl_m, sp98, cyl_m);
+        mDoMtx_trans(sp98, 0.0f, 1.0f, 0.0f);
+        mDoMtx_concat(cyl_m, sp98, cyl_m);
+        mDoMtx_XrotS(sp98, 0x4000);
+        mDoMtx_concat(cyl_m, sp98, cyl_m);
+
+        dDbVw_drawCylinderMXlu(cyl_m, i_color, 1);
+        dDbVw_drawSphereXlu(i_this->mCpsAttr.cps.GetStartP(), i_this->mCpsAttr.cps.GetR(), i_color, 1);
+        dDbVw_drawSphereXlu(i_this->mCpsAttr.cps.GetEndP(), i_this->mCpsAttr.cps.GetR(), i_color, 1);
+    }
+}
 
 u16 dCcS_Data::at_obj_count = 0;
 u16 dCcS_Data::tg_obj_count = 0;

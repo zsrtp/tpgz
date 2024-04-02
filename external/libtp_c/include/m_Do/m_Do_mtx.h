@@ -32,6 +32,21 @@ LIBTP_DEFINE_FUNC(mDoMtx_inverseTranspose__FPA4_CfPA4_f, mDoMtx_inverseTranspose
 LIBTP_DEFINE_FUNC(mDoMtx_XrotM__FPA4_fs, mDoMtx_XrotM_float_____4___short_,
                   void, mDoMtx_XrotM, (Mtx, s16))
 
+LIBTP_DEFINE_FUNC(mDoMtx_XrotS__FPA4_fs, mDoMtx_XrotS_float_____4___short_,
+                  void, mDoMtx_XrotS, (Mtx, s16))
+
+inline void mDoMtx_trans(Mtx m, f32 x, f32 y, f32 z) {
+    PSMTXTrans(m, x, y, z);
+}
+
+inline void mDoMtx_concat(const Mtx a, const Mtx b, Mtx c) {
+    PSMTXConcat(a, b, c);
+}
+
+inline void mDoMtx_scale(Mtx m, f32 x, f32 y, f32 z) {
+    PSMTXScale(m, x, y, z);
+}
+
 class mDoMtx_stack_c {
 public:
     static MtxP get() { return mDoMtx_stack_c__now; }
