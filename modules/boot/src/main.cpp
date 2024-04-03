@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "menus/utils/menu_mgr.h"
 #include "timer.h"
+#include "trigger_view.h"
 #include "utils/card.h"
 #include "utils/draw.h"
 #include "utils/link.h"
@@ -37,6 +38,7 @@ bool last_frame_was_loading = false;
 tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
 tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
+tpgz::dyn::GZModule g_TriggerView_rel("/tpgz/rels/features/trigger_view.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -131,6 +133,26 @@ KEEP_FUNC void GZ_handleTools() {
     handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
     handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
     handleModule(MOVE_LINK_INDEX, g_MoveLink_rel);
+}
+
+/**
+ * @brief   Handles when to load Trigger Viewer into memory.
+ */
+KEEP_FUNC void GZ_handleTriggerView() {
+    int active_flags = 0;
+    for (int i = 0; i < TRIGGER_VIEW_MAX; i++) {
+        if (g_triggerViewFlags[i].active) {
+            active_flags++;
+        }
+    }
+
+    if (active_flags > 0 && !g_TriggerView_rel.isLoaded()) {
+        g_TriggerView_rel.loadFixed(true);
+    }
+
+    if (active_flags <= 0 && g_TriggerView_rel.isLoaded()) {
+        g_TriggerView_rel.close();
+    }
 }
 
 /**

@@ -102,7 +102,7 @@ static J3DPacket__vtable_t mDoExt_cubePacket__vtable {
     (void*)&mDoExt_cubePacket__dtor,
 };
 
-void dDbVw_drawCubeXlu(cXyz& pos, cXyz& size, csXyz& angle, const GXColor& color) {
+KEEP_FUNC void dDbVw_drawCubeXlu(cXyz& pos, cXyz& size, csXyz& angle, const GXColor& color) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_cubePacket* cube = new mDoExt_cubePacket(pos, size, angle, color);
         cube->base.vtable = &mDoExt_cubePacket__vtable;
@@ -147,7 +147,7 @@ static J3DPacket__vtable_t mDoExt_spherePacket__vtable {
     (void*)&mDoExt_spherePacket__dtor,
 };
 
-void dDbVw_drawSphereXlu(cXyz& position, f32 radius, const GXColor& color, u8 param_3) {
+KEEP_FUNC void dDbVw_drawSphereXlu(cXyz& position, f32 radius, const GXColor& color, u8 param_3) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_spherePacket* sph = new mDoExt_spherePacket(position, radius, color, param_3);
         sph->base.vtable = &mDoExt_spherePacket__vtable;
@@ -209,7 +209,7 @@ static J3DPacket__vtable_t mDoExt_cylinderPacket__vtable {
     (void*)&mDoExt_cylinderPacket__dtor,
 };
 
-void dDbVw_drawCylinderXlu(cXyz& position, f32 radius, f32 height, const GXColor& color, u8 param_4) {
+KEEP_FUNC void dDbVw_drawCylinderXlu(cXyz& position, f32 radius, f32 height, const GXColor& color, u8 param_4) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_cylinderPacket* cyl = new mDoExt_cylinderPacket(position, radius, height, color, param_4);
         cyl->base.vtable = &mDoExt_cylinderPacket__vtable;
@@ -274,7 +274,7 @@ static J3DPacket__vtable_t mDoExt_cube8pPacket__vtable {
     (void*)&mDoExt_cube8pPacket__dtor,
 };
 
-void dDbVw_drawCube8pXlu(cXyz* points, const GXColor& color) {
+KEEP_FUNC void dDbVw_drawCube8pXlu(cXyz* points, const GXColor& color) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_cube8pPacket* cube = new mDoExt_cube8pPacket(points, color);
         cube->base.vtable = &mDoExt_cube8pPacket__vtable;
@@ -304,7 +304,7 @@ static J3DPacket__vtable_t mDoExt_trianglePacket__vtable {
     (void*)&mDoExt_trianglePacket__dtor,
 };
 
-void dDbVw_drawTriangleXlu(cXyz* points, const GXColor& color, u8 param_2) {
+KEEP_FUNC void dDbVw_drawTriangleXlu(cXyz* points, const GXColor& color, u8 param_2) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_trianglePacket* tri = new mDoExt_trianglePacket(points, color, param_2);
         tri->base.vtable = &mDoExt_trianglePacket__vtable;
@@ -377,7 +377,7 @@ static J3DPacket__vtable_t mDoExt_linePacket__vtable {
     (void*)&mDoExt_linePacket__dtor,
 };
 
-void dDbVw_drawLineXlu(cXyz& pointA, cXyz& pointB, const GXColor& color, u8 param_3, u8 width) {
+KEEP_FUNC void dDbVw_drawLineXlu(cXyz& pointA, cXyz& pointB, const GXColor& color, u8 param_3, u8 width) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_linePacket* line = new mDoExt_linePacket(pointA, pointB, color, param_3, width);
         line->base.vtable = &mDoExt_linePacket__vtable;
@@ -449,7 +449,7 @@ static J3DPacket__vtable_t mDoExt_cylinderMPacket__vtable {
     (void*)&mDoExt_cylinderMPacket__dtor,
 };
 
-void dDbVw_drawCylinderMXlu(Mtx m, const GXColor& color, u8 param_2) {
+KEEP_FUNC void dDbVw_drawCylinderMXlu(Mtx m, const GXColor& color, u8 param_2) {
     if (l_drawPacketListNum < DRAW_PACKET_MAX) {
         mDoExt_cylinderMPacket* cylm = new mDoExt_cylinderMPacket(m, color, param_2);
         cylm->base.vtable = &mDoExt_cylinderMPacket__vtable;

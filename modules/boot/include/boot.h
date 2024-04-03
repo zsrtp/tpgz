@@ -20,6 +20,7 @@ void exit();
 
 extern tpgz::dyn::GZModule g_InputViewer_rel;
 void GZ_handleTools();
+void GZ_handleTriggerView();
 void GZ_handleMenu();
 void GZ_handleCardLoad();
 void GZ_handleSavingTmp();

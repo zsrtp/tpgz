@@ -56,6 +56,7 @@ void main() {
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
     g_PreLoopListener->addListener(GZ_handleTools);
+    g_PreLoopListener->addListener(GZ_handleTriggerView);
     g_PreLoopListener->addListener(GZ_drawPolygons);
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
