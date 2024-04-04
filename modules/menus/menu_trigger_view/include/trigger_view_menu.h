@@ -1,6 +1,7 @@
 #pragma once
 
 #include "menu.h"
+#include "trigger_view.h"
 
 class TriggerViewMenu : public Menu {
 public:
@@ -9,5 +10,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[4];
+    Line lines[TRIGGER_VIEW_MAX];
 };

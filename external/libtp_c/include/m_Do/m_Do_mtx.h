@@ -35,6 +35,15 @@ LIBTP_DEFINE_FUNC(mDoMtx_XrotM__FPA4_fs, mDoMtx_XrotM_float_____4___short_,
 LIBTP_DEFINE_FUNC(mDoMtx_XrotS__FPA4_fs, mDoMtx_XrotS_float_____4___short_,
                   void, mDoMtx_XrotS, (Mtx, s16))
 
+LIBTP_DEFINE_FUNC(mDoMtx_YrotS__FPA4_fs, mDoMtx_YrotS_float_____4___short_,
+                  void, mDoMtx_YrotS, (Mtx, s16))
+
+LIBTP_DEFINE_FUNC(mDoMtx_YrotM__FPA4_fs, mDoMtx_YrotM_float_____4___short_,
+                  void, mDoMtx_YrotM, (Mtx, s16))
+
+LIBTP_DEFINE_FUNC(mDoMtx_ZrotM__FPA4_fs, mDoMtx_ZrotM_float_____4___short_,
+                  void, mDoMtx_ZrotM, (Mtx, s16))
+
 inline void mDoMtx_trans(Mtx m, f32 x, f32 y, f32 z) {
     PSMTXTrans(m, x, y, z);
 }
@@ -45,6 +54,14 @@ inline void mDoMtx_concat(const Mtx a, const Mtx b, Mtx c) {
 
 inline void mDoMtx_scale(Mtx m, f32 x, f32 y, f32 z) {
     PSMTXScale(m, x, y, z);
+}
+
+inline void mDoMtx_inverse(const Mtx a, Mtx b) {
+    PSMTXInverse(a, b);
+}
+
+inline void mDoMtx_multVecArray(Mtx m, const Vec* src, Vec* dst, u32 count) {
+    PSMTXMultVecArray(m, src, dst, count);
 }
 
 class mDoMtx_stack_c {
@@ -59,6 +76,9 @@ public:
     static void transM(f32 x, f32 y, f32 z) { mDoMtx_stack_c__transM(x, y, z); }
     static void inverseTranspose() { mDoMtx_inverseTranspose(mDoMtx_stack_c__now, mDoMtx_stack_c__now); }
     static void XrotM(s16 x) { mDoMtx_XrotM(mDoMtx_stack_c__now, x); }
+    static void YrotM(s16 y) { mDoMtx_YrotM(mDoMtx_stack_c__now, y); }
+    static void ZrotM(s16 z) { mDoMtx_ZrotM(mDoMtx_stack_c__now, z); }
+    static void YrotS(s16 y) { mDoMtx_YrotS(mDoMtx_stack_c__now, y); }
 };
 
 #endif /* M_DO_M_DO_MTX_H */

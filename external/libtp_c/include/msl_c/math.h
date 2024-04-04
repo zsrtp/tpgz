@@ -34,6 +34,14 @@ double fastSqrt(double x);
 double sqrt(double x);
 }
 
+inline float fcos(float v) {
+    return (float)cos(v);
+}
+
+inline float fsin(float v) {
+    return (float)sin(v);
+}
+
 LIBTP_DEFINE_FUNC(fabsf__3stdFf, fabsf, float, std__fabsf, (float))
 
 #endif  // !LIB_TP_MATH

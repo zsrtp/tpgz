@@ -13,6 +13,12 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"view load zones", VIEW_LOAD_ZONES, "", true,
                          &g_triggerViewFlags[VIEW_LOAD_ZONES].active},
+                         {"view midna stops", VIEW_MIDNA_STOPS, "", true,
+                         &g_triggerViewFlags[VIEW_MIDNA_STOPS].active},
+                         {"view switch areas", VIEW_SWITCH_AREAS, "", true,
+                         &g_triggerViewFlags[VIEW_SWITCH_AREAS].active},
+                         {"view twilight gates", VIEW_TW_GATES, "", true,
+                         &g_triggerViewFlags[VIEW_TW_GATES].active},
                     } {}
 
 TriggerViewMenu::~TriggerViewMenu() {}

@@ -168,7 +168,7 @@ void mDoExt_spherePacket__draw(mDoExt_spherePacket* i_this) {
     GXSetNumTevStages(1);
     GXSetTevColor(GX_TEVREG0, i_this->mColor);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
-    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_C0, GX_CC_ZERO);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C0);
     GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
     GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
     GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
@@ -230,7 +230,7 @@ void mDoExt_cylinderPacket__draw(mDoExt_cylinderPacket* i_this) {
     GXSetNumTevStages(1);
     GXSetTevColor(GX_TEVREG0, i_this->mColor);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
-    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_C0, GX_CC_ZERO);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C0);
     GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
     GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
     GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
@@ -470,7 +470,7 @@ void mDoExt_cylinderMPacket__draw(mDoExt_cylinderMPacket* i_this) {
     GXSetNumTevStages(1);
     GXSetTevColor(GX_TEVREG0, i_this->mColor);
     GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
-    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_RASC, GX_CC_C0, GX_CC_ZERO);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C0);
     GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
     GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
     GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
@@ -495,6 +495,84 @@ void mDoExt_cylinderMPacket__draw(mDoExt_cylinderMPacket* i_this) {
     GXSetCurrentMtx(0);
 
     GXDrawCylinder(8);
+}
+
+//-------------------------------------------------------
+//                        Circle
+//-------------------------------------------------------
+
+static J3DPacket__vtable_t mDoExt_circlePacket__vtable {
+    (void*)nullptr,  // RTTI
+    (void*)nullptr,  // pad
+    (void*)&J3DPacket__entry,
+    (void*)&mDoExt_circlePacket__draw,
+    (void*)&mDoExt_circlePacket__dtor,
+};
+
+KEEP_FUNC void dDbVw_drawCircleXlu(cXyz& i_position, f32 i_radius, const GXColor& i_color, u8 param_3, u8 i_lineWidth) {
+    if (l_drawPacketListNum < DRAW_PACKET_MAX) {
+        mDoExt_circlePacket* circle = new mDoExt_circlePacket(i_position, i_radius, i_color, param_3, i_lineWidth);
+        circle->base.vtable = &mDoExt_circlePacket__vtable;
+
+        dDbVw_setDrawPacketList(&circle->base, 1);
+    }
+}
+
+void mDoExt_circlePacket__dtor(mDoExt_circlePacket* i_this) {
+    i_this->~mDoExt_circlePacket();
+    delete i_this;
+}
+
+void mDoExt_circlePacket__draw(mDoExt_circlePacket* i_this) {
+    GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+    GXClearVtxDesc();
+    GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+    GXSetNumChans(1);
+    GXSetChanCtrl(GX_COLOR0, GX_DISABLE, GX_SRC_REG, GX_SRC_REG, GX_LIGHT_NULL, GX_DF_CLAMP, GX_AF_NONE);
+    GXSetNumTexGens(0);
+    GXSetNumTevStages(1);
+    GXSetTevColor(GX_TEVREG0, i_this->m_color);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
+    GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C0);
+    GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
+    GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
+    GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_ENABLE, GX_TEVPREV);
+
+    if (i_this->_24) {
+        GXSetZMode(GX_ENABLE, GX_LEQUAL, GX_ENABLE);
+    } else {
+        GXSetZMode(GX_DISABLE, GX_LEQUAL, GX_DISABLE);
+    }
+
+    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRC_ALPHA, GX_BL_INV_SRC_ALPHA, GX_LO_CLEAR);
+    GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_OR, GX_ALWAYS, 0);
+    GXSetCullMode(GX_CULL_NONE);
+    GXSetClipMode(GX_CLIP_ENABLE);
+    GXSetLineWidth(i_this->m_lineWidth, GX_TO_ZERO);
+    GXLoadPosMtxImm(j3dSys.getViewMtx(), 0);
+    GXSetCurrentMtx(0);
+
+    cXyz sp38;
+    cXyz sp44;
+    int numEdges = 36;
+    sp38.y = sp44.y = i_this->m_position.y;
+    
+    GXBegin(GX_LINES, GX_VTXFMT0, numEdges * 2);
+    for (int i = 0; i < numEdges; i++) {
+        sp38.x = fcos((i * 6.2831855f) / numEdges) * i_this->m_radius;
+        sp38.z = fsin((i * 6.2831855f) / numEdges) * i_this->m_radius;
+
+        sp44.x = fcos(((i + 1) * 6.2831855f) / numEdges) * i_this->m_radius;
+        sp44.z = fsin(((i + 1) * 6.2831855f) / numEdges) * i_this->m_radius;
+
+        sp38.x += i_this->m_position.x;
+        sp38.z += i_this->m_position.z;
+        sp44.x += i_this->m_position.x;
+        sp44.z += i_this->m_position.z;
+        GXPosition3f32(sp38.x, sp38.y, sp38.z);
+        GXPosition3f32(sp44.x, sp44.y, sp44.z);
+    }
+    GXEnd();
 }
 
 #define CM3D_F_ABS_MIN 0.0000038146973f

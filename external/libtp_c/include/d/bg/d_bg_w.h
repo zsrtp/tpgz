@@ -33,7 +33,7 @@ struct cBgW__vtable {
     /* 0x58 */ void* SplGrpChk;
     /* 0x5C */ void* SphChk;
     /* 0x60 */ void* GetGrpRoomIndex;
-    /* 0x64 */ void* GetExitId;
+    /* 0x64 */ int (*GetExitId)(void* i_this);
     /* 0x68 */ void* GetPolyColor;
     /* 0x6C */ void* GetHorseNoEntry;
     /* 0x70 */ void* GetSpecialCode;

@@ -23,26 +23,74 @@ struct cXyz : Vec {
         this->y = vec.y;
         this->z = vec.z;
     }
+
     void operator=(const Vec& vec) {
         this->x = vec.x;
         this->y = vec.y;
         this->z = vec.z;
     }
+
+    cXyz operator+(Vec const& vec) const {
+        Vec ret;
+        PSVECAdd(this, &vec, &ret);
+        return cXyz(ret);
+    }
+
+    cXyz operator-(Vec const& vec) const {
+        Vec ret;
+        PSVECSubtract(this, &vec, &ret);
+        return cXyz(ret);
+    }
+
+    cXyz operator*(f32 scale) const {
+        Vec ret;
+        PSVECScale(this, &ret, scale);
+        return cXyz(ret);
+    }
+
+    cXyz operator*(Vec const& vec) const {
+        cXyz ret;
+        ret.x = this->x * vec.x;
+        ret.y = this->y * vec.y;
+        ret.z = this->z * vec.z;
+        return cXyz(ret);
+    }
+
+    cXyz operator/(f32 scale) const {
+        Vec ret;
+        PSVECScale(this, &ret, 1.0f / scale);
+        return cXyz(ret);
+    }
+    
     void operator+=(f32 f) {
         x += f;
         y += f;
         z += f;
     }
+
     void operator-=(f32 f) {
         x -= f;
         y -= f;
         z -= f;
     }
-    void operator+=(const Vec& vec) {
-        x += vec.x;
-        y += vec.y;
-        z += vec.z;
+
+    void operator*=(const Vec& other) {
+        x *= other.x;
+        y *= other.y;
+        z *= other.z;
     }
+
+    void operator-=(const Vec& other) { PSVECSubtract(this, &other, this); }
+
+    cXyz* operator+=(const Vec& other) {
+        PSVECAdd(this, &other, this);
+        return this;
+    }
+
+    void operator*=(f32 scale) { PSVECScale(this, this, scale); }
+
+    void operator/=(f32 scale) { PSVECScale(this, this, 1.0f / scale); }
+
     void setAll(f32 f) {
         z = f;
         y = f;
