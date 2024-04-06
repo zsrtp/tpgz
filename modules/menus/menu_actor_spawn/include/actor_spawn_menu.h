@@ -1,11 +1,11 @@
 #include "menu.h"
 
 struct ActorSpawnData {
+    Cursor cursor;
     uint16_t l_actorID;
     uint32_t l_actorParams;
     int8_t l_actorType = -1;
     uint8_t l_paramIdx;
-    bool l_paramsSelected;
 };
 
 enum {
@@ -17,7 +17,7 @@ enum {
 
 class ActorSpawnMenu : public Menu {
 public:
-    ActorSpawnMenu(Cursor&, ActorSpawnData&);
+    ActorSpawnMenu(ActorSpawnData&);
     virtual ~ActorSpawnMenu();
     virtual void draw();
 
@@ -26,7 +26,7 @@ private:
     uint32_t& l_actorParams;
     int8_t& l_actorType;
     uint8_t& l_paramIdx;
-    bool& l_paramsSelected;
+    bool l_paramsSelected;
 
     Line lines[4];
 };
