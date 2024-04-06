@@ -39,6 +39,8 @@ KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
                          &g_cheats[UnrestrictedItems].active},
                         {"transform anywhere", TransformAnywhere, "Transform at any location", true,
                          &g_cheats[TransformAnywhere].active},
+                        {"disable item timer", DisableItemTimer, "Disable item delete timer", true,
+                         &g_cheats[DisableItemTimer].active},
 #ifdef WII_PLATFORM
                         {"gale LJA", GaleLJA, "Yeet everywhere", true, &g_cheats[GaleLJA].active},
 #endif

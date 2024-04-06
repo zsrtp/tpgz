@@ -5,6 +5,7 @@
 #include "libtp_c/include/d/d_procname.h"
 #include "libtp_c/include/d/a/d_a_e_zs.h"
 #include "libtp_c/include/d/a/d_a_e_s1.h"
+#include "libtp_c/include/d/d_item.h"
 #include "rels/include/patch.h"
 #include "libtp_c/include/defines.h"
 #include "gz_flags.h"
@@ -30,7 +31,7 @@ Cheat g_cheats[CHEAT_AMNT] = {
     {InfiniteHearts, false},    {InfiniteOil, false},       {InfiniteRupees, false},
     {InfiniteSlingshot, false}, {Invincible, false},        {InvincibleEnemies, false},
     {MoonJump, false},          {DoorStorage, false},       {SuperClawshot, false},
-    {UnrestrictedItems, false}, {TransformAnywhere, false},
+    {UnrestrictedItems, false}, {TransformAnywhere, false}, {DisableItemTimer, false},
 #ifdef WII_PLATFORM
     {GaleLJA, false},
 #endif
@@ -162,6 +163,12 @@ void GZ_applyCheats() {
             dComIfGp_getPlayer()->mLinkAcch.OffLineCheckNone();
             l_doorCollision = false;
         }
+    }
+
+    if (GZ_checkCheat(DisableItemTimer)) {
+        daItemBase__data.field_0x16 = 0x7FFF;
+    } else {
+        daItemBase__data.field_0x16 = 240;
     }
 
 #ifdef WII_PLATFORM

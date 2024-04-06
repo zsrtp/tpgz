@@ -2,9 +2,9 @@
 #define LIB_TP_CHEATS
 
 #ifdef WII_PLATFORM
-#define CHEAT_AMNT 15
+#define CHEAT_AMNT 16
 #else
-#define CHEAT_AMNT 14
+#define CHEAT_AMNT 15
 #endif
 
 enum CheatId {
@@ -22,6 +22,7 @@ enum CheatId {
     SuperClawshot,
     UnrestrictedItems,
     TransformAnywhere,
+    DisableItemTimer,
 #ifdef WII_PLATFORM
     GaleLJA,
 #endif
