@@ -1,5 +1,7 @@
 #pragma once
 
+#include "libtp_c/include/dolphin/types.h"
+
 enum TriggerViewIndex {
     VIEW_LOAD_ZONES,
     VIEW_MIDNA_STOPS,

@@ -49,7 +49,7 @@ void drawSceneExit(fopAc_ac_c* actor) {
     mDoMtx_inverse(scex->mMatrix, mDoMtx_stack_c::get());
     mDoMtx_multVecArray(mDoMtx_stack_c::get(), points, points, 8);
 
-    static GXColor color = {0xFF, 0x00, 0xFF, 0x80};
+    GXColor color = {0xFF, 0x00, 0xFF, g_triggerOpacity};
     dDbVw_drawCube8pXlu(points, color);
 }
 
@@ -63,7 +63,7 @@ void drawMidnaStop(fopAc_ac_c* actor) {
     static_assert(sizeof(daMidnaStop_c) == 0x5C8);
     daMidnaStop_c* mstop = (daMidnaStop_c*)actor;
 
-    GXColor color = {0x4A, 0x36, 0xBA, 0xA0};
+    GXColor color = {0x4A, 0x36, 0xBA, g_triggerOpacity};
     dDbVw_drawCylinderXlu(mstop->current.pos, mstop->mScale.x * 100.0f, mstop->mScale.y, color, 1);
 }
 
@@ -78,7 +78,7 @@ void drawSwitchArea(fopAc_ac_c* actor) {
     daSwc00_c* swc = (daSwc00_c*)actor;
     int shape_type = (fopAcM_GetParam(actor) >> 0x12) & 3;
 
-    GXColor color = {0x00, 0x00, 0xFF, 0xA0};
+    GXColor color = {0x00, 0x00, 0xFF, g_triggerOpacity};
     if (shape_type == 3) {
         dDbVw_drawCylinderXlu(swc->current.pos, JMAFastSqrt(swc->mScale.x) - 30.0f, swc->mScale.y, color, 1);
     } else if (shape_type == 0) {
@@ -104,7 +104,7 @@ void drawEventArea(fopAc_ac_c* actor) {
         type = 0;
     }
 
-    GXColor color = {0xFF, 0x00, 0x00, 0xA0};
+    GXColor color = {0xFF, 0x00, 0x00, g_triggerOpacity};
     if (type == 15 || type == 16) {
         cXyz points[8];
         points[0].set(-actor->mScale.x, actor->mScale.y, -actor->mScale.z);
@@ -127,7 +127,7 @@ void drawEventArea(fopAc_ac_c* actor) {
 }
 
 void drawEventTag(fopAc_ac_c* actor) {
-    GXColor color = {0x00, 0xC8, 0xFF, 0xA0};
+    GXColor color = {0x00, 0xC8, 0xFF, g_triggerOpacity};
     u16 area_type = actor->orig.angle.x & 0x8000;
 
     if (area_type == -0x8000) {
@@ -160,7 +160,7 @@ void drawEventTag(fopAc_ac_c* actor) {
 }
 
 void drawTWGate(fopAc_ac_c* actor) {
-    GXColor color = {0xFF, 0xFF, 0xFF, 0x80};
+    GXColor color = {0xFF, 0xFF, 0xFF, g_triggerOpacity};
     dDbVw_drawCylinderXlu(actor->current.pos, actor->mScale.x * 100.0f, actor->mScale.y * 100.0f, color, 1);
 }
 

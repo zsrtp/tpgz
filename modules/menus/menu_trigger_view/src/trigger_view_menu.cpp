@@ -19,6 +19,7 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
                          &g_triggerViewFlags[VIEW_SWITCH_AREAS].active},
                          {"view twilight gates", VIEW_TW_GATES, "", true,
                          &g_triggerViewFlags[VIEW_TW_GATES].active},
+                         {"opacity:", 4, "the opacity of drawn triggers"},
                     } {}
 
 TriggerViewMenu::~TriggerViewMenu() {}
@@ -34,6 +35,14 @@ void TriggerViewMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         g_triggerViewFlags[cursor.y].active = !g_triggerViewFlags[cursor.y].active;
     }
+
+    switch (cursor.y) {
+    case 4:
+        Cursor::moveList(g_triggerOpacity);
+        break;
+    }
+
+    lines[4].printf(" <%d>", g_triggerOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

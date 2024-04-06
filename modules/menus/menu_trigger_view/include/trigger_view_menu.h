@@ -10,5 +10,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[TRIGGER_VIEW_MAX];
+    Line lines[TRIGGER_VIEW_MAX + 1];
 };
