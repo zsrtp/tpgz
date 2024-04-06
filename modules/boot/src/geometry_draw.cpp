@@ -1,10 +1,12 @@
 #include "collision_view.h"
+#include "global_data.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/JSystem/J3DGraphBase/J3DSys.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/d/bg/d_bg_s_captpoly.h"
 #include "libtp_c/include/msl_c/math.h"
+#include "libtp_c/include/f_op/f_op_draw_tag.h"
 
 #include <cstdio>
 //#include <math.h>
@@ -761,13 +763,18 @@ KEEP_FUNC void GZ_drawPolygons() {
         daAlink_c* player = dComIfGp_getPlayer();
 
         if (player != NULL) {
+            Vec* base_pos = &player->current.pos;
+            if (g_freeCamEnabled) {
+                base_pos = &matrixInfo.matrix_info->pos;
+            }
+
             cM3dGAab aab;
 			cXyz min;
 			cXyz max;
 
-			f32 range = 100.0f;
-			min.set(player->current.pos.x - range, player->current.pos.y - range, player->current.pos.z - range);
-			max.set(player->current.pos.x + range, player->current.pos.y + range, player->current.pos.z + range);
+			f32 range = 500.0f;
+			min.set(base_pos->x - range, base_pos->y - range, base_pos->z - range);
+			max.set(base_pos->x + range, base_pos->y + range, base_pos->z + range);
 			aab.mMin = min;
 			aab.mMax = max;
 
