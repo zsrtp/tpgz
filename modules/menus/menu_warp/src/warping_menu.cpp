@@ -102,7 +102,7 @@ void WarpingMenu::loadNextRoomInfo() {
 }
 
 void WarpingMenu::loadNextSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/sp.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     WarpingMenu::loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -110,7 +110,7 @@ void WarpingMenu::loadNextSpawnInfo() {
 }
 
 void WarpingMenu::loadPrevSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/sp.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     WarpingMenu::loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
