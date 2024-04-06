@@ -680,7 +680,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
             for (u16 i = 0; i < dCcS_Data::at_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjAt[i];
                 if (obj != NULL) {
-                    static const GXColor at_color = {0xFF, 0x00, 0x00, 0x90};
+                    GXColor at_color = {0xFF, 0x00, 0x00, g_geometryOpacity};
                     obj->vtable->Draw(obj, at_color);
                 }
             }
@@ -692,7 +692,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
             for (u16 i = 0; i < dCcS_Data::tg_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjTg[i];
                 if (obj != NULL) {
-                    static const GXColor tg_color = {0x00, 0xFF, 0x00, 0x90};
+                    GXColor tg_color = {0x3A, 0x82, 0xF0, g_geometryOpacity};
                     obj->vtable->Draw(obj, tg_color);
                 }
             } 
@@ -704,7 +704,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
             for (u16 i = 0; i < dCcS_Data::co_obj_count; i++) {
                 cCcD_Obj* obj = i_this->mpObjCo[i];
                 if (obj != NULL) {
-                    static const GXColor co_color = {0xFF, 0xFF, 0xFF, 0x90};
+                    GXColor co_color = {0xFF, 0xFF, 0xFF, g_geometryOpacity};
                     obj->vtable->Draw(obj, co_color);
                 }
             }
@@ -719,9 +719,9 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
 int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, int i_ic, cM3dGPla* i_plane) {
     cXyz vertices[3];
 
-    GXColor ground_col = {0xFF, 0x00, 0x00, 0x80};
-    GXColor roof_col = {0x00, 0x00, 0xFF, 0x80};
-    GXColor wall_col = {0x00, 0xFF, 0x00, 0x80};
+    GXColor ground_col = {0xFF, 0x00, 0x00, g_geometryOpacity};
+    GXColor roof_col = {0x00, 0x00, 0xFF, g_geometryOpacity};
+    GXColor wall_col = {0x00, 0xFF, 0x00, g_geometryOpacity};
 
     cXyz raise;
     PSVECScale(&i_plane->mNormal, &raise, 1.5f);

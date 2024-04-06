@@ -18,6 +18,7 @@ KEEP_FUNC CollisionViewMenu::CollisionViewMenu(Cursor& cursor)
                          &g_collisionFlags[VIEW_TG_INDEX].active},
                          {"view push colliders", VIEW_CO_INDEX, "", true,
                          &g_collisionFlags[VIEW_CO_INDEX].active},
+                         {"opacity:", 4, "the opacity of drawn geometry"},
                     } {}
 
 CollisionViewMenu::~CollisionViewMenu() {}
@@ -37,6 +38,14 @@ void CollisionViewMenu::draw() {
     char str[50];
     snprintf(str, sizeof(str), "Active Draw Packets: %d", l_drawPacketListNum);
     GZ_drawText(str, 25.0f, 160.f, 0xFFFFFFFF, GZ_checkDropShadows());
+
+    switch (cursor.y) {
+    case 4:
+        Cursor::moveList(g_geometryOpacity);
+        break;
+    }
+
+    lines[4].printf(" <%d>", g_geometryOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

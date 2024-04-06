@@ -22,7 +22,7 @@ struct CollisionItem {
 };
 
 extern CollisionItem g_collisionFlags[COLLISION_FLAGS_AMNT];
-extern u8 g_triggerOpacity;
+extern u8 g_geometryOpacity;
 
 void dDbVw_deleteDrawPacketList();
 
