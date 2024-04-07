@@ -30,4 +30,27 @@ public:
     /* 0x0859 */ u8 mParam4;
 };
 
+// setup later
+struct daObjSwSpinner_c : public fopAc_ac_c {
+    /* 0x568 */ u8 field_0x568[0x5B4 - 0x568];
+    /* 0x5B4 */ Mtx mBgMtx;
+    /* 0x5E4 */ f32 mHeight;
+    /* 0x5E8 */ u8 field_0x5e8;
+    /* 0x5E9 */ u8 field_0x5e9;
+    /* 0x5EA */ u8 field_0x5ea;
+    /* 0x5EB */ u8 field_0x5eb;
+    /* 0x5EC */ s16 field_0x5ec;
+    /* 0x5EE */ s16 mRotSpeedY;
+    /* 0x5F0 */ s16 field_0x5f0;
+};
+
+struct daObjLv4Wall_c : public fopAc_ac_c {
+    /* 0x568 */ u8 field_0x568[0x94C - 0x568];
+    /* 0x94C */ daObjSwSpinner_c* mpSpinnerSw;
+    /* 0x950 */ f32 mHeight;
+    /* 0x954 */ int field_0x954;
+    /* 0x958 */ u16 field_0x958;
+    /* 0x95A */ u8 mAction;
+};
+
 #endif

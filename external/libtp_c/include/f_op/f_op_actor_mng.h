@@ -260,6 +260,9 @@ inline u16 fopAcM_GetSetId(const fopAc_ac_c* p_actor) {
 LIBTP_DEFINE_FUNC(fopAcM_create__FsUlPC4cXyziPC5csXyzPC4cXyzSc, fopAcM_create_short__unsigned_long__cXyz_const____int__csXyz_const____cXyz_const____signed_char_,
                   void, fopAcM_create, (s16, u32, const cXyz*, int, const csXyz*, const cXyz*, s8))
 
+LIBTP_DEFINE_FUNC(fopAcM_delete__FP10fopAc_ac_c, fopAcM_delete_fopAc_ac_c___,
+                  void, fopAcM_delete, (fopAc_ac_c*))
+
 LIBTP_DEFINE_FUNC(fopAcM_searchActorDistance__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_searchActorDistance_fopAc_ac_c_const____fopAc_ac_c_const___,
                   f32, fopAcM_searchActorDistance, (const fopAc_ac_c*, const fopAc_ac_c*))
 
