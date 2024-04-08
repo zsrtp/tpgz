@@ -16,5 +16,5 @@ public:
 
 private:
     uint16_t& l_index;
-    Line lines[1];
+    Line lines[2];
 };
