@@ -17,7 +17,7 @@ void PSMTXCopy(const Mtx src, Mtx dst);
 #endif
 extern Mtx mDoMtx_stack_c__now;
 
-LIBTP_DEFINE_FUNC(mDoMtx_XYZrotM__FPA4_fsss, mDoMtx_XYZrotM_float,
+LIBTP_DEFINE_FUNC(mDoMtx_XYZrotM__FPA4_fsss, mDoMtx_XYZrotM_float_____4___short__short__short_,
                   void, mDoMtx_XYZrotM, (Mtx, short, short, short))
 
 LIBTP_DEFINE_FUNC(scaleM__14mDoMtx_stack_cFfff, mDoMtx_stack_c__scaleM_float__float__float_,
