@@ -91,21 +91,19 @@ void drawSwitchArea(fopAc_ac_c* actor) {
     }
 }
 
-// this is pretty off, need to figure out the actual math for this
 void drawEventArea(fopAc_ac_c* actor) {
     struct daTag_EvtArea_c : public fopAc_ac_c {
         /* 0x568 */ void* vtable;
         /* 0x56C */ u8 field_0x56c;
     };
-    //daTag_EvtArea_c* evtarea = (daTag_EvtArea_c*)actor;
     
     u8 type = (actor->shape_angle.z & 0xFF);
     if (type == 0xFF) {
         type = 0;
     }
 
-    GXColor color = {0xFF, 0x00, 0x00, g_geometryOpacity};
     if (type == 15 || type == 16) {
+        GXColor color = {0xFF, 0xFF, 0x00, g_geometryOpacity};
         cXyz points[8];
         points[0].set(-actor->mScale.x, actor->mScale.y, -actor->mScale.z);
         points[1].set(actor->mScale.x, actor->mScale.y, -actor->mScale.z);
@@ -117,12 +115,17 @@ void drawEventArea(fopAc_ac_c* actor) {
         points[7].set(actor->mScale.x, 0.0f, actor->mScale.z);
 
         mDoMtx_stack_c::transS(actor->orig.pos.x, actor->orig.pos.y, actor->orig.pos.z);
-        mDoMtx_stack_c::YrotS(-actor->current.angle.y);
+        mDoMtx_stack_c::YrotS(actor->current.angle.y);
         mDoMtx_multVecArray(mDoMtx_stack_c::get(), points, points, 8);
 
         dDbVw_drawCube8pXlu(points, color);
     } else {
-        dDbVw_drawCylinderXlu(actor->current.pos, actor->mScale.x, actor->mScale.y, color, 1);
+        GXColor color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+        cXyz pos = actor->current.pos;
+        // no good way to draw on the ground, so just keep height around player level
+        pos.y = dComIfGp_getPlayer()->current.pos.y + 100.0f;
+
+        dDbVw_drawCircleXlu(pos, actor->mScale.x, color, 1, 20);
     }
 }
 
@@ -175,8 +178,11 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_SWITCH_AREAS].active) {
         searchActorForCallback(PROC_SWC00, drawSwitchArea);
+    }
+
+    if (g_triggerViewFlags[VIEW_EVENT_AREAS].active) {
         searchActorForCallback(PROC_TAG_EVENT, drawEventTag);
-        //searchActorForCallback(PROC_TAG_EVTAREA, drawEventArea);
+        searchActorForCallback(PROC_TAG_EVTAREA, drawEventArea);
     }
 
     if (g_triggerViewFlags[VIEW_TW_GATES].active) {
