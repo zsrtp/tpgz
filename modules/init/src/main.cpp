@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
 #include "collision_view.h"
+#include "mash_checker.h"
 
 #include "utils/memory.h"
 #include "utils/card.h"
@@ -37,6 +38,7 @@ void main() {
     g_drawListener->addListener(GZ_renderMenuTitle);
     g_drawListener->addListener(GZ_renderFifoQueue);
     g_drawListener->addListener(GZ_displayLinkInfo);
+    g_drawListener->addListener(GZ_displayButtonMashInfo);
     g_drawListener->addListener(GZ_drawHeapInfo);
     g_drawListener->addListener(Timer::drawTimer);
     g_drawListener->addListener(Timer::drawLoadTimer);

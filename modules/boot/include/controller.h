@@ -46,3 +46,4 @@ bool GZ_getButtonHold(int idx, int phase = 0);
 uint16_t GZ_getButtonStatus();
 void GZ_readController();
 bool GZ_getButtonTrig(int idx);
+void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton);

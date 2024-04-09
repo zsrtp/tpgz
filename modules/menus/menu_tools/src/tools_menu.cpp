@@ -65,6 +65,8 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              &g_tools[SAND_INDEX].active},
             {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true,
              &g_tools[ROLL_INDEX].active},
+            {"mash checker", MASH_CHECKER_INDEX, "Display A/B button mashing speeds", true,
+             &g_tools[MASH_CHECKER_INDEX].active},
             {"teleport", TELEPORT_INDEX,
              STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load", true,
              &g_tools[TELEPORT_INDEX].active},

@@ -161,6 +161,9 @@ bool OSUnlink(OSModuleInfo* module);
 bool OSDisableInterrupts();
 bool OSRestoreInterrupts(bool enable);
 
+OSTime OSGetTime();
+void OSTicksToCalendarTime(OSTime ticks, OSCalendarTime* ct);
+
 extern OSModuleList osModuleList;
 }
 #endif
