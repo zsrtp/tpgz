@@ -7,6 +7,7 @@
 #include "pos_settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/defines.h"
 
 u32 getSpeedTextColor(u8 i_bps) {
