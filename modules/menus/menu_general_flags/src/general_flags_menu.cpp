@@ -74,6 +74,7 @@ void GeneralFlagsMenu::draw() {
                 for (int i = BLUE_RUPEE; i <= SILVER_RUPEE; i++) {
                     dComIfGs_offItemFirstBit(i);
                 }
+                l_rupeeFlag = false;
             } else {
                 for (int i = BLUE_RUPEE; i <= SILVER_RUPEE; i++) {
                     dComIfGs_onItemFirstBit(i);
