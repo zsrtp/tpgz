@@ -28,7 +28,8 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
                                  {"index:", ACTOR_ID_INDEX,
                                   "List Index (Dpad to scroll / " CONTROL_TEXT " to view memory)",
                                   false},
-                                 {"delete", 1, "Delete selected actor", false},
+                                 {"freeze", 1, "Freeze/Unfreeze selected actor", false},
+                                 {"delete", 2, "Delete selected actor", false},
                              } {}
 
 ActorListMenu::~ActorListMenu() {}
@@ -61,6 +62,13 @@ void ActorListMenu::draw() {
         }
         break;
     case 1:
+        if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+            if (actorData != NULL) {
+                actorData->mBase.mPauseFlag = !actorData->mBase.mPauseFlag;
+            }
+        }
+        break;
+    case 2:
         if (GZ_getButtonTrig(SELECTION_BUTTON)) {
             if (actorData != NULL && fopAcM_GetName(actorData) != PROC_ALINK) {
                 fopAcM_delete(actorData);
