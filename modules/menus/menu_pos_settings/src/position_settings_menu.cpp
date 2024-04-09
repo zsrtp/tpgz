@@ -22,7 +22,8 @@ KEEP_FUNC PosSettingsMenu::PosSettingsMenu(Cursor& cursor, PosSettingsData& data
             {"load timer", SpritesIndex::LOAD_TIMER_SPR_INDEX, "Change load timer position", false},
             {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
             {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
-            {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false}} {}
+            {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false},
+            {"mash checker", SpritesIndex::MASH_INFO_INDEX, "Change Mash Checker position", false}} {}
 
 PosSettingsMenu::~PosSettingsMenu() {}
 

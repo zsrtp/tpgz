@@ -16,4 +16,5 @@ KEEP_FUNC void GZ_PosSettings_initDefaults() {
     g_spriteOffsets[IGT_TIMER_SPR_INDEX] = {35.0f, 30.f};
     g_spriteOffsets[FIFO_SPR_INDEX] = {5.0f, 440.f};
     g_spriteOffsets[HEAP_INFO_INDEX] = {145.0f, 25.0f};
+    g_spriteOffsets[MASH_INFO_INDEX] = {450.0f, 400.0f};
 }

@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "controller.h"
 #include "fifo_queue.h"
+#include "pos_settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "rels/include/defines.h"
@@ -68,12 +69,15 @@ KEEP_FUNC void GZ_displayButtonMashInfo() {
 
     GZ_getButtonPressCount(abtn_presses, CButton::A, GZPad::A);
     GZ_getButtonPressCount(bbtn_presses, CButton::B, GZPad::B);
-    
+
     char abtn_text[8] = {0};
     snprintf(abtn_text, sizeof(abtn_text), "A: %d", a_bps);
-    Font::GZ_drawStr(abtn_text, 450.0f, 400.0f, getSpeedTextColor(a_bps), g_dropShadows);
+    Font::GZ_drawStr(abtn_text, g_spriteOffsets[MASH_INFO_INDEX].x,
+                     g_spriteOffsets[MASH_INFO_INDEX].y, getSpeedTextColor(a_bps), g_dropShadows);
 
     char bbtn_text[8] = {0};
     snprintf(bbtn_text, sizeof(bbtn_text), "B: %d", b_bps);
-    Font::GZ_drawStr(bbtn_text, 450.0f, 420.0f, getSpeedTextColor(b_bps), g_dropShadows);
+    Font::GZ_drawStr(bbtn_text, g_spriteOffsets[MASH_INFO_INDEX].x,
+                     g_spriteOffsets[MASH_INFO_INDEX].y + 20.0f, getSpeedTextColor(b_bps),
+                     g_dropShadows);
 }
