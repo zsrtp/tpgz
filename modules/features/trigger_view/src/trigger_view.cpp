@@ -120,12 +120,20 @@ void drawEventArea(fopAc_ac_c* actor) {
 
         dDbVw_drawCube8pXlu(points, color);
     } else {
-        GXColor color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+        GXColor outer_color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+        GXColor inner_color = {0x00, 0xFF, 0x00, g_geometryOpacity};
         cXyz pos = actor->current.pos;
         // no good way to draw on the ground, so just keep height around player level
         pos.y = dComIfGp_getPlayer()->current.pos.y + 100.0f;
 
-        dDbVw_drawCircleXlu(pos, actor->mScale.x, color, 1, 20);
+        // idk the exact way the inner check is handled, so this is a rough approximation
+        f32 inner_scale = 0.83f;
+#ifdef WII_PLATFORM
+        inner_scale = 0.98f;
+#endif
+
+        dDbVw_drawCircleXlu(pos, actor->mScale.x * inner_scale, inner_color, 1, 20);
+        dDbVw_drawCircleXlu(pos, actor->mScale.x, outer_color, 1, 20);
     }
 }
 
