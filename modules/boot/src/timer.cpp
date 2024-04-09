@@ -8,35 +8,42 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "rels/include/defines.h"
 
-#if defined(GCN_PAL) || defined(WII_PAL)
-#define FRAME_RATE 25
-#else
-#define FRAME_RATE 29.97
-#endif
-
 KEEP_FUNC void Timer::drawTimer() {
+    static bool init_start_time = false;
+    static OSTime timer = 0;
+    static OSTime start_time = 0;
+    static int frame_timer = 0;
+    static OSCalendarTime ctime;
+
     if (!g_tools[TIMER_INDEX].active) {
+        init_start_time = false;
         return;
     }
-    static int sTimer = 0;
-    static float sTimerSec = 0.0f;
 
     if (g_timerEnabled) {
-        sTimer++;
-        sTimerSec = sTimer / FRAME_RATE;
+        if (!init_start_time) {
+            start_time = OSGetTime();
+            init_start_time = true;
+        }
+
+        timer = (OSGetTime() - start_time);
+        OSTicksToCalendarTime(timer, &ctime);
+        frame_timer++;
     }
 
     if (g_resetTimer) {
-        sTimer = 0;
-        sTimerSec = 0.0f;
+        timer = 0;
+        start_time = 0;
+        frame_timer = 0;
+        init_start_time = false;
         g_resetTimer = false;
         g_timerEnabled = false;
     }
 
     char timerF[5] = {0};
-    char timerS[8] = {0};
-    snprintf(timerF, sizeof(timerF), "%d", sTimer);
-    snprintf(timerS, sizeof(timerS), "%.2f", sTimerSec);
+    char timerS[13] = {0};
+    snprintf(timerF, sizeof(timerF), "%d", frame_timer);
+    snprintf(timerS, sizeof(timerS), "%02d:%02d:%02d.%03d", ctime.hours, ctime.minutes, ctime.seconds, ctime.milliseconds);
 
     Font::GZ_drawStr(timerF, (g_spriteOffsets[TIMER_SPR_INDEX].x),
                      (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
@@ -45,64 +52,111 @@ KEEP_FUNC void Timer::drawTimer() {
 }
 
 KEEP_FUNC void Timer::drawIGT() {
+    static bool init_start_time = false;
+    static bool init_load_starttime = false;
+    static OSTime timer = 0;
+    static OSTime start_time = 0;
+
+    static OSTime load_start_time = 0;
+    static OSTime load_total_time = 0;
+    static OSTime load_timer = 0;
+
+    static OSCalendarTime ctime;
+    static OSCalendarTime load_ctime;
+
     if (!g_tools[IGT_TIMER_INDEX].active) {
+        init_start_time = false;
         return;
     }
-    static int sTimer = 0;
-    static int sTimerHour = 0;
-    static int sTimerMin = 0;
-    static float sTimerSec = 0.0f;
 
-    if (g_timerEnabled && !fopScnRq.isLoading) {
-        sTimer++;
-        sTimerSec = sTimer / FRAME_RATE;
+    if (g_timerEnabled) {
+        if (!init_start_time) {
+            start_time = OSGetTime();
+            init_start_time = true;
+        }
 
-        if (sTimerSec >= 60.0f) {
-            sTimer = 0;
-            sTimerMin++;
-
-            if (sTimerMin == 60) {
-                sTimerMin = 0;
-                sTimerHour++;
+        if (fopScnRq.isLoading) {
+            if (!init_load_starttime) {
+                load_start_time = OSGetTime();
+                init_load_starttime = true;
             }
+
+            if (init_load_starttime) {
+                load_timer = OSGetTime() - load_start_time;
+            }
+
+            OSTicksToCalendarTime(load_timer, &load_ctime);
+        } else {
+            init_load_starttime = false;
+            load_total_time += load_timer;
+            load_timer = 0;
+
+            timer = (OSGetTime() - start_time) - load_total_time;
+            OSTicksToCalendarTime(timer, &ctime);
         }
     }
 
     if (g_resetTimer) {
-        sTimer = 0;
-        sTimerHour = 0;
-        sTimerMin = 0;
-        sTimerSec = 0.0f;
+        timer = 0;
+        start_time = 0;
+        ctime.hours = 0;
+        ctime.minutes = 0;
+        ctime.seconds = 0;
+        ctime.milliseconds = 0;
+        load_total_time = 0;
+        init_start_time = false;
         g_resetTimer = false;
         g_timerEnabled = false;
     }
 
     char buf[16] = {0};
-    snprintf(buf, sizeof(buf), "%02d:%02d:%05.2f", sTimerHour, sTimerMin, sTimerSec);
+    snprintf(buf, sizeof(buf), "%02d:%02d:%02d.%03d", ctime.hours, ctime.minutes, ctime.seconds, ctime.milliseconds);
     Font::GZ_drawStr(buf, g_spriteOffsets[IGT_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }
 
 KEEP_FUNC void Timer::drawLoadTimer() {
+    static bool init_load_starttime = false;
+
+    static OSTime load_start_time = 0;
+    static OSTime load_total_time = 0;
+    static OSTime load_timer = 0;
+
+    static OSCalendarTime load_ctime;
+
     if (!g_tools[LOAD_TIMER_INDEX].active) {
         return;
     }
-    static int sTimer = 0;
-    static float sTimerSec = 0.0f;
 
     if (fopScnRq.isLoading) {
-        sTimer++;
-        sTimerSec = sTimer / FRAME_RATE;
+        if (!init_load_starttime) {
+            load_start_time = OSGetTime();
+            init_load_starttime = true;
+        }
+
+        if (init_load_starttime) {
+            load_timer = OSGetTime() - load_start_time;
+        }
+    } else {
+        init_load_starttime = false;
+        load_total_time += load_timer;
+        load_timer = 0;
+
+        OSTicksToCalendarTime(load_total_time, &load_ctime);
     }
 
     if (g_resetTimer) {
-        sTimer = 0;
-        sTimerSec = 0.0f;
+        load_ctime.hours = 0;
+        load_ctime.minutes = 0;
+        load_ctime.seconds = 0;
+        load_ctime.milliseconds = 0;
+        load_total_time = 0;
         g_resetTimer = false;
+        g_timerEnabled = false;
     }
 
-    char buf[8] = {0};
-    snprintf(buf, sizeof(buf), "%.2f", sTimerSec);
+    char buf[16] = {0};
+    snprintf(buf, sizeof(buf), "%02d:%02d:%02d.%03d", load_ctime.hours, load_ctime.minutes, load_ctime.seconds, load_ctime.milliseconds);
     Font::GZ_drawStr(buf, g_spriteOffsets[LOAD_TIMER_SPR_INDEX].x,
                      g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
 }

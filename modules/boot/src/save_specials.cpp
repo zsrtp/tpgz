@@ -186,7 +186,9 @@ KEEP_FUNC void SaveMngSpecial_Stallord2() {
     fopAcM_delete(stallord);  // delete phase 1 stallord
 
     daObjLv4Wall_c* rwall = (daObjLv4Wall_c*)fopAcM_SearchByName(PROC_Obj_Lv4RailWall);
-    rwall->mpSpinnerSw->mRotSpeedY = 3000;  // set arena spinner switch to max speed
+    daObjSwSpinner_c* spinnersw = (daObjSwSpinner_c*)fopAcM_SearchByName(PROC_Obj_SwSpinner);
+
+    spinnersw->mRotSpeedY = 3000;  // set arena spinner switch to max speed
     rwall->field_0x954 = 101;  // set spinner switch speed counter to threshold
     rwall->mHeight = 3370.0f;  // set arena height to max
 }
