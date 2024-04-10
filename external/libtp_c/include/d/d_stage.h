@@ -5,6 +5,7 @@
 #include "save/d_save.h"
 #include "../f_op/f_op_actor.h"
 #include "../defines.h"
+#include "d_path.h"
 
 struct stage_vrboxcol_info_class {};
 
@@ -61,7 +62,10 @@ struct dStage_FileList2_dt_c {};
 
 struct dStage_MemoryMap_c {};
 
-struct dStage_dPath_c {};
+struct dStage_dPath_c {
+    /* 0x0 */ int m_num;
+    /* 0x4 */ dPath* m_path;
+};
 
 struct dStage_Multi_c {};
 
@@ -69,7 +73,13 @@ struct dStage_SoundInfo_c {};
 
 struct dStage_FileList_dt_c {};
 
-struct dStage_dPnt_c {};
+struct dStage_dPnt_c {
+    /* 0x0 */ u8 field_0x0;
+    /* 0x1 */ u8 field_0x1;
+    /* 0x2 */ u8 field_0x2;
+    /* 0x3 */ u8 field_0x3;
+    /* 0x4 */ Vec m_position;
+};  // Size: 0x10
 
 struct dStage_FloorInfo_c {};
 
@@ -206,7 +216,7 @@ public:
 static_assert(sizeof(dStage_nextStage_c) == 0x12);
 #endif  // WII_PLATFORM
 
-class dStage_roomStatus_c : dStage_roomDt_c {
+class dStage_roomStatus_c : public dStage_roomDt_c {
 public:
     /* 0x06C */ u8 mJ3DLightInfo[0xA0 - 0x6C];
     /* 0x0A0 */ u8 unk_A0[0x3F7 - 0xA0];
@@ -241,5 +251,10 @@ typedef void (*dStage_nextStage_c__set_t)(void* addr, const char* stage, s8 room
 #endif
 extern dStage_nextStage_c__set_t dStage_nextStage_c__set;
 #endif
+
+#ifndef WII_PLATFORM
+#define dStage_roomControl_c__mStatus mStatus__20dStage_roomControl_c
+#endif
+extern dStage_roomStatus_c dStage_roomControl_c__mStatus[64];
 
 #endif /* D_D_STAGE_H */
