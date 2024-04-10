@@ -191,8 +191,8 @@ void drawPaths(dStage_dPath_c* paths) {
         {0x00,0xFF,0xFF},
     };
 
-    cXyz size = {30.0f,30.0f,30.0f};
-    csXyz angle = {0,0,0};
+    cXyz cubeSize = {30.0f,30.0f,30.0f};
+    csXyz cubeAngle = {0,0,0};
 
     for (int i = 0; i<paths->m_num; i++) {
         dPath* path = &paths->m_path[i];
@@ -201,20 +201,20 @@ void drawPaths(dStage_dPath_c* paths) {
         cXyz a,b;
 
         // Draw a line back to the beginning if the path loops
-        if (path->m_closed && path->m_num>2) {
+        if (dPath_ChkClose(path) && path->m_num>2) {
             a = path->m_points[0].m_position;
             b = path->m_points[path->m_num-1].m_position;
             dDbVw_drawLineXlu(a,b,color,1,10);
         }
 
         // Iterate over all of the points of the path
-        for (int j = 0; j<path->m_num-1;j++) {
+        for (int j = 0; j<path->m_num-1; j++) {
             a = path->m_points[j].m_position;
             b = path->m_points[j+1].m_position;
             dDbVw_drawLineXlu(a,b,color,1,10); //Param 3 is if z is enabled or not
-            dDbVw_drawCubeXlu(a,size,angle,color);
+            dDbVw_drawCubeXlu(a,cubeSize,cubeAngle,color);
         }
-        dDbVw_drawCubeXlu(b,size,angle,color); // Draw the cube for the end of the path
+        dDbVw_drawCubeXlu(b,cubeSize,cubeAngle,color); // Draw the cube for the end of the path
     }
 }
 
