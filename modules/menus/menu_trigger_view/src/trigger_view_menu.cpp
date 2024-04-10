@@ -21,7 +21,9 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
                          &g_triggerViewFlags[VIEW_EVENT_AREAS].active},
                          {"view twilight gates", VIEW_TW_GATES, "", true,
                          &g_triggerViewFlags[VIEW_TW_GATES].active},
-                         {"opacity:", 5, "the opacity of drawn geometry"},
+                         {"view paths", VIEW_PATHS, "", true,
+                         &g_triggerViewFlags[VIEW_PATHS].active},
+                         {"opacity:", TRIGGER_VIEW_MAX, "the opacity of drawn geometry"},
                     } {}
 
 TriggerViewMenu::~TriggerViewMenu() {}
@@ -39,12 +41,12 @@ void TriggerViewMenu::draw() {
     }
 
     switch (cursor.y) {
-    case 5:
+    case TRIGGER_VIEW_MAX:
         Cursor::moveList(g_geometryOpacity);
         break;
     }
 
-    lines[5].printf(" <%d>", g_geometryOpacity);
+    lines[TRIGGER_VIEW_MAX].printf(" <%d>", g_geometryOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

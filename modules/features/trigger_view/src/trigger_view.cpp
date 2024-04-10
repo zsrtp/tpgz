@@ -177,6 +177,66 @@ void drawTWGate(fopAc_ac_c* actor) {
     dDbVw_drawCylinderXlu(actor->current.pos, actor->mScale.x * 100.0f, actor->mScale.y * 100.0f, color, 1);
 }
 
+static uint8_t pathColorIndex = 0;
+
+void drawPaths(dStage_dPath_c* paths) {
+    static const GXColor colors[8] = {
+        {0xFF,0xFF,0xFF},
+        {0x00,0x00,0x00},
+        {0xFF,0x00,0x00},
+        {0x00,0xFF,0x00},
+        {0x00,0x00,0xFF},
+        {0xFF,0xFF,0x00},
+        {0xFF,0x00,0xFF},
+        {0x00,0xFF,0xFF},
+    };
+
+    cXyz cubeSize = {30.0f,30.0f,30.0f};
+    csXyz cubeAngle = {0,0,0};
+
+    for (int i = 0; i<paths->m_num; i++) {
+        dPath* path = &paths->m_path[i];
+        GXColor color = colors[(pathColorIndex++)&7];
+        color.a = g_geometryOpacity;
+        cXyz a,b;
+
+        // Draw a line back to the beginning if the path loops
+        if (dPath_ChkClose(path) && path->m_num>2) {
+            a = path->m_points[0].m_position;
+            b = path->m_points[path->m_num-1].m_position;
+            dDbVw_drawLineXlu(a,b,color,1,10);
+        }
+
+        // Iterate over all of the points of the path
+        for (int j = 0; j<path->m_num-1; j++) {
+            a = path->m_points[j].m_position;
+            b = path->m_points[j+1].m_position;
+            dDbVw_drawLineXlu(a,b,color,1,10); //Param 3 is if z is enabled or not
+            dDbVw_drawCubeXlu(a,cubeSize,cubeAngle,color);
+        }
+        dDbVw_drawCubeXlu(b,cubeSize,cubeAngle,color); // Draw the cube for the end of the path
+    }
+}
+
+void drawStagePaths() {
+    dStage_dPath_c* stagePaths = g_dComIfG_gameInfo.play.mStageData.mPath2Info;
+    if (stagePaths) {
+        drawPaths(stagePaths);
+    }
+}
+
+void drawCurrentRoomPaths() {
+    s32 roomNo = fopAcM_GetRoomNo(dComIfGp_getPlayer());
+    if (roomNo < 0 || roomNo >= 64) {
+        return;
+    }
+
+    dStage_dPath_c* roomPaths = dStage_roomControl_c__mStatus[roomNo].mPath2Info;
+    if (roomPaths) {
+        drawPaths(roomPaths);
+    }
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
@@ -197,6 +257,12 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_TW_GATES].active) {
         searchActorForCallback(PROC_Tag_TWGate, drawTWGate);
+    }
+
+    if (g_triggerViewFlags[VIEW_PATHS].active) {
+        pathColorIndex = 0;
+        drawStagePaths();
+        drawCurrentRoomPaths();
     }
 }
 }  // namespace TriggerViewer
