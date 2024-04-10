@@ -28,6 +28,8 @@ Include the following in your request, with as much detail as possible:
 
 ## Development
 
+We first recommend reading the [Dev Overview](./docs/DevOverview.md) to get an idea of how the project is setup.
+
 Visit the [issue tracker](https://github.com/zsrtp/tpgz/issues) to find a list of open issues that need attention.
 
 Fork, then clone the repo:
@@ -40,8 +42,15 @@ git clone https://github.com/your-username/tpgz.git
 
 ```
 tpgz
+├───.devcontainer         // Docker container environment files
 ├───.github
 │   └───workflows         // github action(s) used to test code compilation
+├───bin                   // binaries used in the compilation process
+│   ├───gcn               // gcn specific binaries
+│   └───wii               // wii specific binaries
+├───cmake                 // cmake build rule files
+├───common                // common files
+├───docs                  // various documentation
 ├───external              // external libraries and programs consumed by tpgz
 │   ├───fonts             // small rust program to generate raw bytes and c code for utilizing true-type fonts in game
 │   │   ├───fonts         // ttf files
@@ -50,22 +59,32 @@ tpgz
 │   │   ├───include       // header files for gcn_c
 │   │   └───src           // source code for gcn_c
 │   ├───libtp_c           // game bindings for twilight princess
-│   |   ├───.github
-│   |   │   └───workflows // github action(s) used to test code compilation
 │   |   ├───include       // header files for libtp_c
 │   |   └───src           // source code for libtp_c
 |   └───misc              // misc tools/scripts
-├───include               // header files for tpgz
-│   ├───menus             // menu header files
-|   └───utils             // utility header files
+├───isos                  // original game isos
+├───modules               // tpgz module source code
+│   ├───boot              // permanently loaded module source code
+│   │   ├───include       // module header files
+│   │   └───src           // module source code
+│   ├───features          // feature-specific module source code
+│   │   ├───include       // feature header files
+│   │   └───src           // feature source code
+│   ├───init              // tpgz initialization source code
+│   │   ├───include       // initialization header files
+│   │   └───src           // initialization source code
+│   └───menu              // menu module source code
+│       ├───include       // menu header files
+│       └───src           // menu source code
 ├───res                   // external resources to be consumed
+│   ├───bin               // region specific binary data
 │   ├───fonts             // raw font data
+│   ├───icons             // icon resources
 │   ├───save_files        // practice file metadata and raw quest log bytes to be injected at compile time
+│   ├───save_files_wii    // wii specific practice file metadata
 |   ├───stage_info        // stage info data for warping menu
-|   └───tex               // custom textures
-├───src                   // source code for tpgz
-|   ├───menus             // menu source code
-|   └───utils             // utility source code
+|   └───tex               // custom textures processed for tpgz
+└───src                   // stub for compilation purposes
 ```
 
 ### Building
@@ -74,7 +93,7 @@ See [BUILDING.md](./BUILDING.md).
 
 ### Linting
 
-Please format your files using the .clang-format file. Submodules should **not** be included when formatting, as these will have their own clang-format files.
+Please format your files using the .clang-format file
 
 Example clang-format usage (Ubuntu):
 

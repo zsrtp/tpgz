@@ -33,6 +33,7 @@ git submodule update --init --recursive
     
     - This is used to add our compiled code into the ISO.
     - It is recommended that you add romhack.exe to your PATH.
+    - (For compiling the GameCube version, ensure you download the `-gc` version)
 
 6. Create a `build` directory and navigate to it
     ```bash

@@ -21,7 +21,7 @@ void searchActorForCallback(s16 actorName, drawCallback callback) {
         if (node != NULL) {
             create_tag_class* tag = (create_tag_class*)node;
             actorData = (fopAc_ac_c*)tag->mpTagData;
-            
+
             if (actorData != NULL && actorData->mBase.mProcName == actorName && callback != NULL) {
                 callback(actorData);
             }
@@ -80,10 +80,11 @@ void drawSwitchArea(fopAc_ac_c* actor) {
 
     GXColor color = {0x00, 0x00, 0xFF, g_geometryOpacity};
     if (shape_type == 3) {
-        dDbVw_drawCylinderXlu(swc->current.pos, JMAFastSqrt(swc->mScale.x) - 30.0f, swc->mScale.y, color, 1);
+        dDbVw_drawCylinderXlu(swc->current.pos, JMAFastSqrt(swc->mScale.x) - 30.0f, swc->mScale.y,
+                              color, 1);
     } else if (shape_type == 0) {
-        cXyz size = swc->mEnd - swc->mStart; // diameter
-        size *= 0.5f;  // radius
+        cXyz size = swc->mEnd - swc->mStart;  // diameter
+        size *= 0.5f;                         // radius
 
         cXyz pos = swc->mStart + size;  // base + radius = center point
         csXyz angle(swc->current.angle.x, swc->current.angle.y, swc->current.angle.z);
@@ -96,7 +97,7 @@ void drawEventArea(fopAc_ac_c* actor) {
         /* 0x568 */ void* vtable;
         /* 0x56C */ u8 field_0x56c;
     };
-    
+
     u8 type = (actor->shape_angle.z & 0xFF);
     if (type == 0xFF) {
         type = 0;
@@ -146,13 +147,12 @@ void drawEventTag(fopAc_ac_c* actor) {
     if (area_type == -0x8000) {
         cXyz points[8];
 
-        cXyz start(actor->current.pos.x - (actor->mScale.x * 0.5f),
-                  actor->current.pos.y,
-                  actor->current.pos.z - (actor->mScale.z * 0.5f));
-        
+        cXyz start(actor->current.pos.x - (actor->mScale.x * 0.5f), actor->current.pos.y,
+                   actor->current.pos.z - (actor->mScale.z * 0.5f));
+
         cXyz end(actor->current.pos.x + (actor->mScale.x * 0.5f),
-                  actor->current.pos.y + actor->mScale.y,
-                  actor->current.pos.z + (actor->mScale.z * 0.5f));
+                 actor->current.pos.y + actor->mScale.y,
+                 actor->current.pos.z + (actor->mScale.z * 0.5f));
 
         points[0].set(start.x, start.y, start.z);
         points[1].set(start.x, start.y, end.z);
@@ -167,54 +167,49 @@ void drawEventTag(fopAc_ac_c* actor) {
     } else {
         cXyz pos = actor->current.pos;
         pos.y -= actor->mScale.y;
-        
+
         dDbVw_drawCylinderXlu(pos, actor->mScale.x, actor->mScale.y * 2, color, 1);
     }
 }
 
 void drawTWGate(fopAc_ac_c* actor) {
     GXColor color = {0xFF, 0xFF, 0xFF, g_geometryOpacity};
-    dDbVw_drawCylinderXlu(actor->current.pos, actor->mScale.x * 100.0f, actor->mScale.y * 100.0f, color, 1);
+    dDbVw_drawCylinderXlu(actor->current.pos, actor->mScale.x * 100.0f, actor->mScale.y * 100.0f,
+                          color, 1);
 }
 
 static uint8_t pathColorIndex = 0;
 
 void drawPaths(dStage_dPath_c* paths) {
     static const GXColor colors[8] = {
-        {0xFF,0xFF,0xFF},
-        {0x00,0x00,0x00},
-        {0xFF,0x00,0x00},
-        {0x00,0xFF,0x00},
-        {0x00,0x00,0xFF},
-        {0xFF,0xFF,0x00},
-        {0xFF,0x00,0xFF},
-        {0x00,0xFF,0xFF},
+        {0xFF, 0xFF, 0xFF}, {0x00, 0x00, 0x00}, {0xFF, 0x00, 0x00}, {0x00, 0xFF, 0x00},
+        {0x00, 0x00, 0xFF}, {0xFF, 0xFF, 0x00}, {0xFF, 0x00, 0xFF}, {0x00, 0xFF, 0xFF},
     };
 
-    cXyz cubeSize = {30.0f,30.0f,30.0f};
-    csXyz cubeAngle = {0,0,0};
+    cXyz cubeSize = {30.0f, 30.0f, 30.0f};
+    csXyz cubeAngle = {0, 0, 0};
 
-    for (int i = 0; i<paths->m_num; i++) {
+    for (int i = 0; i < paths->m_num; i++) {
         dPath* path = &paths->m_path[i];
-        GXColor color = colors[(pathColorIndex++)&7];
+        GXColor color = colors[(pathColorIndex++) & 7];
         color.a = g_geometryOpacity;
-        cXyz a,b;
+        cXyz a, b;
 
         // Draw a line back to the beginning if the path loops
-        if (dPath_ChkClose(path) && path->m_num>2) {
+        if (dPath_ChkClose(path) && path->m_num > 2) {
             a = path->m_points[0].m_position;
-            b = path->m_points[path->m_num-1].m_position;
-            dDbVw_drawLineXlu(a,b,color,1,10);
+            b = path->m_points[path->m_num - 1].m_position;
+            dDbVw_drawLineXlu(a, b, color, 1, 10);
         }
 
         // Iterate over all of the points of the path
-        for (int j = 0; j<path->m_num-1; j++) {
+        for (int j = 0; j < path->m_num - 1; j++) {
             a = path->m_points[j].m_position;
-            b = path->m_points[j+1].m_position;
-            dDbVw_drawLineXlu(a,b,color,1,10); //Param 3 is if z is enabled or not
-            dDbVw_drawCubeXlu(a,cubeSize,cubeAngle,color);
+            b = path->m_points[j + 1].m_position;
+            dDbVw_drawLineXlu(a, b, color, 1, 10);  // Param 3 is if z is enabled or not
+            dDbVw_drawCubeXlu(a, cubeSize, cubeAngle, color);
         }
-        dDbVw_drawCubeXlu(b,cubeSize,cubeAngle,color); // Draw the cube for the end of the path
+        dDbVw_drawCubeXlu(b, cubeSize, cubeAngle, color);  // Draw the cube for the end of the path
     }
 }
 

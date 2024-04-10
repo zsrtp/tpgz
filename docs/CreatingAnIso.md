@@ -1,4 +1,4 @@
-# Creating an ISO
+# Creating a tpgz ISO
 
 _These instructions are for Windows.
 Mac and Linux please see [BUILDING.md](../BUILDING.md)._
@@ -6,7 +6,7 @@ Mac and Linux please see [BUILDING.md](../BUILDING.md)._
 ## Quick Overview
 
 tpgz takes a Twilight Princess ISO and generates a new ISO with features that help you practice.
-Play the new ISO on [Dolphin](https://dolphin-emu.org/) or a homebrewed Wii.
+You can play the new ISO on [Dolphin](https://dolphin-emu.org/) or a homebrewed GameCube/Wii.
 
 ```
  <TP iso>   +   <patch file>   =>   <TPGZ iso>
@@ -19,20 +19,14 @@ You provide       Provided            Created
 The instructions are intentionally detailed to prevent confusion.
 If you are having trouble, please check [Troubleshooting](#troubleshooting).
 
-**You will need a Twilight Princess ISO.**
-_(Only supports Gamecube version for now.)_
+**You will need your own Twilight Princess ISO**
 
-1. Download the latest release [here](https://github.com/zsrtp/tpgz/releases).
-   _(Feel free to follow the release page instructions instead of these.)_
+1. Download the latest tpgz patch release for your version and region [here](https://github.com/zsrtp/tpgz/releases).
 
-2. Unzip the downloaded file to create a new folder, then open that folder.<br>
-   You should see something _similar_ to the following:
+2. Download the latest romhack compiler [here](https://github.com/zsrtp/romhack-compiler/releases).
+   - If you're patching a GameCube ISO, download a version that ends with `-gc`.
 
-   - romhack.exe
-   - tpgz.patch
-
-3. Put a copy of your Twilight Princess ISO (GCN) in this folder.
-   The ISO's filename is not important.<br>
+3. Place the tpgz patch file, the romhack compiler and a copy of your Twilight Princess ISO together in a folder.
    _Example:_
 
    - romhack.exe
@@ -84,21 +78,23 @@ _(Only supports Gamecube version for now.)_
      - This will generate the new ISO.
        It may take a few minutes to complete.
 
-8. Load the new ISO in
-   [Dolphin emulator](https://dolphin-emu.org/) or a Wii using a homebrew loader such as [Nintendont](https://github.com/FIX94/Nintendont).
-
-9. Use L+R+dpadDown to open the features menu in game.
+8. Load the new ISO in [Dolphin emulator](https://dolphin-emu.org/) or a GameCube/Wii using a homebrew loader such as [Nintendont](https://github.com/FIX94/Nintendont).
 
 ## Troubleshooting
 
 ### How do I know my ISO is correct?
 
-You need a **Gamecube ISO**.
+Make sure you have a clean ISO dump.
 
 Correct MD5 hashes:<br>
 NTSC-U GCN: **41deff9b1fd2831f48fbfa2dd1054e4d**  
 NTSC-J GCN: **b130d78bb78cd63b501ddff210fde498**  
 PAL GCN:    **798abb94d649f7d117514578b2abfae1**
+
+NTSC-U WII (1.0) **25003a3e3666edf79c99080be9083b34**
+NTSC-U WII (1.2) **70946e09da8f0bb218bb3b3542953d63**
+JP WII:          **4979793d525198ef13e19ef369311743**
+PAL WII:         **c46c133885383f96e7515c5cefd152d2**
 
 Determine the MD5 hash of your ISO with the `md5sum` command.
 If your command returns anything other than the above value, you either have the wrong ISO or your ISO was somehow modified.

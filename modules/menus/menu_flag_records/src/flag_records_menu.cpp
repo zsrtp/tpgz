@@ -159,7 +159,7 @@ void FlagRecordsMenu::draw() {
         cursor.move(0, max_flags + 1);
     }
 
-    ListMember rec_opt[MAX_RECORD_OPTIONS] = {"stage", "event", "minigame", "danbit"};
+    ListMember rec_opt[MAX_RECORD_OPTIONS] = {"stage", "event", "minigame", "dungeon"};
     char record_type[12];
     snprintf(record_type, sizeof(record_type), " <%s>", rec_opt[l_recIdx].member);
     uint32_t color = cursor.y == 0 ? CURSOR_RGBA : WHITE_RGBA;
