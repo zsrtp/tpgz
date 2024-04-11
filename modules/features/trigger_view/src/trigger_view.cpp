@@ -221,7 +221,12 @@ void drawStagePaths() {
 }
 
 void drawCurrentRoomPaths() {
-    s32 roomNo = fopAcM_GetRoomNo(dComIfGp_getPlayer());
+    daAlink_c* player = dComIfGp_getPlayer();
+    if (player == NULL) {
+        return;
+    }
+
+    s32 roomNo = fopAcM_GetRoomNo(player);
     if (roomNo < 0 || roomNo >= 64) {
         return;
     }
