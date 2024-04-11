@@ -67,15 +67,17 @@ tpgz
 │   ├───boot              // permanently loaded module source code
 │   │   ├───include       // module header files
 │   │   └───src           // module source code
-│   ├───features          // feature-specific module source code
-│   │   ├───include       // feature header files
-│   │   └───src           // feature source code
+│   ├───features          // feature-specific modules source code
+|   |   └───*             // feature module
+│   │   │   ├───include   // feature header files
+│   │   │   └───src       // feature source code
 │   ├───init              // tpgz initialization source code
 │   │   ├───include       // initialization header files
 │   │   └───src           // initialization source code
-│   └───menu              // menu module source code
-│       ├───include       // menu header files
-│       └───src           // menu source code
+│   └───menus             // menu modules source code
+|       └───*             // menu module
+│           ├───include   // menu header files
+│           └───src       // menu source code
 ├───res                   // external resources to be consumed
 │   ├───bin               // region specific binary data
 │   ├───fonts             // raw font data
