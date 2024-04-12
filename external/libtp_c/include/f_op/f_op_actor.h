@@ -128,6 +128,9 @@ public:
     /* 0x534 */ f32 mMaxFallSpeed;
     /* 0x538 */ cXyz mEyePos;
     /* 0x544 */ actor_attention_types mAttentionInfo;
+#ifdef WII_PLATFORM
+    u8 unkdata[4];
+#endif
     /* 0x560 */ s16 field_0x560;
     /* 0x562 */ s16 mHealth;
     /* 0x564 */ u8 field_0x564;
@@ -136,7 +139,9 @@ public:
     /* 0x567 */ s8 field_0x567;
 };  // Size: 0x568
 
+#ifndef WII_PLATFORM
 static_assert(sizeof(fopAc_ac_c) == 0x568);
+#endif
 
 class J3DAnmTextureSRTKey;
 class J3DAnmTevRegKey;
@@ -175,6 +180,8 @@ public:
     /* 0x5A8 */ u8 field_0x5a8;
 };  // Size: 0x5AC
 
+#ifndef WII_PLATFORM
 static_assert(sizeof(fopEn_enemy_c) == 0x5AC);
+#endif
 
 #endif

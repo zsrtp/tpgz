@@ -60,7 +60,6 @@ void drawMidnaStop(fopAc_ac_c* actor) {
         /* 0x5C0 */ f32 mRangeXZ;
         /* 0x5C4 */ f32 mRangeY;
     };
-    static_assert(sizeof(daMidnaStop_c) == 0x5C8);
     daMidnaStop_c* mstop = (daMidnaStop_c*)actor;
 
     GXColor color = {0x4A, 0x36, 0xBA, g_geometryOpacity};
