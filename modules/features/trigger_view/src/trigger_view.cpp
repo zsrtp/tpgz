@@ -236,6 +236,40 @@ void drawCurrentRoomPaths() {
     }
 }
 
+void drawCheckpointTag(fopAc_ac_c* actor) {
+    struct daTagChgRestart_c : public fopAc_ac_c {
+        /* 0x568 */ cXyz mVertices[4];
+    };
+    daTagChgRestart_c* chk = (daTagChgRestart_c*)actor;
+    
+    GXColor color = {0x29, 0xF0, 0xFF, g_geometryOpacity};
+    cXyz points[8];
+
+    mDoMtx_stack_c::transS(actor->current.pos.x, actor->current.pos.y, actor->current.pos.z);
+    mDoMtx_stack_c::YrotM(actor->current.angle.y);
+
+    points[0] = chk->mVertices[0];
+    points[1] = chk->mVertices[1];
+    points[2] = chk->mVertices[3];
+    points[3] = chk->mVertices[2];
+    points[4] = chk->mVertices[0];
+    points[5] = chk->mVertices[1];
+    points[6] = chk->mVertices[3];
+    points[7] = chk->mVertices[2];
+    
+    mDoMtx_multVecArray(mDoMtx_stack_c::get(), points, points, 8);
+    // actor only checks XZ axis', so copy player y to keep it more accurate
+    for (int i = 0; i < 8; i++) {
+        points[i].y = dComIfGp_getPlayer()->current.pos.y;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        points[i].y += 1000.0f;
+    }
+
+    dDbVw_drawCube8pXlu(points, color);
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
@@ -262,6 +296,10 @@ KEEP_FUNC void execute() {
         pathColorIndex = 0;
         drawStagePaths();
         drawCurrentRoomPaths();
+    }
+
+    if (g_triggerViewFlags[VIEW_CHG_RESTARTS].active) {
+        searchActorForCallback(PROC_Tag_ChgRestart, drawCheckpointTag);
     }
 }
 }  // namespace TriggerViewer

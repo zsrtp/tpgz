@@ -23,6 +23,8 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
                          &g_triggerViewFlags[VIEW_TW_GATES].active},
                          {"view paths", VIEW_PATHS, "", true,
                          &g_triggerViewFlags[VIEW_PATHS].active},
+                         {"view restart changes", VIEW_CHG_RESTARTS, "", true,
+                         &g_triggerViewFlags[VIEW_CHG_RESTARTS].active},
                          {"opacity:", TRIGGER_VIEW_MAX, "the opacity of drawn geometry"},
                     } {}
 
