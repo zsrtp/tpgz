@@ -7,31 +7,14 @@
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
-
-// The frame the roll started on. Dynamically updated based on game pausing
-static int roll_start_frame;
-
-// The current frame delta between the current frame and the roll start frame
-static int current_frame_delta;
-
-// Whether the game is paused or not. Used to determine if the roll start frame should be incremented
-static bool game_paused;
-
-// Buffer for the message to be printed
-static char msg_buffer[20];
-
-// Tracks the previous action for adjusting the frame timing window, 
-// because some actions like land dive cut the beginning of the roll short
-static int previous_action;
-
-// The frame the roll ends on. Dynamically updated based on the previous action
-static int roll_end_frame;
-
-// The frame the early check should be performed on. Dynamically updated based on the previous action
-static int roll_early_check_frame;
-
-// The frame the late check should be performed on. Dynamically updated based on the previous action
-static int roll_late_check_frame;
+s32 roll_start_frame;       // The frame the roll started on. Dynamically updated based on game pausing
+u8 current_frame_delta;     // The current frame delta between the current frame and the roll start frame.
+u8 roll_end_frame;          // The frame the roll ends on. Dynamically updated based on the previous action
+u8 roll_early_check_frame;  // The earliest frame the early check should be performed on. Dynamically updated based on the previous action.
+u8 roll_late_check_frame;   // The latest frame the late check should be performed on. Dynamically updated based on the previous action.
+u16 previous_action;        // Tracks the previous action for adjusting the frame timing window, because some actions like land dive cut the beginning of the roll short
+bool game_paused;           // Whether the game is paused or not. Used to determine if the roll start frame should be incremented.
+char msg_buffer[20];        // Buffer for the message to be printed.
 
 #if DEBUG
 void RollIndicator_debug() {
@@ -74,7 +57,7 @@ void RollIndicator::execute() {
             /* Got it check */
             if (current_frame_delta == roll_end_frame) {
                 #if DEBUG
-                OSReport("exactly 18 frames!\n");
+                OSReport("exactly %d frames!\n", roll_end_frame);
                 #endif
 
                 if (g_dComIfG_gameInfo.play.mPauseFlag) {
@@ -105,7 +88,7 @@ void RollIndicator::execute() {
             /* Early check */
             } else if (current_frame_delta > roll_early_check_frame && current_frame_delta < roll_end_frame) {
                 #if DEBUG
-                OSReport("between 12 and 18 frames!\n");
+                OSReport("between %d and %d frames!\n", roll_early_check_frame, roll_end_frame);
                 #endif
                 if (g_dComIfG_gameInfo.play.mPauseFlag) {
                     #if DEBUG
@@ -182,7 +165,7 @@ void RollIndicator::execute() {
             /* Late check */
             } else if (current_frame_delta > roll_end_frame) {
                 #if DEBUG
-                OSReport("Between 18 and 24 frames!\n");
+                OSReport("Between %d and %d frames!\n", roll_end_frame, roll_late_check_frame);
                 #endif
 
                 if (g_dComIfG_gameInfo.play.mPauseFlag) {
