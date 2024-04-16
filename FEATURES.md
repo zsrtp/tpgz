@@ -141,6 +141,7 @@
 - **View Event Areas**: Draws Event (`daTag_EvtArea_c` / `daTag_Evt_c`) triggers
 - **View Twilight Gates**: Draws Twilight Gate (`daTagTWGate_c`) triggers
 - **View Paths**: Draws current Stage Path (`dPath`) data
+- **View Plumm Triggers**: Draws Plumm (`d_a_tag_myna2`) triggers
 - **Opacity**: Change the opacity of drawn Geometry
 
 ---

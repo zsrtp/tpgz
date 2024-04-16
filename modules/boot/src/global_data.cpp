@@ -14,4 +14,5 @@ KEEP_VAR TriggerViewItem g_triggerViewFlags[TRIGGER_VIEW_MAX] = {
     {VIEW_TW_GATES, false},
     {VIEW_PATHS, false},
     {VIEW_CHG_RESTARTS, false},
+    {VIEW_PLUMM_TAGS, false},
 };

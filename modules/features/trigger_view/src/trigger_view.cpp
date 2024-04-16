@@ -66,6 +66,16 @@ void drawMidnaStop(fopAc_ac_c* actor) {
     dDbVw_drawCylinderXlu(mstop->current.pos, mstop->mScale.x * 100.0f, mstop->mScale.y, color, 1);
 }
 
+// used a large cylinder height to represent the xz check as accurately as possible
+void drawPlumTag(fopAc_ac_c* actor) {
+    struct daTagMyna2_c : public fopAc_ac_c {};
+
+    daTagMyna2_c* plum_tag = (daTagMyna2_c*)actor;
+
+    GXColor color = {0x00, 0xFF, 0x00, g_geometryOpacity};
+    dDbVw_drawCylinderXlu(plum_tag->current.pos, plum_tag->mScale.x * 100.0f, 1000000.0f, color, 1);
+}
+
 // this one might need to be improved? it matches the debug rom tho so idk
 void drawSwitchArea(fopAc_ac_c* actor) {
     struct daSwc00_c : public fopAc_ac_c {
@@ -277,6 +287,10 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_MIDNA_STOPS].active) {
         searchActorForCallback(PROC_Tag_Mstop, drawMidnaStop);
+    }
+
+    if (g_triggerViewFlags[VIEW_PLUMM_TAGS].active) {
+        searchActorForCallback(PROC_TAG_MYNA2, drawPlumTag);
     }
 
     if (g_triggerViewFlags[VIEW_SWITCH_AREAS].active) {

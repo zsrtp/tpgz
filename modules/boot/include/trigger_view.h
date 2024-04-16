@@ -10,6 +10,7 @@ enum TriggerViewIndex {
     VIEW_TW_GATES,
     VIEW_PATHS,
     VIEW_CHG_RESTARTS,
+    VIEW_PLUMM_TAGS,
 
     TRIGGER_VIEW_MAX,
 };
