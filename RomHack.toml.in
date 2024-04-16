@@ -49,6 +49,9 @@ libs = ["libtpgz.a"]
 "tpgz/save_files/glitchless.bin" = "../res/save_files/glitchless.bin"
 "tpgz/save_files/glitchless" = "../res/save_files/glitchless"
 
+# actor info
+"tpgz/proc_info" = "../res/proc_info"
+
 # warp info
 "tpgz/stage_info" = "../res/stage_info"
 

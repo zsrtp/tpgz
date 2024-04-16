@@ -52,6 +52,7 @@ The repository structure is separated like so:
 - `/res/fonts/`: The fonts used to display text in **TPGZ**. They were made from TrueType fonts converted into a custom font format using the script found at `external/misc/font2fnt.py`.
 - `/res/icons/`: The original pictures that were used to generate the textures in `res/tex`.
 - `/res/map/`: The files that contain the mapping between the symbols name and their address in the game. They are used in the compilation pipeline to link the modules against the game.
+- `/res/proc_info/`: Metadata containing information on friendly name mappings for Proc IDs. Used by the actor list menu.
 - `/res/save_files/`: The files that contains the data to load into the questlog of the game, as well as some metadata on how to load them.
 - `/res/save_files_wii/`: Wii specific save files. Although GC's questlog data and Wii's are intercompatible, Wii any% saves were made using a different route, requiring a different set of saves.
 - `/res/stage_info/`: Metadata containing the information on where it is possible to warp.

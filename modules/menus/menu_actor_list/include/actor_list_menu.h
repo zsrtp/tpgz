@@ -15,6 +15,12 @@ public:
     virtual void draw();
 
 private:
+    void loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                      int offset);
+    void loadNextInfo(void* buffer, signed long& counter, signed long length, char max_num,
+                      int offset);
+    void setStagePath(int current_stage_type);
+
     uint16_t& l_index;
     Line lines[3];
 };
