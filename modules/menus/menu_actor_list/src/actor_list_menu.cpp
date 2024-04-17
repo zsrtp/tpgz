@@ -63,13 +63,7 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             dComIfGp_getEventManager().mCameraPlay = 1;
       }
 
-ActorListMenu::~ActorListMenu() {
-        if (l_halt != dComIfGp_getEvent().mHalt)
-            dComIfGp_getEvent().mHalt = l_halt;
-
-        if (l_cameraPlay != dComIfGp_getEventManager().mCameraPlay)
-            dComIfGp_getEventManager().mCameraPlay = l_cameraPlay;
-}
+ActorListMenu::~ActorListMenu() {}
 
 template <typename T>
 void updatePositionOrAngle(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement) {
@@ -111,6 +105,12 @@ void ActorListMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_actorViewEnabled = false;
+        if (l_halt != dComIfGp_getEvent().mHalt)
+            dComIfGp_getEvent().mHalt = l_halt;
+
+        if (l_cameraPlay != dComIfGp_getEventManager().mCameraPlay)
+            dComIfGp_getEventManager().mCameraPlay = l_cameraPlay;
+            
         g_menuMgr->pop();
         OSReport("got here");
         return;

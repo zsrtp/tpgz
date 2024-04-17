@@ -8,22 +8,6 @@
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
 namespace ActorViewer {
-
-typedef void (*drawCallback)(fopAc_ac_c*);
-void searchActorForCallback(fopAc_ac_c* actor, drawCallback callback) {
-    node_class* node = g_fopAcTg_Queue.mpHead;
-
-    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
-        if (node != NULL) {
-
-            if (actor != NULL && callback != NULL) {
-                callback(actor);
-            }
-        }
-        node = node->mpNextNode;
-    }
-}
-
 void drawGizmo(fopAc_ac_c* actor) {
     // Gizmo cube size and angle
     cXyz cube_size = {10.0f, 10.0f, 10.0f};
@@ -68,7 +52,7 @@ void drawGizmo(fopAc_ac_c* actor) {
 KEEP_FUNC void execute() {
     if (g_actorViewEnabled) {
         if (g_currentActor != NULL)
-            searchActorForCallback(g_currentActor, drawGizmo);
+            drawGizmo(g_currentActor);
     }
 }
 }  // namespace ActorViewer

@@ -59,7 +59,9 @@ void main() {
     g_PreLoopListener->addListener(GZ_frameAdvance);
     g_PreLoopListener->addListener(GZ_handleTools);
     g_PreLoopListener->addListener(GZ_handleTriggerView);
+    g_PreLoopListener->addListener(GZ_handleActorView);
     g_PreLoopListener->addListener(GZ_drawPolygons);
+    
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
     g_PostLoopListener->addListener(GZ_handleFlags_PostLoop);

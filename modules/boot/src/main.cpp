@@ -39,6 +39,7 @@ tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
 tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
 tpgz::dyn::GZModule g_TriggerView_rel("/tpgz/rels/features/trigger_view.rel");
+tpgz::dyn::GZModule g_ActorView_rel("/tpgz/rels/features/actor_view.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -152,6 +153,20 @@ KEEP_FUNC void GZ_handleTriggerView() {
 
     if (active_flags <= 0 && g_TriggerView_rel.isLoaded()) {
         g_TriggerView_rel.close();
+    }
+}
+
+/**
+ * @brief   Handles when to load Actor Viewer into memory.
+ */
+KEEP_FUNC void GZ_handleActorView() {
+
+    if (g_actorViewEnabled && !g_ActorView_rel.isLoaded()) {
+        g_ActorView_rel.loadFixed(true);
+    }
+
+    if (!g_actorViewEnabled && g_ActorView_rel.isLoaded()) {
+        g_ActorView_rel.close();
     }
 }
 
