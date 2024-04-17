@@ -213,7 +213,7 @@ Here, we list how some of the main components of **TPGZ** work.
 
 - Hooking into the game's code.
 - Holding global data that is access by all the sub modules.
-- Providing [Lsiteners](#Listeners) for sub modules to hook into. 
+- Providing [Listeners](#Listeners) for sub modules to hook into. 
 - Handling REL modules loading.
 
 > Currently, the main module also contains the majority of the code for the features. But in the long term, all the features that are not required to be in the main module will be extracted into sub modules.

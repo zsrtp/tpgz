@@ -149,18 +149,12 @@ bool GZ_getButtonTrig(int idx) {
 }
 
 bool GZ_getButtonHold(int idx, int phase) {
-    uint32_t delta;
-    if (phase == POST_GAME_LOOP) {
-        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
-    } else {
-        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame + 1;
-    }
+    uint32_t delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    
+    if (phase != POST_GAME_LOOP)
+        delta++;
 
-    if (delta != 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return delta != 0 ? true : false;
 }
 
 void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
