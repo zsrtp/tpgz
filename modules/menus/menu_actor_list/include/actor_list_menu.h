@@ -4,7 +4,6 @@
 struct ActorListData {
     uint16_t l_index;
     bool l_dataLoaded;
-    char l_procNameBuffer[32] __attribute__((aligned(32)));
 };
 
 enum {
@@ -30,14 +29,9 @@ public:
 private:
     uint16_t& l_index;
     bool& l_dataLoaded;
-    char* l_procNameBuffer;
 
     Line lines[ACTOR_LIST_LINE_COUNT];
     s32 l_cameraPlay;
     bool l_halt;
     fopAc_ac_c* l_currentActor;
 };
-
-namespace ActorGizmo {
-void execute();
-};  // namespace ActorGizmo

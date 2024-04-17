@@ -9,6 +9,7 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "fs.h"
+#include "global_data.h"
 #include "boot/include/collision_view.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
@@ -33,77 +34,12 @@
 #define DELETE_BUTTON GZPad::PLUS
 #endif
 
-// used in gizmo drawing
-fopAc_ac_c* current_actor;
-
-namespace ActorGizmo {
-typedef void (*drawCallback)(fopAc_ac_c*);
-void searchActorForCallback(fopAc_ac_c* actor, drawCallback callback) {
-    node_class* node = g_fopAcTg_Queue.mpHead;
-
-    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
-        if (node != NULL) {
-
-            if (actor != NULL && callback != NULL) {
-                callback(actor);
-            }
-        }
-        node = node->mpNextNode;
-    }
-}
-
-void drawGizmo(fopAc_ac_c* actor) {
-    // Gizmo cube size and angle
-    cXyz cube_size = {10.0f, 10.0f, 10.0f};
-    csXyz cube_angle = {0, 0, 0};
-
-    // Colors for the gizmo's axis lines and cube
-    GXColor red = {255, 0, 0, 255};
-    GXColor green = {0, 255, 0, 255};
-    GXColor blue = {0, 0, 255, 255};
-    GXColor white = {255, 255, 255, 255};
-
-    // length of the gizmo's axis grid lines to draw
-    f32 grid_line_length = 200.0f;
-
-    // width of the gizmo's axis grid lines to draw
-    u8 line_width = 20;
-
-    // Draw a cube at the position of the actor
-    dDbVw_drawCubeXlu(actor->current.pos, cube_size, cube_angle, white);
-
-    // Gizmo axis line points
-    cXyz point_x_a = {actor->current.pos.x + grid_line_length, actor->current.pos.y, actor->current.pos.z};
-    cXyz point_x_b = {actor->current.pos.x - grid_line_length, actor->current.pos.y, actor->current.pos.z};
-    cXyz point_y_a = {actor->current.pos.x, actor->current.pos.y + grid_line_length, actor->current.pos.z};
-    cXyz point_y_b = {actor->current.pos.x, actor->current.pos.y - grid_line_length, actor->current.pos.z};
-    cXyz point_z_a = {actor->current.pos.x, actor->current.pos.y, actor->current.pos.z + grid_line_length};
-    cXyz point_z_b = {actor->current.pos.x, actor->current.pos.y, actor->current.pos.z - grid_line_length};
-    
-
-    // Gizmo axis lines
-    dDbVw_drawLineXlu(point_x_a, point_x_b, red, 1, line_width);
-    dDbVw_drawLineXlu(point_y_a, point_y_b, green, 1, line_width);
-    dDbVw_drawLineXlu(point_z_a, point_z_b, blue, 1, line_width);
-
-    // Move camera to offset from actor position
-    matrixInfo.matrix_info->pos = actor->current.pos + cXyz{100.0f,300.0f,100.0f};
-
-    // Focus camera on actor position
-    matrixInfo.matrix_info->target = actor->current.pos;
-}
-
-KEEP_FUNC void execute() {
-    // Draw the gizmo for the current actor
-    searchActorForCallback(current_actor, drawGizmo);
-}
-}  // namespace ActorGizmo
+static char procName[32];
 
 KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
     : Menu(cursor),
       l_index(data.l_index), 
-      l_dataLoaded(data.l_dataLoaded), 
-      l_procNameBuffer(data.l_procNameBuffer), 
+      l_dataLoaded(data.l_dataLoaded),
       lines{
         {"", ACTOR_NAME_INDEX, "Z+A: freeze actor, Z+" DELETE_TEXT ": delete actor, " CONTROL_TEXT " view memory", false},
         {"", ACTOR_POSITION_X_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
@@ -125,7 +61,6 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         // Lock the camera to allow for its movement
         if (l_cameraPlay != 1)
             dComIfGp_getEventManager().mCameraPlay = 1;
-
       }
 
 ActorListMenu::~ActorListMenu() {
@@ -158,21 +93,24 @@ void ActorListMenu::updateActorData() {
     }
 
     l_currentActor = actorData;
-    current_actor = actorData;
+    g_currentActor = actorData;
 }
 
 void ActorListMenu::loadActorName() {
     if (l_currentActor) {
-        int offset = (l_currentActor->mBase.mProcName*64)+32;
+        int offset = (l_currentActor->mBase.mProcName*34)+2;
         int size = 32;
-        loadFile("tpgz/procs.bin", l_procNameBuffer, size, offset);
+        loadFile("tpgz/procs.bin", procName, size, offset);
     }
 }
 
 void ActorListMenu::draw() {
+    g_actorViewEnabled = true;
+    
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
+        g_actorViewEnabled = false;
         g_menuMgr->pop();
         OSReport("got here");
         return;
@@ -218,13 +156,13 @@ void ActorListMenu::draw() {
         }
 
         if (GZ_getButtonTrig(MEM_SWITCH_BTN)) {
-                switch (cursor.y) {
-                case ACTOR_NAME_INDEX:
-                    g_memoryEditor_addressIndex = (uint32_t)l_currentActor;
-                    g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
-                    return;
-                }
+            switch (cursor.y) {
+            case ACTOR_NAME_INDEX:
+                g_memoryEditor_addressIndex = (uint32_t)l_currentActor;
+                g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
+                return;
             }
+        }
 
         if (l_index > g_fopAcTg_Queue.mSize - 1)
             l_index = g_fopAcTg_Queue.mSize - 1;
@@ -263,7 +201,7 @@ void ActorListMenu::draw() {
     }
 
     if (l_currentActor) {
-        lines[ACTOR_NAME_INDEX].printf("name:  <%s>", l_procNameBuffer);
+        lines[ACTOR_NAME_INDEX].printf("name:  <%s>", procName);
         lines[ACTOR_POSITION_X_INDEX].printf("pos-x: <%.1f>", l_currentActor->current.pos.x);
         lines[ACTOR_POSITION_Y_INDEX].printf("pos-y: <%.1f>", l_currentActor->current.pos.y);
         lines[ACTOR_POSITION_Z_INDEX].printf("pos-z: <%.1f>", l_currentActor->current.pos.z);

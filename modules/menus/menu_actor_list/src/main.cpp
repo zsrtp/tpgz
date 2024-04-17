@@ -15,15 +15,12 @@ ActorListMenu* l_menu;
 
 namespace tpgz::modules {
 void main() {
-    g_PreLoopListener->addListener(ActorGizmo::execute);
-
     g_menuMgr->setCreateHook(onCreate);
     g_menuMgr->setLoadHook(onLoad);
     g_menuMgr->setUnloadHook(onUnload);
     g_menuMgr->setDeleteHook(onDelete);
 }
 void exit() {
-    g_PreLoopListener->removeListener(ActorGizmo::execute);
     g_menuMgr->setCreateHook(nullptr);
     g_menuMgr->setLoadHook(nullptr);
     g_menuMgr->setUnloadHook(nullptr);
