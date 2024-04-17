@@ -21,17 +21,17 @@ enum {
 class ActorListMenu : public Menu {
 public:
     ActorListMenu(Cursor&, ActorListData&);
-    void updateActorData();
-    void loadActorName();
     virtual ~ActorListMenu();
     virtual void draw();
 
 private:
+    void updateActorData();
+    void loadActorName();
+    
     uint16_t& l_index;
     bool& l_dataLoaded;
 
     Line lines[ACTOR_LIST_LINE_COUNT];
     s32 l_cameraPlay;
     bool l_halt;
-    fopAc_ac_c* l_currentActor;
 };

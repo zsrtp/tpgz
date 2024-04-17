@@ -797,16 +797,16 @@ import struct
 
 def create_procs_bin():
     for name in procnames.keys():
-        if len(name) > 32:
-            raise ValueError(f"Name '{name}' is too long (32 characters max)")
+        if len(name) > 30:
+            raise ValueError(f"Name '{name}' is too long (30 characters max)")
         
     with open("procs.bin", "wb") as f:
         for name, value in procnames.items():
-            # Write the ID as a 16-bit unsigned integer in big-endian format, then pad with zeros
-            id_bytes = struct.pack('>h', value) + b'\0' * 30
+            # Write the ID as a 16-bit signed integer in big-endian format
+            id_bytes = struct.pack('>h', value)
 
             # Write the name as a string, then pad with zeros
-            name_bytes = name.encode('utf-8').ljust(32, b'\0')
+            name_bytes = name.encode('utf-8').ljust(30, b'\0')
 
             # Write the bytes to the file
             f.write(id_bytes)

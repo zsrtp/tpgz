@@ -34,8 +34,6 @@
 #define DELETE_BUTTON GZPad::PLUS
 #endif
 
-static char procName[32];
-
 KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
     : Menu(cursor),
       l_index(data.l_index), 
@@ -86,15 +84,20 @@ void ActorListMenu::updateActorData() {
         node = node->mpNextNode;
     }
 
-    l_currentActor = actorData;
     g_currentActor = actorData;
 }
 
+struct procBinData {
+    s16 procId;
+    char procName[30];
+}__attribute__((aligned(32)));
+
+procBinData proc_data;
+
 void ActorListMenu::loadActorName() {
-    if (l_currentActor) {
-        int offset = (l_currentActor->mBase.mProcName*34)+2;
-        int size = 32;
-        loadFile("tpgz/procs.bin", procName, size, offset);
+    if (g_currentActor) {
+        int offset = (g_currentActor->mBase.mProcName*32);
+        loadFile("tpgz/procs.bin", &proc_data, sizeof(proc_data), offset);
     }
 }
 
@@ -142,23 +145,23 @@ void ActorListMenu::draw() {
         }
         
         if (GZ_getButtonPressed(CONTROLLER_Z) && GZ_getButtonPressed(DELETE_BUTTON)) {
-            if (l_currentActor) {
-                if (l_currentActor->mBase.mProcName != PROC_ALINK) {
-                    fopAcM_delete(l_currentActor);
+            if (g_currentActor) {
+                if (g_currentActor->mBase.mProcName != PROC_ALINK) {
+                    fopAcM_delete(g_currentActor);
                 }
             }
         }
 
         if (GZ_getButtonPressed(CONTROLLER_Z) && GZ_getButtonPressed(CONTROLLER_A)) {
-            if (l_currentActor) {
-                l_currentActor->mBase.mPauseFlag = !l_currentActor->mBase.mPauseFlag;
+            if (g_currentActor) {
+                g_currentActor->mBase.mPauseFlag = !g_currentActor->mBase.mPauseFlag;
             }
         }
 
         if (GZ_getButtonTrig(MEM_SWITCH_BTN)) {
             switch (cursor.y) {
             case ACTOR_NAME_INDEX:
-                g_memoryEditor_addressIndex = (uint32_t)l_currentActor;
+                g_memoryEditor_addressIndex = (uint32_t)g_currentActor;
                 g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
                 return;
             }
@@ -170,44 +173,44 @@ void ActorListMenu::draw() {
         break;
     case ACTOR_POSITION_X_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->current.pos.x, smallPosChange, largePosChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->current.pos.x, smallPosChange, largePosChange, rightPressed, zPressed);
         }
         break;
     case ACTOR_POSITION_Y_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->current.pos.y, smallPosChange, largePosChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->current.pos.y, smallPosChange, largePosChange, rightPressed, zPressed);
         }
         break;
     case ACTOR_POSITION_Z_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->current.pos.z, smallPosChange, largePosChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->current.pos.z, smallPosChange, largePosChange, rightPressed, zPressed);
         }
         break;
     case ACTOR_ANGLE_X_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->shape_angle.x, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->shape_angle.x, smallAngleChange, largeAngleChange, rightPressed, zPressed);
         }
         break;
     case ACTOR_ANGLE_Y_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->shape_angle.y, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->shape_angle.y, smallAngleChange, largeAngleChange, rightPressed, zPressed);
         }
         break;
     case ACTOR_ANGLE_Z_INDEX:
         if (rightPressed || leftPressed) {
-            updatePositionOrAngle(&l_currentActor->shape_angle.z, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updatePositionOrAngle(&g_currentActor->shape_angle.z, smallAngleChange, largeAngleChange, rightPressed, zPressed);
         }
         break;
     }
 
-    if (l_currentActor) {
-        lines[ACTOR_NAME_INDEX].printf("name:  <%s>", procName);
-        lines[ACTOR_POSITION_X_INDEX].printf("pos-x: <%.1f>", l_currentActor->current.pos.x);
-        lines[ACTOR_POSITION_Y_INDEX].printf("pos-y: <%.1f>", l_currentActor->current.pos.y);
-        lines[ACTOR_POSITION_Z_INDEX].printf("pos-z: <%.1f>", l_currentActor->current.pos.z);
-        lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <%d>", l_currentActor->shape_angle.x);
-        lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <%d>", l_currentActor->shape_angle.y);
-        lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <%d>", l_currentActor->shape_angle.z);
+    if (g_currentActor) {
+        lines[ACTOR_NAME_INDEX].printf("name:  <%s>", proc_data.procName);
+        lines[ACTOR_POSITION_X_INDEX].printf("pos-x: <%.1f>", g_currentActor->current.pos.x);
+        lines[ACTOR_POSITION_Y_INDEX].printf("pos-y: <%.1f>", g_currentActor->current.pos.y);
+        lines[ACTOR_POSITION_Z_INDEX].printf("pos-z: <%.1f>", g_currentActor->current.pos.z);
+        lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <%d>", g_currentActor->shape_angle.x);
+        lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <%d>", g_currentActor->shape_angle.y);
+        lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <%d>", g_currentActor->shape_angle.z);
     }
 
     cursor.move(0, ACTOR_LIST_LINE_COUNT);
