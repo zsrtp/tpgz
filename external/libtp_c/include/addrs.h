@@ -177,6 +177,8 @@
 
 // d_menu_window
 #define dMw_c__isEventCheck_addr 0x801fcf84
+#define dMw_c__key_wait_init_addr 0x801fa13c
+#define dMw_c__ring_delete_addr 0x801fbf60
 
 // m_Do_audio
 #define mDoAud_seStartLevel_addr 0x8014113c
@@ -223,6 +225,9 @@
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x800197f8
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x8001fa24
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80023578

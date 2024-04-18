@@ -5,6 +5,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/d/d_procname.h"
+#include "libtp_c/include/d/menu/d_menu_window.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
@@ -47,18 +48,8 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-10, Z+dpad: +/-100", false},
         {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-10, Z+dpad: +/-100", false},
       } {
-
-        // track these so we can set them back when the menu exits
-        l_cameraPlay = dComIfGp_getEventManager().mCameraPlay;
-        l_halt = dComIfGp_getEvent().mHalt;
-        
-        // Freeze the game
-        if (l_halt != 1)
-            dComIfGp_getEvent().mHalt = 1;
-
-        // Lock the camera to allow for its movement
-        if (l_cameraPlay != 1)
-            dComIfGp_getEventManager().mCameraPlay = 1;
+        dComIfGp_getEvent().mHalt = 1;
+        dComIfGp_getEventManager().mCameraPlay = 1;
       }
 
 ActorListMenu::~ActorListMenu() {}
@@ -101,6 +92,8 @@ void ActorListMenu::loadActorName() {
     }
 }
 
+
+
 void ActorListMenu::draw() {
     g_actorViewEnabled = true;
     
@@ -108,11 +101,8 @@ void ActorListMenu::draw() {
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_actorViewEnabled = false;
-        if (l_halt != dComIfGp_getEvent().mHalt)
-            dComIfGp_getEvent().mHalt = l_halt;
-
-        if (l_cameraPlay != dComIfGp_getEventManager().mCameraPlay)
-            dComIfGp_getEventManager().mCameraPlay = l_cameraPlay;
+        dComIfGp_getEvent().mHalt = 0;
+        dComIfGp_getEventManager().mCameraPlay = 0;
             
         g_menuMgr->pop();
         OSReport("got here");
@@ -134,12 +124,20 @@ void ActorListMenu::draw() {
 
     switch (cursor.y) {
     case ACTOR_NAME_INDEX:
-        if (GZ_getButtonRepeat(CONTROLLER_RIGHT) && l_index < g_fopAcTg_Queue.mSize) {
+        if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
             l_index++;
+            if (l_index > g_fopAcTg_Queue.mSize - 1)
+                l_index = 0;
+
             updateActorData();
             loadActorName();
-        } else if (GZ_getButtonRepeat(CONTROLLER_LEFT) && l_index > 0) {
+        } 
+        
+        if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
             l_index--;
+            if (l_index > g_fopAcTg_Queue.mSize - 1)
+                l_index = g_fopAcTg_Queue.mSize - 1;
+
             updateActorData();
             loadActorName();
         }
@@ -166,9 +164,6 @@ void ActorListMenu::draw() {
                 return;
             }
         }
-
-        if (l_index > g_fopAcTg_Queue.mSize - 1)
-            l_index = g_fopAcTg_Queue.mSize - 1;
 
         break;
     case ACTOR_POSITION_X_INDEX:

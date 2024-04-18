@@ -20,12 +20,20 @@
 #define FREE_CAM_VIEW_TEXT "C-stick"
 #define MOVE_LINK_MOVEMENT_TEXT "Stick/C"
 #define MOVE_LINK_ANGLE_TEXT "C-left/right"
+#define PREVIOUS_TUNIC_COLOR GZPad::Y
+#define PREVIOUS_TUNIC_COLOR_TEXT "Y"
+#define NEXT_TUNIC_COLOR GZPad::X
+#define NEXT_TUNIC_COLOR_TEXT "X"
 #endif
 #ifdef WII_PLATFORM
 #define FREE_CAM_MOVEMENT_TEXT "Stick+DPad"
 #define FREE_CAM_VIEW_TEXT "C+Stick"
 #define MOVE_LINK_MOVEMENT_TEXT "Stick"
 #define MOVE_LINK_ANGLE_TEXT "C+Stick"
+#define PREVIOUS_TUNIC_COLOR GZPad::ONE
+#define PREVIOUS_TUNIC_COLOR_TEXT "ONE"
+#define NEXT_TUNIC_COLOR GZPad::TWO
+#define NEXT_TUNIC_COLOR_TEXT "TWO"
 #endif
 
 #ifdef GCN_PLATFORM
@@ -37,45 +45,45 @@
 
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
-      lines{{"area reload", RELOAD_AREA_INDEX, "Use " RELOAD_AREA_TEXT " to reload current area",
+      lines{{"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",
              true, &g_tools[RELOAD_AREA_INDEX].active},
-            {"frame advance", FRAME_ADVANCE_INDEX, "Use " FRAME_ADVANCE_TEXT " to frame advance",
+            {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to frame advance",
              true, &g_tools[FRAME_ADVANCE_INDEX].active},
-            {"fast bonk recovery", FAST_BONK_INDEX, "Reduces bonk animation significantly", true,
+            {"fast bonk recovery", FAST_BONK_INDEX, "teduces bonk animation significantly", true,
              &g_tools[FAST_BONK_INDEX].active},
-            {"fast movement", FAST_MOVEMENT_INDEX, "Link's movement is much faster", true,
+            {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true,
              &g_tools[FAST_MOVEMENT_INDEX].active},
-            {"gorge checker", GORGE_INDEX, "Use " GORGE_VOID_TEXT " to warp to Kakariko Gorge",
+            {"gorge checker", GORGE_INDEX, "use " GORGE_VOID_TEXT " to warp to kakariko gorge",
              true, &g_tools[GORGE_INDEX].active},
 #ifdef WII_PLATFORM
-            {"bit checker", BIT_INDEX, "Use " BACK_IN_TIME_TEXT " to warp to Ordon Bridge", true,
+            {"bit checker", BIT_INDEX, "use " BACK_IN_TIME_TEXT " to warp to ordon bridge", true,
              &g_tools[BIT_INDEX].active},
 #endif
-            {"coro td checker", COROTD_INDEX, "Show frame info when doing coro td", true,
+            {"coro td checker", COROTD_INDEX, "show frame info when doing coro td", true,
              &g_tools[COROTD_INDEX].active},
-            {"umd checker", UMD_INDEX, "Practice Snowpeak UMD timing", true,
+            {"umd checker", UMD_INDEX, "practice snowpeak universal map delay timing", true,
              &g_tools[UMD_INDEX].active},
-            {"input viewer", INPUT_VIEWER_INDEX, "Show current inputs", true,
+            {"input viewer", INPUT_VIEWER_INDEX, "show current inputs", true,
              &g_tools[INPUT_VIEWER_INDEX].active},
-            {"link debug info", LINK_DEBUG_INDEX, "Show Link's position, angle, and speed", true,
+            {"link debug info", LINK_DEBUG_INDEX, "show Link's position, angle, and speed", true,
              &g_tools[LINK_DEBUG_INDEX].active},
-            {"heap debug info", HEAP_DEBUG_INDEX, "Show Heap size info", true,
+            {"heap debug info", HEAP_DEBUG_INDEX, "show Heap size info", true,
              &g_tools[HEAP_DEBUG_INDEX].active},
-            {"no sinking in sand", SAND_INDEX, "Link won't sink in sand", true,
+            {"no sinking in sand", SAND_INDEX, "link won't sink in sand", true,
              &g_tools[SAND_INDEX].active},
-            {"roll checker", ROLL_INDEX, "Frame counter for chaining rolls", true,
+            {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true,
              &g_tools[ROLL_INDEX].active},
-            {"mash checker", MASH_CHECKER_INDEX, "Display A/B button mashing speeds", true,
+            {"mash checker", MASH_CHECKER_INDEX, "display A/B button mashing speeds", true,
              &g_tools[MASH_CHECKER_INDEX].active},
             {"teleport", TELEPORT_INDEX,
              STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load", true,
              &g_tools[TELEPORT_INDEX].active},
-            {"turbo mode", TURBO_MODE_INDEX, "Simulates turbo controller inputs", true,
+            {"turbo mode", TURBO_MODE_INDEX, "simulates turbo controller inputs", true,
              &g_tools[TURBO_MODE_INDEX].active},
             {"timer", TIMER_INDEX,
-             "Frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset",
+             "frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset",
              true, &g_tools[TIMER_INDEX].active},
-            {"load timer", LOAD_TIMER_INDEX, "Loading zone timer: " TIMER_RESET_TEXT " to reset",
+            {"load timer", LOAD_TIMER_INDEX, "loading zone timer: " TIMER_RESET_TEXT " to reset",
              true, &g_tools[LOAD_TIMER_INDEX].active},
             {"igt timer", IGT_TIMER_INDEX,
              "In-game time timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT
@@ -89,15 +97,13 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
              true, &g_tools[MOVE_LINK_INDEX].active},
-            {"link tunic color:", TUNIC_COLOR_INDEX, "Changes Link's tunic color", false, nullptr,
+            {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT " to cycle through colors", false, nullptr,
              MAX_TUNIC_COLORS}} {
 }
 
 ToolsMenu::~ToolsMenu() {}
 
 void ToolsMenu::draw() {
-    cursor.setMode(Cursor::MODE_LIST);
-
     l_tunicCol_idx = g_tunic_color;
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
@@ -112,9 +118,20 @@ void ToolsMenu::draw() {
         cursor.x = l_tunicCol_idx;
         cursor.move(MAX_TUNIC_COLORS, MENU_LINE_NUM);
 
-        if (cursor.y == TUNIC_COLOR_INDEX) {
-            l_tunicCol_idx = cursor.x;
+        if (GZ_getButtonRepeat(NEXT_TUNIC_COLOR)) {
+            l_tunicCol_idx++;
+
+            if (l_tunicCol_idx >= MAX_TUNIC_COLORS)
+                l_tunicCol_idx = 0;
         }
+
+        if (GZ_getButtonRepeat(PREVIOUS_TUNIC_COLOR)) {
+            l_tunicCol_idx--;
+
+            if (l_tunicCol_idx >= MAX_TUNIC_COLORS)
+                l_tunicCol_idx = MAX_TUNIC_COLORS - 1;
+        }
+
         g_tunic_color = l_tunicCol_idx;
     } else {
         cursor.move(0, MENU_LINE_NUM);
