@@ -92,4 +92,7 @@ private:
 LIBTP_DEFINE_FUNC(fopMsgM_SearchByID__FUi, fopMsgM_SearchByID_unsigned_int_,
                     msg_class*, fopMsgM_SearchByID, (u32 id))
 
+LIBTP_DEFINE_FUNC(isEventCheck__5dMw_cFv, dMw_c__isEventCheck_void_,
+                  bool, dMw_c__isEventCheck, (void* addr))
+
 #endif /* D_MENU_D_MENU_WINDOW_H */
