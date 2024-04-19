@@ -11,6 +11,7 @@ enum TriggerViewIndex {
     VIEW_PATHS,
     VIEW_CHG_RESTARTS,
     VIEW_PLUMM_TAGS,
+    VIEW_TRANSFORM_DISTS,
 
     TRIGGER_VIEW_MAX,
 };

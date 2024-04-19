@@ -79,6 +79,7 @@ public:
     static void YrotM(s16 y) { mDoMtx_YrotM(mDoMtx_stack_c__now, y); }
     static void ZrotM(s16 z) { mDoMtx_ZrotM(mDoMtx_stack_c__now, z); }
     static void YrotS(s16 y) { mDoMtx_YrotS(mDoMtx_stack_c__now, y); }
+    static void multVec(const Vec* a, Vec* b) { PSMTXMultVec(mDoMtx_stack_c__now, a, b); }
 };
 
 #endif /* M_DO_M_DO_MTX_H */
