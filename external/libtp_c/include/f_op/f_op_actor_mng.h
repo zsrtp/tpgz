@@ -266,6 +266,9 @@ LIBTP_DEFINE_FUNC(fopAcM_delete__FP10fopAc_ac_c, fopAcM_delete_fopAc_ac_c___,
 LIBTP_DEFINE_FUNC(fopAcM_searchActorDistance__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_searchActorDistance_fopAc_ac_c_const____fopAc_ac_c_const___,
                   f32, fopAcM_searchActorDistance, (const fopAc_ac_c*, const fopAc_ac_c*))
 
+LIBTP_DEFINE_FUNC(fopAcM_seenActorAngleY__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_seenActorAngleY_fopAc_ac_c_const____fopAc_ac_c_const___,
+                  s16, fopAcM_seenActorAngleY, (const fopAc_ac_c*, const fopAc_ac_c*))
+
 extern "C" {
 extern node_list_class g_fopAcTg_Queue;
 }

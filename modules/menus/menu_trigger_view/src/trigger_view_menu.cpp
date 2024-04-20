@@ -27,6 +27,8 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
                          &g_triggerViewFlags[VIEW_CHG_RESTARTS].active},
                          {"view plumm triggers", VIEW_PLUMM_TAGS, "", true,
                          &g_triggerViewFlags[VIEW_PLUMM_TAGS].active},
+                         {"view transform distances", VIEW_TRANSFORM_DISTS, "", true,
+                         &g_triggerViewFlags[VIEW_TRANSFORM_DISTS].active},
                          {"opacity:", TRIGGER_VIEW_MAX, "the opacity of drawn geometry"},
                     } {}
 

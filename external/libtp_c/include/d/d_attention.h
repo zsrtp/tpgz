@@ -154,4 +154,17 @@ public:
 };  // Size = 0x51C
 static_assert(sizeof(dAttention_c) == 0x51C);
 
+struct dAttention_dist_tbl {
+    f32 mDistXZMax;
+    f32 mDistXZMaxRelease;
+    f32 mDistXZAngleAdjust;
+    f32 mDeltaYMax;
+    f32 mDeltaYMin;
+    f32 mWeightDivisor;
+    int mFrontAngleCheckBits;
+};  // Size: 0x1C
+
+LIBTP_DEFINE_FUNC(getDistTable__12dAttention_cFi, dAttention_c__getDistTable_int_,
+                  dAttention_dist_tbl*, dAttention_c__getDistTable, (int))
+
 #endif /* D_D_ATTENTION_H */

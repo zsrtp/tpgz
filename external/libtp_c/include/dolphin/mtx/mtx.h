@@ -18,7 +18,10 @@ void PSMTXConcat(const Mtx a, const Mtx b, Mtx ab);
 void PSMTXScale(Mtx m, f32 x, f32 y, f32 z);
 void PSMTXCopy(const Mtx src, Mtx dst);
 u32 PSMTXInverse(const Mtx src, Mtx inv);
+void PSMTXMultVec(const Mtx m, const Vec* src, Vec* dst);
+void PSMTXMultVecSR(const Mtx m, const Vec* src, Vec* dst);
 void PSMTXMultVecArray(const Mtx m, const Vec* srcBase, Vec* dstBase, u32 count);
+void PSMTXMultVecArraySR(const Mtx m, const Vec* srcBase, Vec* dstBase, u32 count);
 }
 
 #endif /* MTX_H */

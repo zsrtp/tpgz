@@ -235,10 +235,6 @@ KEEP_FUNC void SaveMngSpecial_CityPoeCycle() {
     gSaveManager.setLinkInfo();
 }
 
-KEEP_FUNC void SaveMngSpecial_AeralfosSkip() {
-    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;  // clawshot out
-}
-
 KEEP_FUNC void SaveMngSpecial_FanTower() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mDan.mSwitch[0] = 0;  // reset city switches

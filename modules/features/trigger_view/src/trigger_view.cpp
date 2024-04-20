@@ -22,7 +22,10 @@ void searchActorForCallback(s16 actorName, drawCallback callback) {
             create_tag_class* tag = (create_tag_class*)node;
             actorData = (fopAc_ac_c*)tag->mpTagData;
 
-            if (actorData != NULL && actorData->mBase.mProcName == actorName && callback != NULL) {
+            // special check to run the callback on all valid actors if name is -1
+            bool check_all_actors = actorName == -1;
+
+            if (actorData != NULL && (actorData->mBase.mProcName == actorName || check_all_actors) && callback != NULL) {
                 callback(actorData);
             }
         }
@@ -74,6 +77,14 @@ void drawPlumTag(fopAc_ac_c* actor) {
 
     GXColor color = {0x00, 0xFF, 0x00, g_geometryOpacity};
     dDbVw_drawCylinderXlu(plum_tag->current.pos, plum_tag->mScale.x * 100.0f, 1000000.0f, color, 1);
+}
+
+void drawPlummSearch(fopAc_ac_c* actor) {
+    struct daNpc_myna2_c : public fopAc_ac_c {};
+
+    GXColor color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+    const f32 search_dist = 500.0f;  // this is normally from HIO data
+    dDbVw_drawCircleXlu(actor->mAttentionInfo.position, search_dist + 160.0f, color, 1, 12);
 }
 
 // this one might need to be improved? it matches the debug rom tho so idk
@@ -280,6 +291,44 @@ void drawCheckpointTag(fopAc_ac_c* actor) {
     dDbVw_drawCube8pXlu(points, color);
 }
 
+void drawTransformDists(fopAc_ac_c* actor) {
+    if (fopAcM_GetGroup(actor) == 4 && !fopAcM_checkStatus(actor, 0x8000000)) {
+        GXColor near_color = {0x00, 0xFF, 0x00, g_geometryOpacity};
+        GXColor far_color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+
+        const f32 near_dist = 400.0f;
+        const f32 far_dist = 5000.0f;
+        
+        dDbVw_drawCircleXlu(actor->mEyePos, near_dist, near_color, 1, 20);
+        dDbVw_drawCircleXlu(actor->mEyePos, far_dist, far_color, 1, 20);
+
+        const s16 view_range = 0x4000;
+
+        cXyz offset(0.0f, 0.0f, far_dist);  // set line dist
+        cXyz endpos;
+
+        // draw one view range edge
+        mDoMtx_stack_c::transS(actor->mEyePos.x, actor->mEyePos.y, actor->mEyePos.z);
+        mDoMtx_stack_c::YrotM(actor->shape_angle.y);
+        mDoMtx_stack_c::YrotM(-view_range);
+        mDoMtx_stack_c::multVec(&offset, &endpos);
+        dDbVw_drawLineXlu(actor->mEyePos, endpos, far_color, 1, 10);
+
+        // draw other view range edge
+        mDoMtx_stack_c::transS(actor->mEyePos.x, actor->mEyePos.y, actor->mEyePos.z);
+        mDoMtx_stack_c::YrotM(actor->shape_angle.y);
+        mDoMtx_stack_c::YrotM(view_range);
+        mDoMtx_stack_c::multVec(&offset, &endpos);
+        dDbVw_drawLineXlu(actor->mEyePos, endpos, far_color, 1, 10);
+
+        // draw facing direction
+        mDoMtx_stack_c::transS(actor->mEyePos.x, actor->mEyePos.y, actor->mEyePos.z);
+        mDoMtx_stack_c::YrotM(actor->shape_angle.y);
+        mDoMtx_stack_c::multVec(&offset, &endpos);
+        dDbVw_drawLineXlu(actor->mEyePos, endpos, far_color, 1, 10);
+    }
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
@@ -291,6 +340,7 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_PLUMM_TAGS].active) {
         searchActorForCallback(PROC_TAG_MYNA2, drawPlumTag);
+        searchActorForCallback(PROC_MYNA2, drawPlummSearch);
     }
 
     if (g_triggerViewFlags[VIEW_SWITCH_AREAS].active) {
@@ -314,6 +364,10 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_CHG_RESTARTS].active) {
         searchActorForCallback(PROC_Tag_ChgRestart, drawCheckpointTag);
+    }
+
+    if (g_triggerViewFlags[VIEW_TRANSFORM_DISTS].active) {
+        searchActorForCallback(-1, drawTransformDists);
     }
 }
 }  // namespace TriggerViewer
