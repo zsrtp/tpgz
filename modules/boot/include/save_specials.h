@@ -5,7 +5,6 @@ void SaveMngSpecial_OrdonRock();
 void SaveMngSpecial_BossFlags();
 
 void SaveMngSpecial_Goats1();
-void SaveMngSpecial_Goats2();
 
 void SaveMngSpecial_Hugo();
 void SaveMngSpecial_SpawnHugo();

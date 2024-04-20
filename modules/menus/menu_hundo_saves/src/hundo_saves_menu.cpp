@@ -96,7 +96,6 @@ HundoSavesMenu::~HundoSavesMenu() {}
 void HundoSavesMenu::draw() {
     special HundoSpecials[HND_SPECIALS_AMNT] = {
         special(HND_GOATS_1_INDEX, SaveMngSpecial_Goats1, nullptr),
-        special(HND_GOATS_2_INDEX, SaveMngSpecial_Goats2, nullptr),
         special(HND_MIST_INDEX, SaveMngSpecial_PurpleMist, nullptr),
         special(HND_KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
         special(HND_KB_2_INDEX, SaveMngSpecial_KB2Skip, nullptr),

@@ -55,10 +55,10 @@ file_names = [
     "zant", 
     "hc", 
     "beast_ganon", 
-    "horseback_ganon", 
+    "horseback", 
 ]
 
-ad_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(42)]
+ad_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(43)]
 
 ad_p[0]["requirements"] = REQ_POS | REQ_CAM
 ad_p[0]["pos"] = (827.450012, 216.490097, -4533.90625)
