@@ -18,6 +18,7 @@ public:
     /* 0xFA */ u8 mSelectedChoiceIdx;
 };  // Size: 0xFC
 
+class dMenuRing_c {};
 
 class dMw_c : public msg_class {
 public:
@@ -58,14 +59,15 @@ public:
         /* 0x21 */ INSECT_AGITHA_MOVE,
         /* 0x22 */ INSECT_AGITHA_CLOSE,
     };
-
+    
     /* 801FA13C */ void key_wait_init(u8);
+    /* 801FBF60 */ bool dMw_ring_delete();
 
-private:
+public:
     /* 0x0FC */ int field_0xfc;
     /* 0x100 */ JKRExpHeap* mpHeap;
     /* 0x104 */ u8 field_0x104[0x110 - 0x104];
-    /* 0x110 */ void* mpMenuRing;
+    /* 0x110 */ dMenuRing_c* mpMenuRing;
     /* 0x114 */ u8 field_0x114[0x138 - 0x114];
     /* 0x138 */ s32 mMemSize;
     /* 0x13C */ f32 field_0x13c;
@@ -89,7 +91,61 @@ private:
     /* 0x154 */ bool mPauseWindow;
 };
 
+LIBTP_DEFINE_FUNC(isEventCheck__5dMw_cFv, dMw_c__isEventCheck_void_,
+                  bool, dMw_c__isEventCheck, (void* addr))
+
 LIBTP_DEFINE_FUNC(fopMsgM_SearchByID__FUi, fopMsgM_SearchByID_unsigned_int_,
                     msg_class*, fopMsgM_SearchByID, (u32 id))
+
+LIBTP_DEFINE_FUNC(_delete__5dMw_cFv, dMw_c___delete_void_, void,
+                    dMw_c__delete, (void* addr))
+
+LIBTP_DEFINE_FUNC(dMw_ring_delete__5dMw_cFv, dMw_c__dMw_ring_delete_void_, bool,
+                    dMw_c__ring_delete, (void* addr))
+
+LIBTP_DEFINE_FUNC(key_wait_init__5dMw_cFUc, dMw_c__key_wait_init_unsigned_char_,
+                    void, dMw_c__key_wait_init, (void* addr, u8 arg0))
+
+LIBTP_DEFINE_FUNC(dMw_offMenuRing__Fv, dMw_offMenuRing_void_,
+                    void, dMw_c__offMenuRing, (void))
+
+LIBTP_DEFINE_FUNC(ring_open_proc__5dMw_cFv, dMw_c__ring_open_proc_void_,
+                    void, dMw_c__ring_open_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(ring_close_proc__5dMw_cFv, dMw_c__ring_close_proc_void_,
+                    void, dMw_c__ring_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(_execute__5dMw_cFv, dMw_c___execute_void_, void,
+                    dMw_c__execute, (dMw_c* addr))
+
+LIBTP_DEFINE_FUNC(collect_close_proc__5dMw_cFv, dMw_c__collect_close_proc_void_, 
+                  void, dMw_c__collect_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(fmap_close_proc__5dMw_cFv, dMw_c__fmap_close_proc_void_,
+                  void, dMw_c__fmap_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(dmap_close_proc__5dMw_cFv, dMw_c__dmap_close_proc_void_,
+                  void, dMw_c__dmap_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_save_close_proc__5dMw_cFv, dMw_c__collect_save_close_proc_void_,
+                    void, dMw_c__collect_save_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_option_close_proc__5dMw_cFv, dMw_c__collect_option_close_proc_void_,
+                    void, dMw_c__collect_option_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_letter_close_proc__5dMw_cFv, dMw_c__collect_letter_close_proc_void_,
+                    void, dMw_c__collect_letter_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_fishing_close_proc__5dMw_cFv, dMw_c__collect_fishing_close_proc_void_,
+                    void, dMw_c__collect_fishing_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_skill_close_proc__5dMw_cFv, dMw_c__collect_skill_close_proc_void_,
+                    void, dMw_c__collect_skill_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(collect_insect_close_proc__5dMw_cFv, dMw_c__collect_insect_close_proc_void_,
+                    void, dMw_c__collect_insect_close_proc, (void* addr))
+
+LIBTP_DEFINE_FUNC(insect_close_proc__5dMw_cFv, dMw_c__insect_close_proc_void_,
+                    void, dMw_c__insect_close_proc, (void* addr))
 
 #endif /* D_MENU_D_MENU_WINDOW_H */

@@ -41,12 +41,6 @@ void drawGizmo(fopAc_ac_c* actor) {
     dDbVw_drawLineXlu(point_x_a, point_x_b, red, 1, line_width);
     dDbVw_drawLineXlu(point_y_a, point_y_b, green, 1, line_width);
     dDbVw_drawLineXlu(point_z_a, point_z_b, blue, 1, line_width);
-
-    // Move camera to offset from actor position
-    matrixInfo.matrix_info->pos = actor->current.pos + cXyz{100.0f,300.0f,100.0f};
-
-    // Focus camera on actor position
-    matrixInfo.matrix_info->target = actor->current.pos;
 }
 
 KEEP_FUNC void execute() {

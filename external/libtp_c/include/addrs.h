@@ -176,9 +176,24 @@
 #define dStage_nextStage_c__set_addr 0x80023e28
 
 // d_menu_window
-#define dMw_c__isEventCheck_addr 0x801fcf84
+#define dMw_c__offMenuRing_addr 0x801fa0f0
 #define dMw_c__key_wait_init_addr 0x801fa13c
+#define dMw_c__ring_close_proc_addr 0x801fb064
+#define dMw_c__ring_open_proc_addr 0x801fafdc
+#define dMw_c__collect_close_proc_addr 801fb1a0
 #define dMw_c__ring_delete_addr 0x801fbf60
+#define dMw_c__isEventCheck_addr 0x801fcf84
+#define dMw_c__execute_addr 0x801fd2d8
+#define dMw_c___delete_addr 0x801fd67c
+#define dMw_c__fmap_close_proc_addr 0x801fb36c
+#define dMw_c__dmap_close_proc_addr 0x801fb5dc
+#define dMw_c__collect_save_close_proc_addr 0x801fb6d8
+#define dMw_c__collect_option_close_proc_addr 0x801fb800
+#define dMw_c__collect_letter_close_proc_addr 0x801fb900
+#define dMw_c__collect_fishing_close_proc_addr 0x801fba00
+#define dMw_c__collect_skill_close_proc_addr 0x801fbb00
+#define dMw_c__collect_insect_close_proc_addr 0x801fbc00
+#define dMw_c__insect_close_proc_addr 0x801fbd64
 
 // m_Do_audio
 #define mDoAud_seStartLevel_addr 0x8014113c
