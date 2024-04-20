@@ -39,7 +39,6 @@ void SaveMngSpecial_ToTEarlyHP();
 
 void SaveMngSpecial_HugoArchery();
 
-void SaveMngSpecial_AeralfosSkip();
 void SaveMngSpecial_CityPoeCycle();
 void SaveMngSpecial_FanTower();
 void SaveMngSpecial_Argorok();

@@ -2,7 +2,7 @@
 
 #include "menu.h"
 
-#define HND_SPECIALS_AMNT 27
+#define HND_SPECIALS_AMNT 26
 
 enum HundoPracticeIndex {
     HND_GOATS_1_INDEX,
