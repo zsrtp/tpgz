@@ -79,6 +79,14 @@ void drawPlumTag(fopAc_ac_c* actor) {
     dDbVw_drawCylinderXlu(plum_tag->current.pos, plum_tag->mScale.x * 100.0f, 1000000.0f, color, 1);
 }
 
+void drawPlummSearch(fopAc_ac_c* actor) {
+    struct daNpc_myna2_c : public fopAc_ac_c {};
+
+    GXColor color = {0xFF, 0x00, 0x00, g_geometryOpacity};
+    const f32 search_dist = 500.0f;  // this is normally from HIO data
+    dDbVw_drawCircleXlu(actor->mAttentionInfo.position, search_dist + 160.0f, color, 1, 12);
+}
+
 // this one might need to be improved? it matches the debug rom tho so idk
 void drawSwitchArea(fopAc_ac_c* actor) {
     struct daSwc00_c : public fopAc_ac_c {
@@ -332,6 +340,7 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_PLUMM_TAGS].active) {
         searchActorForCallback(PROC_TAG_MYNA2, drawPlumTag);
+        searchActorForCallback(PROC_MYNA2, drawPlummSearch);
     }
 
     if (g_triggerViewFlags[VIEW_SWITCH_AREAS].active) {

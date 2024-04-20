@@ -70,13 +70,24 @@ struct actor_place {
     /* 0x13 */ u8 field_0x13;
 };
 
-struct actor_attention_types {
-    void setFlag(u32 flags) { mFlags |= flags; }
+enum fopAc_attention_type {
+    fopAc_attn_LOCK_e,
+    fopAc_attn_TALK_e,
+    fopAc_attn_BATTLE_e,
+    fopAc_attn_SPEAK_e,
+    fopAc_attn_CARRY_e,
+    fopAc_attn_DOOR_e,
+    fopAc_attn_JUEL_e,
+    fopAc_attn_ETC_e,
+    fopAc_attn_CHECK_e,
+    fopAc_attn_UNK_e,
+};
 
-    /* 0x00 */ u8 field_0x0[9];
+struct actor_attention_types {
+    /* 0x00 */ u8 distances[9];
     /* 0x0A */ s16 field_0xa;
-    /* 0x0C */ cXyz mPosition;
-    /* 0x18 */ u32 mFlags;
+    /* 0x0C */ cXyz position;
+    /* 0x18 */ u32 flags;
 };  // Size = 0x1C
 
 class dJntCol_c;
