@@ -45,6 +45,7 @@ namespace MoveLink {
 double pitch = 0.0;
 double yaw = 0.0;
 float angle = 0.0f;
+bool init_once = false;
 
 KEEP_FUNC void execute() {
     if (g_moveLinkEnabled) {
@@ -105,8 +106,11 @@ KEEP_FUNC void execute() {
         }
 
     } else {
-        dComIfGp_getEvent().mHalt = false;
-        dComIfGp_getEventManager().mCameraPlay = 0;
+        if (init_once) {
+            dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEventManager().mCameraPlay = 0;
+            init_once = true;
+        }
     }
 }
 
