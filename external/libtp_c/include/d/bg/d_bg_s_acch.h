@@ -32,6 +32,9 @@ public:
     void OffLineCheckNone() { mHitParam &= ~0x4000; }
     void SetWallNone() { mHitParam |= 4; }
     void OffWallNone() { mHitParam &= ~4; }
+    void SetRoofNone() { mHitParam |= (1 << 3); }
+    void SetGroundAway() { mHitParam |= (1 << 8); }
+    void SetGrndNone() { mHitParam |= (1 << 1); }
 
     /* 0x000 */ cBgS_Chk field_0x000;
     /* 0x014 */ dBgS_Chk field_0x014;

@@ -72,6 +72,8 @@ HOOK_DEF(void, dCcS__MoveAfterCheck, (dCcS*));
 HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
 
+HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
+
 namespace Hook {
 void gameLoopHook(void) {
     game_loop();
@@ -230,6 +232,17 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
     return dCcS__MoveAfterCheckTrampoline(i_this);
 }
 
+void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
+    dBgS_Acch__CrrPosTrampoline(i_this, i_bgs);
+    if (g_actorViewEnabled) {
+        i_this->SetRoofNone();
+        i_this->SetWallNone();
+        // i_this->mSpeed = 0;
+        i_this->mHitParam = (1 << 5);
+        // i_this->SetGrndNone();
+    }
+}
+
 #ifdef WII_PLATFORM
 #define draw_console JUTConsoleManager__draw_void__const
 #define f_fapGm_Execute fapGm_Execute_void_
@@ -247,6 +260,7 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
 #define f_dCcS__Draw dCcS__Draw_void_
 #define f_dScnPly_BeforeOfPaint mDoGph_BeforeOfDraw_void_
 #define f_dCcS__MoveAfterCheck dCcS__MoveAfterCheck_void_
+#define f_dBgS_Acch__CrrPos dBgS_Acch__CrrPos_dBgS___
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -264,6 +278,7 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
 #define f_dCcS__Draw Draw__4dCcSFv
 #define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
 #define f_dCcS__MoveAfterCheck MoveAfterCheck__4dCcSFv
+#define f_dBgS_Acch__CrrPos CrrPos__9dBgS_AcchFR4dBgS
 #endif
 
 extern "C" {
@@ -284,6 +299,7 @@ int f_dScnPly__phase_4(void*);
 void f_dCcS__Draw(dCcS*);
 void f_dScnPly_BeforeOfPaint();
 void f_dCcS__MoveAfterCheck(dCcS*);
+void f_dBgS_Acch__CrrPos(dBgS_Acch*, dBgS&);
 }
 
 KEEP_FUNC void applyHooks() {
@@ -306,6 +322,8 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(dCcS__draw, &f_dCcS__Draw, dCcSDrawHook);
     APPLY_HOOK(BeforeOfPaint, &f_dScnPly_BeforeOfPaint, beforeOfPaintHook);
     APPLY_HOOK(dCcS__MoveAfterCheck, &f_dCcS__MoveAfterCheck, dCcSMoveAfterCheckHook);
+
+    APPLY_HOOK(dBgS_Acch__CrrPos, &f_dBgS_Acch__CrrPos, dBgS_AcchCrrPosHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

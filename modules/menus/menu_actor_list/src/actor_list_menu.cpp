@@ -14,6 +14,7 @@
 #include "boot/include/collision_view.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "libtp_c/include/d/meter/d_meter_HIO.h"
 
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
@@ -153,7 +154,7 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             l_cameraTarget = matrixInfo.matrix_info->target;
 
             // pause event controller and event manager camera
-            dComIfGp_getEvent().mHalt = 1;
+            g_drawHIO.mHUDAlpha = 0.0f;
             dComIfGp_getEventManager().mCameraPlay = 1;
             
             if (g_meter2_info.mMenuWindowClass) {
@@ -216,7 +217,7 @@ ActorListMenu::~ActorListMenu() {
         }
     }
 
-    dComIfGp_getEvent().mHalt = 0;
+    g_drawHIO.mHUDAlpha = 1.0f;
     dComIfGp_getEventManager().mCameraPlay = 0;
 }
 
@@ -274,6 +275,21 @@ void ActorListMenu::draw() {
 
     f32 smallPosChange = 10.0f, largePosChange = 100.0f;
     int smallAngleChange = 100, largeAngleChange = 1000;
+
+    // should be removed later for a more clever collision checker patch
+    if (g_currentActor) {
+        if (g_currentActor->mBase.mProcName == PROC_ALINK) {
+            daAlink_c* link = static_cast<daAlink_c*>(g_currentActor);
+            // link->mLinkAcch.SetWallNone();
+            // link->mLinkAcch.SetRoofNone();
+            // link->mLinkAcch.SetGroundAway();
+            link->mGravity = 0;
+            link->speed.x = 0;
+            link->speed.y = 0;
+            link->speed.z = 0;
+        //     link->mActionID = daAlink_c::HUMAN_WAIT;
+        }
+    }
 
     switch (cursor.y) {
     case ACTOR_NAME_INDEX:
