@@ -64,11 +64,6 @@ KEEP_FUNC void SaveMngSpecial_Goats1() {
     setNextStageLayer(5);
 }
 
-KEEP_FUNC void SaveMngSpecial_Goats2() {
-    gSaveManager.injectDefault_during();
-    setNextStageLayer(4);
-}
-
 KEEP_FUNC void SaveMngSpecial_Hugo() {
     gSaveManager.injectDefault_during();
     dComIfGs_onSwitch(47, 0);   // midna trigger off
