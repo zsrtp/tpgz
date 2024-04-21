@@ -8,6 +8,7 @@
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -124,11 +125,18 @@ bool GZ_getButtonPressed(int idx) {
 }
 
 bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
-    auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    // Needs to be signed due to delta sometimes being negative
+    // which causes a subtle bug making held_down_long_enough 
+    // true when it shouldn't be
+    s32 delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    
     auto just_clicked = delta == 0;
     auto held_down_long_enough = delta > REPEAT_DELAY;
-    auto is_repeat_frame = held_down_long_enough && delta % repeat_time == 0;
+    auto is_repeat_frame = held_down_long_enough && (delta % repeat_time == 0);
     auto down = GZ_getButtonPressed(idx);
+    if (idx == GZPad::DPAD_RIGHT) {
+        OSReport("delta: %d, just_clicked: %d, held_down_long_enough: %d, is_repeat_frame: %d, down: %d\n", delta, just_clicked, held_down_long_enough, is_repeat_frame, down);
+    }
     return down && (just_clicked || is_repeat_frame);
 }
 
