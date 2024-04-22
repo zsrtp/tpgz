@@ -110,7 +110,7 @@ uint32_t superClawshotHook(void* p1, void* p2) {
 }
 
 void disableGravityHook(float p1, float p2, int p3) {
-    if (g_moveLinkEnabled) {
+    if (g_moveLinkEnabled || g_actorViewEnabled) {
         return setSpecialGravityTrampoline(0.0f, p2, p3);
     } else {
         return setSpecialGravityTrampoline(p1, p2, p3);
@@ -234,9 +234,9 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
 
 void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
     dBgS_Acch__CrrPosTrampoline(i_this, i_bgs);
-    if (g_actorViewEnabled) {
-        i_this->SetRoofNone();
-        i_this->SetWallNone();
+    if (g_actorViewEnabled || g_moveLinkEnabled) {
+        // i_this->SetRoofNone();
+        // i_this->SetWallNone();
         // i_this->mSpeed = 0;
         i_this->mHitParam = (1 << 5);
         // i_this->SetGrndNone();

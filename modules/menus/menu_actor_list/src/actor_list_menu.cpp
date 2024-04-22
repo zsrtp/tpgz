@@ -124,12 +124,6 @@ procFunc move_proc[] = {
     insect_close_proc_wrapper
 };
 
-void ActorListMenu::updateCamera() {
-    // Move camera to offset from actor position and target actor
-    matrixInfo.matrix_info->pos = g_currentActor->current.pos + cXyz{100.0f,300.0f,100.0f};
-    matrixInfo.matrix_info->target = g_currentActor->current.pos;
-}
-
 KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         : Menu(cursor),
           l_index(data.l_index),
@@ -152,10 +146,6 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             // store camera position and target
             l_cameraPos = matrixInfo.matrix_info->pos;
             l_cameraTarget = matrixInfo.matrix_info->target;
-
-            // pause event controller and event manager camera
-            g_drawHIO.mHUDAlpha = 0.0f;
-            dComIfGp_getEventManager().mCameraPlay = 1;
             
             if (g_meter2_info.mMenuWindowClass) {
                 switch (g_meter2_info.mMenuWindowClass->mMenuStatus) {
@@ -180,7 +170,6 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             // initial data load from procs.bin
             updateActorData();
             loadActorName();
-            updateCamera();
         }
 
 ActorListMenu::~ActorListMenu() {
@@ -217,12 +206,11 @@ ActorListMenu::~ActorListMenu() {
         }
     }
 
-    g_drawHIO.mHUDAlpha = 1.0f;
-    dComIfGp_getEventManager().mCameraPlay = 0;
+    g_actorViewEnabled = false;
 }
 
 template <typename T>
-void updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement) {
+void ActorListMenu::updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement) {
     if (value != NULL) {
         *value += (increase ? 1 : -1) * (largeIncrement ? largeChange : smallChange);
     }
@@ -256,8 +244,6 @@ void ActorListMenu::draw() {
     g_actorViewEnabled = true;
     cursor.setMode(Cursor::MODE_LIST);
 
-    updateCamera();
-
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         // restore camera position and target
         matrixInfo.matrix_info->pos = l_cameraPos;
@@ -276,21 +262,6 @@ void ActorListMenu::draw() {
     f32 smallPosChange = 10.0f, largePosChange = 100.0f;
     int smallAngleChange = 100, largeAngleChange = 1000;
 
-    // should be removed later for a more clever collision checker patch
-    if (g_currentActor) {
-        if (g_currentActor->mBase.mProcName == PROC_ALINK) {
-            daAlink_c* link = static_cast<daAlink_c*>(g_currentActor);
-            // link->mLinkAcch.SetWallNone();
-            // link->mLinkAcch.SetRoofNone();
-            // link->mLinkAcch.SetGroundAway();
-            link->mGravity = 0;
-            link->speed.x = 0;
-            link->speed.y = 0;
-            link->speed.z = 0;
-        //     link->mActionID = daAlink_c::HUMAN_WAIT;
-        }
-    }
-
     switch (cursor.y) {
     case ACTOR_NAME_INDEX:
         if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
@@ -300,7 +271,6 @@ void ActorListMenu::draw() {
 
             updateActorData();
             loadActorName();
-            updateCamera();
         } 
         
         if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
@@ -310,7 +280,6 @@ void ActorListMenu::draw() {
 
             updateActorData();
             loadActorName();
-            updateCamera();
         }
         
         if (GZ_getButtonPressed(CONTROLLER_Z) && GZ_getButtonPressed(DELETE_BUTTON)) {
@@ -407,9 +376,9 @@ void ActorListMenu::draw() {
         lines[ACTOR_POSITION_X_INDEX].printf("pos-x: <%.1f>", g_currentActor->current.pos.x);
         lines[ACTOR_POSITION_Y_INDEX].printf("pos-y: <%.1f>", g_currentActor->current.pos.y);
         lines[ACTOR_POSITION_Z_INDEX].printf("pos-z: <%.1f>", g_currentActor->current.pos.z);
-        lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <0x%04X>", g_currentActor->shape_angle.x);
-        lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <0x%04X>", g_currentActor->shape_angle.y);
-        lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <0x%04X>", g_currentActor->shape_angle.z);
+        lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.x));
+        lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.y));
+        lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.z));
         lines[ACTOR_SPEED_X_INDEX].printf("speed-x: <%.1f>", g_currentActor->speed.x);
         lines[ACTOR_SPEED_Y_INDEX].printf("speed-y: <%.1f>", g_currentActor->speed.y);
         lines[ACTOR_SPEED_Z_INDEX].printf("speed-z: <%.1f>", g_currentActor->speed.z);

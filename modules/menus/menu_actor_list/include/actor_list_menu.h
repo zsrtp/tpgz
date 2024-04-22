@@ -41,7 +41,8 @@ public:
 
 private:
     void updateActorData();
-    void updateCamera();
+    template <typename T>
+    void updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement);
     void loadActorName();
     u16& l_index;
 

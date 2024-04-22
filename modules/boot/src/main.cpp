@@ -37,7 +37,7 @@ Texture l_gzIconTex;
 bool last_frame_was_loading = false;
 tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
 tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
-tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
+tpgz::dyn::GZModule g_MoveActor_rel("/tpgz/rels/features/moveactor.rel");
 tpgz::dyn::GZModule g_TriggerView_rel("/tpgz/rels/features/trigger_view.rel");
 tpgz::dyn::GZModule g_ActorView_rel("/tpgz/rels/features/actor_view.rel");
 
@@ -133,7 +133,7 @@ KEEP_FUNC void GZ_handleTools() {
     // Put modules that toggles with the state of g_tools
     handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
     handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
-    handleModule(MOVE_LINK_INDEX, g_MoveLink_rel);
+    handleModule(MOVE_LINK_INDEX, g_MoveActor_rel);
 }
 
 /**
@@ -189,6 +189,7 @@ KEEP_FUNC void GZ_handleMenu() {
     if (fopScnRq.isLoading) {
         g_menuMgr->hide();
         g_moveLinkEnabled = false;
+        g_actorViewEnabled = false;
         last_frame_was_loading = true;
         g_freeCamEnabled = false;
     }
