@@ -47,9 +47,8 @@ void CreditsMenu::draw() {
     Font::GZ_drawStr("tp speedrun community", 345.0f, 190.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
     Font::GZ_drawStr("c_midnight", 85.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
     Font::GZ_drawStr("cryze", 245.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("ferdi265", 345.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("jdflyer", 85.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("icogn", 245.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("lunarsoap", 345.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("zephiles", 245.0f, 250.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
+    Font::GZ_drawStr("jdflyer", 345.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
+    Font::GZ_drawStr("icogn", 85.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
+    Font::GZ_drawStr("lunarsoap", 245.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
+    Font::GZ_drawStr("zephiles", 345.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
 }
