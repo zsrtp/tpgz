@@ -25,7 +25,7 @@ void CreditsMenu::draw() {
     }
 
     if (l_creditsHeart.loadCode == TexCode::TEX_OK) {
-            Draw::drawRect(0xFFFFFFFF, {318.0f, 65.0f},{30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_creditsHeart._texObj);
+            Draw::drawRect(0xFFFFFFFF, {315.0f, 65.0f},{30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_creditsHeart._texObj);
         }
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
