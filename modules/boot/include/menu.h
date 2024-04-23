@@ -60,6 +60,7 @@ enum MenuIndex {
     MN_TRIGGER_VIEW_INDEX,
     // Setting menu's sub menus
     MN_POS_SETTINGS_INDEX,
+    MN_CREDITS_INDEX,
 
     // This entry is used only to get a count of the number of valid entries.
     MN_COUNT

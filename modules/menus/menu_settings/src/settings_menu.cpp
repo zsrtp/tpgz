@@ -27,6 +27,7 @@ KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
                         {"menu positions", POS_SETTINGS_MENU_INDEX,
                          "Change menu object positions (A to toggle selection, DPad to move)",
                          false},
+                         {"credits", CREDITS_INDEX, "view credits", false},
                     } {}
 
 SettingsMenu::~SettingsMenu() {}
@@ -47,6 +48,9 @@ void SettingsMenu::draw() {
             break;
         case POS_SETTINGS_MENU_INDEX:
             g_menuMgr->push(MN_POS_SETTINGS_INDEX);
+            return;
+        case CREDITS_INDEX:
+            g_menuMgr->push(MN_CREDITS_INDEX);
             return;
         case SAVE_CARD_INDEX: {
             static Storage storage;

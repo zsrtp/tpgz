@@ -12,7 +12,10 @@ enum SettingsIndex {
     SAVE_CARD_INDEX,
     LOAD_CARD_INDEX,
     DELETE_CARD_INDEX,
-    POS_SETTINGS_MENU_INDEX
+    POS_SETTINGS_MENU_INDEX,
+    CREDITS_INDEX,
+
+    SETTINGS_COUNT
 };
 
 class SettingsMenu : public Menu {
@@ -22,5 +25,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[9];
+    Line lines[SETTINGS_COUNT];
 };
