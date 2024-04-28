@@ -329,6 +329,30 @@ void drawTransformDists(fopAc_ac_c* actor) {
     }
 }
 
+void drawPurpleMistAvoid(fopAc_ac_c* actor) {
+    struct kytag08_class : public fopAc_ac_c {
+        u8 data[0x5AC - 0x568];
+        /* 0x5AC */ cXyz mSize;
+        /* 0x5B8 */ cXyz mAvoidPos;
+        /* 0x5C4 */ cXyz mTargetAvoidPos;
+        /* 0x5D0 */ f32 mSizeScale;
+        /* 0x5D4 */ int mSizeTimer;
+        /* 0x5D8 */ u8 field_0x5d8;
+    };
+    kytag08_class* tag = (kytag08_class*)actor;
+
+    GXColor avoidColor = {0x00, 0xFF, 0x00, g_geometryOpacity};
+    GXColor targetColor = {0xFF, 0x00, 0xFF, g_geometryOpacity};
+
+    dDbVw_drawCircleXlu(tag->mAvoidPos, tag->mSize.x * 45.0f * tag->mSizeScale, avoidColor, 1, 20);
+
+    cXyz cubeSize(10.0f, 10.0f, 10.0f);
+    csXyz cubeAngle(0, 0, 0);
+
+    dDbVw_drawCubeXlu(tag->mAvoidPos, cubeSize, cubeAngle, avoidColor);
+    dDbVw_drawCubeXlu(tag->mTargetAvoidPos, cubeSize, cubeAngle, targetColor);
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
@@ -368,6 +392,10 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_TRANSFORM_DISTS].active) {
         searchActorForCallback(-1, drawTransformDists);
+    }
+
+    if (g_triggerViewFlags[VIEW_MIST_AVOID].active) {
+        searchActorForCallback(PROC_KYTAG08, drawPurpleMistAvoid);
     }
 }
 }  // namespace TriggerViewer

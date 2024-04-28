@@ -12,6 +12,7 @@ enum TriggerViewIndex {
     VIEW_CHG_RESTARTS,
     VIEW_PLUMM_TAGS,
     VIEW_TRANSFORM_DISTS,
+    VIEW_MIST_AVOID,
 
     TRIGGER_VIEW_MAX,
 };
