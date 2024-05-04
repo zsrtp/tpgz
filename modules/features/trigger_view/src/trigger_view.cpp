@@ -9,6 +9,7 @@
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/JSystem/JMath.h"
 #include "rels/include/defines.h"
+#include "global_data.h"
 
 namespace TriggerViewer {
 
@@ -353,6 +354,35 @@ void drawPurpleMistAvoid(fopAc_ac_c* actor) {
     dDbVw_drawCubeXlu(tag->mTargetAvoidPos, cubeSize, cubeAngle, targetColor);
 }
 
+void drawMidnaChargePositionProjection(fopAc_ac_c* actor) {
+    daAlink_c* alink = (daAlink_c*)actor;
+
+    if (alink->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK || alink->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || alink->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || alink->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
+        GXColor red = {0xFF, 0x00, 0x00, g_geometryOpacity};
+
+        for (int i = 0; i < 40; i++) {
+            if (i < 39) {
+                dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, (alink->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK ? 1 : 0), 40);
+            }
+        }
+    }
+}
+
+void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
+    daAlink_c* alink = (daAlink_c*)actor;
+
+    if ((alink->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || alink->mActionID == daAlink_c::PROC_CUT_JUMP) && alink->mTargetedActor) {
+        GXColor red = {0xFF, 0x00, 0x00, g_geometryOpacity};
+        GXColor green = {0x00, 0xFF, 0x00, g_geometryOpacity};
+
+        for (int i = 0; i < 40; i++) {
+            if (i < 39) {
+                dDbVw_drawLineXlu(g_ljaProjectionLine.pos[i], g_ljaProjectionLine.pos[i+1], (g_ljaProjectionLine.got_it ? green : red), 1, 20);
+            }
+        }
+    };
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
@@ -360,6 +390,8 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_MIDNA_STOPS].active) {
         searchActorForCallback(PROC_Tag_Mstop, drawMidnaStop);
+        searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
+        searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
     }
 
     if (g_triggerViewFlags[VIEW_PLUMM_TAGS].active) {

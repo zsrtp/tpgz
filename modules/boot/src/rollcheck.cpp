@@ -36,10 +36,10 @@ void RollIndicator::execute() {
         #endif
 
         switch (dComIfGp_getPlayer()->mActionID) {
-        case daAlink_c::FRONT_ROLL:
+        case daAlink_c::PROC_FRONT_ROLL:
         // this may need to be change to a switch in the future
         // if more actions are found that cut the roll short
-            if (previous_action == daAlink_c::DIVE_JUMP) {
+            if (previous_action == daAlink_c::PROC_DIVE_JUMP) {
                 roll_end_frame = 13;
                 roll_early_check_frame = 7;
                 roll_late_check_frame = 18;

@@ -40,6 +40,12 @@
 #define tp_pow_addr 0x8036c780
 #define tp_fastSqrt_addr 0x80182a24
 #define tp_sqrt_addr 0x8036ca54
+#define tp_sincosTable_addr 0x80439A20
+
+// Lib
+#define cLib_chaseF_addr 0x80270740
+#define cLib_targetAngleY_addr 0x80270c04
+#define cLib_addCalc_addr 0x8026f97c
 
 // Controller
 #define tp_mPadStatus_addr 0x804343F0
@@ -233,10 +239,12 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x8009da60
+#define daAlink_c__posMove_addr 0x800bbf68
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x80019D98
 #define g_fopAcTg_Queue_addr 0x803A35E0
+#define fopAcM_gc_c__mGroundY_addr 0x80450cd0
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x800197f8

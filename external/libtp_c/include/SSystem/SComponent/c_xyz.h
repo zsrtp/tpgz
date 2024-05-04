@@ -132,6 +132,12 @@ struct cXyz : Vec {
 
     f32 abs() const { return (f32)sqrt(this->abs2()); }
     f32 abs(const Vec& other) const { return (f32)sqrt(this->abs2(other)); }
+
+    f32 abs2XZ() const {
+        cXyz tmp(this->x, 0, this->z);
+        return tmp.abs2();
+    }
+    f32 absXZ() const { return sqrt(this->abs2XZ()); }
 };
 
 #endif /* C_XYZ_H */

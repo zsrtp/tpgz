@@ -271,6 +271,7 @@ LIBTP_DEFINE_FUNC(fopAcM_seenActorAngleY__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_
 
 extern "C" {
 extern node_list_class g_fopAcTg_Queue;
+extern f32 fopAcM_gc_c__mGroundY;
 }
 
 #endif

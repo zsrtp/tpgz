@@ -8,6 +8,7 @@
 #include "flaglog.h"
 #include "fifo_queue.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/SSystem/SComponent/c_lib.h"
 #include "utils/card.h"
 #include "global_data.h"
 #include "memfiles.h"
@@ -73,6 +74,8 @@ HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
 
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
+HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
+HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
 
 namespace Hook {
 void gameLoopHook(void) {
@@ -235,12 +238,125 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
 void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
     dBgS_Acch__CrrPosTrampoline(i_this, i_bgs);
     if (g_actorViewEnabled || g_moveLinkEnabled) {
-        // i_this->SetRoofNone();
-        // i_this->SetWallNone();
-        // i_this->mSpeed = 0;
-        i_this->mHitParam = (1 << 5);
-        // i_this->SetGrndNone();
+        i_this->mHitParam = (1 << 5); // sets actor to always be in "coliding with ground" state
     }
+}
+
+void daAlink_c__setCutJumpSpeedHook(daAlink_c* i_this, int i_air) {
+    daAlink_c__setCutJumpSpeedTrampoline(i_this, i_air);
+}
+
+void setupLJAProjectionLine(daAlink_c* i_this) {
+    bool got_it = false;
+
+    // if we haven't done the jump attack yet
+    if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT) {
+        // lifted from procCutJumpInit
+        i_this->mNormalSpeed = 25.0f;
+        i_this->speed.y = 27.0f;
+        daAlink_c__setCutJumpSpeedTrampoline(i_this, 0); // Calculate jump speed (LJA set here)
+        i_this->current.angle.y = i_this->shape_angle.y;
+    }
+
+    // store next 20 future projected positions
+    for (int i = 0; i < 40; i++) {
+        if (i_this->mNormalSpeed > 70.0f) {
+            got_it = true;
+        }
+        daAlink_c__posMoveTrampoline(i_this);
+        g_ljaProjectionLine.pos[i] = i_this->current.pos;
+        g_ljaProjectionLine.got_it = got_it;
+    }
+}
+
+void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
+    if (i_this->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE) {
+        // this is logic from procWolfLockAttackInit
+        fopAc_ac_c* lock_actor = i_this->mWolfLockAcKeep[0].getActor();
+        if (lock_actor != NULL) {
+            i_this->field_0x37c8 = lock_actor->mEyePos;
+        }
+        i_this->shape_angle.y = cLib_targetAngleY(&i_this->current.pos,&i_this->field_0x37c8);
+        i_this->current.angle.y = i_this->shape_angle.y;
+        cXyz l_eyePosDelta = i_this->field_0x37c8 - i_this->mEyePos;
+
+        if (l_eyePosDelta.y < 10.0f) {
+            l_eyePosDelta.y = 10.0f;
+        } else {
+            if (l_eyePosDelta.y > 700.0f)
+                l_eyePosDelta.y = 700.0f;
+        }
+
+        f32 tmp_f = l_eyePosDelta.absXZ();
+
+        if (tmp_f > 1000.0f) {
+            f32 tmp = 1000.0f / tmp_f;
+            l_eyePosDelta.x *= tmp;
+            l_eyePosDelta.z *= tmp;
+        }
+
+        f32 abs = l_eyePosDelta.abs() / 85.0f;
+
+        if (abs < 1.0f)
+            abs = 1.0f;
+
+        f32 check_frame = 85.0f / l_eyePosDelta.absXZ();
+        i_this->mNormalSpeed = check_frame * l_eyePosDelta.absXZ();
+        setSpecialGravityTrampoline((l_eyePosDelta.y * -2.0f) / (abs * abs), i_this->mMaxFallSpeed, 0);
+        i_this->speed.y = -i_this->mGravity * abs;
+
+        for (int i = 0; i < 40; i++) {
+            daAlink_c__posMoveTrampoline(i_this);
+            g_midnaChargeProjectionLine.pos[i] = i_this->current.pos;
+
+            // this is logic from procWolfLockAttack (is this actually required?)
+            // if (i_this->field_0x3008 != 0) {
+            //     i_this->field_0x3008--;
+
+            //     if (i_this->field_0x3008 == 0) {
+            //         setSpecialGravityTrampoline(-9.0f, i_this->mMaxFallSpeed, 0);
+            //     }
+            // } else if (i_this->mNormalSpeed > 30.0f) {
+            //     cLib_addCalc(&i_this->mNormalSpeed, 30.0f, 0.3f, 5.0f, 1.0f);
+            // }
+        }
+    } else {
+        for (int i = 0; i < 40; i++) {
+            daAlink_c__posMoveTrampoline(i_this);
+            g_midnaChargeProjectionLine.pos[i] = i_this->current.pos;
+        }
+    }
+}
+
+void daAlink_c__posMoveHook(daAlink_c* i_this) {
+    // store any variables that may be modified
+    f32 speed_y = i_this->speed.y;
+    cXyz link_pos = i_this->current.pos;
+    s16 shape_angle_y = i_this->shape_angle.y;
+    f32 m_normal_speed = i_this->mNormalSpeed;
+    s16 current_angle_y = i_this->current.angle.y;
+    cXyz wolf_target_eye_pos = i_this->field_0x37c8;
+    s16 field_3008 = i_this->field_0x3008;
+
+    if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || i_this->mActionID == daAlink_c::PROC_CUT_JUMP) {
+        setupLJAProjectionLine(i_this);
+    }
+
+    if (i_this->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
+        setupMidnaChargeProjectionLine(i_this);
+    }
+
+    // restore variables
+    i_this->speed.y = speed_y;
+    i_this->current.pos = link_pos;
+    i_this->shape_angle.y = shape_angle_y;
+    i_this->mNormalSpeed = m_normal_speed;
+    i_this->current.angle.y = current_angle_y;
+    i_this->field_0x37c8 = wolf_target_eye_pos;
+    i_this->field_0x3008 = field_3008;
+
+    // run the original posMove method
+    daAlink_c__posMoveTrampoline(i_this);
 }
 
 #ifdef WII_PLATFORM
@@ -261,6 +377,8 @@ void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
 #define f_dScnPly_BeforeOfPaint mDoGph_BeforeOfDraw_void_
 #define f_dCcS__MoveAfterCheck dCcS__MoveAfterCheck_void_
 #define f_dBgS_Acch__CrrPos dBgS_Acch__CrrPos_dBgS___
+#define f_daAlink_c__setCutJumpSpeed daAlink_c__setCutJumpSpeed_int_
+#define f_daAlink_c__posMove daAlink_c__posMove_void_
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -279,6 +397,8 @@ void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
 #define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
 #define f_dCcS__MoveAfterCheck MoveAfterCheck__4dCcSFv
 #define f_dBgS_Acch__CrrPos CrrPos__9dBgS_AcchFR4dBgS
+#define f_daAlink_c__setCutJumpSpeed setCutJumpSpeed__9daAlink_cFi
+#define f_daAlink_c__posMove posMove__9daAlink_cFv
 #endif
 
 extern "C" {
@@ -300,6 +420,8 @@ void f_dCcS__Draw(dCcS*);
 void f_dScnPly_BeforeOfPaint();
 void f_dCcS__MoveAfterCheck(dCcS*);
 void f_dBgS_Acch__CrrPos(dBgS_Acch*, dBgS&);
+void f_daAlink_c__setCutJumpSpeed(daAlink_c*, int);
+void f_daAlink_c__posMove(daAlink_c*);
 }
 
 KEEP_FUNC void applyHooks() {
@@ -324,6 +446,9 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(dCcS__MoveAfterCheck, &f_dCcS__MoveAfterCheck, dCcSMoveAfterCheckHook);
 
     APPLY_HOOK(dBgS_Acch__CrrPos, &f_dBgS_Acch__CrrPos, dBgS_AcchCrrPosHook);
+
+    APPLY_HOOK(daAlink_c__setCutJumpSpeed, &f_daAlink_c__setCutJumpSpeed, daAlink_c__setCutJumpSpeedHook);
+    APPLY_HOOK(daAlink_c__posMove, &f_daAlink_c__posMove, daAlink_c__posMoveHook);
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif
