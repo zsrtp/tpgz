@@ -269,6 +269,12 @@ LIBTP_DEFINE_FUNC(fopAcM_searchActorDistance__FPC10fopAc_ac_cPC10fopAc_ac_c, fop
 LIBTP_DEFINE_FUNC(fopAcM_seenActorAngleY__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_seenActorAngleY_fopAc_ac_c_const____fopAc_ac_c_const___,
                   s16, fopAcM_seenActorAngleY, (const fopAc_ac_c*, const fopAc_ac_c*))
 
+LIBTP_DEFINE_FUNC(gndCheck__11fopAcM_gc_cFPC4cXyz, fopAcM_gc_c__gndCheck_cXyz_const___,
+                  bool, fopAcM_gc_c__gndCheck, (const cXyz*))
+
+#define tp_fopAcM_gc_c__mGroundY_addr 0x80450cd0
+#define tp_fopAcM_gc_c__mGroundY (*(f32*)(tp_fopAcM_gc_c__mGroundY_addr))
+
 extern "C" {
 extern node_list_class g_fopAcTg_Queue;
 extern f32 fopAcM_gc_c__mGroundY;

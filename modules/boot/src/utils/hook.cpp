@@ -56,7 +56,7 @@ HOOK_DEF(void, draw, (void*));
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
-HOOK_DEF(void, setSpecialGravity, (float, float, int));
+HOOK_DEF(void, setSpecialGravity, (daAlink_c*, float, float, int));
 HOOK_DEF(uint32_t, checkCastleTownUseItem, (uint16_t));
 HOOK_DEF(uint32_t, query042, (void*, void*, int));
 
@@ -112,11 +112,11 @@ uint32_t superClawshotHook(void* p1, void* p2) {
     }
 }
 
-void disableGravityHook(float p1, float p2, int p3) {
+void disableGravityHook(daAlink_c* i_this, float p1, float p2, int p3) {
     if (g_moveLinkEnabled || g_actorViewEnabled) {
-        return setSpecialGravityTrampoline(0.0f, p2, p3);
+        return setSpecialGravityTrampoline(i_this, 0.0f, p2, p3);
     } else {
-        return setSpecialGravityTrampoline(p1, p2, p3);
+        return setSpecialGravityTrampoline(i_this, p1, p2, p3);
     }
 }
 
@@ -300,9 +300,9 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
         if (abs < 1.0f)
             abs = 1.0f;
 
-        f32 check_frame = 85.0f / l_eyePosDelta.absXZ();
+        f32 check_frame = 85.0f / l_eyePosDelta.abs();
         i_this->mNormalSpeed = check_frame * l_eyePosDelta.absXZ();
-        setSpecialGravityTrampoline((l_eyePosDelta.y * -2.0f) / (abs * abs), i_this->mMaxFallSpeed, 0);
+        setSpecialGravityTrampoline(i_this,(l_eyePosDelta.y * -2.0f) / (abs * abs), i_this->mMaxFallSpeed, 0);
         i_this->speed.y = -i_this->mGravity * abs;
 
         for (int i = 0; i < 40; i++) {
@@ -314,7 +314,7 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
             //     i_this->field_0x3008--;
 
             //     if (i_this->field_0x3008 == 0) {
-            //         setSpecialGravityTrampoline(-9.0f, i_this->mMaxFallSpeed, 0);
+            //         setSpecialGravityTrampoline(i_this,-9.0f, i_this->mMaxFallSpeed, 0);
             //     }
             // } else if (i_this->mNormalSpeed > 30.0f) {
             //     cLib_addCalc(&i_this->mNormalSpeed, 30.0f, 0.3f, 5.0f, 1.0f);
@@ -337,6 +337,8 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
     s16 current_angle_y = i_this->current.angle.y;
     cXyz wolf_target_eye_pos = i_this->field_0x37c8;
     s16 field_3008 = i_this->field_0x3008;
+    f32 max_fall_speed = i_this->mMaxFallSpeed;
+    f32 gravity = i_this->mGravity;
 
     if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || i_this->mActionID == daAlink_c::PROC_CUT_JUMP) {
         setupLJAProjectionLine(i_this);
@@ -354,6 +356,8 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
     i_this->current.angle.y = current_angle_y;
     i_this->field_0x37c8 = wolf_target_eye_pos;
     i_this->field_0x3008 = field_3008;
+    i_this->mMaxFallSpeed = max_fall_speed;
+    i_this->mGravity = gravity;
 
     // run the original posMove method
     daAlink_c__posMoveTrampoline(i_this);

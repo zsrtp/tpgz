@@ -2959,5 +2959,6 @@ LIBTP_DEFINE_FUNC(checkStageName__9daAlink_cFPCc, daAlink_c__checkStageName_char
                   int, daAlink_c__checkStageName, (const char*))
 
 LIBTP_DEFINE_FUNC(posMove__9daAlink_cFv, daAlink_c__posMove_void_, void, daAlink_c__posMove, (daAlink_c*))
+// LIBTP_DEFINE_FUNC(setSpecialGravity__9daAlink_cFffi, )
 
 #endif /* D_A_D_A_ALINK_H */

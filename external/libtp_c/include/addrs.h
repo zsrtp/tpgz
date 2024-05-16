@@ -140,6 +140,9 @@
 #define tp_query042_addr 0x8024bfec
 #define tp_cc_at_check_addr 0x80087c04
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x800744a0
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80032fb8
 #define dSv_player_item_c__getItem_addr 0x80033030
@@ -243,8 +246,10 @@
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x80019D98
+#define fopAcM_gc_c__gndCheck_addr 0x8001dcbc
 #define g_fopAcTg_Queue_addr 0x803A35E0
 #define fopAcM_gc_c__mGroundY_addr 0x80450cd0
+
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x800197f8
