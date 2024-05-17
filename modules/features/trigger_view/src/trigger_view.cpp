@@ -330,6 +330,20 @@ void drawTransformDists(fopAc_ac_c* actor) {
     }
 }
 
+void drawAttentionDists(fopAc_ac_c* actor) {
+    GXColor lock_color = {0x00, 0x00, 0xFF, g_geometryOpacity};
+    GXColor talk_color = {0x00, 0xFF, 0x00, g_geometryOpacity};
+
+    dAttention_dist_tbl* lock_inf = dAttention_c__getDistTable(actor->mAttentionInfo.distances[fopAc_attn_LOCK_e]);
+    dAttention_dist_tbl* talk_inf = dAttention_c__getDistTable(actor->mAttentionInfo.distances[fopAc_attn_TALK_e]);
+    cXyz& pos = actor->mAttentionInfo.position;
+
+    if (fopAcM_GetGroup(actor) == 4) {
+        dDbVw_drawCircleXlu(pos, lock_inf->mDistXZMax, lock_color, 1, 20);
+        dDbVw_drawCircleXlu(pos, talk_inf->mDistXZMax, talk_color, 1, 20);
+    }
+}
+
 void drawPurpleMistAvoid(fopAc_ac_c* actor) {
     struct kytag08_class : public fopAc_ac_c {
         u8 data[0x5AC - 0x568];
@@ -408,7 +422,7 @@ void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
                 dDbVw_drawLineXlu(g_ljaProjectionLine.pos[i], g_ljaProjectionLine.pos[i+1], (g_ljaProjectionLine.got_it ? green : red), 1, 20);
             }
         }
-    };
+    }
 }
 
 KEEP_FUNC void execute() {
@@ -452,6 +466,10 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_TRANSFORM_DISTS].active) {
         searchActorForCallback(-1, drawTransformDists);
+    }
+
+    if (g_triggerViewFlags[VIEW_ATTN_DISTS].active) {
+        searchActorForCallback(-1, drawAttentionDists);
     }
 
     if (g_triggerViewFlags[VIEW_MIST_AVOID].active) {

@@ -10,6 +10,7 @@
 #include "menus/utils/menu_mgr.h"
 #include "timer.h"
 #include "trigger_view.h"
+#include "collision_view.h"
 #include "utils/card.h"
 #include "utils/draw.h"
 #include "utils/link.h"
@@ -167,6 +168,12 @@ KEEP_FUNC void GZ_handleActorView() {
 
     if (!g_actorViewEnabled && g_ActorView_rel.isLoaded()) {
         g_ActorView_rel.close();
+    }
+}
+
+KEEP_FUNC void GZ_drawPacketNumOverflow() {
+    if (l_drawPacketListNum >= 1000) {
+        Font::GZ_drawStr("Draw Packet List full!", 35.0f, 430.0f, 0xFFFFFFFF, g_dropShadows);
     }
 }
 

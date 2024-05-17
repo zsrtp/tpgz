@@ -29,6 +29,8 @@ KEEP_FUNC TriggerViewMenu::TriggerViewMenu(Cursor& cursor)
                          &g_triggerViewFlags[VIEW_PLUMM_TAGS].active},
                          {"view transform distances", VIEW_TRANSFORM_DISTS, "", true,
                          &g_triggerViewFlags[VIEW_TRANSFORM_DISTS].active},
+                         {"view attention distances", VIEW_ATTN_DISTS, "", true,
+                         &g_triggerViewFlags[VIEW_ATTN_DISTS].active},
                          {"view purple mist avoid", VIEW_MIST_AVOID, "", true,
                          &g_triggerViewFlags[VIEW_MIST_AVOID].active},
                          {"opacity:", TRIGGER_VIEW_MAX, "the opacity of drawn geometry"},

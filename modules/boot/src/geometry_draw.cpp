@@ -725,6 +725,8 @@ int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, 
     GXColor roof_col = {0x00, 0x00, 0xFF, g_geometryOpacity};
     GXColor wall_col = {0x00, 0xFF, 0x00, g_geometryOpacity};
 
+    GXColor flat_col = {0xFF, 0x66, 0x00, g_geometryOpacity};
+
     cXyz raise;
     PSVECScale(&i_plane->mNormal, &raise, 1.5f);
 
@@ -737,7 +739,12 @@ int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, 
     PSVECAdd(&vertices[2], &raise, &vertices[2]);
 
     if (cBgW_CheckBGround(i_plane->mNormal.y)) {
-        dDbVw_drawTriangleXlu(vertices, ground_col, 1);
+        if (i_plane->mNormal.y >= 1.0f) {
+            // draw special color for fully flat ground
+            dDbVw_drawTriangleXlu(vertices, flat_col, 1);
+        } else {
+            dDbVw_drawTriangleXlu(vertices, ground_col, 1);
+        }
     } else if (cBgW_CheckBRoof(i_plane->mNormal.y)) {
         dDbVw_drawTriangleXlu(vertices, roof_col, 1);
     } else {

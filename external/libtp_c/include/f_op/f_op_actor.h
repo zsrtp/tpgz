@@ -80,7 +80,6 @@ enum fopAc_attention_type {
     fopAc_attn_JUEL_e,
     fopAc_attn_ETC_e,
     fopAc_attn_CHECK_e,
-    fopAc_attn_UNK_e,
 };
 
 struct actor_attention_types {

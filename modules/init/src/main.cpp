@@ -46,6 +46,7 @@ void main() {
     // g_drawListener->addListener(GZ_drawMenu);
     g_drawListener->addListener(GZ_drawWatches);
     g_drawListener->addListener(GZ_renderPlayPause);
+    g_drawListener->addListener(GZ_drawPacketNumOverflow);
     
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
