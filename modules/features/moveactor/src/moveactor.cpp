@@ -120,10 +120,12 @@ KEEP_FUNC void execute() {
             move(g_currentActor);
         }
     } else {
-        if (event_halt)
+        if (event_halt) {
             dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEventManager().mCameraPlay = 0;
+            event_halt = false;
+        }
 
-        dComIfGp_getEventManager().mCameraPlay = 0;
         g_drawHIO.mHUDAlpha = 1.0f;
     }
 }
