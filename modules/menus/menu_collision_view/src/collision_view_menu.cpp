@@ -10,15 +10,19 @@
 
 KEEP_FUNC CollisionViewMenu::CollisionViewMenu(Cursor& cursor)
     : Menu(cursor), lines{
-                        {"view polygon collision", VIEW_POLYGON_INDEX, "", true,
-                         &g_collisionFlags[VIEW_POLYGON_INDEX].active},
-                        {"view attack colliders", VIEW_AT_INDEX, "", true,
-                         &g_collisionFlags[VIEW_AT_INDEX].active},
-                        {"view target colliders", VIEW_TG_INDEX, "", true,
-                         &g_collisionFlags[VIEW_TG_INDEX].active},
-                         {"view push colliders", VIEW_CO_INDEX, "", true,
-                         &g_collisionFlags[VIEW_CO_INDEX].active},
-                         {"opacity:", 4, "the opacity of drawn geometry"},
+                        {"view ground polys", VIEW_POLYGON_GROUND, "", true,
+                         &g_collisionFlags[VIEW_POLYGON_GROUND].active},
+                        {"view wall polys", VIEW_POLYGON_WALL, "", true,
+                         &g_collisionFlags[VIEW_POLYGON_WALL].active},
+                        {"view roof polys", VIEW_POLYGON_ROOF, "", true,
+                         &g_collisionFlags[VIEW_POLYGON_ROOF].active},
+                        {"view attack colliders", VIEW_AT_CC, "", true,
+                         &g_collisionFlags[VIEW_AT_CC].active},
+                        {"view target colliders", VIEW_TG_CC, "", true,
+                         &g_collisionFlags[VIEW_TG_CC].active},
+                         {"view push colliders", VIEW_CO_CC, "", true,
+                         &g_collisionFlags[VIEW_CO_CC].active},
+                         {"opacity:", 6, "the opacity of drawn geometry"},
                     } {}
 
 CollisionViewMenu::~CollisionViewMenu() {}
@@ -35,17 +39,13 @@ void CollisionViewMenu::draw() {
         g_collisionFlags[cursor.y].active = !g_collisionFlags[cursor.y].active;
     }
 
-    char str[50];
-    snprintf(str, sizeof(str), "Active Draw Packets: %d", l_drawPacketListNum);
-    GZ_drawText(str, 25.0f, 160.f, 0xFFFFFFFF, GZ_checkDropShadows());
-
     switch (cursor.y) {
-    case 4:
+    case 6:
         Cursor::moveList(g_geometryOpacity);
         break;
     }
 
-    lines[4].printf(" <%d>", g_geometryOpacity);
+    lines[6].printf(" <%d>", g_geometryOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

@@ -12,11 +12,13 @@
 //#include <math.h>
 #include "font.h"
 
-KEEP_VAR CollisionItem g_collisionFlags[COLLISION_FLAGS_AMNT] = {
-    {VIEW_POLYGON_INDEX, false},
-    {VIEW_AT_INDEX, false},
-    {VIEW_TG_INDEX, false},
-    {VIEW_CO_INDEX, false},
+KEEP_VAR CollisionItem g_collisionFlags[VIEW_COLLISION_MAX] = {
+    {VIEW_POLYGON_GROUND, false},
+    {VIEW_POLYGON_WALL, false},
+    {VIEW_POLYGON_ROOF, false},
+    {VIEW_AT_CC, false},
+    {VIEW_TG_CC, false},
+    {VIEW_CO_CC, false},
 };
 
 #define DRAW_PACKET_MAX 1000  // max amount of draw packets allowed to be drawn at a time
@@ -676,7 +678,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
 
     daAlink_c* player = dComIfGp_getPlayer();
     if (player != NULL && init_vtables) {
-        if (g_collisionFlags[VIEW_AT_INDEX].active) {
+        if (g_collisionFlags[VIEW_AT_CC].active) {
             //OSReport("At:%d\n", i_this->mObjAtCount);
 
             for (u16 i = 0; i < dCcS_Data::at_obj_count; i++) {
@@ -688,7 +690,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
             }
         }
 
-        if (g_collisionFlags[VIEW_TG_INDEX].active) {
+        if (g_collisionFlags[VIEW_TG_CC].active) {
             // OSReport("Tg:%d\n", dCcS_Data::tg_obj_count);
 
             for (u16 i = 0; i < dCcS_Data::tg_obj_count; i++) {
@@ -700,7 +702,7 @@ KEEP_FUNC void GZ_drawCc(dCcS* i_this) {
             } 
         }
 
-        if (g_collisionFlags[VIEW_CO_INDEX].active) {
+        if (g_collisionFlags[VIEW_CO_CC].active) {
             //OSReport("Co:%d\n", i_this->mObjCoCount);
 
             for (u16 i = 0; i < dCcS_Data::co_obj_count; i++) {
@@ -739,15 +741,19 @@ int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, 
     PSVECAdd(&vertices[2], &raise, &vertices[2]);
 
     if (cBgW_CheckBGround(i_plane->mNormal.y)) {
-        if (i_plane->mNormal.y >= 1.0f) {
-            // draw special color for fully flat ground
-            dDbVw_drawTriangleXlu(vertices, flat_col, 1);
-        } else {
-            dDbVw_drawTriangleXlu(vertices, ground_col, 1);
+        if (g_collisionFlags[VIEW_POLYGON_GROUND].active) {
+            if (i_plane->mNormal.y >= 1.0f) {
+                // draw special color for fully flat ground
+                dDbVw_drawTriangleXlu(vertices, flat_col, 1);
+            } else {
+                dDbVw_drawTriangleXlu(vertices, ground_col, 1);
+            }
         }
     } else if (cBgW_CheckBRoof(i_plane->mNormal.y)) {
-        dDbVw_drawTriangleXlu(vertices, roof_col, 1);
-    } else {
+        if (g_collisionFlags[VIEW_POLYGON_ROOF].active) {
+            dDbVw_drawTriangleXlu(vertices, roof_col, 1);
+        }
+    } else if (g_collisionFlags[VIEW_POLYGON_WALL].active) {
         dDbVw_drawTriangleXlu(vertices, wall_col, 1);
     }
 
@@ -766,7 +772,7 @@ void CaptPoly(dBgS_CaptPoly& i_captpoly) {
 }
 
 KEEP_FUNC void GZ_drawPolygons() {
-    if (g_collisionFlags[VIEW_POLYGON_INDEX].active) {
+    if (g_collisionFlags[VIEW_POLYGON_GROUND].active || g_collisionFlags[VIEW_POLYGON_WALL].active || g_collisionFlags[VIEW_POLYGON_ROOF].active) {
         daAlink_c* player = dComIfGp_getPlayer();
 
         if (player != NULL) {

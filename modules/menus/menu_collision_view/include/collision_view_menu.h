@@ -9,5 +9,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[5];
+    Line lines[7];
 };

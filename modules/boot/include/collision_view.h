@@ -7,13 +7,15 @@
 #include "libtp_c/include/SSystem/SComponent/c_sxyz.h"
 #include "libtp_c/include/m_Do/m_Do_mtx.h"
 
-#define COLLISION_FLAGS_AMNT 4
-
 enum CollisionIndex {
-    VIEW_POLYGON_INDEX,
-    VIEW_AT_INDEX,
-    VIEW_TG_INDEX,
-    VIEW_CO_INDEX,
+    VIEW_POLYGON_GROUND,
+    VIEW_POLYGON_WALL,
+    VIEW_POLYGON_ROOF,
+    VIEW_AT_CC,
+    VIEW_TG_CC,
+    VIEW_CO_CC,
+
+    VIEW_COLLISION_MAX,
 };
 
 struct CollisionItem {
@@ -21,7 +23,7 @@ struct CollisionItem {
     bool active;
 };
 
-extern CollisionItem g_collisionFlags[COLLISION_FLAGS_AMNT];
+extern CollisionItem g_collisionFlags[VIEW_COLLISION_MAX];
 extern u8 g_geometryOpacity;
 
 void dDbVw_deleteDrawPacketList();
