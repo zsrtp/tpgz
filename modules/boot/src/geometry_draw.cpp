@@ -728,10 +728,10 @@ int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, 
     GXColor roof_col = {0x00, 0x00, 0xFF, g_geometryOpacity};
     GXColor wall_col = {0x00, 0xFF, 0x00, g_geometryOpacity};
 
-    GXColor flat_col = {0xFF, 0x66, 0x00, g_geometryOpacity};
+    GXColor flat_col = {0xFF, 0xC5, 0xC5, g_geometryOpacity};
 
     cXyz raise;
-    PSVECScale(&i_plane->mNormal, &raise, 1.5f);
+    PSVECScale(&i_plane->mNormal, &raise, (f32)g_collisionRaise);
 
     vertices[0] = i_vtx[i_ia].vertex;
     vertices[1] = i_vtx[i_ib].vertex;
@@ -777,7 +777,7 @@ int poly_edge_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i
     GXColor color = {0xFF, 0xFF, 0xFF, 0xFF};
 
     cXyz raise;
-    PSVECScale(&i_plane->mNormal, &raise, 1.5f);
+    PSVECScale(&i_plane->mNormal, &raise, (f32)g_collisionRaise);
 
     cXyz start;
     cXyz end;
@@ -831,7 +831,7 @@ KEEP_FUNC void GZ_drawPolygons() {
 			cXyz min;
 			cXyz max;
 
-			f32 range = 500.0f;
+			f32 range = (f32)g_collisionRange;
 			min.set(base_pos->x - range, base_pos->y - range, base_pos->z - range);
 			max.set(base_pos->x + range, base_pos->y + range, base_pos->z + range);
 			aab.mMin = min;

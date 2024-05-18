@@ -26,6 +26,8 @@ struct CollisionItem {
 
 extern CollisionItem g_collisionFlags[VIEW_COLLISION_MAX];
 extern u8 g_geometryOpacity;
+extern u16 g_collisionRange;
+extern u8 g_collisionRaise;
 
 void dDbVw_deleteDrawPacketList();
 

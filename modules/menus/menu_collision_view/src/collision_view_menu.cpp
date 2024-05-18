@@ -22,9 +22,11 @@ KEEP_FUNC CollisionViewMenu::CollisionViewMenu(Cursor& cursor)
                          &g_collisionFlags[VIEW_AT_CC].active},
                         {"view target colliders", VIEW_TG_CC, "", true,
                          &g_collisionFlags[VIEW_TG_CC].active},
-                         {"view push colliders", VIEW_CO_CC, "", true,
+                        {"view push colliders", VIEW_CO_CC, "", true,
                          &g_collisionFlags[VIEW_CO_CC].active},
-                         {"opacity:", 7, "the opacity of drawn geometry"},
+                        {"poly draw range:", 7, "max range for polygons to draw"},
+                        {"poly draw raise:", 8, "amount to raise the drawn polygon by"},
+                        {"opacity:", 9, "opacity of drawn geometry"},
                     } {}
 
 CollisionViewMenu::~CollisionViewMenu() {}
@@ -43,11 +45,22 @@ void CollisionViewMenu::draw() {
 
     switch (cursor.y) {
     case 7:
+        Cursor::moveList(g_collisionRange);
+        break;
+    case 8:
+        Cursor::moveList(g_collisionRaise);
+        break;
+    case 9:
         Cursor::moveList(g_geometryOpacity);
         break;
     }
 
-    lines[7].printf(" <%d>", g_geometryOpacity);
+    if (g_collisionRange > 1000)
+        g_collisionRange = 0;
+
+    lines[7].printf(" <%d>", g_collisionRange);
+    lines[8].printf(" <%d>", g_collisionRaise);
+    lines[9].printf(" <%d>", g_geometryOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
