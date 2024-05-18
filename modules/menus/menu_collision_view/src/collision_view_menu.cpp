@@ -16,13 +16,15 @@ KEEP_FUNC CollisionViewMenu::CollisionViewMenu(Cursor& cursor)
                          &g_collisionFlags[VIEW_POLYGON_WALL].active},
                         {"view roof polys", VIEW_POLYGON_ROOF, "", true,
                          &g_collisionFlags[VIEW_POLYGON_ROOF].active},
+                        {"view poly edges", VIEW_POLYGON_EDGES, "", true,
+                         &g_collisionFlags[VIEW_POLYGON_EDGES].active}, 
                         {"view attack colliders", VIEW_AT_CC, "", true,
                          &g_collisionFlags[VIEW_AT_CC].active},
                         {"view target colliders", VIEW_TG_CC, "", true,
                          &g_collisionFlags[VIEW_TG_CC].active},
                          {"view push colliders", VIEW_CO_CC, "", true,
                          &g_collisionFlags[VIEW_CO_CC].active},
-                         {"opacity:", 6, "the opacity of drawn geometry"},
+                         {"opacity:", 7, "the opacity of drawn geometry"},
                     } {}
 
 CollisionViewMenu::~CollisionViewMenu() {}
@@ -40,12 +42,12 @@ void CollisionViewMenu::draw() {
     }
 
     switch (cursor.y) {
-    case 6:
+    case 7:
         Cursor::moveList(g_geometryOpacity);
         break;
     }
 
-    lines[6].printf(" <%d>", g_geometryOpacity);
+    lines[7].printf(" <%d>", g_geometryOpacity);
 
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

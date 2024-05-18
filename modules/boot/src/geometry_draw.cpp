@@ -16,6 +16,7 @@ KEEP_VAR CollisionItem g_collisionFlags[VIEW_COLLISION_MAX] = {
     {VIEW_POLYGON_GROUND, false},
     {VIEW_POLYGON_WALL, false},
     {VIEW_POLYGON_ROOF, false},
+    {VIEW_POLYGON_EDGES, false},
     {VIEW_AT_CC, false},
     {VIEW_TG_CC, false},
     {VIEW_CO_CC, false},
@@ -760,6 +761,51 @@ int poly_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, 
     return 0;
 }
 
+int poly_edge_draw(dBgS_CaptPoly* i_captpoly, cBgD_Vtx_t* i_vtx, int i_ia, int i_ib, int i_ic, cM3dGPla* i_plane) {
+    if (cBgW_CheckBGround(i_plane->mNormal.y)) {
+        if (!g_collisionFlags[VIEW_POLYGON_GROUND].active) {
+            return 0;
+        }
+    } else if (cBgW_CheckBRoof(i_plane->mNormal.y)) {
+        if (!g_collisionFlags[VIEW_POLYGON_ROOF].active) {
+            return 0;
+        }
+    } else if (!g_collisionFlags[VIEW_POLYGON_WALL].active) {
+        return 0;
+    }
+    
+    GXColor color = {0xFF, 0xFF, 0xFF, 0xFF};
+
+    cXyz raise;
+    PSVECScale(&i_plane->mNormal, &raise, 1.5f);
+
+    cXyz start;
+    cXyz end;
+
+    // A to B
+    start.set(i_vtx[i_ia].vertex.x, i_vtx[i_ia].vertex.y, i_vtx[i_ia].vertex.z);
+    end.set(i_vtx[i_ib].vertex.x, i_vtx[i_ib].vertex.y, i_vtx[i_ib].vertex.z);
+    PSVECAdd(&raise, &start, &start);
+    PSVECAdd(&raise, &end, &end);
+    dDbVw_drawLineXlu(start, end, color, 1, 12);
+
+    // B to C
+    start.set(i_vtx[i_ib].vertex.x, i_vtx[i_ib].vertex.y, i_vtx[i_ib].vertex.z);
+    end.set(i_vtx[i_ic].vertex.x, i_vtx[i_ic].vertex.y, i_vtx[i_ic].vertex.z);
+    PSVECAdd(&raise, &start, &start);
+    PSVECAdd(&raise, &end, &end);
+    dDbVw_drawLineXlu(start, end, color, 1, 12);
+
+    // C to A
+    start.set(i_vtx[i_ic].vertex.x, i_vtx[i_ic].vertex.y, i_vtx[i_ic].vertex.z);
+    end.set(i_vtx[i_ia].vertex.x, i_vtx[i_ia].vertex.y, i_vtx[i_ia].vertex.z);
+    PSVECAdd(&raise, &start, &start);
+    PSVECAdd(&raise, &end, &end);
+    dDbVw_drawLineXlu(start, end, color, 1, 12);
+    
+    return 0;
+}
+
 void CaptPoly(dBgS_CaptPoly& i_captpoly) {
     cBgS_ChkElm* poly_elm = dComIfG_Bgsp()->m_chk_element;
 
@@ -795,8 +841,15 @@ KEEP_FUNC void GZ_drawPolygons() {
 			poly_capt.field_0x14.mGrpPassChkInfo.OnFullGrp();
 			poly_capt.mAab.mMin = aab.mMin;
 			poly_capt.mAab.mMax = aab.mMax;
-			poly_capt.mpCallback = poly_draw;
 
+            // draw edges
+            if (g_collisionFlags[VIEW_POLYGON_EDGES].active) {
+                poly_capt.mpCallback = poly_edge_draw;
+			    CaptPoly(poly_capt);
+            }
+    
+            // draw poly
+			poly_capt.mpCallback = poly_draw;
 			CaptPoly(poly_capt);
         }
     }    

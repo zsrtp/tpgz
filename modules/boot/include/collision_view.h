@@ -11,6 +11,7 @@ enum CollisionIndex {
     VIEW_POLYGON_GROUND,
     VIEW_POLYGON_WALL,
     VIEW_POLYGON_ROOF,
+    VIEW_POLYGON_EDGES,
     VIEW_AT_CC,
     VIEW_TG_CC,
     VIEW_CO_CC,
