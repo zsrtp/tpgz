@@ -319,6 +319,12 @@
 #define tp_pow_addr 0x8036d5b0
 #define tp_fastSqrt_addr 0x80182c30
 #define tp_sqrt_addr 0x8036d884
+#define tp_sincosTable_addr 0x8043b9e0
+
+// Lib
+#define cLib_chaseF_addr 0x80271540
+#define cLib_targetAngleY_addr 0x80271a04
+#define cLib_addCalc_addr 0x8027077c
 
 // Controller
 #define tp_mPadStatus_addr 0x804363b0
@@ -413,6 +419,9 @@
 #define tp_query042_addr 0x8024c690
 #define tp_cc_at_check_addr 0x80087d34
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x800745d0
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80033060
 #define dSv_player_item_c__getItem_addr 0x800330d8
@@ -455,7 +464,25 @@
 #define dStage_nextStage_c__set_addr 0x80023ed0
 
 // d_menu_window
+#define dMw_c__offMenuRing_addr 0x801fa3b4
+#define dMw_c__key_wait_init_addr 0x801fa400
+#define dMw_c__ring_close_proc_addr 0x801fb328
+#define dMw_c__ring_open_proc_addr 0x801fb2a0
+#define dMw_c__collect_close_proc_addr 0x801fb464
+#define dMw_c__ring_delete_addr 0x801fc224
 #define dMw_c__isEventCheck_addr 0x801fd248
+#define dMw_c__execute_addr 0x801fd59c
+#define dMw_c___delete_addr 0x801fd940
+#define dMw_c__fmap_close_proc_addr 0x801fb630
+#define dMw_c__dmap_close_proc_addr 0x801fb8a0
+#define dMw_c__collect_save_close_proc_addr 0x801fb99c
+#define dMw_c__collect_option_close_proc_addr 0x801fbac4
+#define dMw_c__collect_letter_close_proc_addr 0x801fbbc4
+#define dMw_c__collect_fishing_close_proc_addr 0x801fbcc4
+#define dMw_c__collect_skill_close_proc_addr 0x801fbdc4
+#define dMw_c__collect_insect_close_proc_addr 0x801fbec4
+#define dMw_c__insect_close_proc_addr 0x801fc028
+
 
 // m_Do_audio
 #define mDoAud_seStartLevel_addr 0x80141348
@@ -495,13 +522,19 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x8009dc6c
+#define daAlink_c__posMove_addr 0x800bc174
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x80019e40
+#define fopAcM_gc_c__gndCheck_addr 0x8001dd64
 #define g_fopAcTg_Queue_addr 0x803a52c0
+#define fopAcM_gc_c__mGroundY_addr 0x80452c90
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x800198a0
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x8001facc
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80023620
@@ -559,6 +592,12 @@
 #define tp_pow_addr 0x8036ec1c
 #define tp_fastSqrt_addr 0x80182a70
 #define tp_sqrt_addr 0x8036eef0
+#define tp_sincosTable_addr 0x80433b60
+
+// Lib
+#define cLib_chaseF_addr 0x80272b70
+#define cLib_targetAngleY_addr 0x80273034
+#define cLib_addCalc_addr 0x80271dac
 
 // Controller
 #define tp_mPadStatus_addr 0x8042e530
@@ -653,6 +692,9 @@
 #define tp_query042_addr 0x8024d954
 #define tp_cc_at_check_addr 0x80087c44
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x800744e0
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80032fb8
 #define dSv_player_item_c__getItem_addr 0x80033030
@@ -695,7 +737,24 @@
 #define dStage_nextStage_c__set_addr 0x80023e28
 
 // d_menu_window
+#define dMw_c__offMenuRing_addr 0x801fa7e8
+#define dMw_c__key_wait_init_addr 0x801fa834
+#define dMw_c__ring_close_proc_addr 0x801fb75c
+#define dMw_c__ring_open_proc_addr 0x801fb6d4
+#define dMw_c__collect_close_proc_addr 0x801fb898
+#define dMw_c__ring_delete_addr 0x801fc658
 #define dMw_c__isEventCheck_addr 0x801fd67c
+#define dMw_c__execute_addr 0x801fd9d0
+#define dMw_c___delete_addr 0x801fdd74
+#define dMw_c__fmap_close_proc_addr 0x801fba64
+#define dMw_c__dmap_close_proc_addr 0x801fbcd4
+#define dMw_c__collect_save_close_proc_addr 0x801fbdd0
+#define dMw_c__collect_option_close_proc_addr 0x801fbef8
+#define dMw_c__collect_letter_close_proc_addr 0x801fbff8
+#define dMw_c__collect_fishing_close_proc_addr 0x801fc0f8
+#define dMw_c__collect_skill_close_proc_addr 0x801fc1f8
+#define dMw_c__collect_insect_close_proc_addr 0x801fc2f8
+#define dMw_c__insect_close_proc_addr 0x801fc45c
 
 // m_Do_audio
 #define mDoAud_seStartLevel_addr 0x80141188
@@ -735,13 +794,19 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x8009da98
+#define daAlink_c__posMove_addr 0x800bbfa0
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x80019d98
+#define fopAcM_gc_c__gndCheck_addr 0x8001dcbc
 #define g_fopAcTg_Queue_addr 0x8039d740
+#define fopAcM_gc_c__mGroundY_addr 0x8044ae10
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x800197f8
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x8001fa24
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80023578
@@ -798,6 +863,12 @@
 #define tp_pow_addr 0x803c7dfc
 #define tp_fastSqrt_addr 0x8025ca1c
 #define tp_sqrt_addr 0x803c8048
+#define tp_sincosTable_addr 0x804c85a0
+
+// Lib
+#define cLib_chaseF_addr 0x80259a10
+#define cLib_targetAngleY_addr 0x80259ce4
+#define cLib_addCalc_addr 0x80259264
 
 // Controller
 #define tp_mPadStatus_addr 0x804c2f08
@@ -894,6 +965,9 @@
 #define tp_query042_addr 0x80238c6c
 #define tp_cc_at_check_addr 0x800846b4
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x800724a4
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80037738
 #define dSv_player_item_c__getItem_addr 0x80039ee0
@@ -933,7 +1007,24 @@
 #define dStage_nextStage_c__set_addr 0x8002897c
 
 // d_menu_window
+#define dMw_c__offMenuRing_addr 0x801e0914
+#define dMw_c__key_wait_init_addr 0x801e0960
+#define dMw_c__ring_close_proc_addr 0x801e1700
+#define dMw_c__ring_open_proc_addr 0x801e1678
+#define dMw_c__collect_close_proc_addr 0x801e183c
+#define dMw_c__ring_delete_addr 0x801e24fc
 #define dMw_c__isEventCheck_addr 0x801e3334
+#define dMw_c__execute_addr 0x801e3678
+#define dMw_c___delete_addr 0x801e39f8
+#define dMw_c__fmap_close_proc_addr 0x801e19f8
+#define dMw_c__dmap_close_proc_addr 0x801e1b9c
+#define dMw_c__collect_save_close_proc_addr 0x801e1ca0
+#define dMw_c__collect_option_close_proc_addr 0x801e1dd0
+#define dMw_c__collect_letter_close_proc_addr 0x801e1ed8
+#define dMw_c__collect_fishing_close_proc_addr 0x801e1fe0
+#define dMw_c__collect_skill_close_proc_addr 0x801e20e8
+#define dMw_c__collect_insect_close_proc_addr 0x801e21f0
+#define dMw_c__insect_close_proc_addr 0x801e235c
 
 // JKernel
 #define JKernel__operator_new_addr 0x802e2b2c
@@ -970,13 +1061,19 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x80096734
+#define daAlink_c__posMove_addr 0x800b3020
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x8001f868
+#define fopAcM_gc_c__gndCheck_addr 0x80023434
 #define g_fopAcTg_Queue_addr 0x8047e138
+#define fopAcM_gc_c__mGroundY_addr 0x8053a914
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x8001f460
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x80024f80
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80028150
@@ -1033,6 +1130,12 @@
 #define tp_pow_addr 0x803b2cb8
 #define tp_fastSqrt_addr 0x8025c5ac
 #define tp_sqrt_addr 0x803b2f04
+#define tp_sincosTable_addr 0x804aef40
+
+// Lib
+#define cLib_chaseF_addr 0x802595a0
+#define cLib_targetAngleY_addr 0x80259874
+#define cLib_addCalc_addr 0x80258df4
 
 // Controller
 #define tp_mPadStatus_addr 0x804a9890
@@ -1129,6 +1232,9 @@
 #define tp_query042_addr 0x802383bc
 #define tp_cc_at_check_addr 0x80084a40
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x80072758
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80037904
 #define dSv_player_item_c__getItem_addr 0x8003a15c
@@ -1168,7 +1274,24 @@
 #define dStage_nextStage_c__set_addr 0x80028b40
 
 // d_menu_window
+#define dMw_c__offMenuRing_addr 0x801dfd40
+#define dMw_c__key_wait_init_addr 0x801dfd8c
+#define dMw_c__ring_close_proc_addr 0x801e0b2c
+#define dMw_c__ring_open_proc_addr 0x801e0aa4
+#define dMw_c__collect_close_proc_addr 0x801e0c68
+#define dMw_c__ring_delete_addr 0x801e1928
 #define dMw_c__isEventCheck_addr 0x801e2760
+#define dMw_c__execute_addr 0x801e2aa4
+#define dMw_c___delete_addr 0x801e2e24
+#define dMw_c__fmap_close_proc_addr 0x801e0e24
+#define dMw_c__dmap_close_proc_addr 0x801e0fc8
+#define dMw_c__collect_save_close_proc_addr 0x801e10cc
+#define dMw_c__collect_option_close_proc_addr 0x801e11fc
+#define dMw_c__collect_letter_close_proc_addr 0x801e1304
+#define dMw_c__collect_fishing_close_proc_addr 0x801e140c
+#define dMw_c__collect_skill_close_proc_addr 0x801e1514
+#define dMw_c__collect_insect_close_proc_addr 0x801e161c
+#define dMw_c__insect_close_proc_addr 0x801e1788
 
 // JKernel
 #define JKernel__operator_new_addr 0x802cd92c
@@ -1205,13 +1328,19 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x80098268
+#define daAlink_c__posMove_addr 0x800b34b4
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x80021024
+#define fopAcM_gc_c__gndCheck_addr 0x800235f8
 #define g_fopAcTg_Queue_addr 0x80466038
+#define fopAcM_gc_c__mGroundY_addr 0x805210dc
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x80020c1c
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x80025144
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80029944
@@ -1268,6 +1397,12 @@
 #define tp_pow_addr 0x803b2834
 #define tp_fastSqrt_addr 0x8025c144
 #define tp_sqrt_addr 0x803b2a80
+#define tp_sincosTable_addr 0x804ae620
+
+// Lib
+#define cLib_chaseF_addr 0x80259138
+#define cLib_targetAngleY_addr 0x8025940c
+#define cLib_addCalc_addr 0x8025898c
 
 // Controller
 #define tp_mPadStatus_addr 0x804a8f70
@@ -1364,6 +1499,9 @@
 #define tp_query042_addr 0x80238468
 #define tp_cc_at_check_addr 0x800849d8
 
+// d_bg_s
+#define cBgS__GroundCross_addr 0x800726f0
+
 // d_save
 #define dSv_player_item_c__setItem_addr 0x80037850
 #define dSv_player_item_c__getItem_addr 0x8003a090
@@ -1403,7 +1541,24 @@
 #define dStage_nextStage_c__set_addr 0x80028a8c
 
 // d_menu_window
+#define dMw_c__offMenuRing_addr 0x801e0010
+#define dMw_c__key_wait_init_addr 0x801e005c
+#define dMw_c__ring_close_proc_addr 0x801e0e24
+#define dMw_c__ring_open_proc_addr 0x801e0d9c
+#define dMw_c__collect_close_proc_addr 0x801e0f60
+#define dMw_c__ring_delete_addr 0x801e1c20
 #define dMw_c__isEventCheck_addr 0x801e2a58
+#define dMw_c__execute_addr 0x801e2d9c
+#define dMw_c___delete_addr 0x801e311c
+#define dMw_c__fmap_close_proc_addr 0x801e111c
+#define dMw_c__dmap_close_proc_addr 0x801e12c0
+#define dMw_c__collect_save_close_proc_addr 0x801e13c4
+#define dMw_c__collect_option_close_proc_addr 0x801e14f4
+#define dMw_c__collect_letter_close_proc_addr 0x801e15fc
+#define dMw_c__collect_fishing_close_proc_addr 0x801e1704
+#define dMw_c__collect_skill_close_proc_addr 0x801e180c
+#define dMw_c__collect_insect_close_proc_addr 0x801e1914
+#define dMw_c__insect_close_proc_addr 0x801e1a80
 
 // JKernel
 #define JKernel__operator_new_addr 0x802cd4fc
@@ -1415,12 +1570,19 @@
 
 // d_a_alink
 #define daAlink_c__checkStageName_addr 0x80096b4c
+#define daAlink_c__posMove_addr 0x800b3478
 
 // f_op_actor_mng
 #define fopAcM_create_addr 0x8001f954
+#define fopAcM_gc_c__gndCheck_addr 0x8002352c
+#define g_fopAcTg_Queue_addr 0x80465740
+#define fopAcM_gc_c__mGroundY_addr 0x8052091c
 
 // f_op_actor_iter
 #define fopAcIt_Judge_addr 0x8001f54c
+
+// f_op_msg_mng
+#define fopMsgM_SearchByID_addr 0x80025078
 
 // f_pc_searcher
 #define fpcSch_JudgeForPName_addr 0x80028260
