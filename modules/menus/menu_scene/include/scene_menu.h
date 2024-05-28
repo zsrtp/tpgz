@@ -10,5 +10,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[13];
+    Line lines[SCENE_MENU_MAX];
 };

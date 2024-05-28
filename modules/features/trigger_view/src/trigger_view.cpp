@@ -367,60 +367,6 @@ void drawPurpleMistAvoid(fopAc_ac_c* actor) {
     dDbVw_drawCubeXlu(tag->mAvoidPos, cubeSize, cubeAngle, avoidColor);
     dDbVw_drawCubeXlu(tag->mTargetAvoidPos, cubeSize, cubeAngle, targetColor);
 }
-f32 prev_ground_y;
-
-void drawMidnaChargePositionProjection(fopAc_ac_c* actor) {
-    daAlink_c* alink = (daAlink_c*)actor;
-
-    if (alink->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK || alink->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || alink->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || alink->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
-        GXColor red = {0xFF, 0x00, 0x00, g_geometryOpacity};
-        dBgS_GndChk gnd_chk;
-
-        for (int i = 0; i < 40; i++) {
-            if (i < 39) {
-                if (alink->mWolfLockNum != 0)
-                dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
-                // if (fopAcM_gc_c__gndCheck(&g_midnaChargeProjectionLine.pos[i])) {
-                    
-                    // if the current point is close enough to the ground
-                    // if (g_midnaChargeProjectionLine.pos[i].y - tp_fopAcM_gc_c__mGroundY < 100.0f) {
-                    //     if (i > 0) {
-                    //         // if the previous point was higher than the current point (we're on the descent of the arc)
-                    //         if (g_midnaChargeProjectionLine.pos[i].y < g_midnaChargeProjectionLine.pos[i-1].y && tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
-                    //             OSReport("Close enough to ground! drawing landing circle.\n", i);
-                    //             dDbVw_drawCircleXlu(g_midnaChargeProjectionLine.pos[i], 100.0f, red, 1, 10);
-                    //             prev_ground_y = tp_fopAcM_gc_c__mGroundY;
-                    //             break;
-                    //         }
-                    //     } else {
-                    //         prev_ground_y = -10000000.0f;
-                    //     }   
-                    // } else if (tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
-                        
-                    // }
-                // }
-                    
-            // } else {
-                // dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
-            }    
-        }
-    }
-}
-
-void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
-    daAlink_c* alink = (daAlink_c*)actor;
-
-    if ((alink->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || alink->mActionID == daAlink_c::PROC_CUT_JUMP) && alink->mTargetedActor) {
-        GXColor red = {0xFF, 0x00, 0x00, g_geometryOpacity};
-        GXColor green = {0x00, 0xFF, 0x00, g_geometryOpacity};
-
-        for (int i = 0; i < 40; i++) {
-            if (i < 39) {
-                dDbVw_drawLineXlu(g_ljaProjectionLine.pos[i], g_ljaProjectionLine.pos[i+1], (g_ljaProjectionLine.got_it ? green : red), 1, 20);
-            }
-        }
-    }
-}
 
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
@@ -431,19 +377,6 @@ KEEP_FUNC void execute() {
         searchActorForCallback(PROC_Tag_Mstop, drawMidnaStop);
     }
 
-    if (g_triggerViewFlags[VIEW_LJA_PROJECTION].active) {
-        searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
-    }
-
-    if (g_triggerViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active) {
-        searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
-    }
-
-    if (g_triggerViewFlags[VIEW_PLUMM_TAGS].active) {
-        searchActorForCallback(PROC_TAG_MYNA2, drawPlumTag);
-        searchActorForCallback(PROC_MYNA2, drawPlummSearch);
-    }
-
     if (g_triggerViewFlags[VIEW_SWITCH_AREAS].active) {
         searchActorForCallback(PROC_SWC00, drawSwitchArea);
     }
@@ -451,6 +384,7 @@ KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_EVENT_AREAS].active) {
         searchActorForCallback(PROC_TAG_EVENT, drawEventTag);
         searchActorForCallback(PROC_TAG_EVTAREA, drawEventArea);
+        searchActorForCallback(PROC_MYNA2, drawPlummSearch);
     }
 
     if (g_triggerViewFlags[VIEW_TW_GATES].active) {

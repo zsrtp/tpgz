@@ -29,6 +29,7 @@ KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
                          false},
                         {"actor list", ACTOR_LIST_INDEX, "Display info from the actor list", false},
                         {"collision viewer", COLLISION_VIEW_INDEX, "Change Collision Viewer settings", false},
+                        {"projection viewer", PROJECTION_VIEW_INDEX, "Change Projection Viewer settings", false},
                         {"trigger viewer", TRIGGER_VIEW_INDEX, "Change Trigger Viewer settings", false},
                     } {}
 
@@ -66,6 +67,9 @@ void SceneMenu::draw() {
         case COLLISION_VIEW_INDEX:
             g_menuMgr->push(MN_COLLISION_VIEW_INDEX);
             return;
+        // case PROJECTION_VIEW_INDEX:
+        //     g_menuMgr->push(MN_PROJECTION_VIEW_INDEX);
+        //     return;
         case TRIGGER_VIEW_INDEX:
             g_menuMgr->push(MN_TRIGGER_VIEW_INDEX);
             return;

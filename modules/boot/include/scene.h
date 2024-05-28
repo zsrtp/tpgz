@@ -15,7 +15,10 @@ enum SceneIndex {
     ACTOR_MENU_INDEX,
     ACTOR_LIST_INDEX,
     COLLISION_VIEW_INDEX,
+    PROJECTION_VIEW_INDEX,
     TRIGGER_VIEW_INDEX,
+
+    SCENE_MENU_MAX
 };
 
 struct SceneItem {

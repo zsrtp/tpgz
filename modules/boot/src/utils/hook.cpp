@@ -16,6 +16,7 @@
 #include "rels/include/defines.h"
 #include "save_manager.h"
 #include "collision_view.h"
+#include "features/projection_view/include/projection_view.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
