@@ -16,6 +16,8 @@ KEEP_VAR ProjectionLine g_midnaChargeProjectionLine;
 KEEP_VAR TriggerViewItem g_triggerViewFlags[TRIGGER_VIEW_MAX] = {
     {VIEW_LOAD_ZONES, false},
     {VIEW_MIDNA_STOPS, false},
+    {VIEW_LJA_PROJECTION, false},
+    {VIEW_MIDNA_CHARGE_PROJECTION, false},
     {VIEW_SWITCH_AREAS, false},
     {VIEW_EVENT_AREAS, false},
     {VIEW_TW_GATES, false},

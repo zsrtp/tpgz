@@ -378,33 +378,30 @@ void drawMidnaChargePositionProjection(fopAc_ac_c* actor) {
 
         for (int i = 0; i < 40; i++) {
             if (i < 39) {
-                if (fopAcM_gc_c__gndCheck(&g_midnaChargeProjectionLine.pos[i])) {
-                    OSReport("line index: %d\n", i);
-                    OSReport("groundY: %f\n", tp_fopAcM_gc_c__mGroundY);
-                    OSReport("posY: %f\n", g_midnaChargeProjectionLine.pos[i].y);
-
-                    
+                if (alink->mWolfLockNum != 0)
+                dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
+                // if (fopAcM_gc_c__gndCheck(&g_midnaChargeProjectionLine.pos[i])) {
                     
                     // if the current point is close enough to the ground
-                    if (g_midnaChargeProjectionLine.pos[i].y - tp_fopAcM_gc_c__mGroundY < 100.0f) {
-                        if (i > 0) {
-                            // if the previous point was higher than the current point (we're on the descent of the arc)
-                            if (g_midnaChargeProjectionLine.pos[i].y < g_midnaChargeProjectionLine.pos[i-1].y && tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
-                                OSReport("Close enough to ground! drawing landing circle.\n", i);
-                                dDbVw_drawCircleXlu(g_midnaChargeProjectionLine.pos[i], 100.0f, red, 1, 10);
-                                prev_ground_y = tp_fopAcM_gc_c__mGroundY;
-                                break;
-                            }
-                        } else {
-                            prev_ground_y = -10000000.0f;
-                        }   
-                    } else if (tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
-                        dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
-                    }
-                }
+                    // if (g_midnaChargeProjectionLine.pos[i].y - tp_fopAcM_gc_c__mGroundY < 100.0f) {
+                    //     if (i > 0) {
+                    //         // if the previous point was higher than the current point (we're on the descent of the arc)
+                    //         if (g_midnaChargeProjectionLine.pos[i].y < g_midnaChargeProjectionLine.pos[i-1].y && tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
+                    //             OSReport("Close enough to ground! drawing landing circle.\n", i);
+                    //             dDbVw_drawCircleXlu(g_midnaChargeProjectionLine.pos[i], 100.0f, red, 1, 10);
+                    //             prev_ground_y = tp_fopAcM_gc_c__mGroundY;
+                    //             break;
+                    //         }
+                    //     } else {
+                    //         prev_ground_y = -10000000.0f;
+                    //     }   
+                    // } else if (tp_fopAcM_gc_c__mGroundY >= prev_ground_y) {
+                        
+                    // }
+                // }
                     
-            } else {
-                dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
+            // } else {
+                // dDbVw_drawLineXlu(g_midnaChargeProjectionLine.pos[i], g_midnaChargeProjectionLine.pos[i+1], red, 1, 40);
             }    
         }
     }
@@ -432,7 +429,13 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_MIDNA_STOPS].active) {
         searchActorForCallback(PROC_Tag_Mstop, drawMidnaStop);
+    }
+
+    if (g_triggerViewFlags[VIEW_LJA_PROJECTION].active) {
         searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
+    }
+
+    if (g_triggerViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active) {
         searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
     }
 
