@@ -112,15 +112,29 @@ void move(fopAc_ac_c* actor) {
 KEEP_FUNC void execute() {
     if (g_actorViewEnabled || g_moveLinkEnabled) {
         if ((g_actorViewEnabled && g_currentActor->mBase.mProcName == PROC_ALINK) || g_moveLinkEnabled) {
+            if (dComIfGp_getPlayer() != nullptr) {
+                dComIfGp_getPlayer()->mLinkAcch.SetGrndNone();
+                dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
+                dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
+            }
+            
+
             dComIfGp_getEvent().mHalt = true;
             event_halt = true;
             move(dComIfGp_getPlayer());
         } else if (g_actorViewEnabled) {
-            dComIfGp_getEvent().mHalt = false;
+            dComIfGp_getEvent().mHalt = true;
+            event_halt = true;
             move(g_currentActor);
         }
     } else {
         if (event_halt) {
+            if (dComIfGp_getPlayer() != nullptr) {
+                dComIfGp_getPlayer()->mLinkAcch.ClrGrndNone();
+                dComIfGp_getPlayer()->mLinkAcch.ClrWallNone();
+                dComIfGp_getPlayer()->mLinkAcch.OffLineCheckNone();
+            }
+
             dComIfGp_getEvent().mHalt = false;
             dComIfGp_getEventManager().mCameraPlay = 0;
             event_halt = false;

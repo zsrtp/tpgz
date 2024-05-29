@@ -238,8 +238,8 @@ void dCcSMoveAfterCheckHook(dCcS* i_this) {
 
 void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
     dBgS_Acch__CrrPosTrampoline(i_this, i_bgs);
-    if (g_actorViewEnabled || g_moveLinkEnabled) {
-        i_this->mHitParam = (1 << 5); // sets actor to always be in "coliding with ground" state
+    if (g_actorViewEnabled/*  || g_moveLinkEnabled */) {
+        i_this->m_flags = dBgS_Acch::GROUND_HIT; // sets actor to always be in "coliding with ground" state
     }
 }
 

@@ -159,7 +159,7 @@ void GZ_applyCheats() {
         }
     } else {
         if (dComIfGp_getPlayer() && l_doorCollision) {
-            dComIfGp_getPlayer()->mLinkAcch.OffWallNone();
+            dComIfGp_getPlayer()->mLinkAcch.ClrWallNone();
             dComIfGp_getPlayer()->mLinkAcch.OffLineCheckNone();
             l_doorCollision = false;
         }

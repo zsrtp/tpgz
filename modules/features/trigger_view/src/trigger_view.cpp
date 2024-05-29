@@ -146,8 +146,8 @@ void drawEventArea(fopAc_ac_c* actor) {
         GXColor inner_color = {0x00, 0xFF, 0x00, g_geometryOpacity};
         cXyz pos = actor->current.pos;
         // no good way to draw on the ground, so just keep height around player level
-        if (pos.y < dComIfGp_getPlayer()->mLinkAcch.mGroundH) {
-            pos.y = dComIfGp_getPlayer()->mLinkAcch.mGroundH + 100.0f;
+        if (pos.y < dComIfGp_getPlayer()->mLinkAcch.GetGroundH()) {
+            pos.y = dComIfGp_getPlayer()->mLinkAcch.GetGroundH() + 100.0f;
         }
 
         // idk the exact way the inner check is handled, so this is a rough approximation
