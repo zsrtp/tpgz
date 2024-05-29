@@ -28,6 +28,7 @@ void SaveMngSpecial_LakebedBKSkip();
 void SaveMngSpecial_Morpheel();
 
 void SaveMngSpecial_Iza1Skip();
+void SaveMngSpecial_AnyPlummOoB();
 
 void SaveMngSpecial_Stallord();
 void SaveMngSpecial_Stallord2();

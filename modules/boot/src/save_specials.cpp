@@ -165,6 +165,16 @@ KEEP_FUNC void SaveMngSpecial_Iza1Skip() {
     setNextStageLayer(4);
 }
 
+KEEP_FUNC void SaveMngSpecial_AnyPlummOoB() {
+    gSaveManager.injectDefault_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    setNextStageName("F_SP112");                       // set stage to river
+    setNextStageRoom(1);
+    setNextStagePoint(0);
+    setNextStageLayer(4);
+    bossFlags = 0xFF;
+}
+
 KEEP_FUNC void SaveMngSpecial_Stallord() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
@@ -266,6 +276,7 @@ KEEP_FUNC void BeastGanonSpecial_setLayer() {
 KEEP_FUNC void SaveMngSpecial_emptyLake() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(4);
+    bossFlags = 0xFF;
 }
 
 KEEP_FUNC void SaveMngSpecial_NoSQAeralfos() {
