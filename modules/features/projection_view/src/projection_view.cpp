@@ -6,15 +6,6 @@
 #include "libtp_c/include/d/d_procname.h"
 #include "global_data.h"
 
-ProjectionLine g_ljaProjectionLine;
-ProjectionLine g_midnaChargeProjectionLine;
-
-ProjectionViewItem g_projectionViewFlags[PROJECTION_VIEW_MAX] = {
-    {VIEW_LJA_PROJECTION, false},
-    {VIEW_MIDNA_CHARGE_PROJECTION, false},
-};
-
-
 namespace ProjectionViewer {
 
 typedef void (*drawCallback)(fopAc_ac_c*);

@@ -330,35 +330,37 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
 }
 
 void daAlink_c__posMoveHook(daAlink_c* i_this) {
-    // store any variables that may be modified
-    f32 speed_y = i_this->speed.y;
-    cXyz link_pos = i_this->current.pos;
-    s16 shape_angle_y = i_this->shape_angle.y;
-    f32 m_normal_speed = i_this->mNormalSpeed;
-    s16 current_angle_y = i_this->current.angle.y;
-    cXyz wolf_target_eye_pos = i_this->field_0x37c8;
-    s16 field_3008 = i_this->field_0x3008;
-    f32 max_fall_speed = i_this->mMaxFallSpeed;
-    f32 gravity = i_this->mGravity;
+    if (g_projectionViewFlags[VIEW_LJA_PROJECTION].active || g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active) {
+        // store any variables that may be modified
+        f32 speed_y = i_this->speed.y;
+        cXyz link_pos = i_this->current.pos;
+        s16 shape_angle_y = i_this->shape_angle.y;
+        f32 m_normal_speed = i_this->mNormalSpeed;
+        s16 current_angle_y = i_this->current.angle.y;
+        cXyz wolf_target_eye_pos = i_this->field_0x37c8;
+        s16 field_3008 = i_this->field_0x3008;
+        f32 max_fall_speed = i_this->mMaxFallSpeed;
+        f32 gravity = i_this->mGravity;
 
-    if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || i_this->mActionID == daAlink_c::PROC_CUT_JUMP) {
-        setupLJAProjectionLine(i_this);
+        if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || i_this->mActionID == daAlink_c::PROC_CUT_JUMP) {
+            setupLJAProjectionLine(i_this);
+        }
+
+        if (i_this->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
+            setupMidnaChargeProjectionLine(i_this);
+        }
+
+        // restore variables
+        i_this->speed.y = speed_y;
+        i_this->current.pos = link_pos;
+        i_this->shape_angle.y = shape_angle_y;
+        i_this->mNormalSpeed = m_normal_speed;
+        i_this->current.angle.y = current_angle_y;
+        i_this->field_0x37c8 = wolf_target_eye_pos;
+        i_this->field_0x3008 = field_3008;
+        i_this->mMaxFallSpeed = max_fall_speed;
+        i_this->mGravity = gravity;
     }
-
-    if (i_this->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
-        setupMidnaChargeProjectionLine(i_this);
-    }
-
-    // restore variables
-    i_this->speed.y = speed_y;
-    i_this->current.pos = link_pos;
-    i_this->shape_angle.y = shape_angle_y;
-    i_this->mNormalSpeed = m_normal_speed;
-    i_this->current.angle.y = current_angle_y;
-    i_this->field_0x37c8 = wolf_target_eye_pos;
-    i_this->field_0x3008 = field_3008;
-    i_this->mMaxFallSpeed = max_fall_speed;
-    i_this->mGravity = gravity;
 
     // run the original posMove method
     daAlink_c__posMoveTrampoline(i_this);

@@ -1,5 +1,6 @@
 #include "global_data.h"
 #include "trigger_view.h"
+#include "features/projection_view/include/projection_view.h"
 #include "rels/include/defines.h"
 
 KEEP_VAR bool g_freeCamEnabled;
@@ -22,4 +23,12 @@ KEEP_VAR TriggerViewItem g_triggerViewFlags[TRIGGER_VIEW_MAX] = {
     {VIEW_TRANSFORM_DISTS, false},
     {VIEW_ATTN_DISTS, false},
     {VIEW_MIST_AVOID, false},
+};
+
+KEEP_VAR ProjectionLine g_ljaProjectionLine;
+KEEP_VAR ProjectionLine g_midnaChargeProjectionLine;
+
+KEEP_VAR ProjectionViewItem g_projectionViewFlags[PROJECTION_VIEW_MAX] = {
+    {VIEW_LJA_PROJECTION, false},
+    {VIEW_MIDNA_CHARGE_PROJECTION, false},
 };
