@@ -110,6 +110,12 @@ void GZ_execute(int phase) {
         }
     }
 
+    if (g_tools[SAND_INDEX].active) {
+        if (dComIfGp_getPlayer() != nullptr) {
+            dComIfGp_getPlayer()->field_0x2ba8 = 0.0f;
+        }
+    }
+
     // Timer set after dScnPly__phase_4, delay until objects are fully loaded
     if (!fopScnRq.isLoading && SaveManager::s_applyAfterTimer > 0) {
         SaveManager::s_applyAfterTimer--;

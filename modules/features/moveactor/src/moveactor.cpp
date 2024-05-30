@@ -115,6 +115,7 @@ KEEP_FUNC void execute() {
             if (dComIfGp_getPlayer() != nullptr) {
                 dComIfGp_getPlayer()->mLinkAcch.SetGrndNone();
                 dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
+                dComIfGp_getPlayer()->mLinkAcch.SetRoofNone();
                 dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
             }
             
@@ -132,6 +133,7 @@ KEEP_FUNC void execute() {
             if (dComIfGp_getPlayer() != nullptr) {
                 dComIfGp_getPlayer()->mLinkAcch.ClrGrndNone();
                 dComIfGp_getPlayer()->mLinkAcch.ClrWallNone();
+                dComIfGp_getPlayer()->mLinkAcch.ClrRoofNone();
                 dComIfGp_getPlayer()->mLinkAcch.OffLineCheckNone();
             }
 

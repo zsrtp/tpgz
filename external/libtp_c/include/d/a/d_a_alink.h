@@ -638,7 +638,7 @@ public:
     /* 0x02B98 */ f32* field_0x2b9c;
     /* 0x02BA0 */ f32* field_0x2ba0;
     /* 0x02BA4 */ f32* field_0x2ba4;
-    /* 0x02BA8 */ f32* field_0x2ba8;
+    /* 0x02BA8 */ f32 field_0x2ba8;
     /* 0x02BAC */ cXyz field_0x2bac;
     /* 0x02BB8 */ Mtx mInvMtx;
     /* 0x02BE8 */ Mtx field_0x2be8;

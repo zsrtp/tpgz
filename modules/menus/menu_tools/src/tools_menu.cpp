@@ -197,11 +197,6 @@ void ToolsMenu::draw() {
                 daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 50.0f;
                 daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.0f;
                 break;
-            case SAND_INDEX:
-                if (dComIfGp_getPlayer() != nullptr) {
-                    dComIfGp_getPlayer()->field_0x2ba8 = 0;
-                }
-                break;
             case FREE_CAM_INDEX:
                 GZCmd_enable(Commands::CMD_FREE_CAM);
                 g_freeCamEnabled = false;
