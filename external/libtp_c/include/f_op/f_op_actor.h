@@ -84,6 +84,9 @@ enum fopAc_attention_type {
 
 struct actor_attention_types {
     /* 0x00 */ u8 distances[9];
+#ifdef WII_PLATFORM
+    u8 unkdata[4];
+#endif
     /* 0x0A */ s16 field_0xa;
     /* 0x0C */ cXyz position;
     /* 0x18 */ u32 flags;
@@ -138,9 +141,6 @@ public:
     /* 0x534 */ f32 mMaxFallSpeed;
     /* 0x538 */ cXyz mEyePos;
     /* 0x544 */ actor_attention_types mAttentionInfo;
-#ifdef WII_PLATFORM
-    u8 unkdata[4];
-#endif
     /* 0x560 */ s16 field_0x560;
     /* 0x562 */ s16 mHealth;
     /* 0x564 */ u8 field_0x564;

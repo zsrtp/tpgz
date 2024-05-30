@@ -89,9 +89,6 @@ class daPy_py_c : public fopAc_ac_c {
 public:
     /* 0x0568 */ u8 mCutType;
     /* 0x0569 */ u8 mComboCutCount;
-#ifdef WII_PLATFORM
-    u8 unk_field0[4];  // might be part of fopAc_ac_c, fix later
-#endif
     /* 0x056A */ u8 mSpecialMode;  // maybe needs better name
     /* 0x056B */ u8 field_0x56b;
     /* 0x056C */ s16 mDamageTimer;
@@ -118,7 +115,7 @@ public:
     /* 0x05EC */ cXyz mRightFootPosP;
     /* 0x05F8 */ u8 field_0x5f8[0xC];
     /* 0x0604 */ daPy_demo_c mDemo;
-    void* vtable;
+    /* 0x0628 */ void* vtable_base;
 
 public:
     enum daPy_FLG0 {
