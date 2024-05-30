@@ -7,6 +7,9 @@
 LIBTP_DEFINE_FUNC(ClrTgHit__12dCcD_GObjInfFv, dCcD_GObjInf__ClrTgHit_void_,
                   void, dCcD_GObjInf__ClrTgHit, (void* addr))
 
+LIBTP_DEFINE_FUNC(ResetTgHit__12dCcD_GObjInfFv, dCcD_GObjInf__ResetTgHit_void_,
+                  void, dCcD_GObjInf__ResetTgHit, (void* addr))
+
 enum dCcD_hitSe {
     /* 0  */ dCcD_SE_NONE,
     /* 1  */ dCcD_SE_SWORD,
@@ -277,6 +280,10 @@ public:
 
     void ClrTgHit() {
         dCcD_GObjInf__ClrTgHit(this);
+    }
+
+    void ResetTgHit() {
+        dCcD_GObjInf__ResetTgHit(this);
     }
 
     /* 0x058 */ dCcD_GObjAt mGObjAt;

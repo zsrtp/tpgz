@@ -479,7 +479,6 @@ public:
 
     class hsChainShape_c {};
 
-    // inlined version of checkModeFlg
     u32 checkModeFlg(u32 pFlag) const { return mModeFlg & pFlag; }
     bool checkUpperAnime(u16 pIdx) const { return mUpperAnime[UPPER_NOW].getIdx() == pIdx; }
 

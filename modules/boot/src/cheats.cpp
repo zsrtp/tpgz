@@ -103,8 +103,17 @@ void GZ_applyCheats() {
     }
 
     if (GZ_checkCheat(Invincible)) {
-        if (dComIfGp_getPlayer()) {
-            dComIfGp_getPlayer()->mDamageTimer = 5;
+        daAlink_c* player = dComIfGp_getPlayer();
+        if (player != NULL) {
+            for (int i = 0; i < 3; i++) {
+                player->field_0x850[i].mGObjInf.OffTgSetBit();
+                player->field_0x850[i].mGObjInf.ResetTgHit();
+            }
+
+            if (player->checkWolf()) {
+                player->field_0xFB8.mGObjInf.OffTgSetBit();
+                player->field_0xFB8.mGObjInf.ResetTgHit();
+            }
         }
     }
 
