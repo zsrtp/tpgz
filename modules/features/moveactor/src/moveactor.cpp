@@ -139,10 +139,9 @@ KEEP_FUNC void execute() {
 
             dComIfGp_getEvent().mHalt = false;
             dComIfGp_getEventManager().mCameraPlay = 0;
+            g_drawHIO.mHUDAlpha = 1.0f;
             event_halt = false;
         }
-
-        g_drawHIO.mHUDAlpha = 1.0f;
     }
 }
 }  // namespace MoveActor
