@@ -13,4 +13,5 @@ Tool g_tools[TOOLS_COUNT] = {
     {ROLL_INDEX, false},          {MASH_CHECKER_INDEX, false},  {TELEPORT_INDEX, false},
     {TURBO_MODE_INDEX, false},    {TIMER_INDEX, false},         {LOAD_TIMER_INDEX, false},
     {IGT_TIMER_INDEX, false},     {FREE_CAM_INDEX, false},      {MOVE_LINK_INDEX, false},
+    {TRANSFORM_INDICATOR_INDEX, false},
 };

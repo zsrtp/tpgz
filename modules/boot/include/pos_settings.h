@@ -2,7 +2,7 @@
 
 #include "libtp_c/include/dolphin/mtx/vec.h"
 
-#define SPRITES_AMNT 9
+#define SPRITES_AMNT 10
 enum SpritesIndex {
     MENU_INDEX,
     VIEWER_INDEX,
@@ -13,6 +13,7 @@ enum SpritesIndex {
     FIFO_SPR_INDEX,
     HEAP_INFO_INDEX,
     MASH_INFO_INDEX,
+    TRANSFORM_IND_INDEX,
 };
 
 extern Vec2 g_spriteOffsets[SPRITES_AMNT];

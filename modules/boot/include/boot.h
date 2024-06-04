@@ -29,6 +29,7 @@ void GZ_handleSavingTmp();
 void GZ_handleFlags_PreLoop();
 void GZ_handleFlags_PostLoop();
 void GZ_handleTurbo();
+void GZ_handleTansformIndicator();
 
 void GZ_renderMenuTitle();
 void GZ_renderPlayPause();

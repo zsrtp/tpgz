@@ -41,6 +41,7 @@ tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
 tpgz::dyn::GZModule g_MoveActor_rel("/tpgz/rels/features/moveactor.rel");
 tpgz::dyn::GZModule g_TriggerView_rel("/tpgz/rels/features/trigger_view.rel");
 tpgz::dyn::GZModule g_ActorView_rel("/tpgz/rels/features/actor_view.rel");
+tpgz::dyn::GZModule g_TransformIndicator_rel("/tpgz/rels/features/transform_indicator.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -168,6 +169,16 @@ KEEP_FUNC void GZ_handleActorView() {
 
     if (!g_actorViewEnabled && g_ActorView_rel.isLoaded()) {
         g_ActorView_rel.close();
+    }
+}
+
+KEEP_FUNC void GZ_handleTansformIndicator() {
+    if (g_tools[TRANSFORM_INDICATOR_INDEX].active && !g_TransformIndicator_rel.isLoaded()) {
+        g_TransformIndicator_rel.loadFixed(true);
+    }
+
+    if (!g_tools[TRANSFORM_INDICATOR_INDEX].active && g_TransformIndicator_rel.isLoaded()) {
+        g_TransformIndicator_rel.close();
     }
 }
 

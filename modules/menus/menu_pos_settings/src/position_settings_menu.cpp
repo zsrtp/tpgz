@@ -23,17 +23,24 @@ KEEP_FUNC PosSettingsMenu::PosSettingsMenu(Cursor& cursor, PosSettingsData& data
             {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
             {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
             {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false},
-            {"mash checker", SpritesIndex::MASH_INFO_INDEX, "Change Mash Checker position", false}} {}
+            {"mash checker", SpritesIndex::MASH_INFO_INDEX, "Change Mash Checker position", false},
+            {"transform indicator", SpritesIndex::TRANSFORM_IND_INDEX, "Change Transform Indicator position", false}} {}
 
 PosSettingsMenu::~PosSettingsMenu() {}
+
+#ifdef WII_PLATFORM
+extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
 
 void drawCursor(Vec2 pos) {
     bool cycle = (cCt_getFrameCount() / 8) % 2;
     if (GZ_checkDropShadows()) {
-        Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x - 10 + 1, pos.y + 1}, {20, 0}, 0xA);
+        Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x - 10 * (isWidescreen ? 0.75f : 1.0f) + 1, pos.y + 1}, {20 * (isWidescreen ? 0.75f : 1.0f), 0}, 0xA);
         Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x + 1, pos.y - 10 + 1}, {0, 20}, 0xA);
     }
-    Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x - 10, pos.y}, {20, 0}, 0xA);
+    Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x - 10 * (isWidescreen ? 0.75f : 1.0f), pos.y}, {20 * (isWidescreen ? 0.75f : 1.0f), 0}, 0xA);
     Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
 }
 
