@@ -97,10 +97,10 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
              true, &g_tools[MOVE_LINK_INDEX].active},
-            {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT " to cycle through colors", false, nullptr,
-             MAX_TUNIC_COLORS},
             {"transform indicator:", TRANSFORM_INDICATOR_INDEX, "Adds an icon showing when link can transform.", true,
-             &g_tools[TRANSFORM_INDICATOR_INDEX].active}} {
+             &g_tools[TRANSFORM_INDICATOR_INDEX].active},
+            {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT " to cycle through colors", false, nullptr,
+             MAX_TUNIC_COLORS}} {
 }
 
 ToolsMenu::~ToolsMenu() {}

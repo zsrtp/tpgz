@@ -24,8 +24,8 @@ enum ToolsIndex {
     IGT_TIMER_INDEX,
     FREE_CAM_INDEX,
     MOVE_LINK_INDEX,
-    TUNIC_COLOR_INDEX,
     TRANSFORM_INDICATOR_INDEX,
+    TUNIC_COLOR_INDEX,
 
     // Entry used as a counter
     TOOLS_COUNT
