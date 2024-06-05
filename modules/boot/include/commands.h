@@ -82,10 +82,25 @@ struct Command {
     void (*command)();
 };
 
-extern tpgz::containers::deque<Command> g_commands;
+extern tpgz::containers::deque<Command*> g_commands;
+
+void GZCmd_storePosition();
+void GZCmd_loadPosition();
+void GZCmd_moonJump();
+void GZCmd_reloadArea();
+void GZCmd_toggleTimer();
+void GZCmd_resetTimer();
+void GZCmd_loadGorgeVoid();
+#ifdef WII_PLATFORM
+void GZCmd_bitPractice();
+#endif
+void GZCmd_toggleFreeCam();
+void GZCmd_toggleMoveLink();
+void GZCmd_pauseFrame();
+
+void GZCmd_addCmd(Command* cmd);
+void GZCmd_removeCmd(Commands cmdId);
 
 void GZCmd_processInputs();
 void GZCmd_enable(int idx);
 void GZCmd_disable(int idx);
-void GZCmd_reloadArea();
-void GZCmd_advanceFrame();
