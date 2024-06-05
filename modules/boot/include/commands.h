@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
+#include "utils/containers/deque.h"
 
 #ifdef GCN_PLATFORM
 #define COMMANDS_AMNT 10
@@ -75,10 +76,13 @@ enum Commands {
 };
 
 struct Command {
+    Commands id;
     bool& active;
     uint16_t buttons;
     void (*command)();
 };
+
+extern tpgz::containers::deque<Command> g_commands;
 
 void GZCmd_processInputs();
 void GZCmd_enable(int idx);

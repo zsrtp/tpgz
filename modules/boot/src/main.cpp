@@ -36,12 +36,6 @@ _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
-tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
-tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
-tpgz::dyn::GZModule g_MoveActor_rel("/tpgz/rels/features/moveactor.rel");
-tpgz::dyn::GZModule g_TriggerView_rel("/tpgz/rels/features/trigger_view.rel");
-tpgz::dyn::GZModule g_ActorView_rel("/tpgz/rels/features/actor_view.rel");
-tpgz::dyn::GZModule g_TransformIndicator_rel("/tpgz/rels/features/transform_indicator.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -112,76 +106,6 @@ KEEP_FUNC void draw() {
 }
 }
 
-/**
- * @brief Loads into memory the RELs for each tool which is active.
- *
- * @param id    The ID of the tool (index in g_tools).
- * @param rel   The GZModule object used to load the REL.
- */
-inline void handleModule(size_t id, tpgz::dyn::GZModule& rel) {
-    if (g_tools[id].active && !rel.isLoaded()) {
-        rel.loadFixed(true);
-    }
-    if (!g_tools[id].active && rel.isLoaded()) {
-        rel.close();
-    }
-}
-
-/**
- * @brief   Handles when to load tools into memory.
- *          Registered to run before the main loop.
- */
-KEEP_FUNC void GZ_handleTools() {
-    // Put modules that toggles with the state of g_tools
-    handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
-    handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
-    handleModule(MOVE_LINK_INDEX, g_MoveActor_rel);
-}
-
-/**
- * @brief   Handles when to load Trigger Viewer into memory.
- */
-KEEP_FUNC void GZ_handleTriggerView() {
-    int active_flags = 0;
-    for (int i = 0; i < TRIGGER_VIEW_MAX; i++) {
-        if (g_triggerViewFlags[i].active) {
-            active_flags++;
-        }
-    }
-
-    if (active_flags > 0 && !g_TriggerView_rel.isLoaded()) {
-        g_TriggerView_rel.loadFixed(true);
-    }
-
-    if (active_flags <= 0 && g_TriggerView_rel.isLoaded()) {
-        g_TriggerView_rel.close();
-    }
-}
-
-/**
- * @brief   Handles when to load Actor Viewer into memory.
- */
-KEEP_FUNC void GZ_handleActorView() {
-
-    if (g_actorViewEnabled && !g_ActorView_rel.isLoaded()) {
-        g_ActorView_rel.loadFixed(true);
-    }
-
-    if (!g_actorViewEnabled && g_ActorView_rel.isLoaded()) {
-        g_ActorView_rel.close();
-    }
-}
-
-KEEP_FUNC void GZ_handleTansformIndicator() {
-    if (g_tools[TRANSFORM_INDICATOR_INDEX].active && !g_TransformIndicator_rel.isLoaded()) {
-        g_TransformIndicator_rel.loadFixed(true);
-    }
-
-    if (!g_tools[TRANSFORM_INDICATOR_INDEX].active && g_TransformIndicator_rel.isLoaded()) {
-        g_TransformIndicator_rel.close();
-    }
-}
-
 KEEP_FUNC void GZ_drawPacketNumOverflow() {
     if (l_drawPacketListNum >= 1000) {
         Font::GZ_drawStr("Draw Packet List full!", 35.0f, 430.0f, 0xFFFFFFFF, g_dropShadows);
@@ -189,7 +113,7 @@ KEEP_FUNC void GZ_drawPacketNumOverflow() {
 }
 
 /**
- * @brief Handles when to show/hid the menus.
+ * @brief Handles when to show/hide the menus.
  */
 KEEP_FUNC void GZ_handleMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {

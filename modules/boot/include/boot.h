@@ -1,5 +1,5 @@
 #pragma once
-#include "utils/rels.h"
+#include "events/listener_base.h"
 
 namespace tpgz::modules {
 /***********************************************************************************
@@ -18,10 +18,6 @@ void exit();
 
 }  // namespace tpgz::modules
 
-extern tpgz::dyn::GZModule g_InputViewer_rel;
-void GZ_handleTools();
-void GZ_handleTriggerView();
-void GZ_handleActorView();
 void GZ_drawPacketNumOverflow();
 void GZ_handleMenu();
 void GZ_handleCardLoad();
@@ -29,7 +25,6 @@ void GZ_handleSavingTmp();
 void GZ_handleFlags_PreLoop();
 void GZ_handleFlags_PostLoop();
 void GZ_handleTurbo();
-void GZ_handleTansformIndicator();
 
 void GZ_renderMenuTitle();
 void GZ_renderPlayPause();

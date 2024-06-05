@@ -7,6 +7,7 @@
 #include "menus/utils/menu_mgr.h"
 #include "collision_view.h"
 #include "mash_checker.h"
+#include "modules.h"
 
 #include "utils/memory.h"
 #include "utils/card.h"
@@ -43,11 +44,18 @@ void main() {
     g_drawListener->addListener(Timer::drawTimer);
     g_drawListener->addListener(Timer::drawLoadTimer);
     g_drawListener->addListener(Timer::drawIGT);
-    // g_drawListener->addListener(GZ_drawMenu);
     g_drawListener->addListener(GZ_drawWatches);
     g_drawListener->addListener(GZ_renderPlayPause);
     g_drawListener->addListener(GZ_drawPacketNumOverflow);
-    
+
+    // Init the module list
+    g_modules.push_back(new Module{inputViewer_active, "/tpgz/rels/features/input_viewer.rel"});
+    g_modules.push_back(new Module{freeCam_active, "/tpgz/rels/features/free_cam.rel"});
+    g_modules.push_back(new Module{moveLink_active, "/tpgz/rels/features/moveactor.rel"});
+    g_modules.push_back(new Module{triggerViewer_active, "/tpgz/rels/features/trigger_view.rel"});
+    g_modules.push_back(new Module{actorView_active, "/tpgz/rels/features/actor_view.rel"});
+    g_modules.push_back(new Module{transformIndicator_active, {"/tpgz/rels/features/transform_indicator.rel"}});
+
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
     g_PreLoopListener->addListener(GZ_handleCardLoad);
@@ -58,17 +66,17 @@ void main() {
     g_PreLoopListener->addListener(GZ_setCursorColor);
     g_PreLoopListener->addListener(GZ_setTunicColor);
     g_PreLoopListener->addListener(GZ_frameAdvance);
-    g_PreLoopListener->addListener(GZ_handleTools);
-    g_PreLoopListener->addListener(GZ_handleTriggerView);
-    g_PreLoopListener->addListener(GZ_handleActorView);
+    g_PreLoopListener->addListener(GZ_handleModules);
     g_PreLoopListener->addListener(GZ_drawPolygons);
-    g_PreLoopListener->addListener(GZ_handleTansformIndicator);
-    
+
     // Init the post-loop listener
     g_PostLoopListener = new PostLoopListener();
     g_PostLoopListener->addListener(GZ_handleFlags_PostLoop);
     g_PostLoopListener->addListener(GZ_setCursorColor);
     g_PostLoopListener->addListener(GZ_setTunicColor);
+
+    // Init the command list
+    // g_commands.push_back({});
 }
 void exit() {}
 
