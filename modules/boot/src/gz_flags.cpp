@@ -23,22 +23,8 @@
 
 bool g_framePaused = false;
 
-GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
-    {&g_tools[GORGE_INDEX].active, GAME_LOOP, GorgeVoidIndicator::execute},
-#ifdef WII_PLATFORM
-    {&g_tools[BIT_INDEX].active, GAME_LOOP, BiTIndicator::execute},
-#endif
-    {&g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute},
-    {&g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute},
-    {&g_tools[UMD_INDEX].active, POST_GAME_LOOP, UMDIndicator::execute},
-    {&g_sceneFlags[FREEZE_ACTOR_INDEX].active, GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors},
-    {&g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP, GZ_hideActors, GZ_showActors},
-    {&g_sceneFlags[FREEZE_CAMERA_INDEX].active, GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera},
-    {&g_sceneFlags[HIDE_HUD_INDEX].active, GAME_LOOP, GZ_hideHUD, GZ_showHUD},
-    {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
-    {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
-    {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-};
+// Initialized in the "init" module
+KEEP_VAR tpgz::containers::deque<GZFlag*> g_gzFlags;
 
 #ifdef GCN_PLATFORM
 #define HOLD_BTNS cPadInfo[0].mButtonFlags
@@ -100,12 +86,12 @@ void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex) {
 }
 
 void GZ_execute(int phase) {
-    for (int i = 0; i < MAX_GZ_FLAGS; i++) {
-        if (g_gzFlags[i].mPhase == phase && g_gzFlags[i].mpFlag != nullptr) {
-            if (*g_gzFlags[i].mpFlag && g_gzFlags[i].mpActiveFunc) {
-                g_gzFlags[i].mpActiveFunc();
-            } else if (g_gzFlags[i].mpDeactiveFunc) {
-                g_gzFlags[i].mpDeactiveFunc();
+    for (auto gzFlag : g_gzFlags) {
+        if (gzFlag->mPhase == phase && gzFlag->mpFlag != nullptr) {
+            if (*gzFlag->mpFlag && gzFlag->mpActiveFunc) {
+                gzFlag->mpActiveFunc();
+            } else if (gzFlag->mpDeactiveFunc) {
+                gzFlag->mpDeactiveFunc();
             }
         }
     }

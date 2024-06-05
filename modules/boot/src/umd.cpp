@@ -29,7 +29,7 @@ static const char* getPressedButtonText() {
     return "";
 }
 
-void UMDIndicator::execute() {
+KEEP_FUNC void UMDIndicator::execute() {
     // Reset everything if map is not active
     if (g_meter2_info.mMapStatus != 2 && g_meter2_info.mMapStatus != 3) {
         counter_difference = 0;
