@@ -56,3 +56,9 @@ KEEP_FUNC bool transformIndicator_active() {
 KEEP_FUNC bool umd_active() {
     return g_tools[UMD_INDEX].active;
 }
+
+#ifdef WII_PLATFORM
+KEEP_FUNC bool bit_active() {
+    return g_tools[BIT_INDEX].active;
+}
+#endif

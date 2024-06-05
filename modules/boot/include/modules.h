@@ -17,3 +17,6 @@ bool triggerViewer_active();
 bool actorView_active();
 bool transformIndicator_active();
 bool umd_active();
+#ifdef WII_PLATFORM
+bool bit_active();
+#endif

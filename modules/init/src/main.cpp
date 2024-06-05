@@ -1,5 +1,4 @@
 #include <main.h>
-#include "bit.h"
 #include "boot.h"
 #include "collision_view.h"
 #include "corotdcheck.h"
@@ -62,6 +61,9 @@ void main() {
     g_modules.push_back(
         new Module{transformIndicator_active, "/tpgz/rels/features/transform_indicator.rel"});
     g_modules.push_back(new Module{umd_active, "/tpgz/rels/features/umd.rel"});
+#ifdef WII_PLATFORM
+    g_modules.push_back(new Module{bit_active, "/tpgz/rels/features/bit.rel"});
+#endif
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -97,10 +99,6 @@ void main() {
                              GZCmd_resetTimer});
     GZCmd_addCmd(new Command{CMD_GORGE_VOID, g_commandStates[CMD_GORGE_VOID], GORGE_VOID_BUTTONS,
                              GZCmd_loadGorgeVoid});
-#ifdef WII_PLATFORM
-    GZCmd_addCmd(
-        new Command{CMD_BIT, g_commandStates[CMD_BIT], BACK_IN_TIME_BUTTONS, GZCmd_bitPractice});
-#endif
     GZCmd_addCmd(new Command{CMD_FREE_CAM, g_commandStates[CMD_FREE_CAM], FREE_CAM_BUTTONS,
                              GZCmd_toggleFreeCam});
     GZCmd_addCmd(new Command{CMD_MOVE_LINK, g_commandStates[CMD_MOVE_LINK], MOVE_LINK_BUTTONS,
@@ -109,30 +107,26 @@ void main() {
                              GZCmd_pauseFrame});
 
     // Init the gz flags
-    g_gzFlags.push_back(new GZFlag{GZFLG_GORGE_VOID, &g_tools[GORGE_INDEX].active, GAME_LOOP,
-                                   GorgeVoidIndicator::execute});
-#ifdef WII_PLATFORM
-    g_gzFlags.push_back(
-        new GZFlag{GZFLG_BIT, &g_tools[BIT_INDEX].active, GAME_LOOP, BiTIndicator::execute});
-#endif
-    g_gzFlags.push_back(
+    GZFlg_addFlag(new GZFlag{GZFLG_GORGE_VOID, &g_tools[GORGE_INDEX].active, GAME_LOOP,
+                             GorgeVoidIndicator::execute});
+    GZFlg_addFlag(
         new GZFlag{GZFLG_ROLL, &g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute});
-    g_gzFlags.push_back(
+    GZFlg_addFlag(
         new GZFlag{GZFLG_COROTD, &g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute});
-    g_gzFlags.push_back(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
-                                   GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
-    g_gzFlags.push_back(new GZFlag{GZFLG_HIDE_ACTOR, &g_sceneFlags[HIDE_ACTOR_INDEX].active,
-                                   GAME_LOOP, GZ_hideActors, GZ_showActors});
-    g_gzFlags.push_back(new GZFlag{GZFLG_FREEZE_CAMERA, &g_sceneFlags[FREEZE_CAMERA_INDEX].active,
-                                   GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera});
-    g_gzFlags.push_back(new GZFlag{GZFLG_HIDE_HUD, &g_sceneFlags[HIDE_HUD_INDEX].active, GAME_LOOP,
-                                   GZ_hideHUD, GZ_showHUD});
-    g_gzFlags.push_back(new GZFlag{GZFLG_FREEZE_TIME, &g_sceneFlags[FREEZE_TIME_INDEX].active,
-                                   GAME_LOOP, GZ_freezeTime});
-    g_gzFlags.push_back(new GZFlag{GZFLG_DISABLE_BG, &g_sceneFlags[DISABLE_BG_INDEX].active,
-                                   GAME_LOOP, GZ_disableBGM, GZ_enableBGM});
-    g_gzFlags.push_back(new GZFlag{GZFLG_DISABLE_SFX, &g_sceneFlags[DISABLE_SFX_INDEX].active,
-                                   GAME_LOOP, GZ_disableSFX, GZ_enableSFX});
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
+                             GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
+    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_ACTOR, &g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP,
+                             GZ_hideActors, GZ_showActors});
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_CAMERA, &g_sceneFlags[FREEZE_CAMERA_INDEX].active,
+                             GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera});
+    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_HUD, &g_sceneFlags[HIDE_HUD_INDEX].active, GAME_LOOP,
+                             GZ_hideHUD, GZ_showHUD});
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_TIME, &g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP,
+                             GZ_freezeTime});
+    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_BG, &g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP,
+                             GZ_disableBGM, GZ_enableBGM});
+    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_SFX, &g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP,
+                             GZ_disableSFX, GZ_enableSFX});
 }
 void exit() {}
 

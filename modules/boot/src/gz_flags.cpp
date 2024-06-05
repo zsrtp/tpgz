@@ -3,7 +3,6 @@
 #include "controller.h"
 #include "fifo_queue.h"
 #include "gorge.h"
-#include "bit.h"
 #include "scene.h"
 #include "tools.h"
 #include "rollcheck.h"

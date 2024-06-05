@@ -3,9 +3,6 @@
 #include "global_data.h"
 #include "fs.h"
 #include "gorge.h"
-#ifdef WII_PLATFORM
-#include "bit.h"
-#endif
 #include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "practice.h"
@@ -31,7 +28,7 @@ static Vec sSaveCamTarget = {0.0f, 0.0f, 0.0f};
 static int sLastInputs;
 static int sCurInputs;
 
-bool GZCmd_checkTrig(int combo) {
+KEEP_FUNC bool GZCmd_checkTrig(int combo) {
     if (sCurInputs == combo && sLastInputs != combo) {
         return true;
     }
@@ -117,19 +114,6 @@ KEEP_FUNC void GZCmd_loadGorgeVoid() {
         SaveManager::triggerLoad(8, "any", sp, 1);
     }
 }
-
-#ifdef WII_PLATFORM
-KEEP_FUNC void GZCmd_bitPractice() {
-    if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
-        // TODO: maybe simplify this
-        special sp[] = {
-            special(0, nullptr, BiTIndicator::setPosition),
-        };
-
-        SaveManager::triggerLoad(0, "any", sp, 1);
-    }
-}
-#endif
 
 KEEP_FUNC void GZCmd_toggleFreeCam() {
     if (GZCmd_checkTrig(FREE_CAM_BUTTONS)) {
