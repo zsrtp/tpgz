@@ -16,3 +16,4 @@ bool moveLink_active();
 bool triggerViewer_active();
 bool actorView_active();
 bool transformIndicator_active();
+bool umd_active();

@@ -149,12 +149,16 @@ KEEP_FUNC void GZCmd_addCmd(Command* cmd) {
     g_commands.push_back(cmd);
 }
 
-KEEP_FUNC void GZCmd_removeCmd(Commands cmdId) {
-    for (auto it = g_commands.begin(); it != g_commands.end(); ++it) {
+KEEP_FUNC Command* GZCmd_removeCmd(Commands cmdId) {
+    auto it = g_commands.begin();
+    for (; it != g_commands.end(); ++it) {
         if ((*it)->id == cmdId) {
-            g_commands.erase(it);
+            break;
         }
     }
+    auto* cmd = *it;
+    g_commands.erase(it);
+    return cmd;
 }
 
 KEEP_FUNC void GZCmd_processInputs() {

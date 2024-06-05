@@ -45,6 +45,9 @@ extern bool g_framePaused;
 
 extern tpgz::containers::deque<GZFlag*> g_gzFlags;
 
+void GZFlg_addFlag(GZFlag* flag);
+GZFlag* GZFlg_removeFlag(GZFlags flag_id);
+
 enum LoopPhase { GAME_LOOP, POST_GAME_LOOP };
 
 inline bool GZ_checkCheat(int cheatIdx) {

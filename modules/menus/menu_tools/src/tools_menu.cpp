@@ -9,7 +9,6 @@
 #include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "umd.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "rels/include/defines.h"

@@ -12,7 +12,6 @@
 #include "menus/utils/menu_mgr.h"
 #include "modules.h"
 #include "rollcheck.h"
-#include "umd.h"
 
 #include "utils/memory.h"
 #include "utils/audio.h"
@@ -61,7 +60,8 @@ void main() {
     g_modules.push_back(new Module{triggerViewer_active, "/tpgz/rels/features/trigger_view.rel"});
     g_modules.push_back(new Module{actorView_active, "/tpgz/rels/features/actor_view.rel"});
     g_modules.push_back(
-        new Module{transformIndicator_active, {"/tpgz/rels/features/transform_indicator.rel"}});
+        new Module{transformIndicator_active, "/tpgz/rels/features/transform_indicator.rel"});
+    g_modules.push_back(new Module{umd_active, "/tpgz/rels/features/umd.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -119,8 +119,6 @@ void main() {
         new GZFlag{GZFLG_ROLL, &g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute});
     g_gzFlags.push_back(
         new GZFlag{GZFLG_COROTD, &g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute});
-    g_gzFlags.push_back(
-        new GZFlag{GZFLG_UMD, &g_tools[UMD_INDEX].active, POST_GAME_LOOP, UMDIndicator::execute});
     g_gzFlags.push_back(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
                                    GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
     g_gzFlags.push_back(new GZFlag{GZFLG_HIDE_ACTOR, &g_sceneFlags[HIDE_ACTOR_INDEX].active,
