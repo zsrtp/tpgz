@@ -99,7 +99,7 @@ void GZCmd_toggleMoveLink();
 void GZCmd_pauseFrame();
 
 void GZCmd_addCmd(Command* cmd);
-void GZCmd_removeCmd(Commands cmdId);
+Command* GZCmd_removeCmd(Commands cmdId);
 
 void GZCmd_processInputs();
 void GZCmd_enable(int idx);

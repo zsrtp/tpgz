@@ -15,7 +15,6 @@
 #include "save_manager.h"
 #include "memfiles.h"
 #include "corotdcheck.h"
-#include "umd.h"
 #include "utils/draw.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
@@ -35,6 +34,22 @@ KEEP_VAR tpgz::containers::deque<GZFlag*> g_gzFlags;
 #define HOLD_BTNS mPad.mHoldButton
 #define TRIG_BTNS mPad.mTrigButton
 #endif
+
+KEEP_FUNC void GZFlg_addFlag(GZFlag* flag) {
+    g_gzFlags.push_back(flag);
+}
+
+KEEP_FUNC GZFlag* GZFlg_removeFlag(GZFlags flag_id) {
+    auto it = g_gzFlags.begin();
+    for (;it != g_gzFlags.end(); ++it) {
+        if ((*it)->id == flag_id) {
+            break;
+        }
+    }
+    auto* flag = *it;
+    g_gzFlags.erase(it);
+    return flag;
+}
 
 KEEP_FUNC void GZ_frameAdvance() {
     if (!g_framePaused) {

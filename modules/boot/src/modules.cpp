@@ -52,3 +52,7 @@ KEEP_FUNC bool actorView_active() {
 KEEP_FUNC bool transformIndicator_active() {
     return g_tools[TRANSFORM_INDICATOR_INDEX].active;
 }
+
+KEEP_FUNC bool umd_active() {
+    return g_tools[UMD_INDEX].active;
+}
