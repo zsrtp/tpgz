@@ -62,7 +62,7 @@ void warpToPosition() {
     g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = 24169;
 }
 
-void execute() {
+KEEP_FUNC void execute() {
     // reset counters on load
     if (fopScnRq.isLoading == 1) {
         counter_difference = 0;

@@ -23,14 +23,14 @@
 
 static char buf[30];
 
-void BiTIndicator::setPosition() {
+KEEP_FUNC void BiTIndicator::setPosition() {
     dComIfGp_getPlayer()->current.pos = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->shape_angle.y = 32000;
     matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
 
-void BiTIndicator::execute() {
+KEEP_FUNC void BiTIndicator::execute() {
     double dt = 0;
 
     if (dComIfGp_getPlayer()) {
