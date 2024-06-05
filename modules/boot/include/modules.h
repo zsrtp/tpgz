@@ -21,3 +21,4 @@ bool umd_active();
 bool bit_active();
 #endif
 bool corotd_active();
+bool mash_checker_active();
