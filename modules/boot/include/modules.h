@@ -20,3 +20,4 @@ bool umd_active();
 #ifdef WII_PLATFORM
 bool bit_active();
 #endif
+bool corotd_active();

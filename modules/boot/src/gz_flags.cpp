@@ -13,7 +13,6 @@
 #include "flaglog.h"
 #include "save_manager.h"
 #include "memfiles.h"
-#include "corotdcheck.h"
 #include "utils/draw.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"

@@ -62,3 +62,7 @@ KEEP_FUNC bool bit_active() {
     return g_tools[BIT_INDEX].active;
 }
 #endif
+
+KEEP_FUNC bool corotd_active() {
+    return g_tools[COROTD_INDEX].active;
+}
