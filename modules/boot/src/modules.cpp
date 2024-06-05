@@ -66,3 +66,7 @@ KEEP_FUNC bool bit_active() {
 KEEP_FUNC bool corotd_active() {
     return g_tools[COROTD_INDEX].active;
 }
+
+KEEP_FUNC bool mash_checker_active() {
+    return g_tools[MASH_CHECKER_INDEX].active;
+}

@@ -162,7 +162,7 @@ bool GZ_getButtonHold(int idx, int phase) {
     return delta != 0 ? true : false;
 }
 
-void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
+KEEP_FUNC void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
     if ((GZ_getButtonStatus() & i_button) && (buttonStates[i_gzButton].button & sButtonsPressed)) {
         i_pressCounter++;
     }

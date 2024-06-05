@@ -6,7 +6,6 @@
 #include "gorge.h"
 #include "gz_flags.h"
 #include "menu.h"
-#include "mash_checker.h"
 #include "menus/utils/menu_mgr.h"
 #include "modules.h"
 #include "rollcheck.h"
@@ -44,7 +43,6 @@ void main() {
     g_drawListener->addListener(GZ_renderMenuTitle);
     g_drawListener->addListener(GZ_renderFifoQueue);
     g_drawListener->addListener(GZ_displayLinkInfo);
-    g_drawListener->addListener(GZ_displayButtonMashInfo);
     g_drawListener->addListener(GZ_drawHeapInfo);
     g_drawListener->addListener(Timer::drawTimer);
     g_drawListener->addListener(Timer::drawLoadTimer);
@@ -66,6 +64,7 @@ void main() {
     g_modules.push_back(new Module{bit_active, "/tpgz/rels/features/bit.rel"});
 #endif
     g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
+    g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
