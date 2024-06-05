@@ -22,6 +22,8 @@
 #include "events/pre_loop_listener.h"
 #include "events/post_loop_listener.h"
 
+void GZ_PosSettings_initDefaults();
+
 namespace tpgz::modules {
 void main() {
     // Utilities initialization
@@ -129,3 +131,20 @@ void main() {
 void exit() {}
 
 }  // namespace tpgz::modules
+
+void GZ_PosSettings_initDefaults() {
+#ifdef GCN_PLATFORM
+    g_spriteOffsets[VIEWER_INDEX] = {220.f, 380.f};
+#elif defined(WII_PLATFORM)
+    g_spriteOffsets[VIEWER_INDEX] = {250.f, 360.f};
+#endif
+    g_spriteOffsets[MENU_INDEX] = {25.f, 60.f};
+    g_spriteOffsets[DEBUG_INFO_INDEX] = {450.0f, 200.f};
+    g_spriteOffsets[TIMER_SPR_INDEX] = {450.0f, 420.f};
+    g_spriteOffsets[LOAD_TIMER_SPR_INDEX] = {450.0f, 30.f};
+    g_spriteOffsets[IGT_TIMER_SPR_INDEX] = {35.0f, 30.f};
+    g_spriteOffsets[FIFO_SPR_INDEX] = {5.0f, 440.f};
+    g_spriteOffsets[HEAP_INFO_INDEX] = {145.0f, 25.0f};
+    g_spriteOffsets[MASH_INFO_INDEX] = {450.0f, 400.0f};
+    g_spriteOffsets[TRANSFORM_IND_INDEX] = {465.0f, 30.0f};
+}

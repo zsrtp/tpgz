@@ -17,5 +17,3 @@ enum SpritesIndex {
 };
 
 extern Vec2 g_spriteOffsets[SPRITES_AMNT];
-
-void GZ_PosSettings_initDefaults();
