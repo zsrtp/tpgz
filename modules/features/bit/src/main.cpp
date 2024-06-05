@@ -15,8 +15,10 @@ void main() {
 }
 void exit() {
 #ifdef WII_PLATFORM
-    GZFlg_removeFlag(GZFLG_BIT);
-    GZCmd_removeCmd(CMD_BIT);
+    auto* flg = GZFlg_removeFlag(GZFLG_BIT);
+    delete flg;
+    auto* cmd = GZCmd_removeCmd(CMD_BIT);
+    delete cmd;
 #endif
 }
 
