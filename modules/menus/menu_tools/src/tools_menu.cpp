@@ -3,9 +3,6 @@
 #include "commands.h"
 #include "global_data.h"
 #include "gorge.h"
-#ifdef WII_PLATFORM
-#include "bit.h"
-#endif
 #include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"

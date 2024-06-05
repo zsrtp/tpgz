@@ -84,6 +84,8 @@ struct Command {
 
 extern tpgz::containers::deque<Command*> g_commands;
 
+bool GZCmd_checkTrig(int combo);
+
 void GZCmd_storePosition();
 void GZCmd_loadPosition();
 void GZCmd_moonJump();
