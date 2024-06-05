@@ -1,7 +1,6 @@
 #include <main.h>
 #include "boot.h"
 #include "collision_view.h"
-#include "corotdcheck.h"
 #include "fifo_queue.h"
 #include "font.h"
 #include "gorge.h"
@@ -64,6 +63,7 @@ void main() {
 #ifdef WII_PLATFORM
     g_modules.push_back(new Module{bit_active, "/tpgz/rels/features/bit.rel"});
 #endif
+    g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -111,8 +111,6 @@ void main() {
                              GorgeVoidIndicator::execute});
     GZFlg_addFlag(
         new GZFlag{GZFLG_ROLL, &g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute});
-    GZFlg_addFlag(
-        new GZFlag{GZFLG_COROTD, &g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute});
     GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
                              GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
     GZFlg_addFlag(new GZFlag{GZFLG_HIDE_ACTOR, &g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP,
