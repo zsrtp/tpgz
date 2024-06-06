@@ -2,7 +2,6 @@
 #include <cstring>
 #include "controller.h"
 #include "fifo_queue.h"
-#include "gorge.h"
 #include "scene.h"
 #include "tools.h"
 #include "rollcheck.h"

@@ -2,7 +2,6 @@
 #include <cstdio>
 #include "commands.h"
 #include "global_data.h"
-#include "gorge.h"
 #include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -159,9 +158,6 @@ void ToolsMenu::draw() {
                 GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
                 GZCmd_enable(Commands::CMD_TIMER_RESET);
                 break;
-            case GORGE_INDEX:
-                GZCmd_enable(Commands::CMD_GORGE_VOID);
-                break;
 #ifdef WII_PLATFORM
             case BIT_INDEX:
                 GZCmd_enable(Commands::CMD_BIT);
@@ -244,9 +240,6 @@ void ToolsMenu::draw() {
             case MOVE_LINK_INDEX:
                 GZCmd_disable(Commands::CMD_MOVE_LINK);
                 g_moveLinkEnabled = false;
-                break;
-            case GORGE_INDEX:
-                GZCmd_disable(Commands::CMD_GORGE_VOID);
                 break;
 #ifdef WII_PLATFORM
             case BIT_INDEX:

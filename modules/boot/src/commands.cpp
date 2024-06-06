@@ -2,7 +2,6 @@
 #include "controller.h"
 #include "global_data.h"
 #include "fs.h"
-#include "gorge.h"
 #include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "practice.h"
@@ -101,17 +100,6 @@ KEEP_FUNC void GZCmd_reloadArea() {
         gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
     } else {
         SaveManager::loadSave(last_save_index, last_category, last_special_ptr, 0xFF);
-    }
-}
-
-KEEP_FUNC void GZCmd_loadGorgeVoid() {
-    if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
-        // TODO: maybe simplify this
-        special sp[] = {
-            special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
-        };
-
-        SaveManager::triggerLoad(8, "any", sp, 1);
     }
 }
 

@@ -70,3 +70,7 @@ KEEP_FUNC bool corotd_active() {
 KEEP_FUNC bool mash_checker_active() {
     return g_tools[MASH_CHECKER_INDEX].active;
 }
+
+KEEP_FUNC bool gorge_active() {
+    return g_tools[GORGE_INDEX].active;
+}

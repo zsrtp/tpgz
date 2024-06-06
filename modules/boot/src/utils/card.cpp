@@ -17,6 +17,8 @@
 #include "rels/include/cxx.h"
 #include "menus/utils/menu_mgr.h"
 #include "rels/include/defines.h"
+#include "events/pre_loop_listener.h"
+#include "boot.h"
 
 #ifdef WII_PLATFORM
 KEEP_VAR void* g_tmpBuf;
@@ -337,5 +339,8 @@ KEEP_FUNC void GZ_loadGZSave(bool& card_load) {
 #endif  // WII_PLATFORM
 
         card_load = false;
+    }
+    if (frame_count > FRAME_COUNT) {
+        g_PreLoopListener->removeListener(GZ_handleCardLoad);
     }
 }
