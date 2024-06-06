@@ -3,7 +3,6 @@
 #include "collision_view.h"
 #include "fifo_queue.h"
 #include "font.h"
-#include "gorge.h"
 #include "gz_flags.h"
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
@@ -65,6 +64,7 @@ void main() {
 #endif
     g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
     g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
+    g_modules.push_back(new Module{gorge_active, "/tpgz/rels/features/gorge.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -98,8 +98,6 @@ void main() {
                              TIMER_TOGGLE_BUTTONS, GZCmd_toggleTimer});
     GZCmd_addCmd(new Command{CMD_TIMER_RESET, g_commandStates[CMD_TIMER_RESET], TIMER_RESET_BUTTONS,
                              GZCmd_resetTimer});
-    GZCmd_addCmd(new Command{CMD_GORGE_VOID, g_commandStates[CMD_GORGE_VOID], GORGE_VOID_BUTTONS,
-                             GZCmd_loadGorgeVoid});
     GZCmd_addCmd(new Command{CMD_FREE_CAM, g_commandStates[CMD_FREE_CAM], FREE_CAM_BUTTONS,
                              GZCmd_toggleFreeCam});
     GZCmd_addCmd(new Command{CMD_MOVE_LINK, g_commandStates[CMD_MOVE_LINK], MOVE_LINK_BUTTONS,
@@ -108,8 +106,6 @@ void main() {
                              GZCmd_pauseFrame});
 
     // Init the gz flags
-    GZFlg_addFlag(new GZFlag{GZFLG_GORGE_VOID, &g_tools[GORGE_INDEX].active, GAME_LOOP,
-                             GorgeVoidIndicator::execute});
     GZFlg_addFlag(
         new GZFlag{GZFLG_ROLL, &g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute});
     GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
