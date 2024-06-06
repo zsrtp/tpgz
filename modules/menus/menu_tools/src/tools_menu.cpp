@@ -2,7 +2,6 @@
 #include <cstdio>
 #include "commands.h"
 #include "global_data.h"
-#include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"

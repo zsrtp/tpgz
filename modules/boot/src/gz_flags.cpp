@@ -4,7 +4,6 @@
 #include "fifo_queue.h"
 #include "scene.h"
 #include "tools.h"
-#include "rollcheck.h"
 #include "utils/audio.h"
 #include "utils/lines.h"
 #include "utils/link.h"
