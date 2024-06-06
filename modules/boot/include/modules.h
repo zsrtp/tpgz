@@ -23,3 +23,4 @@ bool bit_active();
 bool corotd_active();
 bool mash_checker_active();
 bool gorge_active();
+bool rollcheck_active();

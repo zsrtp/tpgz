@@ -74,3 +74,7 @@ KEEP_FUNC bool mash_checker_active() {
 KEEP_FUNC bool gorge_active() {
     return g_tools[GORGE_INDEX].active;
 }
+
+KEEP_FUNC bool rollcheck_active() {
+    return g_tools[ROLL_INDEX].active;
+}

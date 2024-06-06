@@ -7,7 +7,6 @@
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
 #include "modules.h"
-#include "rollcheck.h"
 
 #include "utils/memory.h"
 #include "utils/audio.h"
@@ -65,6 +64,7 @@ void main() {
     g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
     g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
     g_modules.push_back(new Module{gorge_active, "/tpgz/rels/features/gorge.rel"});
+    g_modules.push_back(new Module{rollcheck_active, "/tpgz/rels/features/rollcheck.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -106,8 +106,6 @@ void main() {
                              GZCmd_pauseFrame});
 
     // Init the gz flags
-    GZFlg_addFlag(
-        new GZFlag{GZFLG_ROLL, &g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute});
     GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, &g_sceneFlags[FREEZE_ACTOR_INDEX].active,
                              GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
     GZFlg_addFlag(new GZFlag{GZFLG_HIDE_ACTOR, &g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP,
