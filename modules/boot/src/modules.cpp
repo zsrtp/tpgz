@@ -3,6 +3,7 @@
 
 #include "commands.h"
 #include "global_data.h"
+#include "settings.h"
 #include "tools.h"
 #include "trigger_view.h"
 
@@ -24,15 +25,18 @@ KEEP_FUNC void GZ_handleModules() {
 }
 
 KEEP_FUNC bool inputViewer_active() {
-    return g_tools[INPUT_VIEWER_INDEX].active;
+    auto* stng_input_viewer = GZStng_getSetting(STNG_TOOLS_INPUT_VIEWER);
+    return stng_input_viewer && *(bool*)stng_input_viewer->data;
 }
 
 KEEP_FUNC bool freeCam_active() {
-    return g_tools[FREE_CAM_INDEX].active;
+    auto* stng_free_cam = GZStng_getSetting(STNG_TOOLS_FREE_CAM);
+    return stng_free_cam && *(bool*)stng_free_cam->data;
 }
 
 KEEP_FUNC bool moveLink_active() {
-    return g_tools[MOVE_LINK_INDEX].active;
+    auto* stng_move_link = GZStng_getSetting(STNG_TOOLS_MOVE_LINK);
+    return stng_move_link && *(bool*)stng_move_link->data;
 }
 
 KEEP_FUNC bool triggerViewer_active() {
@@ -50,31 +54,38 @@ KEEP_FUNC bool actorView_active() {
 }
 
 KEEP_FUNC bool transformIndicator_active() {
-    return g_tools[TRANSFORM_INDICATOR_INDEX].active;
+    auto* stng_transform_indicator = GZStng_getSetting(STNG_TOOLS_TRANSFORM_INDICATOR);
+    return stng_transform_indicator && *(bool*)stng_transform_indicator->data;
 }
 
 KEEP_FUNC bool umd_active() {
-    return g_tools[UMD_INDEX].active;
+    auto* stng_umd = GZStng_getSetting(STNG_TOOLS_UMD);
+    return stng_umd && *(bool*)stng_umd->data;
 }
 
 #ifdef WII_PLATFORM
 KEEP_FUNC bool bit_active() {
-    return g_tools[BIT_INDEX].active;
+    auto* stng_bit = GZStng_getSetting(STNG_TOOLS_BIT);
+    return stng_bit && *(bool*)stng_bit->data;
 }
 #endif
 
 KEEP_FUNC bool corotd_active() {
-    return g_tools[COROTD_INDEX].active;
+    auto* stng_corotd = GZStng_getSetting(STNG_TOOLS_COROTD);
+    return stng_corotd && *(bool*)stng_corotd->data;
 }
 
 KEEP_FUNC bool mash_checker_active() {
-    return g_tools[MASH_CHECKER_INDEX].active;
+    auto* stng_mash_checker = GZStng_getSetting(STNG_TOOLS_MASH_CHECKER);
+    return stng_mash_checker && *(bool*)stng_mash_checker->data;
 }
 
 KEEP_FUNC bool gorge_active() {
-    return g_tools[GORGE_INDEX].active;
+    auto* stng_gorge = GZStng_getSetting(STNG_TOOLS_GORGE);
+    return stng_gorge && *(bool*)stng_gorge->data;
 }
 
 KEEP_FUNC bool rollcheck_active() {
-    return g_tools[ROLL_INDEX].active;
+    auto* stng_roll = GZStng_getSetting(STNG_TOOLS_ROLL);
+    return stng_roll && *(bool*)stng_roll->data;
 }

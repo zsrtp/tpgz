@@ -34,21 +34,21 @@ void CreditsMenu::draw() {
     }
 
     
-    Font::GZ_drawStr("tpgz - the twilight princess practice rom", 25.0f, 60.0f, 0xFFFFFFFF, g_dropShadows, 25.0f);
-    Font::GZ_drawStr("made with", 175.0f, 90.0f, 0xFFFFFFFF, g_dropShadows, 25.0f);
-    Font::GZ_drawStr("by", 360.0f, 90.0f, 0xFFFFFFFF, g_dropShadows, 25.0f);
+    Font::GZ_drawStr("tpgz - the twilight princess practice rom", 25.0f, 60.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 25.0f);
+    Font::GZ_drawStr("made with", 175.0f, 90.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 25.0f);
+    Font::GZ_drawStr("by", 360.0f, 90.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 25.0f);
 
-    Font::GZ_drawStr("kipcode", 135.0f, 110.0f, 0xFFFFFFFF, g_dropShadows, 20.0f);  
-    Font::GZ_drawStr("pheenoh", 265.0f, 110.0f, 0xFFFFFFFF, g_dropShadows, 20.0f);
-    Font::GZ_drawStr("taka", 390.0f, 110.0f, 0xFFFFFFFF, g_dropShadows, 20.0f);
+    Font::GZ_drawStr("kipcode", 135.0f, 110.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 20.0f);  
+    Font::GZ_drawStr("pheenoh", 265.0f, 110.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 20.0f);
+    Font::GZ_drawStr("taka", 390.0f, 110.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 20.0f);
 
-    Font::GZ_drawStr("special thanks", 175.0f, 170.0f, 0xFFFFFFFF, g_dropShadows, 25.0f);
-    Font::GZ_drawStr("tp decomp team", 85.0f, 190.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("tp speedrun community", 345.0f, 190.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("c_midnight", 85.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("cryze", 245.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("jdflyer", 345.0f, 210.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("icogn", 85.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("lunarsoap", 245.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
-    Font::GZ_drawStr("zephiles", 345.0f, 230.0f, 0xFFFFFFFF, g_dropShadows, 17.0f);
+    Font::GZ_drawStr("special thanks", 175.0f, 170.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 25.0f);
+    Font::GZ_drawStr("tp decomp team", 85.0f, 190.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("tp speedrun community", 345.0f, 190.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("c_midnight", 85.0f, 210.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("cryze", 245.0f, 210.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("jdflyer", 345.0f, 210.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("icogn", 85.0f, 230.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("lunarsoap", 245.0f, 230.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
+    Font::GZ_drawStr("zephiles", 345.0f, 230.0f, 0xFFFFFFFF, GZ_checkDropShadows(), 17.0f);
 }

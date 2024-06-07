@@ -54,10 +54,6 @@ inline bool GZ_checkCheat(int cheatIdx) {
     return g_cheats[cheatIdx].active;
 }
 
-inline bool GZ_checkDropShadows() {
-    return g_dropShadows;
-}
-
 inline void GZ_setFifoVisible(bool visible) {
     g_fifoVisible = visible;
 }

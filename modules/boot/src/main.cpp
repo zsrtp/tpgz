@@ -108,7 +108,7 @@ KEEP_FUNC void draw() {
 
 KEEP_FUNC void GZ_drawPacketNumOverflow() {
     if (l_drawPacketListNum >= 1000) {
-        Font::GZ_drawStr("Draw Packet List full!", 35.0f, 430.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr("Draw Packet List full!", 35.0f, 430.0f, 0xFFFFFFFF, GZ_checkDropShadows());
     }
 }
 
@@ -173,7 +173,8 @@ KEEP_FUNC void GZ_handleFlags_PostLoop() {
 }
 
 KEEP_FUNC void GZ_handleTurbo() {
-    if (g_tools[TURBO_MODE_INDEX].active) {
+    auto* stng_turbo = GZStng_getSetting(STNG_TOOLS_TURBO_MODE);
+    if (stng_turbo != nullptr && *(bool*)stng_turbo->data) {
 #ifdef GCN_PLATFORM
         cPadInfo[0].mPressedButtonFlags = cPadInfo[0].mButtonFlags;
 #endif
@@ -189,7 +190,7 @@ KEEP_FUNC void GZ_handleTurbo() {
 KEEP_FUNC void GZ_renderMenuTitle() {
     if (g_menuMgr->isOpen()) {
         Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
-                         g_cursorColor, g_dropShadows);
+                         g_cursorColor, GZ_checkDropShadows());
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f},
                            {30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_gzIconTex._texObj);
@@ -201,7 +202,8 @@ Texture l_framePauseTex;
 Texture l_framePlayTex;
 
 KEEP_FUNC void GZ_renderPlayPause() {
-    if (g_tools[FRAME_ADVANCE_INDEX].active) {
+    auto* stng_frame_advance = GZStng_getSetting(STNG_TOOLS_FRAME_ADVANCE);
+    if (stng_frame_advance != nullptr && *(bool*)stng_frame_advance->data) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("/tpgz/tex/framePause.tex", &l_framePauseTex);
         }

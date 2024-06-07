@@ -29,24 +29,14 @@ enum GeneralFlagsIndex {
     WOLF_SENSE_INDEX
 };
 
+extern GeneralFlagsData* generalFlagsData;
+
 class GeneralFlagsMenu : public Menu {
 public:
-    GeneralFlagsMenu(Cursor&, GeneralFlagsData&);
+    GeneralFlagsMenu(Cursor&);
     virtual ~GeneralFlagsMenu();
     virtual void draw();
 
 private:
-    bool& l_bossFlag;
-    bool& l_rupeeFlag;
-    bool& l_midnaCharge;
-    bool& l_transformWarp;
-    bool& l_midnaZ;
-    bool& l_eponaStolen;
-    bool& l_eponaTamed;
-    bool& l_mapWarping;
-    bool& l_midnaHealed;
-    bool& l_midnaRide;
-    bool& l_wolfSense;
-
     Line lines[11];
 };

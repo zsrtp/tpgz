@@ -20,7 +20,7 @@ struct Line {
     const uint32_t idx;
     char description[MAX_DESCRIPTION_LENGTH];
     bool toggleable = false;
-    bool* activation_flag;
+    bool (*active)();
     uint8_t max_y_cursor_options;
     char value[sizeof(Line::line)] = {0};
 

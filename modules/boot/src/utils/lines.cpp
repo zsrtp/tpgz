@@ -56,19 +56,19 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
 
         // logic for lines that are toggleable
         if (input_lines[i].toggleable) {
-            if (*input_lines[i].activation_flag) {
+            if (input_lines[i].active()) {
                 Font::GZ_drawStr(" [X]", x_offset + max_line_width, y_offset, cursor_color,
-                                 g_dropShadows);
+                                 GZ_checkDropShadows());
             } else {
                 Font::GZ_drawStr(" [ ]", x_offset + max_line_width, y_offset, cursor_color,
-                                 g_dropShadows);
+                                 GZ_checkDropShadows());
             }
 
-            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, g_dropShadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, GZ_checkDropShadows());
         } else {
-            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, g_dropShadows);
+            Font::GZ_drawStr(input_lines[i].line, x_offset, y_offset, cursor_color, GZ_checkDropShadows());
             Font::GZ_drawStr(input_lines[i].value, x_offset + max_line_width, y_offset,
-                             cursor_color, g_dropShadows);
+                             cursor_color, GZ_checkDropShadows());
         }
 
         // render line descriptions

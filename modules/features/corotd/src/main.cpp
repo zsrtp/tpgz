@@ -4,8 +4,9 @@
 
 namespace tpgz::modules {
 void main() {
+    auto* stng = GZStng_getSetting(STNG_TOOLS_COROTD);
     GZFlg_addFlag(
-        new GZFlag{GZFLG_COROTD, &g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute});
+        new GZFlag{GZFLG_COROTD, stng ? (bool*)stng->data : nullptr, GAME_LOOP, CoroTDChecker::execute});
 }
 void exit() {
     auto* flg = GZFlg_removeFlag(GZFLG_COROTD);

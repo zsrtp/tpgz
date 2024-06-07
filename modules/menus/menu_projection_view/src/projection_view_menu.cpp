@@ -7,9 +7,9 @@
 KEEP_FUNC ProjectionViewMenu::ProjectionViewMenu(Cursor& cursor)
     : Menu(cursor), lines{
                          {"lja", VIEW_LJA_PROJECTION, "display projected path taken of an LJA", true,
-                         &g_projectionViewFlags[VIEW_LJA_PROJECTION].active},
+                         [](){return g_projectionViewFlags[VIEW_LJA_PROJECTION].active;}},
                          {"midna charge", VIEW_MIDNA_CHARGE_PROJECTION, "display projected path taken by a super jump", true,
-                         &g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active},
+                         [](){return g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active;}},
                     } {}
 
 ProjectionViewMenu::~ProjectionViewMenu() {}
