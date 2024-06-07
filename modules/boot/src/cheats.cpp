@@ -26,27 +26,16 @@ extern "C" {
 void* cc_at_check(void*, void*);
 }
 
-Cheat g_cheats[CHEAT_AMNT] = {
-    {InfiniteAir, false},       {InfiniteArrows, false},    {InfiniteBombs, false},
-    {InfiniteHearts, false},    {InfiniteOil, false},       {InfiniteRupees, false},
-    {InfiniteSlingshot, false}, {Invincible, false},        {InvincibleEnemies, false},
-    {MoonJump, false},          {DoorStorage, false},       {SuperClawshot, false},
-    {UnrestrictedItems, false}, {TransformAnywhere, false}, {DisableItemTimer, false},
-#ifdef WII_PLATFORM
-    {GaleLJA, false},
-#endif
-};
-
 bool l_doorCollision;
 
 void GZ_applyCheats() {
-    if (GZ_checkCheat(MoonJump)) {
+    if (GZ_checkCheat(STNG_CHEATS_MOON_JUMP)) {
         GZCmd_enable(CMD_MOON_JUMP);
     } else {
         GZCmd_disable(CMD_MOON_JUMP);
     }
 
-    if (GZ_checkCheat(InvincibleEnemies)) {
+    if (GZ_checkCheat(STNG_CHEATS_INVINCIBLE_ENEMIES)) {
         /* Patch cc_at_check instruction to nop out health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
             0x60000000;  // nop
@@ -102,7 +91,7 @@ void GZ_applyCheats() {
                           sizeof(uint32_t));
     }
 
-    if (GZ_checkCheat(Invincible)) {
+    if (GZ_checkCheat(STNG_CHEATS_INVINCIBLE)) {
         daAlink_c* player = dComIfGp_getPlayer();
         if (player != NULL) {
             for (int i = 0; i < 3; i++) {
@@ -117,38 +106,38 @@ void GZ_applyCheats() {
         }
     }
 
-    if (GZ_checkCheat(InfiniteHearts)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_HEARTS)) {
         uint16_t max_life = dComIfGs_getMaxLife();
         dComIfGs_setLife((max_life / 5) * 4);
     }
 
-    if (GZ_checkCheat(InfiniteAir)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_AIR)) {
         dComIfGs_setOxygen(600);
     }
 
-    if (GZ_checkCheat(InfiniteOil)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_OIL)) {
         dComIfGs_setOil(21600);
     }
 
-    if (GZ_checkCheat(InfiniteBombs)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_BOMBS)) {
         dComIfGs_setBombNum(BOMB_BAG_1, 99);
         dComIfGs_setBombNum(BOMB_BAG_2, 99);
         dComIfGs_setBombNum(BOMB_BAG_3, 99);
     }
 
-    if (GZ_checkCheat(InfiniteRupees)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_RUPEES)) {
         dComIfGs_setRupee(1000);
     }
 
-    if (GZ_checkCheat(InfiniteArrows)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_ARROWS)) {
         dComIfGs_setArrowNum(99);
     }
 
-    if (GZ_checkCheat(InfiniteSlingshot)) {
+    if (GZ_checkCheat(STNG_CHEATS_INFINITE_SLINGSHOT)) {
         dComIfGs_setPachinkoNum(99);
     }
 
-    if (GZ_checkCheat(SuperClawshot)) {
+    if (GZ_checkCheat(STNG_CHEATS_SUPER_CLAWSHOT)) {
         daAlinkHIO_hookshot.mShootSpeed = 2870.0f;
         daAlinkHIO_hookshot.mMaxLength = 69420.0f;
         daAlinkHIO_hookshot.mReturnSpeed = 2870.0f;
@@ -160,7 +149,7 @@ void GZ_applyCheats() {
         daAlinkHIO_hookshot.mClawReturnSpeed = 60.0f;
     }
 
-    if (GZ_checkCheat(DoorStorage)) {
+    if (GZ_checkCheat(STNG_CHEATS_DOOR_STORAGE)) {
         if (dComIfGp_getPlayer()) {
             dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
             dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
@@ -174,14 +163,14 @@ void GZ_applyCheats() {
         }
     }
 
-    if (GZ_checkCheat(DisableItemTimer)) {
+    if (GZ_checkCheat(STNG_CHEATS_DISABLE_ITEM_TIMER)) {
         daItemBase__data.field_0x16 = 0x7FFF;
     } else {
         daItemBase__data.field_0x16 = 240;
     }
 
 #ifdef WII_PLATFORM
-    if (GZ_checkCheat(GaleLJA)) {
+    if (GZ_checkCheat(STNG_CHEATS_GALE_LJA)) {
         if (dComIfGp_getPlayer() && dComIfGp_getPlayer()->mActionID == 0x60 &&
             dComIfGp_getPlayer()->mEquipItem == NO_ITEM) {
             dComIfGp_getPlayer()->mEquipItem = 0x0103;

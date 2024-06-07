@@ -89,3 +89,8 @@ KEEP_FUNC bool rollcheck_active() {
     auto* stng_roll = GZStng_getSetting(STNG_TOOLS_ROLL);
     return stng_roll && *(bool*)stng_roll->data;
 }
+
+KEEP_FUNC bool moon_jump_active() {
+    auto* stng = GZStng_getSetting(STNG_CHEATS_MOON_JUMP);
+    return stng && *(bool*)stng->data;
+}

@@ -19,13 +19,13 @@ extern bool isWidescreen;
 #endif
 
 namespace TransformIndicator {
-    Texture l_humanTex;
-    Texture l_wolfTex;
-}
+Texture l_humanTex;
+Texture l_wolfTex;
+}  // namespace TransformIndicator
 
 void drawTexture(GXTexObj tex, bool greyed) {
-    Draw::drawRect(greyed ? 0x3f3f3f7f : 0xFFFFFFFF, g_spriteOffsets[TRANSFORM_IND_INDEX],
-                    {30 * (IS_WIDESCREEN ? 0.75f : 1.0f), 30}, &tex);
+    Draw::drawRect(greyed ? 0x3f3f3f7f : 0xFFFFFFFF, GZ_getSpriteOffset(STNG_SPRITES_TRANSFORM_IND),
+                   {30 * (IS_WIDESCREEN ? 0.75f : 1.0f), 30}, &tex);
 }
 
 KEEP_FUNC void TransformIndicator::draw() {

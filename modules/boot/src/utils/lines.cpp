@@ -15,7 +15,8 @@ KEEP_FUNC float maxF(float a, float b) {
 }
 
 KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES) {
-    float x_offset = g_spriteOffsets[MENU_INDEX].x;
+    Vec2 offset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
+    float x_offset = offset.x;
     float y_offset = 0.0f;
 
     float max_line_width = 0.0f;
@@ -41,7 +42,7 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
         if (i > max_line || i < min_line) {
             continue;
         }
-        y_offset = (g_spriteOffsets[MENU_INDEX].y + (i - min_line) * 20.0f);
+        y_offset = (offset.y + (i - min_line) * 20.0f);
 
         uint32_t cursor_color = g_cursorColor;
         uint32_t description_color = 0xFFFFFF00;

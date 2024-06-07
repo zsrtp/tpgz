@@ -78,6 +78,7 @@ void GZCmd_pauseFrame();
 
 void GZCmd_addCmd(Command* cmd);
 Command* GZCmd_removeCmd(Commands cmdId);
+Command* GZCmd_getCmd(int id);
 
 void GZCmd_processInputs();
 void GZCmd_enable(int idx);

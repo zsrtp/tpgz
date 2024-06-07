@@ -125,9 +125,7 @@ KEEP_FUNC void GZ_drawHeapInfo() {
         uint32_t archiveFree = JKRHeap__getFreeSize(m_Do_ext::archiveHeap);
         uint32_t archiveTotal = JKRHeap__getTotalFreeSize(m_Do_ext::archiveHeap);
 
-        Vec2 pos = {0.f, 0.f};
-        pos.x += g_spriteOffsets[HEAP_INFO_INDEX].x;
-        pos.y += g_spriteOffsets[HEAP_INFO_INDEX].y;
+        Vec2 pos = GZ_getSpriteOffset(STNG_SPRITES_HEAP_INFO);
 
         Font::GZ_drawStr("-- Heap Free / Total Free (KB) --", pos.x, pos.y, 0xFFFFFFFF,
                          GZ_checkDropShadows());

@@ -32,8 +32,6 @@ struct ToolsData {
     uint8_t l_tunicCol_idx;
 };
 
-void GZ_applyCheats();
-
 class ToolsMenu : public Menu {
 public:
     ToolsMenu(Cursor&, ToolsData&);

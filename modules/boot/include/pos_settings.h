@@ -1,5 +1,6 @@
 #pragma once
 
+#include "settings.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 
 #define SPRITES_AMNT 10
@@ -16,4 +17,7 @@ enum SpritesIndex {
     TRANSFORM_IND_INDEX,
 };
 
-extern Vec2 g_spriteOffsets[SPRITES_AMNT];
+inline Vec2 GZ_getSpriteOffset(GZSettingID sprIdx) {
+    auto* stng = GZStng_getSetting(sprIdx);
+    return stng ? *(Vec2*)stng->data : Vec2{0.0f, 0.0f};
+}

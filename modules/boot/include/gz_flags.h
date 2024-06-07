@@ -50,10 +50,6 @@ GZFlag* GZFlg_removeFlag(GZFlags flag_id);
 
 enum LoopPhase { GAME_LOOP, POST_GAME_LOOP };
 
-inline bool GZ_checkCheat(int cheatIdx) {
-    return g_cheats[cheatIdx].active;
-}
-
 inline void GZ_setFifoVisible(bool visible) {
     g_fifoVisible = visible;
 }

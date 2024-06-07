@@ -15,6 +15,7 @@
 #include "rels/include/cxx.h"
 #include "rels/include/defines.h"
 #include "save_manager.h"
+#include "settings.h"
 #include "collision_view.h"
 #include "features/projection_view/include/projection_view.h"
 
@@ -106,7 +107,7 @@ uint32_t readControllerHook(uint16_t* p1) {
 }
 
 uint32_t superClawshotHook(void* p1, void* p2) {
-    if (g_cheats[SuperClawshot].active) {
+    if (GZ_checkCheat(STNG_CHEATS_SUPER_CLAWSHOT)) {
         return 1;
     } else {
         return checkHookshotStickBGTrampoline(p1, p2);
@@ -122,7 +123,7 @@ void disableGravityHook(daAlink_c* i_this, float p1, float p2, int p3) {
 }
 
 uint32_t unrestrictedItemsHook(uint16_t p1) {
-    if (g_cheats[UnrestrictedItems].active) {
+    if (GZ_checkCheat(STNG_CHEATS_UNRESTRICTED_ITEMS)) {
         return 1;
     } else {
         return checkCastleTownUseItemTrampoline(p1);
@@ -130,7 +131,7 @@ uint32_t unrestrictedItemsHook(uint16_t p1) {
 }
 
 uint32_t transformAnywhereHook(void* p1, void* p2, int p3) {
-    if (g_cheats[TransformAnywhere].active) {
+    if (GZ_checkCheat(STNG_CHEATS_TRANSFORM_ANYWHERE)) {
         return 0;
     } else {
         return query042Trampoline(p1, p2, p3);

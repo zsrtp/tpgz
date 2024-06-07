@@ -1,5 +1,6 @@
 #include "fifo_queue.h"
 #include "font.h"
+#include "settings.h"
 #include "pos_settings.h"
 #include "rels/include/defines.h"
 
@@ -19,8 +20,9 @@ void FIFOQueue::renderItems(_FIFOQueue& Queue) {
         }
         color |= alpha;
         if (g_fifoVisible) {
-            Font::renderChars(Queue.messages[i].msg, (g_spriteOffsets[FIFO_SPR_INDEX].x),
-                              offset + (g_spriteOffsets[FIFO_SPR_INDEX].y), color);
+            Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_FIFO_SPR);
+            Font::renderChars(Queue.messages[i].msg, spriteOffset.x, offset + spriteOffset.y,
+                              color);
         }
     }
 };

@@ -65,6 +65,7 @@ void main() {
     g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
     g_modules.push_back(new Module{gorge_active, "/tpgz/rels/features/gorge.rel"});
     g_modules.push_back(new Module{rollcheck_active, "/tpgz/rels/features/rollcheck.rel"});
+    g_modules.push_back(new Module{moon_jump_active, "/tpgz/rels/features/moon_jump.rel"});
 
     // Init the pre-loop listener
     g_PreLoopListener = new PreLoopListener();
@@ -90,8 +91,6 @@ void main() {
                              STORE_POSITION_BUTTONS, GZCmd_storePosition});
     GZCmd_addCmd(new Command{CMD_LOAD_POSITION, g_commandStates[CMD_LOAD_POSITION],
                              LOAD_POSITION_BUTTONS, GZCmd_loadPosition});
-    GZCmd_addCmd(new Command{CMD_MOON_JUMP, g_commandStates[CMD_MOON_JUMP], MOON_JUMP_BUTTONS,
-                             GZCmd_moonJump});
     GZCmd_addCmd(new Command{CMD_RELOAD_AREA, g_commandStates[CMD_RELOAD_AREA], RELOAD_AREA_BUTTONS,
                              GZCmd_reloadArea});
     GZCmd_addCmd(new Command{CMD_TIMER_TOGGLE, g_commandStates[CMD_TIMER_TOGGLE],
@@ -125,19 +124,21 @@ void exit() {}
 
 }  // namespace tpgz::modules
 
+#define set_sprite(idx, x, y) GZStng_addSetting(idx, new Vec2{x, y}, sizeof(Vec2))
+
 void GZ_PosSettings_initDefaults() {
 #ifdef GCN_PLATFORM
-    g_spriteOffsets[VIEWER_INDEX] = {220.f, 380.f};
+    set_sprite(STNG_SPRITES_INPUT_VIEWER, 220.f, 380.f);
 #elif defined(WII_PLATFORM)
-    g_spriteOffsets[VIEWER_INDEX] = {250.f, 360.f};
+    set_sprite(STNG_SPRITES_INPUT_VIEWER, 250.f, 360.f);
 #endif
-    g_spriteOffsets[MENU_INDEX] = {25.f, 60.f};
-    g_spriteOffsets[DEBUG_INFO_INDEX] = {450.0f, 200.f};
-    g_spriteOffsets[TIMER_SPR_INDEX] = {450.0f, 420.f};
-    g_spriteOffsets[LOAD_TIMER_SPR_INDEX] = {450.0f, 30.f};
-    g_spriteOffsets[IGT_TIMER_SPR_INDEX] = {35.0f, 30.f};
-    g_spriteOffsets[FIFO_SPR_INDEX] = {5.0f, 440.f};
-    g_spriteOffsets[HEAP_INFO_INDEX] = {145.0f, 25.0f};
-    g_spriteOffsets[MASH_INFO_INDEX] = {450.0f, 400.0f};
-    g_spriteOffsets[TRANSFORM_IND_INDEX] = {465.0f, 30.0f};
+    set_sprite(STNG_SPRITES_MENU, 25.f, 60.f);
+    set_sprite(STNG_SPRITES_DEBUG_INFO, 450.0f, 200.f);
+    set_sprite(STNG_SPRITES_TIMER_SPR, 450.0f, 420.f);
+    set_sprite(STNG_SPRITES_LOAD_TIMER_SPR, 450.0f, 30.f);
+    set_sprite(STNG_SPRITES_IGT_TIMER_SPR, 35.0f, 30.f);
+    set_sprite(STNG_SPRITES_FIFO_SPR, 5.0f, 440.f);
+    set_sprite(STNG_SPRITES_HEAP_INFO, 145.0f, 25.0f);
+    set_sprite(STNG_SPRITES_MASH_INFO, 450.0f, 400.0f);
+    set_sprite(STNG_SPRITES_TRANSFORM_IND, 465.0f, 30.0f);
 }
