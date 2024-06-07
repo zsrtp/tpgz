@@ -2,9 +2,21 @@
 #include "gcn_c/include/storage.h"
 #include "menu.h"
 
+#define GZ_SAVE_VERSION_NUMBER 1
+
 #ifdef WII_PLATFORM
 extern void* g_tmpBuf;
 #endif
+
+struct GZSaveHeader {
+    uint32_t version;
+    size_t data_size;
+    uint32_t entries;
+};
+
+struct GZSaveFile {
+    GZSaveHeader header;
+};
 
 int32_t GZ_storageWrite(Storage* info, void* data, int32_t size, int32_t offset,
                         int32_t sector_size);
