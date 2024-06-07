@@ -17,7 +17,7 @@ bool reload_area_flag = false;
 bool g_timerEnabled = false;
 bool g_resetTimer = false;
 
-bool g_commandStates[COMMANDS_AMNT];
+KEEP_VAR bool g_commandStates[COMMANDS_AMNT];
 
 static Vec sSavePlayerPos = {0.0f, 0.0f, 0.0f};
 static int16_t sSavePlayerAngle = 0;
