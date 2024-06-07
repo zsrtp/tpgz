@@ -82,8 +82,10 @@ int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offse
  * @param save_file The save file to fetch the metadata from.
  * @return The buffer containing the settings.
  */
-void* GZ_storeSettings(GZSaveFile& save_file) {
-    void* data = new uint8_t[save_file.header.data_size];
+void GZ_storeSettings(GZSaveFile& save_file, void* data) {
+    if (save_file.header.data_size == 0) {
+        return;
+    }
     uint32_t pos = 0;
     for (auto& entry : g_settings) {
         memcpy((void*)((uint32_t)data + pos), &entry->id, sizeof(GZSettingID));
@@ -93,7 +95,6 @@ void* GZ_storeSettings(GZSaveFile& save_file) {
         memcpy((void*)((uint32_t)data + pos), entry->data, entry->size);
         pos += entry->size;
     }
-    return data;
 }
 
 /**
@@ -116,7 +117,9 @@ void GZ_loadSettings(GZSaveFile save_file, void* data) {
             g_settings.push_back(entry);
         } else {
             void* old_data = entry->data;
-            delete[] (uint8_t*)old_data;
+            if (old_data) {
+                delete[] (uint8_t*)old_data;
+            }
             entry->data = new uint8_t[size];
             entry->size = size;
         }
@@ -159,10 +162,17 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
     if (save_file.header.version != GZ_SAVE_VERSION_NUMBER) {
         return -30;  // Custom error code for "Version" (means a mismatch in the version number).
     }
-    void* data = new uint8_t[save_file.header.data_size];
-    assert_result(GZ_storageRead(storage, data, save_file.header.data_size, pos, sector_size));
+    uint8_t* data = nullptr;
+    if (save_file.header.data_size > 0) {
+        data = new uint8_t[save_file.header.data_size];
+        assert_result(GZ_storageRead(storage, data, save_file.header.data_size, pos, sector_size));
+    }
 
     GZ_loadSettings(save_file, data);
+
+    if (data != nullptr) {
+        delete[] data;
+    }
 
 #undef assert_result
 
@@ -188,8 +198,11 @@ KEEP_FUNC int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_
 KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
     GZSaveFile save_file;
     GZ_setupSaveFile(save_file);
-    void* data = GZ_storeSettings(save_file);
     uint32_t file_size = sizeof(save_file) + save_file.header.data_size;
+    uint8_t* data = new uint8_t[file_size];
+    memcpy(data, &save_file.header, sizeof(save_file.header));
+    GZ_storeSettings(save_file, &data[sizeof(save_file.header)]);
+    // Align the file size to the sector size.
     file_size = (uint32_t)(ceil((double)sizeof(save_file) / (double)storage.sector_size) *
                            storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
@@ -197,12 +210,7 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
     if (storage.result == Ready || storage.result == Exist) {
         storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
         if (storage.result == Ready) {
-            storage.result = GZ_storageWrite(&storage, &save_file.header, sizeof(save_file.header),
-                                             0, storage.sector_size);
-            if (storage.result == Ready) {
-                storage.result = GZ_storageWrite(&storage, data, sizeof(save_file.header.data_size),
-                                                 sizeof(save_file.header), storage.sector_size);
-            }
+            storage.result = GZ_storageWrite(&storage, data, file_size, 0, storage.sector_size);
             if (storage.result == Ready) {
                 OSReport("saved card!\n");
                 FIFOQueue::push("saved card!", Queue);
@@ -214,6 +222,9 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
             }
             storage.result = StorageClose(&storage.info);
         }
+    }
+    if (data != nullptr) {
+        delete[] (uint8_t*)data;
     }
 }
 

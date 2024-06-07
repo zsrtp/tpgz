@@ -15,7 +15,8 @@ KEEP_FUNC void Timer::drawTimer() {
     static int frame_timer = 0;
     static OSCalendarTime ctime;
 
-    if (!g_tools[TIMER_INDEX].active) {
+    auto* stng_timer = GZStng_getSetting(STNG_TOOLS_TIMER);
+    if (!stng_timer || !*(bool*)stng_timer->data) {
         init_start_time = false;
         return;
     }
@@ -46,9 +47,9 @@ KEEP_FUNC void Timer::drawTimer() {
     snprintf(timerS, sizeof(timerS), "%02d:%02d:%02d.%03d", ctime.hours, ctime.minutes, ctime.seconds, ctime.milliseconds);
 
     Font::GZ_drawStr(timerF, (g_spriteOffsets[TIMER_SPR_INDEX].x),
-                     (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
+                     (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, GZ_checkDropShadows());
     Font::GZ_drawStr(timerS, (g_spriteOffsets[TIMER_SPR_INDEX].x),
-                     15.0f + (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, g_dropShadows);
+                     15.0f + (g_spriteOffsets[TIMER_SPR_INDEX].y), 0xFFFFFFFF, GZ_checkDropShadows());
 }
 
 KEEP_FUNC void Timer::drawIGT() {
@@ -64,7 +65,8 @@ KEEP_FUNC void Timer::drawIGT() {
     static OSCalendarTime ctime;
     static OSCalendarTime load_ctime;
 
-    if (!g_tools[IGT_TIMER_INDEX].active) {
+    auto* stng_igt_timer = GZStng_getSetting(STNG_TOOLS_IGT_TIMER);
+    if (!stng_igt_timer || !*(bool*)stng_igt_timer->data) {
         init_start_time = false;
         return;
     }
@@ -112,7 +114,7 @@ KEEP_FUNC void Timer::drawIGT() {
     char buf[16] = {0};
     snprintf(buf, sizeof(buf), "%02d:%02d:%02d.%03d", ctime.hours, ctime.minutes, ctime.seconds, ctime.milliseconds);
     Font::GZ_drawStr(buf, g_spriteOffsets[IGT_TIMER_SPR_INDEX].x,
-                     g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
+                     g_spriteOffsets[IGT_TIMER_SPR_INDEX].y, 0xFFFFFFFF, GZ_checkDropShadows());
 }
 
 KEEP_FUNC void Timer::drawLoadTimer() {
@@ -124,7 +126,8 @@ KEEP_FUNC void Timer::drawLoadTimer() {
 
     static OSCalendarTime load_ctime;
 
-    if (!g_tools[LOAD_TIMER_INDEX].active) {
+    auto* stng_load_timer = GZStng_getSetting(STNG_TOOLS_LOAD_TIMER);
+    if (!stng_load_timer || !*(bool*)stng_load_timer->data) {
         return;
     }
 
@@ -158,5 +161,5 @@ KEEP_FUNC void Timer::drawLoadTimer() {
     char buf[16] = {0};
     snprintf(buf, sizeof(buf), "%02d:%02d:%02d.%03d", load_ctime.hours, load_ctime.minutes, load_ctime.seconds, load_ctime.milliseconds);
     Font::GZ_drawStr(buf, g_spriteOffsets[LOAD_TIMER_SPR_INDEX].x,
-                     g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, g_dropShadows);
+                     g_spriteOffsets[LOAD_TIMER_SPR_INDEX].y, 0xFFFFFFFF, GZ_checkDropShadows());
 }

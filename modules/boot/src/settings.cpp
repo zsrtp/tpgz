@@ -5,15 +5,11 @@
 ListMember g_font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
                            "lib-serif", "lib-serif-bold", "press-start-2p"};
 
-bool g_dropShadows;
 bool g_swap_equips_flag;
-uint32_t g_reloadType;
-uint32_t g_fontType = 0;
-uint32_t g_cursorColorType;
 
 tpgz::containers::deque<GZSettingEntry*> g_settings;
 
-void GZStng_addSetting(GZSettingID id, void* data, size_t size) {
+KEEP_FUNC void GZStng_addSetting(GZSettingID id, void* data, size_t size) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -32,7 +28,7 @@ void GZStng_addSetting(GZSettingID id, void* data, size_t size) {
     }
 }
 
-void GZStng_removeSetting(GZSettingID id) {
+KEEP_FUNC void GZStng_removeSetting(GZSettingID id) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -48,7 +44,7 @@ void GZStng_removeSetting(GZSettingID id) {
     }
 }
 
-GZSettingEntry* GZStng_getSetting(GZSettingID id) {
+KEEP_FUNC GZSettingEntry* GZStng_getSetting(GZSettingID id) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -62,7 +58,7 @@ GZSettingEntry* GZStng_getSetting(GZSettingID id) {
     return entry;
 }
 
-tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
+KEEP_FUNC tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
     auto list = new tpgz::containers::deque<GZSettingID>;
     list->resize(g_settings.size());
     std::transform(g_settings.begin(), g_settings.end(), list->begin(),
@@ -71,9 +67,11 @@ tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
 }
 
 void GZ_initFont() {
-    if (g_fontType >= 0 && g_fontType < FONT_OPTIONS_COUNT) {
+    auto* stng = GZStng_getSetting(STNG_FONT);
+    uint32_t fontType = stng ? *static_cast<uint32_t*>(stng->data) : 0;
+    if (fontType >= 0 && fontType < FONT_OPTIONS_COUNT) {
         char buf[40] = {0};
-        snprintf(buf, sizeof(buf), "tpgz/fonts/%s.fnt", g_font_opt[g_fontType].member);
+        snprintf(buf, sizeof(buf), "tpgz/fonts/%s.fnt", g_font_opt[fontType].member);
         Font::loadFont(buf);
     }
 }

@@ -10,11 +10,7 @@
 #define LOAD_AREA 0
 #define LOAD_FILE 1
 
-extern bool g_dropShadows;
 extern bool g_swap_equips_flag;
-extern uint32_t g_reloadType;
-extern uint32_t g_fontType;
-extern uint32_t g_cursorColorType;
 extern ListMember g_font_opt[7];
 
 // WARNING
@@ -25,7 +21,7 @@ extern ListMember g_font_opt[7];
 enum GZSettingID : uint32_t {
     // Cheats
     STNG_CHEATS_INFINITE_AIR,
-    STNG_CHEATS_INFINITE_ARROW,
+    STNG_CHEATS_INFINITE_ARROWS,
     STNG_CHEATS_INFINITE_BOMBS,
     STNG_CHEATS_INFINITE_HEARTS,
     STNG_CHEATS_INFINITE_OIL,
@@ -95,8 +91,8 @@ enum GZSettingID : uint32_t {
     STNG_COMMANDS_MOVE_LINK,
     STNG_COMMANDS_FRAME_PAUSE,
     // Miscellaneous
-    STNG_DROP_SHADOW,
-    STNG_AREA_RELOAD,
+    STNG_DROP_SHADOWS,
+    STNG_AREA_RELOAD_BEHAVIOUR,
     STNG_CURSOR_COLOR,
     STNG_FONT,
 };
@@ -137,3 +133,8 @@ enum cursor_colors {
 };
 
 void GZ_initFont();
+
+inline bool GZ_checkDropShadows() {
+    auto* stng = GZStng_getSetting(STNG_DROP_SHADOWS);
+    return stng && *static_cast<bool*>(stng->data);
+}

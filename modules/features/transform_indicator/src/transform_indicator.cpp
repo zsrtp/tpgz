@@ -29,10 +29,6 @@ void drawTexture(GXTexObj tex, bool greyed) {
 }
 
 KEEP_FUNC void TransformIndicator::draw() {
-    if (!g_tools[TRANSFORM_INDICATOR_INDEX].active) {
-        return;
-    }
-
     if (dComIfGs_getTransformStatus() == 0) {
         if (l_wolfTex.loadCode == TexCode::TEX_OK) {
             // TODO Grey out the icon if we can't transform into wolf

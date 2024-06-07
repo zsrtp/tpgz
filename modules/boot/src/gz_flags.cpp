@@ -107,7 +107,8 @@ void GZ_execute(int phase) {
         }
     }
 
-    if (g_tools[SAND_INDEX].active) {
+    auto* stng_sand = GZStng_getSetting(STNG_TOOLS_SAND);
+    if (stng_sand != nullptr && *(bool*)stng_sand->data) {
         if (dComIfGp_getPlayer() != nullptr) {
             dComIfGp_getPlayer()->field_0x2ba8 = 0.0f;
         }

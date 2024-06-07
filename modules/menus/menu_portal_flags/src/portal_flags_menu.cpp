@@ -8,35 +8,30 @@
 
 #define MAX_REGION_OPTIONS 6
 
-KEEP_FUNC PortalFlagsMenu::PortalFlagsMenu(Cursor& cursor, PortalFlagsData& data)
-    : Menu(cursor), l_mapRegion(data.l_mapRegion), l_selRegion(data.l_selRegion),
-      l_springWarp(data.l_springWarp), l_sfaronWarp(data.l_sfaronWarp),
-      l_nfaronWarp(data.l_nfaronWarp), l_groveWarp(data.l_groveWarp), l_gorgeWarp(data.l_gorgeWarp),
-      l_kakWarp(data.l_kakWarp), l_mountainWarp(data.l_mountainWarp),
-      l_bridgeWarp(data.l_bridgeWarp), l_ctWarp(data.l_ctWarp), l_lakeWarp(data.l_lakeWarp),
-      l_domainWarp(data.l_domainWarp), l_uzrWarp(data.l_uzrWarp),
-      l_snowpeakWarp(data.l_snowpeakWarp), l_mesaWarp(data.l_mesaWarp),
-      l_mirrorWarp(data.l_mirrorWarp),
+KEEP_VAR PortalFlagsData* portalFlagsData;
+
+KEEP_FUNC PortalFlagsMenu::PortalFlagsMenu(Cursor& cursor)
+    : Menu(cursor),
       lines{
           {"region:", SELECT_REGION_INDEX, "Select region flag", false, nullptr,
            MAX_REGION_OPTIONS},
-          {"region unlocked", REGION_FLAG_INDEX, "Unlock selected map region", true, &l_mapRegion},
-          {"ordon spring", SPRING_WARP_INDEX, "Ordon Spring warp portal", true, &l_springWarp},
-          {"south faron", S_FARON_WARP_INDEX, "South Faron warp portal", true, &l_sfaronWarp},
-          {"north faron", N_FARON_WARP_INDEX, "North Faron warp portal", true, &l_nfaronWarp},
-          {"sacred grove", GROVE_WARP_INDEX, "Sacred Grove warp portal", true, &l_groveWarp},
-          {"eldin gorge", GORGE_WARP_INDEX, "Eldin Gorge warp portal", true, &l_gorgeWarp},
-          {"kak village", KAKARIKO_WARP_INDEX, "Kakariko Village warp portal", true, &l_kakWarp},
+          {"region unlocked", REGION_FLAG_INDEX, "Unlock selected map region", true, [](){return portalFlagsData->l_mapRegion;}},
+          {"ordon spring", SPRING_WARP_INDEX, "Ordon Spring warp portal", true, [](){return portalFlagsData->l_springWarp;}},
+          {"south faron", S_FARON_WARP_INDEX, "South Faron warp portal", true, [](){return portalFlagsData->l_sfaronWarp;}},
+          {"north faron", N_FARON_WARP_INDEX, "North Faron warp portal", true, [](){return portalFlagsData->l_nfaronWarp;}},
+          {"sacred grove", GROVE_WARP_INDEX, "Sacred Grove warp portal", true, [](){return portalFlagsData->l_groveWarp;}},
+          {"eldin gorge", GORGE_WARP_INDEX, "Eldin Gorge warp portal", true, [](){return portalFlagsData->l_gorgeWarp;}},
+          {"kak village", KAKARIKO_WARP_INDEX, "Kakariko Village warp portal", true, [](){return portalFlagsData->l_kakWarp;}},
           {"death mountain", MOUNTAIN_WARP_INDEX, "Death Mountain warp portal", true,
-           &l_mountainWarp},
-          {"eldin bridge", BRIDGE_WARP_INDEX, "Bridge of Eldin warp portal", true, &l_bridgeWarp},
-          {"castle town", TOWN_WARP_INDEX, "Castle Town warp portal", true, &l_ctWarp},
-          {"lake hylia", LAKE_WARP_INDEX, "Lake Hylia warp portal", true, &l_lakeWarp},
-          {"zora's domain", DOMAIN_WARP_INDEX, "Zora's Domain warp portal", true, &l_domainWarp},
-          {"upper river", UZR_WARP_INDEX, "Upper Zora's River warp portal", true, &l_uzrWarp},
-          {"snowpeak", SNOWPEAK_WARP_INDEX, "Snowpeak warp portal", true, &l_snowpeakWarp},
-          {"gerudo mesa", MESA_WARP_INDEX, "Gerudo Mesa warp portal", true, &l_mesaWarp},
-          {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, &l_mirrorWarp},
+           [](){return portalFlagsData->l_mountainWarp;}},
+          {"eldin bridge", BRIDGE_WARP_INDEX, "Bridge of Eldin warp portal", true, [](){return portalFlagsData->l_bridgeWarp;}},
+          {"castle town", TOWN_WARP_INDEX, "Castle Town warp portal", true, [](){return portalFlagsData->l_ctWarp;}},
+          {"lake hylia", LAKE_WARP_INDEX, "Lake Hylia warp portal", true, [](){return portalFlagsData->l_lakeWarp;}},
+          {"zora's domain", DOMAIN_WARP_INDEX, "Zora's Domain warp portal", true, [](){return portalFlagsData->l_domainWarp;}},
+          {"upper river", UZR_WARP_INDEX, "Upper Zora's River warp portal", true, [](){return portalFlagsData->l_uzrWarp;}},
+          {"snowpeak", SNOWPEAK_WARP_INDEX, "Snowpeak warp portal", true, [](){return portalFlagsData->l_snowpeakWarp;}},
+          {"gerudo mesa", MESA_WARP_INDEX, "Gerudo Mesa warp portal", true, [](){return portalFlagsData->l_mesaWarp;}},
+          {"mirror chamber", MIRROR_WARP_INDEX, "Mirror Chamber warp portal", true, [](){return portalFlagsData->l_mirrorWarp;}},
       } {}
 
 PortalFlagsMenu::~PortalFlagsMenu() {}
@@ -64,22 +59,22 @@ inline bool getRegionFlag(int regionBit) {
 void PortalFlagsMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
-    l_mapRegion = getRegionFlag(l_selRegion + 1);
-    l_springWarp = getSaveSwitch(dSv_memory_c::ORDON, 52);
-    l_sfaronWarp = getSaveSwitch(dSv_memory_c::FARON, 71);
-    l_nfaronWarp = getSaveSwitch(dSv_memory_c::FARON, 2);
-    l_groveWarp = getSaveSwitch(dSv_memory_c::GROVE, 100);
-    l_gorgeWarp = getSaveSwitch(dSv_memory_c::FIELD, 21);
-    l_kakWarp = getSaveSwitch(dSv_memory_c::ELDIN, 31);
-    l_mountainWarp = getSaveSwitch(dSv_memory_c::ELDIN, 21);
-    l_bridgeWarp = getSaveSwitch(dSv_memory_c::FIELD, 99);
-    l_ctWarp = getSaveSwitch(dSv_memory_c::FIELD, 3);
-    l_lakeWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 10);
-    l_domainWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 2);
-    l_uzrWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 21);
-    l_snowpeakWarp = getSaveSwitch(dSv_memory_c::SNOWPEAK, 21);
-    l_mesaWarp = getSaveSwitch(dSv_memory_c::DESERT, 21);
-    l_mirrorWarp = getSaveSwitch(dSv_memory_c::DESERT, 40);
+    portalFlagsData->l_mapRegion = getRegionFlag(portalFlagsData->l_selRegion + 1);
+    portalFlagsData->l_springWarp = getSaveSwitch(dSv_memory_c::ORDON, 52);
+    portalFlagsData->l_sfaronWarp = getSaveSwitch(dSv_memory_c::FARON, 71);
+    portalFlagsData->l_nfaronWarp = getSaveSwitch(dSv_memory_c::FARON, 2);
+    portalFlagsData->l_groveWarp = getSaveSwitch(dSv_memory_c::GROVE, 100);
+    portalFlagsData->l_gorgeWarp = getSaveSwitch(dSv_memory_c::FIELD, 21);
+    portalFlagsData->l_kakWarp = getSaveSwitch(dSv_memory_c::ELDIN, 31);
+    portalFlagsData->l_mountainWarp = getSaveSwitch(dSv_memory_c::ELDIN, 21);
+    portalFlagsData->l_bridgeWarp = getSaveSwitch(dSv_memory_c::FIELD, 99);
+    portalFlagsData->l_ctWarp = getSaveSwitch(dSv_memory_c::FIELD, 3);
+    portalFlagsData->l_lakeWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 10);
+    portalFlagsData->l_domainWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 2);
+    portalFlagsData->l_uzrWarp = getSaveSwitch(dSv_memory_c::LANAYRU, 21);
+    portalFlagsData->l_snowpeakWarp = getSaveSwitch(dSv_memory_c::SNOWPEAK, 21);
+    portalFlagsData->l_mesaWarp = getSaveSwitch(dSv_memory_c::DESERT, 21);
+    portalFlagsData->l_mirrorWarp = getSaveSwitch(dSv_memory_c::DESERT, 40);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
         g_menuMgr->pop();
@@ -89,7 +84,7 @@ void PortalFlagsMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case REGION_FLAG_INDEX:
-            setRegionFlag(l_selRegion + 1);
+            setRegionFlag(portalFlagsData->l_selRegion + 1);
             break;
         case SPRING_WARP_INDEX:
             setSaveSwitch(dSv_memory_c::ORDON, 52);
@@ -143,11 +138,11 @@ void PortalFlagsMenu::draw() {
 
     switch (cursor.y) {
     case SELECT_REGION_INDEX:
-        cursor.x = l_selRegion;
+        cursor.x = portalFlagsData->l_selRegion;
         cursor.move(MAX_REGION_OPTIONS, MENU_LINE_NUM);
 
         if (cursor.y == SELECT_REGION_INDEX) {
-            l_selRegion = cursor.x;
+            portalFlagsData->l_selRegion = cursor.x;
         }
         break;
     default:
@@ -159,7 +154,7 @@ void PortalFlagsMenu::draw() {
         "ordon", "faron", "eldin", "lanayru", "desert", "snowpeak",
     };
 
-    lines[SELECT_REGION_INDEX].printf(" <%s>", region_opt[l_selRegion].member);
+    lines[SELECT_REGION_INDEX].printf(" <%s>", region_opt[portalFlagsData->l_selRegion].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

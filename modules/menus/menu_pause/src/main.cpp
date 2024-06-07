@@ -35,8 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new PauseMenu(*g_menuMgr->getPermanentData<Cursor>(),
-                           *g_menuMgr->getPersistentData<PauseData>());
+    pauseData = g_menuMgr->getPersistentData<PauseData>();
+    l_menu = new PauseMenu(*g_menuMgr->getPermanentData<Cursor>());
     g_drawListener->addListener(onDraw);
 }
 

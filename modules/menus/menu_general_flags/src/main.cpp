@@ -35,8 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new GeneralFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(),
-                                  *g_menuMgr->getPersistentData<GeneralFlagsData>());
+    generalFlagsData = g_menuMgr->getPersistentData<GeneralFlagsData>();
+    l_menu = new GeneralFlagsMenu(*g_menuMgr->getPermanentData<Cursor>());
     g_drawListener->addListener(onDraw);
 }
 
