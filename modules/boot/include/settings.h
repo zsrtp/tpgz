@@ -19,6 +19,11 @@ extern ListMember g_font_opt[7];
 // Changes in the order is only allowed when the
 // version number GZ_SAVE_VERSION_NUMBER is changed.
 enum GZSettingID : uint32_t {
+    // Miscellaneous
+    STNG_DROP_SHADOWS,
+    STNG_AREA_RELOAD_BEHAVIOUR,
+    STNG_CURSOR_COLOR,
+    STNG_FONT,
     // Cheats
     STNG_CHEATS_INFINITE_AIR,
     STNG_CHEATS_INFINITE_ARROWS,
@@ -70,7 +75,7 @@ enum GZSettingID : uint32_t {
     // Watches
     STNG_WATCHES,
     // Sprites
-    STNG_SPRITES_VIEWER,
+    STNG_SPRITES_INPUT_VIEWER,
     STNG_SPRITES_MENU,
     STNG_SPRITES_DEBUG_INFO,
     STNG_SPRITES_TIMER_SPR,
@@ -80,21 +85,6 @@ enum GZSettingID : uint32_t {
     STNG_SPRITES_HEAP_INFO,
     STNG_SPRITES_MASH_INFO,
     STNG_SPRITES_TRANSFORM_IND,
-    // Commands
-    STNG_COMMANDS_STORE_POSITION,
-    STNG_COMMANDS_LOAD_POSITION,
-    STNG_COMMANDS_MOON_JUMP,
-    STNG_COMMANDS_RELOAD_AREA,
-    STNG_COMMANDS_TIMER_TOGGLE,
-    STNG_COMMANDS_TIMER_RESET,
-    STNG_COMMANDS_FREE_CAM,
-    STNG_COMMANDS_MOVE_LINK,
-    STNG_COMMANDS_FRAME_PAUSE,
-    // Miscellaneous
-    STNG_DROP_SHADOWS,
-    STNG_AREA_RELOAD_BEHAVIOUR,
-    STNG_CURSOR_COLOR,
-    STNG_FONT,
 };
 
 struct GZSettingEntry {

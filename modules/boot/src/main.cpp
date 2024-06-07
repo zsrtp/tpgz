@@ -189,10 +189,11 @@ KEEP_FUNC void GZ_handleTurbo() {
 
 KEEP_FUNC void GZ_renderMenuTitle() {
     if (g_menuMgr->isOpen()) {
-        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
+        Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
+        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, spriteOffset.x + 35.0f, 25.0f,
                          g_cursorColor, GZ_checkDropShadows());
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
-            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f},
+            Draw::drawRect(0xFFFFFFFF, {spriteOffset.x, 5.0f},
                            {30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_gzIconTex._texObj);
         }
     }

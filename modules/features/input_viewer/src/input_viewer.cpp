@@ -289,9 +289,7 @@ extern bool isWidescreen;
 #endif
 
 KEEP_FUNC void InputViewer::draw() {
-    Vec2 pos = {0.f, 0.f};
-    pos.x += g_spriteOffsets[VIEWER_INDEX].x;
-    pos.y += g_spriteOffsets[VIEWER_INDEX].y;
+    Vec2 pos = GZ_getSpriteOffset(STNG_SPRITES_INPUT_VIEWER);
 #ifdef GCN_PLATFORM
     float scale = 1.0f;
 #elif defined(WII_PLATFORM)

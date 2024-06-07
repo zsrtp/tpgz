@@ -44,6 +44,19 @@ void drawCursor(Vec2 pos) {
     Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
 }
 
+GZSettingID l_mappings[] = {
+    STNG_SPRITES_MENU,
+    STNG_SPRITES_INPUT_VIEWER,
+    STNG_SPRITES_DEBUG_INFO,
+    STNG_SPRITES_TIMER_SPR,
+    STNG_SPRITES_LOAD_TIMER_SPR,
+    STNG_SPRITES_IGT_TIMER_SPR,
+    STNG_SPRITES_FIFO_SPR,
+    STNG_SPRITES_HEAP_INFO,
+    STNG_SPRITES_MASH_INFO,
+    STNG_SPRITES_TRANSFORM_IND,
+};
+
 void PosSettingsMenu::draw() {
     cursor.setMode(Cursor::MODE_UNRESTRICTED);
 
@@ -68,22 +81,27 @@ void PosSettingsMenu::draw() {
         }
     }
 
+    auto* stng = GZStng_getSetting(l_mappings[l_selItem]);
+    if (!stng) {
+        stng = new GZSettingEntry{l_mappings[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
+        g_settings.push_back(stng);
+    }
     if (l_selItem != POSITION_SETTINGS_NO_SELECTION && l_selItem < SPRITES_AMNT) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT, 3)) {
-            g_spriteOffsets[l_selItem].x += l_cursorSpeed;
+            static_cast<Vec2*>(stng->data)->x += l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_LEFT, 3)) {
-            g_spriteOffsets[l_selItem].x -= l_cursorSpeed;
+            static_cast<Vec2*>(stng->data)->x -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP, 3)) {
-            g_spriteOffsets[l_selItem].y -= l_cursorSpeed;
+            static_cast<Vec2*>(stng->data)->y -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN, 3)) {
-            g_spriteOffsets[l_selItem].y += l_cursorSpeed;
+            static_cast<Vec2*>(stng->data)->y += l_cursorSpeed;
         }
 
         // Draw visual cursor
-        drawCursor(g_spriteOffsets[l_selItem]);
+        drawCursor(*static_cast<Vec2*>(stng->data));
     }
 
     if (GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||

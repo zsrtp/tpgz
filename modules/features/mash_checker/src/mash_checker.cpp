@@ -66,14 +66,14 @@ KEEP_FUNC void GZ_displayButtonMashInfo() {
     GZ_getButtonPressCount(abtn_presses, CButton::A, GZPad::A);
     GZ_getButtonPressCount(bbtn_presses, CButton::B, GZPad::B);
 
+    Vec2 pos = GZ_getSpriteOffset(STNG_SPRITES_MASH_INFO);
+
     char abtn_text[8] = {0};
     snprintf(abtn_text, sizeof(abtn_text), "A: %d", a_bps);
-    Font::GZ_drawStr(abtn_text, g_spriteOffsets[MASH_INFO_INDEX].x,
-                     g_spriteOffsets[MASH_INFO_INDEX].y, getSpeedTextColor(a_bps), GZ_checkDropShadows());
+    Font::GZ_drawStr(abtn_text, pos.x, pos.y, getSpeedTextColor(a_bps), GZ_checkDropShadows());
 
     char bbtn_text[8] = {0};
     snprintf(bbtn_text, sizeof(bbtn_text), "B: %d", b_bps);
-    Font::GZ_drawStr(bbtn_text, g_spriteOffsets[MASH_INFO_INDEX].x,
-                     g_spriteOffsets[MASH_INFO_INDEX].y + 20.0f, getSpeedTextColor(b_bps),
+    Font::GZ_drawStr(bbtn_text, pos.x, pos.y + 20.0f, getSpeedTextColor(b_bps),
                      GZ_checkDropShadows());
 }

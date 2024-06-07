@@ -64,12 +64,6 @@ KEEP_FUNC void GZCmd_loadPosition() {
     }
 }
 
-KEEP_FUNC void GZCmd_moonJump() {
-    if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->speed.y = 56.0f;
-    }
-}
-
 KEEP_FUNC void GZCmd_toggleTimer() {
     if (GZCmd_checkTrig(TIMER_TOGGLE_BUTTONS)) {
         g_timerEnabled = !g_timerEnabled;
@@ -135,10 +129,20 @@ KEEP_FUNC Command* GZCmd_removeCmd(Commands cmdId) {
     return cmd;
 }
 
+KEEP_FUNC Command* GZCmd_getCmd(int id) {
+    auto it = g_commands.begin();
+    for (;it != g_commands.end(); ++it) {
+        if ((*it)->id == id) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
 KEEP_FUNC void GZCmd_processInputs() {
     sCurInputs = GZ_getButtonStatus();
     for (auto c : g_commands) {
-        if (c->active && GZ_getButtonStatus() == c->buttons) {
+        if (c->active && sCurInputs == c->buttons) {
             c->command();
             setGamepadButtons(0x0);
             setGamepadTrig(0x0);
@@ -149,26 +153,16 @@ KEEP_FUNC void GZCmd_processInputs() {
     sLastInputs = sCurInputs;
 }
 
-auto GZCmd_getCmd(int id) {
-    auto it = g_commands.begin();
-    for (;it != g_commands.end(); ++it) {
-        if ((*it)->id == id) {
-            break;
-        }
-    }
-    return it;
-}
-
 void GZCmd_enable(int idx) {
-    auto it = GZCmd_getCmd(idx);
-    if (it != g_commands.end()) {
-        (*it)->active = true;
+    auto* cmd = GZCmd_getCmd(idx);
+    if (cmd) {
+        cmd->active = true;
     }
 }
 
 void GZCmd_disable(int idx) {
-    auto it = GZCmd_getCmd(idx);
-    if (it != g_commands.end()) {
-        (*it)->active = false;
+    auto* cmd = GZCmd_getCmd(idx);
+    if (cmd) {
+        cmd->active = false;
     }
 }
