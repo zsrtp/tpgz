@@ -105,19 +105,19 @@ void main() {
                              GZCmd_pauseFrame});
 
     // Init the gz flags
-    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, ACTIVE_FUNC(STNG_SCENE_FREEZE_ACTOR),
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, GZ_freezeActors_active,
                              GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors});
-    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_ACTOR, ACTIVE_FUNC(STNG_SCENE_HIDE_ACTOR), GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_ACTOR, GZ_hideActors_active, GAME_LOOP,
                              GZ_hideActors, GZ_showActors});
-    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_CAMERA, ACTIVE_FUNC(STNG_SCENE_FREEZE_CAMERA),
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_CAMERA, GZ_freezeCamera_active,
                              GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera});
-    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_HUD, ACTIVE_FUNC(STNG_SCENE_HIDE_HUD), GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_HIDE_HUD, GZ_hideHUD_active, GAME_LOOP,
                              GZ_hideHUD, GZ_showHUD});
-    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_TIME, ACTIVE_FUNC(STNG_SCENE_FREEZE_TIME), GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_TIME, GZ_freezeTime_active, GAME_LOOP,
                              GZ_freezeTime});
-    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_BG, ACTIVE_FUNC(STNG_SCENE_DISABLE_BG), GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_BGM, GZ_disableBgm_active, GAME_LOOP,
                              GZ_disableBGM, GZ_enableBGM});
-    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_SFX, ACTIVE_FUNC(STNG_SCENE_DISABLE_SFX), GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_DISABLE_SFX, GZ_disableSFX_active, GAME_LOOP,
                              GZ_disableSFX, GZ_enableSFX});
 }
 void exit() {}

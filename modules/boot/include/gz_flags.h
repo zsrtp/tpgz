@@ -29,7 +29,7 @@ enum GZFlags {
     GZFLG_FREEZE_CAMERA,
     GZFLG_HIDE_HUD,
     GZFLG_FREEZE_TIME,
-    GZFLG_DISABLE_BG,
+    GZFLG_DISABLE_BGM,
     GZFLG_DISABLE_SFX,
 };
 
@@ -59,3 +59,11 @@ void GZ_execute(int phase);
 void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex);
 
 extern volatile uint8_t sPauseTimer;
+
+bool GZ_freezeActors_active();
+bool GZ_hideActors_active();
+bool GZ_freezeCamera_active();
+bool GZ_hideHUD_active();
+bool GZ_freezeTime_active();
+bool GZ_disableBgm_active();
+bool GZ_disableSFX_active();

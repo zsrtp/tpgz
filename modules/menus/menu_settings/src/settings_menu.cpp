@@ -185,12 +185,9 @@ void SettingsMenu::draw() {
         break;
     }
 
-    stng = GZStng_getSetting(STNG_AREA_RELOAD_BEHAVIOUR);
-    lines[AREA_RELOAD_BEHAVIOR_INDEX].printf(" <%s>", reload_opt[stng ? *static_cast<uint32_t*>(stng->data) : 0].member);
-    stng = GZStng_getSetting(STNG_CURSOR_COLOR);
-    lines[CURSOR_COLOR_INDEX].printf(" <%s>", cursorCol_opt[stng ? *static_cast<uint32_t*>(stng->data) : 0].member);
-    stng = GZStng_getSetting(STNG_FONT);
-    lines[FONT_INDEX].printf(" <%s>", g_font_opt[stng ? *static_cast<uint32_t*>(stng->data) : 0].member);
+    lines[AREA_RELOAD_BEHAVIOR_INDEX].printf(" <%s>", reload_opt[GZStng_getSettingData<uint32_t>(STNG_AREA_RELOAD_BEHAVIOUR, 0)].member);
+    lines[CURSOR_COLOR_INDEX].printf(" <%s>", cursorCol_opt[GZStng_getSettingData<uint32_t>(STNG_CURSOR_COLOR, 0)].member);
+    lines[FONT_INDEX].printf(" <%s>", g_font_opt[GZStng_getSettingData<uint32_t>(STNG_FONT, 0)].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

@@ -67,8 +67,7 @@ KEEP_FUNC tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
 }
 
 void GZ_initFont() {
-    auto* stng = GZStng_getSetting(STNG_FONT);
-    uint32_t fontType = stng ? *static_cast<uint32_t*>(stng->data) : 0;
+    uint32_t fontType = GZStng_getSettingData(STNG_FONT, 0);
     if (fontType >= 0 && fontType < FONT_OPTIONS_COUNT) {
         char buf[40] = {0};
         snprintf(buf, sizeof(buf), "tpgz/fonts/%s.fnt", g_font_opt[fontType].member);

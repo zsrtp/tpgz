@@ -107,8 +107,7 @@ void GZ_execute(int phase) {
         }
     }
 
-    auto* stng_sand = GZStng_getSetting(STNG_TOOLS_SAND);
-    if (stng_sand != nullptr && *(bool*)stng_sand->data) {
+    if (GZStng_getSettingData(STNG_TOOLS_SAND, false)) {
         if (dComIfGp_getPlayer() != nullptr) {
             dComIfGp_getPlayer()->field_0x2ba8 = 0.0f;
         }
@@ -132,3 +131,14 @@ void GZ_execute(int phase) {
         dComIfGs_setMaxOxygen(600);
     }
 }
+
+#define ACTIVE_FLAG_FUNC(name, stngId) \
+    KEEP_FUNC bool name() { return GZStng_getSettingData(stngId, false); }
+
+ACTIVE_FLAG_FUNC(GZ_freezeActors_active, STNG_SCENE_FREEZE_ACTOR)
+ACTIVE_FLAG_FUNC(GZ_hideActors_active, STNG_SCENE_HIDE_ACTOR)
+ACTIVE_FLAG_FUNC(GZ_freezeCamera_active, STNG_SCENE_FREEZE_CAMERA)
+ACTIVE_FLAG_FUNC(GZ_hideHUD_active, STNG_SCENE_HIDE_HUD)
+ACTIVE_FLAG_FUNC(GZ_freezeTime_active, STNG_SCENE_FREEZE_TIME)
+ACTIVE_FLAG_FUNC(GZ_disableBgm_active, STNG_SCENE_DISABLE_BG)
+ACTIVE_FLAG_FUNC(GZ_disableSFX_active, STNG_SCENE_DISABLE_SFX)

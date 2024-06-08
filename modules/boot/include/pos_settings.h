@@ -18,6 +18,5 @@ enum SpritesIndex {
 };
 
 inline Vec2 GZ_getSpriteOffset(GZSettingID sprIdx) {
-    auto* stng = GZStng_getSetting(sprIdx);
-    return stng ? *(Vec2*)stng->data : Vec2{0.0f, 0.0f};
+    return GZStng_getSettingData(sprIdx, Vec2{0.0f, 0.0f});
 }

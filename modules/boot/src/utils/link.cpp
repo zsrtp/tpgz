@@ -8,8 +8,7 @@
 #include "rels/include/defines.h"
 
 KEEP_FUNC void GZ_displayLinkInfo() {
-    auto* stng_link_debug = GZStng_getSetting(STNG_TOOLS_LINK_DEBUG);
-    if (!stng_link_debug || !*(bool*)stng_link_debug->data) {
+    if (!GZStng_getSettingData(STNG_TOOLS_LINK_DEBUG, false)) {
         return;
     }
     char time[14] = {0};

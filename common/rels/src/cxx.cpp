@@ -110,14 +110,10 @@ void operator delete[](void* ptr) {
     return __dl_JKRHeap(ptr);
 }
 
-void operator delete(void* ptr, std::size_t size) {
-    (void)size;
-
+void operator delete(void* ptr, [[maybe_unused]] std::size_t size) {
     return __dl_JKRHeap(ptr);
 }
 
-void operator delete[](void* ptr, std::size_t size) {
-    (void)size;
-
+void operator delete[](void* ptr, [[maybe_unused]] std::size_t size) {
     return __dl_JKRHeap(ptr);
 }

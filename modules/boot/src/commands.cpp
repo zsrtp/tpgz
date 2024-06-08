@@ -78,8 +78,7 @@ KEEP_FUNC void GZCmd_reloadArea() {
     g_dComIfG_gameInfo.play.mNextStage.enabled = true;
     SaveManager::s_injectSave = true;
 
-    auto* stng = GZStng_getSetting(STNG_TOOLS_RELOAD_AREA);
-    uint32_t reloadType = stng ? *static_cast<uint32_t*>(stng->data) : 0;
+    uint32_t reloadType = GZStng_getSettingData(STNG_TOOLS_RELOAD_AREA, 0);
     if (reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,

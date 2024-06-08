@@ -113,8 +113,7 @@ KEEP_FUNC void GZ_drawWatches() {
 }
 
 KEEP_FUNC void GZ_drawHeapInfo() {
-    auto* stng_heap_debug = GZStng_getSetting(STNG_TOOLS_HEAP_DEBUG);
-    if (!stng_heap_debug || !*(bool*)stng_heap_debug->data) {
+    if (!GZStng_getSettingData(STNG_TOOLS_HEAP_DEBUG, false)) {
         return;
     }
     if (m_Do_ext::zeldaHeap && m_Do_ext::gameHeap && m_Do_ext::archiveHeap) {

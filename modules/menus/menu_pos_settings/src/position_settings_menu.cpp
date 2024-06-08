@@ -86,22 +86,23 @@ void PosSettingsMenu::draw() {
         stng = new GZSettingEntry{l_mapping[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
         g_settings.push_back(stng);
     }
+    Vec2* pos = static_cast<Vec2*>(stng->data);
     if (l_selItem != POSITION_SETTINGS_NO_SELECTION && l_selItem < SPRITES_AMNT) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT, 3)) {
-            static_cast<Vec2*>(stng->data)->x += l_cursorSpeed;
+            pos->x += l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_LEFT, 3)) {
-            static_cast<Vec2*>(stng->data)->x -= l_cursorSpeed;
+            pos->x -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP, 3)) {
-            static_cast<Vec2*>(stng->data)->y -= l_cursorSpeed;
+            pos->y -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN, 3)) {
-            static_cast<Vec2*>(stng->data)->y += l_cursorSpeed;
+            pos->y += l_cursorSpeed;
         }
 
         // Draw visual cursor
-        drawCursor(*static_cast<Vec2*>(stng->data));
+        drawCursor(*pos);
     }
 
     if (GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||

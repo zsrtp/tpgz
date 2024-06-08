@@ -7,6 +7,10 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
+KEEP_FUNC bool is_active(GZSettingID id) {
+    return GZStng_getSettingData(id, false);
+}
+
 KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"disable bg music", DISABLE_BG_INDEX,
