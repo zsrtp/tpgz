@@ -37,8 +37,6 @@
 
 #define MAX_TUNIC_COLORS 7
 
-#define ACTIVE_FUNC(id) []() { auto* stng = GZStng_getSetting(id); return stng && *(bool*)stng->data; }
-
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
       lines{{"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",

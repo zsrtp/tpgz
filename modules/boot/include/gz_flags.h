@@ -35,7 +35,7 @@ enum GZFlags {
 
 struct GZFlag {
     GZFlags id;
-    bool* mpFlag;
+    bool (*mpFlag)();
     int mPhase;
     void (*mpActiveFunc)();
     void (*mpDeactiveFunc)();

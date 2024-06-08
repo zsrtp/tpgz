@@ -10,6 +10,8 @@
 #define LOAD_AREA 0
 #define LOAD_FILE 1
 
+#define ACTIVE_FUNC(id) []() { auto* stng = GZStng_getSetting(id); return stng && *(bool*)stng->data; }
+
 extern bool g_swap_equips_flag;
 extern ListMember g_font_opt[7];
 
