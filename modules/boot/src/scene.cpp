@@ -1,15 +1,11 @@
 #include "scene.h"
+#include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 
-SceneItem g_sceneFlags[SCENE_AMNT] = {
-    {FREEZE_ACTOR_INDEX, false}, {HIDE_ACTOR_INDEX, false},    {DISABLE_BG_INDEX, false},
-    {DISABLE_SFX_INDEX, false},  {FREEZE_CAMERA_INDEX, false}, {HIDE_HUD_INDEX, false},
-    {FREEZE_TIME_INDEX, false},
-};
-
 KEEP_FUNC void GZ_freezeTime() {
-    if (g_sceneFlags[FREEZE_TIME_INDEX].active) {
+    auto* stng = GZStng_getSetting(STNG_SCENE_FREEZE_TIME);
+    if (stng && *static_cast<bool*>(stng->data)) {
         dStage_roomControl_c__setTimePass(TIME_STOP);
     }
 }

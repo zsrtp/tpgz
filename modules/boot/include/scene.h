@@ -26,8 +26,6 @@ struct SceneItem {
     bool active;
 };
 
-extern SceneItem g_sceneFlags[SCENE_AMNT];
-
 void GZ_freezeTime();
 void GZ_freezeCamera();
 void GZ_unfreezeCamera();

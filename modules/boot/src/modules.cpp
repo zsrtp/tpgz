@@ -94,3 +94,18 @@ KEEP_FUNC bool moon_jump_active() {
     auto* stng = GZStng_getSetting(STNG_CHEATS_MOON_JUMP);
     return stng && *(bool*)stng->data;
 }
+
+KEEP_FUNC bool freeze_actor_active() {
+    auto* stng = GZStng_getSetting(STNG_SCENE_FREEZE_ACTOR);
+    return stng && *(bool*)stng->data;
+}
+
+KEEP_FUNC bool hide_actor_active() {
+    auto* stng = GZStng_getSetting(STNG_SCENE_HIDE_ACTOR);
+    return stng && *(bool*)stng->data;
+}
+
+KEEP_FUNC bool freeze_camera_active() {
+    auto* stng = GZStng_getSetting(STNG_SCENE_FREEZE_CAMERA);
+    return stng && *(bool*)stng->data;
+}

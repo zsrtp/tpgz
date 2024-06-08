@@ -4,8 +4,7 @@
 
 namespace tpgz::modules {
 void main() {
-    auto* stng = GZStng_getSetting(STNG_TOOLS_UMD);
-    GZFlg_addFlag(new GZFlag{GZFLG_UMD, stng ? (bool*)stng->data : nullptr, POST_GAME_LOOP,
+    GZFlg_addFlag(new GZFlag{GZFLG_UMD, ACTIVE_FUNC(STNG_TOOLS_UMD), POST_GAME_LOOP,
                              UMDIndicator::execute});
 }
 void exit() {

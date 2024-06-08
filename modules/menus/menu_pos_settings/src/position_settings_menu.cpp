@@ -44,7 +44,7 @@ void drawCursor(Vec2 pos) {
     Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
 }
 
-GZSettingID l_mappings[] = {
+GZSettingID l_mapping[] = {
     STNG_SPRITES_MENU,
     STNG_SPRITES_INPUT_VIEWER,
     STNG_SPRITES_DEBUG_INFO,
@@ -81,9 +81,9 @@ void PosSettingsMenu::draw() {
         }
     }
 
-    auto* stng = GZStng_getSetting(l_mappings[l_selItem]);
+    auto* stng = GZStng_getSetting(l_mapping[l_selItem]);
     if (!stng) {
-        stng = new GZSettingEntry{l_mappings[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
+        stng = new GZSettingEntry{l_mapping[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
         g_settings.push_back(stng);
     }
     if (l_selItem != POSITION_SETTINGS_NO_SELECTION && l_selItem < SPRITES_AMNT) {

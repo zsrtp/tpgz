@@ -99,7 +99,7 @@ void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex) {
 void GZ_execute(int phase) {
     for (auto gzFlag : g_gzFlags) {
         if (gzFlag->mPhase == phase && gzFlag->mpFlag != nullptr) {
-            if (*gzFlag->mpFlag && gzFlag->mpActiveFunc) {
+            if (gzFlag->mpFlag() && gzFlag->mpActiveFunc) {
                 gzFlag->mpActiveFunc();
             } else if (gzFlag->mpDeactiveFunc) {
                 gzFlag->mpDeactiveFunc();

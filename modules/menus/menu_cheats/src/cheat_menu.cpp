@@ -9,8 +9,6 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-#define ACTIVE_FUNC(id) []() { auto* stng = GZStng_getSetting(id); return stng && *(bool*)stng->data; }
-
 KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"infinite air", InfiniteAir, "Gives infinite air underwater", true,

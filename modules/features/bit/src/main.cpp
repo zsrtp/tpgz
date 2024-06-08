@@ -9,9 +9,8 @@ void main() {
 #ifdef WII_PLATFORM
     GZCmd_addCmd(
         new Command{CMD_BIT, g_commandStates[CMD_BIT], BACK_IN_TIME_BUTTONS, GZCmd_bitPractice});
-    auto* stng = GZStng_getSetting(STNG_TOOLS_BIT);
     GZFlg_addFlag(
-        new GZFlag{GZFLG_BIT, stng ? (bool*)stng->data : nullptr, GAME_LOOP, BiTIndicator::execute});
+        new GZFlag{GZFLG_BIT, ACTIVE_FUNC(STNG_TOOLS_BIT), GAME_LOOP, BiTIndicator::execute});
 #endif
 }
 void exit() {
