@@ -10,7 +10,7 @@
 #define LOAD_AREA 0
 #define LOAD_FILE 1
 
-#define ACTIVE_FUNC(id) []() { auto* stng = GZStng_getSetting(id); return stng && *(bool*)stng->data; }
+#define ACTIVE_FUNC(id) []() { return GZStng_getSettingData(id, false); }
 
 extern bool g_swap_equips_flag;
 extern ListMember g_font_opt[7];
@@ -114,6 +114,12 @@ GZSettingEntry* GZStng_getSetting(GZSettingID id);
  * Returns a list of all the ids of the settings in the list.
  */
 tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList();
+
+template<typename T>
+T GZStng_getSettingData(GZSettingID id, T defaultValue) {
+    auto* stng = GZStng_getSetting(id);
+    return stng ? *static_cast<T*>(stng->data) : defaultValue;
+}
 
 enum cursor_colors {
     CURSOR_GREEN,

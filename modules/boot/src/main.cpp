@@ -173,8 +173,7 @@ KEEP_FUNC void GZ_handleFlags_PostLoop() {
 }
 
 KEEP_FUNC void GZ_handleTurbo() {
-    auto* stng_turbo = GZStng_getSetting(STNG_TOOLS_TURBO_MODE);
-    if (stng_turbo != nullptr && *(bool*)stng_turbo->data) {
+    if (GZStng_getSettingData(STNG_TOOLS_TURBO_MODE, false)) {
 #ifdef GCN_PLATFORM
         cPadInfo[0].mPressedButtonFlags = cPadInfo[0].mButtonFlags;
 #endif
@@ -203,8 +202,7 @@ Texture l_framePauseTex;
 Texture l_framePlayTex;
 
 KEEP_FUNC void GZ_renderPlayPause() {
-    auto* stng_frame_advance = GZStng_getSetting(STNG_TOOLS_FRAME_ADVANCE);
-    if (stng_frame_advance != nullptr && *(bool*)stng_frame_advance->data) {
+    if (GZStng_getSettingData(STNG_TOOLS_FRAME_ADVANCE, false)) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("/tpgz/tex/framePause.tex", &l_framePauseTex);
         }

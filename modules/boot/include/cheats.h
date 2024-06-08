@@ -6,8 +6,7 @@
 void GZ_applyCheats();
 
 inline bool GZ_checkCheat(GZSettingID cheatIdx) {
-    auto* stng = GZStng_getSetting(cheatIdx);
-    return stng && *static_cast<bool*>(stng->data);
+    return GZStng_getSettingData(cheatIdx, false);
 }
 
 #endif
