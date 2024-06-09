@@ -3,6 +3,7 @@
 #include "bit.h"
 #endif
 #include "gz_flags.h"
+#include "commands.h"
 
 namespace tpgz::modules {
 void main() {

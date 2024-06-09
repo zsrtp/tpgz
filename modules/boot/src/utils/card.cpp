@@ -92,7 +92,9 @@ void GZ_storeSettings(GZSaveFile& save_file, void* data) {
         pos += sizeof(GZSettingID);
         memcpy((void*)((uint32_t)data + pos), &entry->size, sizeof(size_t));
         pos += sizeof(size_t);
-        memcpy((void*)((uint32_t)data + pos), entry->data, entry->size);
+        if (entry->size > 0 && entry->data) {
+            memcpy((void*)((uint32_t)data + pos), entry->data, entry->size);
+        }
         pos += entry->size;
     }
 }
@@ -113,14 +115,14 @@ void GZ_loadSettings(GZSaveFile save_file, void* data) {
         pos += sizeof(size_t);
         GZSettingEntry* entry = GZStng_getSetting(id);
         if (entry == nullptr) {
-            entry = new GZSettingEntry{id, size, new uint8_t[size]};
+            entry = new GZSettingEntry{id, size, size > 0 ? new uint8_t[size] : nullptr};
             g_settings.push_back(entry);
         } else {
             void* old_data = entry->data;
             if (old_data) {
                 delete[] (uint8_t*)old_data;
             }
-            entry->data = new uint8_t[size];
+            entry->data = size > 0 ? new uint8_t[size] : nullptr;
             entry->size = size;
         }
         memcpy(entry->data, (void*)((uint32_t)data + pos), size);

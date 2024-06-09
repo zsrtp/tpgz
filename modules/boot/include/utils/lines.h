@@ -31,5 +31,6 @@ struct Line {
 };
 
 float maxF(float a, float b);
+float minF(float a, float b);
 void menu_anim(int idx);
 void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES);

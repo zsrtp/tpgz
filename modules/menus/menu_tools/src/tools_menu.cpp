@@ -30,11 +30,6 @@
 #define NEXT_TUNIC_COLOR_TEXT "TWO"
 #endif
 
-#ifdef GCN_PLATFORM
-#endif
-#ifdef WII_PLATFORM
-#endif
-
 #define MAX_TUNIC_COLORS 7
 
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)

@@ -1,6 +1,8 @@
 #pragma once
 #include "menu.h"
-#include "watches.h"
+#include "utils/memory.h"
+
+#define MAX_WATCHES 50
 
 struct WatchesData {
     uint8_t button_held_counter = 0;

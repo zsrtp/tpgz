@@ -1,11 +1,5 @@
 #pragma once
 
-#include "cheats.h"
-#include "watches.h"
-#include "pos_settings.h"
-#include "scene.h"
-#include "tools.h"
-#include "commands.h"
 #include "utils/containers/deque.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
