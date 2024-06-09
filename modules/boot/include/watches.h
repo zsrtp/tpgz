@@ -1,8 +1,7 @@
 #pragma once
 
 #include <cstdint>
-
-#define MAX_WATCHES 10
+#include "utils/containers/deque.h"
 
 enum MemoryType { MEM_TYPE_U8, MEM_TYPE_S8, MEM_TYPE_U16, MEM_TYPE_S16, MEM_TYPE_U32, MEM_TYPE_S32, MEM_TYPE_F32, MEM_TYPE_STR };
 
@@ -20,5 +19,3 @@ struct MemoryWatch {
     bool line_selected = false;
     bool value_selected = false;
 };
-
-extern MemoryWatch g_watches[MAX_WATCHES];
