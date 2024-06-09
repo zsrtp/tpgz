@@ -1,5 +1,6 @@
 #include "menus/menu_watches/include/watches_menu.h"
 #include <cstdio>
+#include "settings.h"
 #include "watches.h"
 #include "utils/lines.h"
 #include "memory_editor.h"
@@ -15,10 +16,18 @@
 #ifdef GCN_PLATFORM
 #define MEMORY_BUTTON (GZPad::Y)
 #define MEMORY_TEXT "Y"
+#define ADD_WATCH_BUTTON (GZPad::R)
+#define ADD_WATCH_TEXT "R"
+#define REMOVE_WATCH_BUTTON (GZPad::L)
+#define REMOVE_WATCH_TEXT "L"
 #endif
 #ifdef WII_PLATFORM
 #define MEMORY_BUTTON (GZPad::ONE)
 #define MEMORY_TEXT "1"
+#define ADD_WATCH_BUTTON (GZPad::PLUS)
+#define ADD_WATCH_TEXT "(+)"
+#define REMOVE_WATCH_BUTTON (GZPad::MINUS)
+#define REMOVE_WATCH_TEXT "(-)"
 #endif
 
 WatchesMenu::WatchesMenu(Cursor& cursor, WatchesData& data)
@@ -27,7 +36,7 @@ WatchesMenu::WatchesMenu(Cursor& cursor, WatchesData& data)
 
 WatchesMenu::~WatchesMenu() {}
 
-void WatchesMenu::drawMemoryLines() {
+void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
     const float watch_x_pos_x_offset =
         WATCH_ADDRESS_X_OFFSET + maxF(GZ_getTextWidth("Address"), GZ_getTextWidth("0x80000000")) +
         5.0f;
@@ -50,7 +59,7 @@ void WatchesMenu::drawMemoryLines() {
     GZ_drawText("Offset", watch_offset_x_offset, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
     GZ_drawText("Visible", watch_visible_x_offset, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
 
-    for (int i = 0; i < MAX_WATCHES; i++) {
+    for (int i = 0; i < (int)n_watches; i++) {
         const float line_y_offset = (80.0f + (i * 20.0f));
         char watch_address[11];
         char watch_x[8];
@@ -60,12 +69,12 @@ void WatchesMenu::drawMemoryLines() {
         char watch_offset[7];
         char watch_visible[4];
 
-        snprintf(watch_address, sizeof(watch_address), "0x%08X", g_watches[i].address);
-        snprintf(watch_x, sizeof(watch_x), "%.0f", g_watches[i].x);
-        snprintf(watch_y, sizeof(watch_y), "%.0f", g_watches[i].y);
-        snprintf(watch_hex, sizeof(watch_hex), "%s", g_watches[i].hex ? "true" : "false");
+        snprintf(watch_address, sizeof(watch_address), "0x%08X", watches[i].address);
+        snprintf(watch_x, sizeof(watch_x), "%.0f", watches[i].x);
+        snprintf(watch_y, sizeof(watch_y), "%.0f", watches[i].y);
+        snprintf(watch_hex, sizeof(watch_hex), "%s", watches[i].hex ? "true" : "false");
 
-        switch (g_watches[i].type) {
+        switch (watches[i].type) {
         case MEM_TYPE_U8:
             snprintf(watch_type, sizeof(watch_type), "u8");
             break;
@@ -91,13 +100,13 @@ void WatchesMenu::drawMemoryLines() {
             snprintf(watch_type, sizeof(watch_type), "str");
             break;
         }
-        snprintf(watch_offset, sizeof(watch_offset), "0x%04X", g_watches[i].offset);
-        snprintf(watch_visible, sizeof(watch_visible), "%s", g_watches[i].visible ? "[X]" : "[ ]");
+        snprintf(watch_offset, sizeof(watch_offset), "0x%04X", watches[i].offset);
+        snprintf(watch_visible, sizeof(watch_visible), "%s", watches[i].visible ? "[X]" : "[ ]");
 
-        if (g_watches[i].line_selected) {
+        if (watches[i].line_selected) {
             switch (cursor.x) {
             case WatchAddress:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
                         if (l_addrIdx == 9) {
                             l_addrIdx = 3;
@@ -113,21 +122,21 @@ void WatchesMenu::drawMemoryLines() {
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-                        if (l_addrIdx == 3 && g_watches[i].address >= 0x81000000) {
-                            g_watches[i].address = 0x817FFFFF;
+                        if (l_addrIdx == 3 && watches[i].address >= 0x81000000) {
+                            watches[i].address = 0x817FFFFF;
                         } else if (l_addrIdx <= 9 && l_addrIdx >= 3) {
-                            g_watches[i].address += 1 << ((9 - l_addrIdx) * 4);
+                            watches[i].address += 1 << ((9 - l_addrIdx) * 4);
                         }
-                        if (g_watches[i].address > 0x817FFFFF) {
-                            g_watches[i].address = 0x817FFFFF;
+                        if (watches[i].address > 0x817FFFFF) {
+                            watches[i].address = 0x817FFFFF;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
                         if (l_addrIdx <= 9 && l_addrIdx >= 3) {
-                            g_watches[i].address -= 1 << ((9 - l_addrIdx) * 4);
+                            watches[i].address -= 1 << ((9 - l_addrIdx) * 4);
                         }
-                        if (g_watches[i].address < 0x80000000) {
-                            g_watches[i].address = 0x80000000;
+                        if (watches[i].address < 0x80000000) {
+                            watches[i].address = 0x80000000;
                         }
                     }
 
@@ -151,24 +160,24 @@ void WatchesMenu::drawMemoryLines() {
                             GZ_checkDropShadows());
                 break;
             case WatchX:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                        if (g_watches[i].x >= 0.0f && g_watches[i].x < 600.0f) {
-                            g_watches[i].x += l_scrollSpeed;
+                        if (watches[i].x >= 0.0f && watches[i].x < 600.0f) {
+                            watches[i].x += l_scrollSpeed;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                        if (g_watches[i].x > 0.0f && g_watches[i].x <= 600.0f) {
-                            g_watches[i].x -= l_scrollSpeed;
+                        if (watches[i].x > 0.0f && watches[i].x <= 600.0f) {
+                            watches[i].x -= l_scrollSpeed;
                         }
                     }
-                    if (g_watches[i].x < 0) {
-                        g_watches[i].x = 0;
+                    if (watches[i].x < 0) {
+                        watches[i].x = 0;
                     }
-                    if (g_watches[i].x > 600) {
-                        g_watches[i].x = 600;
+                    if (watches[i].x > 600) {
+                        watches[i].x = 600;
                     }
-                    snprintf(watch_x, sizeof(watch_x), "<%.0f>", g_watches[i].x);
+                    snprintf(watch_x, sizeof(watch_x), "<%.0f>", watches[i].x);
                     GZ_drawText(watch_x, watch_x_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -189,24 +198,24 @@ void WatchesMenu::drawMemoryLines() {
                             GZ_checkDropShadows());
                 break;
             case WatchY:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                        if (g_watches[i].y >= 0.0f && g_watches[i].y < 500.0f) {
-                            g_watches[i].y += l_scrollSpeed;
+                        if (watches[i].y >= 0.0f && watches[i].y < 500.0f) {
+                            watches[i].y += l_scrollSpeed;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                        if (g_watches[i].y > 0.0f && g_watches[i].y <= 500.0f) {
-                            g_watches[i].y -= l_scrollSpeed;
+                        if (watches[i].y > 0.0f && watches[i].y <= 500.0f) {
+                            watches[i].y -= l_scrollSpeed;
                         }
                     }
-                    if (g_watches[i].y < 0) {
-                        g_watches[i].y = 0;
+                    if (watches[i].y < 0) {
+                        watches[i].y = 0;
                     }
-                    if (g_watches[i].y > 500) {
-                        g_watches[i].y = 500;
+                    if (watches[i].y > 500) {
+                        watches[i].y = 500;
                     }
-                    snprintf(watch_y, sizeof(watch_y), "<%.0f>", g_watches[i].y);
+                    snprintf(watch_y, sizeof(watch_y), "<%.0f>", watches[i].y);
                     GZ_drawText(watch_y, watch_y_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -228,15 +237,15 @@ void WatchesMenu::drawMemoryLines() {
 
                 break;
             case WatchHex:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                        g_watches[i].hex = !g_watches[i].hex;
+                        watches[i].hex = !watches[i].hex;
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                        g_watches[i].hex = !g_watches[i].hex;
+                        watches[i].hex = !watches[i].hex;
                     }
                     snprintf(watch_hex, sizeof(watch_hex), "<%s>",
-                             g_watches[i].hex ? "true" : "false");
+                             watches[i].hex ? "true" : "false");
                     GZ_drawText(watch_hex, watch_hex_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 } else {
@@ -257,22 +266,24 @@ void WatchesMenu::drawMemoryLines() {
                             GZ_checkDropShadows());
                 break;
             case WatchType:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                        if (g_watches[i].type == MEM_TYPE_STR) {
-                            g_watches[i].type = MEM_TYPE_U8;
-                        } else if (g_watches[i].type >= MEM_TYPE_U8 && g_watches[i].type < MEM_TYPE_STR) {
-                            g_watches[i].type++;
+                        if (watches[i].type == MEM_TYPE_STR) {
+                            watches[i].type = MEM_TYPE_U8;
+                        } else if (watches[i].type >= MEM_TYPE_U8 &&
+                                   watches[i].type < MEM_TYPE_STR) {
+                            watches[i].type++;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                        if (g_watches[i].type == MEM_TYPE_U8) {
-                            g_watches[i].type = MEM_TYPE_STR;
-                        } else if (g_watches[i].type > MEM_TYPE_U8 && g_watches[i].type <= MEM_TYPE_STR) {
-                            g_watches[i].type--;
+                        if (watches[i].type == MEM_TYPE_U8) {
+                            watches[i].type = MEM_TYPE_STR;
+                        } else if (watches[i].type > MEM_TYPE_U8 &&
+                                   watches[i].type <= MEM_TYPE_STR) {
+                            watches[i].type--;
                         }
                     }
-                    switch (g_watches[i].type) {
+                    switch (watches[i].type) {
                     case MEM_TYPE_U8:
                         snprintf(watch_type, sizeof(watch_type), "<u8>");
                         break;
@@ -317,7 +328,7 @@ void WatchesMenu::drawMemoryLines() {
                             GZ_checkDropShadows());
                 break;
             case WatchOffset:
-                if (g_watches[i].value_selected) {
+                if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
                         if (l_offsetIdx == 5) {
                             l_offsetIdx = 2;
@@ -333,15 +344,15 @@ void WatchesMenu::drawMemoryLines() {
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-                        g_watches[i].offset += (0x100000 >> (l_offsetIdx * 4));
-                        if (g_watches[i].offset > 0xFFFF) {
-                            g_watches[i].offset = 0xFFFF;
+                        watches[i].offset += (0x100000 >> (l_offsetIdx * 4));
+                        if (watches[i].offset > 0xFFFF) {
+                            watches[i].offset = 0xFFFF;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
-                        g_watches[i].offset -= (0x100000 >> (l_offsetIdx * 4));
-                        if (g_watches[i].offset < 0x0000) {
-                            g_watches[i].offset = 0x0000;
+                        watches[i].offset -= (0x100000 >> (l_offsetIdx * 4));
+                        if (watches[i].offset < 0x0000) {
+                            watches[i].offset = 0x0000;
                         }
                     }
                     GZ_drawSelectChar(watch_offset, watch_offset_x_offset, line_y_offset,
@@ -384,20 +395,20 @@ void WatchesMenu::drawMemoryLines() {
     }
 }
 
-bool checkMemLineSelected() {
+bool checkMemLineSelected(MemoryWatch* watches, size_t n_watches) {
     bool return_value = false;
-    for (int i = 0; i < MAX_WATCHES; i++) {
-        if (g_watches[i].line_selected) {
+    for (int i = 0; i < (int)n_watches; i++) {
+        if (watches[i].line_selected) {
             return_value = true;
         }
     }
     return return_value;
 }
 
-bool checkLineValSelected() {
+bool checkLineValSelected(MemoryWatch* watches, size_t n_watches) {
     bool return_value = false;
-    for (int i = 0; i < MAX_WATCHES; i++) {
-        if (g_watches[i].value_selected) {
+    for (int i = 0; i < (int)n_watches; i++) {
+        if (watches[i].value_selected) {
             return_value = true;
         }
     }
@@ -408,18 +419,27 @@ bool checkLineValSelected() {
 void WatchesMenu::draw() {
     cursor.setMode(Cursor::MODE_UNRESTRICTED);
 
+    auto* stng = GZStng_getSetting(STNG_WATCHES);
+    if (!stng) {
+        stng = new GZSettingEntry{STNG_WATCHES, 0, nullptr};
+        g_settings.push_back(stng);
+    }
+
+    MemoryWatch* watches = static_cast<MemoryWatch*>(stng->data);
+    size_t n_watches = stng->size / sizeof(MemoryWatch);
+
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        if (checkLineValSelected()) {
-            for (int i = 0; i < MAX_WATCHES; i++) {
-                g_watches[i].value_selected = false;
+        if (checkLineValSelected(watches, n_watches)) {
+            for (int i = 0; i < (int)n_watches; i++) {
+                watches[i].value_selected = false;
             }
-            g_watches[cursor.y].value_selected = false;
+            watches[cursor.y].value_selected = false;
             cursor.lock_x = false;
-        } else if (checkMemLineSelected()) {
-            for (int i = 0; i < MAX_WATCHES; i++) {
-                g_watches[i].line_selected = false;
+        } else if (checkMemLineSelected(watches, n_watches)) {
+            for (int i = 0; i < (int)n_watches; i++) {
+                watches[i].line_selected = false;
             }
-            g_watches[cursor.y].line_selected = false;
+            watches[cursor.y].line_selected = false;
             cursor.lock_y = false;
         } else {
             g_menuMgr->pop();
@@ -427,31 +447,71 @@ void WatchesMenu::draw() {
         }
     }
 
-    if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        if (g_watches[cursor.y].value_selected) {
-            g_watches[cursor.y].value_selected = false;
+    if (GZ_getButtonTrig(SELECTION_BUTTON) && watches) {
+        if (watches[cursor.y].value_selected) {
+            watches[cursor.y].value_selected = false;
             cursor.lock_x = false;
-        } else if (g_watches[cursor.y].line_selected) {
-            g_watches[cursor.y].value_selected = true;
+        } else if (watches[cursor.y].line_selected) {
+            watches[cursor.y].value_selected = true;
             cursor.lock_x = true;
         } else {
-            g_watches[cursor.y].line_selected = true;
+            watches[cursor.y].line_selected = true;
             cursor.lock_y = true;
         }
     }
 
-    if (GZ_getButtonTrig(GZPad::Z)) {
-        g_watches[cursor.y].visible = !g_watches[cursor.y].visible;
+    if (GZ_getButtonTrig(GZPad::Z) && watches) {
+        watches[cursor.y].visible = !watches[cursor.y].visible;
     }
 
-    if (GZ_getButtonTrig(MEMORY_BUTTON)) {
-        if (g_watches[cursor.y].offset > 0 && *(uint32_t*)g_watches[cursor.y].address != 0) {
+    if (GZ_getButtonTrig(MEMORY_BUTTON) && watches) {
+        if (watches[cursor.y].offset > 0 && *(uint32_t*)watches[cursor.y].address != 0) {
             g_memoryEditor_addressIndex =
-                *(uint32_t*)g_watches[cursor.y].address + g_watches[cursor.y].offset;
+                *(uint32_t*)watches[cursor.y].address + watches[cursor.y].offset;
         } else {
-            g_memoryEditor_addressIndex = g_watches[cursor.y].address;
+            g_memoryEditor_addressIndex = watches[cursor.y].address;
         }
         g_menuMgr->push(MN_MEMORY_EDITOR_INDEX);
+    }
+
+    if (GZ_getButtonTrig(ADD_WATCH_BUTTON) && !checkMemLineSelected(watches, n_watches)) {
+        MemoryWatch* new_watches = new MemoryWatch[n_watches + 1];
+        if (watches) {
+            if (n_watches > 0) {
+                for (int i = 0; i < (int)cursor.y + 1; ++i) {
+                    new_watches[i] = watches[i];
+                }
+                for (int i = n_watches - 1; i >= cursor.y; --i) {
+                    new_watches[i + 1] = watches[i];
+                }
+            }
+            delete[] watches;
+        }
+        stng->data = new_watches;
+        stng->size = (n_watches + 1) * sizeof(MemoryWatch);
+        ++n_watches;
+    }
+
+    if (GZ_getButtonTrig(REMOVE_WATCH_BUTTON) && !checkMemLineSelected(watches, n_watches)) {
+        if (watches && n_watches > 0) {
+            MemoryWatch* new_watches = nullptr;
+            if (n_watches > 1) {
+                new_watches = new MemoryWatch[n_watches - 1];
+                for (int i = 0; i < (int)cursor.y; i++) {
+                    new_watches[i] = watches[i];
+                }
+                for (int i = cursor.y; i < (int)n_watches - 1; i++) {
+                    new_watches[i] = watches[i + 1];
+                }
+            }
+            if (cursor.y > 0 && cursor.y == (int)n_watches - 1) {
+                cursor.y -= 1;
+            }
+            delete[] watches;
+            stng->data = new_watches;
+            stng->size = (n_watches - 1) * sizeof(MemoryWatch);
+            --n_watches;
+        }
     }
 
     if (GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_LEFT)) {
@@ -465,8 +525,13 @@ void WatchesMenu::draw() {
         l_scrollSpeed = 1.0f;
     }
 
-    cursor.move(WATCH_COLUMNS, MAX_WATCHES);
-    GZ_drawText("Press Z to enable/disable watch. " MEMORY_TEXT " to jump to editor address", 25.0f,
-                440.f, WHITE_RGBA, GZ_checkDropShadows());
-    drawMemoryLines();
+    cursor.move(WATCH_COLUMNS, n_watches);
+    GZ_drawText("Z: enable/disable watch; " MEMORY_TEXT ": go to address; " ADD_WATCH_TEXT
+                "/" REMOVE_WATCH_TEXT ": add/remove watch",
+                20.0f, 440.f, WHITE_RGBA, GZ_checkDropShadows());
+    if (watches) {
+        drawMemoryLines(watches, n_watches);
+    } else {
+        GZ_drawText("No watches", 25.0f, 80.0f, WHITE_RGBA, GZ_checkDropShadows());
+    }
 }

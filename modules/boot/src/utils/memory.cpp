@@ -9,102 +9,111 @@
 #include "tools.h"
 
 KEEP_FUNC void GZ_drawWatches() {
-    for (int i = 0; i < MAX_WATCHES; i++) {
-        if (g_watches[i].visible) {
+    auto* stng = GZStng_getSetting(STNG_WATCHES);
+    if (!stng) {
+        stng = new GZSettingEntry{STNG_WATCHES, 0, nullptr};
+        g_settings.push_back(stng);
+    }
+
+    MemoryWatch* watches = stng ? static_cast<MemoryWatch*>(stng->data) : nullptr;
+    size_t n_watches = stng ? stng->size / sizeof(MemoryWatch) : 0;
+
+    for (size_t i = 0; i < n_watches; i++) {
+        if (watches[i].visible) {
             char rendered_value[9];
-            switch (g_watches[i].type) {
+            switch (watches[i].type) {
             case MEM_TYPE_U32:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%08X" : "%u",
-                             *(uint32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%08X" : "%u",
+                             *(uint32_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%08X" : "%u", *(uint32_t*)g_watches[i].address);
+                             watches[i].hex ? "%08X" : "%u", *(uint32_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_U16:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%04X" : "%u",
-                             *(uint16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%04X" : "%u",
+                             *(uint16_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%04X" : "%u", *(uint16_t*)g_watches[i].address);
+                             watches[i].hex ? "%04X" : "%u", *(uint16_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_U8:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%02X" : "%u",
-                             *(uint8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%02X" : "%u",
+                             *(uint8_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%02X" : "%u", *(uint8_t*)g_watches[i].address);
+                             watches[i].hex ? "%02X" : "%u", *(uint8_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_S32:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%08X" : "%i",
-                             *(int32_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%08X" : "%i",
+                             *(int32_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%08X" : "%i", *(int32_t*)g_watches[i].address);
+                             watches[i].hex ? "%08X" : "%i", *(int32_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_S16:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%04X" : "%i",
-                             *(int16_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%04X" : "%i",
+                             *(int16_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%04X" : "%i", *(int16_t*)g_watches[i].address);
+                             watches[i].hex ? "%04X" : "%i", *(int16_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_S8:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%02X" : "%i",
-                             *(int8_t*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             watches[i].hex ? "%02X" : "%i",
+                             *(int8_t*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value),
-                             g_watches[i].hex ? "%02X" : "%i", *(int8_t*)g_watches[i].address);
+                             watches[i].hex ? "%02X" : "%i", *(int8_t*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_F32:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value), "%.2f",
-                             *(float*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             *(float*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value), "%.2f",
-                             *(float*)g_watches[i].address);
+                             *(float*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             case MEM_TYPE_STR:
-                if (g_watches[i].offset > 0x0000 && *(uint32_t*)g_watches[i].address != 0) {
+                if (watches[i].offset > 0x0000 && *(uint32_t*)watches[i].address != 0) {
                     snprintf(rendered_value, sizeof(rendered_value), "%s",
-                             (char*)(*(uint32_t*)g_watches[i].address + g_watches[i].offset));
+                             (char*)(*(uint32_t*)watches[i].address + watches[i].offset));
                 } else {
                     snprintf(rendered_value, sizeof(rendered_value), "%s",
-                             (char*)g_watches[i].address);
+                             (char*)watches[i].address);
                 }
-                Font::GZ_drawStr(rendered_value, g_watches[i].x, g_watches[i].y, 0xFFFFFFFF,
+                Font::GZ_drawStr(rendered_value, watches[i].x, watches[i].y, 0xFFFFFFFF,
                                  GZ_checkDropShadows());
                 break;
             }
