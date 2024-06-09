@@ -10,6 +10,7 @@ void main() {
 #ifdef WII_PLATFORM
     GZCmd_addCmd(
         new Command{CMD_BIT, g_commandStates[CMD_BIT], BACK_IN_TIME_BUTTONS, GZCmd_bitPractice});
+    GZCmd_enable(Commands::CMD_BIT);
     GZFlg_addFlag(
         new GZFlag{GZFLG_BIT, ACTIVE_FUNC(STNG_TOOLS_BIT), GAME_LOOP, BiTIndicator::execute});
 #endif
