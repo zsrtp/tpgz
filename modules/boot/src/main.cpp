@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "menus/utils/menu_mgr.h"
 #include "timer.h"
+#include "pos_settings.h"
 #include "trigger_view.h"
 #include "collision_view.h"
 #include "utils/card.h"

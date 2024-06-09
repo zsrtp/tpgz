@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "fifo_queue.h"
 #include "utils/containers/deque.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 
 #ifdef WII_PLATFORM
 #define FRAME_ADVANCE_BTN GZPad::TWO

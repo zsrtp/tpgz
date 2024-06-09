@@ -14,6 +14,10 @@ KEEP_FUNC float maxF(float a, float b) {
     return MAX(a, b);
 }
 
+KEEP_FUNC float minF(float a, float b) {
+    return MIN(a, b);
+}
+
 KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES) {
     Vec2 offset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
     float x_offset = offset.x;
