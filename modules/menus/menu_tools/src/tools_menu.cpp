@@ -159,7 +159,7 @@ void ToolsMenu::draw() {
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         GZSettingEntry* stng = nullptr;
-        if (cursor.y < TOOLS_COUNT) {
+        if (cursor.y < TOOLS_COUNT && cursor.y != TUNIC_COLOR_INDEX) {
             stng = GZStng_getSetting(l_mapping[cursor.y]);
             if (!stng) {
                 stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
