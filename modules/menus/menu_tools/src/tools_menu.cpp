@@ -86,42 +86,40 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
              true, ACTIVE_FUNC(STNG_TOOLS_MOVE_LINK)},
-            {"transform indicator:", TRANSFORM_INDICATOR_INDEX, "Adds an icon showing when link can transform.", true,
+            {"transform indicator:", TRANSFORM_INDICATOR_INDEX,
+             "Adds an icon showing when link can transform.", true,
              ACTIVE_FUNC(STNG_TOOLS_TRANSFORM_INDICATOR)},
-            {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT " to cycle through colors", false, nullptr,
-             MAX_TUNIC_COLORS}} {
+            {"link tunic color:", TUNIC_COLOR_INDEX,
+             "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT
+             " to cycle through colors",
+             false, nullptr, MAX_TUNIC_COLORS}} {
 }
 
 ToolsMenu::~ToolsMenu() {}
 
 GZSettingID l_mapping[] = {
-    STNG_TOOLS_RELOAD_AREA,
-    STNG_TOOLS_FRAME_ADVANCE,
-    STNG_TOOLS_FAST_BONK,
-    STNG_TOOLS_FAST_MOVEMENT,
+    STNG_TOOLS_RELOAD_AREA,  STNG_TOOLS_FRAME_ADVANCE,
+    STNG_TOOLS_FAST_BONK,    STNG_TOOLS_FAST_MOVEMENT,
     STNG_TOOLS_GORGE,
 #ifdef WII_PLATFORM
     STNG_TOOLS_BIT,
 #endif
-    STNG_TOOLS_COROTD,
-    STNG_TOOLS_UMD,
-    STNG_TOOLS_INPUT_VIEWER,
-    STNG_TOOLS_LINK_DEBUG,
-    STNG_TOOLS_HEAP_DEBUG,
-    STNG_TOOLS_SAND,
-    STNG_TOOLS_ROLL,
-    STNG_TOOLS_MASH_CHECKER,
-    STNG_TOOLS_TELEPORT,
-    STNG_TOOLS_TURBO_MODE,
-    STNG_TOOLS_TIMER,
-    STNG_TOOLS_LOAD_TIMER,
-    STNG_TOOLS_IGT_TIMER,
-    STNG_TOOLS_FREE_CAM,
-    STNG_TOOLS_MOVE_LINK,
-    STNG_TOOLS_TRANSFORM_INDICATOR,
+    STNG_TOOLS_COROTD,       STNG_TOOLS_UMD,
+    STNG_TOOLS_INPUT_VIEWER, STNG_TOOLS_LINK_DEBUG,
+    STNG_TOOLS_HEAP_DEBUG,   STNG_TOOLS_SAND,
+    STNG_TOOLS_ROLL,         STNG_TOOLS_MASH_CHECKER,
+    STNG_TOOLS_TELEPORT,     STNG_TOOLS_TURBO_MODE,
+    STNG_TOOLS_TIMER,        STNG_TOOLS_LOAD_TIMER,
+    STNG_TOOLS_IGT_TIMER,    STNG_TOOLS_FREE_CAM,
+    STNG_TOOLS_MOVE_LINK,    STNG_TOOLS_TRANSFORM_INDICATOR,
 };
 
-#define set_active(id, status) ({auto* stng = GZStng_getSetting(id); if (stng) *(bool*)stng->data = status;})
+#define set_active(id, status)                                                                     \
+    ({                                                                                             \
+        auto* stng = GZStng_getSetting(id);                                                        \
+        if (stng)                                                                                  \
+            *(bool*)stng->data = status;                                                           \
+    })
 
 void ToolsMenu::draw() {
     l_tunicCol_idx = g_tunic_color;

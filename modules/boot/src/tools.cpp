@@ -61,7 +61,7 @@ KEEP_FUNC void GZ_handleTools() {
     }
 
     if (GZStng_getSettingData(STNG_TOOLS_TELEPORT, false) && !GZCmd_getCmd(CMD_LOAD_POSITION)) {
-        GZCmd_addCmd(new Command{CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS, GZCmd_storePosition});
+        GZCmd_addCmd(new Command{CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS, GZCmd_loadPosition});
     } else if (!GZStng_getSettingData(STNG_TOOLS_TELEPORT, false) &&
                GZCmd_getCmd(CMD_LOAD_POSITION)) {
         auto* cmd = GZCmd_removeCmd(CMD_LOAD_POSITION);
