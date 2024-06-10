@@ -141,7 +141,7 @@ KEEP_FUNC Command* GZCmd_getCmd(int id) {
 KEEP_FUNC void GZCmd_processInputs() {
     sCurInputs = GZ_getButtonStatus();
     for (auto c : g_commands) {
-        if (c->active && sCurInputs == c->buttons) {
+        if (sCurInputs == c->buttons) {
             c->command();
             setGamepadButtons(0x0);
             setGamepadTrig(0x0);
@@ -150,18 +150,4 @@ KEEP_FUNC void GZCmd_processInputs() {
         }
     }
     sLastInputs = sCurInputs;
-}
-
-void GZCmd_enable(int idx) {
-    auto* cmd = GZCmd_getCmd(idx);
-    if (cmd) {
-        cmd->active = true;
-    }
-}
-
-void GZCmd_disable(int idx) {
-    auto* cmd = GZCmd_getCmd(idx);
-    if (cmd) {
-        cmd->active = false;
-    }
 }

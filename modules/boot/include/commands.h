@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "utils/containers/deque.h"
 
@@ -54,7 +55,6 @@ enum Commands {
 
 struct Command {
     Commands id;
-    bool& active;
     uint16_t buttons;
     void (*command)();
 };
@@ -81,5 +81,3 @@ Command* GZCmd_removeCmd(Commands cmdId);
 Command* GZCmd_getCmd(int id);
 
 void GZCmd_processInputs();
-void GZCmd_enable(int idx);
-void GZCmd_disable(int idx);

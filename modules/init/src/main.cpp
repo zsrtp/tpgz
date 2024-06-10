@@ -8,6 +8,7 @@
 #include "menu.h"
 #include "menus/utils/menu_mgr.h"
 #include "modules.h"
+#include "tools.h"
 
 #include "utils/memory.h"
 #include "utils/audio.h"
@@ -72,6 +73,7 @@ void main() {
     g_PreLoopListener = new PreLoopListener();
     g_PreLoopListener->addListener(GZ_handleCardLoad);
     g_PreLoopListener->addListener(GZ_handleMenu);
+    g_PreLoopListener->addListener(GZ_handleTools);
     g_PreLoopListener->addListener(GZ_handleSavingTmp);
     g_PreLoopListener->addListener(GZ_handleFlags_PreLoop);
     g_PreLoopListener->addListener(GZ_handleTurbo);
@@ -86,24 +88,6 @@ void main() {
     g_PostLoopListener->addListener(GZ_handleFlags_PostLoop);
     g_PostLoopListener->addListener(GZ_setCursorColor);
     g_PostLoopListener->addListener(GZ_setTunicColor);
-
-    // Init the command list
-    GZCmd_addCmd(new Command{CMD_STORE_POSITION, g_commandStates[CMD_STORE_POSITION],
-                             STORE_POSITION_BUTTONS, GZCmd_storePosition});
-    GZCmd_addCmd(new Command{CMD_LOAD_POSITION, g_commandStates[CMD_LOAD_POSITION],
-                             LOAD_POSITION_BUTTONS, GZCmd_loadPosition});
-    GZCmd_addCmd(new Command{CMD_RELOAD_AREA, g_commandStates[CMD_RELOAD_AREA], RELOAD_AREA_BUTTONS,
-                             GZCmd_reloadArea});
-    GZCmd_addCmd(new Command{CMD_TIMER_TOGGLE, g_commandStates[CMD_TIMER_TOGGLE],
-                             TIMER_TOGGLE_BUTTONS, GZCmd_toggleTimer});
-    GZCmd_addCmd(new Command{CMD_TIMER_RESET, g_commandStates[CMD_TIMER_RESET], TIMER_RESET_BUTTONS,
-                             GZCmd_resetTimer});
-    GZCmd_addCmd(new Command{CMD_FREE_CAM, g_commandStates[CMD_FREE_CAM], FREE_CAM_BUTTONS,
-                             GZCmd_toggleFreeCam});
-    GZCmd_addCmd(new Command{CMD_MOVE_LINK, g_commandStates[CMD_MOVE_LINK], MOVE_LINK_BUTTONS,
-                             GZCmd_toggleMoveLink});
-    GZCmd_addCmd(new Command{CMD_FRAME_PAUSE, g_commandStates[CMD_FRAME_PAUSE], FRAME_PAUSE_BUTTONS,
-                             GZCmd_pauseFrame});
 
     // Init the gz flags
     GZFlg_addFlag(new GZFlag{GZFLG_FREEZE_ACTOR, GZ_freezeActors_active,

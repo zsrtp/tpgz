@@ -13,7 +13,7 @@ KEEP_VAR bool active = false;
 
 namespace tpgz::modules {
 void main() {
-    GZCmd_addCmd(new Command{CMD_MOON_JUMP, active, MOON_JUMP_BUTTONS, GZCmd_moonJump});
+    GZCmd_addCmd(new Command{CMD_MOON_JUMP, MOON_JUMP_BUTTONS, GZCmd_moonJump});
 }
 void exit() {
     auto* cmd = GZCmd_removeCmd(CMD_MOON_JUMP);

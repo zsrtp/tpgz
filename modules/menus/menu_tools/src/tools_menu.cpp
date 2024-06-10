@@ -170,114 +170,18 @@ void ToolsMenu::draw() {
             *(bool*)stng->data = !*(bool*)stng->data;
             if (*(bool*)stng->data) {
                 switch (cursor.y) {
-                case FRAME_ADVANCE_INDEX:
-                    GZCmd_enable(Commands::CMD_FRAME_PAUSE);
-                    break;
                 case TIMER_INDEX:
                     set_active(STNG_TOOLS_LOAD_TIMER, false);
                     set_active(STNG_TOOLS_IGT_TIMER, false);
-                    GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
-                    GZCmd_enable(Commands::CMD_TIMER_RESET);
                     break;
                 case LOAD_TIMER_INDEX:
                     set_active(STNG_TOOLS_TIMER, false);
                     set_active(STNG_TOOLS_IGT_TIMER, false);
-                    GZCmd_enable(Commands::CMD_TIMER_RESET);
                     break;
                 case IGT_TIMER_INDEX:
                     set_active(STNG_TOOLS_TIMER, false);
                     set_active(STNG_TOOLS_LOAD_TIMER, false);
-                    GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
-                    GZCmd_enable(Commands::CMD_TIMER_RESET);
                     break;
-#ifdef WII_PLATFORM
-                case BIT_INDEX:
-                    GZCmd_enable(Commands::CMD_BIT);
-                    break;
-#endif
-                case TELEPORT_INDEX:
-                    GZCmd_enable(Commands::CMD_STORE_POSITION);
-                    GZCmd_enable(Commands::CMD_LOAD_POSITION);
-                    break;
-                case RELOAD_AREA_INDEX:
-                    GZCmd_enable(Commands::CMD_RELOAD_AREA);
-                    break;
-                case FAST_MOVEMENT_INDEX:
-                    daAlinkHIO_frontRoll.mSpeedRate = 3.0f;
-                    daAlinkHIO_swim.mMaxUnderwaterSpeed = 50;
-                    daAlinkHIO_swim.mMaxBackwardSpeed = 50;
-                    daAlinkHIO_swim.mMaxStrafeSpeed = 50;
-                    daAlinkHIO_swim.mDashMaxSpeed = 50;
-                    daAlinkHIO_swim.mMaxForwardSpeed = 50;
-                    daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 50;
-                    daAlinkHIO_swim.mBootsMaxSinkSpeed = -50;
-                    daAlinkHIO_swim.mBootsGravity = -50;
-                    daAlinkHIO_wlMove.mDashInitSpeed = 100;
-                    daAlinkHIO_wlMove.mDashMaxSpeed = 100;
-                    daAlinkHIO_wlMove.mDashInitSpeedSlow = 70;
-                    daAlinkHIO_wlMove.mDashMaxSpeedSlow = 70;
-                    daAlinkHIO_wlSwim.mMaxSpeed = 50;
-                    daAlinkHIO_wlSwim.mMaxSpeedWeak = 50;
-                    break;
-                case FAST_BONK_INDEX:
-                    daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 50.0f;
-                    daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.0f;
-                    break;
-                case FREE_CAM_INDEX:
-                    GZCmd_enable(Commands::CMD_FREE_CAM);
-                    g_freeCamEnabled = false;
-                    break;
-                case MOVE_LINK_INDEX:
-                    GZCmd_enable(Commands::CMD_MOVE_LINK);
-                    g_moveLinkEnabled = false;
-                    break;
-                }
-            } else {
-                switch (cursor.y) {
-                case FRAME_ADVANCE_INDEX:
-                    GZCmd_disable(Commands::CMD_FRAME_PAUSE);
-                    break;
-                case TELEPORT_INDEX:
-                    GZCmd_disable(Commands::CMD_STORE_POSITION);
-                    GZCmd_disable(Commands::CMD_LOAD_POSITION);
-                    break;
-                case RELOAD_AREA_INDEX:
-                    GZCmd_disable(Commands::CMD_RELOAD_AREA);
-                    break;
-                case FAST_MOVEMENT_INDEX:
-                    daAlinkHIO_frontRoll.mSpeedRate = 1.3;
-                    daAlinkHIO_swim.mMaxUnderwaterSpeed = 12;
-                    daAlinkHIO_swim.mMaxForwardSpeed = 8;
-                    daAlinkHIO_swim.mMaxBackwardSpeed = 6;
-                    daAlinkHIO_swim.mMaxStrafeSpeed = 8;
-                    daAlinkHIO_swim.mDashMaxSpeed = 13;
-                    daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 8;
-                    daAlinkHIO_swim.mBootsMaxSinkSpeed = -20;
-                    daAlinkHIO_swim.mBootsGravity = -0.699999988;
-                    daAlinkHIO_wlMove.mDashInitSpeed = 65;
-                    daAlinkHIO_wlMove.mDashMaxSpeed = 45;
-                    daAlinkHIO_wlMove.mDashInitSpeedSlow = 35;
-                    daAlinkHIO_wlMove.mDashMaxSpeedSlow = 33;
-                    daAlinkHIO_wlSwim.mMaxSpeed = 20;
-                    daAlinkHIO_wlSwim.mMaxSpeedWeak = 9;
-                    break;
-                case FAST_BONK_INDEX:
-                    daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 3.0f;
-                    daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.800000012f;
-                    break;
-                case FREE_CAM_INDEX:
-                    GZCmd_disable(Commands::CMD_FREE_CAM);
-                    g_freeCamEnabled = false;
-                    break;
-                case MOVE_LINK_INDEX:
-                    GZCmd_disable(Commands::CMD_MOVE_LINK);
-                    g_moveLinkEnabled = false;
-                    break;
-#ifdef WII_PLATFORM
-                case BIT_INDEX:
-                    GZCmd_disable(Commands::CMD_BIT);
-                    break;
-#endif
                 }
             }
         }
