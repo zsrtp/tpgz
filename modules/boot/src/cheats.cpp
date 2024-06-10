@@ -29,12 +29,6 @@ void* cc_at_check(void*, void*);
 bool l_doorCollision;
 
 void GZ_applyCheats() {
-    if (GZ_checkCheat(STNG_CHEATS_MOON_JUMP)) {
-        GZCmd_enable(CMD_MOON_JUMP);
-    } else {
-        GZCmd_disable(CMD_MOON_JUMP);
-    }
-
     if (GZ_checkCheat(STNG_CHEATS_INVINCIBLE_ENEMIES)) {
         /* Patch cc_at_check instruction to nop out health subtraction */
         *reinterpret_cast<uint32_t*>((uint32_t)(&cc_at_check) + INVINCIBLE_ENEMIES_OFFSET) =
@@ -50,7 +44,7 @@ void GZ_applyCheats() {
             if (node != NULL) {
                 create_tag_class* tag = (create_tag_class*)node;
                 fopEn_enemy_c* actor = (fopEn_enemy_c*)tag->mpTagData;
-                
+
                 if (actor != NULL) {
                     switch (fopAcM_GetName(actor)) {
                     case PROC_E_ZS: {
@@ -58,12 +52,12 @@ void GZ_applyCheats() {
 
                         // if action is damage action
                         if (zs->mAction == 2) {
-                            zs->mAction = 1; // set back to wait action, mode 0
+                            zs->mAction = 1;  // set back to wait action, mode 0
                             zs->mMode = 0;
 
                             zs->mCyl.mGObjInf.OnTgSetBit();  // turn back on hit collision
                             zs->mCyl.mGObjInf.OnCoSetBit();  // turn back on push collision
-                            zs->mHealth = 20;  // reset health back to max
+                            zs->mHealth = 20;                // reset health back to max
                         }
                         break;
                     }

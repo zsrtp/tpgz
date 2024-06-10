@@ -170,6 +170,14 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
         assert_result(GZ_storageRead(storage, data, save_file.header.data_size, pos, sector_size));
     }
 
+    // Clear the settings before loading the saved ones.
+    for (auto& entry : g_settings) {
+        delete[] (uint8_t*)entry->data;
+        delete entry;
+    }
+
+    g_settings.clear();
+
     GZ_loadSettings(save_file, data);
 
     if (data != nullptr) {
