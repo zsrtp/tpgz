@@ -30,16 +30,24 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
 
     if (LINES <= MAX_RENDER_LINES) {
         min_line = 0;
-        max_line = MAX_RENDER_LINES;
+        max_line = (MAX_RENDER_LINES - 1);
     }
 
     if (cursor > max_line) {
         max_line = cursor;
-        min_line = max_line - MAX_RENDER_LINES;
+        min_line = max_line - (MAX_RENDER_LINES - 1);
     }
     if (cursor < min_line) {
         min_line = cursor;
-        max_line = min_line + MAX_RENDER_LINES;
+        max_line = min_line + (MAX_RENDER_LINES - 1);
+    }
+
+    if (min_line > 0) {
+        Font::GZ_drawStr("^", offset.x, offset.y - 10.0f, 0xFFFFFFFF, GZ_checkDropShadows());
+    }
+
+    if (max_line < LINES - 1) {
+        Font::GZ_drawStr("v", offset.x, offset.y + 20.0f * MAX_RENDER_LINES - 10.f, 0xFFFFFFFF, GZ_checkDropShadows());
     }
 
     for (uint32_t i = min_line; i < MIN(max_line + 1, LINES); i++) {
