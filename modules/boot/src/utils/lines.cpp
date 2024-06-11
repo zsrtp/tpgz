@@ -33,19 +33,16 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
         max_line = MAX_RENDER_LINES;
     }
 
-    for (uint32_t i = 0; i < LINES; i++) {
-        if (cursor > max_line) {
-            max_line = cursor;
-            min_line = max_line - MAX_RENDER_LINES;
-        }
-        if (cursor < min_line) {
-            min_line = cursor;
-            max_line = min_line + MAX_RENDER_LINES;
-        }
+    if (cursor > max_line) {
+        max_line = cursor;
+        min_line = max_line - MAX_RENDER_LINES;
+    }
+    if (cursor < min_line) {
+        min_line = cursor;
+        max_line = min_line + MAX_RENDER_LINES;
+    }
 
-        if (i > max_line || i < min_line) {
-            continue;
-        }
+    for (uint32_t i = min_line; i < MIN(max_line + 1, LINES); i++) {
         y_offset = (offset.y + (i - min_line) * 20.0f);
 
         uint32_t cursor_color = g_cursorColor;
