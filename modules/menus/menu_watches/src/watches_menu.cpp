@@ -30,6 +30,12 @@
 #define REMOVE_WATCH_TEXT "(-)"
 #endif
 
+#ifdef WII_PLATFORM
+extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
+
 WatchesMenu::WatchesMenu(Cursor& cursor, WatchesData& data)
     : Menu(cursor), button_held_counter(data.button_held_counter),
       l_scrollSpeed(data.l_scrollSpeed), l_addrIdx(data.l_addrIdx), l_offsetIdx(data.l_offsetIdx) {}
@@ -39,9 +45,11 @@ WatchesMenu::~WatchesMenu() {}
 void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
     static size_t l_firstLine = 0;
 
+    const float scale = isWidescreen ? 0.75f : 1.0f;
+
     const float watch_x_pos_x_offset =
-        WATCH_ADDRESS_X_OFFSET + maxF(GZ_getTextWidth("Address"), GZ_getTextWidth("0x80000000")) +
-        5.0f;
+        WATCH_ADDRESS_X_OFFSET * scale +
+        maxF(GZ_getTextWidth("Address"), GZ_getTextWidth("0x80000000")) + 5.0f * scale;
     const float watch_y_pos_x_offset =
         watch_x_pos_x_offset + maxF(GZ_getTextWidth("X"), GZ_getTextWidth("<000>")) + 5.0f;
     const float watch_hex_x_offset =
@@ -53,7 +61,8 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
     const float watch_visible_x_offset =
         watch_offset_x_offset + maxF(GZ_getTextWidth("Offset"), GZ_getTextWidth("0x0000")) + 5.0f;
 
-    GZ_drawText("Address", WATCH_ADDRESS_X_OFFSET, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
+    GZ_drawText("Address", WATCH_ADDRESS_X_OFFSET * scale, 60.0f, WHITE_RGBA,
+                GZ_checkDropShadows());
     GZ_drawText("X", watch_x_pos_x_offset, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
     GZ_drawText("Y", watch_y_pos_x_offset, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
     GZ_drawText("Hex", watch_hex_x_offset, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
@@ -66,6 +75,17 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
     }
     if (cursor.y > (int)l_firstLine + MAX_RENDER_LINES - 1) {
         l_firstLine = cursor.y - MAX_RENDER_LINES + 1;
+    }
+
+    if (l_firstLine > 0) {
+        Font::GZ_drawStr("^", WATCH_ADDRESS_X_OFFSET * scale, 80.0f - 8.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+    }
+
+    if (l_firstLine + MAX_RENDER_LINES - 1 < n_watches - 1) {
+        Font::GZ_drawStr("v", WATCH_ADDRESS_X_OFFSET * scale,
+                         80.0f + 20.0f * MAX_RENDER_LINES - 10.f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
     }
 
     for (int i = MAX(0, l_firstLine); i < (int)MIN(l_firstLine + MAX_RENDER_LINES, n_watches);
@@ -150,11 +170,11 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                         }
                     }
 
-                    GZ_drawSelectChar(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset,
+                    GZ_drawSelectChar(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
                                       l_addrIdx, 9, WHITE_RGBA);
                 } else {
-                    GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, CURSOR_RGBA,
-                                GZ_checkDropShadows());
+                    GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                                CURSOR_RGBA, GZ_checkDropShadows());
                 }
                 GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
@@ -173,12 +193,12 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                 if (watches[i].value_selected) {
                     if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
                         if (watches[i].x >= 0.0f && watches[i].x < 600.0f) {
-                            watches[i].x += l_scrollSpeed;
+                            watches[i].x += l_scrollSpeed * scale;
                         }
                     }
                     if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
                         if (watches[i].x > 0.0f && watches[i].x <= 600.0f) {
-                            watches[i].x -= l_scrollSpeed;
+                            watches[i].x -= l_scrollSpeed * scale;
                         }
                     }
                     if (watches[i].x < 0) {
@@ -188,14 +208,14 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                         watches[i].x = 600;
                     }
                     snprintf(watch_x, sizeof(watch_x), "<%.0f>", watches[i].x);
-                    GZ_drawText(watch_x, watch_x_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
-                                GZ_checkDropShadows());
+                    GZ_drawText(watch_x, watch_x_pos_x_offset - 8.0f * scale, line_y_offset,
+                                CURSOR_RGBA, GZ_checkDropShadows());
                 } else {
                     GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 }
-                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, WHITE_RGBA,
-                            GZ_checkDropShadows());
+                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                            WHITE_RGBA, GZ_checkDropShadows());
                 GZ_drawText(watch_y, watch_y_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
                 GZ_drawText(watch_hex, watch_hex_x_offset, line_y_offset, WHITE_RGBA,
@@ -226,14 +246,14 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                         watches[i].y = 500;
                     }
                     snprintf(watch_y, sizeof(watch_y), "<%.0f>", watches[i].y);
-                    GZ_drawText(watch_y, watch_y_pos_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
-                                GZ_checkDropShadows());
+                    GZ_drawText(watch_y, watch_y_pos_x_offset - 8.0f * scale, line_y_offset,
+                                CURSOR_RGBA, GZ_checkDropShadows());
                 } else {
                     GZ_drawText(watch_y, watch_y_pos_x_offset, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 }
-                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, WHITE_RGBA,
-                            GZ_checkDropShadows());
+                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                            WHITE_RGBA, GZ_checkDropShadows());
                 GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
                 GZ_drawText(watch_hex, watch_hex_x_offset, line_y_offset, WHITE_RGBA,
@@ -256,14 +276,14 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                     }
                     snprintf(watch_hex, sizeof(watch_hex), "<%s>",
                              watches[i].hex ? "true" : "false");
-                    GZ_drawText(watch_hex, watch_hex_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
-                                GZ_checkDropShadows());
+                    GZ_drawText(watch_hex, watch_hex_x_offset - 8.0f * scale, line_y_offset,
+                                CURSOR_RGBA, GZ_checkDropShadows());
                 } else {
                     GZ_drawText(watch_hex, watch_hex_x_offset, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 }
-                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, WHITE_RGBA,
-                            GZ_checkDropShadows());
+                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                            WHITE_RGBA, GZ_checkDropShadows());
                 GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
                 GZ_drawText(watch_y, watch_y_pos_x_offset, line_y_offset, WHITE_RGBA,
@@ -318,14 +338,14 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                     case MEM_TYPE_STR:
                         snprintf(watch_type, sizeof(watch_type), "<str>");
                     }
-                    GZ_drawText(watch_type, watch_type_x_offset - 8.0f, line_y_offset, CURSOR_RGBA,
-                                GZ_checkDropShadows());
+                    GZ_drawText(watch_type, watch_type_x_offset - 8.0f * scale, line_y_offset,
+                                CURSOR_RGBA, GZ_checkDropShadows());
                 } else {
                     GZ_drawText(watch_type, watch_type_x_offset, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 }
-                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, WHITE_RGBA,
-                            GZ_checkDropShadows());
+                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                            WHITE_RGBA, GZ_checkDropShadows());
                 GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
                 GZ_drawText(watch_y, watch_y_pos_x_offset, line_y_offset, WHITE_RGBA,
@@ -371,8 +391,8 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
                     GZ_drawText(watch_offset, watch_offset_x_offset, line_y_offset, CURSOR_RGBA,
                                 GZ_checkDropShadows());
                 }
-                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset, WHITE_RGBA,
-                            GZ_checkDropShadows());
+                GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
+                            WHITE_RGBA, GZ_checkDropShadows());
                 GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset, WHITE_RGBA,
                             GZ_checkDropShadows());
                 GZ_drawText(watch_y, watch_y_pos_x_offset, line_y_offset, WHITE_RGBA,
@@ -387,7 +407,7 @@ void WatchesMenu::drawMemoryLines(MemoryWatch* watches, size_t n_watches) {
             }
         } else {
             int y = cursor.y;
-            GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET, line_y_offset,
+            GZ_drawText(watch_address, WATCH_ADDRESS_X_OFFSET * scale, line_y_offset,
                         (y == i ? CURSOR_RGBA : WHITE_RGBA), GZ_checkDropShadows());
             GZ_drawText(watch_x, watch_x_pos_x_offset, line_y_offset,
                         (y == i ? CURSOR_RGBA : WHITE_RGBA), GZ_checkDropShadows());
@@ -428,6 +448,8 @@ bool checkLineValSelected(MemoryWatch* watches, size_t n_watches) {
 
 void WatchesMenu::draw() {
     cursor.setMode(Cursor::MODE_UNRESTRICTED);
+
+    const float scale = isWidescreen ? 0.75f : 1.0f;
 
     auto* stng = GZStng_getSetting(STNG_WATCHES);
     if (!stng) {
@@ -542,18 +564,18 @@ void WatchesMenu::draw() {
     if (checkMemLineSelected(watches, n_watches) && watches) {
         cursor.setMode(Cursor::MODE_UNRESTRICTED);
         cursor.move(WATCH_COLUMNS, n_watches);
-        GZ_drawText("Z: enable/disable watch; " MEMORY_TEXT ": go to address in editor", 20.0f,
-                    440.f, WHITE_RGBA, GZ_checkDropShadows());
+        GZ_drawText("Z: enable/disable watch; " MEMORY_TEXT ": go to address in editor",
+                    20.0f * scale, 440.f, WHITE_RGBA, GZ_checkDropShadows());
     } else {
         cursor.setMode(Cursor::MODE_SINGLE_COLUMN);
         cursor.move(0, n_watches);
         GZ_drawText("Z: enable/disable watch; " MEMORY_TEXT ": go to address; " ADD_WATCH_TEXT
                     "/" REMOVE_WATCH_TEXT ": add/remove watch",
-                    20.0f, 440.f, WHITE_RGBA, GZ_checkDropShadows());
+                    20.0f * scale, 440.f, WHITE_RGBA, GZ_checkDropShadows());
     }
     if (watches) {
         drawMemoryLines(watches, n_watches);
     } else {
-        GZ_drawText("No watches", 25.0f, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
+        GZ_drawText("No watches", 25.0f * scale, 60.0f, WHITE_RGBA, GZ_checkDropShadows());
     }
 }
