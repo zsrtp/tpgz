@@ -70,7 +70,9 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
                 Font::GZ_drawStr(" [X]", x_offset + max_line_width, y_offset, cursor_color,
                                  GZ_checkDropShadows());
             } else {
-                Font::GZ_drawStr(" [ ]", x_offset + max_line_width, y_offset, cursor_color,
+                Font::GZ_drawStr(" [", x_offset + max_line_width, y_offset, cursor_color,
+                                 GZ_checkDropShadows());
+                Font::GZ_drawStr(" ]", x_offset + max_line_width + Font::getStrWidth("[X"), y_offset, cursor_color,
                                  GZ_checkDropShadows());
             }
 
