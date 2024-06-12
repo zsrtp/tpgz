@@ -6,6 +6,7 @@
 #include "utils/texture.h"
 #include "utils/draw.h"
 #include "settings.h"
+#include "global_data.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/a/d_a_alink.h"
 
@@ -32,12 +33,12 @@ KEEP_FUNC void TransformIndicator::draw() {
     if (dComIfGs_getTransformStatus() == 0) {
         if (l_wolfTex.loadCode == TexCode::TEX_OK) {
             // TODO Grey out the icon if we can't transform into wolf
-            drawTexture(l_wolfTex._texObj, true);
+            drawTexture(l_wolfTex._texObj, g_transformIndicatorEnabled);
         }
     } else {
         if (l_humanTex.loadCode == TexCode::TEX_OK) {
             // TODO Grey out the icon if we can't transform into human
-            drawTexture(l_humanTex._texObj, true);
+            drawTexture(l_humanTex._texObj, g_transformIndicatorEnabled);
         }
     }
 }

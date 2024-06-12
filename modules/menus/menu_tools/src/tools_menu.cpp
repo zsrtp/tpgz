@@ -86,9 +86,6 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
              true, ACTIVE_FUNC(STNG_TOOLS_MOVE_LINK)},
-            {"transform indicator:", TRANSFORM_INDICATOR_INDEX,
-             "Adds an icon showing when link can transform.", true,
-             ACTIVE_FUNC(STNG_TOOLS_TRANSFORM_INDICATOR)},
             {"link tunic color:", TUNIC_COLOR_INDEX,
              "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT
              " to cycle through colors",
@@ -111,7 +108,7 @@ GZSettingID l_mapping[] = {
     STNG_TOOLS_TELEPORT,     STNG_TOOLS_TURBO_MODE,
     STNG_TOOLS_TIMER,        STNG_TOOLS_LOAD_TIMER,
     STNG_TOOLS_IGT_TIMER,    STNG_TOOLS_FREE_CAM,
-    STNG_TOOLS_MOVE_LINK,    STNG_TOOLS_TRANSFORM_INDICATOR,
+    STNG_TOOLS_MOVE_LINK,
 };
 
 #define set_active(id, status)                                                                     \

@@ -32,3 +32,5 @@ KEEP_VAR ProjectionViewItem g_projectionViewFlags[PROJECTION_VIEW_MAX] = {
     {VIEW_LJA_PROJECTION, false},
     {VIEW_MIDNA_CHARGE_PROJECTION, false},
 };
+
+KEEP_VAR bool g_transformIndicatorEnabled;
