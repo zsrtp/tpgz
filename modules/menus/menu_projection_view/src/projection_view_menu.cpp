@@ -15,7 +15,7 @@ KEEP_FUNC ProjectionViewMenu::ProjectionViewMenu(Cursor& cursor)
 
 ProjectionViewMenu::~ProjectionViewMenu() {}
 
-GZSettingID l_mappings[] = {STNG_SCENE_LJA_PROJECTION, STNG_SCENE_MIDNA_CHARGE_PROJECTION};
+GZSettingID l_mapping[] = {STNG_SCENE_LJA_PROJECTION, STNG_SCENE_MIDNA_CHARGE_PROJECTION};
 
 void ProjectionViewMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
@@ -26,7 +26,11 @@ void ProjectionViewMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        auto* stng = GZStng_getSetting(l_mappings[cursor.y]);
+        auto* stng [[maybe_unused]] = GZStng_getSetting(l_mapping[cursor.y]);
+        if (!stng) {
+            stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
+            g_settings.push_back(stng);
+        }
         *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
     }
 

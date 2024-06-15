@@ -5,6 +5,7 @@
 #include "rels/include/defines.h"
 #include "libtp_c/include/d/d_procname.h"
 #include "global_data.h"
+#include "settings.h"
 
 namespace ProjectionViewer {
 
@@ -63,13 +64,13 @@ void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
 KEEP_FUNC void execute() {
-    OSReport("LJA Projection %s\n", g_projectionViewFlags[VIEW_LJA_PROJECTION].active ? "Active" : "Inactive");
-    OSReport("Midna Charge Projection %s\n", g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active ? "Active" : "Inactive");
-    if (g_projectionViewFlags[VIEW_LJA_PROJECTION].active) {
+    OSReport("LJA Projection %s\n", GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false) ? "Active" : "Inactive");
+    OSReport("Midna Charge Projection %s\n", GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false) ? "Active" : "Inactive");
+    if (GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false)) {
         searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
     }
 
-    if (g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active) {
+    if (GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
         
         searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
     }
