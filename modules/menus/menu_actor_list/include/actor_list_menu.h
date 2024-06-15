@@ -38,12 +38,16 @@ private:
     template <typename T>
     void updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement);
     void loadActorName();
+    void checkAndCloseMenu();
+    void checkAndRestoreMenu();
+    
     u16& l_index;
 
     Line lines[ACTOR_LIST_LINE_COUNT];
     s32 l_cameraPlay;
     bool l_halt;
     u8 l_menuStatus;
+    u8 l_windowStatus;
     cXyz l_cameraPos;
     cXyz l_cameraTarget;
 };

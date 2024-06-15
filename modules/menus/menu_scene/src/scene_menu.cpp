@@ -89,9 +89,9 @@ void SceneMenu::draw() {
         case COLLISION_VIEW_INDEX:
             g_menuMgr->push(MN_COLLISION_VIEW_INDEX);
             return;
-        // case PROJECTION_VIEW_INDEX:
-        //     g_menuMgr->push(MN_PROJECTION_VIEW_INDEX);
-        //     return;
+        case PROJECTION_VIEW_INDEX:
+            g_menuMgr->push(MN_PROJECTION_VIEW_INDEX);
+            return;
         case TRIGGER_VIEW_INDEX:
             g_menuMgr->push(MN_TRIGGER_VIEW_INDEX);
             return;

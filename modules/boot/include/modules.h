@@ -13,6 +13,7 @@ void GZ_handleModules();
 bool inputViewer_active();
 bool freeCam_active();
 bool moveLink_active();
+bool projectionView_active();
 bool triggerViewer_active();
 bool actorView_active();
 bool transformIndicator_active();

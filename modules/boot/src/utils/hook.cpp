@@ -363,8 +363,10 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
         i_this->mGravity = gravity;
     }
 
-    // run the original posMove method
-    daAlink_c__posMoveTrampoline(i_this);
+    // run the original posMove method if actor view is not enabled
+    if (!g_actorViewEnabled) {
+        return daAlink_c__posMoveTrampoline(i_this);
+    }
 }
 
 #ifdef WII_PLATFORM

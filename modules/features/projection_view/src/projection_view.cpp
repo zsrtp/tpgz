@@ -60,12 +60,17 @@ void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
     }
 }
 
+#include "libtp_c/include/m_Do/m_Do_printf.h"
+
 KEEP_FUNC void execute() {
+    OSReport(g_projectionViewFlags[VIEW_LJA_PROJECTION].active ? "LJA Projection Active\n" : "LJA Projection Inactive\n");
+    OSReport(g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active ? "Midna Charge Projection Active\n" : "Midna Charge Projection Inactive\n");
     if (g_projectionViewFlags[VIEW_LJA_PROJECTION].active) {
         searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
     }
 
     if (g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active) {
+        
         searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
     }
 }

@@ -124,6 +124,77 @@ procFunc move_proc[] = {
     insect_close_proc_wrapper
 };
 
+/**
+ * @brief Checks and closes any menu that's currently open.
+ * 
+ * @details This function is used to close any menu that's currently open. 
+ * It stores the current menu status and then closes the menu by setting the status to none and running the currently open menu's closer function via move_proc function table.
+ * 
+ * @note Currently the function won't catch if the menu status is in opening or closing status (two statuses during menu transitions). It will only catch the "move" status.
+ * We may have to account for this later.
+ * 
+ * @note The move_proc function table already exists in code. We can probably just map directly to it in the future instead of defining our own.
+ * 
+ */
+void ActorListMenu::checkAndCloseMenu() {
+    if (g_meter2_info.mMenuWindowClass) {
+        switch (g_meter2_info.mMenuWindowClass->mMenuStatus) {
+        case dMw_c::NO_MENU:
+            g_dComIfG_gameInfo.play.mPauseFlag = false;
+            break;
+        case dMw_c::RING_MOVE:
+        case dMw_c::COLLECT_MOVE:
+        case dMw_c::DMAP_MOVE:
+        case dMw_c::FMAP_MOVE:
+        case dMw_c::SAVE_MOVE:
+        case dMw_c::OPTIONS_MOVE:
+        case dMw_c::LETTER_MOVE:
+        case dMw_c::FISHING_MOVE:
+        case dMw_c::SKILL_MOVE:
+        case dMw_c::INSECT_MOVE:
+        case dMw_c::INSECT_AGITHA_MOVE:
+            l_menuStatus = g_meter2_info.mMenuWindowClass->mMenuStatus;
+            l_windowStatus = g_meter2_info.mWindowStatus;
+            g_meter2_info.mWindowStatus = dMw_c::NO_MENU;
+            move_proc[g_meter2_info.mMenuWindowClass->mMenuStatus](g_meter2_info.mMenuWindowClass);
+            g_dComIfG_gameInfo.play.mPauseFlag = false;
+        }
+    }       
+}
+
+/**
+ * @brief Checks and restores any menu that was previously open.
+ * 
+ * @details This function is used to restore any menu that was previously open. 
+ * It restores the menu by setting the status to the stored status and setting the currently stored menu status's corresponding window status.
+ * 
+ * @note There doesn't seem to be the need to run the opener function like there is with the checkAndCloseMenu function.
+ * Just restoring the menu status and window status seems to be enough.
+ * 
+ */
+void ActorListMenu::checkAndRestoreMenu() {
+    if (l_menuStatus != dMw_c::NO_MENU) {
+        g_dComIfG_gameInfo.play.mPauseFlag = true;
+
+        switch (l_menuStatus) {
+        case dMw_c::RING_MOVE: 
+        case dMw_c::COLLECT_MOVE:
+        case dMw_c::FMAP_MOVE:
+        case dMw_c::SAVE_MOVE:
+        case dMw_c::OPTIONS_MOVE:
+        case dMw_c::LETTER_MOVE:
+        case dMw_c::FISHING_MOVE:
+        case dMw_c::SKILL_MOVE:
+        case dMw_c::INSECT_MOVE:
+        case dMw_c::INSECT_AGITHA_MOVE:
+        case dMw_c::DMAP_MOVE:
+            g_meter2_info.mWindowStatus = l_windowStatus;
+            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
+            break;
+        }
+    }
+}
+
 KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         : Menu(cursor),
           l_index(data.l_index),
@@ -140,26 +211,9 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             // store camera position and target
             l_cameraPos = matrixInfo.matrix_info->pos;
             l_cameraTarget = matrixInfo.matrix_info->target;
-            
-            if (g_meter2_info.mMenuWindowClass) {
-                switch (g_meter2_info.mMenuWindowClass->mMenuStatus) {
-                case dMw_c::RING_MOVE:
-                case dMw_c::COLLECT_MOVE:
-                case dMw_c::DMAP_MOVE:
-                case dMw_c::FMAP_MOVE:
-                case dMw_c::SAVE_MOVE:
-                case dMw_c::OPTIONS_MOVE:
-                case dMw_c::LETTER_MOVE:
-                case dMw_c::FISHING_MOVE:
-                case dMw_c::SKILL_MOVE:
-                case dMw_c::INSECT_MOVE:
-                case dMw_c::INSECT_AGITHA_MOVE:
-                    l_menuStatus = g_meter2_info.mMenuWindowClass->mMenuStatus;
-                    g_meter2_info.mWindowStatus = 0;
-                    move_proc[g_meter2_info.mMenuWindowClass->mMenuStatus](g_meter2_info.mMenuWindowClass);
-                    g_dComIfG_gameInfo.play.mPauseFlag = false;
-                }
-            }
+
+            // remove any currently open menus
+            checkAndCloseMenu();
 
             // initial data load from procs.bin
             updateActorData();
@@ -167,40 +221,16 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         }
 
 ActorListMenu::~ActorListMenu() {
-    if (l_menuStatus != dMw_c::NO_MENU) {
-        g_dComIfG_gameInfo.play.mPauseFlag = true;
+    // restore any previously open menu
+    checkAndRestoreMenu();
 
-        switch (l_menuStatus) {
-        case dMw_c::RING_MOVE: 
-            g_meter2_info.mWindowStatus = 2;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        case dMw_c::COLLECT_MOVE:
-            g_meter2_info.mWindowStatus = 3;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        case dMw_c::FMAP_MOVE:
-            g_meter2_info.mWindowStatus = 4;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        case dMw_c::SAVE_MOVE:
-        case dMw_c::OPTIONS_MOVE:
-        case dMw_c::LETTER_MOVE:
-        case dMw_c::FISHING_MOVE:
-        case dMw_c::SKILL_MOVE:
-        case dMw_c::INSECT_MOVE:
-        case dMw_c::INSECT_AGITHA_MOVE:
-            g_meter2_info.mWindowStatus = 10;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        case dMw_c::DMAP_MOVE:
-            g_meter2_info.mWindowStatus = 11;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        }
-    }
+    // restore camera position and target
+    matrixInfo.matrix_info->pos = l_cameraPos;
+    matrixInfo.matrix_info->target = l_cameraTarget;
 
-    g_actorViewEnabled = false;
+    dComIfGp_getEventManager().mCameraPlay = 0;
+    g_drawHIO.mHUDAlpha = 1.0f;
+
 }
 
 template <typename T>
@@ -239,10 +269,6 @@ void ActorListMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        // restore camera position and target
-        matrixInfo.matrix_info->pos = l_cameraPos;
-        matrixInfo.matrix_info->target = l_cameraTarget;
-
         // disable gadget and close menu
         g_actorViewEnabled = false;
         g_menuMgr->pop();

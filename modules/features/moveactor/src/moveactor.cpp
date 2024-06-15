@@ -59,12 +59,6 @@ void move(fopAc_ac_c* actor) {
     s16& actor_horizontal_angle = actor->shape_angle.y;
     s16& actor_verticle_angle = actor->shape_angle.x;
 
-    // Hide HUD
-    g_drawHIO.mHUDAlpha = 0.0f;
-    
-    // Lock the camera to allow for its movement
-    dComIfGp_getEventManager().mCameraPlay = 1;
-
     // Set Link momentum to 0
     cXyz tmp(0.0f, 0.0f, 0.0f);
     dComIfGp_getPlayer()->speed = tmp;
@@ -112,25 +106,32 @@ void move(fopAc_ac_c* actor) {
 
 KEEP_FUNC void execute() {
     if (g_actorViewEnabled || g_moveLinkEnabled) {
-        if ((g_actorViewEnabled && g_currentActor->mBase.mProcName == PROC_ALINK) || g_moveLinkEnabled) {
-            if (dComIfGp_getPlayer() != nullptr) {
-                dComIfGp_getPlayer()->mLinkAcch.SetGrndNone();
-                dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
-                dComIfGp_getPlayer()->mLinkAcch.SetRoofNone();
-                dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
-            }
+        // Hide HUD
+        g_drawHIO.mHUDAlpha = 0.0f;
+
+        // Lock the camera to allow for its movement
+        dComIfGp_getEventManager().mCameraPlay = 1;
+
+        // Special case for Link (this needs to be refactored to be more generic)
+        if (dComIfGp_getPlayer() && (g_moveLinkEnabled || g_currentActor->mBase.mProcName == PROC_ALINK )) {
+            dComIfGp_getPlayer()->mLinkAcch.SetGrndNone();
+            dComIfGp_getPlayer()->mLinkAcch.SetWallNone();
+            dComIfGp_getPlayer()->mLinkAcch.SetRoofNone();
+            dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
 
             dComIfGp_getEvent().mHalt = true;
             event_halt = true;
+
             move(dComIfGp_getPlayer());
-        } else if (g_actorViewEnabled) {
-            dComIfGp_getEvent().mHalt = true;
-            event_halt = true;
+        } else {
+            dComIfGp_getEvent().mHalt = false;
+            event_halt = false;
+
             move(g_currentActor);
         }
     } else {
         if (event_halt) {
-            if (dComIfGp_getPlayer() != nullptr) {
+            if (dComIfGp_getPlayer()) {
                 dComIfGp_getPlayer()->mLinkAcch.ClrGrndNone();
                 dComIfGp_getPlayer()->mLinkAcch.ClrWallNone();
                 dComIfGp_getPlayer()->mLinkAcch.ClrRoofNone();
@@ -138,10 +139,13 @@ KEEP_FUNC void execute() {
             }
 
             dComIfGp_getEvent().mHalt = false;
+            event_halt = false;
+
             dComIfGp_getEventManager().mCameraPlay = 0;
             g_drawHIO.mHUDAlpha = 1.0f;
-            event_halt = false;
         }
+
+
     }
 }
 }  // namespace MoveActor

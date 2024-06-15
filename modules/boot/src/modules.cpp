@@ -33,7 +33,11 @@ KEEP_FUNC bool freeCam_active() {
 }
 
 KEEP_FUNC bool moveLink_active() {
-    return GZStng_getSettingData(STNG_TOOLS_MOVE_LINK, false);
+    return g_actorViewEnabled ? true : GZStng_getSettingData(STNG_TOOLS_MOVE_LINK, false);
+}
+
+KEEP_FUNC bool projectionView_active() {
+    return GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false);
 }
 
 KEEP_FUNC bool triggerViewer_active() {

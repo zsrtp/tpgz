@@ -55,6 +55,7 @@ void main() {
     g_modules.push_back(new Module{inputViewer_active, "/tpgz/rels/features/input_viewer.rel"});
     g_modules.push_back(new Module{freeCam_active, "/tpgz/rels/features/free_cam.rel"});
     g_modules.push_back(new Module{moveLink_active, "/tpgz/rels/features/moveactor.rel"});
+    g_modules.push_back(new Module{projectionView_active, "/tpgz/rels/features/projection_view.rel"});
     g_modules.push_back(new Module{triggerViewer_active, "/tpgz/rels/features/trigger_view.rel"});
     g_modules.push_back(new Module{actorView_active, "/tpgz/rels/features/actor_view.rel"});
     g_modules.push_back(

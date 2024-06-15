@@ -64,19 +64,13 @@ void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
 }
 
 void ActorSpawnMenu::loadActorName(s16& i_procName) {
-    OSReport("before lower i_procName %d\n", i_procName);
-
     if (i_procName < 0) {
         i_procName = 791;
     }
 
-    OSReport("after lower i_procName %d\n", i_procName);
-
     if (i_procName > 791) {
         i_procName = 0;
     }
-
-    OSReport("after upper i_procName %d\n", i_procName);
 
     int offset = i_procName*32;
     loadFile("tpgz/procs.bin", &l_procData, sizeof(l_procData), offset);

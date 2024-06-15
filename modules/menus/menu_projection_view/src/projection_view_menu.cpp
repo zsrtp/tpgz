@@ -26,14 +26,6 @@ void ProjectionViewMenu::draw() {
         g_projectionViewFlags[cursor.y].active = !g_projectionViewFlags[cursor.y].active;
     }
 
-    switch (cursor.y) {
-    case PROJECTION_VIEW_MAX:
-        Cursor::moveList(g_geometryOpacity);
-        break;
-    }
-
-    lines[PROJECTION_VIEW_MAX].printf(" <%d>", g_geometryOpacity);
-
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
