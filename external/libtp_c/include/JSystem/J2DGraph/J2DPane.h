@@ -5,7 +5,6 @@
 #include "../JSupport/JSUList.h"
 #include "../JGeometry.h"
 #include "../../dolphin/mtx/mtx.h"
-#include "../../addrs.h"
 
 struct J2DAnmTransform {};
 

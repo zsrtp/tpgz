@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stdint.h>
-#include "libtp_c/include/addrs.h"
 #include "libtp_c/include/dolphin/gx/gx.h"
 
 enum TexCode {

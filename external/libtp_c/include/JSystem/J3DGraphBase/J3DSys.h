@@ -4,7 +4,6 @@
 #include "../../dolphin/mtx/mtx.h"
 #include "../../dolphin/mtx/vec.h"
 #include "../../dolphin/gx/gx.h"
-#include "libtp_c/include/addrs.h"
 #include "J3DPacket.h"
 #include "../../dolphin/types.h"
 

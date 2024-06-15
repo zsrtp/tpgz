@@ -1,7 +1,6 @@
 #ifndef D_MENU_D_MENU_WINDOW_H
 #define D_MENU_D_MENU_WINDOW_H
 
-#include "../../addrs.h"
 #include "../../defines.h"
 
 class msg_class : public leafdraw_class {

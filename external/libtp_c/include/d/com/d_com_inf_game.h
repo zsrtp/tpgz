@@ -1,7 +1,6 @@
 #ifndef D_COM_D_COM_INF_GAME_H
 #define D_COM_D_COM_INF_GAME_H
 
-#include "../../addrs.h"
 #include "../save/d_save.h"
 #include "../bg/d_bg_s.h"
 #include "../cc/d_cc_s.h"

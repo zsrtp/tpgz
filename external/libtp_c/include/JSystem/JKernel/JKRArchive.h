@@ -1,7 +1,6 @@
 #ifndef JKRARCHIVE_H_
 #define JKRARCHIVE_H_
 
-#include "../../addrs.h"
 #include "JKRFileLoader.h"
 #include "../../dolphin/types.h"
 

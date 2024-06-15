@@ -2,7 +2,6 @@
 #define M_DO_M_DO_CONTROLLER_PAD_H
 
 #include "../JSystem/JUtility/JUTGamePad.h"
-#include "../addrs.h"
 
 #define mDoCPd_c__m_gamePad ((JUTGamePad**)mDoCPd_c__m_gamePad_addr)
 

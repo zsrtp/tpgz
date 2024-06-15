@@ -24,7 +24,8 @@ KEEP_FUNC AnyBiTESavesMenu::AnyBiTESavesMenu(Cursor& cursor)
           {"king bulblin", BITE_KB1_INDEX, "King Bulblin 1 fight"},
           {"eldin twilight", BITE_ELDIN_TWILIGHT_INDEX, "Eldin Twilight tears"},
           {"lanayru twilight", BITE_LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
-          {"waterfall sidehop", BITE_WATERFALL_SIDEHOP_INDEX, "Waterfall sidehop after Rutela skip"},
+          {"waterfall sidehop", BITE_WATERFALL_SIDEHOP_INDEX,
+           "Waterfall sidehop after Rutela skip"},
           {"iza", BITE_IZA_INDEX, "Steal Iza's bomb bag"},
           {"messenger skip", BITE_SPR_WARP_SKIP_INDEX, "LJA to skip the Snowpeak messengers"},
           {"snowpeak", BITE_SPR_INDEX, "The Snowpeak Ruins segment"},
@@ -84,11 +85,10 @@ void AnyBiTESavesMenu::draw() {
             special(BITE_PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
             special(BITE_BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
-        SaveManager::triggerLoad(cursor.y, "any_bite", AnySpecials,
-                                 sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        SaveManager::triggerLoad(cursor.y, "any_bite", AnySpecials, ARRAY_COUNT(AnySpecials));
         g_menuMgr->hide();
     }
 
-    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
+    cursor.move(0, ARRAY_COUNT(lines));
+    GZ_drawMenuLines(lines, cursor.y, ARRAY_COUNT(lines));
 }

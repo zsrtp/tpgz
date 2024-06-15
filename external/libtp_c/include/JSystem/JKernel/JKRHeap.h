@@ -4,7 +4,6 @@
 #include "../../dolphin/os/OS.h"
 #include "../JSupport/JSUList.h"
 #include "JKRDisposer.h"
-#include "../../addrs.h"
 
 class JKRHeap;
 typedef void (*JKRErrorHandler)(void*, u32, int);

@@ -4,7 +4,6 @@
 #include "../../dolphin/types.h"
 #include "../../dolphin/mtx/vec.h"
 #include "../../dolphin/pad/pad.h"
-#include "../../addrs.h"
 #include "../../defines.h"
 #include "../JKernel/JKRDisposer.h"
 #include "../../SSystem/SComponent/c_API_controller_pad.h"

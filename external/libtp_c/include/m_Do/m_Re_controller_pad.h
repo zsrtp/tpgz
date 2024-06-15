@@ -3,7 +3,6 @@
 
 #include "../dolphin/mtx/vec.h"
 #include "../dolphin/mtx/mtx.h"
-#include "../addrs.h"
 #include "../dolphin/types.h"
 
 #ifdef WII_PLATFORM

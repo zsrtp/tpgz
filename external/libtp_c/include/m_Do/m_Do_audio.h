@@ -2,7 +2,6 @@
 #define M_DO_M_DO_AUDIO_H
 
 #include "../dolphin/types.h"
-#include "../addrs.h"
 #include "../Z2AudioLib/Z2AudioMgr.h"
 
 class mDoAud_zelAudio_c {

@@ -169,11 +169,10 @@ void AnySavesMenu::draw() {
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
 #endif
-        SaveManager::triggerLoad(cursor.y, "any", AnySpecials,
-                                 sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        SaveManager::triggerLoad(cursor.y, "any", AnySpecials, ARRAY_COUNT(AnySpecials));
         g_menuMgr->hide();
     }
 
-    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
+    cursor.move(0, ARRAY_COUNT(lines));
+    GZ_drawMenuLines(lines, cursor.y, ARRAY_COUNT(lines));
 }
