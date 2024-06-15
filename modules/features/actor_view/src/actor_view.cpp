@@ -38,9 +38,9 @@ void drawGizmo(fopAc_ac_c* actor) {
     
 
     // Gizmo axis lines
-    dDbVw_drawLineXlu(point_x_a, point_x_b, red, 1, line_width);
-    dDbVw_drawLineXlu(point_y_a, point_y_b, green, 1, line_width);
-    dDbVw_drawLineXlu(point_z_a, point_z_b, blue, 1, line_width);
+    dDbVw_drawLineXlu(point_x_a, point_x_b, red, 0, line_width);
+    dDbVw_drawLineXlu(point_y_a, point_y_b, green, 0, line_width);
+    dDbVw_drawLineXlu(point_z_a, point_z_b, blue, 0, line_width);
 }
 
 KEEP_FUNC void execute() {

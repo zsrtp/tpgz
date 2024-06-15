@@ -3,9 +3,12 @@
 #include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+#include "global_data.h"
+#include "fs.h"
 
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
@@ -27,16 +30,23 @@
 #define CONTROL_TEXT "1/2"
 #endif
 
+/**
+ * @brief Used for storing entries from procs.bin
+ */
+procBinData l_procData;
+
 KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu(ActorSpawnData& data)
     : Menu(data.cursor), l_actorID(data.l_actorID), l_actorParams(data.l_actorParams),
       l_actorType(data.l_actorType), l_paramIdx(data.l_paramIdx), l_paramsSelected(false),
       lines{
-          {"actor id:", ACTOR_ID_INDEX, "Actor ID (Dpad / " CONTROL_TEXT " to scroll)", false},
+          {"actor name:", ACTOR_NAME_INDEX, "Actor Name (Dpad / " CONTROL_TEXT " to scroll)", false},
           {"actor params:", ACTOR_PARAM_INDEX, "Actor Parameters (default: 0)", false},
           {"actor subtype:", ACTOR_SUBTYPE_INDEX,
            "Actor subtype (default: -1) (Dpad / " CONTROL_TEXT " to scroll)", false},
           {"spawn", ACTOR_SPAWN_INDEX, "Spawn actor at current position", false},
-      } {}
+      } {
+        loadActorName(l_actorID);
+      }
 
 ActorSpawnMenu::~ActorSpawnMenu() {}
 
@@ -44,6 +54,25 @@ void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
     fopAcM_create(id, parameters, &dComIfGp_getPlayer()->current.pos,
                   dComIfGp_getPlayer()->current.roomNo, &dComIfGp_getPlayer()->current.angle,
                   nullptr, subtype);
+}
+
+void ActorSpawnMenu::loadActorName(s16& i_procName) {
+    OSReport("before lower i_procName %d\n", i_procName);
+
+    if (i_procName < 0) {
+        i_procName = 791;
+    }
+
+    OSReport("after lower i_procName %d\n", i_procName);
+
+    if (i_procName > 791) {
+        i_procName = 0;
+    }
+
+    OSReport("after upper i_procName %d\n", i_procName);
+
+    int offset = i_procName*32;
+    loadFile("tpgz/procs.bin", &l_procData, sizeof(l_procData), offset);
 }
 
 void ActorSpawnMenu::draw() {
@@ -72,15 +101,19 @@ void ActorSpawnMenu::draw() {
     }
 
     switch (cursor.y) {
-    case ACTOR_ID_INDEX:
+    case ACTOR_NAME_INDEX:
         if (GZ_getButtonRepeat(CONTROLLER_RIGHT)) {
             l_actorID++;
+            loadActorName(l_actorID);
         } else if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
             l_actorID--;
+            loadActorName(l_actorID);
         } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_10)) {
             l_actorID += 10;
+            loadActorName(l_actorID);
         } else if (GZ_getButtonRepeat(CONTROLLER_SKIP_MINUS_10)) {
             l_actorID -= 10;
+            loadActorName(l_actorID);
         }
         break;
     case ACTOR_SUBTYPE_INDEX:
@@ -105,6 +138,7 @@ void ActorSpawnMenu::draw() {
             } else if (l_paramIdx >= 0 && l_paramIdx < 8) {
                 l_paramIdx++;
             }
+            
         }
         if (GZ_getButtonRepeat(CONTROLLER_LEFT)) {
             if (l_paramIdx == 0) {
@@ -126,7 +160,7 @@ void ActorSpawnMenu::draw() {
                          GZ_checkDropShadows());
     }
 
-    lines[ACTOR_ID_INDEX].printf(" <%d>", l_actorID);
+    lines[ACTOR_NAME_INDEX].printf("<%s>", l_procData.procName);
     lines[ACTOR_SUBTYPE_INDEX].printf(" <%d>", l_actorType);
 
     cursor.move(8, MENU_LINE_NUM);
