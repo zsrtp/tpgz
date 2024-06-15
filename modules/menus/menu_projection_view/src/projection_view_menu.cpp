@@ -3,16 +3,19 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "collision_view.h"
+#include "settings.h"
 
 KEEP_FUNC ProjectionViewMenu::ProjectionViewMenu(Cursor& cursor)
     : Menu(cursor), lines{
                          {"lja", VIEW_LJA_PROJECTION, "display projected path taken of an LJA", true,
-                         [](){return g_projectionViewFlags[VIEW_LJA_PROJECTION].active;}},
+                         ACTIVE_FUNC(STNG_SCENE_LJA_PROJECTION)},
                          {"midna charge", VIEW_MIDNA_CHARGE_PROJECTION, "display projected path taken by a super jump", true,
-                         [](){return g_projectionViewFlags[VIEW_MIDNA_CHARGE_PROJECTION].active;}},
+                         ACTIVE_FUNC(STNG_SCENE_MIDNA_CHARGE_PROJECTION)},
                     } {}
 
 ProjectionViewMenu::~ProjectionViewMenu() {}
+
+GZSettingID l_mappings[] = {STNG_SCENE_LJA_PROJECTION, STNG_SCENE_MIDNA_CHARGE_PROJECTION};
 
 void ProjectionViewMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
@@ -23,7 +26,8 @@ void ProjectionViewMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_projectionViewFlags[cursor.y].active = !g_projectionViewFlags[cursor.y].active;
+        auto* stng = GZStng_getSetting(l_mappings[cursor.y]);
+        *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
     }
 
     cursor.move(0, MENU_LINE_NUM);
