@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 #include "features/projection_view/include/projection_view.h"
 
 class ProjectionViewMenu : public Menu {

@@ -5,7 +5,7 @@
 #include "global_data.h"
 #include "gz_flags.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "settings.h"
 #include "menus/utils/menu_mgr.h"
 #include "timer.h"

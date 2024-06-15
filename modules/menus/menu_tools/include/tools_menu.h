@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 #include "tools.h"
 
 #ifdef GCN_PLATFORM

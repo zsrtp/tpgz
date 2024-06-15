@@ -1,6 +1,6 @@
 #include "font.h"
 #include "gcn_c/include/storage.h"
-#include "menu.h"
+#include "menus/menu.h"
 
 #define GZ_SAVE_VERSION_NUMBER 1
 

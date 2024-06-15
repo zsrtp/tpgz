@@ -5,7 +5,7 @@
 #include "font.h"
 #include "gz_flags.h"
 #include "scene.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "menus/utils/menu_mgr.h"
 #include "modules.h"
 #include "tools.h"

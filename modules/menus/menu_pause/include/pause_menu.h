@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 
 struct PauseData {
     uint8_t l_ordonSword_idx;

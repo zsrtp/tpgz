@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 
 #ifdef GCN_PLATFORM
 #define ANY_SPECIALS_AMNT 21

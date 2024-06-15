@@ -6,7 +6,7 @@
 #include "practice.h"
 #include "memfiles.h"
 #include "save_manager.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "utils/loading.h"
 #include "fifo_queue.h"
 #include "utils/card.h"

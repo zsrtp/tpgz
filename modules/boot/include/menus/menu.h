@@ -19,6 +19,7 @@
 #define BACK_BUTTON (GZPad::B)
 #endif
 
+// If you add a new menu to this list, you must also add the REL name to the g_menuPaths array in menu.cpp.
 enum MenuIndex {
     MN_NONE_INDEX = -1,
     MN_MAIN_MENU_INDEX = 0,

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 
 #define HND_SPECIALS_AMNT 25
 

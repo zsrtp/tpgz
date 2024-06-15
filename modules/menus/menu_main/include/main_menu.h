@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 
 enum MainMenuIndex {
     CHEAT_INDEX,

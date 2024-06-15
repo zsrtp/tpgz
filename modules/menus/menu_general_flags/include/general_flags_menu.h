@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
 
 struct GeneralFlagsData {
     bool l_bossFlag;
