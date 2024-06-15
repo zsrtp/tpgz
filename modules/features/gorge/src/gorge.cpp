@@ -1,8 +1,10 @@
 #include <cstdio>
 #include "gorge.h"
+#include "commands.h"
 #include "controller.h"
 #include "fifo_queue.h"
 #include "fs.h"
+#include "save_manager.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
@@ -13,10 +15,22 @@
 #define TARGET_BUTTON Z
 #define WARP_CS_FRAMES 132
 #endif
+
 #ifdef GCN_PLATFORM
 #define TARGET_BUTTON L
 #define WARP_CS_FRAMES 132
 #endif
+
+KEEP_FUNC void GZCmd_loadGorgeVoid() {
+    if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
+        // TODO: maybe simplify this
+        special sp[] = {
+            special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
+        };
+
+        SaveManager::triggerLoad(8, "any", sp, 1);
+    }
+}
 
 namespace GorgeVoidIndicator {
 static bool start_timer = false;
@@ -62,7 +76,7 @@ void warpToPosition() {
     g_dComIfG_gameInfo.info.mRestart.mRoomAngleY = 24169;
 }
 
-void execute() {
+KEEP_FUNC void execute() {
     // reset counters on load
     if (fopScnRq.isLoading == 1) {
         counter_difference = 0;

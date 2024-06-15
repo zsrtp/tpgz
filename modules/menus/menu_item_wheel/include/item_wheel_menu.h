@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 #include "libtp_c/include/d/save/d_save.h"
 
 #define ITEM_WHEEL_SLOTS 24

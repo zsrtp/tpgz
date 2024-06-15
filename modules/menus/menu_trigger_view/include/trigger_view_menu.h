@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 #include "trigger_view.h"
 
 class TriggerViewMenu : public Menu {

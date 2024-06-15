@@ -35,8 +35,8 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new DungeonFlagsMenu(*g_menuMgr->getPermanentData<Cursor>(),
-                                  *g_menuMgr->getPersistentData<DungeonFlagsData>());
+    dungeonFlagsData = g_menuMgr->getPersistentData<DungeonFlagsData>();
+    l_menu = new DungeonFlagsMenu(*g_menuMgr->getPermanentData<Cursor>());
     g_drawListener->addListener(onDraw);
 }
 

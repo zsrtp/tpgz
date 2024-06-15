@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 
 #define GL_SPECIALS_AMNT 3
 

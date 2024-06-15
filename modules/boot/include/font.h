@@ -77,6 +77,7 @@ public:
     static void GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
                            float size = FONT_DEFAULT_SIZE);
     static float getCharWidth(char c, float size = FONT_DEFAULT_SIZE);
+    static float getMaxCharWidth(float size = FONT_DEFAULT_SIZE);
     static float getStrWidth(const char* str, float size = FONT_DEFAULT_SIZE);
 };
 

@@ -2,7 +2,7 @@
 #include "global_data.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/msl_c/math.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/f_op/f_op_draw_tag.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"

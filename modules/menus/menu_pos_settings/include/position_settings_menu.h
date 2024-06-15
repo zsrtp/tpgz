@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 #include "pos_settings.h"
 #define POSITION_SETTINGS_NO_SELECTION ((uint8_t)-1)
 

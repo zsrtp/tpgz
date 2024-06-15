@@ -190,6 +190,24 @@ public:
         }
     }
 
+    void resize(size_t new_size) {
+        while (_size > new_size) {
+            pop_back();
+        }
+        while (_size < new_size) {
+            push_back(T());
+        }
+    }
+
+    void resize(size_t new_size, const T& value) {
+        while (_size > new_size) {
+            pop_back();
+        }
+        while (_size < new_size) {
+            push_back(value);
+        }
+    }
+
     iterator begin() { return iterator(head); }
 
     iterator end() { return iterator(nullptr); }

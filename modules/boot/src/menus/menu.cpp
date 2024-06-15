@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 #include "rels/include/defines.h"
 
 // This array must correspond to the order of the MenuIndex enum.

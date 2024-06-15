@@ -1,5 +1,6 @@
 #include "features/moveactor/include/moveactor.h"
 #include <cstdio>
+#include "font.h"
 #include "global_data.h"
 #include "libtp_c/include/msl_c/math.h"
 #include "settings.h"
@@ -33,9 +34,9 @@
 #define CONTROL_X ((mPad.mHoldButton & CButton::C) == 0 ? -mPad.stick.x * 72 : 0)
 #define VERTICAL_DISPLACEMENT ((mPad.mHoldButton & CButton::C) != 0 ? mPad.stick.y * 59 : 0)
 #define HORIZONTAL_DISPLACEMENT ((mPad.mHoldButton & CButton::C) != 0 ? -mPad.stick.x * 59 : 0)
-#define SPEED_PREDICATE_1 (mPadButton.mButton & CButton::Z)
-#define SPEED_PREDICATE_2 (mPadButton.mButton & CButton::MINUS)
-#define LOCK_CAMERA (mPadButton.mButton & CButton::A)
+#define SPEED_PREDICATE_1 (mPad.mHoldButton & CButton::Z)
+#define SPEED_PREDICATE_2 (mPad.mHoldButton & CButton::MINUS)
+#define LOCK_CAMERA (mPad.mHoldButton & CButton::A)
 #endif
 
 #define WHITE_RGBA 0xFFFFFFFF
@@ -118,7 +119,6 @@ KEEP_FUNC void execute() {
                 dComIfGp_getPlayer()->mLinkAcch.SetRoofNone();
                 dComIfGp_getPlayer()->mLinkAcch.OnLineCheckNone();
             }
-            
 
             dComIfGp_getEvent().mHalt = true;
             event_halt = true;

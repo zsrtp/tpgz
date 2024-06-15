@@ -48,3 +48,5 @@ extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 extern Tool g_tools[TOOLS_COUNT];
 
 extern int g_tunic_color;
+
+void GZ_handleTools();

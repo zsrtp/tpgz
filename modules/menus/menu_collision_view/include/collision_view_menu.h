@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 
 class CollisionViewMenu : public Menu {
 public:

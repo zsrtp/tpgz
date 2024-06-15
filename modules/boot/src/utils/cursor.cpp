@@ -73,7 +73,8 @@ KEEP_FUNC void Cursor::setMode(uint8_t m) {
 }
 
 KEEP_FUNC void GZ_setCursorColor() {
-    switch (g_cursorColorType) {
+    uint32_t colorId = GZStng_getSettingData(STNG_CURSOR_COLOR, 0);
+    switch (colorId) {
     case CURSOR_GREEN:
         g_cursorColor = 0x00CC00FF;
         break;

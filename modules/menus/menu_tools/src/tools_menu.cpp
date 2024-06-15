@@ -2,14 +2,8 @@
 #include <cstdio>
 #include "commands.h"
 #include "global_data.h"
-#include "gorge.h"
-#ifdef WII_PLATFORM
-#include "bit.h"
-#endif
-#include "rollcheck.h"
 #include "timer.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "umd.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
 #include "rels/include/defines.h"
@@ -36,72 +30,93 @@
 #define NEXT_TUNIC_COLOR_TEXT "TWO"
 #endif
 
-#ifdef GCN_PLATFORM
-#endif
-#ifdef WII_PLATFORM
-#endif
-
 #define MAX_TUNIC_COLORS 7
 
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
       lines{{"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",
-             true, &g_tools[RELOAD_AREA_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_RELOAD_AREA)},
             {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to frame advance",
-             true, &g_tools[FRAME_ADVANCE_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_FRAME_ADVANCE)},
             {"fast bonk recovery", FAST_BONK_INDEX, "teduces bonk animation significantly", true,
-             &g_tools[FAST_BONK_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_FAST_BONK)},
             {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true,
-             &g_tools[FAST_MOVEMENT_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_FAST_MOVEMENT)},
             {"gorge checker", GORGE_INDEX, "use " GORGE_VOID_TEXT " to warp to kakariko gorge",
-             true, &g_tools[GORGE_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_GORGE)},
 #ifdef WII_PLATFORM
             {"bit checker", BIT_INDEX, "use " BACK_IN_TIME_TEXT " to warp to ordon bridge", true,
-             &g_tools[BIT_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_BIT)},
 #endif
             {"coro td checker", COROTD_INDEX, "show frame info when doing coro td", true,
-             &g_tools[COROTD_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_COROTD)},
             {"umd checker", UMD_INDEX, "practice snowpeak universal map delay timing", true,
-             &g_tools[UMD_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_UMD)},
             {"input viewer", INPUT_VIEWER_INDEX, "show current inputs", true,
-             &g_tools[INPUT_VIEWER_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_INPUT_VIEWER)},
             {"link debug info", LINK_DEBUG_INDEX, "show Link's position, angle, and speed", true,
-             &g_tools[LINK_DEBUG_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_LINK_DEBUG)},
             {"heap debug info", HEAP_DEBUG_INDEX, "show Heap size info", true,
-             &g_tools[HEAP_DEBUG_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_HEAP_DEBUG)},
             {"no sinking in sand", SAND_INDEX, "link won't sink in sand", true,
-             &g_tools[SAND_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_SAND)},
             {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true,
-             &g_tools[ROLL_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_ROLL)},
             {"mash checker", MASH_CHECKER_INDEX, "display A/B button mashing speeds", true,
-             &g_tools[MASH_CHECKER_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_MASH_CHECKER)},
             {"teleport", TELEPORT_INDEX,
              STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load", true,
-             &g_tools[TELEPORT_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_TELEPORT)},
             {"turbo mode", TURBO_MODE_INDEX, "simulates turbo controller inputs", true,
-             &g_tools[TURBO_MODE_INDEX].active},
+             ACTIVE_FUNC(STNG_TOOLS_TURBO_MODE)},
             {"timer", TIMER_INDEX,
              "frame timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT " to reset",
-             true, &g_tools[TIMER_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_TIMER)},
             {"load timer", LOAD_TIMER_INDEX, "loading zone timer: " TIMER_RESET_TEXT " to reset",
-             true, &g_tools[LOAD_TIMER_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_LOAD_TIMER)},
             {"igt timer", IGT_TIMER_INDEX,
              "In-game time timer: " TIMER_TOGGLE_TEXT " to start/stop, " TIMER_RESET_TEXT
              " to reset",
-             true, &g_tools[IGT_TIMER_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_IGT_TIMER)},
             {"free cam", FREE_CAM_INDEX,
              FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
                            " to view, Z to speed",
-             true, &g_tools[FREE_CAM_INDEX].active},
+             true, ACTIVE_FUNC(STNG_TOOLS_FREE_CAM)},
             {"move link", MOVE_LINK_INDEX,
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
-             true, &g_tools[MOVE_LINK_INDEX].active},
-            {"link tunic color:", TUNIC_COLOR_INDEX, "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT " to cycle through colors", false, nullptr,
-             MAX_TUNIC_COLORS}} {
+             true, ACTIVE_FUNC(STNG_TOOLS_MOVE_LINK)},
+            {"link tunic color:", TUNIC_COLOR_INDEX,
+             "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT
+             " to cycle through colors",
+             false, nullptr, MAX_TUNIC_COLORS}} {
 }
 
 ToolsMenu::~ToolsMenu() {}
+
+GZSettingID l_mapping[] = {
+    STNG_TOOLS_RELOAD_AREA,  STNG_TOOLS_FRAME_ADVANCE,
+    STNG_TOOLS_FAST_BONK,    STNG_TOOLS_FAST_MOVEMENT,
+    STNG_TOOLS_GORGE,
+#ifdef WII_PLATFORM
+    STNG_TOOLS_BIT,
+#endif
+    STNG_TOOLS_COROTD,       STNG_TOOLS_UMD,
+    STNG_TOOLS_INPUT_VIEWER, STNG_TOOLS_LINK_DEBUG,
+    STNG_TOOLS_HEAP_DEBUG,   STNG_TOOLS_SAND,
+    STNG_TOOLS_ROLL,         STNG_TOOLS_MASH_CHECKER,
+    STNG_TOOLS_TELEPORT,     STNG_TOOLS_TURBO_MODE,
+    STNG_TOOLS_TIMER,        STNG_TOOLS_LOAD_TIMER,
+    STNG_TOOLS_IGT_TIMER,    STNG_TOOLS_FREE_CAM,
+    STNG_TOOLS_MOVE_LINK,
+};
+
+#define set_active(id, status)                                                                     \
+    ({                                                                                             \
+        auto* stng = GZStng_getSetting(id);                                                        \
+        if (stng)                                                                                  \
+            *(bool*)stng->data = status;                                                           \
+    })
 
 void ToolsMenu::draw() {
     l_tunicCol_idx = g_tunic_color;
@@ -138,123 +153,31 @@ void ToolsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_tools[cursor.y].active = !g_tools[cursor.y].active;
-        if (g_tools[cursor.y].active) {
-            switch (cursor.y) {
-            case FRAME_ADVANCE_INDEX:
-                GZCmd_enable(Commands::CMD_FRAME_PAUSE);
-                break;
-            case TIMER_INDEX:
-                g_tools[LOAD_TIMER_INDEX].active = false;
-                g_tools[IGT_TIMER_INDEX].active = false;
-                GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
-                GZCmd_enable(Commands::CMD_TIMER_RESET);
-                break;
-            case LOAD_TIMER_INDEX:
-                g_tools[TIMER_INDEX].active = false;
-                g_tools[IGT_TIMER_INDEX].active = false;
-                GZCmd_enable(Commands::CMD_TIMER_RESET);
-                break;
-            case IGT_TIMER_INDEX:
-                g_tools[TIMER_INDEX].active = false;
-                g_tools[LOAD_TIMER_INDEX].active = false;
-                GZCmd_enable(Commands::CMD_TIMER_TOGGLE);
-                GZCmd_enable(Commands::CMD_TIMER_RESET);
-                break;
-            case GORGE_INDEX:
-                GZCmd_enable(Commands::CMD_GORGE_VOID);
-                break;
-#ifdef WII_PLATFORM
-            case BIT_INDEX:
-                GZCmd_enable(Commands::CMD_BIT);
-                break;
-#endif
-            case TELEPORT_INDEX:
-                GZCmd_enable(Commands::CMD_STORE_POSITION);
-                GZCmd_enable(Commands::CMD_LOAD_POSITION);
-                break;
-            case RELOAD_AREA_INDEX:
-                GZCmd_enable(Commands::CMD_RELOAD_AREA);
-                break;
-            case FAST_MOVEMENT_INDEX:
-                daAlinkHIO_frontRoll.mSpeedRate = 3.0f;
-                daAlinkHIO_swim.mMaxUnderwaterSpeed = 50;
-                daAlinkHIO_swim.mMaxBackwardSpeed = 50;
-                daAlinkHIO_swim.mMaxStrafeSpeed = 50;
-                daAlinkHIO_swim.mDashMaxSpeed = 50;
-                daAlinkHIO_swim.mMaxForwardSpeed = 50;
-                daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 50;
-                daAlinkHIO_swim.mBootsMaxSinkSpeed = -50;
-                daAlinkHIO_swim.mBootsGravity = -50;
-                daAlinkHIO_wlMove.mDashInitSpeed = 100;
-                daAlinkHIO_wlMove.mDashMaxSpeed = 100;
-                daAlinkHIO_wlMove.mDashInitSpeedSlow = 70;
-                daAlinkHIO_wlMove.mDashMaxSpeedSlow = 70;
-                daAlinkHIO_wlSwim.mMaxSpeed = 50;
-                daAlinkHIO_wlSwim.mMaxSpeedWeak = 50;
-                break;
-            case FAST_BONK_INDEX:
-                daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 50.0f;
-                daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.0f;
-                break;
-            case FREE_CAM_INDEX:
-                GZCmd_enable(Commands::CMD_FREE_CAM);
-                g_freeCamEnabled = false;
-                break;
-            case MOVE_LINK_INDEX:
-                GZCmd_enable(Commands::CMD_MOVE_LINK);
-                g_moveLinkEnabled = false;
-                break;
+        GZSettingEntry* stng = nullptr;
+        if (cursor.y < TOOLS_COUNT && cursor.y != TUNIC_COLOR_INDEX) {
+            stng = GZStng_getSetting(l_mapping[cursor.y]);
+            if (!stng) {
+                stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
+                g_settings.push_back(stng);
             }
-        } else {
-            switch (cursor.y) {
-            case FRAME_ADVANCE_INDEX:
-                GZCmd_disable(Commands::CMD_FRAME_PAUSE);
-                break;
-            case TELEPORT_INDEX:
-                GZCmd_disable(Commands::CMD_STORE_POSITION);
-                GZCmd_disable(Commands::CMD_LOAD_POSITION);
-                break;
-            case RELOAD_AREA_INDEX:
-                GZCmd_disable(Commands::CMD_RELOAD_AREA);
-                break;
-            case FAST_MOVEMENT_INDEX:
-                daAlinkHIO_frontRoll.mSpeedRate = 1.3;
-                daAlinkHIO_swim.mMaxUnderwaterSpeed = 12;
-                daAlinkHIO_swim.mMaxForwardSpeed = 8;
-                daAlinkHIO_swim.mMaxBackwardSpeed = 6;
-                daAlinkHIO_swim.mMaxStrafeSpeed = 8;
-                daAlinkHIO_swim.mDashMaxSpeed = 13;
-                daAlinkHIO_swim.mUnderwaterMaxSinkSpeed = 8;
-                daAlinkHIO_swim.mBootsMaxSinkSpeed = -20;
-                daAlinkHIO_swim.mBootsGravity = -0.699999988;
-                daAlinkHIO_wlMove.mDashInitSpeed = 65;
-                daAlinkHIO_wlMove.mDashMaxSpeed = 45;
-                daAlinkHIO_wlMove.mDashInitSpeedSlow = 35;
-                daAlinkHIO_wlMove.mDashMaxSpeedSlow = 33;
-                daAlinkHIO_wlSwim.mMaxSpeed = 20;
-                daAlinkHIO_wlSwim.mMaxSpeedWeak = 9;
-                break;
-            case FAST_BONK_INDEX:
-                daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 3.0f;
-                daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.800000012f;
-                break;
-            case FREE_CAM_INDEX:
-                GZCmd_disable(Commands::CMD_FREE_CAM);
-                g_freeCamEnabled = false;
-                break;
-            case MOVE_LINK_INDEX:
-                GZCmd_disable(Commands::CMD_MOVE_LINK);
-                g_moveLinkEnabled = false;
-                break;
-            case GORGE_INDEX:
-                GZCmd_disable(Commands::CMD_GORGE_VOID);
-                break;
-#ifdef WII_PLATFORM
-            case BIT_INDEX:
-                GZCmd_disable(Commands::CMD_BIT);
-                break;
-#endif
+        }
+        if (stng) {
+            *(bool*)stng->data = !*(bool*)stng->data;
+            if (*(bool*)stng->data) {
+                switch (cursor.y) {
+                case TIMER_INDEX:
+                    set_active(STNG_TOOLS_LOAD_TIMER, false);
+                    set_active(STNG_TOOLS_IGT_TIMER, false);
+                    break;
+                case LOAD_TIMER_INDEX:
+                    set_active(STNG_TOOLS_TIMER, false);
+                    set_active(STNG_TOOLS_IGT_TIMER, false);
+                    break;
+                case IGT_TIMER_INDEX:
+                    set_active(STNG_TOOLS_TIMER, false);
+                    set_active(STNG_TOOLS_LOAD_TIMER, false);
+                    break;
+                }
             }
         }
     }

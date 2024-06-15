@@ -3,26 +3,31 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 #include "gz_flags.h"
+#include "settings.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+
+KEEP_FUNC bool is_active(GZSettingID id) {
+    return GZStng_getSettingData(id, false);
+}
 
 KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"disable bg music", DISABLE_BG_INDEX,
                          "Disables background and enemy music", true,
-                         &g_sceneFlags[DISABLE_BG_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_DISABLE_BG)},
                         {"disable sfx", DISABLE_SFX_INDEX, "Disables sound effects", true,
-                         &g_sceneFlags[DISABLE_SFX_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_DISABLE_SFX)},
                         {"freeze actors", FREEZE_ACTOR_INDEX, "Freezes actors", true,
-                         &g_sceneFlags[FREEZE_ACTOR_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_FREEZE_ACTOR)},
                         {"freeze camera", FREEZE_CAMERA_INDEX, "Locks the camera in place", true,
-                         &g_sceneFlags[FREEZE_CAMERA_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_FREEZE_CAMERA)},
                         {"hide actors", HIDE_ACTOR_INDEX, "Hides actors", true,
-                         &g_sceneFlags[HIDE_ACTOR_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_HIDE_ACTOR)},
                         {"hide hud", HIDE_HUD_INDEX, "Hides the heads-up display", true,
-                         &g_sceneFlags[HIDE_HUD_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_HIDE_HUD)},
                         {"freeze time", FREEZE_TIME_INDEX, "Freezes ingame time", true,
-                         &g_sceneFlags[FREEZE_TIME_INDEX].active},
+                         ACTIVE_FUNC(STNG_SCENE_FREEZE_TIME)},
                         {"time (hrs):", TIME_HOURS_INDEX, "The current in-game hour", false},
                         {"time (mins):", TIME_MINUTES_INDEX, "The current in-game minutes", false},
                         {"actor spawner", ACTOR_MENU_INDEX, "Spawn Actors at current position",
@@ -34,6 +39,16 @@ KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
                     } {}
 
 SceneMenu::~SceneMenu() {}
+
+KEEP_VAR GZSettingID l_mapping[] = {
+    STNG_SCENE_DISABLE_BG,
+    STNG_SCENE_DISABLE_SFX,
+    STNG_SCENE_FREEZE_ACTOR,
+    STNG_SCENE_FREEZE_CAMERA,
+    STNG_SCENE_HIDE_ACTOR,
+    STNG_SCENE_HIDE_HUD,
+    STNG_SCENE_FREEZE_TIME,
+};
 
 void SceneMenu::draw() {
     cursor.setMode(Cursor::MODE_LIST);
@@ -55,7 +70,14 @@ void SceneMenu::draw() {
     lines[TIME_MINUTES_INDEX].printf(" <%d>", current_minute);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        g_sceneFlags[cursor.y].active = !g_sceneFlags[cursor.y].active;
+        if (cursor.y < TIME_HOURS_INDEX) {
+            auto* stng = GZStng_getSetting(l_mapping[cursor.y]);
+            if (!stng) {
+                stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool(false)};
+                g_settings.push_back(stng);
+            }
+            *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
+        }
 
         switch (cursor.y) {
         case ACTOR_MENU_INDEX:

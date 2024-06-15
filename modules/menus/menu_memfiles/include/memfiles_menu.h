@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "menus/menu.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 

@@ -22,7 +22,7 @@
 #define PAD Mote
 #endif  // WII_PLATFORM
 
-void CoroTDChecker::execute() {
+KEEP_FUNC void CoroTDChecker::execute() {
     static bool sTimerStarted = false;
     static bool sGoalHit = false;
     static uint32_t sFrameCount = 0;

@@ -2,10 +2,6 @@
 #include "controller.h"
 #include "global_data.h"
 #include "fs.h"
-#include "gorge.h"
-#ifdef WII_PLATFORM
-#include "bit.h"
-#endif
 #include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "practice.h"
@@ -21,7 +17,7 @@ bool reload_area_flag = false;
 bool g_timerEnabled = false;
 bool g_resetTimer = false;
 
-bool g_commandStates[COMMANDS_AMNT];
+KEEP_VAR bool g_commandStates[COMMANDS_AMNT];
 
 static Vec sSavePlayerPos = {0.0f, 0.0f, 0.0f};
 static int16_t sSavePlayerAngle = 0;
@@ -31,20 +27,20 @@ static Vec sSaveCamTarget = {0.0f, 0.0f, 0.0f};
 static int sLastInputs;
 static int sCurInputs;
 
-bool GZCmd_checkTrig(int combo) {
+KEEP_FUNC bool GZCmd_checkTrig(int combo) {
     if (sCurInputs == combo && sLastInputs != combo) {
         return true;
     }
     return false;
 }
 
-void GZCmd_pauseFrame() {
+KEEP_FUNC void GZCmd_pauseFrame() {
     if (GZCmd_checkTrig(FRAME_PAUSE_BUTTONS)) {
         g_framePaused = !g_framePaused;
     }
 }
 
-void GZCmd_storePosition() {
+KEEP_FUNC void GZCmd_storePosition() {
     if (dComIfGp_getPlayer()) {
         sSavePlayerPos = dComIfGp_getPlayer()->current.pos;
         sSavePlayerAngle = dComIfGp_getPlayer()->shape_angle.y;
@@ -56,7 +52,7 @@ void GZCmd_storePosition() {
     }
 }
 
-void GZCmd_loadPosition() {
+KEEP_FUNC void GZCmd_loadPosition() {
     if (dComIfGp_getPlayer()) {
         dComIfGp_getPlayer()->current.pos = sSavePlayerPos;
         dComIfGp_getPlayer()->shape_angle.y = sSavePlayerAngle;
@@ -68,27 +64,22 @@ void GZCmd_loadPosition() {
     }
 }
 
-void GZCmd_moonJump() {
-    if (dComIfGp_getPlayer()) {
-        dComIfGp_getPlayer()->speed.y = 56.0f;
-    }
-}
-
-void GZCmd_toggleTimer() {
+KEEP_FUNC void GZCmd_toggleTimer() {
     if (GZCmd_checkTrig(TIMER_TOGGLE_BUTTONS)) {
         g_timerEnabled = !g_timerEnabled;
     }
 }
 
-void GZCmd_resetTimer() {
+KEEP_FUNC void GZCmd_resetTimer() {
     g_resetTimer = true;
 }
 
-void GZCmd_reloadArea() {
+KEEP_FUNC void GZCmd_reloadArea() {
     g_dComIfG_gameInfo.play.mNextStage.enabled = true;
     SaveManager::s_injectSave = true;
 
-    if (g_reloadType == LOAD_AREA) {
+    uint32_t reloadType = GZStng_getSettingData(STNG_TOOLS_RELOAD_AREA, 0);
+    if (reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
                sizeof(gSaveManager.mAreaReloadOpts.temp_flags));
@@ -107,63 +98,51 @@ void GZCmd_reloadArea() {
     }
 }
 
-void GZCmd_loadGorgeVoid() {
-    if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
-        // TODO: maybe simplify this
-        special sp[] = {
-            special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
-        };
-
-        SaveManager::triggerLoad(8, "any", sp, 1);
-    }
-}
-
-#ifdef WII_PLATFORM
-void GZCmd_bitPractice() {
-    if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
-        // TODO: maybe simplify this
-        special sp[] = {
-            special(0, nullptr, BiTIndicator::setPosition),
-        };
-
-        SaveManager::triggerLoad(0, "any", sp, 1);
-    }
-}
-#endif
-
-void GZCmd_toggleFreeCam() {
+KEEP_FUNC void GZCmd_toggleFreeCam() {
     if (GZCmd_checkTrig(FREE_CAM_BUTTONS)) {
         g_freeCamEnabled = !g_freeCamEnabled;
     }
 }
 
-void GZCmd_toggleMoveLink() {
+KEEP_FUNC void GZCmd_toggleMoveLink() {
     if (GZCmd_checkTrig(MOVE_LINK_BUTTONS)) {
         g_moveLinkEnabled = !g_moveLinkEnabled;
     }
 }
 
-static Command sCommands[COMMANDS_AMNT] = {
-    {g_commandStates[CMD_STORE_POSITION], STORE_POSITION_BUTTONS, GZCmd_storePosition},
-    {g_commandStates[CMD_LOAD_POSITION], LOAD_POSITION_BUTTONS, GZCmd_loadPosition},
-    {g_commandStates[CMD_MOON_JUMP], MOON_JUMP_BUTTONS, GZCmd_moonJump},
-    {g_commandStates[CMD_RELOAD_AREA], RELOAD_AREA_BUTTONS, GZCmd_reloadArea},
-    {g_commandStates[CMD_TIMER_TOGGLE], TIMER_TOGGLE_BUTTONS, GZCmd_toggleTimer},
-    {g_commandStates[CMD_TIMER_RESET], TIMER_RESET_BUTTONS, GZCmd_resetTimer},
-    {g_commandStates[CMD_GORGE_VOID], GORGE_VOID_BUTTONS, GZCmd_loadGorgeVoid},
-#ifdef WII_PLATFORM
-    {g_commandStates[CMD_BIT], BACK_IN_TIME_BUTTONS, GZCmd_bitPractice},
-#endif
-    {g_commandStates[CMD_FREE_CAM], FREE_CAM_BUTTONS, GZCmd_toggleFreeCam},
-    {g_commandStates[CMD_MOVE_LINK], MOVE_LINK_BUTTONS, GZCmd_toggleMoveLink},
-    {g_commandStates[CMD_FRAME_PAUSE], FRAME_PAUSE_BUTTONS, GZCmd_pauseFrame},
-};
+KEEP_VAR tpgz::containers::deque<Command*> g_commands;
 
-void GZCmd_processInputs() {
+KEEP_FUNC void GZCmd_addCmd(Command* cmd) {
+    g_commands.push_back(cmd);
+}
+
+KEEP_FUNC Command* GZCmd_removeCmd(Commands cmdId) {
+    auto it = g_commands.begin();
+    for (; it != g_commands.end(); ++it) {
+        if ((*it)->id == cmdId) {
+            break;
+        }
+    }
+    auto* cmd = *it;
+    g_commands.erase(it);
+    return cmd;
+}
+
+KEEP_FUNC Command* GZCmd_getCmd(int id) {
+    auto it = g_commands.begin();
+    for (;it != g_commands.end(); ++it) {
+        if ((*it)->id == id) {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+KEEP_FUNC void GZCmd_processInputs() {
     sCurInputs = GZ_getButtonStatus();
-    for (auto c : sCommands) {
-        if (c.active && GZ_getButtonStatus() == c.buttons) {
-            c.command();
+    for (auto c : g_commands) {
+        if (sCurInputs == c->buttons) {
+            c->command();
             setGamepadButtons(0x0);
             setGamepadTrig(0x0);
             mPadButton.mRepeat = 0x0;
@@ -171,12 +150,4 @@ void GZCmd_processInputs() {
         }
     }
     sLastInputs = sCurInputs;
-}
-
-void GZCmd_enable(int idx) {
-    sCommands[idx].active = true;
-}
-
-void GZCmd_disable(int idx) {
-    sCommands[idx].active = false;
 }

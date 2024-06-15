@@ -4,7 +4,7 @@
 #include "gz_flags.h"
 #include "controller.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
@@ -120,11 +120,11 @@ KEEP_FUNC void GZ_readController() {
     }
 }
 
-bool GZ_getButtonPressed(int idx) {
+KEEP_FUNC bool GZ_getButtonPressed(int idx) {
     return buttonStates[idx].is_down;
 }
 
-bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
+KEEP_FUNC bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
     // Needs to be signed due to delta sometimes being negative
     // which causes a subtle bug making held_down_long_enough 
     // true when it shouldn't be
@@ -137,15 +137,15 @@ bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
     return down && (just_clicked || is_repeat_frame);
 }
 
-bool GZ_getButtonRepeat(int idx) {
+KEEP_FUNC bool GZ_getButtonRepeat(int idx) {
     return GZ_getButtonRepeat(idx, REPEAT_TIME);
 }
 
-uint16_t GZ_getButtonStatus() {
+KEEP_FUNC uint16_t GZ_getButtonStatus() {
     return buttonStatus;
 }
 
-bool GZ_getButtonTrig(int idx) {
+KEEP_FUNC bool GZ_getButtonTrig(int idx) {
     auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     auto just_clicked = delta == 0;
 
@@ -153,7 +153,7 @@ bool GZ_getButtonTrig(int idx) {
     return down && just_clicked;
 }
 
-bool GZ_getButtonHold(int idx, int phase) {
+KEEP_FUNC bool GZ_getButtonHold(int idx, int phase) {
     uint32_t delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     
     if (phase != POST_GAME_LOOP)
@@ -162,7 +162,7 @@ bool GZ_getButtonHold(int idx, int phase) {
     return delta != 0 ? true : false;
 }
 
-void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
+KEEP_FUNC void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
     if ((GZ_getButtonStatus() & i_button) && (buttonStates[i_gzButton].button & sButtonsPressed)) {
         i_pressCounter++;
     }

@@ -5,6 +5,7 @@
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "gz_flags.h"
+#include "pos_settings.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "global_data.h"
@@ -34,6 +35,12 @@
  * @brief Used for storing entries from procs.bin
  */
 procBinData l_procData;
+
+#ifdef WII_PLATFORM
+extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
 
 KEEP_FUNC ActorSpawnMenu::ActorSpawnMenu(ActorSpawnData& data)
     : Menu(data.cursor), l_actorID(data.l_actorID), l_actorParams(data.l_actorParams),
@@ -129,6 +136,10 @@ void ActorSpawnMenu::draw() {
         break;
     }
 
+    auto menu_offset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
+    float param_offset_x = menu_offset.x + Font::getStrWidth("actor params:  ");
+    float param_offset_y = menu_offset.y + 20.0f * (float)(int)ACTOR_PARAM_INDEX;
+
     char buf[9];
     snprintf(buf, sizeof(buf), "%08X", l_actorParams);
     if (l_paramsSelected) {
@@ -153,9 +164,9 @@ void ActorSpawnMenu::draw() {
         if (GZ_getButtonRepeat(CONTROLLER_DOWN)) {
             l_actorParams -= (0x10000000 >> (l_paramIdx * 4));
         }
-        GZ_drawSelectChar(buf, 170.0f, 80.0f, l_paramIdx, 7, 0xFFFFFFFF);
+        GZ_drawSelectChar(buf, param_offset_x, param_offset_y, l_paramIdx, 7, 0xFFFFFFFF);
     } else {
-        Font::GZ_drawStr(buf, 170.0f, 80.0f,
+        Font::GZ_drawStr(buf, param_offset_x, param_offset_y,
                          (cursor.y == ACTOR_PARAM_INDEX ? CURSOR_RGBA : 0xFFFFFFFF),
                          GZ_checkDropShadows());
     }

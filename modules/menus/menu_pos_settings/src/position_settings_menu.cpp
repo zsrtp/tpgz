@@ -23,19 +23,39 @@ KEEP_FUNC PosSettingsMenu::PosSettingsMenu(Cursor& cursor, PosSettingsData& data
             {"igt timer", SpritesIndex::IGT_TIMER_SPR_INDEX, "Change IGT timer position", false},
             {"fifo queue", SpritesIndex::FIFO_SPR_INDEX, "Change fifo queue position", false},
             {"heap info", SpritesIndex::HEAP_INFO_INDEX, "Change Heap info position", false},
-            {"mash checker", SpritesIndex::MASH_INFO_INDEX, "Change Mash Checker position", false}} {}
+            {"mash checker", SpritesIndex::MASH_INFO_INDEX, "Change Mash Checker position", false},
+            {"transform indicator", SpritesIndex::TRANSFORM_IND_INDEX, "Change Transform Indicator position", false}} {}
 
 PosSettingsMenu::~PosSettingsMenu() {}
+
+#ifdef WII_PLATFORM
+extern bool isWidescreen;
+#else
+#define isWidescreen (false)
+#endif
 
 void drawCursor(Vec2 pos) {
     bool cycle = (cCt_getFrameCount() / 8) % 2;
     if (GZ_checkDropShadows()) {
-        Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x - 10 + 1, pos.y + 1}, {20, 0}, 0xA);
+        Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x - 10 * (isWidescreen ? 0.75f : 1.0f) + 1, pos.y + 1}, {20 * (isWidescreen ? 0.75f : 1.0f), 0}, 0xA);
         Draw::drawRectOutline(DROP_SHADOWS_RGBA, {pos.x + 1, pos.y - 10 + 1}, {0, 20}, 0xA);
     }
-    Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x - 10, pos.y}, {20, 0}, 0xA);
+    Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x - 10 * (isWidescreen ? 0.75f : 1.0f), pos.y}, {20 * (isWidescreen ? 0.75f : 1.0f), 0}, 0xA);
     Draw::drawRectOutline(cycle ? g_cursorColor : 0xFFFFFFFF, {pos.x, pos.y - 10}, {0, 20}, 0xA);
 }
+
+GZSettingID l_mapping[] = {
+    STNG_SPRITES_MENU,
+    STNG_SPRITES_INPUT_VIEWER,
+    STNG_SPRITES_DEBUG_INFO,
+    STNG_SPRITES_TIMER_SPR,
+    STNG_SPRITES_LOAD_TIMER_SPR,
+    STNG_SPRITES_IGT_TIMER_SPR,
+    STNG_SPRITES_FIFO_SPR,
+    STNG_SPRITES_HEAP_INFO,
+    STNG_SPRITES_MASH_INFO,
+    STNG_SPRITES_TRANSFORM_IND,
+};
 
 void PosSettingsMenu::draw() {
     cursor.setMode(Cursor::MODE_UNRESTRICTED);
@@ -61,22 +81,28 @@ void PosSettingsMenu::draw() {
         }
     }
 
+    auto* stng = GZStng_getSetting(l_mapping[l_selItem]);
+    if (!stng) {
+        stng = new GZSettingEntry{l_mapping[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
+        g_settings.push_back(stng);
+    }
+    Vec2* pos = static_cast<Vec2*>(stng->data);
     if (l_selItem != POSITION_SETTINGS_NO_SELECTION && l_selItem < SPRITES_AMNT) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT, 3)) {
-            g_spriteOffsets[l_selItem].x += l_cursorSpeed;
+            pos->x += l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_LEFT, 3)) {
-            g_spriteOffsets[l_selItem].x -= l_cursorSpeed;
+            pos->x -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP, 3)) {
-            g_spriteOffsets[l_selItem].y -= l_cursorSpeed;
+            pos->y -= l_cursorSpeed;
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN, 3)) {
-            g_spriteOffsets[l_selItem].y += l_cursorSpeed;
+            pos->y += l_cursorSpeed;
         }
 
         // Draw visual cursor
-        drawCursor(g_spriteOffsets[l_selItem]);
+        drawCursor(*pos);
     }
 
     if (GZ_getButtonPressed(GZPad::DPAD_RIGHT) || GZ_getButtonPressed(GZPad::DPAD_LEFT) ||

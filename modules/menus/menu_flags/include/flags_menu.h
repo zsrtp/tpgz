@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
 
 enum FlagsIndex {
     GENERAL_FLAGS_INDEX,

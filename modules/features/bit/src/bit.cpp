@@ -8,9 +8,11 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "fifo_queue.h"
+#include "commands.h"
 #include "controller.h"
 #include "fs.h"
 #include "font.h"
+#include "save_manager.h"
 
 #define VOID_HEIGHT -2098.58
 #define NORMAL_ACC -3.4
@@ -21,16 +23,29 @@
 
 #define LAST_Y_GROUND_POS (dComIfGp_getPlayer()->field_0x3404)
 
+#ifdef WII_PLATFORM
+KEEP_FUNC void GZCmd_bitPractice() {
+    if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
+        // TODO: maybe simplify this
+        special sp[] = {
+            special(0, nullptr, BiTIndicator::setPosition),
+        };
+
+        SaveManager::triggerLoad(0, "any", sp, 1);
+    }
+}
+#endif
+
 static char buf[30];
 
-void BiTIndicator::setPosition() {
+KEEP_FUNC void BiTIndicator::setPosition() {
     dComIfGp_getPlayer()->current.pos = (cXyz){466.622467f, 319.770752f, -11651.3867f};
     dComIfGp_getPlayer()->shape_angle.y = 32000;
     matrixInfo.matrix_info->target = {465.674622f, 421.052704f, -11651.0684f};
     matrixInfo.matrix_info->pos = {735.525391f, 524.418701f, -11576.4746f};
 }
 
-void BiTIndicator::execute() {
+KEEP_FUNC void BiTIndicator::execute() {
     double dt = 0;
 
     if (dComIfGp_getPlayer()) {

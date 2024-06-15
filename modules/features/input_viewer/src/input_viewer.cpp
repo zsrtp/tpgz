@@ -289,18 +289,13 @@ extern bool isWidescreen;
 #endif
 
 KEEP_FUNC void InputViewer::draw() {
-    if (!g_tools[INPUT_VIEWER_INDEX].active) {
-        return;
-    }
-    Vec2 pos = {0.f, 0.f};
-    pos.x += g_spriteOffsets[VIEWER_INDEX].x;
-    pos.y += g_spriteOffsets[VIEWER_INDEX].y;
+    Vec2 pos = GZ_getSpriteOffset(STNG_SPRITES_INPUT_VIEWER);
 #ifdef GCN_PLATFORM
     float scale = 1.0f;
 #elif defined(WII_PLATFORM)
     float scale = 1.4f;
 #endif
-    if (g_dropShadows)
+    if (GZ_checkDropShadows())
         drawViewer({pos.x + 1.f, pos.y + 1.f}, scale, true, IS_WIDESCREEN);
     drawViewer(pos, scale, false, IS_WIDESCREEN);
 }

@@ -1,5 +1,8 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
+#include "utils/memory.h"
+
+#define MAX_WATCHES 50
 
 struct WatchesData {
     uint8_t button_held_counter = 0;
@@ -13,7 +16,7 @@ public:
     WatchesMenu(Cursor&, WatchesData&);
     virtual ~WatchesMenu();
     virtual void draw();
-    void drawMemoryLines();
+    void drawMemoryLines(MemoryWatch*, size_t);
 
 private:
     uint8_t& button_held_counter;

@@ -1,3 +1,4 @@
+#pragma once
 
 #define HOOK_AMNT 18
 enum HookIndex {

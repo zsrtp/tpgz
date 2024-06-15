@@ -17,14 +17,14 @@ bool game_paused;           // Whether the game is paused or not. Used to determ
 char msg_buffer[20];        // Buffer for the message to be printed.
 
 #if DEBUG
-void RollIndicator_debug() {
+KEEP_FUNC void RollIndicator_debug() {
     OSReport("roll start frame: %d\n", roll_start_frame);
     OSReport("current frame: %d\n", cCt_getFrameCount());
     OSReport("current frame delta: %d\n", current_frame_delta);
 }
 #endif
 
-void RollIndicator::execute() {
+KEEP_FUNC void RollIndicator::execute() {
     // Only run the flow if the game is not in an event, 
     // the player is in human form,
     // and the player pointer is valid

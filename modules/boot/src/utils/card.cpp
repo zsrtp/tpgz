@@ -1,4 +1,6 @@
 #include <cstdio>
+#include <algorithm>
+#include <numeric>
 #include "commands.h"
 #include "settings.h"
 #include "fifo_queue.h"
@@ -17,6 +19,8 @@
 #include "rels/include/cxx.h"
 #include "menus/utils/menu_mgr.h"
 #include "rels/include/defines.h"
+#include "events/pre_loop_listener.h"
+#include "boot.h"
 
 #ifdef WII_PLATFORM
 KEEP_VAR void* g_tmpBuf;
@@ -73,30 +77,57 @@ int32_t GZ_storageRead(Storage* storage, void* data, int32_t size, int32_t offse
     return result;
 }
 
-void GZ_storeSaveLayout(GZSaveLayout& save_layout) {
-    memcpy(save_layout.mCheats, g_cheats, sizeof(g_cheats));
-    memcpy(save_layout.mTools, g_tools, sizeof(g_tools));
-    memcpy(save_layout.mSceneFlags, g_sceneFlags, sizeof(g_sceneFlags));
-    memcpy(save_layout.mWatches, g_watches, sizeof(g_watches));
-    memcpy(save_layout.mSpriteOffsets, g_spriteOffsets, sizeof(g_spriteOffsets));
-    memcpy(save_layout.mCommandStates, g_commandStates, sizeof(g_commandStates));
-    save_layout.mDropShadows = g_dropShadows;
-    save_layout.mReloadType = g_reloadType;
-    save_layout.mCursorColType = g_cursorColorType;
-    save_layout.mFontType = g_fontType;
+/**
+ * @brief Stores the settings in a new buffer.
+ * @param save_file The save file to fetch the metadata from.
+ * @return The buffer containing the settings.
+ */
+void GZ_storeSettings(GZSaveFile& save_file, void* data) {
+    if (save_file.header.data_size == 0) {
+        return;
+    }
+    uint32_t pos = 0;
+    for (auto& entry : g_settings) {
+        memcpy((void*)((uint32_t)data + pos), &entry->id, sizeof(GZSettingID));
+        pos += sizeof(GZSettingID);
+        memcpy((void*)((uint32_t)data + pos), &entry->size, sizeof(size_t));
+        pos += sizeof(size_t);
+        if (entry->size > 0 && entry->data) {
+            memcpy((void*)((uint32_t)data + pos), entry->data, entry->size);
+        }
+        pos += entry->size;
+    }
 }
 
-void GZ_loadSaveLayout(GZSaveLayout& save_layout) {
-    memcpy(g_cheats, save_layout.mCheats, sizeof(g_cheats));
-    memcpy(g_tools, save_layout.mTools, sizeof(g_tools));
-    memcpy(g_sceneFlags, save_layout.mSceneFlags, sizeof(g_sceneFlags));
-    memcpy(g_watches, save_layout.mWatches, sizeof(g_watches));
-    memcpy(g_spriteOffsets, save_layout.mSpriteOffsets, sizeof(g_spriteOffsets));
-    memcpy(g_commandStates, save_layout.mCommandStates, sizeof(g_commandStates));
-    g_dropShadows = save_layout.mDropShadows;
-    g_reloadType = save_layout.mReloadType;
-    g_cursorColorType = save_layout.mCursorColType;
-    g_fontType = save_layout.mFontType;
+/**
+ * @brief Loads the settings from a buffer.
+ * @param save_file The save file to fetch the metadata from.
+ * @param data The buffer containing the settings.
+ */
+void GZ_loadSettings(GZSaveFile save_file, void* data) {
+    uint32_t pos = 0;
+    for (uint32_t i = 0; i < save_file.header.entries; i++) {
+        GZSettingID id;
+        size_t size;
+        memcpy(&id, (void*)((uint32_t)data + pos), sizeof(GZSettingID));
+        pos += sizeof(GZSettingID);
+        memcpy(&size, (void*)((uint32_t)data + pos), sizeof(size_t));
+        pos += sizeof(size_t);
+        GZSettingEntry* entry = GZStng_getSetting(id);
+        if (entry == nullptr) {
+            entry = new GZSettingEntry{id, size, size > 0 ? new uint8_t[size] : nullptr};
+            g_settings.push_back(entry);
+        } else {
+            void* old_data = entry->data;
+            if (old_data) {
+                delete[] (uint8_t*)old_data;
+            }
+            entry->data = size > 0 ? new uint8_t[size] : nullptr;
+            entry->size = size;
+        }
+        memcpy(entry->data, (void*)((uint32_t)data + pos), size);
+        pos += size;
+    }
 }
 
 void GZ_loadPositionData(PositionData& pos_data) {
@@ -106,26 +137,17 @@ void GZ_loadPositionData(PositionData& pos_data) {
     memfile_posdata.angle = pos_data.angle;
 }
 
+/**
+ * @brief Setup the save file header.
+ * @param save_file The save file to setup.
+ */
 void GZ_setupSaveFile(GZSaveFile& save_file) {
     save_file.header.version = GZ_SAVE_VERSION_NUMBER;
-    save_file.header.entries = GZ_SAVE_ENTRIES_AMNT;
-    save_file.header.offsetsLoc = offsetof(GZSaveFile, offsets);
-    save_file.header.sizesLoc = offsetof(GZSaveFile, sizes);
-#define set_entry(idx, attr)                                                                       \
-    save_file.offsets[idx] = offsetof(GZSaveFile, data) + offsetof(GZSaveLayout, attr);            \
-    save_file.sizes[idx] = sizeof(save_file.data.attr)
-
-    set_entry(SV_CHEATS_INDEX, mCheats);
-    set_entry(SV_TOOLS_INDEX, mTools);
-    set_entry(SV_SCENE_INDEX, mSceneFlags);
-    set_entry(SV_WATCHES_INDEX, mWatches);
-    set_entry(SV_SPRITES_INDEX, mSpriteOffsets);
-    set_entry(SV_COMMANDS, mCommandStates);
-    set_entry(SV_DROP_SHADOW_INDEX, mDropShadows);
-    set_entry(SV_AREA_RELOAD_INDEX, mReloadType);
-    set_entry(SV_CURSOR_COLOR_INDEX, mCursorColType);
-    set_entry(SV_FONT_INDEX, mFontType);
-#undef set_entry
+    save_file.header.entries = g_settings.size();
+    save_file.header.data_size =
+        std::transform_reduce(g_settings.begin(), g_settings.end(), (size_t)0, std::plus{},
+                              [](GZSettingEntry* entry) { return entry->size; }) +
+        (sizeof(GZSettingID) + sizeof(size_t)) * g_settings.size();
 }
 
 int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_size) {
@@ -142,35 +164,26 @@ int32_t GZ_readSaveFile(Storage* storage, GZSaveFile& save_file, int32_t sector_
     if (save_file.header.version != GZ_SAVE_VERSION_NUMBER) {
         return -30;  // Custom error code for "Version" (means a mismatch in the version number).
     }
-    assert_result(GZ_storageRead(storage, save_file.offsets,
-                                 save_file.header.entries * sizeof(save_file.offsets[0]),
-                                 save_file.header.offsetsLoc, sector_size));
-    assert_result(GZ_storageRead(storage, save_file.sizes,
-                                 save_file.header.entries * sizeof(save_file.sizes[0]),
-                                 save_file.header.sizesLoc, sector_size));
-
-#define assert_read_entry(idx, ptr, size)                                                          \
-    if (idx < save_file.header.entries) {                                                          \
-        assert_result(GZ_storageRead(storage, ptr, MIN(size, save_file.sizes[idx]),                \
-                                     save_file.offsets[idx], sector_size));                        \
+    uint8_t* data = nullptr;
+    if (save_file.header.data_size > 0) {
+        data = new uint8_t[save_file.header.data_size];
+        assert_result(GZ_storageRead(storage, data, save_file.header.data_size, pos, sector_size));
     }
-    assert_read_entry(SV_CHEATS_INDEX, save_file.data.mCheats, sizeof(save_file.data.mCheats));
-    assert_read_entry(SV_TOOLS_INDEX, save_file.data.mTools, sizeof(save_file.data.mTools));
-    assert_read_entry(SV_SCENE_INDEX, save_file.data.mSceneFlags,
-                      sizeof(save_file.data.mSceneFlags));
-    assert_read_entry(SV_WATCHES_INDEX, save_file.data.mWatches, sizeof(save_file.data.mWatches));
-    assert_read_entry(SV_SPRITES_INDEX, save_file.data.mSpriteOffsets,
-                      sizeof(save_file.data.mSpriteOffsets));
-    assert_read_entry(SV_COMMANDS, save_file.data.mCommandStates,
-                      sizeof(save_file.data.mCommandStates));
-    assert_read_entry(SV_DROP_SHADOW_INDEX, &save_file.data.mDropShadows,
-                      sizeof(save_file.data.mDropShadows));
-    assert_read_entry(SV_AREA_RELOAD_INDEX, &save_file.data.mReloadType,
-                      sizeof(save_file.data.mReloadType));
-    assert_read_entry(SV_CURSOR_COLOR_INDEX, &save_file.data.mCursorColType,
-                      sizeof(save_file.data.mCursorColType));
-    assert_read_entry(SV_FONT_INDEX, &save_file.data.mFontType, sizeof(save_file.data.mFontType));
-#undef assert_read_entry
+
+    // Clear the settings before loading the saved ones.
+    for (auto& entry : g_settings) {
+        delete[] (uint8_t*)entry->data;
+        delete entry;
+    }
+
+    g_settings.clear();
+
+    GZ_loadSettings(save_file, data);
+
+    if (data != nullptr) {
+        delete[] data;
+    }
+
 #undef assert_result
 
     return result;
@@ -195,16 +208,19 @@ KEEP_FUNC int32_t GZ_readMemfile(Storage* storage, PositionData& posData, int32_
 KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
     GZSaveFile save_file;
     GZ_setupSaveFile(save_file);
-    GZ_storeSaveLayout(save_file.data);
-    uint32_t file_size = (uint32_t)(ceil((double)sizeof(save_file) / (double)storage.sector_size) *
-                                    storage.sector_size);
+    uint32_t file_size = sizeof(save_file) + save_file.header.data_size;
+    uint8_t* data = new uint8_t[file_size];
+    memcpy(data, &save_file.header, sizeof(save_file.header));
+    GZ_storeSettings(save_file, &data[sizeof(save_file.header)]);
+    // Align the file size to the sector size.
+    file_size = (uint32_t)(ceil((double)sizeof(save_file) / (double)storage.sector_size) *
+                           storage.sector_size);
     storage.result = StorageDelete(0, storage.file_name_buffer);
     storage.result = StorageCreate(0, storage.file_name_buffer, file_size, &storage.info);
     if (storage.result == Ready || storage.result == Exist) {
         storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
         if (storage.result == Ready) {
-            storage.result =
-                GZ_storageWrite(&storage, &save_file, sizeof(save_file), 0, storage.sector_size);
+            storage.result = GZ_storageWrite(&storage, data, file_size, 0, storage.sector_size);
             if (storage.result == Ready) {
                 OSReport("saved card!\n");
                 FIFOQueue::push("saved card!", Queue);
@@ -216,6 +232,9 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
             }
             storage.result = StorageClose(&storage.info);
         }
+    }
+    if (data != nullptr) {
+        delete[] (uint8_t*)data;
     }
 }
 
@@ -281,11 +300,9 @@ KEEP_FUNC void GZ_loadMemCard(Storage& storage) {
     storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
     if (storage.result == Ready) {
         GZSaveFile save_file;
-        GZ_storeSaveLayout(save_file.data);
         storage.result = GZ_readSaveFile(&storage, save_file, storage.sector_size);
         if (storage.result == Ready) {
             FIFOQueue::push("loaded card!", Queue);
-            GZ_loadSaveLayout(save_file.data);
             GZ_initFont();
         } else {
             char buff[32];
@@ -337,5 +354,8 @@ KEEP_FUNC void GZ_loadGZSave(bool& card_load) {
 #endif  // WII_PLATFORM
 
         card_load = false;
+    }
+    if (frame_count > FRAME_COUNT) {
+        g_PreLoopListener->removeListener(GZ_handleCardLoad);
     }
 }
