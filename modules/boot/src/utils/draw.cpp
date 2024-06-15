@@ -1,5 +1,4 @@
 #include "utils/draw.h"
-#include "libtp_c/include/addrs.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "utils/texture.h"
 #include "rels/include/defines.h"

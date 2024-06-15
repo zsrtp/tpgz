@@ -2,7 +2,6 @@
 #define D_METER_D_METER_HIO_H
 
 #include "../../dolphin/types.h"
-#include "../../addrs.h"
 #include "../../JSystem/JUtility.h"
 
 class dMeter_menuHIO_c {

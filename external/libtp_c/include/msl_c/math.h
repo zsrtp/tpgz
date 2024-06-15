@@ -8,7 +8,6 @@
 
 #include <stdint.h>
 
-#include "../addrs.h"
 #include "../defines.h"
 
 extern "C" {

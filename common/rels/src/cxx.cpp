@@ -12,6 +12,7 @@
 #include "libtp_c/include/dolphin/os/OSCache.h"
 #include "libtp_c/include/m_Do/m_Do_ext.h"
 #include "libtp_c/include/JSystem/JKernel/JKRHeap.h"
+#include "libtp_c/include/defines.h"
 
 #ifdef WII_PLATFORM
 #include "libtp_c/include/dynamic_link.h"
@@ -39,7 +40,7 @@ void* getHeapPtr(int32_t id) {
     };
 
     // Make sure the id is valid
-    constexpr uint32_t heapPtrArraySize = sizeof(heapPtrArray) / sizeof(heapPtrArray[0]);
+    constexpr uint32_t heapPtrArraySize = ARRAY_COUNT(heapPtrArray);
     if ((id < 0) || (static_cast<uint32_t>(id) >= heapPtrArraySize)) {
         // The id is invalid, so use the archive heap by default
         id = HEAP_ARCHIVE;

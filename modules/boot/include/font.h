@@ -4,7 +4,6 @@
 #include <cstdarg>
 #include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
-#include "libtp_c/include/addrs.h"
 #include "utils/texture.h"
 
 #define MAX_GLYPHS 94

@@ -2,7 +2,6 @@
 #define F_F_OP_SCENE_REQ_H_
 
 #include "../dolphin/types.h"
-#include "../addrs.h"
 
 struct LoadingInfo {
     u32 isLoading;  // 80450CE0

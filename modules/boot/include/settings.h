@@ -5,7 +5,7 @@
 #include "utils/containers/deque.h"
 
 #define CURSOR_RGBA g_cursorColor
-#define FONT_OPTIONS_COUNT (sizeof(g_font_opt) / sizeof(g_font_opt[0]))
+#define FONT_OPTIONS_COUNT ARRAY_COUNT(g_font_opt)
 
 #define LOAD_AREA 0
 #define LOAD_FILE 1
@@ -115,7 +115,7 @@ GZSettingEntry* GZStng_getSetting(GZSettingID id);
  */
 tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList();
 
-template<typename T>
+template <typename T>
 T GZStng_getSettingData(GZSettingID id, T defaultValue) {
     auto* stng = GZStng_getSetting(id);
     return stng ? *static_cast<T*>(stng->data) : defaultValue;

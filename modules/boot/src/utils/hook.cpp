@@ -3,7 +3,6 @@
 #include "cheats.h"
 #include "controller.h"
 #include "boot.h"
-#include "libtp_c/include/addrs.h"
 #include "rels/include/patch.h"
 #include "flaglog.h"
 #include "fifo_queue.h"

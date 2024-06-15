@@ -2,7 +2,6 @@
 #define C_MATH_H
 
 #include "../../dolphin/types.h"
-#include "libtp_c/include/addrs.h"
 #include "libtp_c/include/defines.h"
 #include "libtp_c/include/JSystem/JMATrigonometric.h"
 

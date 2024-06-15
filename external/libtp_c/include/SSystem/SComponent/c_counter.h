@@ -2,7 +2,6 @@
 #define C_COUNTER_H
 
 #include "../../dolphin/types.h"
-#include "../../addrs.h"
 
 struct cCounter {
     u32 game_counter;

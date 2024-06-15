@@ -4,6 +4,7 @@
 #include "font.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
+#include "libtp_c/include/defines.h"
 #include "timer.h"
 #include "utils/cursor.h"
 #include "utils/lines.h"
@@ -70,8 +71,7 @@ enum MenuIndex {
 
 extern const char* g_menuPaths[MN_COUNT];
 
-#define LIST_COUNT(list) (sizeof(list) / sizeof((list)[0]))
-#define MENU_LINE_NUM LIST_COUNT(lines)
+#define MENU_LINE_NUM ARRAY_COUNT(lines)
 
 class Menu {
 public:

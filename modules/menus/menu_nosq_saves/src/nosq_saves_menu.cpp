@@ -86,10 +86,10 @@ void NoSQSavesMenu::draw() {
         };
 
         SaveManager::triggerLoad(cursor.y, "nosq", NoSQSpecials,
-                                 sizeof(NoSQSpecials) / sizeof(NoSQSpecials[0]));
+                                 ARRAY_COUNT(NoSQSpecials));
         g_menuMgr->hide();
     }
 
-    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
+    cursor.move(0, ARRAY_COUNT(lines));
+    GZ_drawMenuLines(lines, cursor.y, ARRAY_COUNT(lines));
 }
