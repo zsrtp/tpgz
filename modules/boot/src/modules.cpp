@@ -16,7 +16,7 @@ KEEP_VAR tpgz::containers::deque<Module*> g_modules;
 KEEP_FUNC void GZ_handleModules() {
     for (auto mod : g_modules) {
         if (mod->active() && !mod->rel.isLoaded()) {
-            mod->rel.loadFixed(true);
+            mod->rel.load(true);
         }
         if (!mod->active() && mod->rel.isLoaded()) {
             mod->rel.close();
