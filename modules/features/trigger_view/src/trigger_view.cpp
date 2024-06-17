@@ -29,8 +29,8 @@ void searchActorForCallback(s16 actorName, drawCallback callback) {
             if (actorData != NULL && (actorData->mBase.mProcName == actorName || check_all_actors) && callback != NULL) {
                 callback(actorData);
             }
+            node = node->mpNextNode;
         }
-        node = node->mpNextNode;
     }
 }
 
