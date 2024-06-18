@@ -9,6 +9,7 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
+#include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/utils.h"
 
 #ifdef WII_PLATFORM
@@ -24,11 +25,19 @@
 KEEP_FUNC void GZCmd_loadGorgeVoid() {
     if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
         // TODO: maybe simplify this
+#ifdef WII_PLATFORM
+        special sp[] = {
+            special(2, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
+        };
+
+        SaveManager::triggerLoad(2, "any", sp, 1);
+#else
         special sp[] = {
             special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
         };
 
         SaveManager::triggerLoad(8, "any", sp, 1);
+#endif
     }
 }
 
@@ -41,9 +50,24 @@ static int after_cs_val = 0;
 static bool got_it = false;
 static char buf[20];
 
+void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
+    fopAcM_create(id, parameters, &dComIfGp_getPlayer()->current.pos,
+                  dComIfGp_getPlayer()->current.roomNo, &dComIfGp_getPlayer()->current.angle,
+                  nullptr, subtype);
+}
+
+#if defined(WII_NTSCU_10) || defined(WII_PAL)
+#define KYTAG09_ACTOR_ID 0x2B1
+#else
+#define KYTAG09_ACTOR_ID 0x2B3
+#endif
+
 void initState() {
     dComIfGs_onSwitch(21, 3);  // turn on portal flag
     dComIfGp_getEvent().mOrder[0].mEventId = 9;
+#ifdef WII_PLATFORM
+    actorFastCreateAtLink(KYTAG09_ACTOR_ID, -1, -1);
+#endif
 }
 
 void warpToPosition() {
