@@ -165,7 +165,7 @@ void ActorSpawnMenu::draw() {
                          GZ_checkDropShadows());
     }
 
-    lines[ACTOR_NAME_INDEX].printf("<%s>", l_procData.procName);
+    lines[ACTOR_NAME_INDEX].printf("[%04X] <%s>", l_actorID, l_procData.procName);
     lines[ACTOR_SUBTYPE_INDEX].printf(" <%d>", l_actorType);
 
     cursor.move(8, MENU_LINE_NUM);
