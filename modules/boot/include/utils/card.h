@@ -28,4 +28,5 @@ void GZ_deleteMemCard(Storage& card);
 void GZ_deleteMemfile(Storage& card);
 void GZ_loadMemCard(Storage& card);
 void GZ_loadMemfile(Storage& card);
+bool GZ_memfileExists(Storage& card);
 void GZ_loadGZSave(bool& card_load);

@@ -313,6 +313,21 @@ KEEP_FUNC void GZ_loadMemCard(Storage& storage) {
     }
 }
 
+KEEP_FUNC bool GZ_memfileExists(Storage& storage) {
+#ifndef WII_PLATFORM
+    storage.result = CARDProbeEx(0, NULL, &storage.sector_size);
+    if (storage.result != Ready) {
+        return false;
+    }
+#endif  // WII_PLATFORM
+    storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_READ);
+    if (storage.result == Ready) {
+        storage.result = StorageClose(&storage.info);
+        return true;
+    }
+    return false;
+}
+
 KEEP_FUNC void GZ_loadMemfile(Storage& storage) {
     storage.result = StorageOpen(0, storage.file_name_buffer, &storage.info, OPEN_MODE_RW);
     if (storage.result == Ready) {

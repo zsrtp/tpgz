@@ -45,13 +45,15 @@ void MemfilesMenu::draw() {
 
     static Storage card;
     char fileBuf[10];
+
+    snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
+    card.file_name = fileBuf;
+    card.sector_size = SECTOR_SIZE;
+    snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
+
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case MEMFILE_SAVE_INDEX:
-            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
-            card.file_name = fileBuf;
-            card.sector_size = SECTOR_SIZE;
-            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -62,10 +64,6 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_LOAD_INDEX:
-            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
-            card.file_name = fileBuf;
-            card.sector_size = SECTOR_SIZE;
-            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, NULL, &card.sector_size);
             if (card.result == Ready) {
@@ -76,10 +74,6 @@ void MemfilesMenu::draw() {
 #endif  // WII_PLATFORM
             break;
         case MEMFILE_DELETE_INDEX:
-            snprintf(fileBuf, sizeof(fileBuf), "tpgz_s%d", l_fileNo);
-            card.file_name = fileBuf;
-            card.sector_size = SECTOR_SIZE;
-            snprintf(card.file_name_buffer, sizeof(card.file_name_buffer), card.file_name);
 #ifndef WII_PLATFORM
             card.result = CARDProbeEx(0, nullptr, &card.sector_size);
             if (card.result == Ready) {
@@ -92,8 +86,11 @@ void MemfilesMenu::draw() {
         }
     }
 
+    bool exists = GZ_memfileExists(card);
+    lines[MEMFILE_LOAD_INDEX].disabled = !exists;
+    lines[MEMFILE_DELETE_INDEX].disabled = !exists;
     lines[MEMFILE_SLOT_INDEX].printf(" <%d>", l_fileNo);
 
-    cursor.move(0, MENU_LINE_NUM);
+    cursor.move(0, MENU_LINE_NUM - (exists ? 0 : 2));
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

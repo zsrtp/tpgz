@@ -23,6 +23,7 @@ struct Line {
     bool (*active)();
     uint8_t max_y_cursor_options;
     char value[sizeof(Line::line)] = {0};
+    bool disabled = false;
 
     template <typename... Args>
     inline int printf(const char* fmt, Args... args) {

@@ -54,15 +54,12 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
         y_offset = (offset.y + (i - min_line) * 20.0f);
 
         uint32_t cursor_color = g_cursorColor;
-        uint32_t description_color = 0xFFFFFF00;
-        uint32_t description_alpha = 0xFF;
+        uint32_t description_color = 0xFFFFFFFF;
 
         // fade line/hide descriptions for lines the cursor isn't on
         if (input_lines[i].idx != cursor) {
-            cursor_color = 0xFFFFFFFF;
-            description_alpha = 0x00;
+            cursor_color = input_lines[i].disabled ? 0x7F7F7FFF : 0xFFFFFFFF;
         }
-        description_color |= description_alpha;
 
         // logic for lines that are toggleable
         if (input_lines[i].toggleable) {
@@ -83,10 +80,12 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
                              cursor_color, GZ_checkDropShadows());
         }
 
-        // render line descriptions
         if (input_lines[i].idx == cursor) {
-            Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, 0x00000000, true);
+            // render line descriptions
+            if (input_lines[i].idx == cursor) {
+                Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, 0x00000000, true);
+            }
+            Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, description_color, false);
         }
-        Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, description_color, false);
     }
 }
