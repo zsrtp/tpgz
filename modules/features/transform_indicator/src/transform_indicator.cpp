@@ -8,6 +8,7 @@
 #include "settings.h"
 #include "global_data.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
+#include "libtp_c/include/f_op/f_op_actor_iter.h"
 #include "libtp_c/include/d/a/d_a_alink.h"
 
 extern daMidna_c m_midnaActor;
@@ -30,15 +31,17 @@ void drawTexture(GXTexObj tex, bool greyed) {
 }
 
 KEEP_FUNC void TransformIndicator::draw() {
+    bool cantTransform = !((*(uint8_t*)g_dComIfG_gameInfo.play.mPlayerPtr + 0x570) & 4) ||
+        (g_env_light.field_0x1050 & 0x80) ||
+        (dSv_event_c__isEventBit(&g_dComIfG_gameInfo.info.mSavedata.mEvent, 0xD04U) == 0);
+        // TODO Add a the implementation of fopAcIt_Judge and daMidna_searchNpc for the last check.
     if (dComIfGs_getTransformStatus() == 0) {
         if (l_wolfTex.loadCode == TexCode::TEX_OK) {
-            // TODO Grey out the icon if we can't transform into wolf
-            drawTexture(l_wolfTex._texObj, g_transformIndicatorEnabled);
+            drawTexture(l_wolfTex._texObj, !cantTransform);
         }
     } else {
         if (l_humanTex.loadCode == TexCode::TEX_OK) {
-            // TODO Grey out the icon if we can't transform into human
-            drawTexture(l_humanTex._texObj, g_transformIndicatorEnabled);
+            drawTexture(l_humanTex._texObj, !cantTransform);
         }
     }
 }
