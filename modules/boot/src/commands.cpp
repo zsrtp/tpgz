@@ -39,7 +39,7 @@ KEEP_FUNC bool GZCmd_checkTrig(int combo) {
 }
 
 KEEP_FUNC void GZCmd_pauseFrame() {
-    if (GZCmd_checkTrig(FRAME_PAUSE_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS))) {
         g_framePaused = !g_framePaused;
     }
 }
@@ -69,7 +69,7 @@ KEEP_FUNC void GZCmd_loadPosition() {
 }
 
 KEEP_FUNC void GZCmd_toggleTimer() {
-    if (GZCmd_checkTrig(TIMER_TOGGLE_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS))) {
         g_timerEnabled = !g_timerEnabled;
     }
 }
@@ -103,13 +103,13 @@ KEEP_FUNC void GZCmd_reloadArea() {
 }
 
 KEEP_FUNC void GZCmd_toggleFreeCam() {
-    if (GZCmd_checkTrig(FREE_CAM_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_FREE_CAM, FREE_CAM_BUTTONS))) {
         g_freeCamEnabled = !g_freeCamEnabled;
     }
 }
 
 KEEP_FUNC void GZCmd_toggleMoveLink() {
-    if (GZCmd_checkTrig(MOVE_LINK_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_MOVE_LINK, MOVE_LINK_BUTTONS))) {
         g_moveLinkEnabled = !g_moveLinkEnabled;
     }
 }
@@ -159,7 +159,7 @@ KEEP_FUNC void GZCmd_processInputs() {
 #ifdef WII_PLATFORM
 char l_buttonMapping[16][11] = {
     {"DPad Left"}, {"DPad Right"}, {"DPad Down"}, {"DPad Up"}, {"Plus"},  {""},  {""},  {""},
-    {"Two"},       {"One"},        {"B"},         {"A"},       {"Minus"}, {"Z"}, {"C"}, {"Home"}};
+    {"2"},       {"1"},        {"B"},         {"A"},       {"Minus"}, {"Z"}, {"C"}, {"Home"}};
 #else
 char l_buttonMapping[16][11] = {
     {"DPad Left"}, {"DPad Right"}, {"DPad Down"}, {"DPad Up"}, {"Z"},     {"R"}, {"L"}, {""},

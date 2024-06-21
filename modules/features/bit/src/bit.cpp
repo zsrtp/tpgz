@@ -13,6 +13,7 @@
 #include "fs.h"
 #include "font.h"
 #include "save_manager.h"
+#include "settings.h"
 
 #define VOID_HEIGHT -2098.58
 #define NORMAL_ACC -3.4
@@ -25,7 +26,7 @@
 
 #ifdef WII_PLATFORM
 KEEP_FUNC void GZCmd_bitPractice() {
-    if (GZCmd_checkTrig(BACK_IN_TIME_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_BIT, BACK_IN_TIME_BUTTONS))) {
         // TODO: maybe simplify this
         special sp[] = {
             special(0, nullptr, BiTIndicator::setPosition),

@@ -66,7 +66,7 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
       lines{{"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",
              true, ACTIVE_FUNC(STNG_TOOLS_RELOAD_AREA)},
-            {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to frame advance",
+            {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to pause, " FRAME_PAUSE_TEXT " to frame advance",
              true, ACTIVE_FUNC(STNG_TOOLS_FRAME_ADVANCE)},
             {"fast bonk recovery", FAST_BONK_INDEX, "reduces bonk animation significantly", true,
              ACTIVE_FUNC(STNG_TOOLS_FAST_BONK)},

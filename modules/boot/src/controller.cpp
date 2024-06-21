@@ -178,7 +178,7 @@ KEEP_FUNC void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gz
 KEEP_FUNC bool GZ_getPadTrigAny(uint16_t pad) {
     for (uint8_t idx = 0; idx < BUTTON_STATES; idx++) {
         if (pad & buttonStates[idx].button) {
-            if (GZ_getButtonTrig(idx) && sButtons & pad) {
+            if (GZ_getButtonTrig(idx) && (sButtons & pad) == pad) {
                 return true;
             }
         }

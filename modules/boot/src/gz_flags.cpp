@@ -60,7 +60,7 @@ KEEP_FUNC void GZ_frameAdvance() {
 
     TRIG_BTNS = HOLD_BTNS & ~buttonsPrev;
 
-    uint16_t frameAdvancePad = GZStng_getSettingData(STNG_CMD_FRAME_ADVANCE, (uint16_t)0);
+    uint16_t frameAdvancePad = GZStng_getSettingData(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_PAD);
 
     if (HOLD_BTNS & frameAdvancePad) {
         holdCounter++;

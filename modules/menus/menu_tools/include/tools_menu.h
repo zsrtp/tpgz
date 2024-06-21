@@ -5,6 +5,7 @@
 
 #ifdef GCN_PLATFORM
 #define FRAME_ADVANCE_TEXT "R + D-Pad Up"
+#define FRAME_PAUSE_TEXT "R"
 #define GORGE_VOID_TEXT "L+Z"
 #define STORE_POSITION_TEXT "D-PAD up + R"
 #define LOAD_POSITION_TEXT "D-PAD down + R"
@@ -16,7 +17,8 @@
 #endif
 
 #ifdef WII_PLATFORM
-#define FRAME_ADVANCE_TEXT "Z+C+Plus+Minus (2 for trig)"
+#define FRAME_ADVANCE_TEXT "Z+C+Plus+Minus"
+#define FRAME_PAUSE_TEXT "2"
 #define GORGE_VOID_TEXT "Z+C+A+1"
 #define BACK_IN_TIME_TEXT "Z+C+A+2"
 #define STORE_POSITION_TEXT "Z+C+1"
