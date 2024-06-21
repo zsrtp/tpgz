@@ -7,7 +7,7 @@
 
 #ifdef WII_PLATFORM
 namespace CButton {
-enum {
+enum : uint16_t {
     DPAD_LEFT = 0x1,
     DPAD_RIGHT = 0x2,
     DPAD_DOWN = 0x4,

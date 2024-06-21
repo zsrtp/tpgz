@@ -15,7 +15,8 @@
 #define FREE_CAM_BUTTONS (CButton::Z | CButton::B | CButton::A)
 #define MOVE_LINK_BUTTONS (CButton::L | CButton::R | CButton::Y)
 #define FRAME_PAUSE_BUTTONS (CButton::R | CButton::DPAD_UP)
-#define FRAME_ADVANCE_BUTTONS (CButton::R | CButton::DPAD_RIGHT)
+#define FRAME_ADVANCE_BUTTONS (CButton::R)
+#define GORGE_VOID_BUTTONS (CButton::L | CButton::Z)
 #endif
 
 #ifdef WII_PLATFORM
@@ -31,6 +32,7 @@
 #define MOVE_LINK_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::PLUS)
 #define FRAME_PAUSE_BUTTONS (CButton::Z | CButton::C | CButton::PLUS | CButton::MINUS)
 #define FRAME_ADVANCE_BUTTONS (CButton::TWO)
+#define GORGE_VOID_BUTTONS (CButton::Z | CButton::C | CButton::A | CButton::ONE)
 #endif
 
 extern bool reload_area_flag;
@@ -81,3 +83,6 @@ Command* GZCmd_removeCmd(Commands cmdId);
 Command* GZCmd_getCmd(int id);
 
 void GZCmd_processInputs();
+
+size_t GZCmd_getComboLen(uint16_t combo);
+void GZCmd_comboToStr(uint16_t combo, char* str);

@@ -24,13 +24,43 @@
 #define FREE_CAM_VIEW_TEXT "C+Stick"
 #define MOVE_LINK_MOVEMENT_TEXT "Stick"
 #define MOVE_LINK_ANGLE_TEXT "C+Stick"
-#define PREVIOUS_TUNIC_COLOR GZPad::ONE
-#define PREVIOUS_TUNIC_COLOR_TEXT "ONE"
-#define NEXT_TUNIC_COLOR GZPad::TWO
-#define NEXT_TUNIC_COLOR_TEXT "TWO"
+#define PREVIOUS_TUNIC_COLOR GZPad::TWO
+#define PREVIOUS_TUNIC_COLOR_TEXT "TWO"
+#define NEXT_TUNIC_COLOR GZPad::ONE
+#define NEXT_TUNIC_COLOR_TEXT "ONE"
 #endif
 
 #define MAX_TUNIC_COLORS 7
+
+const char l_descTemplates[TOOLS_COUNT][100] = {
+    "use %s to reload current area",
+    "use %s to pause, %s to frame advance",
+    "reduces bonk animation significantly",
+    "link's movement is much faster",
+    "use %s to warp to kakariko gorge",
+#ifdef WII_PLATFORM
+    "use %s to warp to ordon bridge",
+#endif
+    "show frame info when doing coro td",
+    "practice snowpeak universal map delay timing",
+    "show current inputs",
+    "show Link's position, angle, and speed",
+    "show Heap size info",
+    "link won't sink in sand",
+    "frame counter for chaining rolls",
+    "display A/B button mashing speeds",
+    "%s to set, %s to load",
+    "simulates turbo controller inputs",
+    "frame timer: %s to start/stop, %s to reset",
+    "loading zone timer: %s to reset",
+    "In-game time timer: %s to start/stop, %s to reset",
+    FREE_CAM_TEXT " to activate, " FREE_CAM_MOVEMENT_TEXT " to move, " FREE_CAM_VIEW_TEXT
+                  " to view, Z to speed",
+    MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT " to move, " MOVE_LINK_ANGLE_TEXT
+                   " to change angle",
+    "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT
+    " to cycle through colors",
+};
 
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
@@ -38,7 +68,7 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              true, ACTIVE_FUNC(STNG_TOOLS_RELOAD_AREA)},
             {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to frame advance",
              true, ACTIVE_FUNC(STNG_TOOLS_FRAME_ADVANCE)},
-            {"fast bonk recovery", FAST_BONK_INDEX, "teduces bonk animation significantly", true,
+            {"fast bonk recovery", FAST_BONK_INDEX, "reduces bonk animation significantly", true,
              ACTIVE_FUNC(STNG_TOOLS_FAST_BONK)},
             {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true,
              ACTIVE_FUNC(STNG_TOOLS_FAST_MOVEMENT)},
@@ -95,20 +125,16 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
 ToolsMenu::~ToolsMenu() {}
 
 GZSettingID l_mapping[] = {
-    STNG_TOOLS_RELOAD_AREA,  STNG_TOOLS_FRAME_ADVANCE,
-    STNG_TOOLS_FAST_BONK,    STNG_TOOLS_FAST_MOVEMENT,
-    STNG_TOOLS_GORGE,
+    STNG_TOOLS_RELOAD_AREA,   STNG_TOOLS_FRAME_ADVANCE, STNG_TOOLS_FAST_BONK,
+    STNG_TOOLS_FAST_MOVEMENT, STNG_TOOLS_GORGE,
 #ifdef WII_PLATFORM
     STNG_TOOLS_BIT,
 #endif
-    STNG_TOOLS_COROTD,       STNG_TOOLS_UMD,
-    STNG_TOOLS_INPUT_VIEWER, STNG_TOOLS_LINK_DEBUG,
-    STNG_TOOLS_HEAP_DEBUG,   STNG_TOOLS_SAND,
-    STNG_TOOLS_ROLL,         STNG_TOOLS_MASH_CHECKER,
-    STNG_TOOLS_TELEPORT,     STNG_TOOLS_TURBO_MODE,
-    STNG_TOOLS_TIMER,        STNG_TOOLS_LOAD_TIMER,
-    STNG_TOOLS_IGT_TIMER,    STNG_TOOLS_FREE_CAM,
-    STNG_TOOLS_MOVE_LINK,
+    STNG_TOOLS_COROTD,        STNG_TOOLS_UMD,           STNG_TOOLS_INPUT_VIEWER,
+    STNG_TOOLS_LINK_DEBUG,    STNG_TOOLS_HEAP_DEBUG,    STNG_TOOLS_SAND,
+    STNG_TOOLS_ROLL,          STNG_TOOLS_MASH_CHECKER,  STNG_TOOLS_TELEPORT,
+    STNG_TOOLS_TURBO_MODE,    STNG_TOOLS_TIMER,         STNG_TOOLS_LOAD_TIMER,
+    STNG_TOOLS_IGT_TIMER,     STNG_TOOLS_FREE_CAM,      STNG_TOOLS_MOVE_LINK,
 };
 
 #define set_active(id, status)                                                                     \
@@ -181,6 +207,92 @@ void ToolsMenu::draw() {
             }
         }
     }
+
+    char buf[100];
+    switch (cursor.y) {
+    case RELOAD_AREA_INDEX: {
+        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_RELOAD_AREA, RELOAD_AREA_BUTTONS);
+        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
+        GZCmd_comboToStr(combo, comboStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
+        delete[] comboStr;
+        break;
+    }
+    case FRAME_ADVANCE_INDEX: {
+        uint16_t comboPause =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS);
+        char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
+        GZCmd_comboToStr(comboPause, comboPauseStr);
+        uint16_t comboAdvance =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_BUTTONS);
+        char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
+        GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
+        delete[] comboAdvanceStr;
+        delete[] comboPauseStr;
+        break;
+    }
+    case GORGE_INDEX: {
+        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS);
+        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
+        GZCmd_comboToStr(combo, comboStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
+        delete[] comboStr;
+        break;
+    }
+#ifdef WII_PLATFORM
+    case BIT_INDEX: {
+        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_BIT, BACK_IN_TIME_BUTTONS);
+        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
+        GZCmd_comboToStr(combo, comboStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
+        delete[] comboStr;
+        break;
+    }
+#endif
+    case TELEPORT_INDEX: {
+        uint16_t comboPause =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS);
+        char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
+        GZCmd_comboToStr(comboPause, comboPauseStr);
+        uint16_t comboAdvance =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS);
+        char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
+        GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
+        delete[] comboAdvanceStr;
+        delete[] comboPauseStr;
+        break;
+    }
+    case IGT_TIMER_INDEX: // fallthrough
+    case TIMER_INDEX: {
+        uint16_t comboPause =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS);
+        char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
+        GZCmd_comboToStr(comboPause, comboPauseStr);
+        uint16_t comboAdvance =
+            GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
+        char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
+        GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
+        delete[] comboAdvanceStr;
+        delete[] comboPauseStr;
+        break;
+    }
+    case LOAD_TIMER_INDEX: {
+        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
+        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
+        GZCmd_comboToStr(combo, comboStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
+        delete[] comboStr;
+        break;
+    }
+    default: {
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y]);
+        break;
+    }
+    }
+    strncpy(lines[cursor.y].description, buf, sizeof(lines[cursor.y].description));
 
     lines[TUNIC_COLOR_INDEX].printf(" <%s>", tunicCol_opt[l_tunicCol_idx].member);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);

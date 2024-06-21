@@ -14,7 +14,7 @@ const char* g_menuPaths[MN_COUNT] = {
     "ad_saves",     "nosq_saves",     "glitchless_saves",
     "actor_spawn",  "actor_list",     "collision_view",
     "projection_view", "trigger_view", "pos_settings", 
-    "credits"
+    "credits",      "combo"
 };
 
 KEEP_FUNC Menu::Menu(Cursor& cursor) : cursor(cursor) {}
