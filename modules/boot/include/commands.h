@@ -16,6 +16,7 @@
 #define MOVE_LINK_BUTTONS (CButton::L | CButton::R | CButton::Y)
 #define FRAME_PAUSE_BUTTONS (CButton::R | CButton::DPAD_UP)
 #define FRAME_ADVANCE_BUTTONS (CButton::R)
+#define GORGE_VOID_BUTTONS (CButton::L | CButton::Z)
 #endif
 
 #ifdef WII_PLATFORM
@@ -31,6 +32,7 @@
 #define MOVE_LINK_BUTTONS (CButton::Z | CButton::C | CButton::B | CButton::PLUS)
 #define FRAME_PAUSE_BUTTONS (CButton::Z | CButton::C | CButton::PLUS | CButton::MINUS)
 #define FRAME_ADVANCE_BUTTONS (CButton::TWO)
+#define GORGE_VOID_BUTTONS (CButton::Z | CButton::C | CButton::A | CButton::ONE)
 #endif
 
 extern bool reload_area_flag;

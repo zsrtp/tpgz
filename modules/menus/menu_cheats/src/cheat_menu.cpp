@@ -88,5 +88,15 @@ void CheatsMenu::draw() {
         }
     }
 
+    char buf[100];
+    if (cursor.y == MoonJump) {
+        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_MOON_JUMP, MOON_JUMP_BUTTONS);
+        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
+        GZCmd_comboToStr(combo, comboStr);
+        snprintf(buf, sizeof(buf), "Hold %s to moon jump", comboStr);
+        delete[] comboStr;
+        strncpy(lines[cursor.y].description, buf, sizeof(lines[cursor.y].description));
+    }
+
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

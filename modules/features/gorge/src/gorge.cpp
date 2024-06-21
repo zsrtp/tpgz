@@ -11,6 +11,7 @@
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/utils.h"
+#include "settings.h"
 
 #ifdef WII_PLATFORM
 #define TARGET_BUTTON Z
@@ -23,7 +24,7 @@
 #endif
 
 KEEP_FUNC void GZCmd_loadGorgeVoid() {
-    if (GZCmd_checkTrig(GORGE_VOID_BUTTONS)) {
+    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS))) {
         // TODO: maybe simplify this
 #ifdef WII_PLATFORM
         special sp[] = {

@@ -170,11 +170,11 @@ KEEP_FUNC size_t GZCmd_getComboLen(uint16_t combo) {
     size_t len = 0;
     for (uint32_t i = 0; i < 16; ++i) {
         if (combo & (1 << i)) {
-            len += strlen(l_buttonMapping[i]) + 3;
+            len += strlen(l_buttonMapping[i]) + 1;
         }
     }
     if (popcount(combo) > 1) {
-        len -= 3;
+        len -= 1;
     }
     return len;
 }
@@ -193,7 +193,7 @@ KEEP_FUNC void GZCmd_comboToStr(uint16_t combo, char* str) {
         if (combo & (1 << i)) {
             strcat(str, l_buttonMapping[i]);
             if (++accumulator < count) {
-                strcat(str, " + ");
+                strcat(str, "+");
             }
         }
     }
