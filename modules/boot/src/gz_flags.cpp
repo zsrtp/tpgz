@@ -48,6 +48,8 @@ KEEP_FUNC GZFlag* GZFlg_removeFlag(GZFlags flag_id) {
     return flag;
 }
 
+
+
 KEEP_FUNC void GZ_frameAdvance() {
     if (!g_framePaused) {
         return;
@@ -58,25 +60,27 @@ KEEP_FUNC void GZ_frameAdvance() {
 
     TRIG_BTNS = HOLD_BTNS & ~buttonsPrev;
 
-    if (HOLD_BTNS & FRAME_ADVANCE_PAD) {
+    uint16_t frameAdvancePad = GZStng_getSettingData(STNG_CMD_FRAME_ADVANCE, (uint16_t)0);
+
+    if (HOLD_BTNS & frameAdvancePad) {
         holdCounter++;
     } else {
         holdCounter = 0;
     }
 
-    if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
+    if (GZ_getPadTrigAny(frameAdvancePad)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
         sPauseTimer = 0;
         buttonsPrev = HOLD_BTNS;
-        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
+        HOLD_BTNS &= ~frameAdvancePad;
     }
 
     // frames start passing at normal speed after holding for 30 frames
     if (holdCounter >= 30) {
         sPauseTimer = 0;
         buttonsPrev = HOLD_BTNS;
-        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
+        HOLD_BTNS &= ~frameAdvancePad;
     }
 }
 

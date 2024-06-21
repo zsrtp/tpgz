@@ -198,6 +198,7 @@
 803af9e4:strcpy
 803afaa4:strncpy
 803aa028:strlen
+803afae8:strcat
 
 // math
 803b39d0:atan

@@ -1,9 +1,13 @@
 #include "commands.h"
+
+#include <cstring>
+
 #include "controller.h"
 #include "global_data.h"
 #include "fs.h"
 #include "boot.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/utils.h"
 #include "practice.h"
 #include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
@@ -130,7 +134,7 @@ KEEP_FUNC Command* GZCmd_removeCmd(Commands cmdId) {
 
 KEEP_FUNC Command* GZCmd_getCmd(int id) {
     auto it = g_commands.begin();
-    for (;it != g_commands.end(); ++it) {
+    for (; it != g_commands.end(); ++it) {
         if ((*it)->id == id) {
             return *it;
         }
@@ -150,4 +154,47 @@ KEEP_FUNC void GZCmd_processInputs() {
         }
     }
     sLastInputs = sCurInputs;
+}
+
+#ifdef WII_PLATFORM
+char l_buttonMapping[16][11] = {
+    {"DPad Left"}, {"DPad Right"}, {"DPad Down"}, {"DPad Up"}, {"Plus"},  {""},  {""},  {""},
+    {"Two"},       {"One"},        {"B"},         {"A"},       {"Minus"}, {"Z"}, {"C"}, {"Home"}};
+#else
+char l_buttonMapping[16][11] = {
+    {"DPad Left"}, {"DPad Right"}, {"DPad Down"}, {"DPad Up"}, {"Z"},     {"R"}, {"L"}, {""},
+    {"A"},         {"B"},          {"X"},         {"Y"},       {"Start"}, {""},  {""},  {""}};
+#endif
+
+KEEP_FUNC size_t GZCmd_getComboLen(uint16_t combo) {
+    size_t len = 0;
+    for (uint32_t i = 0; i < 16; ++i) {
+        if (combo & (1 << i)) {
+            len += strlen(l_buttonMapping[i]) + 3;
+        }
+    }
+    if (popcount(combo) > 1) {
+        len -= 3;
+    }
+    return len;
+}
+
+/**
+ * @brief Converts a combo to a string
+ * @param combo The combo to convert
+ * @param str The string to write to. Must be preallocated to at least GZCmd_getComboLen(combo) + 1
+ * bytes long.
+ */
+KEEP_FUNC void GZCmd_comboToStr(uint16_t combo, char* str) {
+    uint8_t count = popcount(combo);
+    str[0] = '\0';
+    uint8_t accumulator = 0;
+    for (uint32_t i = 0; i < 16; ++i) {
+        if (combo & (1 << i)) {
+            strcat(str, l_buttonMapping[i]);
+            if (++accumulator < count) {
+                strcat(str, " + ");
+            }
+        }
+    }
 }

@@ -90,6 +90,19 @@ enum GZSettingID : uint32_t {
     // New Adds
     STNG_SCENE_LJA_PROJECTION,
     STNG_SCENE_MIDNA_CHARGE_PROJECTION,
+    // Combos
+    STNG_CMD_FRAME_PAUSE,
+    STNG_CMD_FRAME_ADVANCE,
+    STNG_CMD_TIMER_TOGGLE,
+    STNG_CMD_TIMER_RESET,
+    STNG_CMD_STORE_POSITION,
+    STNG_CMD_LOAD_POSITION,
+    STNG_CMD_RELOAD_AREA,
+    STNG_CMD_FREE_CAM,
+    STNG_CMD_MOVE_LINK,
+    STNG_CMD_BIT, // Wii only, but we reserve the id anyway
+    STNG_CMD_GORGE_VOID,
+    STNG_CMD_MOON_JUMP,
 };
 
 struct GZSettingEntry {

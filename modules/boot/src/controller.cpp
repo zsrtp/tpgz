@@ -9,6 +9,7 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "utils/containers/deque.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -86,8 +87,10 @@ KEEP_FUNC void GZ_readController() {
         if (!g_cursorEnabled) {
             if (current_input & CButton::DPAD_UP) {
                 g_cursorEnabled = true;
+#ifdef GCN_PLATFORM
             } else if (current_input & (CButton::L | CButton::R)) {
                 sCursorEnableDelay = 0;
+#endif
             } else if (sCursorEnableDelay < 1) {
                 sCursorEnableDelay = 1;
             }
@@ -145,6 +148,10 @@ KEEP_FUNC uint16_t GZ_getButtonStatus() {
     return buttonStatus;
 }
 
+KEEP_FUNC uint16_t GZ_getButtonStatusSaved() {
+    return sButtons;
+}
+
 KEEP_FUNC bool GZ_getButtonTrig(int idx) {
     auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     auto just_clicked = delta == 0;
@@ -166,4 +173,15 @@ KEEP_FUNC void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gz
     if ((GZ_getButtonStatus() & i_button) && (buttonStates[i_gzButton].button & sButtonsPressed)) {
         i_pressCounter++;
     }
+}
+
+KEEP_FUNC bool GZ_getPadTrigAny(uint16_t pad) {
+    for (uint8_t idx = 0; idx < BUTTON_STATES; idx++) {
+        if (pad & buttonStates[idx].button) {
+            if (GZ_getButtonTrig(idx) && sButtons & pad) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

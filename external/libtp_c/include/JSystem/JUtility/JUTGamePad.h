@@ -12,7 +12,7 @@ typedef void (*callbackFn)(int, void*);
 
 #ifdef GCN_PLATFORM
 namespace CButton {
-enum {
+enum : uint16_t {
     DPAD_LEFT = 0x0001,
     DPAD_RIGHT = 0x0002,
     DPAD_DOWN = 0x0004,

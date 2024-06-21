@@ -25,6 +25,7 @@ KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
                         {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
                         {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
                         {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
+                        {"combo", COMBO_INDEX, "view combo menu", false},
                         {"menu positions", POS_SETTINGS_MENU_INDEX,
                          "Change menu object positions (A to toggle selection, DPad to move)",
                          false},
@@ -58,6 +59,9 @@ void SettingsMenu::draw() {
             return;
         case CREDITS_INDEX:
             g_menuMgr->push(MN_CREDITS_INDEX);
+            return;
+        case COMBO_INDEX:
+            g_menuMgr->push(MN_COMBO_INDEX);
             return;
         case SAVE_CARD_INDEX: {
             static Storage storage;

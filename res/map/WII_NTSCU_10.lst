@@ -248,6 +248,7 @@
 803c34f4:strcpy
 803c3740:strncmp
 803bdb38:strlen
+803c35f8:strcat
 
 // gx.a
 80359f68:GXInit
