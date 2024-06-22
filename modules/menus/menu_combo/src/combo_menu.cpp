@@ -57,6 +57,23 @@ GZSettingID l_mapping[] = {
     STNG_CMD_MOON_JUMP,
 };
 
+int l_cmdMapping[] = {
+    CMD_FRAME_PAUSE,
+    -1,
+    CMD_TIMER_TOGGLE,
+    CMD_TIMER_RESET,
+    CMD_STORE_POSITION,
+    CMD_LOAD_POSITION,
+    CMD_RELOAD_AREA,
+    CMD_FREE_CAM,
+    CMD_MOVE_LINK,
+#ifdef WII_PLATFORM
+    CMD_BIT,
+#endif
+    CMD_GORGE_VOID,
+    CMD_MOON_JUMP,
+};
+
 void ComboMenu::execute() {
     if (m_inputMode) {
         if (!m_selectBtnActive) {
@@ -68,6 +85,12 @@ void ComboMenu::execute() {
         if ((released != 0 && !m_selectBtnActive) || m_keepInputModeCounter == 0) {
             if (released != 0 && !m_selectBtnActive) {
                 GZStng_addSetting(l_mapping[cursor.y], new uint16_t(m_prevButtons), sizeof(uint16_t));
+                if (l_cmdMapping[cursor.y] >= 0) {
+                    auto* cmd = GZCmd_getCmd(l_cmdMapping[cursor.y]);
+                    if (cmd) {
+                        cmd->buttons = m_prevButtons;
+                    }
+                }
             }
             m_inputMode = false;
             m_keepInputModeCounter = 0;

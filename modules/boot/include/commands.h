@@ -37,8 +37,6 @@
 
 extern bool reload_area_flag;
 
-extern bool g_commandStates[COMMANDS_AMNT];
-
 enum Commands {
     CMD_STORE_POSITION,
     CMD_LOAD_POSITION,
