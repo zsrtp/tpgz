@@ -113,7 +113,7 @@ void GZ_loadSettings(GZSaveFile save_file, void* data) {
         pos += sizeof(GZSettingID);
         memcpy(&size, (void*)((uint32_t)data + pos), sizeof(size_t));
         pos += sizeof(size_t);
-        GZSettingEntry* entry = GZStng_getSetting(id);
+        GZSettingEntry* entry = GZStng_get(id);
         if (entry == nullptr) {
             entry = new GZSettingEntry{id, size, size > 0 ? new uint8_t[size] : nullptr};
             g_settings.push_back(entry);

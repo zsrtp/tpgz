@@ -9,7 +9,7 @@ bool g_swap_equips_flag;
 
 tpgz::containers::deque<GZSettingEntry*> g_settings;
 
-KEEP_FUNC void GZStng_addSetting(GZSettingID id, void* data, size_t size) {
+KEEP_FUNC void GZStng_add(GZSettingID id, void* data, size_t size) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -28,7 +28,7 @@ KEEP_FUNC void GZStng_addSetting(GZSettingID id, void* data, size_t size) {
     }
 }
 
-KEEP_FUNC void GZStng_removeSetting(GZSettingID id) {
+KEEP_FUNC void GZStng_remove(GZSettingID id) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -44,7 +44,7 @@ KEEP_FUNC void GZStng_removeSetting(GZSettingID id) {
     }
 }
 
-KEEP_FUNC GZSettingEntry* GZStng_getSetting(GZSettingID id) {
+KEEP_FUNC GZSettingEntry* GZStng_get(GZSettingID id) {
     auto it = g_settings.begin();
     for (; it != g_settings.end(); ++it) {
         if ((*it)->id == id) {
@@ -58,7 +58,7 @@ KEEP_FUNC GZSettingEntry* GZStng_getSetting(GZSettingID id) {
     return entry;
 }
 
-KEEP_FUNC tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
+KEEP_FUNC tpgz::containers::deque<GZSettingID>* GZStng_getList() {
     auto list = new tpgz::containers::deque<GZSettingID>;
     list->resize(g_settings.size());
     std::transform(g_settings.begin(), g_settings.end(), list->begin(),
@@ -67,7 +67,7 @@ KEEP_FUNC tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList() {
 }
 
 void GZ_initFont() {
-    uint32_t fontType = GZStng_getSettingData(STNG_FONT, 0);
+    uint32_t fontType = GZStng_getData(STNG_FONT, 0);
     if (fontType >= 0 && fontType < FONT_OPTIONS_COUNT) {
         char buf[40] = {0};
         snprintf(buf, sizeof(buf), "tpgz/fonts/%s.fnt", g_font_opt[fontType].member);

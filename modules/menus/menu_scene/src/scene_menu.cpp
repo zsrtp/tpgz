@@ -8,7 +8,7 @@
 #include "menus/utils/menu_mgr.h"
 
 KEEP_FUNC bool is_active(GZSettingID id) {
-    return GZStng_getSettingData(id, false);
+    return GZStng_getData(id, false);
 }
 
 KEEP_FUNC SceneMenu::SceneMenu(Cursor& cursor)
@@ -71,7 +71,7 @@ void SceneMenu::draw() {
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         if (cursor.y < TIME_HOURS_INDEX) {
-            auto* stng = GZStng_getSetting(l_mapping[cursor.y]);
+            auto* stng = GZStng_get(l_mapping[cursor.y]);
             if (!stng) {
                 stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool(false)};
                 g_settings.push_back(stng);

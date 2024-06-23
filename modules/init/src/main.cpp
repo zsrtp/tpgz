@@ -114,19 +114,19 @@ void exit() {}
 
 void GZ_PosSettings_initDefaults() {
 #ifdef GCN_PLATFORM
-    GZStng_addSetting(STNG_SPRITES_INPUT_VIEWER, new Vec2{220.f, 380.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_INPUT_VIEWER, new Vec2{220.f, 380.f}, sizeof(Vec2));
 #elif defined(WII_PLATFORM)
-    GZStng_addSetting(STNG_SPRITES_INPUT_VIEWER, new Vec2{250.f, 360.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_INPUT_VIEWER, new Vec2{250.f, 360.f}, sizeof(Vec2));
 #endif
-    GZStng_addSetting(STNG_SPRITES_MENU, new Vec2{25.f, 60.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_DEBUG_INFO, new Vec2{450.0f, 200.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_TIMER_SPR, new Vec2{450.0f, 420.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_LOAD_TIMER_SPR, new Vec2{450.0f, 30.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_IGT_TIMER_SPR, new Vec2{35.0f, 30.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_FIFO_SPR, new Vec2{5.0f, 440.f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_HEAP_INFO, new Vec2{145.0f, 25.0f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_MASH_INFO, new Vec2{450.0f, 400.0f}, sizeof(Vec2));
-    GZStng_addSetting(STNG_SPRITES_TRANSFORM_IND, new Vec2{465.0f, 30.0f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_MENU, new Vec2{25.f, 60.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_DEBUG_INFO, new Vec2{450.0f, 200.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_TIMER_SPR, new Vec2{450.0f, 420.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_LOAD_TIMER_SPR, new Vec2{450.0f, 30.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_IGT_TIMER_SPR, new Vec2{35.0f, 30.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_FIFO_SPR, new Vec2{5.0f, 440.f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_HEAP_INFO, new Vec2{145.0f, 25.0f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_MASH_INFO, new Vec2{450.0f, 400.0f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_TRANSFORM_IND, new Vec2{465.0f, 30.0f}, sizeof(Vec2));
 }
 
 inline void GZ_patchLinkColor() {

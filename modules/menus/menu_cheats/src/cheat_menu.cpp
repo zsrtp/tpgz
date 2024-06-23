@@ -80,17 +80,17 @@ void CheatsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        auto* stng = GZStng_getSetting(l_mapping[cursor.y]);
+        auto* stng = GZStng_get(l_mapping[cursor.y]);
         if (stng) {
             *(bool*)stng->data = !*(bool*)stng->data;
         } else {
-            GZStng_addSetting(l_mapping[cursor.y], new bool(true), sizeof(bool));
+            GZStng_add(l_mapping[cursor.y], new bool(true), sizeof(bool));
         }
     }
 
     char buf[100];
     if (cursor.y == MoonJump) {
-        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_MOON_JUMP, MOON_JUMP_BUTTONS);
+        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_MOON_JUMP, MOON_JUMP_BUTTONS);
         char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
         GZCmd_comboToStr(combo, comboStr);
         snprintf(buf, sizeof(buf), "Hold %s to moon jump", comboStr);

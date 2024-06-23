@@ -139,7 +139,7 @@ GZSettingID l_mapping[] = {
 
 #define set_active(id, status)                                                                     \
     ({                                                                                             \
-        auto* stng = GZStng_getSetting(id);                                                        \
+        auto* stng = GZStng_get(id);                                                        \
         if (stng)                                                                                  \
             *(bool*)stng->data = status;                                                           \
     })
@@ -181,7 +181,7 @@ void ToolsMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         GZSettingEntry* stng = nullptr;
         if (cursor.y < TOOLS_COUNT && cursor.y != TUNIC_COLOR_INDEX) {
-            stng = GZStng_getSetting(l_mapping[cursor.y]);
+            stng = GZStng_get(l_mapping[cursor.y]);
             if (!stng) {
                 stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
                 g_settings.push_back(stng);
@@ -211,7 +211,7 @@ void ToolsMenu::draw() {
     char buf[100];
     switch (cursor.y) {
     case RELOAD_AREA_INDEX: {
-        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_RELOAD_AREA, RELOAD_AREA_BUTTONS);
+        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_RELOAD_AREA, RELOAD_AREA_BUTTONS);
         char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
         GZCmd_comboToStr(combo, comboStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
@@ -220,11 +220,11 @@ void ToolsMenu::draw() {
     }
     case FRAME_ADVANCE_INDEX: {
         uint16_t comboPause =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS);
         char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
         GZCmd_comboToStr(comboPause, comboPauseStr);
         uint16_t comboAdvance =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_BUTTONS);
         char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
         GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
@@ -233,7 +233,7 @@ void ToolsMenu::draw() {
         break;
     }
     case GORGE_INDEX: {
-        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS);
+        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS);
         char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
         GZCmd_comboToStr(combo, comboStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
@@ -242,7 +242,7 @@ void ToolsMenu::draw() {
     }
 #ifdef WII_PLATFORM
     case BIT_INDEX: {
-        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_BIT, BACK_IN_TIME_BUTTONS);
+        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_BIT, BACK_IN_TIME_BUTTONS);
         char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
         GZCmd_comboToStr(combo, comboStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
@@ -252,11 +252,11 @@ void ToolsMenu::draw() {
 #endif
     case TELEPORT_INDEX: {
         uint16_t comboPause =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS);
         char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
         GZCmd_comboToStr(comboPause, comboPauseStr);
         uint16_t comboAdvance =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS);
         char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
         GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
@@ -267,11 +267,11 @@ void ToolsMenu::draw() {
     case IGT_TIMER_INDEX: // fallthrough
     case TIMER_INDEX: {
         uint16_t comboPause =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS);
         char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
         GZCmd_comboToStr(comboPause, comboPauseStr);
         uint16_t comboAdvance =
-            GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
+            GZStng_getData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
         char* comboAdvanceStr = new char[GZCmd_getComboLen(comboAdvance) + 1];
         GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
@@ -280,7 +280,7 @@ void ToolsMenu::draw() {
         break;
     }
     case LOAD_TIMER_INDEX: {
-        uint16_t combo = GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
+        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_TIMER_RESET, TIMER_RESET_BUTTONS);
         char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
         GZCmd_comboToStr(combo, comboStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);

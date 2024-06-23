@@ -26,7 +26,7 @@ void ProjectionViewMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        auto* stng [[maybe_unused]] = GZStng_getSetting(l_mapping[cursor.y]);
+        auto* stng [[maybe_unused]] = GZStng_get(l_mapping[cursor.y]);
         if (!stng) {
             stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
             g_settings.push_back(stng);

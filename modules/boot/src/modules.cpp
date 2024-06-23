@@ -25,19 +25,19 @@ KEEP_FUNC void GZ_handleModules() {
 }
 
 KEEP_FUNC bool inputViewer_active() {
-    return GZStng_getSettingData(STNG_TOOLS_INPUT_VIEWER, false);
+    return GZStng_getData(STNG_TOOLS_INPUT_VIEWER, false);
 }
 
 KEEP_FUNC bool freeCam_active() {
-    return GZStng_getSettingData(STNG_TOOLS_FREE_CAM, false);
+    return GZStng_getData(STNG_TOOLS_FREE_CAM, false);
 }
 
 KEEP_FUNC bool moveLink_active() {
-    return g_actorViewEnabled ? true : GZStng_getSettingData(STNG_TOOLS_MOVE_LINK, false);
+    return g_actorViewEnabled ? true : GZStng_getData(STNG_TOOLS_MOVE_LINK, false);
 }
 
 KEEP_FUNC bool projectionView_active() {
-    return GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false);
+    return GZStng_getData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false);
 }
 
 KEEP_FUNC bool triggerViewer_active() {
@@ -55,47 +55,47 @@ KEEP_FUNC bool actorView_active() {
 }
 
 KEEP_FUNC bool transformIndicator_active() {
-    return GZStng_getSettingData(STNG_TOOLS_TRANSFORM_INDICATOR, false);
+    return GZStng_getData(STNG_TOOLS_TRANSFORM_INDICATOR, false);
 }
 
 KEEP_FUNC bool umd_active() {
-    return GZStng_getSettingData(STNG_TOOLS_UMD, false);
+    return GZStng_getData(STNG_TOOLS_UMD, false);
 }
 
 #ifdef WII_PLATFORM
 KEEP_FUNC bool bit_active() {
-    return GZStng_getSettingData(STNG_TOOLS_BIT, false);
+    return GZStng_getData(STNG_TOOLS_BIT, false);
 }
 #endif
 
 KEEP_FUNC bool corotd_active() {
-    return GZStng_getSettingData(STNG_TOOLS_COROTD, false);
+    return GZStng_getData(STNG_TOOLS_COROTD, false);
 }
 
 KEEP_FUNC bool mash_checker_active() {
-    return GZStng_getSettingData(STNG_TOOLS_MASH_CHECKER, false);
+    return GZStng_getData(STNG_TOOLS_MASH_CHECKER, false);
 }
 
 KEEP_FUNC bool gorge_active() {
-    return GZStng_getSettingData(STNG_TOOLS_GORGE, false);
+    return GZStng_getData(STNG_TOOLS_GORGE, false);
 }
 
 KEEP_FUNC bool rollcheck_active() {
-    return GZStng_getSettingData(STNG_TOOLS_ROLL, false);
+    return GZStng_getData(STNG_TOOLS_ROLL, false);
 }
 
 KEEP_FUNC bool moon_jump_active() {
-    return GZStng_getSettingData(STNG_CHEATS_MOON_JUMP, false);
+    return GZStng_getData(STNG_CHEATS_MOON_JUMP, false);
 }
 
 KEEP_FUNC bool freeze_actor_active() {
-    return GZStng_getSettingData(STNG_SCENE_FREEZE_ACTOR, false);
+    return GZStng_getData(STNG_SCENE_FREEZE_ACTOR, false);
 }
 
 KEEP_FUNC bool hide_actor_active() {
-    return GZStng_getSettingData(STNG_SCENE_HIDE_ACTOR, false);
+    return GZStng_getData(STNG_SCENE_HIDE_ACTOR, false);
 }
 
 KEEP_FUNC bool freeze_camera_active() {
-    return GZStng_getSettingData(STNG_SCENE_FREEZE_CAMERA, false);
+    return GZStng_getData(STNG_SCENE_FREEZE_CAMERA, false);
 }

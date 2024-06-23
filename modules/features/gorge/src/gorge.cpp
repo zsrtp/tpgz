@@ -24,7 +24,7 @@
 #endif
 
 KEEP_FUNC void GZCmd_loadGorgeVoid() {
-    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS))) {
+    if (GZCmd_checkTrig(GZStng_getData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS))) {
         // TODO: maybe simplify this
 #ifdef WII_PLATFORM
         special sp[] = {

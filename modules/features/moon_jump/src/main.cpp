@@ -15,7 +15,7 @@ KEEP_VAR bool active = false;
 namespace tpgz::modules {
 void main() {
     GZCmd_addCmd(new Command{CMD_MOON_JUMP,
-                             GZStng_getSettingData<uint16_t>(STNG_CMD_MOON_JUMP, MOON_JUMP_BUTTONS),
+                             GZStng_getData<uint16_t>(STNG_CMD_MOON_JUMP, MOON_JUMP_BUTTONS),
                              GZCmd_moonJump});
 }
 void exit() {

@@ -15,7 +15,7 @@ KEEP_FUNC void Timer::drawTimer() {
     static int frame_timer = 0;
     static OSCalendarTime ctime;
 
-    if (!GZStng_getSettingData(STNG_TOOLS_TIMER, false)) {
+    if (!GZStng_getData(STNG_TOOLS_TIMER, false)) {
         init_start_time = false;
         return;
     }
@@ -65,7 +65,7 @@ KEEP_FUNC void Timer::drawIGT() {
     static OSCalendarTime ctime;
     static OSCalendarTime load_ctime;
 
-    if (!GZStng_getSettingData(STNG_TOOLS_IGT_TIMER, false)) {
+    if (!GZStng_getData(STNG_TOOLS_IGT_TIMER, false)) {
         init_start_time = false;
         return;
     }
@@ -126,7 +126,7 @@ KEEP_FUNC void Timer::drawLoadTimer() {
 
     static OSCalendarTime load_ctime;
 
-    if (!GZStng_getSettingData(STNG_TOOLS_LOAD_TIMER, false)) {
+    if (!GZStng_getData(STNG_TOOLS_LOAD_TIMER, false)) {
         return;
     }
 

@@ -29,7 +29,7 @@ char l_watchesFormats[][8][5] = {{
                                  }};
 
 KEEP_FUNC void GZ_drawWatches() {
-    auto* stng = GZStng_getSetting(STNG_WATCHES);
+    auto* stng = GZStng_get(STNG_WATCHES);
     if (!stng) {
         stng = new GZSettingEntry{STNG_WATCHES, 0, nullptr};
         g_settings.push_back(stng);
@@ -79,7 +79,7 @@ KEEP_FUNC void GZ_drawWatches() {
 }
 
 KEEP_FUNC void GZ_drawHeapInfo() {
-    if (!GZStng_getSettingData(STNG_TOOLS_HEAP_DEBUG, false)) {
+    if (!GZStng_getData(STNG_TOOLS_HEAP_DEBUG, false)) {
         return;
     }
     if (m_Do_ext::zeldaHeap && m_Do_ext::gameHeap && m_Do_ext::archiveHeap) {

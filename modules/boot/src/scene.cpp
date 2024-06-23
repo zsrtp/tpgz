@@ -4,7 +4,7 @@
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 
 KEEP_FUNC void GZ_freezeTime() {
-    if (GZStng_getSettingData(STNG_SCENE_FREEZE_TIME, false)) {
+    if (GZStng_getData(STNG_SCENE_FREEZE_TIME, false)) {
         dStage_roomControl_c__setTimePass(TIME_STOP);
     }
 }

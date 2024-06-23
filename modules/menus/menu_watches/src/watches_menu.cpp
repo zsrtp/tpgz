@@ -451,7 +451,7 @@ void WatchesMenu::draw() {
 
     const float scale = isWidescreen ? 0.75f : 1.0f;
 
-    auto* stng = GZStng_getSetting(STNG_WATCHES);
+    auto* stng = GZStng_get(STNG_WATCHES);
     if (!stng) {
         stng = new GZSettingEntry{STNG_WATCHES, 0, nullptr};
         g_settings.push_back(stng);

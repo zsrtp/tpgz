@@ -64,11 +64,11 @@ void drawJumpAttackPositionProjection(fopAc_ac_c* actor) {
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 
 KEEP_FUNC void execute() {
-    if (GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false)) {
+    if (GZStng_getData(STNG_SCENE_LJA_PROJECTION, false)) {
         searchActorForCallback(PROC_ALINK, drawJumpAttackPositionProjection);
     }
 
-    if (GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
+    if (GZStng_getData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
         searchActorForCallback(PROC_ALINK, drawMidnaChargePositionProjection);
     }
 }

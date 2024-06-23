@@ -81,7 +81,7 @@ void PosSettingsMenu::draw() {
         }
     }
 
-    auto* stng = GZStng_getSetting(l_mapping[l_selItem]);
+    auto* stng = GZStng_get(l_mapping[l_selItem]);
     if (!stng) {
         stng = new GZSettingEntry{l_mapping[l_selItem], sizeof(Vec2), new Vec2{0.0f, 0.0f}};
         g_settings.push_back(stng);

@@ -47,7 +47,7 @@ void SettingsMenu::draw() {
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case DROP_SHADOWS_INDEX:
-            stng = GZStng_getSetting(STNG_DROP_SHADOWS);
+            stng = GZStng_get(STNG_DROP_SHADOWS);
             if (!stng) {
                 stng = new GZSettingEntry{STNG_DROP_SHADOWS, sizeof(bool), new bool{false}};
                 g_settings.push_back(stng);
@@ -124,7 +124,7 @@ void SettingsMenu::draw() {
     // handle list rendering
     switch (cursor.y) {
     case AREA_RELOAD_BEHAVIOR_INDEX:
-        stng = GZStng_getSetting(STNG_AREA_RELOAD_BEHAVIOUR);
+        stng = GZStng_get(STNG_AREA_RELOAD_BEHAVIOUR);
         cursor.x = stng ? *static_cast<uint32_t*>(stng->data) : 0;
         prev_x = cursor.x;
         cursor.move(MAX_RELOAD_OPTIONS, MENU_LINE_NUM);
@@ -141,7 +141,7 @@ void SettingsMenu::draw() {
         }
         break;
     case CURSOR_COLOR_INDEX:
-        stng = GZStng_getSetting(STNG_CURSOR_COLOR);
+        stng = GZStng_get(STNG_CURSOR_COLOR);
         cursor.x = stng ? *static_cast<uint32_t*>(stng->data) : 0;
         prev_x = cursor.x;
         cursor.move(MAX_CURSOR_COLOR_OPTIONS, MENU_LINE_NUM);
@@ -158,7 +158,7 @@ void SettingsMenu::draw() {
         }
         break;
     case FONT_INDEX: {
-        stng = GZStng_getSetting(STNG_FONT);
+        stng = GZStng_get(STNG_FONT);
         cursor.x = stng ? *static_cast<uint32_t*>(stng->data) : 0;
         prev_x = cursor.x;
         int old_font = cursor.x;
@@ -189,9 +189,9 @@ void SettingsMenu::draw() {
         break;
     }
 
-    lines[AREA_RELOAD_BEHAVIOR_INDEX].printf(" <%s>", reload_opt[GZStng_getSettingData<uint32_t>(STNG_AREA_RELOAD_BEHAVIOUR, 0)].member);
-    lines[CURSOR_COLOR_INDEX].printf(" <%s>", cursorCol_opt[GZStng_getSettingData<uint32_t>(STNG_CURSOR_COLOR, 0)].member);
-    lines[FONT_INDEX].printf(" <%s>", g_font_opt[GZStng_getSettingData<uint32_t>(STNG_FONT, 0)].member);
+    lines[AREA_RELOAD_BEHAVIOR_INDEX].printf(" <%s>", reload_opt[GZStng_getData<uint32_t>(STNG_AREA_RELOAD_BEHAVIOUR, 0)].member);
+    lines[CURSOR_COLOR_INDEX].printf(" <%s>", cursorCol_opt[GZStng_getData<uint32_t>(STNG_CURSOR_COLOR, 0)].member);
+    lines[FONT_INDEX].printf(" <%s>", g_font_opt[GZStng_getData<uint32_t>(STNG_FONT, 0)].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

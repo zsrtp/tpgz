@@ -60,7 +60,7 @@ KEEP_FUNC void GZ_frameAdvance() {
 
     TRIG_BTNS = HOLD_BTNS & ~buttonsPrev;
 
-    uint16_t frameAdvancePad = GZStng_getSettingData(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_PAD);
+    uint16_t frameAdvancePad = GZStng_getData(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_PAD);
 
     if (HOLD_BTNS & frameAdvancePad) {
         holdCounter++;
@@ -112,7 +112,7 @@ void GZ_execute(int phase) {
         }
     }
 
-    if (GZStng_getSettingData(STNG_TOOLS_SAND, false)) {
+    if (GZStng_getData(STNG_TOOLS_SAND, false)) {
         if (dComIfGp_getPlayer() != nullptr) {
             dComIfGp_getPlayer()->field_0x2ba8 = 0.0f;
         }
@@ -138,7 +138,7 @@ void GZ_execute(int phase) {
 }
 
 #define ACTIVE_FLAG_FUNC(name, stngId) \
-    KEEP_FUNC bool name() { return GZStng_getSettingData(stngId, false); }
+    KEEP_FUNC bool name() { return GZStng_getData(stngId, false); }
 
 ACTIVE_FLAG_FUNC(GZ_freezeActors_active, STNG_SCENE_FREEZE_ACTOR)
 ACTIVE_FLAG_FUNC(GZ_hideActors_active, STNG_SCENE_HIDE_ACTOR)

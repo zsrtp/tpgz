@@ -84,7 +84,7 @@ void ComboMenu::execute() {
 
         if ((released != 0 && !m_selectBtnActive) || m_keepInputModeCounter == 0) {
             if (released != 0 && !m_selectBtnActive) {
-                GZStng_addSetting(l_mapping[cursor.y], new uint16_t(m_prevButtons), sizeof(uint16_t));
+                GZStng_add(l_mapping[cursor.y], new uint16_t(m_prevButtons), sizeof(uint16_t));
                 if (l_cmdMapping[cursor.y] >= 0) {
                     auto* cmd = GZCmd_getCmd(l_cmdMapping[cursor.y]);
                     if (cmd) {
@@ -118,7 +118,7 @@ void ComboMenu::draw() {
     }
 
     if (GZ_getButtonTrig(RESET_COMBO_BUTTONS) && !m_inputMode) {
-        GZStng_removeSetting(l_mapping[cursor.y]);
+        GZStng_remove(l_mapping[cursor.y]);
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON) && !m_inputMode) {
@@ -137,7 +137,7 @@ void ComboMenu::draw() {
     }
 
     for (int i = 0; i < CMB_COUNT; i++) {
-        uint16_t cmb = GZStng_getSettingData(l_mapping[i], (uint16_t)0);
+        uint16_t cmb = GZStng_getData(l_mapping[i], (uint16_t)0);
         renderLine(i, cmb);
     }
 

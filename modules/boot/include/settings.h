@@ -10,7 +10,7 @@
 #define LOAD_AREA 0
 #define LOAD_FILE 1
 
-#define ACTIVE_FUNC(id) []() { return GZStng_getSettingData(id, false); }
+#define ACTIVE_FUNC(id) []() { return GZStng_getData(id, false); }
 
 extern bool g_swap_equips_flag;
 extern ListMember g_font_opt[7];
@@ -117,23 +117,23 @@ extern tpgz::containers::deque<GZSettingEntry*> g_settings;
  * If the setting is not yet in the list, adds it.
  * Otherwise, deletes the old data, and replaces it by the provided one.
  */
-void GZStng_addSetting(GZSettingID id, void* data, size_t size);
+void GZStng_add(GZSettingID id, void* data, size_t size);
 /**
  * Removes a setting from the list.
  */
-void GZStng_removeSetting(GZSettingID id);
+void GZStng_remove(GZSettingID id);
 /**
  * Returns a setting entry if it is in the list. nullptr otherwise.
  */
-GZSettingEntry* GZStng_getSetting(GZSettingID id);
+GZSettingEntry* GZStng_get(GZSettingID id);
 /**
  * Returns a list of all the ids of the settings in the list.
  */
-tpgz::containers::deque<GZSettingID>* GZStng_getSettingsList();
+tpgz::containers::deque<GZSettingID>* GZStng_getList();
 
 template <typename T>
-T GZStng_getSettingData(GZSettingID id, T defaultValue) {
-    auto* stng = GZStng_getSetting(id);
+T GZStng_getData(GZSettingID id, T defaultValue) {
+    auto* stng = GZStng_get(id);
     return stng ? *static_cast<T*>(stng->data) : defaultValue;
 }
 
@@ -149,6 +149,6 @@ enum cursor_colors {
 void GZ_initFont();
 
 inline bool GZ_checkDropShadows() {
-    auto* stng = GZStng_getSetting(STNG_DROP_SHADOWS);
+    auto* stng = GZStng_get(STNG_DROP_SHADOWS);
     return stng && *static_cast<bool*>(stng->data);
 }

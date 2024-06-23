@@ -80,7 +80,7 @@ uint32_t l_cursorMapping[] = {0x00CC00FF, 0x0080FFFF, 0xCC0000FF,
                               0xEE8000FF, 0xFFCC00FF, 0x6600CCFF};
 
 KEEP_FUNC void GZ_setCursorColor() {
-    uint32_t colorId = GZStng_getSettingData(STNG_CURSOR_COLOR, 0);
+    uint32_t colorId = GZStng_getData(STNG_CURSOR_COLOR, 0);
     if (colorId < ARRAY_COUNT(l_cursorMapping)) {
         g_cursorColor = l_cursorMapping[colorId];
     }

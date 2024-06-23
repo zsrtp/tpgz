@@ -37,7 +37,7 @@ KEEP_FUNC bool GZCmd_checkTrig(int combo) {
 }
 
 KEEP_FUNC void GZCmd_pauseFrame() {
-    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS))) {
+    if (GZCmd_checkTrig(GZStng_getData<uint16_t>(STNG_CMD_FRAME_PAUSE, FRAME_PAUSE_BUTTONS))) {
         g_framePaused = !g_framePaused;
     }
 }
@@ -67,7 +67,7 @@ KEEP_FUNC void GZCmd_loadPosition() {
 }
 
 KEEP_FUNC void GZCmd_toggleTimer() {
-    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS))) {
+    if (GZCmd_checkTrig(GZStng_getData<uint16_t>(STNG_CMD_TIMER_TOGGLE, TIMER_TOGGLE_BUTTONS))) {
         g_timerEnabled = !g_timerEnabled;
     }
 }
@@ -80,7 +80,7 @@ KEEP_FUNC void GZCmd_reloadArea() {
     g_dComIfG_gameInfo.play.mNextStage.enabled = true;
     SaveManager::s_injectSave = true;
 
-    uint32_t reloadType = GZStng_getSettingData(STNG_TOOLS_RELOAD_AREA, 0);
+    uint32_t reloadType = GZStng_getData(STNG_TOOLS_RELOAD_AREA, 0);
     if (reloadType == LOAD_AREA) {
         // restore last set of saved temp flags
         memcpy(&g_dComIfG_gameInfo.info.mMemory, gSaveManager.mAreaReloadOpts.temp_flags,
@@ -101,13 +101,13 @@ KEEP_FUNC void GZCmd_reloadArea() {
 }
 
 KEEP_FUNC void GZCmd_toggleFreeCam() {
-    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_FREE_CAM, FREE_CAM_BUTTONS))) {
+    if (GZCmd_checkTrig(GZStng_getData<uint16_t>(STNG_CMD_FREE_CAM, FREE_CAM_BUTTONS))) {
         g_freeCamEnabled = !g_freeCamEnabled;
     }
 }
 
 KEEP_FUNC void GZCmd_toggleMoveLink() {
-    if (GZCmd_checkTrig(GZStng_getSettingData<uint16_t>(STNG_CMD_MOVE_LINK, MOVE_LINK_BUTTONS))) {
+    if (GZCmd_checkTrig(GZStng_getData<uint16_t>(STNG_CMD_MOVE_LINK, MOVE_LINK_BUTTONS))) {
         g_moveLinkEnabled = !g_moveLinkEnabled;
     }
 }

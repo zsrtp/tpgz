@@ -330,7 +330,7 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
 }
 
 void daAlink_c__posMoveHook(daAlink_c* i_this) {
-    if (GZStng_getSettingData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getSettingData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
+    if (GZStng_getData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
         // store any variables that may be modified
         f32 speed_y = i_this->speed.y;
         cXyz link_pos = i_this->current.pos;
