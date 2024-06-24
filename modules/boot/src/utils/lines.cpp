@@ -43,11 +43,11 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
     }
 
     if (min_line > 0) {
-        Font::GZ_drawStr("^", offset.x, offset.y - 8.0f, 0xFFFFFFFF, GZ_checkDropShadows());
+        Font::GZ_drawStr("^", offset.x, offset.y - 12.0f, 0xFFFFFFFF, GZ_checkDropShadows());
     }
 
     if (max_line < LINES - 1) {
-        Font::GZ_drawStr("v", offset.x, offset.y + 20.0f * MAX_RENDER_LINES - 10.f, 0xFFFFFFFF, GZ_checkDropShadows());
+        Font::GZ_drawStr("v", offset.x, offset.y + 20.0f * MAX_RENDER_LINES - 2.f, 0xFFFFFFFF, GZ_checkDropShadows());
     }
 
     for (uint32_t i = min_line; i < MIN(max_line + 1, LINES); i++) {

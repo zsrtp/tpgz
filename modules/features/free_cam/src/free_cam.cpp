@@ -15,7 +15,8 @@
 #ifdef GCN_PLATFORM
 #define CONTROL_Y (mPadStatus.stick_y)
 #define CONTROL_X (mPadStatus.stick_x)
-#define VERTICAL_DISPLACEMENT (mPadStatus.trigger_left - mPadStatus.trigger_right)
+#define TRIG_ADJUST(trig) (mPadStatus.trig >= 10 ? mPadStatus.trig : 0)  // adjust sensitivity
+#define VERTICAL_DISPLACEMENT (TRIG_ADJUST(trigger_left) - TRIG_ADJUST(trigger_right))
 #define SPEED_PREDICATE (mPadButton.mButton & CButton::Z)
 #define PITCH_CONTROL (mPadStatus.substick_y)
 #define YAW_CONTROL (mPadStatus.substick_x)
