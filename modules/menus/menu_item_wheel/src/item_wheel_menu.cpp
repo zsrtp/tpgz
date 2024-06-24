@@ -13,11 +13,15 @@
 #ifdef GCN_PLATFORM
 #define DEFAULT_BTN_TXT "Z"
 #define DEFAULT_BTN GZPad::Z
+#define RESET_BTN_TXT "X"
+#define RESET_BUTTON GZPad::X
 #endif
 
 #ifdef WII_PLATFORM
 #define DEFAULT_BTN_TXT "+"
 #define DEFAULT_BTN GZPad::PLUS
+#define RESET_BTN_TXT "-"
+#define RESET_BUTTON GZPad::MINUS
 #endif
 
 KEEP_FUNC ItemWheelMenu::ItemWheelMenu(Cursor& cursor, ItemWheelData& data)
@@ -196,7 +200,7 @@ void ItemWheelMenu::draw() {
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
                 snprintf(lines[slot_no].description, sizeof(lines[slot_no].description),
-                         "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
+                         "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default; " RESET_BTN_TXT " to reset.",
                          slot_no, l_lookupTbl[j].name);
             } else {
                 continue;
@@ -228,6 +232,10 @@ void ItemWheelMenu::draw() {
 
     if (GZ_getButtonTrig(DEFAULT_BTN)) {
         dComIfGs_setItem(cursor.y, l_defaultItems[cursor.y]);
+    }
+
+    if (GZ_getButtonTrig(RESET_BUTTON)) {
+        dComIfGs_setItem(cursor.y, NO_ITEM);
     }
 
     cursor.move(0, MENU_LINE_NUM);
