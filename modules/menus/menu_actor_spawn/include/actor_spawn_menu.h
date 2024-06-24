@@ -1,5 +1,7 @@
 #include "menus/menu.h"
 
+#define MAX_ACTORS 10
+
 /**
  * @struct procBinData
  * @brief Structure for entries in res/proc_info/procs.bin
@@ -17,6 +19,12 @@ struct ActorSpawnData {
     uint8_t l_paramIdx;
 };
 
+struct ActorSpawn {
+    s16 id;
+    uint32_t params;
+    int8_t type;
+};
+
 enum {
     ACTOR_NAME_INDEX,
     ACTOR_PARAM_INDEX,
@@ -29,14 +37,17 @@ public:
     ActorSpawnMenu(ActorSpawnData&);
     virtual ~ActorSpawnMenu();
     virtual void draw();
+    void execute();
 
 private:
     void loadActorName(s16&);
+    void addActorToQueue(s16 id, uint32_t l_actorParams, int8_t l_actorType);
     s16& l_actorID;
     uint32_t& l_actorParams;
     int8_t& l_actorType;
     uint8_t& l_paramIdx;
     bool l_paramsSelected;
+    ActorSpawn l_actorQueue[MAX_ACTORS];
 
     Line lines[4];
 };
