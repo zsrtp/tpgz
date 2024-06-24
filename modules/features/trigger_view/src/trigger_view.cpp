@@ -384,6 +384,7 @@ KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_EVENT_AREAS].active) {
         searchActorForCallback(PROC_TAG_EVENT, drawEventTag);
         searchActorForCallback(PROC_TAG_EVTAREA, drawEventArea);
+        searchActorForCallback(PROC_TAG_MYNA2, drawPlumTag);
         searchActorForCallback(PROC_MYNA2, drawPlummSearch);
     }
 
