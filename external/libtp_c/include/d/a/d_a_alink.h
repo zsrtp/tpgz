@@ -1091,12 +1091,12 @@ public:
 };  // Size: 0x385C
 
 struct daAlinkHIO_anm_c {
-    /* 0x00 */ s16 field_0x00;  // end f?
-    /* 0x04 */ f32 field_0x04;    // speed?
-    /* 0x08 */ f32 field_0x08;    // start?
-    /* 0x0C */ f32 field_0x0c;    // interpolation?
-    /* 0x10 */ f32 field_0x10;    // CF?
-};                                  // size = 0x14
+    /* 0x00 */ s16 mEndFrame;
+    /* 0x04 */ f32 mSpeed;
+    /* 0x08 */ f32 mStartFrame;
+    /* 0x0C */ f32 mInterpolation;
+    /* 0x10 */ f32 mCheckFrame;  // name maybe wrong
+}; // size: 0x14
 
 struct daAlinkHIO_basic_c1 {
     /* 0x00 */ bool mOneHitKill;

@@ -144,10 +144,10 @@ KEEP_FUNC void GZ_handleTools() {
     }
 
     if (GZStng_getData(STNG_TOOLS_FAST_BONK, false)) {
-        daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 50.0f;
-        daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.0f;
+        daAlinkHIO_frontRoll.mCrashAnm.mStartFrame = 50.0f;
+        daAlinkHIO_frontRoll.mCrashAnm.mSpeed = 0.0f;
     } else {
-        daAlinkHIO_frontRoll.mCrashAnm.field_0x04 = 3.0f;
-        daAlinkHIO_frontRoll.mCrashAnm.field_0x08 = 0.800000012f;
+        daAlinkHIO_frontRoll.mCrashAnm.mStartFrame = 3.0f;
+        daAlinkHIO_frontRoll.mCrashAnm.mSpeed = 0.8f;
     }
 }
