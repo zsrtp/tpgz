@@ -36,6 +36,12 @@ typedef void (*LoadingCallback)(void);
 
 class special {
 public:
+    special() {
+        idx = 0;
+        CallbackDuring = nullptr;
+        CallbackAfter = nullptr;
+    }
+
     special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after) {
         idx = i_idx;
         CallbackDuring = cb_during;

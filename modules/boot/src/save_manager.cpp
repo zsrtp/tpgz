@@ -87,6 +87,8 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
                     gSaveManager.mPracticeFileOpts.inject_options_after_load =
                         i_specials[i].CallbackAfter;
                 }
+
+                last_special = i_specials[i];
                 break;
             }
         }
@@ -95,8 +97,6 @@ void SaveManager::loadSave(uint32_t id, const char* category, special i_specials
     // Store all the info in case file reload is used
     last_save_index = id;
     strncpy(last_category, category, sizeof(last_category));
-    last_special_ptr = i_specials;
-    last_special_size = size;
 }
 
 void SaveManager::loadSavefile(const char* l_filename) {

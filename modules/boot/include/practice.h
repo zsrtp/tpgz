@@ -20,5 +20,5 @@ enum {
 
 extern int last_save_index;
 extern char last_category[5];
-extern special* last_special_ptr;
+extern special last_special;
 extern int last_special_size;
