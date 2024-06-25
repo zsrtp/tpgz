@@ -7,6 +7,7 @@
 #include "menus/utils/menu_mgr.h"
 
 #define MAX_DISPLAY_LINES 15
+#define MAX_ADDRESS (0x81800000 - MAX_DISPLAY_LINES * 8)
 #define WHITE_RGBA 0xFFFFFFFF
 #define ADDRESS_RGBA 0xBABABAFF
 #define LINE_X_OFFSET 20.0f
@@ -44,12 +45,12 @@ void MemoryEditorMenu::drawMemEditor() {
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
             if (l_idxPlace == 0) {
-                g_memoryEditor_addressIndex = 0x817FFF88;
+                g_memoryEditor_addressIndex = MAX_ADDRESS;
             } else {
                 g_memoryEditor_addressIndex += (0x10000000 >> (l_idxPlace * 4));
             }
-            if (g_memoryEditor_addressIndex > 0x817FFF88) {
-                g_memoryEditor_addressIndex = 0x817FFF88;
+            if (g_memoryEditor_addressIndex > MAX_ADDRESS) {
+                g_memoryEditor_addressIndex = MAX_ADDRESS;
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
@@ -86,40 +87,14 @@ void MemoryEditorMenu::drawMemEditor() {
         y_offset = ((100.0f) + (i * 20.0f));
 
         char address[10];
-        char b0[3];
-        char b1[3];
-        char b2[3];
-        char b3[3];
-        char b4[3];
-        char b5[3];
-        char b6[3];
-        char b7[3];
-        char c0[2];
-        char c1[2];
-        char c2[2];
-        char c3[2];
-        char c4[2];
-        char c5[2];
-        char c6[2];
-        char c7[2];
+        char b[8][3];
+        char c[8][3];
 
         snprintf(address, sizeof(address), "%08X ", g_memoryEditor_addressIndex + (i * 8));
-        snprintf(b0, sizeof(b0), "%02X", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8)));
-        snprintf(b1, sizeof(b1), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 1));
-        snprintf(b2, sizeof(b2), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 2));
-        snprintf(b3, sizeof(b3), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 3));
-        snprintf(b4, sizeof(b4), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 4));
-        snprintf(b5, sizeof(b5), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 5));
-        snprintf(b6, sizeof(b6), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 6));
-        snprintf(b7, sizeof(b7), "%02X", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 7));
-        snprintf(c0, sizeof(c0), "%c", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8)));
-        snprintf(c1, sizeof(c1), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 1));
-        snprintf(c2, sizeof(c2), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 2));
-        snprintf(c3, sizeof(c3), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 3));
-        snprintf(c4, sizeof(c4), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 4));
-        snprintf(c5, sizeof(c5), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 5));
-        snprintf(c6, sizeof(c6), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 6));
-        snprintf(c7, sizeof(c7), "%c", *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + 7));
+        for (uint8_t k = 0; k < 8; ++k) {
+            snprintf(b[k], sizeof(b[k]), "%02X", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8) + k));
+            snprintf(c[k], sizeof(c[k]), "%c", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8) + k));
+        }
 
         float address_offset = Font::getStrWidth(address) + LINE_X_OFFSET;
         float b_offset = Font::getStrWidth(" 00");
@@ -163,56 +138,15 @@ void MemoryEditorMenu::drawMemEditor() {
 
         GZ_drawText(address, LINE_X_OFFSET, y_offset,
                     (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), GZ_checkDropShadows());
-        GZ_drawText(b0, address_offset, y_offset,
-                    (l_byteIdx == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b1, address_offset + b_offset * 1, y_offset,
-                    (l_byteIdx == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b2, address_offset + b_offset * 2, y_offset,
-                    (l_byteIdx == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b3, address_offset + b_offset * 3, y_offset,
-                    (l_byteIdx == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b4, address_offset + b_offset * 4, y_offset,
-                    (l_byteIdx == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b5, address_offset + b_offset * 5, y_offset,
-                    (l_byteIdx == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b6, address_offset + b_offset * 6, y_offset,
-                    (l_byteIdx == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(b7, address_offset + b_offset * 7, y_offset,
-                    (l_byteIdx == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-
-        // The text version of it
-        GZ_drawText(c0, chars_offset, y_offset,
-                    (l_byteIdx == 0 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c1, chars_offset + c_offset * 1, y_offset,
-                    (l_byteIdx == 1 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c2, chars_offset + c_offset * 2, y_offset,
-                    (l_byteIdx == 2 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c3, chars_offset + c_offset * 3, y_offset,
-                    (l_byteIdx == 3 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c4, chars_offset + c_offset * 4, y_offset,
-                    (l_byteIdx == 4 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c5, chars_offset + c_offset * 5, y_offset,
-                    (l_byteIdx == 5 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c6, chars_offset + c_offset * 6, y_offset,
-                    (l_byteIdx == 6 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
-        GZ_drawText(c7, chars_offset + c_offset * 7, y_offset,
-                    (l_byteIdx == 7 && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
-                    GZ_checkDropShadows());
+        for (uint8_t k = 0; k < 8; ++k) {
+            GZ_drawText(b[k], address_offset + b_offset * k, y_offset,
+                        (l_byteIdx == k && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                        GZ_checkDropShadows());
+            // The text version of it
+            GZ_drawText(c[k], chars_offset + c_offset * k, y_offset,
+                        (l_byteIdx == k && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
+                        GZ_checkDropShadows());
+        }
     }
 }
 
