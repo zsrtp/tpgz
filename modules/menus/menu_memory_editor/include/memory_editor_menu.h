@@ -7,5 +7,7 @@ public:
     virtual void draw();
 
 private:
+    uint8_t line_length = 8;
+
     void drawMemEditor();
 };

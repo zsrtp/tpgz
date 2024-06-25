@@ -77,6 +77,7 @@ public:
                            float size = FONT_DEFAULT_SIZE);
     static float getCharWidth(char c, float size = FONT_DEFAULT_SIZE);
     static float getMaxCharWidth(float size = FONT_DEFAULT_SIZE);
+    static float getMaxCharRangeWidth(char start, char end, float size = FONT_DEFAULT_SIZE);
     static float getStrWidth(const char* str, float size = FONT_DEFAULT_SIZE);
 };
 

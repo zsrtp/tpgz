@@ -7,11 +7,19 @@
 #include "menus/utils/menu_mgr.h"
 
 #define MAX_DISPLAY_LINES 15
-#define MAX_ADDRESS (0x81800000 - MAX_DISPLAY_LINES * 8)
+#define MAX_ADDRESS (0x81800000 - MAX_DISPLAY_LINES * line_length)
 #define WHITE_RGBA 0xFFFFFFFF
 #define ADDRESS_RGBA 0xBABABAFF
 #define LINE_X_OFFSET 20.0f
 #define LINE_BYTE_OFFSET 100.0f
+
+#ifdef GCN_PLATFORM
+#define LINE_SIZE_BTN (GZPad::Y)
+#define LINE_SIZE_TEXT "Y"
+#else
+#define LINE_SIZE_BTN (GZPad::MINUS)
+#define LINE_SIZE_TEXT "-"
+#endif
 
 MemoryEditorMenu::MemoryEditorMenu(Cursor& cursor) : Menu(cursor) {}
 
@@ -30,16 +38,16 @@ void MemoryEditorMenu::drawMemEditor() {
 
     if (l_idxSelected) {
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-            if (l_idxPlace == 7) {
+            if (l_idxPlace == line_length - 1) {
                 l_idxPlace = 0;
-            } else if (l_idxPlace >= 0 && l_idxPlace < 8) {
+            } else if (l_idxPlace >= 0 && l_idxPlace < line_length) {
                 l_idxPlace++;
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
             if (l_idxPlace == 0) {
-                l_idxPlace = 7;
-            } else if (l_idxPlace >= 0 && l_idxPlace < 8) {
+                l_idxPlace = line_length - 1;
+            } else if (l_idxPlace >= 0 && l_idxPlace < line_length) {
                 l_idxPlace--;
             }
         }
@@ -68,15 +76,15 @@ void MemoryEditorMenu::drawMemEditor() {
     if (cursor.y > 0 && !cursor.lock_x) {
         if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
             if (l_byteIdx == 0) {
-                l_byteIdx = 7;
-            } else if (l_byteIdx >= 0 && l_byteIdx < 8) {
+                l_byteIdx = line_length - 1;
+            } else if (l_byteIdx >= 0 && l_byteIdx < line_length) {
                 l_byteIdx--;
             }
         }
         if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-            if (l_byteIdx == 7) {
+            if (l_byteIdx == line_length - 1) {
                 l_byteIdx = 0;
-            } else if (l_byteIdx >= 0 && l_byteIdx < 8) {
+            } else if (l_byteIdx >= 0 && l_byteIdx < line_length) {
                 l_byteIdx++;
             }
         }
@@ -87,31 +95,31 @@ void MemoryEditorMenu::drawMemEditor() {
         y_offset = ((100.0f) + (i * 20.0f));
 
         char address[10];
-        char b[8][3];
-        char c[8][3];
+        char b[line_length][3];
+        char c[line_length][3];
 
-        snprintf(address, sizeof(address), "%08X ", g_memoryEditor_addressIndex + (i * 8));
-        for (uint8_t k = 0; k < 8; ++k) {
-            snprintf(b[k], sizeof(b[k]), "%02X", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8) + k));
-            snprintf(c[k], sizeof(c[k]), "%c", *(uint8_t*)(g_memoryEditor_addressIndex + (i * 8) + k));
+        snprintf(address, sizeof(address), "%08X ", g_memoryEditor_addressIndex + (i * line_length));
+        for (uint8_t k = 0; k < line_length; ++k) {
+            snprintf(b[k], sizeof(b[k]), "%02X", *(uint8_t*)(g_memoryEditor_addressIndex + (i * line_length) + k));
+            snprintf(c[k], sizeof(c[k]), "%c", *(uint8_t*)(g_memoryEditor_addressIndex + (i * line_length) + k));
         }
 
         float address_offset = Font::getStrWidth(address) + LINE_X_OFFSET;
-        float b_offset = Font::getStrWidth(" 00");
-        float chars_offset = address_offset + b_offset * 8 + Font::getStrWidth("    ");
-        float c_offset = Font::getMaxCharWidth();
+        float b_offset = Font::getStrWidth("00") + (line_length == 8 ? Font::getCharWidth(' ') : 0.0f);
+        float chars_offset = address_offset + b_offset * line_length + Font::getStrWidth("  ");
+        float c_offset = Font::getMaxCharRangeWidth('A', 'Z');
         if (cursor.y == (i + 1) && cursor.lock_x && cursor.lock_y) {
             if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
-                *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + l_byteIdx) += 0x1;
+                *(uint8_t*)((g_memoryEditor_addressIndex + (i * line_length)) + l_byteIdx) += 0x1;
             }
             if (GZ_getButtonRepeat(GZPad::DPAD_DOWN)) {
-                *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + l_byteIdx) -= 0x1;
+                *(uint8_t*)((g_memoryEditor_addressIndex + (i * line_length)) + l_byteIdx) -= 0x1;
             }
             if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
-                *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + l_byteIdx) += 0x10;
+                *(uint8_t*)((g_memoryEditor_addressIndex + (i * line_length)) + l_byteIdx) += 0x10;
             }
             if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
-                *(uint8_t*)((g_memoryEditor_addressIndex + (i * 8)) + l_byteIdx) -= 0x10;
+                *(uint8_t*)((g_memoryEditor_addressIndex + (i * line_length)) + l_byteIdx) -= 0x10;
             }
         }
 
@@ -138,12 +146,13 @@ void MemoryEditorMenu::drawMemEditor() {
 
         GZ_drawText(address, LINE_X_OFFSET, y_offset,
                     (cursor.y == (i + 1) ? CURSOR_RGBA : ADDRESS_RGBA), GZ_checkDropShadows());
-        for (uint8_t k = 0; k < 8; ++k) {
-            GZ_drawText(b[k], address_offset + b_offset * k, y_offset,
+        for (uint8_t k = 0; k < line_length; ++k) {
+            float middle_offset = k < line_length / 2 ? 0.0f : Font::getCharWidth(' ');
+            GZ_drawText(b[k], address_offset + b_offset * k + middle_offset, y_offset,
                         (l_byteIdx == k && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
                         GZ_checkDropShadows());
             // The text version of it
-            GZ_drawText(c[k], chars_offset + c_offset * k, y_offset,
+            GZ_drawText(c[k], chars_offset + c_offset * k + middle_offset, y_offset,
                         (l_byteIdx == k && cursor.y == (i + 1) ? mem_cursor_color : WHITE_RGBA),
                         GZ_checkDropShadows());
         }
@@ -166,6 +175,13 @@ void MemoryEditorMenu::draw() {
         }
     }
 
+    if (GZ_getButtonTrig(LINE_SIZE_BTN)) {
+        line_length = line_length == 8 ? 16 : 8;
+        if (g_memoryEditor_addressIndex > MAX_ADDRESS) {
+            g_memoryEditor_addressIndex = MAX_ADDRESS;
+        }
+    }
+
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
         case 0:
@@ -180,8 +196,8 @@ void MemoryEditorMenu::draw() {
         }
     }
 
-    cursor.move(8, 1 + MAX_DISPLAY_LINES);
-    GZ_drawText("DPad to move/modify value, A/B to (de)select value", 25.0f, 440.f, WHITE_RGBA,
+    cursor.move(line_length, 1 + MAX_DISPLAY_LINES);
+    GZ_drawText("DPad to move/modify value, A/B to (de)select value;" LINE_SIZE_TEXT " toggle line size", 25.0f, 440.f, WHITE_RGBA,
                 GZ_checkDropShadows());
     drawMemEditor();
 }
