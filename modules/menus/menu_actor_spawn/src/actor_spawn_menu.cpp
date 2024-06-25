@@ -76,17 +76,6 @@ void ActorSpawnMenu::loadActorName(s16& i_procName) {
     loadFile("tpgz/procs.bin", &l_procData, sizeof(l_procData), offset);
 }
 
-void ActorSpawnMenu::addActorToQueue(s16 id, uint32_t l_actorParams, int8_t l_actorType) {
-    for (int i = 0; i < MAX_ACTORS; i++) {
-        if (l_actorQueue[i].id == 0) {
-            l_actorQueue[i].id = id;
-            l_actorQueue[i].params = l_actorParams;
-            l_actorQueue[i].type = l_actorType;
-            break;
-        }
-    }
-}
-
 void ActorSpawnMenu::draw() {
     cursor.setMode(Cursor::MODE_UNRESTRICTED);
 
@@ -107,7 +96,7 @@ void ActorSpawnMenu::draw() {
             l_paramsSelected = true;
             break;
         case ACTOR_SPAWN_INDEX:
-            addActorToQueue(l_actorID, l_actorParams, l_actorType);
+            actorFastCreateAtLink(l_actorID, l_actorParams, l_actorType);
             break;
         }
     }
@@ -181,16 +170,4 @@ void ActorSpawnMenu::draw() {
 
     cursor.move(8, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
-}
-
-void ActorSpawnMenu::execute() {
-    if (l_actorQueue[0].id != 0) {
-        for (int i = 0; i < MAX_ACTORS; i++) {
-            if (l_actorQueue[i].id == 0) {
-                break;
-            }
-            actorFastCreateAtLink(l_actorQueue[i].id, l_actorQueue[i].params, l_actorQueue[i].type);
-            l_actorQueue[i].id = 0;
-        }
-    }
 }

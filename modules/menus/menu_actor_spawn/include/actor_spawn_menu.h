@@ -14,7 +14,7 @@ struct procBinData {
 struct ActorSpawnData {
     Cursor cursor;
     s16 l_actorID;
-    uint32_t l_actorParams;
+    uint32_t l_actorParams = 0xFFFFFFFF;
     int8_t l_actorType = -1;
     uint8_t l_paramIdx;
 };
@@ -37,11 +37,9 @@ public:
     ActorSpawnMenu(ActorSpawnData&);
     virtual ~ActorSpawnMenu();
     virtual void draw();
-    void execute();
 
 private:
     void loadActorName(s16&);
-    void addActorToQueue(s16 id, uint32_t l_actorParams, int8_t l_actorType);
     s16& l_actorID;
     uint32_t& l_actorParams;
     int8_t& l_actorType;

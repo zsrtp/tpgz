@@ -1,7 +1,6 @@
 #include <main.h>
 #include "menus/menu_actor_spawn/include/actor_spawn_menu.h"
 #include "events/draw_listener.h"
-#include "events/pre_loop_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
 
@@ -34,14 +33,9 @@ void onCreate() {
     }
 }
 
-void onPreLoop() {
-    l_menu->execute();
-}
-
 void onLoad() {
     l_menu = new ActorSpawnMenu(*g_menuMgr->getPermanentData<ActorSpawnData>());
     g_drawListener->addListener(onDraw);
-    g_PreLoopListener->addListener(onPreLoop);
 }
 
 void onDraw() {
@@ -49,7 +43,6 @@ void onDraw() {
 }
 
 void onUnload() {
-    g_PreLoopListener->removeListener(onPreLoop);
     g_drawListener->removeListener(onDraw);
     delete l_menu;
 }

@@ -337,17 +337,35 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
         s16 shape_angle_y = i_this->shape_angle.y;
         f32 m_normal_speed = i_this->mNormalSpeed;
         s16 current_angle_y = i_this->current.angle.y;
-        cXyz wolf_target_eye_pos = i_this->field_0x37c8;
+        cXyz eye_pos = i_this->mEyePos;
         s16 field_3008 = i_this->field_0x3008;
         f32 max_fall_speed = i_this->mMaxFallSpeed;
         f32 gravity = i_this->mGravity;
+        cXyz field_0x37c8 = i_this->field_0x37c8;
+        int reset_flag_3 = i_this->mNoResetFlg3;
+        dCcD_Cyl mAtCyl = i_this->field_0x10F0;
+        f32 field_0x342c = i_this->field_0x342c;
+        f32 field_0x3430 = i_this->field_0x3430;
+        dBgS_LinkAcch m_link_acch = i_this->mLinkAcch;
+
+        dCcD_Cyl field_0x850[3];
+        dCcD_Cyl field_0xC04[3];
+
+        for (int i = 0; i < 3; i++) {
+            field_0x850[i] = i_this->field_0x850[i];
+            field_0xC04[i] = i_this->field_0xC04[i];
+        }
 
         if (i_this->mActionID == daAlink_c::PROC_ATN_ACTOR_WAIT || i_this->mActionID == daAlink_c::PROC_CUT_JUMP) {
-            setupLJAProjectionLine(i_this);
+            if (GZStng_getData(STNG_SCENE_LJA_PROJECTION, false)) {
+                setupLJAProjectionLine(i_this);
+            }
         }
 
         if (i_this->mActionID == daAlink_c::PROC_WOLF_ROLL_ATTACK_MOVE || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK || i_this->mActionID == daAlink_c::PROC_WOLF_LOCK_ATTACK_TURN) {
-            setupMidnaChargeProjectionLine(i_this);
+            if (GZStng_getData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
+                setupMidnaChargeProjectionLine(i_this);
+            }
         }
 
         // restore variables
@@ -356,10 +374,21 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
         i_this->shape_angle.y = shape_angle_y;
         i_this->mNormalSpeed = m_normal_speed;
         i_this->current.angle.y = current_angle_y;
-        i_this->field_0x37c8 = wolf_target_eye_pos;
+        i_this->mEyePos = eye_pos;
         i_this->field_0x3008 = field_3008;
         i_this->mMaxFallSpeed = max_fall_speed;
         i_this->mGravity = gravity;
+        i_this->field_0x37c8 = field_0x37c8;
+        i_this->mNoResetFlg3 = reset_flag_3;
+        i_this->field_0x10F0 = mAtCyl;
+        i_this->field_0x342c = field_0x342c;
+        i_this->field_0x3430 = field_0x3430;
+        i_this->mLinkAcch = m_link_acch;
+
+        for (int i = 0; i < 3; i++) {
+            i_this->field_0x850[i] = field_0x850[i];
+            i_this->field_0xC04[i] = field_0xC04[i];
+        }
     }
 
     // run the original posMove method if actor view is not enabled
