@@ -90,6 +90,19 @@ void MemoryEditorMenu::drawMemEditor() {
         }
     }
 
+    float address_offset = Font::getStrWidth("80000000") + LINE_X_OFFSET + Font::getCharWidth(' ');
+    float b_offset = Font::getStrWidth("00") + (line_length == 8 ? Font::getCharWidth(' ') : 0.0f);
+    float chars_offset = address_offset + b_offset * line_length + Font::getStrWidth("  ");
+    float c_offset = Font::getMaxCharRangeWidth('A', 'Z');
+
+    for (uint8_t k = 0; k < line_length; ++k) {
+        float middle_offset = k < line_length / 2 ? 0.0f : Font::getCharWidth(' ');
+        char b[3];
+        snprintf(b, sizeof(b), "%2X", k);
+        GZ_drawText(b, address_offset + b_offset * k + middle_offset, 80.0f,
+                    (l_byteIdx == k ? CURSOR_RGBA : WHITE_RGBA), GZ_checkDropShadows());
+    }
+
     for (uint8_t i = 0; i < MAX_DISPLAY_LINES; i++) {
         float y_offset;
         y_offset = ((100.0f) + (i * 20.0f));
@@ -104,10 +117,6 @@ void MemoryEditorMenu::drawMemEditor() {
             snprintf(c[k], sizeof(c[k]), "%c", *(uint8_t*)(g_memoryEditor_addressIndex + (i * line_length) + k));
         }
 
-        float address_offset = Font::getStrWidth(address) + LINE_X_OFFSET;
-        float b_offset = Font::getStrWidth("00") + (line_length == 8 ? Font::getCharWidth(' ') : 0.0f);
-        float chars_offset = address_offset + b_offset * line_length + Font::getStrWidth("  ");
-        float c_offset = Font::getMaxCharRangeWidth('A', 'Z');
         if (cursor.y == (i + 1) && cursor.lock_x && cursor.lock_y) {
             if (GZ_getButtonRepeat(GZPad::DPAD_UP)) {
                 *(uint8_t*)((g_memoryEditor_addressIndex + (i * line_length)) + l_byteIdx) += 0x1;
