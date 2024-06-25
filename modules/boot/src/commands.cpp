@@ -77,7 +77,7 @@ KEEP_FUNC void GZCmd_resetTimer() {
 }
 
 KEEP_FUNC void GZCmd_reloadArea() {
-    uint32_t reloadType = GZStng_getData(STNG_TOOLS_RELOAD_AREA, 0);
+    uint32_t reloadType = GZStng_getData(STNG_AREA_RELOAD_BEHAVIOUR, LOAD_AREA);
     if (reloadType == LOAD_AREA) {
         g_dComIfG_gameInfo.play.mNextStage.enabled = true;
 
