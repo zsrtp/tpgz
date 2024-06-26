@@ -349,21 +349,6 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
             }
         }
 
-        OSReport("speed_y: %f (new: %f)\n", speed_y, i_this->speed.y);
-        OSReport("link_pos: %f %f %f (new: %f %f %f)\n", link_pos.x, link_pos.y, link_pos.z, i_this->current.pos.x, i_this->current.pos.y, i_this->current.pos.z);
-        OSReport("shape_angle_y: %d (new: %d)\n", shape_angle_y, i_this->shape_angle.y);
-        OSReport("m_normal_speed: %f (new: %f)\n", m_normal_speed, i_this->mNormalSpeed);
-        OSReport("current_angle_y: %d (new: %d)\n", current_angle_y, i_this->current.angle.y);
-        OSReport("eye_pos: %f %f %f (new: %f %f %f)\n", eye_pos.x, eye_pos.y, eye_pos.z, i_this->mEyePos.x, i_this->mEyePos.y, i_this->mEyePos.z);
-        OSReport("field_0x3008: %d (new: %d)\n", field_3008, i_this->field_0x3008);
-        OSReport("max_fall_speed: %f (new: %f)\n", max_fall_speed, i_this->mMaxFallSpeed);
-        OSReport("gravity: %f (new: %f)\n", gravity, i_this->mGravity);
-        OSReport("field_0x37c8: %f %f %f (new: %f %f %f)\n", field_0x37c8.x, field_0x37c8.y, field_0x37c8.z, i_this->field_0x37c8.x, i_this->field_0x37c8.y, i_this->field_0x37c8.z);
-        OSReport("reset_flag_3: %d (new: %d)\n", reset_flag_3, i_this->mNoResetFlg3);
-        OSReport("field_0x342c: %f (new: %f)\n", field_0x342c, i_this->field_0x342c);
-        OSReport("field_0x3430: %f (new: %f)\n", field_0x3430, i_this->field_0x3430);
-        OSReport("m_link_acch: %d (new: %d)\n", m_link_acch, i_this->mLinkAcch);
-
         // restore variables
         i_this->speed.y = speed_y;
         i_this->current.pos = link_pos;
