@@ -1,3 +1,7 @@
+// special
+// crash address for testing in PRs
+80452540:gzCrashReport
+
 // memory
 80003458:memset
 80003540:memcpy

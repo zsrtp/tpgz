@@ -2,6 +2,8 @@
 // right before m_Do_graphic::mDoGph_gInf_c::m_aspect
 80537628:isWidescreen
 80011f90:dbg_inst
+// crash address for testing in PRs
+80537560:gzCrashReport
 
 // memory
 8000443c:memset

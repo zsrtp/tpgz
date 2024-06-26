@@ -17,6 +17,7 @@
 #include "settings.h"
 #include "collision_view.h"
 #include "features/projection_view/include/projection_view.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -33,27 +34,7 @@ HOOK_DEF(void, draw, (void*));
 #define PAD_READ_RETURN_OFFSET (0x2DC)
 #endif
 
-#ifdef GCN_NTSCU
-#define CRASH_ADDRESS (0x80450580)
-#endif
-#ifdef GCN_PAL
-#define CRASH_ADDRESS (0x80452540)
-#endif
-#ifdef GCN_NTSCJ
-#define CRASH_ADDRESS (0x8044A6C0)
-#endif
-#ifdef WII_NTSCU_10
-#define CRASH_ADDRESS (0x80537560)
-#endif
-#ifdef WII_NTSCU_12
-#define CRASH_ADDRESS (0x8051d5e0)
-#endif
-#ifdef WII_NTSCJ
-#define CRASH_ADDRESS (0x8051b460)
-#endif
-#ifdef WII_PAL
-#define CRASH_ADDRESS (0x8051DEE0)
-#endif
+extern volatile uint32_t gzCrashReport;
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
@@ -93,9 +74,9 @@ void drawHook(void* p1) {
 #ifdef PR_TEST
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
-    *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
-    DCFlushRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
-    ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(uint32_t));
+    gzCrashAddr = 1;
+    DCFlushRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
+    ICInvalidateRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
 }
 #endif  // PR_TEST
 
@@ -367,6 +348,21 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
                 setupMidnaChargeProjectionLine(i_this);
             }
         }
+
+        OSReport("speed_y: %f (new: %f)\n", speed_y, i_this->speed.y);
+        OSReport("link_pos: %f %f %f (new: %f %f %f)\n", link_pos.x, link_pos.y, link_pos.z, i_this->current.pos.x, i_this->current.pos.y, i_this->current.pos.z);
+        OSReport("shape_angle_y: %d (new: %d)\n", shape_angle_y, i_this->shape_angle.y);
+        OSReport("m_normal_speed: %f (new: %f)\n", m_normal_speed, i_this->mNormalSpeed);
+        OSReport("current_angle_y: %d (new: %d)\n", current_angle_y, i_this->current.angle.y);
+        OSReport("eye_pos: %f %f %f (new: %f %f %f)\n", eye_pos.x, eye_pos.y, eye_pos.z, i_this->mEyePos.x, i_this->mEyePos.y, i_this->mEyePos.z);
+        OSReport("field_0x3008: %d (new: %d)\n", field_3008, i_this->field_0x3008);
+        OSReport("max_fall_speed: %f (new: %f)\n", max_fall_speed, i_this->mMaxFallSpeed);
+        OSReport("gravity: %f (new: %f)\n", gravity, i_this->mGravity);
+        OSReport("field_0x37c8: %f %f %f (new: %f %f %f)\n", field_0x37c8.x, field_0x37c8.y, field_0x37c8.z, i_this->field_0x37c8.x, i_this->field_0x37c8.y, i_this->field_0x37c8.z);
+        OSReport("reset_flag_3: %d (new: %d)\n", reset_flag_3, i_this->mNoResetFlg3);
+        OSReport("field_0x342c: %f (new: %f)\n", field_0x342c, i_this->field_0x342c);
+        OSReport("field_0x3430: %f (new: %f)\n", field_0x3430, i_this->field_0x3430);
+        OSReport("m_link_acch: %d (new: %d)\n", m_link_acch, i_this->mLinkAcch);
 
         // restore variables
         i_this->speed.y = speed_y;
