@@ -15,4 +15,6 @@ void setNextStageLayer(s8 layer);
 void setNextStageRoom(s8 room);
 void setNextStagePoint(s16 point);
 
+int popcount(uint32_t i);
+
 #endif

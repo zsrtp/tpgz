@@ -3,8 +3,7 @@
 
 #include "../../dolphin/mtx/mtx.h"
 #include "../../dolphin/mtx/vec.h"
-#include "../../dolphin/gx/GXTexture.h"
-#include "libtp_c/include/addrs.h"
+#include "../../dolphin/gx/gx.h"
 #include "J3DPacket.h"
 #include "../../dolphin/types.h"
 
@@ -75,6 +74,14 @@ struct J3DSys {
     J3DDrawBuffer* getDrawBuffer(int type) { return mDrawBuffer[type]; }
 };
 
-#define j3dSys (*(J3DSys*)(j3dSys_addr))
+extern "C" J3DSys j3dSys;
+
+LIBTP_DEFINE_FUNC(reinitGX__6J3DSysFv, J3DSys__reinitGX_void_,
+                  void, J3DSys__reinitGX, (J3DSys*))
+
+extern "C" void* sOldVcdVatCmd__8J3DShape;
+#define sOldVcdVatCmd sOldVcdVatCmd__8J3DShape
+
+inline void resetVcdVatCache() { sOldVcdVatCmd = NULL; }
 
 #endif /* J3DSYS_H */

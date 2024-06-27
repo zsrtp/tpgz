@@ -1,8 +1,8 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 
-#define HND_SPECIALS_AMNT 27
+#define HND_SPECIALS_AMNT 25
 
 enum HundoPracticeIndex {
     HND_GOATS_1_INDEX,

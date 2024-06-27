@@ -4,7 +4,6 @@
 #include "../../dolphin/types.h"
 #include "../../dolphin/mtx/vec.h"
 #include "../../dolphin/pad/pad.h"
-#include "../../addrs.h"
 #include "../../defines.h"
 #include "../JKernel/JKRDisposer.h"
 #include "../../SSystem/SComponent/c_API_controller_pad.h"
@@ -13,7 +12,7 @@ typedef void (*callbackFn)(int, void*);
 
 #ifdef GCN_PLATFORM
 namespace CButton {
-enum {
+enum : uint16_t {
     DPAD_LEFT = 0x0001,
     DPAD_RIGHT = 0x0002,
     DPAD_DOWN = 0x0004,

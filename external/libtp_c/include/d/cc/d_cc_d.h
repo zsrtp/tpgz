@@ -7,6 +7,9 @@
 LIBTP_DEFINE_FUNC(ClrTgHit__12dCcD_GObjInfFv, dCcD_GObjInf__ClrTgHit_void_,
                   void, dCcD_GObjInf__ClrTgHit, (void* addr))
 
+LIBTP_DEFINE_FUNC(ResetTgHit__12dCcD_GObjInfFv, dCcD_GObjInf__ResetTgHit_void_,
+                  void, dCcD_GObjInf__ResetTgHit, (void* addr))
+
 enum dCcD_hitSe {
     /* 0  */ dCcD_SE_NONE,
     /* 1  */ dCcD_SE_SWORD,
@@ -279,6 +282,10 @@ public:
         dCcD_GObjInf__ClrTgHit(this);
     }
 
+    void ResetTgHit() {
+        dCcD_GObjInf__ResetTgHit(this);
+    }
+
     /* 0x058 */ dCcD_GObjAt mGObjAt;
     /* 0x09C */ dCcD_GObjTg mGObjTg;
     /* 0x0E8 */ dCcD_GObjCo mGObjCo;
@@ -286,18 +293,46 @@ public:
 
 static_assert(sizeof(dCcD_GObjInf) == 0x104);
 
+#ifndef WII_PLATFORM
+#define dCcD_Cyl_vtable __vt__8dCcD_Cyl
+#else
+#define dCcD_Cyl_vtable dCcD_Cyl____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Cyl_vtable;
+
 class dCcD_Cyl {
 public:
     dCcD_GObjInf mGObjInf;
     cCcD_CylAttr mCylAttr;
 };  // Size = 0x13C
 
-class dCcD_Sph : public dCcD_GObjInf, public cCcD_SphAttr {
+#ifndef WII_PLATFORM
+#define dCcD_Sph_vtable __vt__8dCcD_Sph
+#else
+#define dCcD_Sph_vtable dCcD_Sph____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Sph_vtable;
+
+class dCcD_Sph {
 public:
+    dCcD_GObjInf mGObjInf;
+    cCcD_SphAttr mSphAttr;
 };  // Size = 0x138
 
-class dCcD_Cps : public dCcD_GObjInf, public cCcD_CpsAttr {
+#ifndef WII_PLATFORM
+#define dCcD_Cps_vtable __vt__8dCcD_Cps
+#else
+#define dCcD_Cps_vtable dCcD_Cps____vt
+#endif
+
+extern "C" cCcD_GObjInf__vtbl_t dCcD_Cps_vtable;
+
+class dCcD_Cps {
 public:
+    dCcD_GObjInf mGObjInf;
+    cCcD_CpsAttr mCpsAttr;
 };  // Size = 0x144
 
 class dCcD_Tri {

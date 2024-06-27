@@ -1,6 +1,6 @@
 #pragma once
 
-#include "menu.h"
+#include "menus/menu.h"
 #include "scene.h"
 
 class SceneMenu : public Menu {
@@ -10,5 +10,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[11];
+    Line lines[SCENE_MENU_MAX];
 };

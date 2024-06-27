@@ -2,9 +2,9 @@
 #define JPAPARTICLE_H
 
 #include "../../dolphin/types.h"
+#include "../../dolphin/gx/gx.h"
 
 class JPABaseParticle;
-struct _GXTexMapID {};
 
 struct JPABaseEmitter {};
 

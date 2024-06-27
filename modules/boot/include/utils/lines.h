@@ -20,9 +20,10 @@ struct Line {
     const uint32_t idx;
     char description[MAX_DESCRIPTION_LENGTH];
     bool toggleable = false;
-    bool* activation_flag;
+    bool (*active)();
     uint8_t max_y_cursor_options;
     char value[sizeof(Line::line)] = {0};
+    bool disabled = false;
 
     template <typename... Args>
     inline int printf(const char* fmt, Args... args) {
@@ -31,5 +32,6 @@ struct Line {
 };
 
 float maxF(float a, float b);
+float minF(float a, float b);
 void menu_anim(int idx);
 void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES);

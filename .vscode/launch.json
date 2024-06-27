@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Attach",
+            "type": "cppdbg",
+            "request": "attach",
+            "MIMode": "gdb",
+            "miDebuggerServerAddress": "0.0.0.0:2159",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "type": "lldb",
+            "debugServer": 2159,
+            "request": "custom",
+            "name": "Custom launch",
+            "initCommands": [
+                "target remote localhost:2159"
+            ],
+            "targetCreateCommands": [
+            ],
+            "processCreateCommands": [
+                // "settings set target.run-args value1 value2 value3",
+                // "process launch"
+            ]
+        }
+    ]
+}

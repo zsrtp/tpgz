@@ -260,8 +260,24 @@ inline u16 fopAcM_GetSetId(const fopAc_ac_c* p_actor) {
 LIBTP_DEFINE_FUNC(fopAcM_create__FsUlPC4cXyziPC5csXyzPC4cXyzSc, fopAcM_create_short__unsigned_long__cXyz_const____int__csXyz_const____cXyz_const____signed_char_,
                   void, fopAcM_create, (s16, u32, const cXyz*, int, const csXyz*, const cXyz*, s8))
 
+LIBTP_DEFINE_FUNC(fopAcM_delete__FP10fopAc_ac_c, fopAcM_delete_fopAc_ac_c___,
+                  void, fopAcM_delete, (fopAc_ac_c*))
+
+LIBTP_DEFINE_FUNC(fopAcM_searchActorDistance__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_searchActorDistance_fopAc_ac_c_const____fopAc_ac_c_const___,
+                  f32, fopAcM_searchActorDistance, (const fopAc_ac_c*, const fopAc_ac_c*))
+
+LIBTP_DEFINE_FUNC(fopAcM_seenActorAngleY__FPC10fopAc_ac_cPC10fopAc_ac_c, fopAcM_seenActorAngleY_fopAc_ac_c_const____fopAc_ac_c_const___,
+                  s16, fopAcM_seenActorAngleY, (const fopAc_ac_c*, const fopAc_ac_c*))
+
+LIBTP_DEFINE_FUNC(gndCheck__11fopAcM_gc_cFPC4cXyz, fopAcM_gc_c__gndCheck_cXyz_const___,
+                  bool, fopAcM_gc_c__gndCheck, (const cXyz*))
+
+#define tp_fopAcM_gc_c__mGroundY_addr 0x80450cd0
+#define tp_fopAcM_gc_c__mGroundY (*(f32*)(tp_fopAcM_gc_c__mGroundY_addr))
+
 extern "C" {
 extern node_list_class g_fopAcTg_Queue;
+extern f32 fopAcM_gc_c__mGroundY;
 }
 
 #endif

@@ -96,7 +96,6 @@ HundoSavesMenu::~HundoSavesMenu() {}
 void HundoSavesMenu::draw() {
     special HundoSpecials[HND_SPECIALS_AMNT] = {
         special(HND_GOATS_1_INDEX, SaveMngSpecial_Goats1, nullptr),
-        special(HND_GOATS_2_INDEX, SaveMngSpecial_Goats2, nullptr),
         special(HND_MIST_INDEX, SaveMngSpecial_PurpleMist, nullptr),
         special(HND_KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
         special(HND_KB_2_INDEX, SaveMngSpecial_KB2Skip, nullptr),
@@ -111,7 +110,6 @@ void HundoSavesMenu::draw() {
         special(HND_SPR_BK_ROOM_INDEX, SaveMngSpecial_SPRBossKey, nullptr),
         special(HND_EARLY_POE_INDEX, nullptr, SaveMngSpecial_ToTEarlyPoe),
         special(HND_EARLY_HP_INDEX, nullptr, SaveMngSpecial_ToTEarlyHP),
-        special(HND_AERALFOS_INDEX, nullptr, SaveMngSpecial_AeralfosSkip),
         special(HND_POE_CYCLE_INDEX, nullptr, SaveMngSpecial_CityPoeCycle),
         special(HND_FAN_TOWER_INDEX, SaveMngSpecial_FanTower, nullptr),
         special(HND_ARGOROK_INDEX, nullptr, SaveMngSpecial_Argorok),

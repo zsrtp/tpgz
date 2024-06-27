@@ -8,9 +8,7 @@ class cM3dGPla {
 public:
     cXyz mNormal;
     f32 mD;
-    cM3dGPla();
-    cM3dGPla(const cXyz*, f32);
-    virtual ~cM3dGPla();
+    void* vtable;
 
     const cXyz& GetNP() const { return mNormal; }
     f32 GetD() const { return mD; }

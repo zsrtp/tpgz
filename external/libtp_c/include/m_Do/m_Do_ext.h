@@ -2,13 +2,12 @@
 #define M_DO_M_DO_EXT_H
 
 #include "../dolphin/types.h"
-#include "../dolphin/gx/GXTexture.h"
+#include "../dolphin/gx/gx.h"
 #include "../JSystem/J3DGraphBase/J3DPacket.h"
 #include "../JSystem/J3DGraphBase/J3DSys.h"
 #include "../m_Do/m_Do_mtx.h"
 #include "../SSystem/SComponent/c_xyz.h"
 #include "../SSystem/SComponent/c_sxyz.h"
-#include "gcn_c/include/gfx.h"
 #include "libtp_c/include/JSystem/JKernel/JKRExpHeap.h"
 
 struct J3DAnmTransform {};

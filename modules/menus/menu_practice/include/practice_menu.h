@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
 #include "practice.h"
 #include "gz_flags.h"
 

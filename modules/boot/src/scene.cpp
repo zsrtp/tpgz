@@ -1,26 +1,21 @@
 #include "scene.h"
+#include "settings.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/d/meter/d_meter_HIO.h"
 
-SceneItem g_sceneFlags[SCENE_AMNT] = {
-    {FREEZE_ACTOR_INDEX, false}, {HIDE_ACTOR_INDEX, false},    {DISABLE_BG_INDEX, false},
-    {DISABLE_SFX_INDEX, false},  {FREEZE_CAMERA_INDEX, false}, {HIDE_HUD_INDEX, false},
-    {FREEZE_TIME_INDEX, false},
-};
-
-void GZ_freezeTime() {
-    if (g_sceneFlags[FREEZE_TIME_INDEX].active) {
+KEEP_FUNC void GZ_freezeTime() {
+    if (GZStng_getData(STNG_SCENE_FREEZE_TIME, false)) {
         dStage_roomControl_c__setTimePass(TIME_STOP);
     }
 }
 
 bool l_initCamLock;
-void GZ_freezeCamera() {
+KEEP_FUNC void GZ_freezeCamera() {
     l_initCamLock = true;
     dComIfGp_getEventManager().mCameraPlay = 1;
 }
 
-void GZ_unfreezeCamera() {
+KEEP_FUNC void GZ_unfreezeCamera() {
     if (l_initCamLock) {
         dComIfGp_getEventManager().mCameraPlay = 0;
         l_initCamLock = false;
@@ -28,12 +23,12 @@ void GZ_unfreezeCamera() {
 }
 
 bool l_initHide;
-void GZ_hideHUD() {
+KEEP_FUNC void GZ_hideHUD() {
     g_drawHIO.mHUDAlpha = 0.0f;
     l_initHide = true;
 }
 
-void GZ_showHUD() {
+KEEP_FUNC void GZ_showHUD() {
     if (l_initHide) {
         g_drawHIO.mHUDAlpha = 1.0f;
         l_initHide = false;
@@ -41,12 +36,12 @@ void GZ_showHUD() {
 }
 
 bool l_initActorFreeze;
-void GZ_freezeActors() {
+KEEP_FUNC void GZ_freezeActors() {
     l_initActorFreeze = true;
     g_dComIfAc_gameInfo.freeze = true;
 }
 
-void GZ_unfreezeActors() {
+KEEP_FUNC void GZ_unfreezeActors() {
     if (l_initActorFreeze) {
         g_dComIfAc_gameInfo.freeze = false;
         l_initActorFreeze = false;
@@ -54,12 +49,12 @@ void GZ_unfreezeActors() {
 }
 
 bool l_initActorHide;
-void GZ_hideActors() {
+KEEP_FUNC void GZ_hideActors() {
     l_initActorHide = true;
     fopAc_ac_c__stopStatus |= 0x100;
 }
 
-void GZ_showActors() {
+KEEP_FUNC void GZ_showActors() {
     if (l_initActorHide) {
         fopAc_ac_c__stopStatus &= ~0x100;
         l_initActorHide = false;

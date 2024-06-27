@@ -1,7 +1,6 @@
 #pragma once
 
-#include "libtp_c/include/addrs.h"
-#include "gcn_c/include/gfx.h"
+#include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 #include "utils/texture.h"
 

@@ -4,10 +4,12 @@
 #include "gz_flags.h"
 #include "controller.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "utils/containers/deque.h"
 
 #ifdef GCN_PLATFORM
 #define BUTTON_STATES 12
@@ -85,8 +87,10 @@ KEEP_FUNC void GZ_readController() {
         if (!g_cursorEnabled) {
             if (current_input & CButton::DPAD_UP) {
                 g_cursorEnabled = true;
+#ifdef GCN_PLATFORM
             } else if (current_input & (CButton::L | CButton::R)) {
                 sCursorEnableDelay = 0;
+#endif
             } else if (sCursorEnableDelay < 1) {
                 sCursorEnableDelay = 1;
             }
@@ -119,28 +123,36 @@ KEEP_FUNC void GZ_readController() {
     }
 }
 
-bool GZ_getButtonPressed(int idx) {
+KEEP_FUNC bool GZ_getButtonPressed(int idx) {
     return buttonStates[idx].is_down;
 }
 
-bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
-    auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+KEEP_FUNC bool GZ_getButtonRepeat(int idx, uint16_t repeat_time) {
+    // Needs to be signed due to delta sometimes being negative
+    // which causes a subtle bug making held_down_long_enough 
+    // true when it shouldn't be
+    s32 delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+
     auto just_clicked = delta == 0;
     auto held_down_long_enough = delta > REPEAT_DELAY;
-    auto is_repeat_frame = held_down_long_enough && delta % repeat_time == 0;
+    auto is_repeat_frame = held_down_long_enough && (delta % repeat_time == 0);
     auto down = GZ_getButtonPressed(idx);
     return down && (just_clicked || is_repeat_frame);
 }
 
-bool GZ_getButtonRepeat(int idx) {
+KEEP_FUNC bool GZ_getButtonRepeat(int idx) {
     return GZ_getButtonRepeat(idx, REPEAT_TIME);
 }
 
-uint16_t GZ_getButtonStatus() {
+KEEP_FUNC uint16_t GZ_getButtonStatus() {
     return buttonStatus;
 }
 
-bool GZ_getButtonTrig(int idx) {
+KEEP_FUNC uint16_t GZ_getButtonStatusSaved() {
+    return sButtons;
+}
+
+KEEP_FUNC bool GZ_getButtonTrig(int idx) {
     auto delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
     auto just_clicked = delta == 0;
 
@@ -148,17 +160,28 @@ bool GZ_getButtonTrig(int idx) {
     return down && just_clicked;
 }
 
-bool GZ_getButtonHold(int idx, int phase) {
-    uint32_t delta;
-    if (phase == POST_GAME_LOOP) {
-        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
-    } else {
-        delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame + 1;
-    }
+KEEP_FUNC bool GZ_getButtonHold(int idx, int phase) {
+    uint32_t delta = cCt_getFrameCount() - buttonStates[idx].pressed_frame;
+    
+    if (phase != POST_GAME_LOOP)
+        delta++;
 
-    if (delta != 0) {
-        return true;
-    } else {
-        return false;
+    return delta != 0 ? true : false;
+}
+
+KEEP_FUNC void GZ_getButtonPressCount(u8& i_pressCounter, int i_button, int i_gzButton) {
+    if ((GZ_getButtonStatus() & i_button) && (buttonStates[i_gzButton].button & sButtonsPressed)) {
+        i_pressCounter++;
     }
+}
+
+KEEP_FUNC bool GZ_getPadTrigAny(uint16_t pad) {
+    for (uint8_t idx = 0; idx < BUTTON_STATES; idx++) {
+        if (pad & buttonStates[idx].button) {
+            if (GZ_getButtonTrig(idx) && (sButtons & pad) == pad) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

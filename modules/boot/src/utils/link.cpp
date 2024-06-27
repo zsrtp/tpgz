@@ -8,14 +8,14 @@
 #include "rels/include/defines.h"
 
 KEEP_FUNC void GZ_displayLinkInfo() {
-    if (!g_tools[LINK_DEBUG_INDEX].active) {
+    if (!GZStng_getData(STNG_TOOLS_LINK_DEBUG, false)) {
         return;
     }
     char time[14] = {0};
     snprintf(time, sizeof(time), "time: %02d:%02d", g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mHour,
              g_mDoAud_zelAudio.mAudioMgr.mStatusMgr.mMinute);
-    Font::GZ_drawStr(time, g_spriteOffsets[DEBUG_INFO_INDEX].x, g_spriteOffsets[DEBUG_INFO_INDEX].y,
-                     0xFFFFFFFF, g_dropShadows);
+    Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_DEBUG_INFO);
+    Font::GZ_drawStr(time, spriteOffset.x, spriteOffset.y, 0xFFFFFFFF, GZ_checkDropShadows());
 
     if (dComIfGp_getPlayer()) {
         char link_angle[22];
@@ -33,31 +33,43 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         snprintf(link_y, sizeof(link_y), "y-pos: %.4f", dComIfGp_getPlayer()->current.pos.y);
         snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->current.pos.z);
 
-        Font::GZ_drawStr(link_angle, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(y_angle, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(link_speed, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(link_x, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(link_y, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 100.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr(link_z, g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 120.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr(link_angle, spriteOffset.x,
+                         spriteOffset.y + 20.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(y_angle, spriteOffset.x,
+                         spriteOffset.y + 40.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_speed, spriteOffset.x,
+                         spriteOffset.y + 60.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_x, spriteOffset.x,
+                         spriteOffset.y + 80.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_y, spriteOffset.x,
+                         spriteOffset.y + 100.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_z, spriteOffset.x,
+                         spriteOffset.y + 120.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
     } else {
-        Font::GZ_drawStr("angle: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 20.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr("y-angle: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 40.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr("speed: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 60.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr("x-pos: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 80.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr("y-pos: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 100.0f, 0xFFFFFFFF, g_dropShadows);
-        Font::GZ_drawStr("z-pos: n/a", g_spriteOffsets[DEBUG_INFO_INDEX].x,
-                         g_spriteOffsets[DEBUG_INFO_INDEX].y + 120.0f, 0xFFFFFFFF, g_dropShadows);
+        Font::GZ_drawStr("angle: n/a", spriteOffset.x,
+                         spriteOffset.y + 20.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("y-angle: n/a", spriteOffset.x,
+                         spriteOffset.y + 40.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("speed: n/a", spriteOffset.x,
+                         spriteOffset.y + 60.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("x-pos: n/a", spriteOffset.x,
+                         spriteOffset.y + 80.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("y-pos: n/a", spriteOffset.x,
+                         spriteOffset.y + 100.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("z-pos: n/a", spriteOffset.x,
+                         spriteOffset.y + 120.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
     }
 }
 

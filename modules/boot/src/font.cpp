@@ -145,6 +145,22 @@ KEEP_FUNC float Font::getCharWidth(char c, float size) {
     }
 }
 
+KEEP_FUNC float Font::getMaxCharRangeWidth(char start, char end, float size) {
+    float max_width = 0.f;
+    for (char c = start; c <= end; c++) {
+        max_width = MAX(max_width, getCharWidth(c, size));
+    }
+    return max_width;
+}
+
+KEEP_FUNC float Font::getMaxCharWidth(float size) {
+    float max_width = font.glyphs[' '].width;
+    for (size_t idx = 0; idx < font.header.glyph_count; ++idx) {
+        max_width = MAX(max_width, font.glyphs[idx].width);
+    }
+    return max_width * size / font.header.base_size * (isWidescreen ? 0.75f : 1.0f);
+}
+
 KEEP_FUNC float Font::getStrWidth(const char* str, float size) {
     int len = strlen(str);
     float str_size = 0.f;

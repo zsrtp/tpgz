@@ -171,6 +171,14 @@ def main(args=None):
         'counter': 10
     })
 
+    if args.platform is Platform.GCN:
+        any_p[1]["requirements"] = Requirements.POS | Requirements.CAM
+        any_p[1]["pos"] = (466.622467, 319.770752, -11651.3867)
+        any_p[1]["angle"] = 52540
+        any_p[1]["cam"]["pos"] = (735.525391, 524.418701, -11576.4746)
+        any_p[1]["cam"]["target"] = (465.674622, 421.052704, -11651.0684)
+        any_p[1]["counter"] = 10
+
     # back in time
     update_entry("bit", {
         'requirements': Requirements.POS | Requirements.CAM,

@@ -3,11 +3,25 @@
 
 class cBgS_PolyPassChk {
 public:
-    virtual ~cBgS_PolyPassChk();
+    void* vtable;
 };
 
 class dBgS_PolyPassChk : public cBgS_PolyPassChk {
 public:
+    dBgS_PolyPassChk() {
+        mObject = false;
+        mCamera = false;
+        mLink = false;
+        mArrow = false;
+        mBomb = false;
+        mBoomerang = false;
+        mRope = false;
+        mUnderwaterRoof = false;
+        mHorse = false;
+        mStatue = false;
+        mIronBall = false;
+    }
+
     bool ChkArrow() { return mArrow; }
     bool ChkBomb() { return mBomb; }
     bool ChkBoomerang() { return mBoomerang; }

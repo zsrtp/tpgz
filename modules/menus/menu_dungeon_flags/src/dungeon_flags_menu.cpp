@@ -7,24 +7,23 @@
 
 #define MAX_DUNGEON_OPTIONS 9
 
-KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu(Cursor& cursor, DungeonFlagsData& data)
-    : Menu(cursor), init_once(data.init_once), l_mapFlag(data.l_mapFlag),
-      l_compassFlag(data.l_compassFlag), l_bosskeyFlag(data.l_bosskeyFlag),
-      l_minibossFlag(data.l_minibossFlag), l_bossFlag(data.l_bossFlag), l_selDun(data.l_selDun),
-      l_keyNum(data.l_keyNum),
+KEEP_VAR DungeonFlagsData* dungeonFlagsData = nullptr;
+
+KEEP_FUNC DungeonFlagsMenu::DungeonFlagsMenu(Cursor& cursor)
+    : Menu(cursor),
       lines{
           {"dungeon:", SELECT_DUNGEON_INDEX, "Selected dungeon flags", false, nullptr,
            MAX_DUNGEON_OPTIONS},
           {"small keys", SMALL_KEY_FLAG_INDEX, "Selected dungeon small keys", false, nullptr, 5},
-          {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, &l_mapFlag},
+          {"have map", MAP_FLAG_INDEX, "Give selected dungeon map", true, [](){return dungeonFlagsData->l_mapFlag;}},
           {"have compass", COMPASS_FLAG_INDEX, "Give selected dungeon compass", true,
-           &l_compassFlag},
+           [](){return dungeonFlagsData->l_compassFlag;}},
           {"have boss key", BOSS_KEY_FLAG_INDEX, "Give selected dungeon boss key", true,
-           &l_bosskeyFlag},
+           [](){return dungeonFlagsData->l_bosskeyFlag;}},
           {"miniboss dead", DEFEAT_MINIBOSS_FLAG_INDEX, "Selected dungeon miniboss is defeated",
-           true, &l_minibossFlag},
+           true, [](){return dungeonFlagsData->l_minibossFlag;}},
           {"boss dead", DEFEAT_BOSS_FLAG_INDEX, "Selected dungeon boss is defeated", true,
-           &l_bossFlag},
+           [](){return dungeonFlagsData->l_bossFlag;}},
           {"clear flags", CLEAR_DUNGEON_FLAGS_INDEX, "Clear all selected dungeon flags"},
       } {}
 
@@ -51,16 +50,19 @@ void setSaveDungeonKeys(int32_t stage, uint8_t num) {
 }
 
 void DungeonFlagsMenu::draw() {
+    if (!dungeonFlagsData) {
+        return;
+    }
     cursor.setMode(Cursor::MODE_LIST);
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
-        init_once = false;
+        dungeonFlagsData->init_once = false;
         g_menuMgr->pop();
         return;
     }
 
     uint8_t area_id = 0;
-    switch (l_selDun) {
+    switch (dungeonFlagsData->l_selDun) {
     case 0:
         area_id = dSv_memory_c::FOREST_TEMPLE;
         break;
@@ -90,28 +92,28 @@ void DungeonFlagsMenu::draw() {
         break;
     }
 
-    if (!init_once) {
-        l_keyNum = getSaveDungeonKeys(area_id);
-        init_once = true;
+    if (!dungeonFlagsData->init_once) {
+        dungeonFlagsData->l_keyNum = getSaveDungeonKeys(area_id);
+        dungeonFlagsData->init_once = true;
     }
 
     switch (cursor.y) {
     case SELECT_DUNGEON_INDEX:
-        cursor.x = l_selDun;
+        cursor.x = dungeonFlagsData->l_selDun;
         cursor.move(MAX_DUNGEON_OPTIONS, MENU_LINE_NUM);
 
         if (cursor.y == SELECT_DUNGEON_INDEX) {
-            l_selDun = cursor.x;
+            dungeonFlagsData->l_selDun = cursor.x;
         }
-        l_keyNum = getSaveDungeonKeys(area_id);
+        dungeonFlagsData->l_keyNum = getSaveDungeonKeys(area_id);
         break;
     case SMALL_KEY_FLAG_INDEX:
-        cursor.x = l_keyNum;
+        cursor.x = dungeonFlagsData->l_keyNum;
         cursor.move(6, MENU_LINE_NUM);
 
         if (cursor.y == SMALL_KEY_FLAG_INDEX) {
-            l_keyNum = cursor.x;
-            setSaveDungeonKeys(area_id, l_keyNum);
+            dungeonFlagsData->l_keyNum = cursor.x;
+            setSaveDungeonKeys(area_id, dungeonFlagsData->l_keyNum);
             dComIfGs_getSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
         }
         break;
@@ -121,11 +123,11 @@ void DungeonFlagsMenu::draw() {
     }
 
     // update flags
-    l_mapFlag = getSaveDungeonItem(area_id, dSv_memBit_c::MAP);
-    l_compassFlag = getSaveDungeonItem(area_id, dSv_memBit_c::COMPASS);
-    l_bosskeyFlag = getSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY);
-    l_minibossFlag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY_2);
-    l_bossFlag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY);
+    dungeonFlagsData->l_mapFlag = getSaveDungeonItem(area_id, dSv_memBit_c::MAP);
+    dungeonFlagsData->l_compassFlag = getSaveDungeonItem(area_id, dSv_memBit_c::COMPASS);
+    dungeonFlagsData->l_bosskeyFlag = getSaveDungeonItem(area_id, dSv_memBit_c::BOSS_KEY);
+    dungeonFlagsData->l_minibossFlag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY_2);
+    dungeonFlagsData->l_bossFlag = getSaveDungeonItem(area_id, dSv_memBit_c::STAGE_BOSS_ENEMY);
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
@@ -146,7 +148,7 @@ void DungeonFlagsMenu::draw() {
             break;
         case CLEAR_DUNGEON_FLAGS_INDEX:
             memset(&dComIfGs_getSavedata().mSave[area_id].mBit, 0, sizeof(dSv_memBit_c));
-            l_keyNum = 0;
+            dungeonFlagsData->l_keyNum = 0;
             break;
         }
         // copy current stage save flags over temp flags
@@ -159,8 +161,8 @@ void DungeonFlagsMenu::draw() {
         "City in the Sky",   "Palace of Twilight", "Hyrule Castle",
     };
 
-    lines[SMALL_KEY_FLAG_INDEX].printf(" <%d>", l_keyNum);
-    lines[SELECT_DUNGEON_INDEX].printf(" <%s>", dun_opt[l_selDun].member);
+    lines[SMALL_KEY_FLAG_INDEX].printf(" <%d>", dungeonFlagsData->l_keyNum);
+    lines[SELECT_DUNGEON_INDEX].printf(" <%s>", dun_opt[dungeonFlagsData->l_selDun].member);
 
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }

@@ -6,6 +6,7 @@
 #include "libtp_c/include/f_op/f_op_actor_iter.h"
 #include "libtp_c/include/rel/d/a/b/d_a_b_ds.h"
 #include "libtp_c/include/rel/d/a/obj/d_a_obj_lv4sand.h"
+#include "libtp_c/include/d/d_procname.h"
 #include "rels/include/defines.h"
 
 typedef bool (*predicate_t)(fopAc_ac_c&);
@@ -61,11 +62,6 @@ KEEP_FUNC void SaveMngSpecial_BossFlags() {
 KEEP_FUNC void SaveMngSpecial_Goats1() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(5);
-}
-
-KEEP_FUNC void SaveMngSpecial_Goats2() {
-    gSaveManager.injectDefault_during();
-    setNextStageLayer(4);
 }
 
 KEEP_FUNC void SaveMngSpecial_Hugo() {
@@ -169,6 +165,16 @@ KEEP_FUNC void SaveMngSpecial_Iza1Skip() {
     setNextStageLayer(4);
 }
 
+KEEP_FUNC void SaveMngSpecial_AnyPlummOoB() {
+    gSaveManager.injectDefault_during();
+    g_dComIfG_gameInfo.info.mRestart.mLastMode = 0xA;  // spawn on kargorok
+    setNextStageName("F_SP112");                       // set stage to river
+    setNextStageRoom(1);
+    setNextStagePoint(0);
+    setNextStageLayer(4);
+    bossFlags = 0xFF;
+}
+
 KEEP_FUNC void SaveMngSpecial_Stallord() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mZone[0].mBit.mSwitch[0] |= 0x300000;  // turn off intro cs, start fight
@@ -178,31 +184,18 @@ KEEP_FUNC void SaveMngSpecial_Stallord() {
 KEEP_FUNC void SaveMngSpecial_Stallord2() {
     gSaveManager.mPracticeFileOpts.inject_options_after_counter = 20;
 
-    daB_DS_c* stallord = (daB_DS_c*)fopAcM_SearchByName(246);          // stallord proc name
-    daObjLv4Sand_c* sand = (daObjLv4Sand_c*)fopAcM_SearchByName(189);  // sand proc name
+    daB_DS_c* stallord = (daB_DS_c*)fopAcM_SearchByName(PROC_B_DS);
+    // create the phase 2 version of stallord
+    fopAcM_create(PROC_B_DS, fopAcM_GetParam(stallord) | 2, &stallord->current.pos,
+                  fopAcM_GetRoomNo(stallord), nullptr, nullptr, -1);
+    fopAcM_delete(stallord);  // delete phase 1 stallord
 
-    if (stallord != NULL) {
-        stallord->mBase.mParameters |= 0x2;   // make actor phase 2 version
-        stallord->mAttentionInfo.mFlags = 4;  // makes stallord targetable when hit down
-        stallord->mActionMode1 = 1;           // make stallord head active
-        stallord->mGravity = 0.0f;            // change gravity to 0
-        g_env_light.mWeatherPalette = 2;      // set arena light
-        sand->speed.y = 1000.0f;             // move sand out of the way
+    daObjLv4Wall_c* rwall = (daObjLv4Wall_c*)fopAcM_SearchByName(PROC_Obj_Lv4RailWall);
+    daObjSwSpinner_c* spinnersw = (daObjSwSpinner_c*)fopAcM_SearchByName(PROC_Obj_SwSpinner);
 
-        dComIfGs_onOneZoneSwitch(6, stallord->current.roomNo);
-        dComIfGs_onZoneSwitch(7, stallord->current.roomNo);  // sets arena to raised
-
-        stallord->current.pos.x = -2097.20f;  //-2397.22f;
-        stallord->current.pos.y = 1022.21f;   // 1697.20f;
-        stallord->current.pos.z = -1246.87f;  // 1131.33f;
-
-        dComIfGp_getPlayer()->current.pos.x = 644.91f;
-        dComIfGp_getPlayer()->current.pos.y = 300.3158f;
-        dComIfGp_getPlayer()->current.pos.z = 2195.0237f;
-        dComIfGp_getPlayer()->shape_angle.y = 39350;
-        // matrixInfo.matrix_info->target = {865.203f, -1414.390f, 2496.8774f};
-        // matrixInfo.matrix_info->pos = {644.438f, -1480.324f, 2194.693f};
-    }
+    spinnersw->mRotSpeedY = 3000;  // set arena spinner switch to max speed
+    rwall->field_0x954 = 101;  // set spinner switch speed counter to threshold
+    rwall->mHeight = 3370.0f;  // set arena height to max
 }
 
 KEEP_FUNC void SaveMngSpecial_Stallord2_init() {
@@ -232,7 +225,7 @@ KEEP_FUNC void SaveMngSpecial_ToTEarlyHP() {
     gSaveManager.setSaveAngle(0);
     gSaveManager.setSavePosition(-6626.f, 5250.0f, -5587.f);
     gSaveManager.setLinkInfo();
-    dComIfGs_onSwitch(224, 4);   // gate moved to correct pos
+    dComIfGs_onSwitch(224, 4);  // gate moved to correct pos
 }
 
 KEEP_FUNC void SaveMngSpecial_HugoArchery() {
@@ -245,10 +238,6 @@ KEEP_FUNC void SaveMngSpecial_CityPoeCycle() {
     gSaveManager.setSaveAngle(71);
     gSaveManager.setSavePosition(-14005.31f, 3000.0f, -15854.05f);
     gSaveManager.setLinkInfo();
-}
-
-KEEP_FUNC void SaveMngSpecial_AeralfosSkip() {
-    dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;  // clawshot out
 }
 
 KEEP_FUNC void SaveMngSpecial_FanTower() {
@@ -287,6 +276,7 @@ KEEP_FUNC void BeastGanonSpecial_setLayer() {
 KEEP_FUNC void SaveMngSpecial_emptyLake() {
     gSaveManager.injectDefault_during();
     setNextStageLayer(4);
+    bossFlags = 0xFF;
 }
 
 KEEP_FUNC void SaveMngSpecial_NoSQAeralfos() {

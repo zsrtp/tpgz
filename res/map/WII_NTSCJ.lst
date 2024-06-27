@@ -2,6 +2,8 @@
 // right before m_Do_graphic::mDoGph_gInf_c::m_aspect
 8051dfc8:isWidescreen
 80012084:dbg_inst
+// crash address for testing in PRs
+8051b460:gzCrashReport
 
 // memory
 8000443c:memset
@@ -198,6 +200,7 @@
 803af9e4:strcpy
 803afaa4:strncpy
 803aa028:strlen
+803afae8:strcat
 
 // math
 803b39d0:atan
@@ -23080,6 +23083,7 @@ CC008000:wgPipe
 8051aef4:_MetroTRK_Has_Framing
 8051af00:gRecvBuf
 8051b400:gRecvCB
+8051f200:sOldVcdVatCmd__8J3DShape
 0x1,5,0:g_fpcPfLst_ProfileList
 0x2,1,5c:daAndsw_c__Create_void_
 0x2,1,94:daAndsw_c__create_void_

@@ -5,19 +5,24 @@
 #include "../../SSystem/SComponent/c_bg_s_lin_chk.h"
 #include "../bg/d_bg_w.h"
 
+class fopAc_ac_c;
+
 class cBgS_ChkElm {
-    /* 0x00 */ dBgW_Base* bgw_base_pointer;
-    /* 0x04 */ u8 used;
-    /* 0x05 */ u8 padding[3];
+public:
+    /* 0x00 */ dBgW_Base* m_bgw_base_ptr;
+    /* 0x04 */ bool m_used;
     /* 0x08 */ u32 field_0x8;
-    /* 0x0C */ void* actor_pointer;
+    /* 0x0C */ fopAc_ac_c* m_actor_ptr;
     /* 0x10 */ void* vtable;
+
+    bool ChkUsed() const { return m_used; }
 };  // Size = 0x14
 
 static_assert(sizeof(cBgS_ChkElm) == 0x14);
 
 class cBgS {
-    /* 0x0000 */ cBgS_ChkElm cbgs_elements[256];
+public:
+    /* 0x0000 */ cBgS_ChkElm m_chk_element[256];
     /* 0x1400 */ void* vtable;
 };  // Size = 0x1404
 

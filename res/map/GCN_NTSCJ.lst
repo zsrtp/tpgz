@@ -1,3 +1,7 @@
+// special
+// crash address for testing in PRs
+8044A6C0:gzCrashReport
+
 // memory
 80003458:memset
 80003540:memcpy
@@ -18200,6 +18204,7 @@ CC008000:wgPipe
 80449964:_MetroTRK_Has_Framing
 8044a190:gRecvBuf
 8044a690:gRecvCB
+8044b710:sOldVcdVatCmd__8J3DShape
 0x1,5,0:g_fpcPfLst_ProfileList
 0x2,1,78:Create__9daAndsw_cFv
 0x2,1,b8:create__9daAndsw_cFv

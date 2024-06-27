@@ -5,10 +5,13 @@
 #include "global_data.h"
 #include "gz_flags.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
-#include "menu.h"
+#include "menus/menu.h"
 #include "settings.h"
 #include "menus/utils/menu_mgr.h"
 #include "timer.h"
+#include "pos_settings.h"
+#include "trigger_view.h"
+#include "collision_view.h"
 #include "utils/card.h"
 #include "utils/draw.h"
 #include "utils/link.h"
@@ -34,9 +37,6 @@ _FIFOQueue Queue;
 bool l_loadCard = true;
 Texture l_gzIconTex;
 bool last_frame_was_loading = false;
-tpgz::dyn::GZModule g_InputViewer_rel("/tpgz/rels/features/input_viewer.rel");
-tpgz::dyn::GZModule g_FreeCam_rel("/tpgz/rels/features/free_cam.rel");
-tpgz::dyn::GZModule g_MoveLink_rel("/tpgz/rels/features/movelink.rel");
 
 #define Q(x) #x
 #define QUOTE(x) Q(x)
@@ -107,34 +107,14 @@ KEEP_FUNC void draw() {
 }
 }
 
-/**
- * @brief Loads into memory the RELs for each tool which is active.
- *
- * @param id    The ID of the tool (index in g_tools).
- * @param rel   The GZModule object used to load the REL.
- */
-inline void handleModule(size_t id, tpgz::dyn::GZModule& rel) {
-    if (g_tools[id].active && !rel.isLoaded()) {
-        rel.loadFixed(true);
-    }
-    if (!g_tools[id].active && rel.isLoaded()) {
-        rel.close();
+KEEP_FUNC void GZ_drawPacketNumOverflow() {
+    if (l_drawPacketListNum >= 1000) {
+        Font::GZ_drawStr("Draw Packet List full!", 35.0f, 430.0f, 0xFFFFFFFF, GZ_checkDropShadows());
     }
 }
 
 /**
- * @brief   Handles when to load tools into memory.
- *          Registered to run before the main loop.
- */
-KEEP_FUNC void GZ_handleTools() {
-    // Put modules that toggles with the state of g_tools
-    handleModule(INPUT_VIEWER_INDEX, g_InputViewer_rel);
-    handleModule(FREE_CAM_INDEX, g_FreeCam_rel);
-    handleModule(MOVE_LINK_INDEX, g_MoveLink_rel);
-}
-
-/**
- * @brief Handles when to show/hid the menus.
+ * @brief Handles when to show/hide the menus.
  */
 KEEP_FUNC void GZ_handleMenu() {
     if (BUTTONS == SHOW_MENU_BUTTONS && fopScnRq.isLoading != 1 && !g_moveLinkEnabled) {
@@ -152,6 +132,7 @@ KEEP_FUNC void GZ_handleMenu() {
     if (fopScnRq.isLoading) {
         g_menuMgr->hide();
         g_moveLinkEnabled = false;
+        g_actorViewEnabled = false;
         last_frame_was_loading = true;
         g_freeCamEnabled = false;
     }
@@ -193,7 +174,7 @@ KEEP_FUNC void GZ_handleFlags_PostLoop() {
 }
 
 KEEP_FUNC void GZ_handleTurbo() {
-    if (g_tools[TURBO_MODE_INDEX].active) {
+    if (GZStng_getData(STNG_TOOLS_TURBO_MODE, false)) {
 #ifdef GCN_PLATFORM
         cPadInfo[0].mPressedButtonFlags = cPadInfo[0].mButtonFlags;
 #endif
@@ -208,10 +189,11 @@ KEEP_FUNC void GZ_handleTurbo() {
 
 KEEP_FUNC void GZ_renderMenuTitle() {
     if (g_menuMgr->isOpen()) {
-        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, g_spriteOffsets[MENU_INDEX].x + 35.0f, 25.0f,
-                         g_cursorColor, g_dropShadows);
+        Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
+        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, spriteOffset.x + 35.0f, 25.0f,
+                         g_cursorColor, GZ_checkDropShadows());
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
-            Draw::drawRect(0xFFFFFFFF, {g_spriteOffsets[MENU_INDEX].x, 5.0f},
+            Draw::drawRect(0xFFFFFFFF, {spriteOffset.x, 5.0f},
                            {30 * (isWidescreen ? 0.75f : 1.0f), 30}, &l_gzIconTex._texObj);
         }
     }
@@ -221,7 +203,7 @@ Texture l_framePauseTex;
 Texture l_framePlayTex;
 
 KEEP_FUNC void GZ_renderPlayPause() {
-    if (g_tools[FRAME_ADVANCE_INDEX].active) {
+    if (GZStng_getData(STNG_TOOLS_FRAME_ADVANCE, false)) {
         if (l_framePauseTex.loadCode == TexCode::TEX_UNLOADED) {
             load_texture("/tpgz/tex/framePause.tex", &l_framePauseTex);
         }

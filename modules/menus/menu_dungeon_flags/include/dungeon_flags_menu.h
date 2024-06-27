@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
 
 struct DungeonFlagsData {
     bool init_once = false;
@@ -23,22 +23,15 @@ enum DungeonFlagsIndex {
     CLEAR_DUNGEON_FLAGS_INDEX
 };
 
+extern DungeonFlagsData* dungeonFlagsData;
+
 class DungeonFlagsMenu : public Menu {
 public:
-    DungeonFlagsMenu(Cursor&, DungeonFlagsData&);
+    DungeonFlagsMenu(Cursor&);
     virtual ~DungeonFlagsMenu();
     virtual void draw();
 
 private:
-    bool& init_once;
-
-    bool& l_mapFlag;
-    bool& l_compassFlag;
-    bool& l_bosskeyFlag;
-    bool& l_minibossFlag;
-    bool& l_bossFlag;
-    int& l_selDun;
-    uint8_t& l_keyNum;
 
     Line lines[8];
 };

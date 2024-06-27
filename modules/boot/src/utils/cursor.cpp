@@ -16,7 +16,7 @@ KEEP_FUNC void Cursor::move(int max_x, int max_y) {
         }
 
         if (!lock_y) {
-            y > 0 ? y-- : y = max_y - 1;
+            --y;
         }
     }
 
@@ -26,7 +26,7 @@ KEEP_FUNC void Cursor::move(int max_x, int max_y) {
         }
 
         if (!lock_y) {
-            y < max_y - 1 ? y++ : y = 0;
+            ++y;
         }
     }
 
@@ -38,7 +38,7 @@ KEEP_FUNC void Cursor::move(int max_x, int max_y) {
                 y = max_y - 1;
             }
         } else if (!lock_x) {
-            x < max_x - 1 ? x++ : x = 0;
+            ++x;
         }
     }
 
@@ -50,9 +50,13 @@ KEEP_FUNC void Cursor::move(int max_x, int max_y) {
                 y = 0;
             }
         } else if (!lock_x) {
-            x > 0 ? x-- : x = max_x - 1;
+            --x;
         }
     }
+
+    // wrap around
+    x = (x + max_x) % max_x;
+    y = (y + max_y) % max_y;
 }
 
 KEEP_FUNC void Cursor::reset() {
@@ -72,25 +76,12 @@ KEEP_FUNC void Cursor::setMode(uint8_t m) {
     mode = m;
 }
 
+uint32_t l_cursorMapping[] = {0x00CC00FF, 0x0080FFFF, 0xCC0000FF,
+                              0xEE8000FF, 0xFFCC00FF, 0x6600CCFF};
+
 KEEP_FUNC void GZ_setCursorColor() {
-    switch (g_cursorColorType) {
-    case CURSOR_GREEN:
-        g_cursorColor = 0x00CC00FF;
-        break;
-    case CURSOR_BLUE:
-        g_cursorColor = 0x0080FFFF;
-        break;
-    case CURSOR_RED:
-        g_cursorColor = 0xCC0000FF;
-        break;
-    case CURSOR_ORANGE:
-        g_cursorColor = 0xEE8000FF;
-        break;
-    case CURSOR_YELLOW:
-        g_cursorColor = 0xFFCC00FF;
-        break;
-    case CURSOR_PURPLE:
-        g_cursorColor = 0x6600CCFF;
-        break;
+    uint32_t colorId = GZStng_getData(STNG_CURSOR_COLOR, 0);
+    if (colorId < ARRAY_COUNT(l_cursorMapping)) {
+        g_cursorColor = l_cursorMapping[colorId];
     }
 }

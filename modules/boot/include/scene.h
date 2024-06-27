@@ -14,14 +14,17 @@ enum SceneIndex {
     TIME_MINUTES_INDEX,
     ACTOR_MENU_INDEX,
     ACTOR_LIST_INDEX,
+    COLLISION_VIEW_INDEX,
+    PROJECTION_VIEW_INDEX,
+    TRIGGER_VIEW_INDEX,
+
+    SCENE_MENU_MAX
 };
 
 struct SceneItem {
     enum SceneIndex id;
     bool active;
 };
-
-extern SceneItem g_sceneFlags[SCENE_AMNT];
 
 void GZ_freezeTime();
 void GZ_freezeCamera();

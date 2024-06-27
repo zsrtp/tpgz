@@ -1,7 +1,7 @@
 #ifndef J3DSTRUCT_H
 #define J3DSTRUCT_H
 
-#include "../../dolphin/gx/GXTexture.h"
+#include "../../dolphin/gx/gx.h"
 #include "../../dolphin/mtx/vec.h"
 
 class J3DLightInfo {

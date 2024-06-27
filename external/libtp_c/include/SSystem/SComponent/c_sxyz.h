@@ -17,10 +17,6 @@ public:
         this->y = y;
         this->z = z;
     }
-    /* 80267404 */ csXyz operator+(csXyz&);
-    /* 8026745C */ void operator+=(csXyz&);
-    /* 80267490 */ csXyz operator-(csXyz&);
-    /* 802674E8 */ csXyz operator*(f32);
 };
 
 #endif /* C_SXYZ_H */

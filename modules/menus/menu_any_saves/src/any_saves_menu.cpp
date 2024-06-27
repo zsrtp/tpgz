@@ -131,7 +131,7 @@ void AnySavesMenu::draw() {
             special(ORDON_GATE_CLIP_INDEX, nullptr, SaveMngSpecial_OrdonRock),
             special(HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
             special(KARG_INDEX, SaveMngSpecial_KargOoB, nullptr),
-            special(PLUMM_OOB_INDEX, SaveMngSpecial_Iza1Skip, nullptr),
+            special(PLUMM_OOB_INDEX, SaveMngSpecial_AnyPlummOoB, nullptr),
             special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
             special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
             special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
@@ -149,6 +149,7 @@ void AnySavesMenu::draw() {
             special(PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
             special(ELH_INDEX, SaveMngSpecial_emptyLake, nullptr),
+            special(IZA_INDEX, SaveMngSpecial_BossFlags, nullptr),
         };
 #endif
 #ifdef WII_PLATFORM
@@ -168,11 +169,10 @@ void AnySavesMenu::draw() {
             special(BEAST_GANON_INDEX, BeastGanonSpecial_setLayer, nullptr),
         };
 #endif
-        SaveManager::triggerLoad(cursor.y, "any", AnySpecials,
-                                 sizeof(AnySpecials) / sizeof(AnySpecials[0]));
+        SaveManager::triggerLoad(cursor.y, "any", AnySpecials, ARRAY_COUNT(AnySpecials));
         g_menuMgr->hide();
     }
 
-    cursor.move(0, sizeof(lines) / sizeof(lines[0]));
-    GZ_drawMenuLines(lines, cursor.y, sizeof(lines) / sizeof(lines[0]));
+    cursor.move(0, ARRAY_COUNT(lines));
+    GZ_drawMenuLines(lines, cursor.y, ARRAY_COUNT(lines));
 }

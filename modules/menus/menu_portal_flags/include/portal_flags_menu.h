@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "menus/menu.h"
 
 struct PortalFlagsData {
     bool l_mapRegion;
@@ -41,31 +41,14 @@ enum PortalFlagsIndex {
     MIRROR_WARP_INDEX
 };
 
+extern PortalFlagsData* portalFlagsData;
+
 class PortalFlagsMenu : public Menu {
 public:
-    PortalFlagsMenu(Cursor&, PortalFlagsData&);
+    PortalFlagsMenu(Cursor&);
     virtual ~PortalFlagsMenu();
     virtual void draw();
 
 private:
-    bool& l_mapRegion;
-    uint8_t& l_selRegion;
-
-    bool& l_springWarp;
-    bool& l_sfaronWarp;
-    bool& l_nfaronWarp;
-    bool& l_groveWarp;
-    bool& l_gorgeWarp;
-    bool& l_kakWarp;
-    bool& l_mountainWarp;
-    bool& l_bridgeWarp;
-    bool& l_ctWarp;
-    bool& l_lakeWarp;
-    bool& l_domainWarp;
-    bool& l_uzrWarp;
-    bool& l_snowpeakWarp;
-    bool& l_mesaWarp;
-    bool& l_mirrorWarp;
-
     Line lines[17];
 };

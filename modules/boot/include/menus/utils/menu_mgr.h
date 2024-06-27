@@ -5,7 +5,7 @@
 #include <boot/include/utils/containers/stack.h>
 #include "utils/rels.h"
 #include "utils/cursor.h"
-#include "menu.h"
+#include "menus/menu.h"
 
 // Namespace for internal classes.
 namespace menus {

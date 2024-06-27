@@ -16,6 +16,7 @@ enum ToolsIndex {
     HEAP_DEBUG_INDEX,
     SAND_INDEX,
     ROLL_INDEX,
+    MASH_CHECKER_INDEX,
     TELEPORT_INDEX,
     TURBO_MODE_INDEX,
     TIMER_INDEX,
@@ -47,3 +48,5 @@ extern TunicColor TunicColors[TUNIC_COLOR_AMNT];
 extern Tool g_tools[TOOLS_COUNT];
 
 extern int g_tunic_color;
+
+void GZ_handleTools();

@@ -31,9 +31,9 @@ KEEP_FUNC WarpingMenu::WarpingMenu(WarpingData& data)
 
 WarpingMenu::~WarpingMenu() {}
 
-enum { DUNGEON, OVERWORLD, INTERIOR, CAVE, SPECIAL };
+enum { CAVE, DUNGEON, INTERIOR, OVERWORLD, SPECIAL };
 
-char stage_types[5][10] = {"dungeon", "overworld", "interior", "cave", "special"};
+char stage_types[5][10] = {"cave", "dungeon", "interior", "overworld", "special"};
 
 void WarpingMenu::loadPrevInfo(void* buffer, signed long& counter, signed long length, char max_num,
                                int offset) {
@@ -53,17 +53,17 @@ void WarpingMenu::loadNextInfo(void* buffer, signed long& counter, signed long l
 
 void WarpingMenu::setStagePath(int current_stage_type) {
     switch (current_stage_type) {
+    case CAVE:
+        strcpy(l_filePath, "tpgz/stage_info/cave.bin");
+        break;
     case DUNGEON:
         strcpy(l_filePath, "tpgz/stage_info/dungeon.bin");
-        break;
-    case OVERWORLD:
-        strcpy(l_filePath, "tpgz/stage_info/overworld.bin");
         break;
     case INTERIOR:
         strcpy(l_filePath, "tpgz/stage_info/interior.bin");
         break;
-    case CAVE:
-        strcpy(l_filePath, "tpgz/stage_info/cave.bin");
+    case OVERWORLD:
+        strcpy(l_filePath, "tpgz/stage_info/overworld.bin");
         break;
     case SPECIAL:
         strcpy(l_filePath, "tpgz/stage_info/special.bin");
@@ -102,7 +102,7 @@ void WarpingMenu::loadNextRoomInfo() {
 }
 
 void WarpingMenu::loadNextSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/sp.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx += SPAWN_OFFSET;
     WarpingMenu::loadNextInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,
@@ -110,7 +110,7 @@ void WarpingMenu::loadNextSpawnInfo() {
 }
 
 void WarpingMenu::loadPrevSpawnInfo() {
-    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/spawns.bin",
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s/%02d/sp.bin",
              l_warpInfo.stage_info.stage_id, (int)l_warpInfo.room_info.room_id[0]);
     l_spawnIdx -= SPAWN_OFFSET;
     WarpingMenu::loadPrevInfo(&l_warpInfo.spawn_info, l_spawnIdx, SPAWN_READ_LENGTH,

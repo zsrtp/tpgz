@@ -29,8 +29,15 @@ public:
     J3DPacket* mpCallBackPacket;
 };
 
-typedef void (*J3DDrawBuffer__entryImm_t)(J3DDrawBuffer*, J3DPacket* packet, u16);
-#define J3DDrawBuffer__entryImm ((J3DDrawBuffer__entryImm_t)J3DDrawBuffer__entryImm_addr)
+LIBTP_DEFINE_FUNC(entryImm__13J3DDrawBufferFP9J3DPacketUs, J3DDrawBuffer__entryImm_J3DPacket____unsigned_short_,
+                  bool, J3DDrawBuffer__entryImm, (J3DDrawBuffer*, J3DPacket* packet, u16))
+#ifndef WII_PLATFORM
+#define J3DPacket__entry entry__9J3DPacketFP13J3DDrawBuffer
+#else
+#define J3DPacket__entry J3DPacket__entry_J3DDrawBuffer___
+#endif
+
+extern "C" int J3DPacket__entry(J3DPacket*, J3DDrawBuffer*);
 
 class J3DDisplayListObj {
 public:
@@ -39,23 +46,40 @@ public:
     u32 mCapacity;
 };
 
+struct J3DPacket__vtable_t {
+    void* rtti;
+    void* padding;
+    void* entry;
+    void* draw;
+    void* dtor;
+};
+
+#ifndef WII_PLATFORM
+#define J3DPacket__vtable __vt__9J3DPacket
+#else
+#define J3DPacket__vtable J3DPacket____vt
+#endif
+
+extern "C" J3DPacket__vtable_t J3DPacket__vtable;
+
 class J3DPacket {
 public:
     J3DPacket() {
-        mpNextSibling = NULL;
+        vtable = &J3DPacket__vtable;
+        mpNextPacket = NULL;
         mpFirstChild = NULL;
         mpUserData = NULL;
     }
 
     void clear() {
-        mpNextSibling = NULL;
+        mpNextPacket = NULL;
         mpFirstChild = NULL;
     }
 
-    J3DPacket* getNextPacket() const { return mpNextSibling; }
+    J3DPacket* getNextPacket() const { return mpNextPacket; }
 
-    /* 0x00 */ void* vtable;
-    /* 0x04 */ J3DPacket* mpNextSibling;
+    /* 0x00 */ J3DPacket__vtable_t* vtable;
+    /* 0x04 */ J3DPacket* mpNextPacket;
     /* 0x08 */ J3DPacket* mpFirstChild;
     /* 0x0C */ void* mpUserData;
 };

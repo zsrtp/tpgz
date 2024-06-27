@@ -5,12 +5,11 @@
 
 // Axis aligned bounding box
 class cM3dGAab {
-private:
 public:
     cXyz mMin;
     cXyz mMax;
+    void* vtable;
 
-    virtual ~cM3dGAab();
     const cXyz& getMaxP(void) const { return mMax; }
     const cXyz& getMinP(void) const { return mMin; }
     const f32 GetMaxX(void) const { return mMax.x; }
@@ -20,5 +19,7 @@ public:
     const f32 GetMinY(void) const { return mMin.y; }
     const f32 GetMinZ(void) const { return mMin.z; }
 };  // Size = 0x1C
+
+static_assert(sizeof(cM3dGAab) == 0x1C);
 
 #endif /* C_M3D_G_AAB_H */

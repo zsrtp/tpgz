@@ -5,7 +5,6 @@ void SaveMngSpecial_OrdonRock();
 void SaveMngSpecial_BossFlags();
 
 void SaveMngSpecial_Goats1();
-void SaveMngSpecial_Goats2();
 
 void SaveMngSpecial_Hugo();
 void SaveMngSpecial_SpawnHugo();
@@ -29,6 +28,7 @@ void SaveMngSpecial_LakebedBKSkip();
 void SaveMngSpecial_Morpheel();
 
 void SaveMngSpecial_Iza1Skip();
+void SaveMngSpecial_AnyPlummOoB();
 
 void SaveMngSpecial_Stallord();
 void SaveMngSpecial_Stallord2();
@@ -39,7 +39,6 @@ void SaveMngSpecial_ToTEarlyHP();
 
 void SaveMngSpecial_HugoArchery();
 
-void SaveMngSpecial_AeralfosSkip();
 void SaveMngSpecial_CityPoeCycle();
 void SaveMngSpecial_FanTower();
 void SaveMngSpecial_Argorok();

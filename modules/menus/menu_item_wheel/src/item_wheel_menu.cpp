@@ -13,11 +13,15 @@
 #ifdef GCN_PLATFORM
 #define DEFAULT_BTN_TXT "Z"
 #define DEFAULT_BTN GZPad::Z
+#define RESET_BTN_TXT "X"
+#define RESET_BUTTON GZPad::X
 #endif
 
 #ifdef WII_PLATFORM
 #define DEFAULT_BTN_TXT "+"
 #define DEFAULT_BTN GZPad::PLUS
+#define RESET_BTN_TXT "-"
+#define RESET_BUTTON GZPad::MINUS
 #endif
 
 KEEP_FUNC ItemWheelMenu::ItemWheelMenu(Cursor& cursor, ItemWheelData& data)
@@ -51,36 +55,35 @@ KEEP_FUNC ItemWheelMenu::ItemWheelMenu(Cursor& cursor, ItemWheelData& data)
 ItemWheelMenu::~ItemWheelMenu() {}
 
 const uint8_t l_validItems[] = {
-    DUNGEON_EXIT,    DUNGEON_BACK,
-    TKS_LETTER,      HAWK_EYE,
-    BOOMERANG,       SPINNER,
-    IRONBALL,        BOW,
-    HOOKSHOT,        HVY_BOOTS,
-    COPY_ROD,        W_HOOKSHOT,
-    KANTERA,         MASTER_SWORD,
-    FISHING_ROD_1,   PACHINKO,
-    BOMB_BAG_LV1,    BEE_ROD,
-    JEWEL_ROD,       WORM_ROD,
-    JEWEL_BEE_ROD,   JEWEL_WORM_ROD,
-    EMPTY_BOTTLE,    RED_BOTTLE,
-    GREEN_BOTTLE,    BLUE_BOTTLE,
-    MILK_BOTTLE,     HALF_MILK_BOTTLE,
-    OIL_BOTTLE,      WATER_BOTTLE,
-    UGLY_SOUP,       HOT_SPRING,
-    FAIRY,           NORMAL_BOMB,
-    WATER_BOMB,      POKE_BOMB,
-    FAIRY_DROP,      WORM,
-    BEE_CHILD,       CHUCHU_RARE,
-    CHUCHU_RED,      CHUCHU_BLUE,
-    CHUCHU_GREEN,    CHUCHU_YELLOW,
-    CHUCHU_PURPLE,   LV1_SOUP,
-    LV2_SOUP,        LV3_SOUP,
-    LETTER,          BILL,
-    WOOD_STATUE,     IRIAS_PENDANT,
-    HORSE_FLUTE,     RAFRELS_MEMO,
-    ASHS_SCRIBBLING, ANCIENT_DOCUMENT,
-    AIR_LETTER,      ANCIENT_DOCUMENT2,
-    NO_ITEM,
+    NO_ITEM,            ANCIENT_DOCUMENT,
+    ANCIENT_DOCUMENT2,  AIR_LETTER,
+    ASHS_SCRIBBLING,    RAFRELS_MEMO,
+    IRONBALL,           BEE_CHILD,
+    CHUCHU_BLUE,        BLUE_BOTTLE,
+    POKE_BOMB,          HOOKSHOT,
+    COPY_ROD,           W_HOOKSHOT,
+    BOMB_BAG_LV1,       EMPTY_BOTTLE,
+    FAIRY,              FAIRY_DROP,
+    FISHING_ROD_1,      BEE_ROD,
+    JEWEL_ROD,          JEWEL_BEE_ROD,
+    JEWEL_WORM_ROD,     WORM_ROD,
+    BOOMERANG,          LV2_SOUP,
+    CHUCHU_GREEN,       HALF_MILK_BOTTLE,
+    HAWK_EYE,           BOW,
+    HORSE_FLUTE,        HOT_SPRING,
+    IRIAS_PENDANT,      BILL,
+    HVY_BOOTS,          KANTERA,
+    OIL_BOTTLE,         GREEN_BOTTLE,
+    MILK_BOTTLE,        UGLY_SOUP,
+    DUNGEON_BACK,       DUNGEON_EXIT,
+    TKS_LETTER,         CHUCHU_PURPLE,
+    CHUCHU_RARE,        CHUCHU_RED,
+    RED_BOTTLE,         NORMAL_BOMB,
+    LETTER,             LV1_SOUP,
+    PACHINKO,           SPINNER,
+    LV3_SOUP,           WATER_BOTTLE,
+    WATER_BOMB,         WOOD_STATUE,
+    WORM,               CHUCHU_YELLOW
 };
 
 const uint8_t l_defaultItems[ITEM_WHEEL_SLOTS] = {
@@ -92,64 +95,64 @@ const uint8_t l_defaultItems[ITEM_WHEEL_SLOTS] = {
 };
 
 const ItemLookup l_lookupTbl[MAX_ITEMS] = {
-    {DUNGEON_EXIT, "Ooccoo Sr."},
-    {DUNGEON_BACK, "Ooccoo Jr."},
-    {TKS_LETTER, "Ooccoo's note"},
-    {HAWK_EYE, "hawkeye"},
-    {BOOMERANG, "gale boomerang"},
-    {SPINNER, "spinner"},
+    {NO_ITEM, "n/a"},
+    {ANCIENT_DOCUMENT, "ancient sky book (empty)"},
+    {ANCIENT_DOCUMENT2, "ancient sky book (filled)"},
+    {AIR_LETTER, "ancient sky book (partial)"},
+    {ASHS_SCRIBBLING, "ashei's sketch"},
+    {RAFRELS_MEMO, "auru's memo"},
     {IRONBALL, "ball and chain"},
-    {BOW, "hero's bow"},
+    {BEE_CHILD, "bee larva"},
+    {CHUCHU_BLUE, "blue chu"},
+    {BLUE_BOTTLE, "blue potion"},
+    {POKE_BOMB, "bomblings"},
     {HOOKSHOT, "clawshot"},
-    {HVY_BOOTS, "iron boots"},
     {COPY_ROD, "dominion rod"},
     {W_HOOKSHOT, "double clawshot"},
-    {KANTERA, "lantern"},
-    {PACHINKO, "slingshot"},
-    {FISHING_ROD_1, "fishing rod"},
     {BOMB_BAG_LV1, "empty bomb bag"},
+    {EMPTY_BOTTLE, "empty bottle"},
+    {FAIRY, "fairy"},
+    {FAIRY_DROP, "fairy tears"},
+    {FISHING_ROD_1, "fishing rod"},
     {BEE_ROD, "fishing rod (bee larva)"},
     {JEWEL_ROD, "fishing rod (coral earring)"},
-    {WORM_ROD, "fishing rod (worm)"},
     {JEWEL_BEE_ROD, "fishing rod (coral earring/bee larva)"},
     {JEWEL_WORM_ROD, "fishing rod (coral earring/worm)"},
-    {EMPTY_BOTTLE, "empty bottle"},
-    {RED_BOTTLE, "red potion"},
-    {GREEN_BOTTLE, "magic potion"},
-    {BLUE_BOTTLE, "blue potion"},
-    {MILK_BOTTLE, "milk"},
+    {WORM_ROD, "fishing rod (worm)"},
+    {BOOMERANG, "gale boomerang"},
+    {LV2_SOUP, "good soup"},
+    {CHUCHU_GREEN, "green chu"},
     {HALF_MILK_BOTTLE, "half milk"},
-    {OIL_BOTTLE, "lantern oil"},
-    {WATER_BOTTLE, "water"},
-    {UGLY_SOUP, "nasty soup"},
+    {HAWK_EYE, "hawkeye"},
+    {BOW, "hero's bow"},
+    {HORSE_FLUTE, "horse call"},
     {HOT_SPRING, "hot spring water"},
-    {FAIRY, "fairy"},
-    {NORMAL_BOMB, "regular bombs"},
-    {WATER_BOMB, "water bombs"},
-    {POKE_BOMB, "bomblings"},
-    {FAIRY_DROP, "fairy tears"},
-    {WORM, "worm"},
-    {BEE_CHILD, "bee larva"},
+    {IRIAS_PENDANT, "Ilia's charm"},
+    {BILL, "invoice"},
+    {HVY_BOOTS, "iron boots"},
+    {KANTERA, "lantern"},
+    {OIL_BOTTLE, "lantern oil"},
+    {GREEN_BOTTLE, "magic potion"},
+    {MILK_BOTTLE, "milk"},
+    {UGLY_SOUP, "nasty soup"},
+    {DUNGEON_BACK, "ooccoo Jr."},
+    {DUNGEON_EXIT, "ooccoo Sr."},
+    {TKS_LETTER, "ooccoo's note"},
+    {CHUCHU_PURPLE, "purple chu"},
     {CHUCHU_RARE, "rare chu"},
     {CHUCHU_RED, "red chu"},
-    {CHUCHU_BLUE, "blue chu"},
-    {CHUCHU_GREEN, "green chu"},
-    {CHUCHU_YELLOW, "yellow chu"},
-    {CHUCHU_PURPLE, "purple chu"},
+    {RED_BOTTLE, "red potion"},
+    {NORMAL_BOMB, "regular bombs"},
+    {LETTER, "renado's letter"},
     {LV1_SOUP, "simple soup"},
-    {LV2_SOUP, "good soup"},
+    {PACHINKO, "slingshot"},
+    {SPINNER, "spinner"},
     {LV3_SOUP, "superb soup"},
-    {LETTER, "Renado's letter"},
-    {BILL, "invoice"},
+    {WATER_BOTTLE, "water"},
+    {WATER_BOMB, "water bombs"},
     {WOOD_STATUE, "wooden statue"},
-    {IRIAS_PENDANT, "Ilia's charm"},
-    {HORSE_FLUTE, "horse call"},
-    {RAFRELS_MEMO, "Auru's memo"},
-    {ASHS_SCRIBBLING, "Ashei's sketch"},
-    {ANCIENT_DOCUMENT, "ancient sky book (empty)"},
-    {AIR_LETTER, "ancient sky book (partial)"},
-    {ANCIENT_DOCUMENT2, "ancient sky book (filled)"},
-    {NO_ITEM, "no item"},
+    {WORM, "worm"},
+    {CHUCHU_YELLOW, "yellow chu"}
 };
 
 void ItemWheelMenu::updateListIdx() {
@@ -192,12 +195,12 @@ void ItemWheelMenu::draw() {
 
         for (int j = 0; j < MAX_ITEMS; j++) {
             if (l_lookupTbl[j].item_id == item_id) {
-                lines[slot_no].printf(" <%s>", item_id != NO_ITEM ? l_lookupTbl[j].name : "none");
+                lines[slot_no].printf(" <%s>", item_id != NO_ITEM ? l_lookupTbl[j].name : "n/a");
             }
 
             if (l_lookupTbl[j].item_id == l_defaultItems[slot_no]) {
                 snprintf(lines[slot_no].description, sizeof(lines[slot_no].description),
-                         "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default",
+                         "Slot %d default: %s. Press " DEFAULT_BTN_TXT " to set to default; " RESET_BTN_TXT " to reset.",
                          slot_no, l_lookupTbl[j].name);
             } else {
                 continue;
@@ -229,6 +232,10 @@ void ItemWheelMenu::draw() {
 
     if (GZ_getButtonTrig(DEFAULT_BTN)) {
         dComIfGs_setItem(cursor.y, l_defaultItems[cursor.y]);
+    }
+
+    if (GZ_getButtonTrig(RESET_BUTTON)) {
+        dComIfGs_setItem(cursor.y, NO_ITEM);
     }
 
     cursor.move(0, MENU_LINE_NUM);

@@ -2,10 +2,9 @@
 
 #include <cstring>
 #include <cstdarg>
+#include "libtp_c/include/dolphin/gx/gx.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
-#include "libtp_c/include/addrs.h"
 #include "utils/texture.h"
-#include "gcn_c/include/gfx.h"
 
 #define MAX_GLYPHS 94
 #define DROP_SHADOWS_RGBA 0x000000FF
@@ -77,6 +76,8 @@ public:
     static void GZ_drawStr(const char* str, float x, float y, uint32_t color, bool drop_shadows,
                            float size = FONT_DEFAULT_SIZE);
     static float getCharWidth(char c, float size = FONT_DEFAULT_SIZE);
+    static float getMaxCharWidth(float size = FONT_DEFAULT_SIZE);
+    static float getMaxCharRangeWidth(char start, char end, float size = FONT_DEFAULT_SIZE);
     static float getStrWidth(const char* str, float size = FONT_DEFAULT_SIZE);
 };
 

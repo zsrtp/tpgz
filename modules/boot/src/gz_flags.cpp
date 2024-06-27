@@ -2,11 +2,8 @@
 #include <cstring>
 #include "controller.h"
 #include "fifo_queue.h"
-#include "gorge.h"
-#include "bit.h"
 #include "scene.h"
 #include "tools.h"
-#include "rollcheck.h"
 #include "utils/audio.h"
 #include "utils/lines.h"
 #include "utils/link.h"
@@ -14,31 +11,16 @@
 #include "flaglog.h"
 #include "save_manager.h"
 #include "memfiles.h"
-#include "corotdcheck.h"
-#include "umd.h"
 #include "utils/draw.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
+#include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "rels/include/defines.h"
 
 bool g_framePaused = false;
 
-GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
-    {&g_tools[GORGE_INDEX].active, GAME_LOOP, GorgeVoidIndicator::execute},
-#ifdef WII_PLATFORM
-    {&g_tools[BIT_INDEX].active, GAME_LOOP, BiTIndicator::execute},
-#endif
-    {&g_tools[ROLL_INDEX].active, GAME_LOOP, RollIndicator::execute},
-    {&g_tools[COROTD_INDEX].active, GAME_LOOP, CoroTDChecker::execute},
-    {&g_tools[UMD_INDEX].active, POST_GAME_LOOP, UMDIndicator::execute},
-    {&g_sceneFlags[FREEZE_ACTOR_INDEX].active, GAME_LOOP, GZ_freezeActors, GZ_unfreezeActors},
-    {&g_sceneFlags[HIDE_ACTOR_INDEX].active, GAME_LOOP, GZ_hideActors, GZ_showActors},
-    {&g_sceneFlags[FREEZE_CAMERA_INDEX].active, GAME_LOOP, GZ_freezeCamera, GZ_unfreezeCamera},
-    {&g_sceneFlags[HIDE_HUD_INDEX].active, GAME_LOOP, GZ_hideHUD, GZ_showHUD},
-    {&g_sceneFlags[FREEZE_TIME_INDEX].active, GAME_LOOP, GZ_freezeTime},
-    {&g_sceneFlags[DISABLE_BG_INDEX].active, GAME_LOOP, GZ_disableBGM, GZ_enableBGM},
-    {&g_sceneFlags[DISABLE_SFX_INDEX].active, GAME_LOOP, GZ_disableSFX, GZ_enableSFX},
-};
+// Initialized in the "init" module
+KEEP_VAR tpgz::containers::deque<GZFlag*> g_gzFlags;
 
 #ifdef GCN_PLATFORM
 #define HOLD_BTNS cPadInfo[0].mButtonFlags
@@ -50,6 +32,24 @@ GZFlag g_gzFlags[MAX_GZ_FLAGS] = {
 #define TRIG_BTNS mPad.mTrigButton
 #endif
 
+KEEP_FUNC void GZFlg_addFlag(GZFlag* flag) {
+    g_gzFlags.push_back(flag);
+}
+
+KEEP_FUNC GZFlag* GZFlg_removeFlag(GZFlags flag_id) {
+    auto it = g_gzFlags.begin();
+    for (;it != g_gzFlags.end(); ++it) {
+        if ((*it)->id == flag_id) {
+            break;
+        }
+    }
+    auto* flag = *it;
+    g_gzFlags.erase(it);
+    return flag;
+}
+
+
+
 KEEP_FUNC void GZ_frameAdvance() {
     if (!g_framePaused) {
         return;
@@ -60,25 +60,27 @@ KEEP_FUNC void GZ_frameAdvance() {
 
     TRIG_BTNS = HOLD_BTNS & ~buttonsPrev;
 
-    if (HOLD_BTNS & FRAME_ADVANCE_PAD) {
+    uint16_t frameAdvancePad = GZStng_getData(STNG_CMD_FRAME_ADVANCE, FRAME_ADVANCE_PAD);
+
+    if (HOLD_BTNS & frameAdvancePad) {
         holdCounter++;
     } else {
         holdCounter = 0;
     }
 
-    if (GZ_getButtonTrig(FRAME_ADVANCE_BTN)) {
+    if (GZ_getPadTrigAny(frameAdvancePad)) {
         // this sets pause timer to 0 for 1 frame,
         // which lets 1 frame pass before pausing again
         sPauseTimer = 0;
         buttonsPrev = HOLD_BTNS;
-        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
+        HOLD_BTNS &= ~frameAdvancePad;
     }
 
     // frames start passing at normal speed after holding for 30 frames
     if (holdCounter >= 30) {
         sPauseTimer = 0;
         buttonsPrev = HOLD_BTNS;
-        HOLD_BTNS &= ~FRAME_ADVANCE_PAD;
+        HOLD_BTNS &= ~frameAdvancePad;
     }
 }
 
@@ -100,13 +102,19 @@ void GZ_drawFrameTex(Texture* pauseTex, Texture* playTex) {
 }
 
 void GZ_execute(int phase) {
-    for (int i = 0; i < MAX_GZ_FLAGS; i++) {
-        if (g_gzFlags[i].mPhase == phase && g_gzFlags[i].mpFlag != nullptr) {
-            if (*g_gzFlags[i].mpFlag && g_gzFlags[i].mpActiveFunc) {
-                g_gzFlags[i].mpActiveFunc();
-            } else if (g_gzFlags[i].mpDeactiveFunc) {
-                g_gzFlags[i].mpDeactiveFunc();
+    for (auto gzFlag : g_gzFlags) {
+        if (gzFlag->mPhase == phase && gzFlag->mpFlag != nullptr) {
+            if (gzFlag->mpFlag() && gzFlag->mpActiveFunc) {
+                gzFlag->mpActiveFunc();
+            } else if (gzFlag->mpDeactiveFunc) {
+                gzFlag->mpDeactiveFunc();
             }
+        }
+    }
+
+    if (GZStng_getData(STNG_TOOLS_SAND, false)) {
+        if (dComIfGp_getPlayer() != nullptr) {
+            dComIfGp_getPlayer()->field_0x2ba8 = 0.0f;
         }
     }
 
@@ -128,3 +136,14 @@ void GZ_execute(int phase) {
         dComIfGs_setMaxOxygen(600);
     }
 }
+
+#define ACTIVE_FLAG_FUNC(name, stngId) \
+    KEEP_FUNC bool name() { return GZStng_getData(stngId, false); }
+
+ACTIVE_FLAG_FUNC(GZ_freezeActors_active, STNG_SCENE_FREEZE_ACTOR)
+ACTIVE_FLAG_FUNC(GZ_hideActors_active, STNG_SCENE_HIDE_ACTOR)
+ACTIVE_FLAG_FUNC(GZ_freezeCamera_active, STNG_SCENE_FREEZE_CAMERA)
+ACTIVE_FLAG_FUNC(GZ_hideHUD_active, STNG_SCENE_HIDE_HUD)
+ACTIVE_FLAG_FUNC(GZ_freezeTime_active, STNG_SCENE_FREEZE_TIME)
+ACTIVE_FLAG_FUNC(GZ_disableBgm_active, STNG_SCENE_DISABLE_BG)
+ACTIVE_FLAG_FUNC(GZ_disableSFX_active, STNG_SCENE_DISABLE_SFX)

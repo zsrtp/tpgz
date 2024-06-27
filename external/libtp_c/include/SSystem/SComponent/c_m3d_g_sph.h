@@ -14,9 +14,10 @@ private:
 public:
     cXyz mCenter;
     f32 mRadius;
+    void* vtable;
 
-    virtual ~cM3dGSph();
     const cXyz& GetC(void) const { return mCenter; }
+    const cXyz& GetCP(void) const { return mCenter; }
     const f32 GetR(void) const { return mRadius; }
     f32 GetCX(void) const { return mCenter.x; }
     f32 GetCY(void) const { return mCenter.y; }
