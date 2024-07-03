@@ -12,6 +12,8 @@ enum TexFmt {
     I8 = 2,
 };
 
+static GXTexFmt l_fmts[] = {GX_TF_RGBA8, GX_TF_CMPR, GX_TF_I8};
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -56,26 +58,13 @@ TexCode load_texture_offset(const char* path, Texture* tex, uint32_t offset) {
     }
 
     uint8_t fmt = GX_TF_I8;
-    switch (tex->header.format) {
-    case TexFmt::RGB8: {
-        fmt = GX_TF_RGBA8;
-        break;
-    }
-    case TexFmt::CMPR: {
-        fmt = GX_TF_CMPR;
-        break;
-    }
-    case TexFmt::I8: {
-        fmt = GX_TF_I8;
-        break;
-    }
-    default: {
+    if (tex->header.format > ARRAY_COUNT(l_fmts)) {
         DVDClose(&fileInfo);
         tex->loadCode = TexCode::TEX_ERR_INVALID_FORMAT;
         OSReport_Warning("Texture not loaded \"%s\"; Invalid texture format id (%d) [%d]\n", path, tex->header.format, tex->loadCode);
         return tex->loadCode;
     }
-    }
+    fmt = l_fmts[tex->header.format];
 
     uint32_t size = get_size(tex->header.format, tex->header.width, tex->header.height);
     tex->data = new (-32) uint8_t[size];

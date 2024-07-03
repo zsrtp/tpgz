@@ -51,24 +51,13 @@ void WarpingMenu::loadNextInfo(void* buffer, signed long& counter, signed long l
     loadFile(l_filePath, buffer, length, counter);
 }
 
+char l_stageMapping[5][10] = {"cave", "dungeon", "interior", "overworld", "special"};
+
 void WarpingMenu::setStagePath(int current_stage_type) {
-    switch (current_stage_type) {
-    case CAVE:
-        strcpy(l_filePath, "tpgz/stage_info/cave.bin");
-        break;
-    case DUNGEON:
-        strcpy(l_filePath, "tpgz/stage_info/dungeon.bin");
-        break;
-    case INTERIOR:
-        strcpy(l_filePath, "tpgz/stage_info/interior.bin");
-        break;
-    case OVERWORLD:
-        strcpy(l_filePath, "tpgz/stage_info/overworld.bin");
-        break;
-    case SPECIAL:
-        strcpy(l_filePath, "tpgz/stage_info/special.bin");
-        break;
+    if (current_stage_type < 0 || current_stage_type > 4) {
+        return;
     }
+    snprintf(l_filePath, sizeof(l_filePath), "tpgz/stage_info/%s.bin", l_stageMapping[current_stage_type]);
 }
 
 void WarpingMenu::loadPrevStageInfo() {

@@ -176,6 +176,129 @@ public:
         }
     }
 
+    void swap(iterator it1, iterator it2) {
+        if (it1.node == nullptr || it2.node == nullptr || it1 == it2) {
+            return;
+        }
+
+        Node* node1 = it1.node;
+        Node* node2 = it2.node;
+
+        // Swap the data
+        T temp = node1->data;
+        node1->data = node2->data;
+        node2->data = temp;
+
+        // Update the next and prev pointers
+        Node* prev1 = node1->prev;
+        Node* next1 = node1->next;
+        Node* prev2 = node2->prev;
+        Node* next2 = node2->next;
+
+        if (prev1 != nullptr) {
+            prev1->next = node2;
+        } else {
+            head = node2;
+        }
+
+        if (next1 != nullptr) {
+            next1->prev = node2;
+        } else {
+            tail = node2;
+        }
+
+        if (prev2 != nullptr) {
+            prev2->next = node1;
+        } else {
+            head = node1;
+        }
+
+        if (next2 != nullptr) {
+            next2->prev = node1;
+        } else {
+            tail = node1;
+        }
+
+        node1->prev = prev2;
+        node1->next = next2;
+        node2->prev = prev1;
+        node2->next = next1;
+    }
+
+    void move(iterator from, iterator to) {
+        if (from == to) {
+            return;
+        }
+
+        Node* fromNode = from.node;
+        Node* toNode = to.node;
+
+        // Remove the node from its current position
+        if (fromNode->prev != nullptr) {
+            fromNode->prev->next = fromNode->next;
+        } else {
+            head = fromNode->next;
+        }
+
+        if (fromNode->next != nullptr) {
+            fromNode->next->prev = fromNode->prev;
+        } else {
+            tail = fromNode->prev;
+        }
+
+        // Insert the node at the new position
+        if (toNode != nullptr) {
+            if (toNode->prev != nullptr) {
+                toNode->prev->next = fromNode;
+            } else {
+                head = fromNode;
+            }
+            fromNode->prev = toNode->prev;
+            fromNode->next = toNode;
+            toNode->prev = fromNode;
+        } else {
+            // Insert at the end of the deque
+            if (tail != nullptr) {
+                tail->next = fromNode;
+            } else {
+                head = fromNode;
+            }
+            fromNode->prev = tail;
+            fromNode->next = nullptr;
+            tail = fromNode;
+        }
+    }
+
+    T& at(size_t index) {
+        if (index >= _size) {
+            throw "Index out of range";
+        }
+        Node* currentNode = head;
+        for (size_t i = 0; i < index; ++i) {
+            currentNode = currentNode->next;
+        }
+        return currentNode->data;
+    }
+
+    const T& at(size_t index) const {
+        if (index >= _size) {
+            throw "Index out of range";
+        }
+        Node* currentNode = head;
+        for (size_t i = 0; i < index; ++i) {
+            currentNode = currentNode->next;
+        }
+        return currentNode->data;
+    }
+
+    T& operator[](size_t index) {
+        return at(index);
+    }
+
+    const T& operator[](size_t index) const {
+        return at(index);
+    }
+
     T& front() { return head->data; }
 
     T& back() { return tail->data; }
