@@ -2,6 +2,8 @@
 // crash address for testing in PRs
 80450580:gzCrashReport
 
+800000F8:__OSBusClock
+
 // memory
 80003458:memset
 80003540:memcpy
@@ -15510,7 +15512,6 @@ CC008000:wgPipe
 80342780:__OSTimeToSystemTime
 803427d8:GetDates
 80342974:OSTicksToCalendarTime
-800000F8:__OSBusClock
 80342b78:__init_user
 80342b98:__init_cpp
 80342bec:_ExitProcess
