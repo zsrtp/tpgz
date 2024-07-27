@@ -165,6 +165,6 @@ OSTime OSGetTime();
 void OSTicksToCalendarTime(OSTime ticks, OSCalendarTime* ct);
 
 extern OSModuleList osModuleList;
-extern uint32_t __OSBusClock;
+extern u32 __OSBusClock;
 }
 #endif
