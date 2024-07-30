@@ -73,7 +73,7 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/isos)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set compiler stuff
-include_directories(include external)
+include_directories(external)
 add_definitions(-D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} -D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="${CMAKE_PROJECT_VERSION}" ${DEBUG} ${RUN_PR_TEST})
 add_compile_options(-fdiagnostics-color=always -fvisibility=hidden)
 
@@ -88,12 +88,9 @@ string(REGEX REPLACE "([0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-F]?[0-9a-fA-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/patch.asm.in ${CMAKE_CURRENT_BINARY_DIR}/patch.asm)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/RomHack.toml.in ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
-
-add_subdirectory(src)
 add_subdirectory(modules)
 
-add_library(tpgz STATIC "${CPPFILES}")
+add_custom_target(tpgz ALL)
 add_dependencies(tpgz tp_c gcn_c modules)
 set_property(TARGET tpgz PROPERTY COMPILE_FLAGS "-g -c -Os -std=gnu++20 -Wall ${DEVKITPRO_MACHDEP}")
 
@@ -112,7 +109,7 @@ endforeach()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
     DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso  ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
-    COMMAND ${TPGZ_PATCHER_EXE} build --raw)
+    COMMAND ${TPGZ_PATCHER_EXE} build)
 
 string(REPLACE ".iso" ".patch" TPGZ_CFG_BLD_PATCH_OLD ${TPGZ_CFG_BLD_ISO})
 string(TOLOWER ${PLATFORM} tpgz_platform_lower)
@@ -121,7 +118,7 @@ string(REPLACE "_" "-" tpgz_region_lower ${tpgz_region_lower})
 set(TPGZ_CFG_BLD_PATCH ${CMAKE_PROJECT_VERSION}-${tpgz_platform_lower}-${tpgz_region_lower}.patch)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
     DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
-    COMMAND ${TPGZ_PATCHER_EXE} build --raw --patch
+    COMMAND ${TPGZ_PATCHER_EXE} build --patch
     COMMAND ${CMAKE_COMMAND} -E rename ${TPGZ_CFG_BLD_PATCH_OLD} ${TPGZ_CFG_BLD_PATCH})
 
 add_custom_target(iso

@@ -5,18 +5,13 @@ developer-name = "Twilight Princess Community"
 full-developer-name = "Speedrun Community"
 
 [src]
-iso = "@TPGZ_CFG_SRC_ISO@"
+iso = "../isos/@TPGZ_CFG_SRC_ISO@"
 patch = "patch.asm"
 map = "@TPGZ_CFG_SRC_MAP@"
 
 [build]
 map = "@TPGZ_CFG_BLD_MAP@"
 iso = "@TPGZ_CFG_BLD_ISO@"
-
-[link]
-entries = ["apply_lib_hooks"]
-base = "@TPGZ_CFG_LINK_BASE@"
-libs = ["libtpgz.a"]
 
 [files]
 # textures
