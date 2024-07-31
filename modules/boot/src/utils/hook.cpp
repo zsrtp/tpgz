@@ -34,28 +34,6 @@ HOOK_DEF(void, draw, (void*));
 #define PAD_READ_RETURN_OFFSET (0x2DC)
 #endif
 
-#ifdef GCN_NTSCU
-#define CRASH_ADDRESS (0x80450580)
-#endif
-#ifdef GCN_PAL
-#define CRASH_ADDRESS (0x80452540)
-#endif
-#ifdef GCN_NTSCJ
-#define CRASH_ADDRESS (0x8044A6C0)
-#endif
-#ifdef WII_NTSCU_10
-#define CRASH_ADDRESS (0x80537560)
-#endif
-#ifdef WII_NTSCU_12
-#define CRASH_ADDRESS (0x8051d5e0)
-#endif
-#ifdef WII_NTSCJ
-#define CRASH_ADDRESS (0x8051b460)
-#endif
-#ifdef WII_PAL
-#define CRASH_ADDRESS (0x8051DEE0)
-#endif
-
 extern volatile uint32_t gzCrashReport;
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
@@ -94,11 +72,32 @@ void drawHook(void* p1) {
 }
 
 #ifdef PR_TEST
+#ifdef GCN_NTSCU
+#define CRASH_ADDRESS (0x80450580)
+#endif
+#ifdef GCN_PAL
+#define CRASH_ADDRESS (0x80452540)
+#endif
+#ifdef GCN_NTSCJ
+#define CRASH_ADDRESS (0x8044A6C0)
+#endif
+#ifdef WII_NTSCU_10
+#define CRASH_ADDRESS (0x80537560)
+#endif
+#ifdef WII_NTSCU_12
+#define CRASH_ADDRESS (0x8051d5e0)
+#endif
+#ifdef WII_NTSCJ
+#define CRASH_ADDRESS (0x8051b460)
+#endif
+#ifdef WII_PAL
+#define CRASH_ADDRESS (0x8051DEE0)
+#endif
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
     *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
-    DCFlushRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
-    ICInvalidateRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
+    DCFlushRange((void*)(&CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
+    ICInvalidateRange((void*)(&CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
 }
 #endif  // PR_TEST
 
