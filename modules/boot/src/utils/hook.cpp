@@ -96,8 +96,8 @@ void drawHook(void* p1) {
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
     *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
-    DCFlushRange((void*)(&CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
-    ICInvalidateRange((void*)(&CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
+    DCFlushRange((void*)(CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
+    ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
 }
 #endif  // PR_TEST
 
