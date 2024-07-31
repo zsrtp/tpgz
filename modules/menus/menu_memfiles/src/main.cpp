@@ -34,7 +34,7 @@ void onCreate() {
 }
 
 void onLoad() {
-    l_menu = new MemfilesMenu(*g_menuMgr->getPersistentData<MemfilesData>());
+    l_menu = new MemfilesMenu(*g_menuMgr->getPermanentData<MemfilesData>());
     g_drawListener->addListener(onDraw);
 }
 

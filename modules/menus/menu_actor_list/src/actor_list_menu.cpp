@@ -203,9 +203,9 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             {"", ACTOR_POSITION_X_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
             {"", ACTOR_POSITION_Y_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
             {"", ACTOR_POSITION_Z_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
-            {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-10, Z+dpad: +/-100", false},
-            {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-10, Z+dpad: +/-100", false},
-            {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-10, Z+dpad: +/-100", false},
+            {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
+            {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
+            {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
             {"", ACTOR_PARAMS_INDEX, "current actor parameters", false},
         } {
             // store camera position and target
