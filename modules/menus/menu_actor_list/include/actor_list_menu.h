@@ -36,7 +36,7 @@ public:
 private:
     void updateActorData();
     template <typename T>
-    void updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement);
+    void updateValue(T*, bool, bool, bool);
     void loadActorName();
     void checkAndCloseMenu();
     void checkAndRestoreMenu();

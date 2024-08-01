@@ -19,20 +19,26 @@
 #ifdef GCN_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
 #define CONTROLLER_LEFT GZPad::DPAD_LEFT
-#define CONTROLLER_Z GZPad::Z
 #define CONTROLLER_A GZPad::A
-#define MEM_SWITCH_BTN GZPad::Y
-#define CONTROL_TEXT "Y"
+#define MEM_SWITCH_BTN GZPad::Z
+#define SLOW_INC_BTN GZPad::X
+#define FAST_INC_BTN GZPad::Y
+#define MEM_TEXT "Z"
+#define SLOW_INC_TEXT "X"
+#define FAST_INC_TEXT "Y"
 #define DELETE_TEXT "START"
 #define DELETE_BUTTON GZPad::START
 #endif
 #ifdef WII_PLATFORM
 #define CONTROLLER_RIGHT GZPad::DPAD_RIGHT
 #define CONTROLLER_LEFT GZPad::DPAD_LEFT
-#define CONTROLLER_Z GZPad::Z
 #define CONTROLLER_A GZPad::A
-#define MEM_SWITCH_BTN GZPad::C
-#define CONTROL_TEXT "C"
+#define MEM_SWITCH_BTN GZPad::ONE
+#define SLOW_INC_BTN GZPad::Z
+#define FAST_INC_BTN GZPad::C
+#define MEM_TEXT "1"
+#define SLOW_INC_TEXT "Z"
+#define FAST_INC_TEXT "C"
 #define DELETE_TEXT "PLUS"
 #define DELETE_BUTTON GZPad::PLUS
 #endif
@@ -135,6 +141,8 @@ procFunc move_proc[] = {
  * 
  * @note The move_proc function table already exists in code. We can probably just map directly to it in the future instead of defining our own.
  * 
+ * @bug The item select cursor when RING_MOVE is active still works (can be heard moving) but the menu is not visible.
+ * 
  */
 void ActorListMenu::checkAndCloseMenu() {
     if (g_meter2_info.mMenuWindowClass) {
@@ -199,13 +207,13 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         : Menu(cursor),
           l_index(data.l_index),
           lines{
-            {"", ACTOR_NAME_INDEX, "Z+A: freeze actor, Z+" DELETE_TEXT ": delete actor, " CONTROL_TEXT " view memory", false},
-            {"", ACTOR_POSITION_X_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
-            {"", ACTOR_POSITION_Y_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
-            {"", ACTOR_POSITION_Z_INDEX, "dpad: +/-10.0, Z+dpad: +/-100.0", false},
-            {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
-            {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
-            {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-100, Z+dpad: +/-1000", false},
+            {"", ACTOR_NAME_INDEX, "Z+A: freeze actor, Z+" DELETE_TEXT ": delete actor, " MEM_TEXT " view memory", false},
+            {"", ACTOR_POSITION_X_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
+            {"", ACTOR_POSITION_Y_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
+            {"", ACTOR_POSITION_Z_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
+            {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
+            {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
+            {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
             {"", ACTOR_PARAMS_INDEX, "current actor parameters", false},
         } {
             // store camera position and target
@@ -230,13 +238,25 @@ ActorListMenu::~ActorListMenu() {
 
     dComIfGp_getEventManager().mCameraPlay = 0;
     g_drawHIO.mHUDAlpha = 1.0f;
-
 }
 
 template <typename T>
-void ActorListMenu::updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement) {
+void ActorListMenu::updateValue(T* value, bool increase, bool slowIncrement, bool largeIncrement) {
     if (value != NULL) {
-        *value += (increase ? 1 : -1) * (largeIncrement ? largeChange : smallChange);
+        f32 smallChange = 1.0f;
+        f32 mediumChange = 100.0f; 
+        f32 largeChange = 1000.0f;
+
+        f32 change;
+        if (largeIncrement) {
+            change = largeChange;
+        } else if (slowIncrement) {
+            change = smallChange;
+        } else {
+            change = mediumChange;
+        }
+
+        *value += (increase ? 1 : -1) * change;
     }
 }
 
@@ -277,10 +297,11 @@ void ActorListMenu::draw() {
 
     bool rightPressed = GZ_getButtonRepeat(CONTROLLER_RIGHT,1);
     bool leftPressed = GZ_getButtonRepeat(CONTROLLER_LEFT,1);
-    bool zPressed = GZ_getButtonPressed(CONTROLLER_Z);
+    bool slowBtnPressed = GZ_getButtonPressed(SLOW_INC_BTN);
+    bool fastBtnPressed = GZ_getButtonPressed(FAST_INC_BTN);
 
-    f32 smallPosChange = 10.0f, largePosChange = 100.0f;
-    int smallAngleChange = 100, largeAngleChange = 1000;
+    // f32 smallPosChange = 1.0f, mediumPosChange = 10.0f, largePosChange = 100.0f;
+    // int smallAngleChange = 1, mediumAngleChange = 10, largeAngleChange = 100;
 
     switch (cursor.y) {
     case ACTOR_NAME_INDEX:
@@ -302,7 +323,7 @@ void ActorListMenu::draw() {
             loadActorName();
         }
         
-        if (GZ_getButtonPressed(CONTROLLER_Z) && GZ_getButtonPressed(DELETE_BUTTON)) {
+        if (GZ_getButtonPressed(MEM_SWITCH_BTN) && GZ_getButtonPressed(DELETE_BUTTON)) {
             if (g_currentActor) {
                 if (g_currentActor->mBase.mProcName != PROC_ALINK) {
                     fopAcM_delete(g_currentActor);
@@ -310,7 +331,7 @@ void ActorListMenu::draw() {
             }
         }
 
-        if (GZ_getButtonPressed(CONTROLLER_Z) && GZ_getButtonPressed(CONTROLLER_A)) {
+        if (GZ_getButtonPressed(MEM_SWITCH_BTN) && GZ_getButtonPressed(CONTROLLER_A)) {
             if (g_currentActor) {
                 g_currentActor->mBase.mPauseFlag = !g_currentActor->mBase.mPauseFlag;
             }
@@ -328,32 +349,32 @@ void ActorListMenu::draw() {
         break;
     case ACTOR_POSITION_X_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->current.pos.x, smallPosChange, largePosChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->current.pos.x, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_POSITION_Y_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->current.pos.y, smallPosChange, largePosChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->current.pos.y, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_POSITION_Z_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->current.pos.z, smallPosChange, largePosChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->current.pos.z, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_ANGLE_X_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->shape_angle.x, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->shape_angle.x, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_ANGLE_Y_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->shape_angle.y, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->shape_angle.y, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_ANGLE_Z_INDEX:
         if (rightPressed || leftPressed) {
-            updateValue(&g_currentActor->shape_angle.z, smallAngleChange, largeAngleChange, rightPressed, zPressed);
+            updateValue(&g_currentActor->shape_angle.z, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
     case ACTOR_PARAMS_INDEX:
