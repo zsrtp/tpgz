@@ -48,100 +48,11 @@
  */
 procBinData l_procData;
 
-void ring_close_proc_wrapper(void* arg) {
-    dMw_c__ring_close_proc(arg);
-}
-
-void collect_close_proc_wrapper(void* arg) {
-    dMw_c__collect_close_proc(arg);
-}
-
-void dmap_close_proc_wrapper(void* arg) {
-    dMw_c__dmap_close_proc(arg);
-}
-
-void fmap_close_proc_wrapper(void* arg) {
-    dMw_c__fmap_close_proc(arg);
-}
-
-void collect_save_close_proc_wrapper(void* arg) {
-    dMw_c__collect_save_close_proc(arg);
-}
-
-void collect_option_close_proc_wrapper(void* arg) {
-    dMw_c__collect_option_close_proc(arg);
-}
-
-void collect_letter_close_proc_wrapper(void* arg) {
-    dMw_c__collect_letter_close_proc(arg);
-}
-
-void collect_fishing_close_proc_wrapper(void* arg) {
-    dMw_c__collect_fishing_close_proc(arg);
-}
-
-void collect_skill_close_proc_wrapper(void* arg) {
-    dMw_c__collect_skill_close_proc(arg);
-}
-
-void collect_insect_close_proc_wrapper(void* arg) {
-    dMw_c__collect_insect_close_proc(arg);
-}
-
-void insect_close_proc_wrapper(void* arg) {
-    dMw_c__insect_close_proc(arg);
-}
-
-typedef void (*procFunc)(void*);
-procFunc move_proc[] = {
-    NULL,
-    NULL,
-    ring_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_close_proc_wrapper,
-    NULL,
-    NULL,
-    fmap_close_proc_wrapper,
-    NULL,
-    NULL,
-    dmap_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_save_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_option_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_letter_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_fishing_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_skill_close_proc_wrapper,
-    NULL,
-    NULL,
-    collect_insect_close_proc_wrapper,
-    NULL,
-    NULL,
-    NULL,
-    insect_close_proc_wrapper
-};
-
 /**
  * @brief Checks and closes any menu that's currently open.
  * 
  * @details This function is used to close any menu that's currently open. 
  * It stores the current menu status and then closes the menu by setting the status to none and running the currently open menu's closer function via move_proc function table.
- * 
- * @note Currently the function won't catch if the menu status is in opening or closing status (two statuses during menu transitions). It will only catch the "move" status.
- * We may have to account for this later.
- * 
- * @note The move_proc function table already exists in code. We can probably just map directly to it in the future instead of defining our own.
- * 
- * @bug The item select cursor when RING_MOVE is active still works (can be heard moving) but the menu is not visible.
  * 
  */
 void ActorListMenu::checkAndCloseMenu() {
@@ -150,22 +61,14 @@ void ActorListMenu::checkAndCloseMenu() {
         case dMw_c::NO_MENU:
             g_dComIfG_gameInfo.play.mPauseFlag = false;
             break;
-        case dMw_c::RING_MOVE:
-        case dMw_c::COLLECT_MOVE:
-        case dMw_c::DMAP_MOVE:
-        case dMw_c::FMAP_MOVE:
-        case dMw_c::SAVE_MOVE:
-        case dMw_c::OPTIONS_MOVE:
-        case dMw_c::LETTER_MOVE:
-        case dMw_c::FISHING_MOVE:
-        case dMw_c::SKILL_MOVE:
-        case dMw_c::INSECT_MOVE:
-        case dMw_c::INSECT_AGITHA_MOVE:
+        default:
             l_menuStatus = g_meter2_info.mMenuWindowClass->mMenuStatus;
             l_windowStatus = g_meter2_info.mWindowStatus;
+            g_meter2_info.offMenuInForce(g_meter2_info.mMenuWindowClass->mMenuStatus);
+            g_meter2_info.mMenuWindowClass->mMenuStatus = dMw_c::NO_MENU;
             g_meter2_info.mWindowStatus = dMw_c::NO_MENU;
-            move_proc[g_meter2_info.mMenuWindowClass->mMenuStatus](g_meter2_info.mMenuWindowClass);
             g_dComIfG_gameInfo.play.mPauseFlag = false;
+            break;
         }
     }       
 }
@@ -214,6 +117,7 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
             {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
             {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
             {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
+            {"", ACTOR_PROC_INDEX, "current actor proc id", false},
             {"", ACTOR_PARAMS_INDEX, "current actor parameters", false},
         } {
             // store camera position and target
@@ -377,6 +281,7 @@ void ActorListMenu::draw() {
             updateValue(&g_currentActor->shape_angle.z, rightPressed, slowBtnPressed, fastBtnPressed);
         }
         break;
+    case ACTOR_PROC_INDEX:
     case ACTOR_PARAMS_INDEX:
         // allowing arbitrary updates here causes frequent crashes. removing for now.
         break;
@@ -390,6 +295,7 @@ void ActorListMenu::draw() {
         lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.x));
         lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.y));
         lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.z));
+        lines[ACTOR_PROC_INDEX].printf("proc id: %d", g_currentActor->mBase.mProcName);
         lines[ACTOR_PARAMS_INDEX].printf("params: 0x%08X", g_currentActor->mBase.mParameters);
     }
 
