@@ -2,6 +2,8 @@
 // crash address for testing in PRs
 80450580:gzCrashReport
 
+800000F8:__OSBusClock
+
 // memory
 80003458:memset
 80003540:memcpy
