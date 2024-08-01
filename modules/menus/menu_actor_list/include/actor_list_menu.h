@@ -37,7 +37,7 @@ public:
 private:
     void updateActorData();
     template <typename T>
-    void updateValue(T*, bool, bool, bool);
+    void updateValue(T*, bool);
     void loadActorName();
     void checkAndCloseMenu();
     void checkAndRestoreMenu();

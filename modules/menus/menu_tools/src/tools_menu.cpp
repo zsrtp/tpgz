@@ -6,7 +6,6 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
-#include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM

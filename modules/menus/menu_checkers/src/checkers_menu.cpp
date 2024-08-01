@@ -1,12 +1,4 @@
 #include "menus/menu_checkers/include/checkers_menu.h"
-#include <cstdio>
-#include "commands.h"
-#include "global_data.h"
-#include "timer.h"
-#include "libtp_c/include/d/com/d_com_inf_game.h"
-#include "gz_flags.h"
-#include "rels/include/defines.h"
-#include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
 const char l_descTemplates[CHECKERS_COUNT][100] = {
