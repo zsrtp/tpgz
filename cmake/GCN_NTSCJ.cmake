@@ -10,7 +10,7 @@ set(TPGZ_CFG_LOADER_ADDR "0x80004D18")
 set(TPGZ_CFG_SETTAG_ADDR "0x802398E0")
 
 # TOML values
-set(TPGZ_CFG_SRC_ISO "${CMAKE_SOURCE_DIR}/isos/GZ2J01.iso")
+set(TPGZ_CFG_SRC_ISO "GZ2J01.iso")
 set(TPGZ_CFG_SRC_MAP "map/Final/Release/frameworkF.map")
 set(TPGZ_CFG_BLD_ISO "tpgz.iso")
 set(TPGZ_CFG_BLD_MAP "GZ2J01.map")

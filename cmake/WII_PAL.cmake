@@ -10,7 +10,7 @@ set(TPGZ_CFG_LOADER_ADDR "0x80005BF4")
 set(TPGZ_CFG_SETTAG_ADDR "0x802261a0")
 
 # TOML values
-set(TPGZ_CFG_SRC_ISO "${CMAKE_SOURCE_DIR}/isos/RZDP01.iso")
+set(TPGZ_CFG_SRC_ISO "RZDP01.iso")
 set(TPGZ_CFG_SRC_MAP "map/Rfinal/Release/RframeworkF.map")
 set(TPGZ_CFG_BLD_ISO "tpgzw.iso")
 set(TPGZ_CFG_BLD_MAP "RZDP01.map")
