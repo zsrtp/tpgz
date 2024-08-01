@@ -86,23 +86,8 @@ void ActorListMenu::checkAndCloseMenu() {
 void ActorListMenu::checkAndRestoreMenu() {
     if (l_menuStatus != dMw_c::NO_MENU) {
         g_dComIfG_gameInfo.play.mPauseFlag = true;
-
-        switch (l_menuStatus) {
-        case dMw_c::RING_MOVE: 
-        case dMw_c::COLLECT_MOVE:
-        case dMw_c::FMAP_MOVE:
-        case dMw_c::SAVE_MOVE:
-        case dMw_c::OPTIONS_MOVE:
-        case dMw_c::LETTER_MOVE:
-        case dMw_c::FISHING_MOVE:
-        case dMw_c::SKILL_MOVE:
-        case dMw_c::INSECT_MOVE:
-        case dMw_c::INSECT_AGITHA_MOVE:
-        case dMw_c::DMAP_MOVE:
-            g_meter2_info.mWindowStatus = l_windowStatus;
-            g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
-            break;
-        }
+        g_meter2_info.mWindowStatus = l_windowStatus;
+        g_meter2_info.mMenuWindowClass->mMenuStatus = l_menuStatus;
     }
 }
 
@@ -140,6 +125,7 @@ ActorListMenu::~ActorListMenu() {
     matrixInfo.matrix_info->pos = l_cameraPos;
     matrixInfo.matrix_info->target = l_cameraTarget;
 
+    // restore evt manager camera play & HUD
     dComIfGp_getEventManager().mCameraPlay = 0;
     g_drawHIO.mHUDAlpha = 1.0f;
 }
@@ -147,21 +133,8 @@ ActorListMenu::~ActorListMenu() {
 template <typename T>
 void ActorListMenu::updateValue(T* value, bool increase) {
     if (value != NULL) {
-        bool slowBtnPressed = GZ_getButtonPressed(SLOW_INC_BTN);
-        bool fastBtnPressed = GZ_getButtonPressed(FAST_INC_BTN);
-
-        f32 smallChange = 1.0f;
-        f32 mediumChange = 100.0f; 
-        f32 largeChange = 1000.0f;
-
         f32 change;
-        if (fastBtnPressed) {
-            change = largeChange;
-        } else if (slowBtnPressed) {
-            change = smallChange;
-        } else {
-            change = mediumChange;
-        }
+        GZ_getButtonPressed(FAST_INC_BTN) ? change = 1000.0f : GZ_getButtonPressed(SLOW_INC_BTN) ? change = 1.0f : change = 100.0f;
 
         *value += (increase ? 1 : -1) * change;
     }
