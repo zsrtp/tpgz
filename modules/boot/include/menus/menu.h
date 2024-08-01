@@ -66,6 +66,9 @@ enum MenuIndex {
     MN_CREDITS_INDEX,
     MN_COMBO_INDEX,
 
+    // Tools menu's sub menus
+    MN_CHECKERS_INDEX,
+
     // This entry is used only to get a count of the number of valid entries.
     MN_COUNT
 };
