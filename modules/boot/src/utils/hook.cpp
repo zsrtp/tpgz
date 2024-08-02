@@ -18,6 +18,7 @@
 #include "collision_view.h"
 #include "features/projection_view/include/projection_view.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/d/s/d_s_logo.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -51,9 +52,10 @@ HOOK_DEF(void, dCcS__draw, (dCcS*));
 HOOK_DEF(void, BeforeOfPaint, (void));
 HOOK_DEF(void, dCcS__MoveAfterCheck, (dCcS*));
 
-
 HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
+
+HOOK_DEF(void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
 
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
 HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
@@ -249,6 +251,11 @@ void daAlink_c__setCutJumpSpeedHook(daAlink_c* i_this, int i_air) {
     daAlink_c__setCutJumpSpeedTrampoline(i_this, i_air);
 }
 
+// WIP skipping intro logos
+void dScnLogo_c__warningInDraw(dScnLogo_c* i_this) {
+    i_this->mExecCommand = dScnLogo_c::EXEC_DVD_WAIT;
+}
+
 void setupLJAProjectionLine(daAlink_c* i_this) {
     bool got_it = false;
 
@@ -413,6 +420,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_myExceptionCallback myExceptionCallback_unsigned
 #define f_dScnPly__phase_1 phase_1_dScnPly_c___
 #define f_dScnPly__phase_4 phase_4_dScnPly_c___
+#define f_dScnLogo_c__warningInDraw dScnLogo_c__warningInDraw_void_
 #define f_dCcS__Draw dCcS__Draw_void_
 #define f_dScnPly_BeforeOfPaint mDoGph_BeforeOfDraw_void_
 #define f_dCcS__MoveAfterCheck dCcS__MoveAfterCheck_void_
@@ -433,6 +441,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
 #define f_dScnPly__phase_1 phase_1__FP9dScnPly_c
 #define f_dScnPly__phase_4 phase_4__FP9dScnPly_c
+#define f_dScnLogo_c__warningInDraw warningInDraw__10dScnLogo_cFv
 #define f_dCcS__Draw Draw__4dCcSFv
 #define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
 #define f_dCcS__MoveAfterCheck MoveAfterCheck__4dCcSFv
@@ -456,6 +465,7 @@ void f_putSave(void*, int);
 void f_myExceptionCallback();
 int f_dScnPly__phase_1(void*);
 int f_dScnPly__phase_4(void*);
+void f_dScnLogo_c__warningInDraw(dScnLogo_c*);
 void f_dCcS__Draw(dCcS*);
 void f_dScnPly_BeforeOfPaint();
 void f_dCcS__MoveAfterCheck(dCcS*);
@@ -480,6 +490,7 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(putSave, &f_putSave, putSaveHook);
     APPLY_HOOK(dScnPly__phase_1, &f_dScnPly__phase_1, saveInjectHook);
     APPLY_HOOK(dScnPly__phase_4, &f_dScnPly__phase_4, endSaveInjectHook);
+    APPLY_HOOK(dScnLogo_c__warningInDraw, &f_dScnLogo_c__warningInDraw, dScnLogo_c__warningInDraw);
 
     APPLY_HOOK(dCcS__draw, &f_dCcS__Draw, dCcSDrawHook);
     APPLY_HOOK(BeforeOfPaint, &f_dScnPly_BeforeOfPaint, beforeOfPaintHook);
