@@ -7,6 +7,7 @@ const char l_descTemplates[CHECKERS_COUNT][100] = {
 #endif
     "show frame info when doing coro td",
     "use %s to warp to kakariko gorge",
+    "ladder freezard cancel checker",
     "display A/B button mashing speeds",
     "frame counter for chaining rolls",
     "practice snowpeak universal map delay timing",
@@ -22,6 +23,8 @@ KEEP_FUNC CheckersMenu::CheckersMenu(CheckersData& data)
              ACTIVE_FUNC(STNG_TOOLS_COROTD)},
             {"gorge checker", GORGE_INDEX, "use " GORGE_VOID_TEXT " to warp to kakariko gorge",
              true, ACTIVE_FUNC(STNG_TOOLS_GORGE)},
+            {"lfc checker", LFC_INDEX, "ladder freezard cancel checker",
+             true, ACTIVE_FUNC(STNG_TOOLS_LFC)},
             {"mash checker", MASH_CHECKER_INDEX, "display A/B button mashing speeds", true,
              ACTIVE_FUNC(STNG_TOOLS_MASH_CHECKER)},
             {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true,
@@ -37,6 +40,7 @@ GZSettingID l_mapping[] = {
     STNG_TOOLS_BIT,
 #endif
     STNG_TOOLS_COROTD,      STNG_TOOLS_GORGE,
+    STNG_TOOLS_LFC,
     STNG_TOOLS_MASH_CHECKER,STNG_TOOLS_ROLL,
     STNG_TOOLS_UMD,
 };

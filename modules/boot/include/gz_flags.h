@@ -32,6 +32,7 @@ enum GZFlags {
     GZFLG_FREEZE_TIME,
     GZFLG_DISABLE_BGM,
     GZFLG_DISABLE_SFX,
+    GZFLG_LFC
 };
 
 struct GZFlag {

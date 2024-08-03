@@ -18,6 +18,7 @@ enum CheckersIndex {
 #endif
     COROTD_INDEX,
     GORGE_INDEX,
+    LFC_INDEX,
     MASH_CHECKER_INDEX,
     ROLL_INDEX,
     UMD_INDEX,
