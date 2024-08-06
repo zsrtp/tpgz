@@ -95,13 +95,14 @@ KEEP_FUNC ActorListMenu::ActorListMenu(Cursor& cursor, ActorListData& data)
         : Menu(cursor),
           l_index(data.l_index),
           lines{
-            {"", ACTOR_NAME_INDEX, "Z+A: freeze actor, Z+" DELETE_TEXT ": delete actor, " MEM_TEXT " view memory", false},
+            {"", ACTOR_NAME_INDEX, "A: freeze actor, " DELETE_TEXT ": delete actor, " MEM_TEXT " view memory", false},
             {"", ACTOR_POSITION_X_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
             {"", ACTOR_POSITION_Y_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
             {"", ACTOR_POSITION_Z_INDEX, "dpad: +/-100.0, " SLOW_INC_TEXT "+dpad: +/-1.0, " FAST_INC_TEXT "+dpad: +/-1000.0", false},
             {"", ACTOR_ANGLE_X_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
             {"", ACTOR_ANGLE_Y_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
             {"", ACTOR_ANGLE_Z_INDEX, "dpad: +/-100, " SLOW_INC_TEXT "+dpad: +/-1, " FAST_INC_TEXT "+dpad: +/-1000", false},
+            {"", ACTOR_ADDRESS_INDEX, "current actor address", false},
             {"", ACTOR_PROC_INDEX, "current actor proc id", false},
             {"", ACTOR_PARAMS_INDEX, "current actor parameters", false},
         } {
@@ -199,7 +200,7 @@ void ActorListMenu::draw() {
             loadActorName();
         }
         
-        if (GZ_getButtonPressed(MEM_SWITCH_BTN) && GZ_getButtonPressed(DELETE_BUTTON)) {
+        if (GZ_getButtonRepeat(DELETE_BUTTON)) {
             if (g_currentActor) {
                 if (g_currentActor->mBase.mProcName != PROC_ALINK) {
                     fopAcM_delete(g_currentActor);
@@ -207,7 +208,7 @@ void ActorListMenu::draw() {
             }
         }
 
-        if (GZ_getButtonPressed(MEM_SWITCH_BTN) && GZ_getButtonPressed(CONTROLLER_A)) {
+        if (GZ_getButtonRepeat(CONTROLLER_A)) {
             if (g_currentActor) {
                 g_currentActor->mBase.mPauseFlag = !g_currentActor->mBase.mPauseFlag;
             }
@@ -267,6 +268,7 @@ void ActorListMenu::draw() {
         lines[ACTOR_ANGLE_X_INDEX].printf("rot-x: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.x));
         lines[ACTOR_ANGLE_Y_INDEX].printf("rot-y: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.y));
         lines[ACTOR_ANGLE_Z_INDEX].printf("rot-z: <0x%04X>", static_cast<u16>(g_currentActor->shape_angle.z));
+        lines[ACTOR_ADDRESS_INDEX].printf("addr: 0x%08X", g_currentActor);
         lines[ACTOR_PROC_INDEX].printf("proc id: %d", g_currentActor->mBase.mProcName);
         lines[ACTOR_PARAMS_INDEX].printf("params: 0x%08X", g_currentActor->mBase.mParameters);
     }
