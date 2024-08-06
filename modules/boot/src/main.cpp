@@ -72,12 +72,6 @@ void main() {
     if (l_gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
         load_texture("/tpgz/tex/tpgz.tex", &l_gzIconTex);
     }
-
-    #ifdef PR_TEST
-    // intentionally cause a crash by deref nullptr
-    char* p = nullptr;
-    *p = 0;
-    #endif
 }
 void exit() {}
 
