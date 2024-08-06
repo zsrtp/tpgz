@@ -60,6 +60,12 @@ bool last_frame_was_loading = false;
 
 namespace tpgz::modules {
 void main() {
+    #ifdef PR_TEST
+    // intentionally cause a crash by deref nullptr
+    char* p = nullptr;
+    *p = 0;
+    #endif
+
     OSReportEnable();
     OSReport("TPGZ is starting...\n");
     // Run the initialization module.

@@ -74,32 +74,13 @@ void drawHook(void* p1) {
 }
 
 #ifdef PR_TEST
-#ifdef GCN_NTSCU
-#define CRASH_ADDRESS (0x80450580)
-#endif
-#ifdef GCN_PAL
-#define CRASH_ADDRESS (0x80452540)
-#endif
-#ifdef GCN_NTSCJ
-#define CRASH_ADDRESS (0x8044A6C0)
-#endif
-#ifdef WII_NTSCU_10
-#define CRASH_ADDRESS (0x80537560)
-#endif
-#ifdef WII_NTSCU_12
-#define CRASH_ADDRESS (0x8051d5e0)
-#endif
-#ifdef WII_NTSCJ
-#define CRASH_ADDRESS (0x8051b460)
-#endif
-#ifdef WII_PAL
-#define CRASH_ADDRESS (0x8051DEE0)
-#endif
+extern volatile uint32_t gzCrashReport;
+
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
-    *reinterpret_cast<uint32_t*>(CRASH_ADDRESS) = 1;
-    DCFlushRange((void*)(CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
-    ICInvalidateRange((void*)(CRASH_ADDRESS), sizeof(CRASH_ADDRESS));
+    gzCrashReport = 1;
+    DCFlushRange((void*)(&gzCrashReport), sizeof(gzCrashReport));
+    ICInvalidateRange((void*)(&gzCrashReport), sizeof(gzCrashReport));
 }
 #endif  // PR_TEST
 
@@ -251,7 +232,7 @@ void daAlink_c__setCutJumpSpeedHook(daAlink_c* i_this, int i_air) {
     daAlink_c__setCutJumpSpeedTrampoline(i_this, i_air);
 }
 
-// WIP skipping intro logos
+// Skip intro logos
 void dScnLogo_c__warningInDraw(dScnLogo_c* i_this) {
     i_this->mExecCommand = dScnLogo_c::EXEC_DVD_WAIT;
 }
