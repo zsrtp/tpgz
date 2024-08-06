@@ -74,8 +74,6 @@ void drawHook(void* p1) {
 }
 
 #ifdef PR_TEST
-extern volatile uint32_t gzCrashReport;
-
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
     gzCrashReport = 1;
