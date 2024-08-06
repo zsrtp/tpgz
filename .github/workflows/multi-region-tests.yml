@@ -70,4 +70,4 @@ jobs:
         run: |
           dolphin-emu-nogui --platform=headless --video_backend=Null -e build/${{ matrix.iso_name }} &
           sleep 15
-          dme -d dolphin-emu-nog -a ${{ matrix.dolphin_memory }} -q 0
+          dme -d dolphin-emu-nog -a ${{ matrix.dolphin_memory }} -q 0 --platform offscreen
