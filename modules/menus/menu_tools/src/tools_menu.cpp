@@ -6,7 +6,6 @@
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "gz_flags.h"
 #include "rels/include/defines.h"
-#include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
 #ifdef GCN_PLATFORM
@@ -33,22 +32,15 @@
 #define MAX_TUNIC_COLORS 7
 
 const char l_descTemplates[TOOLS_COUNT][100] = {
+    "open checkers menu",
     "use %s to reload current area",
     "use %s to pause, %s to frame advance",
     "reduces bonk animation significantly",
     "link's movement is much faster",
-    "use %s to warp to kakariko gorge",
-#ifdef WII_PLATFORM
-    "use %s to warp to ordon bridge",
-#endif
-    "show frame info when doing coro td",
-    "practice snowpeak universal map delay timing",
     "show current inputs",
     "show Link's position, angle, and speed",
     "show Heap size info",
     "link won't sink in sand",
-    "frame counter for chaining rolls",
-    "display A/B button mashing speeds",
     "%s to set, %s to load",
     "simulates turbo controller inputs",
     "frame timer: %s to start/stop, %s to reset",
@@ -64,7 +56,8 @@ const char l_descTemplates[TOOLS_COUNT][100] = {
 
 KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
     : Menu(cursor), l_tunicCol_idx(data.l_tunicCol_idx),
-      lines{{"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",
+      lines{{"checkers", CHECKERS_INDEX, "checkers menu", false},
+            {"area reload", RELOAD_AREA_INDEX, "use " RELOAD_AREA_TEXT " to reload current area",
              true, ACTIVE_FUNC(STNG_TOOLS_RELOAD_AREA)},
             {"frame advance", FRAME_ADVANCE_INDEX, "use " FRAME_ADVANCE_TEXT " to pause, " FRAME_PAUSE_TEXT " to frame advance",
              true, ACTIVE_FUNC(STNG_TOOLS_FRAME_ADVANCE)},
@@ -72,16 +65,6 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              ACTIVE_FUNC(STNG_TOOLS_FAST_BONK)},
             {"fast movement", FAST_MOVEMENT_INDEX, "link's movement is much faster", true,
              ACTIVE_FUNC(STNG_TOOLS_FAST_MOVEMENT)},
-            {"gorge checker", GORGE_INDEX, "use " GORGE_VOID_TEXT " to warp to kakariko gorge",
-             true, ACTIVE_FUNC(STNG_TOOLS_GORGE)},
-#ifdef WII_PLATFORM
-            {"bit checker", BIT_INDEX, "use " BACK_IN_TIME_TEXT " to warp to ordon bridge", true,
-             ACTIVE_FUNC(STNG_TOOLS_BIT)},
-#endif
-            {"coro td checker", COROTD_INDEX, "show frame info when doing coro td", true,
-             ACTIVE_FUNC(STNG_TOOLS_COROTD)},
-            {"umd checker", UMD_INDEX, "practice snowpeak universal map delay timing", true,
-             ACTIVE_FUNC(STNG_TOOLS_UMD)},
             {"input viewer", INPUT_VIEWER_INDEX, "show current inputs", true,
              ACTIVE_FUNC(STNG_TOOLS_INPUT_VIEWER)},
             {"link debug info", LINK_DEBUG_INDEX, "show Link's position, angle, and speed", true,
@@ -90,10 +73,6 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor, ToolsData& data)
              ACTIVE_FUNC(STNG_TOOLS_HEAP_DEBUG)},
             {"no sinking in sand", SAND_INDEX, "link won't sink in sand", true,
              ACTIVE_FUNC(STNG_TOOLS_SAND)},
-            {"roll checker", ROLL_INDEX, "frame counter for chaining rolls", true,
-             ACTIVE_FUNC(STNG_TOOLS_ROLL)},
-            {"mash checker", MASH_CHECKER_INDEX, "display A/B button mashing speeds", true,
-             ACTIVE_FUNC(STNG_TOOLS_MASH_CHECKER)},
             {"teleport", TELEPORT_INDEX,
              STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load", true,
              ACTIVE_FUNC(STNG_TOOLS_TELEPORT)},
@@ -126,13 +105,8 @@ ToolsMenu::~ToolsMenu() {}
 
 GZSettingID l_mapping[] = {
     STNG_TOOLS_RELOAD_AREA,   STNG_TOOLS_FRAME_ADVANCE, STNG_TOOLS_FAST_BONK,
-    STNG_TOOLS_FAST_MOVEMENT, STNG_TOOLS_GORGE,
-#ifdef WII_PLATFORM
-    STNG_TOOLS_BIT,
-#endif
-    STNG_TOOLS_COROTD,        STNG_TOOLS_UMD,           STNG_TOOLS_INPUT_VIEWER,
-    STNG_TOOLS_LINK_DEBUG,    STNG_TOOLS_HEAP_DEBUG,    STNG_TOOLS_SAND,
-    STNG_TOOLS_ROLL,          STNG_TOOLS_MASH_CHECKER,  STNG_TOOLS_TELEPORT,
+    STNG_TOOLS_FAST_MOVEMENT, STNG_TOOLS_INPUT_VIEWER,  STNG_TOOLS_LINK_DEBUG,
+    STNG_TOOLS_HEAP_DEBUG,    STNG_TOOLS_SAND,          STNG_TOOLS_TELEPORT,
     STNG_TOOLS_TURBO_MODE,    STNG_TOOLS_TIMER,         STNG_TOOLS_LOAD_TIMER,
     STNG_TOOLS_IGT_TIMER,     STNG_TOOLS_FREE_CAM,      STNG_TOOLS_MOVE_LINK,
 };
@@ -179,11 +153,16 @@ void ToolsMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
+        if (cursor.y == CHECKERS_INDEX) {
+            g_menuMgr->push(MN_CHECKERS_INDEX);
+            return;
+        }
+        
         GZSettingEntry* stng = nullptr;
         if (cursor.y < TOOLS_COUNT && cursor.y != TUNIC_COLOR_INDEX) {
-            stng = GZStng_get(l_mapping[cursor.y]);
+            stng = GZStng_get(l_mapping[cursor.y-1]);
             if (!stng) {
-                stng = new GZSettingEntry{l_mapping[cursor.y], sizeof(bool), new bool};
+                stng = new GZSettingEntry{l_mapping[cursor.y-1], sizeof(bool), new bool};
                 g_settings.push_back(stng);
             }
         }
@@ -232,24 +211,6 @@ void ToolsMenu::draw() {
         delete[] comboPauseStr;
         break;
     }
-    case GORGE_INDEX: {
-        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_GORGE_VOID, GORGE_VOID_BUTTONS);
-        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
-        GZCmd_comboToStr(combo, comboStr);
-        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
-        delete[] comboStr;
-        break;
-    }
-#ifdef WII_PLATFORM
-    case BIT_INDEX: {
-        uint16_t combo = GZStng_getData<uint16_t>(STNG_CMD_BIT, BACK_IN_TIME_BUTTONS);
-        char* comboStr = new char[GZCmd_getComboLen(combo) + 1];
-        GZCmd_comboToStr(combo, comboStr);
-        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboStr);
-        delete[] comboStr;
-        break;
-    }
-#endif
     case TELEPORT_INDEX: {
         uint16_t comboPause =
             GZStng_getData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS);

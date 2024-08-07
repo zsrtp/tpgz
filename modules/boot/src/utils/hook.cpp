@@ -18,6 +18,7 @@
 #include "collision_view.h"
 #include "features/projection_view/include/projection_view.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
+#include "libtp_c/include/d/s/d_s_logo.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -51,13 +52,20 @@ HOOK_DEF(void, dCcS__draw, (dCcS*));
 HOOK_DEF(void, BeforeOfPaint, (void));
 HOOK_DEF(void, dCcS__MoveAfterCheck, (dCcS*));
 
-
 HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
 
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
 HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
 HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
+
+#ifdef WII_PLATFORM
+HOOK_DEF(void, dScnLogo_c__create, (dScnLogo_c_wii*));
+HOOK_DEF(void, dScnLogo_c__dvdWaitDraw, (dScnLogo_c_wii*));
+HOOK_DEF(int, mDoGph_gInf_c__startFadeOut, (int));
+#else
+HOOK_DEF(void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
+#endif
 
 namespace Hook {
 void gameLoopHook(void) {
@@ -74,9 +82,9 @@ void drawHook(void* p1) {
 #ifdef PR_TEST
 void myExceptionCallbackHook(void) {
     ExceptionCallbackTrampoline();
-    gzCrashAddr = 1;
-    DCFlushRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
-    ICInvalidateRange((void*)(&gzCrashAddr), sizeof(gzCrashAddr));
+    gzCrashReport = 1;
+    DCFlushRange((void*)(&gzCrashReport), sizeof(gzCrashReport));
+    ICInvalidateRange((void*)(&gzCrashReport), sizeof(gzCrashReport));
 }
 #endif  // PR_TEST
 
@@ -189,10 +197,6 @@ int endSaveInjectHook(void* i_scene) {
     int rt = dScnPly__phase_4Trampoline(i_scene);
 
     if (SaveManager::s_injectSave || SaveManager::s_injectMemfile) {
-        if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
-            SaveManager::s_applyAfterTimer = 5;
-        }
-
         SaveManager::s_injectSave = false;
         SaveManager::s_injectMemfile = false;
     }
@@ -227,6 +231,30 @@ void dBgS_AcchCrrPosHook(dBgS_Acch* i_this, dBgS& i_bgs) {
 void daAlink_c__setCutJumpSpeedHook(daAlink_c* i_this, int i_air) {
     daAlink_c__setCutJumpSpeedTrampoline(i_this, i_air);
 }
+
+#ifdef WII_PLATFORM
+// Skip intro logos (Wii)
+void dScnLogo_c__create(dScnLogo_c_wii* i_this) {
+    dScnLogo_c__createTrampoline(i_this);
+    i_this->mExecCommand = 14; // dScnLogo_c::EXEC_DVD_WAIT
+}
+
+int mDoGph_gInf_c__startFadeOut(int i) {
+    return mDoGph_gInf_c__startFadeOutTrampoline(i);
+}
+
+void dScnLogo_c__dvdWaitDraw(dScnLogo_c_wii* i_this) {
+    // fade out
+    mDoGph_gInf_c__startFadeOutTrampoline(0);
+    dScnLogo_c__dvdWaitDrawTrampoline(i_this);
+}
+
+#else
+// Skip intro logos (GCN)
+void dScnLogo_c__warningInDraw(dScnLogo_c* i_this) {
+    i_this->mExecCommand = dScnLogo_c::EXEC_DVD_WAIT;
+}
+#endif
 
 void setupLJAProjectionLine(daAlink_c* i_this) {
     bool got_it = false;
@@ -392,12 +420,16 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_myExceptionCallback myExceptionCallback_unsigned
 #define f_dScnPly__phase_1 phase_1_dScnPly_c___
 #define f_dScnPly__phase_4 phase_4_dScnPly_c___
+#define f_dScnLogo_c__warningInDraw dScnLogo_c__warningInDraw_void_
 #define f_dCcS__Draw dCcS__Draw_void_
 #define f_dScnPly_BeforeOfPaint mDoGph_BeforeOfDraw_void_
 #define f_dCcS__MoveAfterCheck dCcS__MoveAfterCheck_void_
 #define f_dBgS_Acch__CrrPos dBgS_Acch__CrrPos_dBgS___
 #define f_daAlink_c__setCutJumpSpeed daAlink_c__setCutJumpSpeed_int_
 #define f_daAlink_c__posMove daAlink_c__posMove_void_
+#define f_dScnLogo_c__create dScnLogo_c__create_void_
+#define f_dScnLogo_c__dvdWaitDraw dScnLogo_c__dvdWaitDraw_void_
+#define f_mDoGph_gInf_c__startFadeOut mDoGph_gInf_c__startFadeOut_int_
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -412,6 +444,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_myExceptionCallback myExceptionCallback__FUsP9OSContextUlUl
 #define f_dScnPly__phase_1 phase_1__FP9dScnPly_c
 #define f_dScnPly__phase_4 phase_4__FP9dScnPly_c
+#define f_dScnLogo_c__warningInDraw warningInDraw__10dScnLogo_cFv
 #define f_dCcS__Draw Draw__4dCcSFv
 #define f_dScnPly_BeforeOfPaint dScnPly_BeforeOfPaint__Fv
 #define f_dCcS__MoveAfterCheck MoveAfterCheck__4dCcSFv
@@ -441,6 +474,13 @@ void f_dCcS__MoveAfterCheck(dCcS*);
 void f_dBgS_Acch__CrrPos(dBgS_Acch*, dBgS&);
 void f_daAlink_c__setCutJumpSpeed(daAlink_c*, int);
 void f_daAlink_c__posMove(daAlink_c*);
+#ifdef WII_PLATFORM
+void f_dScnLogo_c__create(dScnLogo_c_wii*);
+void f_dScnLogo_c__dvdWaitDraw(dScnLogo_c_wii*);
+void f_mDoGph_gInf_c__startFadeOut(int);
+#else
+void f_dScnLogo_c__warningInDraw(dScnLogo_c*);
+#endif
 }
 
 KEEP_FUNC void applyHooks() {
@@ -468,6 +508,14 @@ KEEP_FUNC void applyHooks() {
 
     APPLY_HOOK(daAlink_c__setCutJumpSpeed, &f_daAlink_c__setCutJumpSpeed, daAlink_c__setCutJumpSpeedHook);
     APPLY_HOOK(daAlink_c__posMove, &f_daAlink_c__posMove, daAlink_c__posMoveHook);
+#ifdef WII_PLATFORM
+    APPLY_HOOK(dScnLogo_c__create, &f_dScnLogo_c__create, dScnLogo_c__create);
+    APPLY_HOOK(dScnLogo_c__dvdWaitDraw, &f_dScnLogo_c__dvdWaitDraw, dScnLogo_c__dvdWaitDraw);
+    APPLY_HOOK(mDoGph_gInf_c__startFadeOut, &f_mDoGph_gInf_c__startFadeOut, mDoGph_gInf_c__startFadeOut);
+#else
+APPLY_HOOK(dScnLogo_c__warningInDraw, &f_dScnLogo_c__warningInDraw, dScnLogo_c__warningInDraw);
+#endif
+
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

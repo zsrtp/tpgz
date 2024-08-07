@@ -72,6 +72,10 @@ KEEP_FUNC bool corotd_active() {
     return GZStng_getData(STNG_TOOLS_COROTD, false);
 }
 
+KEEP_FUNC bool lfc_active() {
+    return GZStng_getData(STNG_TOOLS_LFC, false);
+}
+
 KEEP_FUNC bool mash_checker_active() {
     return GZStng_getData(STNG_TOOLS_MASH_CHECKER, false);
 }

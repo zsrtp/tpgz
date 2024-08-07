@@ -1,5 +1,5 @@
 #include <main.h>
-#include "menus/menu_memfiles/include/memfiles_menu.h"
+#include "menus/menu_checkers/include/checkers_menu.h"
 #include "events/draw_listener.h"
 #include "menus/utils/menu_mgr.h"
 #include "utils/draw.h"
@@ -10,7 +10,7 @@ void onDraw();
 void onUnload();
 void onDelete();
 
-MemfilesMenu* l_menu;
+CheckersMenu* l_checkersMenu;
 
 namespace tpgz::modules {
 void main() {
@@ -28,23 +28,23 @@ void exit() {
 }  // namespace tpgz::modules
 
 void onCreate() {
-    if (!g_menuMgr->getPermanentData<MemfilesData>()) {
-        g_menuMgr->setPermanentData(new MemfilesData);
+    if (!g_menuMgr->getPermanentData<CheckersData>()) {
+        g_menuMgr->setPermanentData(new CheckersData);
     }
 }
 
 void onLoad() {
-    l_menu = new MemfilesMenu(*g_menuMgr->getPermanentData<MemfilesData>());
+    l_checkersMenu = new CheckersMenu(*g_menuMgr->getPermanentData<CheckersData>());
     g_drawListener->addListener(onDraw);
 }
 
 void onDraw() {
-    l_menu->draw();
+    l_checkersMenu->draw();
 }
 
 void onUnload() {
     g_drawListener->removeListener(onDraw);
-    delete l_menu;
+    delete l_checkersMenu;
 }
 
 void onDelete() {}

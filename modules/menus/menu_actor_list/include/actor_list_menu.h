@@ -22,6 +22,8 @@ enum {
     ACTOR_ANGLE_X_INDEX,
     ACTOR_ANGLE_Y_INDEX,
     ACTOR_ANGLE_Z_INDEX,
+    ACTOR_ADDRESS_INDEX,
+    ACTOR_PROC_INDEX,
     ACTOR_PARAMS_INDEX,
 
     ACTOR_LIST_LINE_COUNT,
@@ -36,7 +38,7 @@ public:
 private:
     void updateActorData();
     template <typename T>
-    void updateValue(T* value, f32 smallChange, f32 largeChange, bool increase, bool largeIncrement);
+    void updateValue(T*, bool);
     void loadActorName();
     void checkAndCloseMenu();
     void checkAndRestoreMenu();

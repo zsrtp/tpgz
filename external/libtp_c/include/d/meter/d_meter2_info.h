@@ -25,6 +25,7 @@ public:
     u8& getDirectUseItem() { return mDirectUseItem; }
     dMeterMap_c* getMeterMapClass() { return mMeterMap; }
     void offUseButton(int pButton) { mUseButton &= ~(u16)pButton; }
+    void offMenuInForce(int flag) { mMenuInForce &= ~(1 << flag); }
 
     /* 0x00 */ void* vtable;
     /* 0x04 */ u8 unk4[4];
@@ -56,7 +57,7 @@ public:
     /* 0x90 */ u32 mTempBits;
     /* 0x94 */ s16 mMsgKeyWaitTimer;
     /* 0x96 */ u16 mHorseLifeCount;
-    /* 0x98 */ u16 unk152;
+    /* 0x98 */ u16 mMenuInForce;
     /* 0x9A */ u16 mHotSpringTimer[4];
     /* 0xA2 */ u16 mSub2DStatus;
     /* 0xA4 */ u16 mFloatingFlowID;

@@ -13,15 +13,12 @@
 
 PositionData memfile_posdata;
 
-KEEP_FUNC MemfilesMenu::MemfilesMenu(Cursor& cursor, MemfilesData& data)
-    : Menu(cursor),
-      l_fileNo(data.l_fileNo), lines{
-                                   {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
-                                   {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
-                                   {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false},
-                                   {"delete", MEMFILE_DELETE_INDEX, "Delete memfile from slot",
-                                    false},
-                               } {}
+KEEP_FUNC MemfilesMenu::MemfilesMenu(MemfilesData& data)
+    : Menu(data.cursor), l_fileNo(data.l_fileNo), lines{
+    {"file slot:", MEMFILE_SLOT_INDEX, "Select memfile slot"},
+    {"save", MEMFILE_SAVE_INDEX, "Save memfile to slot", false},
+    {"load", MEMFILE_LOAD_INDEX, "Load memfile from slot", false},
+    {"delete", MEMFILE_DELETE_INDEX, "Delete memfile from slot", false}} {}
 
 MemfilesMenu::~MemfilesMenu() {}
 

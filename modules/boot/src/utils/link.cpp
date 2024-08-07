@@ -24,6 +24,7 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         char link_x[22];
         char link_y[22];
         char link_z[22];
+        char link_action[22];
 
         snprintf(link_angle, sizeof(link_angle), "angle: %d",
                  (uint16_t)dComIfGp_getPlayer()->shape_angle.y);
@@ -32,6 +33,8 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         snprintf(link_x, sizeof(link_x), "x-pos: %.4f", dComIfGp_getPlayer()->current.pos.x);
         snprintf(link_y, sizeof(link_y), "y-pos: %.4f", dComIfGp_getPlayer()->current.pos.y);
         snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->current.pos.z);
+        snprintf(link_action, sizeof(link_action), "action: %d", dComIfGp_getPlayer()->mActionID);
+
 
         Font::GZ_drawStr(link_angle, spriteOffset.x,
                          spriteOffset.y + 20.0f, 0xFFFFFFFF,
@@ -51,6 +54,9 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         Font::GZ_drawStr(link_z, spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
+        Font::GZ_drawStr(link_action, spriteOffset.x,
+                        spriteOffset.y + 140.0f, 0xFFFFFFFF,
+                        GZ_checkDropShadows());
     } else {
         Font::GZ_drawStr("angle: n/a", spriteOffset.x,
                          spriteOffset.y + 20.0f, 0xFFFFFFFF,
@@ -69,6 +75,9 @@ KEEP_FUNC void GZ_displayLinkInfo() {
                          GZ_checkDropShadows());
         Font::GZ_drawStr("z-pos: n/a", spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr("action: n/a", spriteOffset.x,
+                         spriteOffset.y + 140.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
     }
 }

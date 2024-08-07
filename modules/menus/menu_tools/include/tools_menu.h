@@ -6,7 +6,6 @@
 #ifdef GCN_PLATFORM
 #define FRAME_ADVANCE_TEXT "R + D-Pad Up"
 #define FRAME_PAUSE_TEXT "R"
-#define GORGE_VOID_TEXT "L+Z"
 #define STORE_POSITION_TEXT "D-PAD up + R"
 #define LOAD_POSITION_TEXT "D-PAD down + R"
 #define RELOAD_AREA_TEXT "L+R+A+Start"
@@ -19,8 +18,6 @@
 #ifdef WII_PLATFORM
 #define FRAME_ADVANCE_TEXT "Z+C+Plus+Minus"
 #define FRAME_PAUSE_TEXT "2"
-#define GORGE_VOID_TEXT "Z+C+A+1"
-#define BACK_IN_TIME_TEXT "Z+C+A+2"
 #define STORE_POSITION_TEXT "Z+C+1"
 #define LOAD_POSITION_TEXT "Z+C+2"
 #define RELOAD_AREA_TEXT "Z+C+B+2"

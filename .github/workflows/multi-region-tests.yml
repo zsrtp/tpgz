@@ -2,7 +2,7 @@ name: Multi-Region Tests
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -53,7 +53,7 @@ jobs:
             dolphin_memory: "0x8044A6C0"
             iso_name: tpgz.iso
     container:
-      image: ghcr.io/pheenoh/zsrtp-tpgz:${{ matrix.container }}
+      image: ghcr.io/zsrtp/zsrtp-tpgz:${{ matrix.container }}
       options: --shm-size=128m --ulimit core=-1 --privileged=true
     name: ${{ matrix.platform }}-${{ matrix.region }} Test
     steps:
@@ -70,4 +70,4 @@ jobs:
         run: |
           dolphin-emu-nogui --platform=headless --video_backend=Null -e build/${{ matrix.iso_name }} &
           sleep 15
-          /dme -c ${{ matrix.dolphin_memory }}
+          dme -d dolphin-emu-nog -a ${{ matrix.dolphin_memory }} -q 0 --platform offscreen
