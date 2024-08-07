@@ -118,14 +118,12 @@ void GZ_execute(int phase) {
         }
     }
 
-    // Timer set after dScnPly__phase_4, delay until objects are fully loaded
-    if (!fopScnRq.isLoading && SaveManager::s_applyAfterTimer > 0) {
-        SaveManager::s_applyAfterTimer--;
-    } else if (SaveManager::s_applyAfterTimer == 0) {
+    // Check for post load callback and run it once link is valid
+    if (!fopScnRq.isLoading && dComIfGp_getPlayer()) {
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
             gSaveManager.mPracticeFileOpts.inject_options_after_load();
+            gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
         }
-        SaveManager::s_applyAfterTimer = -1;
     }
 
     // normally oxygen doesn't get set until going to the file select screen

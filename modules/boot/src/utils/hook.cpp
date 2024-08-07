@@ -197,10 +197,6 @@ int endSaveInjectHook(void* i_scene) {
     int rt = dScnPly__phase_4Trampoline(i_scene);
 
     if (SaveManager::s_injectSave || SaveManager::s_injectMemfile) {
-        if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
-            SaveManager::s_applyAfterTimer = 5;
-        }
-
         SaveManager::s_injectSave = false;
         SaveManager::s_injectMemfile = false;
     }
