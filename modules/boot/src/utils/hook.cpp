@@ -36,7 +36,6 @@ HOOK_DEF(void, draw, (void*));
 #endif
 
 extern volatile uint32_t gzCrashReport;
-extern volatile uint32_t dScnLogo_c__strapInDraw_void_;
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
@@ -61,12 +60,8 @@ HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
 HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
 
 #ifdef WII_PLATFORM
-HOOK_DEF(void, dScnLogo_c__strapInDraw, (dScnLogo_c_wii*));
-HOOK_DEF(void, dScnLogo_c__strapDispDraw, (dScnLogo_c_wii*));
-HOOK_DEF(void, dScnLogo_c__logoInitWii, (dScnLogo_c_wii*));
 HOOK_DEF(void, dScnLogo_c__create, (dScnLogo_c_wii*));
 HOOK_DEF(void, dScnLogo_c__dvdWaitDraw, (dScnLogo_c_wii*));
-HOOK_DEF(int, mDoGph_gInf_c__startFadeIn, (int));
 HOOK_DEF(int, mDoGph_gInf_c__startFadeOut, (int));
 #else
 HOOK_DEF(void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
