@@ -36,6 +36,7 @@ HOOK_DEF(void, draw, (void*));
 #endif
 
 extern volatile uint32_t gzCrashReport;
+extern volatile uint32_t dScnLogo_c__strapInDraw_void_;
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
@@ -55,11 +56,21 @@ HOOK_DEF(void, dCcS__MoveAfterCheck, (dCcS*));
 HOOK_DEF(int, dScnPly__phase_1, (void*));
 HOOK_DEF(int, dScnPly__phase_4, (void*));
 
-HOOK_DEF(void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
-
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
 HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
 HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
+
+#ifdef WII_PLATFORM
+HOOK_DEF(void, dScnLogo_c__strapInDraw, (dScnLogo_c_wii*));
+HOOK_DEF(void, dScnLogo_c__strapDispDraw, (dScnLogo_c_wii*));
+HOOK_DEF(void, dScnLogo_c__logoInitWii, (dScnLogo_c_wii*));
+HOOK_DEF(void, dScnLogo_c__create, (dScnLogo_c_wii*));
+HOOK_DEF(void, dScnLogo_c__dvdWaitDraw, (dScnLogo_c_wii*));
+HOOK_DEF(int, mDoGph_gInf_c__startFadeIn, (int));
+HOOK_DEF(int, mDoGph_gInf_c__startFadeOut, (int));
+#else
+HOOK_DEF(void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
+#endif
 
 namespace Hook {
 void gameLoopHook(void) {
@@ -230,10 +241,29 @@ void daAlink_c__setCutJumpSpeedHook(daAlink_c* i_this, int i_air) {
     daAlink_c__setCutJumpSpeedTrampoline(i_this, i_air);
 }
 
-// Skip intro logos
+#ifdef WII_PLATFORM
+// Skip intro logos (Wii)
+void dScnLogo_c__create(dScnLogo_c_wii* i_this) {
+    dScnLogo_c__createTrampoline(i_this);
+    i_this->mExecCommand = 14; // dScnLogo_c::EXEC_DVD_WAIT
+}
+
+int mDoGph_gInf_c__startFadeOut(int i) {
+    return mDoGph_gInf_c__startFadeOutTrampoline(i);
+}
+
+void dScnLogo_c__dvdWaitDraw(dScnLogo_c_wii* i_this) {
+    // fade out
+    mDoGph_gInf_c__startFadeOutTrampoline(0);
+    dScnLogo_c__dvdWaitDrawTrampoline(i_this);
+}
+
+#else
+// Skip intro logos (GCN)
 void dScnLogo_c__warningInDraw(dScnLogo_c* i_this) {
     i_this->mExecCommand = dScnLogo_c::EXEC_DVD_WAIT;
 }
+#endif
 
 void setupLJAProjectionLine(daAlink_c* i_this) {
     bool got_it = false;
@@ -406,6 +436,9 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_dBgS_Acch__CrrPos dBgS_Acch__CrrPos_dBgS___
 #define f_daAlink_c__setCutJumpSpeed daAlink_c__setCutJumpSpeed_int_
 #define f_daAlink_c__posMove daAlink_c__posMove_void_
+#define f_dScnLogo_c__create dScnLogo_c__create_void_
+#define f_dScnLogo_c__dvdWaitDraw dScnLogo_c__dvdWaitDraw_void_
+#define f_mDoGph_gInf_c__startFadeOut mDoGph_gInf_c__startFadeOut_int_
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -444,13 +477,19 @@ void f_putSave(void*, int);
 void f_myExceptionCallback();
 int f_dScnPly__phase_1(void*);
 int f_dScnPly__phase_4(void*);
-void f_dScnLogo_c__warningInDraw(dScnLogo_c*);
 void f_dCcS__Draw(dCcS*);
 void f_dScnPly_BeforeOfPaint();
 void f_dCcS__MoveAfterCheck(dCcS*);
 void f_dBgS_Acch__CrrPos(dBgS_Acch*, dBgS&);
 void f_daAlink_c__setCutJumpSpeed(daAlink_c*, int);
 void f_daAlink_c__posMove(daAlink_c*);
+#ifdef WII_PLATFORM
+void f_dScnLogo_c__create(dScnLogo_c_wii*);
+void f_dScnLogo_c__dvdWaitDraw(dScnLogo_c_wii*);
+void f_mDoGph_gInf_c__startFadeOut(int);
+#else
+void f_dScnLogo_c__warningInDraw(dScnLogo_c*);
+#endif
 }
 
 KEEP_FUNC void applyHooks() {
@@ -469,7 +508,6 @@ KEEP_FUNC void applyHooks() {
     APPLY_HOOK(putSave, &f_putSave, putSaveHook);
     APPLY_HOOK(dScnPly__phase_1, &f_dScnPly__phase_1, saveInjectHook);
     APPLY_HOOK(dScnPly__phase_4, &f_dScnPly__phase_4, endSaveInjectHook);
-    APPLY_HOOK(dScnLogo_c__warningInDraw, &f_dScnLogo_c__warningInDraw, dScnLogo_c__warningInDraw);
 
     APPLY_HOOK(dCcS__draw, &f_dCcS__Draw, dCcSDrawHook);
     APPLY_HOOK(BeforeOfPaint, &f_dScnPly_BeforeOfPaint, beforeOfPaintHook);
@@ -479,6 +517,14 @@ KEEP_FUNC void applyHooks() {
 
     APPLY_HOOK(daAlink_c__setCutJumpSpeed, &f_daAlink_c__setCutJumpSpeed, daAlink_c__setCutJumpSpeedHook);
     APPLY_HOOK(daAlink_c__posMove, &f_daAlink_c__posMove, daAlink_c__posMoveHook);
+#ifdef WII_PLATFORM
+    APPLY_HOOK(dScnLogo_c__create, &f_dScnLogo_c__create, dScnLogo_c__create);
+    APPLY_HOOK(dScnLogo_c__dvdWaitDraw, &f_dScnLogo_c__dvdWaitDraw, dScnLogo_c__dvdWaitDraw);
+    APPLY_HOOK(mDoGph_gInf_c__startFadeOut, &f_mDoGph_gInf_c__startFadeOut, mDoGph_gInf_c__startFadeOut);
+#else
+APPLY_HOOK(dScnLogo_c__warningInDraw, &f_dScnLogo_c__warningInDraw, dScnLogo_c__warningInDraw);
+#endif
+
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif

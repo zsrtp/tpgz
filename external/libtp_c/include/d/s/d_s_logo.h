@@ -10,6 +10,18 @@ class ResTIMG;
 class JKRExpHeap;
 class JKRHeap;
 
+
+#ifdef WII_PLATFORM
+class dScnLogo_c_wii {
+public:
+    /* 0x000*/ u8 field_0x00[0x20c];
+    /* 0x20C */ u8 mExecCommand;
+    /* 0x20D */ u8 field_0x209;
+    /* 0x20E */ u8 field_0x20a;
+    /* 0x20F */ u8 field_0x20b;
+    /* 0x210 */ u16 mTimer;
+};
+#else
 class dScnLogo_c : public scene_class {
 public:
     enum {
@@ -116,7 +128,6 @@ public:
     /* 0x2A0 */ mDoDvdThd_toMainRam_c* mItemTableCommand;
     /* 0x2A4 */ mDoDvdThd_toMainRam_c* mEnemyItemCommand;
 };
-
-LIBTP_DEFINE_FUNC(warningInDraw__10dScnLogo_cFv, dScnLogo_c__warningInDraw_void_, void, dScnLogo_c__warningInDraw, (dScnLogo_c*));
+#endif
 
 #endif
