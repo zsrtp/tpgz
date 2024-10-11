@@ -1,20 +1,16 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.241.1/containers/ubuntu/.devcontainer/base.Dockerfile
-
-# [Choice] Ubuntu version (use ubuntu-22.04 or ubuntu-18.04 on local arm64/Apple Silicon): ubuntu-22.04, ubuntu-20.04, ubuntu-18.04
 FROM devkitpro/devkitppc
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-# [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
-
-#RUN sudo dpkg --add-architecture i386
-RUN sudo apt-get update && sudo apt-get install -y build-essential
+RUN sudo dpkg --add-architecture i386
+RUN sudo apt-get update
+RUN sudo apt-get install -y sudo
+RUN sudo apt-get install -y build-essential
+RUN sudo apt-get install -y python3-pip
 RUN sudo apt-get install -y libarchive-tools
 RUN sudo apt-get install -y cmake
-# RUN sudo apt-get install -y wine64
-# RUN sudo apt-get install -y wine
 RUN sudo apt-get install -y ninja-build
-RUN sudo apt-get upgrade -y
 RUN sudo apt-get install -y libtinfo5
 
 # # Install the patchers
@@ -24,3 +20,12 @@ RUN sudo apt-get install -y libtinfo5
 # WORKDIR /workspaces/romhack/gc
 # RUN curl -L https://github.com/zsrtp/romhack-compiler/releases/download/v0.1.1-r2/romhack-v0.1.1-r2-linux-x64-musl-gc.zip | bsdtar -xvf -
 # RUN chmod +x romhack
+
+# Setup user
+RUN groupadd --gid $USER_GID $USERNAME
+RUN useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -G sudo -m $USERNAME
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME
+RUN chmod 0440 /etc/sudoers.d/$USERNAME
+USER vscode
+
+RUN python3 -m pip install Pillow pycryptodome
