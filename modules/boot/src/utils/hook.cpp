@@ -58,6 +58,7 @@ HOOK_DEF(int, dScnPly__phase_4, (void*));
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
 HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
 HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
+HOOK_DEF(bool,  daAlink_c__checkBootsMoveAnime, (daAlink_c*,int));
 
 #ifdef WII_PLATFORM
 HOOK_DEF(void, dScnLogo_c__create, (dScnLogo_c*));
@@ -338,6 +339,13 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
     }
 }
 
+bool daAlink_c__checkBootsMoveAnimeHook(daAlink_c* i_this, int param_1) {
+    if (daAlinkHIO_magneBoots.heavyStateSpeed == 1.f) {
+        return false;
+    }
+    return daAlink_c__checkBootsMoveAnimeTrampoline(i_this, param_1);
+}
+
 void daAlink_c__posMoveHook(daAlink_c* i_this) {
     if (GZStng_getData(STNG_SCENE_LJA_PROJECTION, false) || GZStng_getData(STNG_SCENE_MIDNA_CHARGE_PROJECTION, false)) {
         // store any variables that may be modified
@@ -451,6 +459,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_dBgS_Acch__CrrPos CrrPos__9dBgS_AcchFR4dBgS
 #define f_daAlink_c__setCutJumpSpeed setCutJumpSpeed__9daAlink_cFi
 #define f_daAlink_c__posMove posMove__9daAlink_cFv
+#define f_daAlink_c__checkBootsMoveAnime checkBootsMoveAnime__9daAlink_cFi 
 #endif
 
 extern "C" {
@@ -480,6 +489,7 @@ void f_dScnLogo_c__dvdWaitDraw(dScnLogo_c*);
 void f_mDoGph_gInf_c__startFadeOut(int);
 #else
 void f_dScnLogo_c__warningInDraw(dScnLogo_c*);
+bool f_daAlink_c__checkBootsMoveAnime(daAlink_c*,int);
 #endif
 }
 
@@ -519,6 +529,7 @@ APPLY_HOOK(dScnLogo_c__warningInDraw, &f_dScnLogo_c__warningInDraw, dScnLogo_c__
 #ifdef PR_TEST
     APPLY_HOOK(ExceptionCallback, &f_myExceptionCallback, myExceptionCallbackHook);
 #endif
+APPLY_HOOK(daAlink_c__checkBootsMoveAnime, &f_daAlink_c__checkBootsMoveAnime, daAlink_c__checkBootsMoveAnimeHook );
 
 #undef APPLY_HOOK
 }

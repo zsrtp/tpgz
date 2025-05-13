@@ -43,6 +43,7 @@ enum GZSettingID : uint32_t {
     STNG_CHEATS_TRANSFORM_ANYWHERE,
     STNG_CHEATS_DISABLE_ITEM_TIMER,
     STNG_CHEATS_GALE_LJA,  // Wii only, but we reserve the id anyway
+    STNG_CHEATS_FAST_IRON_BOOTS,
     // Tools
     STNG_TOOLS_RELOAD_AREA,
     STNG_TOOLS_FRAME_ADVANCE,

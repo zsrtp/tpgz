@@ -2305,6 +2305,13 @@ public:
     /* 0x98 */ f32 field_0x98;
 };  // Size: 0x9C
 
+struct daAlinkHIO_magneBoots_c0
+    {
+        unsigned char unk_0[0x14];
+        float heavyStateSpeed;
+        unsigned char  unk_18[0x34];
+
+    } __attribute__((__packed__));
 class daAlinkHIO_wlSwim_c1 {
 public:
     /* 0x00 */ daAlinkHIO_anm_c mSurfaceAnm;
@@ -2939,12 +2946,14 @@ public:
 #define daAlinkHIO_frontRoll m__23daAlinkHIO_frontRoll_c0
 #define daAlinkHIO_wlMove m__20daAlinkHIO_wlMove_c0
 #define daAlinkHIO_wlSwim m__20daAlinkHIO_wlSwim_c0
+#define daAlinkHIO_magneBoots m__24daAlinkHIO_magneBoots_c0
 #endif
 extern "C" {
 extern daAlinkHIO_swim_c1 daAlinkHIO_swim;
 extern daAlinkHIO_frontRoll_c1 daAlinkHIO_frontRoll;
 extern daAlinkHIO_wlMove_c1 daAlinkHIO_wlMove;
 extern daAlinkHIO_wlSwim_c1 daAlinkHIO_wlSwim;
+extern daAlinkHIO_magneBoots_c0 daAlinkHIO_magneBoots;
 }
 
 #ifdef WII_PLATFORM
@@ -2960,4 +2969,6 @@ LIBTP_DEFINE_FUNC(checkStageName__9daAlink_cFPCc, daAlink_c__checkStageName_char
 LIBTP_DEFINE_FUNC(posMove__9daAlink_cFv, daAlink_c__posMove_void_, void, daAlink_c__posMove, (daAlink_c*))
 // LIBTP_DEFINE_FUNC(setSpecialGravity__9daAlink_cFffi, )
 
+LIBTP_DEFINE_FUNC(checkBootsMoveAnime__9daAlink_cFi, daAlink_c__checkBootsMoveAnime_int_,
+                  bool, daAlink_c__checkBootsMoveAnime, (daAlink_c*,int))
 #endif /* D_A_D_A_ALINK_H */

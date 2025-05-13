@@ -45,7 +45,10 @@ KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
 #ifdef WII_PLATFORM
                         {"gale LJA", GaleLJA, "Yeet everywhere", true, ACTIVE_FUNC(STNG_CHEATS_GALE_LJA)},
 #endif
-                    } {
+                        {"fast iron boots", FastIronBoots, "Enable Fast iron boots", true,
+                         ACTIVE_FUNC(STNG_CHEATS_FAST_IRON_BOOTS)},
+                                        
+} {
 }
 
 CheatsMenu::~CheatsMenu() {}
@@ -69,6 +72,7 @@ GZSettingID l_mapping[] = {
 #ifdef WII_PLATFORM
     STNG_CHEATS_GALE_LJA,
 #endif
+    STNG_CHEATS_FAST_IRON_BOOTS
 };
 
 void CheatsMenu::draw() {

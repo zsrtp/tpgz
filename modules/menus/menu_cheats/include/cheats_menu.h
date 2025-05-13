@@ -4,7 +4,7 @@
 #include "cheats.h"
 
 #ifdef GCN_PLATFORM
-#define CHEAT_AMNT 15
+#define CHEAT_AMNT 16
 #define MOON_JUMP_TEXT "R+A"
 #endif
 
@@ -33,6 +33,7 @@ enum CheatId {
     GaleLJA,
 #endif
     SuperSpinner,
+    FastIronBoots
 };
 
 class CheatsMenu : public Menu {

@@ -171,4 +171,9 @@ void GZ_applyCheats() {
         }
     }
 #endif
+    if (GZ_checkCheat(STNG_CHEATS_DISABLE_ITEM_TIMER)) {
+        if (dComIfGp_getPlayer()) {
+            daAlinkHIO_magneBoots.heavyStateSpeed = 1.f;
+        }
+    }
 }
