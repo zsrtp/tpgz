@@ -104,7 +104,7 @@ enum GZSettingID : uint32_t {
     STNG_CMD_RELOAD_AREA,
     STNG_CMD_FREE_CAM,
     STNG_CMD_MOVE_LINK,
-    STNG_CMD_BIT,  // Wii only, but we reserve the id anyway
+    STNG_CMD_BIT, // Wii only, but we reserve the id anyway
     STNG_CMD_GORGE_VOID,
     STNG_CMD_MOON_JUMP,
     // New Adds

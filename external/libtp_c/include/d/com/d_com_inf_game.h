@@ -785,7 +785,6 @@ LIBTP_DEFINE_FUNC(setEventReg__11dSv_event_cFUsUc, dSv_event_c__setEventReg_unsi
 
 LIBTP_DEFINE_FUNC(getEventReg__11dSv_event_cCFUs, dSv_event_c__getEventReg_unsigned_short__const, 
                   u8, dSv_event_c__getEventReg, (dSv_event_c*, u16))
-                  
 inline void dComIfGs_setEventReg(u16 flag, u8 value) {
     dSv_event_c__setEventReg(&g_dComIfG_gameInfo.info.getSavedata().getEvent(), flag, value);
 }
