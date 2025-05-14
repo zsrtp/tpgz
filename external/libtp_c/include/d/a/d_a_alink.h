@@ -85,6 +85,9 @@ public:
 class daAlink_c;
 typedef int (daAlink_c::*daAlink_procFunc)();
 
+LIBTP_DEFINE_FUNC(procCoMetamorphoseInit__9daAlink_cFv, daAlink_c__procCoMetamorphoseInit_void_,
+                  int, daAlink_c__procCoMetamorphoseInit, (daAlink_c*))
+
 class daAlink_c : public daPy_py_c {
 public:
     enum daAlink_ANM {
@@ -481,6 +484,7 @@ public:
 
     u32 checkModeFlg(u32 pFlag) const { return mModeFlg & pFlag; }
     bool checkUpperAnime(u16 pIdx) const { return mUpperAnime[UPPER_NOW].getIdx() == pIdx; }
+    inline int procCoMetamorphoseInit() { return daAlink_c__procCoMetamorphoseInit(this); }
 
     /* 0x0062C */ void* field_0x062C;
     /* 0x00630 */ int field_0x0630;
@@ -2305,13 +2309,7 @@ public:
     /* 0x98 */ f32 field_0x98;
 };  // Size: 0x9C
 
-struct daAlinkHIO_magneBoots_c0
-    {
-        unsigned char unk_0[0x14];
-        float heavyStateSpeed;
-        unsigned char  unk_18[0x34];
 
-    } __attribute__((__packed__));
 class daAlinkHIO_wlSwim_c1 {
 public:
     /* 0x00 */ daAlinkHIO_anm_c mSurfaceAnm;
@@ -2953,7 +2951,7 @@ extern daAlinkHIO_swim_c1 daAlinkHIO_swim;
 extern daAlinkHIO_frontRoll_c1 daAlinkHIO_frontRoll;
 extern daAlinkHIO_wlMove_c1 daAlinkHIO_wlMove;
 extern daAlinkHIO_wlSwim_c1 daAlinkHIO_wlSwim;
-extern daAlinkHIO_magneBoots_c0 daAlinkHIO_magneBoots;
+extern daAlinkHIO_magneBoots_c1 daAlinkHIO_magneBoots;
 }
 
 #ifdef WII_PLATFORM

@@ -4,12 +4,12 @@
 #include "cheats.h"
 
 #ifdef GCN_PLATFORM
-#define CHEAT_AMNT 16
+#define CHEAT_AMNT 17
 #define MOON_JUMP_TEXT "R+A"
 #endif
 
 #ifdef WII_PLATFORM
-#define CHEAT_AMNT 16
+#define CHEAT_AMNT 18
 #define MOON_JUMP_TEXT "Z+C+A"
 #endif
 
@@ -29,11 +29,12 @@ enum CheatId {
     UnrestrictedItems,
     TransformAnywhere,
     DisableItemTimer,
+    FastIronBoots,
+    FastTransform,
 #ifdef WII_PLATFORM
     GaleLJA,
 #endif
     SuperSpinner,
-    FastIronBoots
 };
 
 class CheatsMenu : public Menu {

@@ -13,6 +13,8 @@
 #include "../a/d_a_alink.h"
 #include "../../JSystem/JKernel/JKRArchive.h"
 
+enum PlayerPtr { LINK_PTR, HORSE_PTR };
+
 struct dTimer_c {};
 
 struct J2DGrafContext {};
@@ -606,6 +608,9 @@ inline u8 dComIfGs_getTransformStatus() {
 inline daAlink_c* dComIfGp_getPlayer() {
     return g_dComIfG_gameInfo.play.mPlayer[0];
 }
+inline daAlink_c* daAlink_getAlinkActorClass() {
+    return (daAlink_c*)g_dComIfG_gameInfo.play.getPlayerPtr(LINK_PTR);
+}
 
 inline u8 dComIfGs_getLightDropNum(u8 area) {
     return dSv_light_drop_c__getLightDropNum(&g_dComIfG_gameInfo.info.getPlayer().getLightDrop(),
@@ -780,7 +785,7 @@ LIBTP_DEFINE_FUNC(setEventReg__11dSv_event_cFUsUc, dSv_event_c__setEventReg_unsi
 
 LIBTP_DEFINE_FUNC(getEventReg__11dSv_event_cCFUs, dSv_event_c__getEventReg_unsigned_short__const, 
                   u8, dSv_event_c__getEventReg, (dSv_event_c*, u16))
-
+                  
 inline void dComIfGs_setEventReg(u16 flag, u8 value) {
     dSv_event_c__setEventReg(&g_dComIfG_gameInfo.info.getSavedata().getEvent(), flag, value);
 }

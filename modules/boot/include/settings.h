@@ -42,8 +42,11 @@ enum GZSettingID : uint32_t {
     STNG_CHEATS_UNRESTRICTED_ITEMS,
     STNG_CHEATS_TRANSFORM_ANYWHERE,
     STNG_CHEATS_DISABLE_ITEM_TIMER,
+#ifdef WII_PLATFORM
     STNG_CHEATS_GALE_LJA,  // Wii only, but we reserve the id anyway
+#endif
     STNG_CHEATS_FAST_IRON_BOOTS,
+    STNG_CHEATS_FAST_TRANSFORM,
     // Tools
     STNG_TOOLS_RELOAD_AREA,
     STNG_TOOLS_FRAME_ADVANCE,
@@ -101,7 +104,7 @@ enum GZSettingID : uint32_t {
     STNG_CMD_RELOAD_AREA,
     STNG_CMD_FREE_CAM,
     STNG_CMD_MOVE_LINK,
-    STNG_CMD_BIT, // Wii only, but we reserve the id anyway
+    STNG_CMD_BIT,  // Wii only, but we reserve the id anyway
     STNG_CMD_GORGE_VOID,
     STNG_CMD_MOON_JUMP,
     // New Adds

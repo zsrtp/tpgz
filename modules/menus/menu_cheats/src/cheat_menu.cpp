@@ -9,6 +9,13 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
+#ifdef GCN_PLATFORM
+#define TRANSFORM_COMBO_TEXT "R+Y"
+#endif
+#ifdef WII_PLATFORM
+#define TRANSFORM_COMBO_TEXT "C+Z"
+#endif
+
 KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
     : Menu(cursor), lines{
                         {"infinite air", InfiniteAir, "Gives infinite air underwater", true,
@@ -47,6 +54,8 @@ KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
 #endif
                         {"fast iron boots", FastIronBoots, "Enable Fast iron boots", true,
                          ACTIVE_FUNC(STNG_CHEATS_FAST_IRON_BOOTS)},
+                        {"fast tranform", FastTransform, "Press " TRANSFORM_COMBO_TEXT  " to fast transform " , true,
+                         ACTIVE_FUNC(STNG_CHEATS_FAST_TRANSFORM)},
                                         
 } {
 }
@@ -72,7 +81,8 @@ GZSettingID l_mapping[] = {
 #ifdef WII_PLATFORM
     STNG_CHEATS_GALE_LJA,
 #endif
-    STNG_CHEATS_FAST_IRON_BOOTS
+    STNG_CHEATS_FAST_IRON_BOOTS,
+    STNG_CHEATS_FAST_TRANSFORM
 };
 
 void CheatsMenu::draw() {

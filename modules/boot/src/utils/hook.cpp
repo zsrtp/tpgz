@@ -340,7 +340,7 @@ void setupMidnaChargeProjectionLine(daAlink_c* i_this) {
 }
 
 bool daAlink_c__checkBootsMoveAnimeHook(daAlink_c* i_this, int param_1) {
-    if (daAlinkHIO_magneBoots.heavyStateSpeed == 1.f) {
+    if (daAlinkHIO_magneBoots.mInputFactor == 1.f) {
         return false;
     }
     return daAlink_c__checkBootsMoveAnimeTrampoline(i_this, param_1);

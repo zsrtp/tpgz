@@ -16,10 +16,12 @@
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
 #define cc_at_check cc_at_check__FP10fopAc_ac_cP11dCcU_AtInfo
+#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::R) && GZ_getButtonPressed(GZPad::Y))
 #endif
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
 #define cc_at_check cc_at_check_fopAc_ac_c____dCcU_AtInfo___
+#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::C) && GZ_getButtonPressed(GZPad::Z))
 #endif
 
 extern "C" {
@@ -171,9 +173,17 @@ void GZ_applyCheats() {
         }
     }
 #endif
-    if (GZ_checkCheat(STNG_CHEATS_DISABLE_ITEM_TIMER)) {
+    if (GZ_checkCheat(STNG_CHEATS_FAST_IRON_BOOTS)) {
         if (dComIfGp_getPlayer()) {
-            daAlinkHIO_magneBoots.heavyStateSpeed = 1.f;
+            daAlinkHIO_magneBoots.mInputFactor = 1.f;
+        }
+    }
+
+    if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
+        if (TRANSFORM_BUTTON_CHECK) {
+            if (dComIfGp_getPlayer()) {
+                daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+            }
         }
     }
 }
