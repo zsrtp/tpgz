@@ -13,7 +13,7 @@
 #define TRANSFORM_COMBO_TEXT "R+Y"
 #endif
 #ifdef WII_PLATFORM
-#define TRANSFORM_COMBO_TEXT "B+Z"
+#define TRANSFORM_COMBO_TEXT "B+C"
 #endif
 
 KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
