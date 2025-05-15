@@ -12,7 +12,7 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "fifo_queue.h"
-#include <d_meter_HIO.h>
+#include "libtp_c/include/d/meter/d_meter_HIO.h"
 
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
