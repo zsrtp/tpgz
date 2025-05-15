@@ -12,6 +12,7 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 #include "fifo_queue.h"
+#include <d_meter_HIO.h>
 
 #ifdef GCN_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x328)
@@ -21,7 +22,7 @@
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
 #define cc_at_check cc_at_check_fopAc_ac_c____dCcU_AtInfo___
-#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::B && GZ_getButtonPressed(GZPad::C)))
+#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::DPAD_DOWN) && GZ_getButtonPressed(GZPad::Z))
 #endif
 
 extern "C" {
@@ -179,11 +180,15 @@ void GZ_applyCheats() {
         }
     }
 
-    if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
-        if (TRANSFORM_BUTTON_CHECK) {
-            if (dComIfGp_getPlayer()) {
-                daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+  if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
+    if (TRANSFORM_BUTTON_CHECK) {
+        if (dComIfGp_getPlayer()) {
+            if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
+                if (g_drawHIO.mZButtonAlpha != 1.0f) {
+                    daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+                }
             }
         }
     }
+}
 }

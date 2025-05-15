@@ -9,12 +9,6 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-#ifdef GCN_PLATFORM
-#define TRANSFORM_COMBO_TEXT "R+Y"
-#endif
-#ifdef WII_PLATFORM
-#define TRANSFORM_COMBO_TEXT "B+C"
-#endif
 
 KEEP_FUNC CheatsMenu::CheatsMenu(Cursor& cursor)
     : Menu(cursor), lines{
