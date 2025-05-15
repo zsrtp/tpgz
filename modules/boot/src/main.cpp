@@ -70,7 +70,7 @@ void main() {
     delete initRel;
 
     if (l_gzIconTex.loadCode == TexCode::TEX_UNLOADED) {
-        load_texture("/tpgz/tex/tpgz.tex", &l_gzIconTex);
+        load_texture("/tpgz/tex/triforce.tex", &l_gzIconTex);
     }
 }
 void exit() {}
