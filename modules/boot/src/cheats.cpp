@@ -180,15 +180,17 @@ void GZ_applyCheats() {
         }
     }
 
-  if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
-    if (TRANSFORM_BUTTON_CHECK) {
-        if (dComIfGp_getPlayer()) {
-            if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
-                if (g_drawHIO.mZButtonAlpha != 1.0f) {
-                    daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+    if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
+        if (TRANSFORM_BUTTON_CHECK) {
+            if (dComIfGp_getPlayer()) {
+                if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
+                    if (g_drawHIO.mZButtonAlpha != 1.0f) {
+                        if (!daAlink_getAlinkActorClass()->checkEventRun()) {
+                            daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+                        }
+                    }
                 }
             }
         }
     }
-}
 }

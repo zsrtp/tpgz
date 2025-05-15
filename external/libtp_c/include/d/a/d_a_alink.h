@@ -88,6 +88,9 @@ typedef int (daAlink_c::*daAlink_procFunc)();
 LIBTP_DEFINE_FUNC(procCoMetamorphoseInit__9daAlink_cFv, daAlink_c__procCoMetamorphoseInit_void_,
                   int, daAlink_c__procCoMetamorphoseInit, (daAlink_c*))
 
+LIBTP_DEFINE_FUNC(checkEventRun__9daAlink_cCFv, checkEventRun_void__const,
+                  BOOL, daAlink_c__checkEventRun, (const daAlink_c*))
+
 class daAlink_c : public daPy_py_c {
 public:
     enum daAlink_ANM {
@@ -485,6 +488,7 @@ public:
     u32 checkModeFlg(u32 pFlag) const { return mModeFlg & pFlag; }
     bool checkUpperAnime(u16 pIdx) const { return mUpperAnime[UPPER_NOW].getIdx() == pIdx; }
     inline int procCoMetamorphoseInit() { return daAlink_c__procCoMetamorphoseInit(this); }
+    inline BOOL checkEventRun() const { return daAlink_c__checkEventRun(this); }
 
     /* 0x0062C */ void* field_0x062C;
     /* 0x00630 */ int field_0x0630;
