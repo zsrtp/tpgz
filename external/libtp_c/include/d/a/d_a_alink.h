@@ -2313,7 +2313,6 @@ public:
     /* 0x98 */ f32 field_0x98;
 };  // Size: 0x9C
 
-
 class daAlinkHIO_wlSwim_c1 {
 public:
     /* 0x00 */ daAlinkHIO_anm_c mSurfaceAnm;
