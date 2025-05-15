@@ -46,6 +46,7 @@ void main() {
     g_drawListener->addListener(GZ_renderFifoQueue);
     g_drawListener->addListener(GZ_displayLinkInfo);
     g_drawListener->addListener(GZ_displayStageInfo);
+    g_drawListener->addListener(GZ_displayDisplacementInfo);
     g_drawListener->addListener(GZ_drawHeapInfo);
     g_drawListener->addListener(Timer::drawTimer);
     g_drawListener->addListener(Timer::drawLoadTimer);
@@ -131,6 +132,7 @@ void GZ_PosSettings_initDefaults() {
     GZStng_add(STNG_SPRITES_HEAP_INFO, new Vec2{145.0f, 25.0f}, sizeof(Vec2));
     GZStng_add(STNG_SPRITES_MASH_INFO, new Vec2{450.0f, 400.0f}, sizeof(Vec2));
     GZStng_add(STNG_SPRITES_TRANSFORM_IND, new Vec2{465.0f, 30.0f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_DISPLACEMENT, new Vec2{450.0f, 60.0f}, sizeof(Vec2));
 }
 
 inline void GZ_patchLinkColor() {

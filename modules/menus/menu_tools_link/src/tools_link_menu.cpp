@@ -34,6 +34,7 @@ const char l_descTemplates[TOOLS_LINK_COUNT][100] = {
     "show Link's current stage info",
     "link won't sink in sand",
     "%s to set, %s to load",
+    "%s to set",
     MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT " to move, " MOVE_LINK_ANGLE_TEXT
                    " to change angle",
     "changes link's tunic color. " NEXT_TUNIC_COLOR_TEXT "/" PREVIOUS_TUNIC_COLOR_TEXT
@@ -55,6 +56,9 @@ KEEP_FUNC ToolsLinkMenu::ToolsLinkMenu(Cursor& cursor, ToolsLinkData& data)
             {"teleport", TELEPORT_INDEX,
              STORE_POSITION_TEXT " to set, " LOAD_POSITION_TEXT " to load", true,
              ACTIVE_FUNC(STNG_TOOLS_TELEPORT)},
+            {"displacement", DISPLACEMENT_INDEX,
+             STORE_POSITION_TEXT " to set", true,
+             ACTIVE_FUNC(STNG_TOOLS_DISPLACEMENT)},
             {"move link", MOVE_LINK_INDEX,
              MOVE_LINK_TEXT " to activate. " MOVE_LINK_MOVEMENT_TEXT
                             " to move, " MOVE_LINK_ANGLE_TEXT " to change angle",
@@ -74,7 +78,8 @@ GZSettingID l_mapping[] = {
     STNG_TOOLS_STAGE_INFO,
     STNG_TOOLS_SAND,
     STNG_TOOLS_TELEPORT,
-    STNG_TOOLS_MOVE_LINK,
+    STNG_TOOLS_DISPLACEMENT,
+    STNG_TOOLS_MOVE_LINK
 };
 
 #define set_active(id, status)                                                                     \
@@ -147,6 +152,15 @@ void ToolsLinkMenu::draw() {
         GZCmd_comboToStr(comboAdvance, comboAdvanceStr);
         snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr, comboAdvanceStr);
         delete[] comboAdvanceStr;
+        delete[] comboPauseStr;
+        break;
+    }
+    case DISPLACEMENT_INDEX: {
+        uint16_t comboPause =
+            GZStng_getData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS);
+        char* comboPauseStr = new char[GZCmd_getComboLen(comboPause) + 1];
+        GZCmd_comboToStr(comboPause, comboPauseStr);
+        snprintf(buf, sizeof(buf), l_descTemplates[cursor.y], comboPauseStr);
         delete[] comboPauseStr;
         break;
     }

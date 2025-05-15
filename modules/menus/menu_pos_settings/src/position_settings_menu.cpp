@@ -18,6 +18,8 @@ KEEP_FUNC PosSettingsMenu::PosSettingsMenu(Cursor& cursor, PosSettingsData& data
             {"input viewer", SpritesIndex::VIEWER_INDEX, "Change input viewer position", false},
             {"link debug info", SpritesIndex::DEBUG_INFO_INDEX, "Change link debug info position",
              false},
+            {"displacement", SpritesIndex::DISPLACEMENT_INDEX, "Change link displacement info position",
+             false},
             {"stage info", SpritesIndex::STAGE_INFO_INDEX, "Change link stage info position",
              false},
             {"timer", SpritesIndex::TIMER_SPR_INDEX, "Change timer position", false},
@@ -58,6 +60,7 @@ GZSettingID l_mapping[] = {
     STNG_SPRITES_HEAP_INFO,
     STNG_SPRITES_MASH_INFO,
     STNG_SPRITES_TRANSFORM_IND,
+    STNG_SPRITES_DISPLACEMENT
 };
 
 void PosSettingsMenu::draw() {

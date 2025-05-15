@@ -6,6 +6,7 @@
 #include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "tools.h"
 #include "rels/include/defines.h"
+#include "commands.h"
 
 KEEP_FUNC void GZ_displayLinkInfo() {
     if (!GZStng_getData(STNG_TOOLS_LINK_DEBUG, false)) {
@@ -217,5 +218,61 @@ KEEP_FUNC void GZ_setTunicColor() {
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = r - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = g - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = b - 0x10;
+    }
+}
+
+KEEP_FUNC void GZ_displayDisplacementInfo() {
+    if (!GZStng_getData(STNG_TOOLS_DISPLACEMENT, false)) {
+        return;
+    }
+
+    Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_DISPLACEMENT);
+
+    daAlink_c* player = dComIfGp_getPlayer();
+
+    if (player) {
+        char angle_disp[22];
+        char link_x_disp[22];
+        char link_y_disp[22];
+        char link_z_disp[22];
+        char link_xz_disp[22];
+        char link_xyz_disp[22];
+
+        snprintf(angle_disp, sizeof(angle_disp), "da: %d", player->shape_angle.y - sSavePlayerAngle);
+        snprintf(link_x_disp, sizeof(link_x_disp), "dx: %.4f", player->current.pos.x - sSavePlayerPos.x);
+        snprintf(link_y_disp, sizeof(link_y_disp), "dy: %.4f", player->current.pos.y - sSavePlayerPos.y);
+        snprintf(link_z_disp, sizeof(link_z_disp), "dz: %.4f", player->current.pos.z - sSavePlayerPos.z);
+        snprintf(link_xz_disp, sizeof(link_xz_disp), "dxz: %.4f", 
+            sqrt(
+                ((double)player->current.pos.x - (double)sSavePlayerPos.x) * ((double)player->current.pos.x - (double)sSavePlayerPos.x) + 
+                ((double)player->current.pos.z - (double)sSavePlayerPos.z) * ((double)player->current.pos.z - (double)sSavePlayerPos.z)
+            )
+        );
+        snprintf(link_xyz_disp, sizeof(link_xyz_disp), "dxyz: %.4f", 
+            sqrt(
+                ((double)player->current.pos.x - (double)sSavePlayerPos.x) * ((double)player->current.pos.x - (double)sSavePlayerPos.x) + 
+                ((double)player->current.pos.y - (double)sSavePlayerPos.y) * ((double)player->current.pos.y - (double)sSavePlayerPos.y) + 
+                ((double)player->current.pos.z - (double)sSavePlayerPos.z) * ((double)player->current.pos.z - (double)sSavePlayerPos.z)
+            )
+        );
+
+        Font::GZ_drawStr(angle_disp, spriteOffset.x,
+                         spriteOffset.y, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_x_disp, spriteOffset.x,
+                         spriteOffset.y + 20.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_y_disp, spriteOffset.x,
+                         spriteOffset.y + 40.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_z_disp, spriteOffset.x,
+                         spriteOffset.y + 60.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_xz_disp, spriteOffset.x,
+                         spriteOffset.y + 80.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_xyz_disp, spriteOffset.x,
+                         spriteOffset.y + 100.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
     }
 }

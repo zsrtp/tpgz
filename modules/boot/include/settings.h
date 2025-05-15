@@ -108,6 +108,10 @@ enum GZSettingID : uint32_t {
     STNG_TOOLS_ELEVATOR_ESCAPE,
     STNG_TOOLS_STAGE_INFO,
     STNG_SPRITES_STAGE_INFO,
+
+    // Madeline adds
+    STNG_TOOLS_DISPLACEMENT,
+    STNG_SPRITES_DISPLACEMENT
 };
 
 struct GZSettingEntry {
