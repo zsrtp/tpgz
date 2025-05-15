@@ -2960,4 +2960,6 @@ LIBTP_DEFINE_FUNC(checkStageName__9daAlink_cFPCc, daAlink_c__checkStageName_char
 LIBTP_DEFINE_FUNC(posMove__9daAlink_cFv, daAlink_c__posMove_void_, void, daAlink_c__posMove, (daAlink_c*))
 // LIBTP_DEFINE_FUNC(setSpecialGravity__9daAlink_cFffi, )
 
+LIBTP_DEFINE_FUNC(getGroundAngle__9daAlink_cFP13cBgS_PolyInfos, daAlink_c__getGroundAngle_cBgS_PolyInfo____short_, s16, daAlink_c__getGroundAngle, (daAlink_c*, cBgS_PolyInfo*, s16))
+
 #endif /* D_A_D_A_ALINK_H */
