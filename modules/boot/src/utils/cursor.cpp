@@ -77,7 +77,7 @@ KEEP_FUNC void Cursor::setMode(uint8_t m) {
 }
 
 uint32_t l_cursorMapping[] = {0x00CC00FF, 0x0080FFFF, 0xCC0000FF,
-                              0xEE8000FF, 0xFFCC00FF, 0x6600CCFF};
+                              0xEE8000FF, 0xFFCC00FF, 0x6600CCFF, 0xEC80FFFF, 0x7AE6F0FF};
 
 KEEP_FUNC void GZ_setCursorColor() {
     uint32_t colorId = GZStng_getData(STNG_CURSOR_COLOR, 0);

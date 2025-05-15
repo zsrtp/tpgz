@@ -8,7 +8,7 @@
 #include "menus/utils/menu_mgr.h"
 
 #define MAX_RELOAD_OPTIONS 2
-#define MAX_CURSOR_COLOR_OPTIONS 6
+#define MAX_CURSOR_COLOR_OPTIONS 8
 
 KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
     : Menu(cursor), lines{
@@ -116,8 +116,7 @@ void SettingsMenu::draw() {
 
     ListMember reload_opt[MAX_RELOAD_OPTIONS] = {"load area", "load file"};
 
-    ListMember cursorCol_opt[MAX_CURSOR_COLOR_OPTIONS] = {"green",  "blue",   "red",
-                                                          "orange", "yellow", "purple"};
+    ListMember cursorCol_opt[MAX_CURSOR_COLOR_OPTIONS] = {"green",  "blue",   "red", "orange", "yellow", "purple", "pink", "cyan"};
 
     stng = nullptr;
     auto prev_x = cursor.x;
