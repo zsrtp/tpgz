@@ -1,7 +1,6 @@
 #include "menus/menu.h"
 
 #ifdef GCN_PLATFORM
-#define ANY_SPECIALS_AMNT 21
 
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,
@@ -60,7 +59,6 @@ enum AnyPracticeIndex {
 };
 #endif
 #ifdef WII_PLATFORM
-#define ANY_SPECIALS_AMNT 12
 enum AnyPracticeIndex {
     ORDON_GATE_CLIP_INDEX,
     BACK_IN_TIME_INDEX,

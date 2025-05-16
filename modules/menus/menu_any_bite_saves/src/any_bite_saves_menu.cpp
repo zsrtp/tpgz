@@ -129,6 +129,7 @@ void AnyBiTESavesMenu::draw() {
             special(BITE_LANAYRU_GATE_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(BITE_PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
 #endif
+            special(BITE_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(BITE_ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
             special(BITE_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
             special(BITE_STALLORD2_INDEX, SaveMngSpecial_Stallord2_init, SaveMngSpecial_Stallord2),

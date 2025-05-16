@@ -115,6 +115,7 @@ void HundoSavesMenu::draw() {
         special(HND_STALLORD_INDEX, nullptr, SaveMngSpecial_Stallord),
         special(HND_DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+        special(HND_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_SPR_BK_ROOM_INDEX, SaveMngSpecial_SPRBossKey, nullptr),
         special(HND_EARLY_POE_INDEX, nullptr, SaveMngSpecial_ToTEarlyPoe),
         special(HND_EARLY_HP_INDEX, nullptr, SaveMngSpecial_ToTEarlyHP),

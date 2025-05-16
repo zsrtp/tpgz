@@ -56,13 +56,14 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
 ADSavesMenu::~ADSavesMenu() {}
 
 void ADSavesMenu::draw() {
-    special ADSpecials[AD_SPECIALS_AMNT] = {
+    special ADSpecials[] = {
         special(AD_HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
         special(AD_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(AD_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
         special(AD_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
         special(AD_PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(AD_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+        special(AD_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(AD_ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
         special(AD_PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
         special(AD_PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
@@ -74,7 +75,7 @@ void ADSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::triggerLoad(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "ad", ADSpecials, ARRAY_COUNT(ADSpecials));
         g_menuMgr->hide();
     }
 

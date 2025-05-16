@@ -1,7 +1,5 @@
 #include "menus/menu.h"
 
-#define AD_SPECIALS_AMNT 9
-
 enum ADPracticeIndex {
     AD_ORDON_GATE_CLIP_INDEX,
     AD_BIT_INDEX,
