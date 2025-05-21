@@ -22,8 +22,7 @@
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
 #define cc_at_check cc_at_check_fopAc_ac_c____dCcU_AtInfo___
-#define TRANSFORM_BUTTON_CHECK                                                                     \
-    (GZ_getButtonPressed(GZPad::DPAD_DOWN) && GZ_getButtonPressed(GZPad::Z))
+#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::DPAD_DOWN) && GZ_getButtonPressed(GZPad::Z))
 #endif
 
 extern "C" {
@@ -190,18 +189,22 @@ void GZ_applyCheats() {
     }
 }
 bool checkFastTransform() {
-    if (dComIfGp_getPlayer()) {
-        if (checkCommonProc()) {
-            if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
-                if (g_drawHIO.mZButtonAlpha != 1.0f) {
-                    if (!daAlink_getAlinkActorClass()->checkEventRun()) {
-                        return true;
-                    }
-                }
-            }
-        }
+    if (!dComIfGp_getPlayer()) {
+        return false;
     }
-    return false;
+    if (!checkCommonProc()) {
+        return false;
+    }
+    if (daAlink_getAlinkActorClass()->mEquipItem == IRONBALL) {
+        return false;
+    }
+    if (g_drawHIO.mZButtonAlpha == 1.0f) {
+        return false;
+    }
+    if (daAlink_getAlinkActorClass()->checkEventRun()) {
+        return false;
+    }
+    return true;
 }
 
 bool checkCommonProc() {
