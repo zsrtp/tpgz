@@ -22,16 +22,6 @@ bool g_framePaused = false;
 // Initialized in the "init" module
 KEEP_VAR tpgz::containers::deque<GZFlag*> g_gzFlags;
 
-#ifdef GCN_PLATFORM
-#define HOLD_BTNS cPadInfo[0].mButtonFlags
-#define TRIG_BTNS cPadInfo[0].mPressedButtonFlags
-#endif
-
-#ifdef WII_PLATFORM
-#define HOLD_BTNS mPad.mHoldButton
-#define TRIG_BTNS mPad.mTrigButton
-#endif
-
 KEEP_FUNC void GZFlg_addFlag(GZFlag* flag) {
     g_gzFlags.push_back(flag);
 }

@@ -11,10 +11,15 @@
 #ifdef WII_PLATFORM
 #define FRAME_ADVANCE_BTN GZPad::TWO
 #define FRAME_ADVANCE_PAD CButton::TWO
+#define HOLD_BTNS mPad.mHoldButton
+#define TRIG_BTNS mPad.mTrigButton
+
 #endif
 #ifdef GCN_PLATFORM
 #define FRAME_ADVANCE_BTN GZPad::R
 #define FRAME_ADVANCE_PAD CButton::R
+#define HOLD_BTNS cPadInfo[0].mButtonFlags
+#define TRIG_BTNS cPadInfo[0].mPressedButtonFlags
 #endif
 
 enum GZFlags {

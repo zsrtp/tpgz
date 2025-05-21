@@ -22,7 +22,8 @@
 #ifdef WII_PLATFORM
 #define INVINCIBLE_ENEMIES_OFFSET (0x244)
 #define cc_at_check cc_at_check_fopAc_ac_c____dCcU_AtInfo___
-#define TRANSFORM_BUTTON_CHECK (GZ_getButtonPressed(GZPad::DPAD_DOWN) && GZ_getButtonPressed(GZPad::Z))
+#define TRANSFORM_BUTTON_CHECK                                                                     \
+    (GZ_getButtonPressed(GZPad::DPAD_DOWN) && GZ_getButtonPressed(GZPad::Z))
 #endif
 
 extern "C" {
@@ -182,15 +183,45 @@ void GZ_applyCheats() {
 
     if (GZ_checkCheat(STNG_CHEATS_FAST_TRANSFORM)) {
         if (TRANSFORM_BUTTON_CHECK) {
-            if (dComIfGp_getPlayer()) {
-                if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
-                    if (g_drawHIO.mZButtonAlpha != 1.0f) {
-                        if (!daAlink_getAlinkActorClass()->checkEventRun()) {
-                            daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
-                        }
+            if (checkFastTransform()) {
+                daAlink_getAlinkActorClass()->procCoMetamorphoseInit();
+            }
+        }
+    }
+}
+bool checkFastTransform() {
+    if (dComIfGp_getPlayer()) {
+        if (checkCommonProc()) {
+            if (daAlink_getAlinkActorClass()->mEquipItem != IRONBALL) {
+                if (g_drawHIO.mZButtonAlpha != 1.0f) {
+                    if (!daAlink_getAlinkActorClass()->checkEventRun()) {
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
+}
+
+bool checkCommonProc() {
+    switch (dComIfGp_getPlayer()->mActionID) {
+    case daAlink_c::PROC_TALK:
+    case daAlink_c::PROC_SWIM_UP:
+    case daAlink_c::PROC_SWIM_DIVE: {
+        return false;
+    }
+    case daAlink_c::PROC_ATN_ACTOR_MOVE:
+    case daAlink_c::PROC_ATN_ACTOR_WAIT:
+    case daAlink_c::PROC_WOLF_ATN_AC_MOVE: {
+        break;
+    }
+    default: {
+        // Disable the input that was just pressed, as sometimes it could cause items to be used or
+        // Wolf Link to dig.
+        TRIG_BTNS = 0;
+        break;
+    }
+    }
+    return true;
 }

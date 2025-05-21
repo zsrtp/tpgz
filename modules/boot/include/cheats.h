@@ -4,6 +4,8 @@
 #include "settings.h"
 
 void GZ_applyCheats();
+bool checkCommonProc();
+bool checkFastTransform();
 
 inline bool GZ_checkCheat(GZSettingID cheatIdx) {
     return GZStng_getData(cheatIdx, false);
