@@ -31,6 +31,34 @@ fopAc_ac_c* find_actor(predicate_t const& predicate) {
     return actorData;
 }
 
+fopAc_ac_c* find_actor_idx(predicate_t const& predicate, u32 idx) {
+    if (predicate == nullptr) {
+        return nullptr;
+    }
+
+    u32 n = 0;
+
+    node_class* node = g_fopAcTg_Queue.mpHead;
+    fopAc_ac_c* actorData = NULL;
+    for (int i = 0; i < g_fopAcTg_Queue.mSize; i++) {
+        if (node != NULL) {
+            create_tag_class* tag = (create_tag_class*)node;
+            fopAc_ac_c* tmpData = (fopAc_ac_c*)tag->mpTagData;
+            if (predicate(*tmpData)) {
+                if (n >= idx) {
+                    actorData = tmpData;
+                    break;
+                }
+                else {
+                    n++;
+                }
+            }
+            node = node->mpNextNode;
+        }
+    }
+    return actorData;
+}
+
 #if defined(WII_NTSCU_10) || defined(WII_PAL)
 #define ROCK_ID 763
 #else
@@ -90,6 +118,38 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
     if (actorData != NULL) {
         actorData->current.pos = position;
         actorData->shape_angle.y = 5880;
+    }
+}
+
+#if defined(WII_NTSCU_10) || defined(WII_PAL)
+#define BUBBLE_ACTOR_ID 489
+#else
+#define BUBBLE_ACTOR_ID 491
+#endif
+
+KEEP_FUNC void SaveMngSpecial_SpawnPGS() {
+    gSaveManager.setSaveAngle(16384);
+    gSaveManager.setSavePosition(-749.9980, 50.0, -3265.0000);
+    gSaveManager.setLinkInfo();
+
+    cXyz position1(-277.2082, 500.0000, -3598.5154);
+    cXyz position2(-277.2082, 500.0000, -3698.5154);
+
+    // Find hugo in the actor list
+    fopAc_ac_c* actorData1 =
+        find_actor([](auto& act) { return act.mBase.mProcName == BUBBLE_ACTOR_ID; });
+
+    fopAc_ac_c* actorData2 =
+        find_actor_idx([](auto& act) { return act.mBase.mProcName == BUBBLE_ACTOR_ID; }, 1);
+        
+    if (actorData1 != NULL) {
+        actorData1->current.pos = position1;
+        actorData1->shape_angle.y = 0;
+    }
+
+    if (actorData2 != NULL) {
+        actorData2->current.pos = position2;
+        actorData2->shape_angle.y = 0;
     }
 }
 

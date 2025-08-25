@@ -39,7 +39,7 @@ file_names = [
     "mdh", 
     "camp",
     "ag", 
-    "poe_skip", 
+    "poe_gate_skip", 
     "deathsword", 
     "stallord", 
     "faron_boost", 
@@ -114,12 +114,12 @@ ad_p[17]["pos"] = (2019.5192, 200.00, -2865.9890)
 ad_p[17]["angle"] = 16384
 ad_p[17]["counter"] = 30
 
-# poe 1 skip
+# poe gate skip
 ad_p[26]["requirements"] = REQ_POS | REQ_CAM
-ad_p[26]["pos"] = (-2046.97168, 0.0, -587.304871)
-ad_p[26]["angle"] = 49030
-ad_p[26]["cam"]["pos"] = (-1779.00293, 213.707397, -584.686768)
-ad_p[26]["cam"]["target"] = (-2047.97168, 130.16568, -587.317139)
+ad_p[26]["pos"] = (-749.9980, 50.0000, -3265.0000)
+ad_p[26]["angle"] = 16384
+ad_p[26]["cam"]["pos"] = (-549.9980, 200.0000, -3265.0000)
+ad_p[26]["cam"]["target"] = (-749.9980, 50.0000, -3265.0000)
 ad_p[26]["counter"] = 10
 
 # dot skip
