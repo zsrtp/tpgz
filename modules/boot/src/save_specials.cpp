@@ -225,7 +225,7 @@ KEEP_FUNC void SaveMngSpecial_Darkhammer() {
 
 KEEP_FUNC void SaveMngSpecial_Morpheel() {
     dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;                        // clawshot
-    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EQUIP_HEAVY_BOOTS);  // ib
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::FLG0_EQUIP_HVY_BOOTS);  // ib
     gSaveManager.setSaveAngle(10754);
     gSaveManager.setSavePosition(-1193.0f, -23999.0f, -770.0f);
     gSaveManager.setLinkInfo();

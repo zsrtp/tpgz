@@ -23,6 +23,7 @@ bool bit_active();
 #endif
 bool corotd_active();
 bool lfc_active();
+bool ebmb_active();
 bool ee_active();
 bool mash_checker_active();
 bool gorge_active();

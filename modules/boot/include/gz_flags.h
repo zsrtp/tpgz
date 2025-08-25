@@ -33,6 +33,7 @@ enum GZFlags {
     GZFLG_DISABLE_BGM,
     GZFLG_DISABLE_SFX,
     GZFLG_LFC,
+    GZFLG_EBMB,
     GZFLG_EE,
 };
 

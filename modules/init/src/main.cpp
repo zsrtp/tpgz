@@ -70,6 +70,7 @@ void main() {
 #endif
     g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
     g_modules.push_back(new Module{lfc_active, "/tpgz/rels/features/lfc_checker.rel"});
+    g_modules.push_back(new Module{ebmb_active, "/tpgz/rels/features/ebmb_checker.rel"});
     g_modules.push_back(new Module{ee_active, "/tpgz/rels/features/ee_checker.rel"});
     g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
     g_modules.push_back(new Module{gorge_active, "/tpgz/rels/features/gorge.rel"});
