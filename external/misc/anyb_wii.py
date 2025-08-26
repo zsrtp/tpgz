@@ -78,7 +78,7 @@ file_names = [
     "horseback",
 ]
 
-anyb_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(46)]
+anyb_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(len(file_names))]
 
 file_dict = {}
 for i, e in enumerate(file_names):
