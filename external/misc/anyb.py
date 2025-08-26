@@ -4,12 +4,6 @@ import argparse
 import struct
 from enum import IntEnum, unique
 
-@unique
-class Platform(IntEnum):
-    GCN = 0
-    WII = 1
-
-
 class Requirements(IntEnum):
     POS = 1
     CAM = 2
@@ -17,11 +11,6 @@ class Requirements(IntEnum):
 def main(args=None):
     parser = argparse.ArgumentParser(
         sys.argv[0], description="A tool to generate the metadata file for the any% BiTE save files.")
-    parser.add_argument(
-        "-p", "--platform", type=str.upper, choices=[e.name for e in Platform], default=Platform.GCN.name, help="The platform to generate for.")
-    args = parser.parse_args()
-
-    args.platform = Platform[args.platform]
 
     default_entry = {
         "requirements": 0,
@@ -81,61 +70,6 @@ def main(args=None):
         "horseback_ganon",
     ]
 
-    if args.platform is Platform.WII:
-        # order matters
-        file_names = [
-            "ordon_gate_clip",
-            "ordon_gate_clip",
-            "seam_clip",
-            "goats",
-            "hugo",
-            "faron_twilight",
-            "ems",
-            "purple_mist",
-            "kb1",
-            "eldin_twilight",
-            "bombhouse_skip",
-            "epona_oob_to_flight_by_fowl",
-            "lanayru_twilight",
-            "waterfall_sidehop",
-            "boss_bug",
-            "iza",
-            "plumm_oob",
-            "enter_lakebed",
-            "lakebed_1",
-            "deku_toad",
-            "morpheel",
-            "mdh_tower",
-            "mdh_bridge",
-            "messenger_skip",
-            "snowpeak_ruins_mbbb",
-            "freezard_skip",
-            "dark_hammer",
-            "bulblin_camp",
-            "ag",
-            "poe_gate_skip",
-            "early_boss_key",
-            "death_sword",
-            "stallord",
-            "stallord",
-            "early_city",
-            "cits",
-            "arealfos",
-            "cits_2",
-            "fan_tower",
-            "argorok",
-            "pot1",
-            "stupidroom",
-            "pot2",
-            "earlypf",
-            "zant",
-            "hc",
-            "darknut",
-            "towerclimb",
-            "beast_ganon",
-            "horseback",
-        ]
-
     anyb_p = [{**copy.deepcopy(default_entry), "id": i, "filename": file_names[i]} for i in range(len(file_names))]
 
     file_dict = {}
@@ -184,68 +118,6 @@ def main(args=None):
         'counter': 30,
     })
 
-    # king bulblin 1
-    if args.platform is Platform.WII:
-        update_entry("kb1", data = {
-            'requirements': Requirements.POS,
-            'pos': (-9717.6035, 337.0316, 97.9661),
-            'angle': 16384,
-            'counter': 30,
-        })
-
-    # boss bug
-    if args.platform is Platform.WII:
-        update_entry("boss_bug", data = {
-            'requirements': Requirements.POS,
-            'pos': (-87517.1562, -18789.2812, 38927.0820),
-            'angle': 41851,
-            'counter': 30,
-        })
-
-    # plumm oob
-    if args.platform is Platform.WII:
-        update_entry("plumm_oob", data = {
-            'requirements': Requirements.POS,
-            'pos': (-104271.3750, -18470.0, 52661.7812),
-            'angle': 45103,
-            'counter': 30,
-        })
-
-    # mdh tower
-    if args.platform is Platform.WII:
-        update_entry("mdh_tower", data = {
-            'requirements': Requirements.POS | Requirements.CAM,
-            'pos': (25362.3184, -3028.7673, 10060.8379),
-            'angle': 29327,
-            'counter': 30,
-        })
-
-    # mdh bridge
-    if args.platform is Platform.WII:
-        update_entry("mdh_bridge", data = {
-            'requirements': Requirements.POS | Requirements.CAM,
-            'pos': (13050.0, 9825.0, 36202.0),
-            'angle': 32768,
-            'counter': 30,
-        })
-
-    # freezard skip
-    if args.platform is Platform.WII:
-        update_entry("freezard_skip", data = {
-            'requirements': Requirements.POS | Requirements.CAM,
-            'pos': (-1125.0, 0.0, -1275.0),
-            'angle': 32768,
-            'counter': 30,
-        })
-
-    # dark hammer
-    if args.platform is Platform.WII:
-        update_entry("dark_hammer", data = {
-            'requirements': Requirements.POS | Requirements.CAM,
-            'pos': (0.7448, 0.0, 1330.9711),
-            'angle': 32768,
-            'counter': 20,
-        })
 
     # forest escape
     update_entry("forest_escape", data = {
@@ -273,15 +145,6 @@ def main(args=None):
         'cam': {'pos': (219.367218, -20.1253014, 11157.582), 'target': (482.515137, -39.9999771, 11558.5283)},
         'counter': 10,
     })
-
-    # waterfall sidehop
-    if args.platform is Platform.WII:
-        update_entry("waterfall_sidehop", data = {
-            'requirements': Requirements.POS,
-            'pos': (1169.5876, 12.6414, -1114.5820),
-            'angle': 0,
-            'counter': 10,
-        })
 
     # iza
     update_entry("iza", data = {
