@@ -21,7 +21,7 @@ KEEP_FUNC AnyBiTESavesMenu::AnyBiTESavesMenu(Cursor& cursor)
           {"pillar clip", BITE_PILLAR_CLIP_INDEX, "Pillar Clip in Lake Hylia (low water)"},
           {"lakebed 1", BITE_LAKEBED_1_INDEX, "The 1st Lakebed Temple segment"},
           {"deku toad", BITE_TOAD_INDEX, "Lakebed Temple miniboss"},
-          {"kargorok flight", BITE_KARG_INDEX, "Clip OoB with trumpet bird"},
+          {"kargorok flight", BITE_KARG_FLIGHT_INDEX, "Clip OoB with trumpet bird"},
           {"king bulblin", BITE_KB1_INDEX, "King Bulblin 1 fight"},
           {"eldin twilight", BITE_ELDIN_TWILIGHT_INDEX, "Eldin Twilight tears"},
           {"lanayru twilight", BITE_LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
@@ -149,7 +149,7 @@ void AnyBiTESavesMenu::draw() {
 #endif
             special(BITE_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(BITE_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
-            special(BITE_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+            special(BITE_STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
             special(BITE_STALLORD2_INDEX, SaveMngSpecial_Stallord2_init, SaveMngSpecial_Stallord2),
             special(BITE_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_BossFlags),
             special(BITE_WATERFALL_SIDEHOP_INDEX, SaveMngSpecial_WaterfallSidehop, nullptr),

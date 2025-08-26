@@ -71,7 +71,7 @@ void NoSQSavesMenu::draw() {
             special(NOSQ_ESCORT_INDEX, SaveMngSpecial_Escort, SaveMngSpecial_EscortKeys),
             special(NOSQ_LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
             special(NOSQ_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
-            special(NOSQ_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+            special(NOSQ_STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
             special(NOSQ_FRST_ESCAPE_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(NOSQ_GORGE_VOID_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(NOSQ_RUPEE_ROLL_INDEX, SaveMngSpecial_BossFlags, nullptr),

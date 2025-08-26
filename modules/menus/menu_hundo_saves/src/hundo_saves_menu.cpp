@@ -112,7 +112,7 @@ void HundoSavesMenu::draw() {
         special(HND_LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(HND_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
         special(HND_IZA_1_SKIP_INDEX, SaveMngSpecial_Iza1Skip, nullptr),
-        special(HND_STALLORD_INDEX, nullptr, SaveMngSpecial_Stallord),
+        special(HND_STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
         special(HND_DARK_HAMMER_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(HND_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),

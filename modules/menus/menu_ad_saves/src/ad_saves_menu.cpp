@@ -60,7 +60,7 @@ void ADSavesMenu::draw() {
         special(AD_HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
         special(AD_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(AD_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
-        special(AD_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+        special(AD_STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
         special(AD_PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(AD_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(AD_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),

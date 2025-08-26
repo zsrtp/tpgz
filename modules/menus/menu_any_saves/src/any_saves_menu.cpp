@@ -75,7 +75,7 @@ void AnySavesMenu::draw() {
             special(PLUMM_OOB_INDEX, SaveMngSpecial_AnyPlummOoB, nullptr),
             special(LAKEBED_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
             special(ONEBOMB_INDEX, nullptr, SaveMngSpecial_Morpheel),
-            special(STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+            special(STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
             special(STALLORD2_INDEX, SaveMngSpecial_Stallord2_init, SaveMngSpecial_Stallord2),
             special(FRST_ESCAPE_INDEX, SaveMngSpecial_BossFlags, nullptr),
             special(GORGE_VOID_INDEX, SaveMngSpecial_BossFlags, nullptr),

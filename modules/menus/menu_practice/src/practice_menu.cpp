@@ -27,9 +27,11 @@ void PracticeMenu::draw() {
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
+#ifdef GCN_PLATFORM
         case ANY_INDEX:
             g_menuMgr->push(MN_ANY_SAVES_INDEX);
             return;
+#endif
         case ANY_BITE_INDEX:
             g_menuMgr->push(MN_ANY_BITE_SAVES_INDEX);
             return;
@@ -53,3 +55,6 @@ void PracticeMenu::draw() {
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
+
+
+
