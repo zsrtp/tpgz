@@ -12,6 +12,8 @@
 
 KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
     : Menu(cursor), lines{
+                        {"advanced mode", ADVANCED_MODE_INDEX, "Display more information in certain tools",
+                         true, GZ_checkAdvancedMode},
                         {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
                          "Load area: reload last area | Load file = reload last file", false,
                          nullptr, MAX_RELOAD_OPTIONS},
@@ -46,6 +48,14 @@ void SettingsMenu::draw() {
     // static Storage storage;
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
+        case ADVANCED_MODE_INDEX:
+            stng = GZStng_get(STNG_ADVANCED_MODE);
+            if (!stng) {
+                stng = new GZSettingEntry{STNG_ADVANCED_MODE, sizeof(bool), new bool{false}};
+                g_settings.push_back(stng);
+            }
+            *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
+            break;
         case DROP_SHADOWS_INDEX:
             stng = GZStng_get(STNG_DROP_SHADOWS);
             if (!stng) {

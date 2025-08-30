@@ -18,8 +18,10 @@ enum ADPracticeIndex {
     AD_LANAYRU_TWILIGHT_INDEX,
     AD_MOUNTAIN_UMD_INDEX,
     AD_SPR_INDEX,
-    AD_SPR_BOOST_INDEX,
+    AD_SPR_BK_ROOM_INDEX,
     AD_BLIZZETA_INDEX,
+    AD_RUSL_TD_INDEX,
+    AD_EARLY_ELAVATOR_INDEX,
     AD_GM_INDEX,
     AD_DANGORO_INDEX,
     AD_BK_SKIP_INDEX,
@@ -37,13 +39,15 @@ enum ADPracticeIndex {
     AD_CITS_1_INDEX,
     AD_AERALFOS_INDEX,
     AD_CITS_2_INDEX,
+    AD_FAN_TOWER_INDEX,
     AD_ARGOROK_INDEX,
     AD_PALACE_1_INDEX,
     AD_PALACE_2_INDEX,
     AD_ZANT_INDEX,
     AD_HC_INDEX,
     AD_BEAST_GANON_INDEX,
-    AD_HORSEBACK_INDEX
+    AD_HORSEBACK_INDEX,
+    AD_SAVES_COUNT
 };
 
 class ADSavesMenu : public Menu {
@@ -53,5 +57,5 @@ public:
     virtual void draw();
 
 private:
-    Line lines[43];
+    Line lines[AD_SAVES_COUNT];
 };

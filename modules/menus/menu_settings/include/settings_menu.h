@@ -4,6 +4,7 @@
 #include "settings.h"
 
 enum SettingsIndex {
+    ADVANCED_MODE_INDEX,
     AREA_RELOAD_BEHAVIOR_INDEX,
     CURSOR_COLOR_INDEX,
     FONT_INDEX,

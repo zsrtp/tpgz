@@ -111,6 +111,7 @@ enum GZSettingID : uint32_t {
     STNG_TOOLS_DISPLACEMENT,
     STNG_SPRITES_DISPLACEMENT,
     STNG_TOOLS_EBMB,
+    STNG_ADVANCED_MODE
 };
 
 struct GZSettingEntry {
@@ -158,5 +159,10 @@ void GZ_initFont();
 
 inline bool GZ_checkDropShadows() {
     auto* stng = GZStng_get(STNG_DROP_SHADOWS);
+    return stng && *static_cast<bool*>(stng->data);
+}
+
+inline bool GZ_checkAdvancedMode() {
+    auto* stng = GZStng_get(STNG_ADVANCED_MODE);
     return stng && *static_cast<bool*>(stng->data);
 }

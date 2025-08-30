@@ -25,8 +25,10 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
                         {"lanayru twilight", AD_LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
                         {"mountain umd", AD_MOUNTAIN_UMD_INDEX, "Snowpeak Mountain w/ UMD"},
                         {"snowpeak", AD_SPR_INDEX, "The Snowpeak Ruins segment"},
-                        {"ice boost", AD_SPR_BOOST_INDEX, "Ice boost to SPR 2nd floor"},
+                        {"spr bk room", AD_SPR_BK_ROOM_INDEX, "Snowpeak Boss Key room"},
                         {"blizzeta", AD_BLIZZETA_INDEX, "Snowpeak Ruins boss"},
+                        {"rusl td", AD_RUSL_TD_INDEX, "Rusl text displacement"},
+                        {"early ele", AD_EARLY_ELAVATOR_INDEX, "OoB LJA to Death Mountain Elevator"},
                         {"goron mines", AD_GM_INDEX, "The Goron Mines segment"},
                         {"dangoro", AD_DANGORO_INDEX, "Goron Mines miniboss"},
                         {"lakebed bk skip", AD_BK_SKIP_INDEX, "Boss Key skip in Lakebed Temple"},
@@ -44,6 +46,7 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
                         {"city 1", AD_CITS_1_INDEX, "The 1st City in the Sky segment"},
                         {"aeralfos skip", AD_AERALFOS_INDEX, "City in the Sky miniboss"},
                         {"city 2", AD_CITS_2_INDEX, "The 2nd City in the Sky segment"},
+                        {"fan tower", AD_FAN_TOWER_INDEX, "Final fan room in City"},
                         {"argorok", AD_ARGOROK_INDEX, "City in the Sky boss"},
                         {"palace 1", AD_PALACE_1_INDEX, "The 1st Palace of Twilight segment"},
                         {"palace 2", AD_PALACE_2_INDEX, "The 2nd Palace of Twilight segment"},
@@ -68,6 +71,7 @@ void ADSavesMenu::draw() {
         special(AD_ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
         special(AD_PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
         special(AD_PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+        special(AD_EARLY_ELAVATOR_INDEX, SaveMngSpecial_EarlyEle, SaveMngSpecial_EarlyEleSpawn)
     };
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {

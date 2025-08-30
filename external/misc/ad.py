@@ -30,8 +30,10 @@ file_names = [
     "lanayru_twilight", 
     "mountain_umd", 
     "spr", 
-    "ice_boost", 
-    "blizzeta", 
+    "spr_bk_room",
+    "blizzeta",
+    "rusl_td",
+    "early_elavator",
     "gm", 
     "dangoro", 
     "bk_skip", 
@@ -48,7 +50,8 @@ file_names = [
     "silver_rupee", 
     "city1", 
     "aeralfos", 
-    "city2", 
+    "city2",
+    "fan_tower",
     "argorok", 
     "palace1", 
     "palace2", 
@@ -58,7 +61,7 @@ file_names = [
     "horseback", 
 ]
 
-ad_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(43)]
+ad_p = [{**default_entry, "id": i, "filename": file_names[i]} for i in range(len(file_names))]
 
 ad_p[0]["requirements"] = REQ_POS | REQ_CAM
 ad_p[0]["pos"] = (827.450012, 216.490097, -4533.90625)
@@ -94,43 +97,49 @@ ad_p[8]["cam"]["pos"] = (219.367218, -20.1253014, 11157.582)
 ad_p[8]["cam"]["target"] = (482.515137, -39.9999771, 11558.5283)
 ad_p[8]["counter"] = 10
 
+ad_p[19]["requirements"] = REQ_POS | REQ_CAM
+ad_p[19]["cam"]["target"] = -37785.152, 597.8449, -21831.369
+ad_p[19]["cam"]["pos"] = -37785.152, 597.8449, -21831.369
+ad_p[19]["angle"] = 36422
+ad_p[19]["pos"] = -37785.152, 597.8449, -21831.369
+
+ad_p[20]["requirements"] = REQ_POS | REQ_CAM
+ad_p[20]["cam"]["target"] = 1130, -355,6, -5569
+ad_p[20]["cam"]["pos"] = 1130, -355.6, -5569
+ad_p[20]["angle"] = 43917
+ad_p[20]["pos"] = 1130, -355.6, -5569
+
 # bk skip
-ad_p[21]["requirements"] = REQ_POS | REQ_CAM
-ad_p[21]["pos"] = (71.9835968, 1500.00, 2839.01587)
-ad_p[21]["angle"] = 32767
-ad_p[21]["cam"]["pos"] = (71.9835968, 1719.93542, 2969.04565)
-ad_p[21]["cam"]["target"] = (71.9835968, 1660.0, 2839.01587)
-ad_p[21]["counter"] = 30
+ad_p[23]["requirements"] = REQ_POS | REQ_CAM
+ad_p[23]["pos"] = (71.9835968, 1500.00, 2839.01587)
+ad_p[23]["angle"] = 32767
+ad_p[23]["cam"]["pos"] = (71.9835968, 1719.93542, 2969.04565)
+ad_p[23]["cam"]["target"] = (71.9835968, 1660.0, 2839.01587)
+ad_p[23]["counter"] = 30
 
 # morpheel
-ad_p[22]["requirements"] = REQ_POS | REQ_CAM
-ad_p[22]["pos"] = (-1193.0, -23999.00, -770.0)
-ad_p[22]["angle"] = 10754
-ad_p[22]["counter"] = 20
-
-# spr boost
-ad_p[17]["requirements"] = REQ_POS | REQ_CAM
-ad_p[17]["pos"] = (2019.5192, 200.00, -2865.9890)
-ad_p[17]["angle"] = 16384
-ad_p[17]["counter"] = 30
+ad_p[24]["requirements"] = REQ_POS | REQ_CAM
+ad_p[24]["pos"] = (-1193.0, -23999.00, -770.0)
+ad_p[24]["angle"] = 10754
+ad_p[24]["counter"] = 20
 
 # poe gate skip
-ad_p[26]["requirements"] = REQ_POS | REQ_CAM
-ad_p[26]["pos"] = (-749.9980, 50.0000, -3265.0000)
-ad_p[26]["angle"] = 16384
-ad_p[26]["cam"]["pos"] = (-549.9980, 200.0000, -3265.0000)
-ad_p[26]["cam"]["target"] = (-749.9980, 50.0000, -3265.0000)
-ad_p[26]["counter"] = 10
+ad_p[28]["requirements"] = REQ_POS | REQ_CAM
+ad_p[28]["pos"] = (-749.9980, 50.0000, -3265.0000)
+ad_p[28]["angle"] = 16384
+ad_p[28]["cam"]["pos"] = (-549.9980, 200.0000, -3265.0000)
+ad_p[28]["cam"]["target"] = (-749.9980, 50.0000, -3265.0000)
+ad_p[28]["counter"] = 10
 
 # dot skip
-ad_p[31]["requirements"] = REQ_POS | REQ_CAM
-ad_p[31]["cam"]["target"] = 1361.59766, -33.1954155, -1090.47632
-ad_p[31]["cam"]["pos"] = 1396.36316, 9.51973343, -719.644531
-ad_p[31]["angle"] = 33673
-ad_p[31]["pos"] = 1361.68408, -143.56076, -1089.4801
+ad_p[33]["requirements"] = REQ_POS | REQ_CAM
+ad_p[33]["cam"]["target"] = 1361.59766, -33.1954155, -1090.47632
+ad_p[33]["cam"]["pos"] = 1396.36316, 9.51973343, -719.644531
+ad_p[33]["angle"] = 33673
+ad_p[33]["pos"] = 1361.68408, -143.56076, -1089.4801
 
-file = open("ad.bin", 
-"wb")
+
+file = open("ad.bin", "wb")
 
 for entry in ad_p:
     print(entry)

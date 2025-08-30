@@ -147,6 +147,12 @@ KEEP_FUNC void SaveMngSpecial_EarlyEle() {
     dComIfGs_onTmpBit(0x0002);
 }
 
+KEEP_FUNC void SaveMngSpecial_EarlyEleSpawn() {
+    gSaveManager.setSaveAngle(43917);
+    gSaveManager.setSavePosition(1130, -355.6, -5569);
+    gSaveManager.setLinkInfo();
+}
+
 KEEP_FUNC void SaveMngSpecial_HorseSpawn() {
     gSaveManager.injectDefault_during();
     g_dComIfG_gameInfo.info.mRestart.mLastMode = 1;  // spawn on epona

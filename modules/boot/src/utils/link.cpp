@@ -39,14 +39,13 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->current.pos.z);
         snprintf(link_action, sizeof(link_action), "action: %d", dComIfGp_getPlayer()->mActionID);
 
-        s16 slope;
-        
+        s16 slope;        
         if (dComIfGp_getPlayer()->mLinkAcch.ChkGroundHit()) {
             slope = daAlink_c__getGroundAngle(dComIfGp_getPlayer(), &(dComIfGp_getPlayer()->mLinkAcch.m_gnd.mPolyInfo), dComIfGp_getPlayer()->current.angle.y);
         } else {
             slope = 0;
         }
-
+    
         snprintf(ground_angle, sizeof(ground_angle), "slope: %d", slope);
 
         u32 acch_flags = dComIfGp_getPlayer()->mLinkAcch.m_flags;
@@ -73,18 +72,21 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         Font::GZ_drawStr(link_z, spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
-        Font::GZ_drawStr(link_action, spriteOffset.x,
-                        spriteOffset.y + 140.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
-        Font::GZ_drawStr(ground_angle, spriteOffset.x,
-                        spriteOffset.y + 160.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
-        Font::GZ_drawStr(collision_flags, spriteOffset.x,
-                        spriteOffset.y + 180.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
-        Font::GZ_drawStr(demo_mode, spriteOffset.x,
-                        spriteOffset.y + 200.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
+            
+        if (GZ_checkAdvancedMode()) {
+            Font::GZ_drawStr(link_action, spriteOffset.x,
+                            spriteOffset.y + 140.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(ground_angle, spriteOffset.x,
+                            spriteOffset.y + 160.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(collision_flags, spriteOffset.x,
+                            spriteOffset.y + 180.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(demo_mode, spriteOffset.x,
+                            spriteOffset.y + 200.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+        }
     } else {
         Font::GZ_drawStr("angle: n/a", spriteOffset.x,
                          spriteOffset.y + 20.0f, 0xFFFFFFFF,
@@ -104,18 +106,21 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         Font::GZ_drawStr("z-pos: n/a", spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
-        Font::GZ_drawStr("action: n/a", spriteOffset.x,
-                         spriteOffset.y + 140.0f, 0xFFFFFFFF,
-                         GZ_checkDropShadows());
-        Font::GZ_drawStr("slope: n/a", spriteOffset.x,
-                         spriteOffset.y + 160.0f, 0xFFFFFFFF,
-                         GZ_checkDropShadows());
-        Font::GZ_drawStr("acch: n/a", spriteOffset.x,
-                         spriteOffset.y + 180.0f, 0xFFFFFFFF,
-                         GZ_checkDropShadows());
-        Font::GZ_drawStr("demo: n/a", spriteOffset.x,
-                        spriteOffset.y + 200.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
+
+        if (GZ_checkAdvancedMode()) {
+            Font::GZ_drawStr("action: n/a", spriteOffset.x,
+                            spriteOffset.y + 140.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("slope: n/a", spriteOffset.x,
+                            spriteOffset.y + 160.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("acch: n/a", spriteOffset.x,
+                            spriteOffset.y + 180.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("demo: n/a", spriteOffset.x,
+                            spriteOffset.y + 200.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+        }
     }
 }
 
