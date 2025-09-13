@@ -5,7 +5,9 @@
 
 KEEP_FUNC PracticeMenu::PracticeMenu(Cursor& cursor)
     : Menu(cursor), lines{
+#ifdef GCN_PLATFORM
                         {"any%", ANY_INDEX, "Any% practice saves", false},
+#endif
                         {"any% BiTE", ANY_BITE_INDEX, "Any% (BiTE route) practice saves", false},
                         {"100%", HUNDO_INDEX, "100% practice saves", false},
                         {"all dungeons", AD_INDEX, "All Dungeons practice saves", false},
@@ -25,9 +27,11 @@ void PracticeMenu::draw() {
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
+#ifdef GCN_PLATFORM
         case ANY_INDEX:
             g_menuMgr->push(MN_ANY_SAVES_INDEX);
             return;
+#endif
         case ANY_BITE_INDEX:
             g_menuMgr->push(MN_ANY_BITE_SAVES_INDEX);
             return;
@@ -51,3 +55,6 @@ void PracticeMenu::draw() {
     cursor.move(0, MENU_LINE_NUM);
     GZ_drawMenuLines(lines, cursor.y, MENU_LINE_NUM);
 }
+
+
+

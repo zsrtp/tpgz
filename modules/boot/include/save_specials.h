@@ -9,12 +9,15 @@ void SaveMngSpecial_Goats1();
 void SaveMngSpecial_Hugo();
 void SaveMngSpecial_SpawnHugo();
 
+void SaveMngSpecial_SpawnPGS();
+
 void SaveMngSpecial_PurpleMist();
 
 void SaveMngSpecial_KargOoB();
 void SaveMngSpecial_WaterfallSidehop();
 
 void SaveMngSpecial_EarlyEle();
+void SaveMngSpecial_EarlyEleSpawn();
 
 void SaveMngSpecial_HorseSpawn();
 void SaveMngSpecial_EldinCollection();

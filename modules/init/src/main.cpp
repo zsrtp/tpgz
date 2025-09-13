@@ -46,6 +46,7 @@ void main() {
     g_drawListener->addListener(GZ_renderFifoQueue);
     g_drawListener->addListener(GZ_displayLinkInfo);
     g_drawListener->addListener(GZ_displayStageInfo);
+    g_drawListener->addListener(GZ_displayDisplacementInfo);
     g_drawListener->addListener(GZ_drawHeapInfo);
     g_drawListener->addListener(Timer::drawTimer);
     g_drawListener->addListener(Timer::drawLoadTimer);
@@ -69,6 +70,7 @@ void main() {
 #endif
     g_modules.push_back(new Module{corotd_active, "/tpgz/rels/features/corotd.rel"});
     g_modules.push_back(new Module{lfc_active, "/tpgz/rels/features/lfc_checker.rel"});
+    g_modules.push_back(new Module{ebmb_active, "/tpgz/rels/features/ebmb_checker.rel"});
     g_modules.push_back(new Module{ee_active, "/tpgz/rels/features/ee_checker.rel"});
     g_modules.push_back(new Module{mash_checker_active, "/tpgz/rels/features/mash_checker.rel"});
     g_modules.push_back(new Module{gorge_active, "/tpgz/rels/features/gorge.rel"});
@@ -131,6 +133,7 @@ void GZ_PosSettings_initDefaults() {
     GZStng_add(STNG_SPRITES_HEAP_INFO, new Vec2{145.0f, 25.0f}, sizeof(Vec2));
     GZStng_add(STNG_SPRITES_MASH_INFO, new Vec2{450.0f, 400.0f}, sizeof(Vec2));
     GZStng_add(STNG_SPRITES_TRANSFORM_IND, new Vec2{465.0f, 30.0f}, sizeof(Vec2));
+    GZStng_add(STNG_SPRITES_DISPLACEMENT, new Vec2{450.0f, 60.0f}, sizeof(Vec2));
 }
 
 inline void GZ_patchLinkColor() {

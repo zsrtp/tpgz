@@ -44,8 +44,9 @@ KEEP_FUNC GlitchlessSavesMenu::GlitchlessSavesMenu(Cursor& cursor)
 GlitchlessSavesMenu::~GlitchlessSavesMenu() {}
 
 void GlitchlessSavesMenu::draw() {
-    special GlitchlessSpecials[GL_SPECIALS_AMNT] = {
+    special GlitchlessSpecials[] = {
         special(GL_DANGORO_INDEX, nullptr, SaveMngSpecial_Dangoro),
+        special(GL_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(GL_DARKHAMMER_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(GL_PALACE_INDEX, SaveMngSpecial_Palace1, nullptr),
     };
@@ -56,7 +57,7 @@ void GlitchlessSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::triggerLoad(cursor.y, "glitchless", GlitchlessSpecials, GL_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "glitchless", GlitchlessSpecials, ARRAY_COUNT(GlitchlessSpecials));
         g_menuMgr->hide();
     }
 

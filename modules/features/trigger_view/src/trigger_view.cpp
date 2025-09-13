@@ -57,6 +57,34 @@ void drawSceneExit(fopAc_ac_c* actor) {
     dDbVw_drawCube8pXlu(points, color);
 }
 
+void drawNoChangeRoomTrigger(fopAc_ac_c* actor) {
+    struct daNocrm_c : public fopAc_ac_c {
+
+    /* 0x568 */ Mtx mMtx;
+    /* 0x598 */ Mtx mInvMtx;
+    /* 0x5C8 */ s8 mRoomNo[2];
+    /* 0x5CA */ bool mRoomLoading;
+    };
+
+    daNocrm_c* nocrm = (daNocrm_c*)actor;
+
+    cXyz points[8];
+    points[0].set(-actor->mScale.x, actor->mScale.y, -actor->mScale.z);
+    points[1].set(actor->mScale.x, actor->mScale.y, -actor->mScale.z);
+    points[2].set(-actor->mScale.x, actor->mScale.y, actor->mScale.z);
+    points[3].set(actor->mScale.x, actor->mScale.y, actor->mScale.z);
+    points[4].set(-actor->mScale.x, 0.0f, -actor->mScale.z);
+    points[5].set(actor->mScale.x, 0.0f, -actor->mScale.z);
+    points[6].set(-actor->mScale.x, 0.0f, actor->mScale.z);
+    points[7].set(actor->mScale.x, 0.0f, actor->mScale.z);
+
+    mDoMtx_inverse(nocrm->mInvMtx, mDoMtx_stack_c::get());
+    mDoMtx_multVecArray(mDoMtx_stack_c::get(), points, points, 8);
+
+    GXColor color = {0x00, 0xFF, 0xFF, g_geometryOpacity};  // Different color to distinguish from scene exits
+    dDbVw_drawCube8pXlu(points, color);
+}
+
 // this one could probably be made more accurate
 void drawMidnaStop(fopAc_ac_c* actor) {
     struct daMidnaStop_c : public fopAc_ac_c {
@@ -395,6 +423,7 @@ void drawLeeverData(fopAc_ac_c* actor) {
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
+        searchActorForCallback(PROC_NO_CHG_ROOM, drawNoChangeRoomTrigger);
     }
 
     if (g_triggerViewFlags[VIEW_MIDNA_STOPS].active) {

@@ -118,12 +118,19 @@ void GZ_execute(int phase) {
         }
     }
 
+    // separate variable to make sure the after-callback is only run after a load has happened
+    static bool load_started = false;
+    if (fopScnRq.isLoading && !load_started) {
+        load_started = true;
+    }
+
     // Check for post load callback and run it once link is valid
-    if (!fopScnRq.isLoading && dComIfGp_getPlayer()) {
+    if (load_started && !fopScnRq.isLoading && dComIfGp_getPlayer()) {
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
             gSaveManager.mPracticeFileOpts.inject_options_after_load();
             gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
         }
+        load_started = false;
     }
 
     // normally oxygen doesn't get set until going to the file select screen

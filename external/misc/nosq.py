@@ -71,7 +71,7 @@ def main(args=None):
         "spr",
         #"camp",
         "ag",
-        #"poe_1_skip",
+        "poe_gate_skip",
         "death_sword",
         "stallord",
         #"cits_early",
@@ -212,17 +212,14 @@ def main(args=None):
         '10754': 20
     })
 
-    # poe 1 skip
-    #update_entry("poe_1_skip", {
-    #    'requirements': Requirements.POS | Requirements.CAM,
-    #    'pos': (-2046.97168, 0.0, -587.304871),
-    #    'angle': 49030,
-    #    'cam': {
-    #        'pos': (-1779.00293, 213.707397, -584.686768),
-    #        'target': (-2047.97168, 130.16568, -587.317139)
-    #    },
-    #    'counter': 10
-    #})
+    # poe gate skip
+    update_entry('poe_gate_skip', data = {
+        'requirements': Requirements.POS | Requirements.CAM,
+        'pos': (-749.9980, 50.0000, -3265.0000),
+        'angle': 16384,
+        'cam': {'pos': (-549.9980, 200.0000, -3265.0000), 'target': (-749.9980, 50.0000, -3265.0000)},
+        'counter': 10,
+    })
 
     # city 1
     update_entry("cits_1", {

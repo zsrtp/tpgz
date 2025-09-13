@@ -14,7 +14,7 @@
 #define TIMER_RESET_BUTTONS (CButton::Z | CButton::B)
 #define FREE_CAM_BUTTONS (CButton::Z | CButton::B | CButton::A)
 #define MOVE_LINK_BUTTONS (CButton::L | CButton::R | CButton::Y)
-#define FRAME_PAUSE_BUTTONS (CButton::R | CButton::DPAD_UP)
+#define FRAME_PAUSE_BUTTONS (CButton::R | CButton::DPAD_LEFT)
 #define FRAME_ADVANCE_BUTTONS (CButton::R)
 #define GORGE_VOID_BUTTONS (CButton::L | CButton::Z)
 #endif
@@ -36,6 +36,11 @@
 #endif
 
 extern bool reload_area_flag;
+
+extern Vec sSavePlayerPos;
+extern int16_t sSavePlayerAngle;
+extern Vec sSaveCamPos;
+extern Vec sSaveCamTarget;
 
 enum Commands {
     CMD_STORE_POSITION,

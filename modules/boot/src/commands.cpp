@@ -21,10 +21,10 @@ bool reload_area_flag = false;
 bool g_timerEnabled = false;
 bool g_resetTimer = false;
 
-static Vec sSavePlayerPos = {0.0f, 0.0f, 0.0f};
-static int16_t sSavePlayerAngle = 0;
-static Vec sSaveCamPos = {0.0f, 0.0f, 0.0f};
-static Vec sSaveCamTarget = {0.0f, 0.0f, 0.0f};
+Vec sSavePlayerPos = {0.0f, 0.0f, 0.0f};
+int16_t sSavePlayerAngle = 0;
+Vec sSaveCamPos = {0.0f, 0.0f, 0.0f};
+Vec sSaveCamTarget = {0.0f, 0.0f, 0.0f};
 
 static int sLastInputs;
 static int sCurInputs;

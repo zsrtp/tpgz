@@ -25,8 +25,10 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
                         {"lanayru twilight", AD_LANAYRU_TWILIGHT_INDEX, "Lanayru Twilight tears"},
                         {"mountain umd", AD_MOUNTAIN_UMD_INDEX, "Snowpeak Mountain w/ UMD"},
                         {"snowpeak", AD_SPR_INDEX, "The Snowpeak Ruins segment"},
-                        {"ice boost", AD_SPR_BOOST_INDEX, "Ice boost to SPR 2nd floor"},
+                        {"spr bk room", AD_SPR_BK_ROOM_INDEX, "Snowpeak Boss Key room"},
                         {"blizzeta", AD_BLIZZETA_INDEX, "Snowpeak Ruins boss"},
+                        {"rusl td", AD_RUSL_TD_INDEX, "Rusl text displacement"},
+                        {"early ele", AD_EARLY_ELAVATOR_INDEX, "OoB LJA to Death Mountain Elevator"},
                         {"goron mines", AD_GM_INDEX, "The Goron Mines segment"},
                         {"dangoro", AD_DANGORO_INDEX, "Goron Mines miniboss"},
                         {"lakebed bk skip", AD_BK_SKIP_INDEX, "Boss Key skip in Lakebed Temple"},
@@ -34,7 +36,7 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
                         {"mdh", AD_MDH_INDEX, "Midna's Desperate Hour segment"},
                         {"bulblin camp", AD_CAMP_INDEX, "Bulblin camp segment"},
                         {"arbiter's grounds", AD_AG_INDEX, "The Arbiter's Grounds segment"},
-                        {"poe 1 skip", AD_POE_SKIP_INDEX, "The pillar jump in Arbiter's Grounds"},
+                        {"poe gate skip", AD_PGS_INDEX, "Bouncin' with Bonnie"},
                         {"death sword", AD_DSS_INDEX, "Arbiter's Grounds miniboss"},
                         {"stallord", AD_STALLORD_INDEX, "Arbiter's Grounds boss"},
                         {"faron bomb boost", AD_FARON_BOOST_INDEX, "Bomb boost to Sacred Grove"},
@@ -44,6 +46,7 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
                         {"city 1", AD_CITS_1_INDEX, "The 1st City in the Sky segment"},
                         {"aeralfos skip", AD_AERALFOS_INDEX, "City in the Sky miniboss"},
                         {"city 2", AD_CITS_2_INDEX, "The 2nd City in the Sky segment"},
+                        {"fan tower", AD_FAN_TOWER_INDEX, "Final fan room in City"},
                         {"argorok", AD_ARGOROK_INDEX, "City in the Sky boss"},
                         {"palace 1", AD_PALACE_1_INDEX, "The 1st Palace of Twilight segment"},
                         {"palace 2", AD_PALACE_2_INDEX, "The 2nd Palace of Twilight segment"},
@@ -56,16 +59,19 @@ KEEP_FUNC ADSavesMenu::ADSavesMenu(Cursor& cursor)
 ADSavesMenu::~ADSavesMenu() {}
 
 void ADSavesMenu::draw() {
-    special ADSpecials[AD_SPECIALS_AMNT] = {
+    special ADSpecials[] = {
         special(AD_HUGO_INDEX, SaveMngSpecial_Hugo, SaveMngSpecial_SpawnHugo),
         special(AD_BK_SKIP_INDEX, SaveMngSpecial_LakebedBKSkip, nullptr),
         special(AD_MORPHEEL_INDEX, nullptr, SaveMngSpecial_Morpheel),
-        special(AD_STALLORD_INDEX, SaveMngSpecial_Stallord, nullptr),
+        special(AD_STALLORD_INDEX, SaveMngSpecial_BossFlags, SaveMngSpecial_Stallord),
         special(AD_PILLAR_CLIP_INDEX, SaveMngSpecial_BossFlags, nullptr),
         special(AD_LAKEBED_1_INDEX, SaveMngSpecial_BossFlags, nullptr),
+        special(AD_TOAD_INDEX, SaveMngSpecial_BossFlags, nullptr),
+        special(AD_PGS_INDEX, nullptr, SaveMngSpecial_SpawnPGS),
         special(AD_ARGOROK_INDEX, SaveMngSpecial_Argorok, nullptr),
         special(AD_PALACE_1_INDEX, SaveMngSpecial_Palace1, nullptr),
         special(AD_PALACE_2_INDEX, nullptr, SaveMngSpecial_Palace2),
+        special(AD_EARLY_ELAVATOR_INDEX, SaveMngSpecial_EarlyEle, SaveMngSpecial_EarlyEleSpawn)
     };
 
     if (GZ_getButtonTrig(BACK_BUTTON)) {
@@ -74,7 +80,7 @@ void ADSavesMenu::draw() {
     }
 
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
-        SaveManager::triggerLoad(cursor.y, "ad", ADSpecials, AD_SPECIALS_AMNT);
+        SaveManager::triggerLoad(cursor.y, "ad", ADSpecials, ARRAY_COUNT(ADSpecials));
         g_menuMgr->hide();
     }
 

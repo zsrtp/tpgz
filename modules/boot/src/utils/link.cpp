@@ -6,6 +6,7 @@
 #include "libtp_c/include/m_Do/m_Do_audio.h"
 #include "tools.h"
 #include "rels/include/defines.h"
+#include "commands.h"
 
 KEEP_FUNC void GZ_displayLinkInfo() {
     if (!GZStng_getData(STNG_TOOLS_LINK_DEBUG, false)) {
@@ -25,6 +26,9 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         char link_y[22];
         char link_z[22];
         char link_action[22];
+        char ground_angle[22];
+        char collision_flags[22];
+        char demo_mode[22];
 
         snprintf(link_angle, sizeof(link_angle), "angle: %d",
                  (uint16_t)dComIfGp_getPlayer()->shape_angle.y);
@@ -35,6 +39,20 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         snprintf(link_z, sizeof(link_z), "z-pos: %.4f", dComIfGp_getPlayer()->current.pos.z);
         snprintf(link_action, sizeof(link_action), "action: %d", dComIfGp_getPlayer()->mActionID);
 
+        s16 slope;        
+        if (dComIfGp_getPlayer()->mLinkAcch.ChkGroundHit()) {
+            slope = daAlink_c__getGroundAngle(dComIfGp_getPlayer(), &(dComIfGp_getPlayer()->mLinkAcch.m_gnd.mPolyInfo), dComIfGp_getPlayer()->current.angle.y);
+        } else {
+            slope = 0;
+        }
+    
+        snprintf(ground_angle, sizeof(ground_angle), "slope: %d", slope);
+
+        u32 acch_flags = dComIfGp_getPlayer()->mLinkAcch.m_flags;
+        snprintf(collision_flags, sizeof(collision_flags), "acch: %08X", acch_flags);
+
+        u32 mDemoMode = dComIfGp_getPlayer()->mDemo.mDemoMode;
+        snprintf(demo_mode, sizeof(demo_mode), "demo: %d", mDemoMode);
 
         Font::GZ_drawStr(link_angle, spriteOffset.x,
                          spriteOffset.y + 20.0f, 0xFFFFFFFF,
@@ -54,9 +72,21 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         Font::GZ_drawStr(link_z, spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
-        Font::GZ_drawStr(link_action, spriteOffset.x,
-                        spriteOffset.y + 140.0f, 0xFFFFFFFF,
-                        GZ_checkDropShadows());
+            
+        if (GZ_checkAdvancedMode()) {
+            Font::GZ_drawStr(link_action, spriteOffset.x,
+                            spriteOffset.y + 140.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(ground_angle, spriteOffset.x,
+                            spriteOffset.y + 160.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(collision_flags, spriteOffset.x,
+                            spriteOffset.y + 180.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr(demo_mode, spriteOffset.x,
+                            spriteOffset.y + 200.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+        }
     } else {
         Font::GZ_drawStr("angle: n/a", spriteOffset.x,
                          spriteOffset.y + 20.0f, 0xFFFFFFFF,
@@ -76,9 +106,21 @@ KEEP_FUNC void GZ_displayLinkInfo() {
         Font::GZ_drawStr("z-pos: n/a", spriteOffset.x,
                          spriteOffset.y + 120.0f, 0xFFFFFFFF,
                          GZ_checkDropShadows());
-        Font::GZ_drawStr("action: n/a", spriteOffset.x,
-                         spriteOffset.y + 140.0f, 0xFFFFFFFF,
-                         GZ_checkDropShadows());
+
+        if (GZ_checkAdvancedMode()) {
+            Font::GZ_drawStr("action: n/a", spriteOffset.x,
+                            spriteOffset.y + 140.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("slope: n/a", spriteOffset.x,
+                            spriteOffset.y + 160.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("acch: n/a", spriteOffset.x,
+                            spriteOffset.y + 180.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+            Font::GZ_drawStr("demo: n/a", spriteOffset.x,
+                            spriteOffset.y + 200.0f, 0xFFFFFFFF,
+                            GZ_checkDropShadows());
+        }
     }
 }
 
@@ -201,5 +243,61 @@ KEEP_FUNC void GZ_setTunicColor() {
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.r = r - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.g = g - 0x10;
         dComIfGp_getPlayer()->field_0x32a0[1].mColor.b = b - 0x10;
+    }
+}
+
+KEEP_FUNC void GZ_displayDisplacementInfo() {
+    if (!GZStng_getData(STNG_TOOLS_DISPLACEMENT, false)) {
+        return;
+    }
+
+    Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_DISPLACEMENT);
+
+    daAlink_c* player = dComIfGp_getPlayer();
+
+    if (player) {
+        char angle_disp[22];
+        char link_x_disp[22];
+        char link_y_disp[22];
+        char link_z_disp[22];
+        char link_xz_disp[22];
+        char link_xyz_disp[22];
+
+        snprintf(angle_disp, sizeof(angle_disp), "da: %d", player->shape_angle.y - sSavePlayerAngle);
+        snprintf(link_x_disp, sizeof(link_x_disp), "dx: %.4f", player->current.pos.x - sSavePlayerPos.x);
+        snprintf(link_y_disp, sizeof(link_y_disp), "dy: %.4f", player->current.pos.y - sSavePlayerPos.y);
+        snprintf(link_z_disp, sizeof(link_z_disp), "dz: %.4f", player->current.pos.z - sSavePlayerPos.z);
+        snprintf(link_xz_disp, sizeof(link_xz_disp), "dxz: %.4f", 
+            sqrt(
+                ((double)player->current.pos.x - (double)sSavePlayerPos.x) * ((double)player->current.pos.x - (double)sSavePlayerPos.x) + 
+                ((double)player->current.pos.z - (double)sSavePlayerPos.z) * ((double)player->current.pos.z - (double)sSavePlayerPos.z)
+            )
+        );
+        snprintf(link_xyz_disp, sizeof(link_xyz_disp), "dxyz: %.4f", 
+            sqrt(
+                ((double)player->current.pos.x - (double)sSavePlayerPos.x) * ((double)player->current.pos.x - (double)sSavePlayerPos.x) + 
+                ((double)player->current.pos.y - (double)sSavePlayerPos.y) * ((double)player->current.pos.y - (double)sSavePlayerPos.y) + 
+                ((double)player->current.pos.z - (double)sSavePlayerPos.z) * ((double)player->current.pos.z - (double)sSavePlayerPos.z)
+            )
+        );
+
+        Font::GZ_drawStr(angle_disp, spriteOffset.x,
+                         spriteOffset.y, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_x_disp, spriteOffset.x,
+                         spriteOffset.y + 20.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_y_disp, spriteOffset.x,
+                         spriteOffset.y + 40.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_z_disp, spriteOffset.x,
+                         spriteOffset.y + 60.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_xz_disp, spriteOffset.x,
+                         spriteOffset.y + 80.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
+        Font::GZ_drawStr(link_xyz_disp, spriteOffset.x,
+                         spriteOffset.y + 100.0f, 0xFFFFFFFF,
+                         GZ_checkDropShadows());
     }
 }

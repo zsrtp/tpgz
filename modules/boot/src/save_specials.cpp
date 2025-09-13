@@ -93,6 +93,38 @@ KEEP_FUNC void SaveMngSpecial_SpawnHugo() {
     }
 }
 
+#if defined(WII_NTSCU_10) || defined(WII_PAL)
+#define BUBBLE_ACTOR_ID 489
+#else
+#define BUBBLE_ACTOR_ID 491
+#endif
+
+KEEP_FUNC void SaveMngSpecial_SpawnPGS() {
+    gSaveManager.setSaveAngle(16384);
+    gSaveManager.setSavePosition(-749.9980, 50.0, -3265.0000);
+    gSaveManager.setLinkInfo();
+
+    cXyz position1(-277.2082, 500.0000, -3598.5154);
+    cXyz position2(-277.2082, 500.0000, -3698.5154);
+
+    // Find hugo in the actor list
+    fopAc_ac_c* actorData1 =
+        find_actor([](auto& act) { return act.mBase.mProcName == BUBBLE_ACTOR_ID && act.current.pos.x == -1425; });
+
+    fopAc_ac_c* actorData2 =
+        find_actor([](auto& act) { return act.mBase.mProcName == BUBBLE_ACTOR_ID && act.current.pos.x == -1225; });
+        
+    if (actorData1 != NULL) {
+        actorData1->current.pos = position1;
+        actorData1->shape_angle.y = 0;
+    }
+
+    if (actorData2 != NULL) {
+        actorData2->current.pos = position2;
+        actorData2->shape_angle.y = 0;
+    }
+}
+
 KEEP_FUNC void SaveMngSpecial_PurpleMist() {
     gSaveManager.injectDefault_during();
     dComIfGs_setTransformStatus(STATUS_HUMAN);
@@ -113,6 +145,12 @@ KEEP_FUNC void SaveMngSpecial_WaterfallSidehop() {
 KEEP_FUNC void SaveMngSpecial_EarlyEle() {
     gSaveManager.injectDefault_during();
     dComIfGs_onTmpBit(0x0002);
+}
+
+KEEP_FUNC void SaveMngSpecial_EarlyEleSpawn() {
+    gSaveManager.setSaveAngle(43917);
+    gSaveManager.setSavePosition(1130, -355.6, -5569);
+    gSaveManager.setLinkInfo();
 }
 
 KEEP_FUNC void SaveMngSpecial_HorseSpawn() {
@@ -165,7 +203,7 @@ KEEP_FUNC void SaveMngSpecial_Darkhammer() {
 
 KEEP_FUNC void SaveMngSpecial_Morpheel() {
     dComIfGp_getPlayer()->mEquipItem = HOOKSHOT;                        // clawshot
-    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::EQUIP_HEAVY_BOOTS);  // ib
+    dComIfGp_getPlayer()->onNoResetFlg0(daPy_py_c::FLG0_EQUIP_HVY_BOOTS);  // ib
     gSaveManager.setSaveAngle(10754);
     gSaveManager.setSavePosition(-1193.0f, -23999.0f, -770.0f);
     gSaveManager.setLinkInfo();

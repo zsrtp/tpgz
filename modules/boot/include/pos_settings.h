@@ -3,7 +3,8 @@
 #include "settings.h"
 #include "libtp_c/include/dolphin/mtx/vec.h"
 
-#define SPRITES_AMNT 11
+#define SPRITES_AMNT 12
+
 enum SpritesIndex {
     MENU_INDEX,
     VIEWER_INDEX,
@@ -16,6 +17,7 @@ enum SpritesIndex {
     HEAP_INFO_INDEX,
     MASH_INFO_INDEX,
     TRANSFORM_IND_INDEX,
+    DISPLACEMENT_INDEX
 };
 
 inline Vec2 GZ_getSpriteOffset(GZSettingID sprIdx) {

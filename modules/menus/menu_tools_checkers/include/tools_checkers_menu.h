@@ -17,6 +17,7 @@ enum CheckersIndex {
     BIT_INDEX,
 #endif
     COROTD_INDEX,
+    EBMB_INDEX,
     ELEVATOR_ESCAPE_INDEX,
     GORGE_INDEX,
     LFC_INDEX,

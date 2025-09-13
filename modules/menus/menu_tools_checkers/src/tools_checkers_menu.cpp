@@ -6,6 +6,7 @@ const char l_descTemplates[CHECKERS_COUNT][100] = {
     "use %s to warp to ordon bridge",
 #endif
     "show frame info when doing coro td",
+    "show frame info when doing ending blow moon boots",
     "show frame info when doing elevator escape",
     "use %s to warp to kakariko gorge",
     "ladder freezard cancel checker",
@@ -22,6 +23,8 @@ KEEP_FUNC CheckersMenu::CheckersMenu(CheckersData& data)
 #endif
             {"coro td", COROTD_INDEX, "show frame info when doing coro td", true,
              ACTIVE_FUNC(STNG_TOOLS_COROTD)},
+            {"ebmb", EBMB_INDEX, "show frame information when doing ending blow moon boots", 
+             true, ACTIVE_FUNC(STNG_TOOLS_EBMB)},
             {"elevator escape", ELEVATOR_ESCAPE_INDEX, "show frame info when doing elevator escape",
              true, ACTIVE_FUNC(STNG_TOOLS_ELEVATOR_ESCAPE)},
             {"gorge void", GORGE_INDEX, "use " GORGE_VOID_TEXT " to warp to kakariko gorge",
@@ -43,6 +46,7 @@ GZSettingID l_mapping[] = {
     STNG_TOOLS_BIT,
 #endif
     STNG_TOOLS_COROTD,      
+    STNG_TOOLS_EBMB,
     STNG_TOOLS_ELEVATOR_ESCAPE,
     STNG_TOOLS_GORGE,
     STNG_TOOLS_LFC,

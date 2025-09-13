@@ -4,7 +4,7 @@
 #include "tools.h"
 
 #ifdef GCN_PLATFORM
-#define FRAME_ADVANCE_TEXT "R + D-Pad Up"
+#define FRAME_ADVANCE_TEXT "R + D-Pad Left"
 #define FRAME_PAUSE_TEXT "R"
 #define RELOAD_AREA_TEXT "L+R+A+Start"
 #define FREE_CAM_TEXT "Z+B+A"
