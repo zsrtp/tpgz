@@ -256,6 +256,14 @@
 // math.o
 80182a70:fastSqrt
 
+// c_math.o 
+8044B2A8:r0
+8044B2AC:r1
+8044B2B0:r2
+8044B2B4:r02
+8044B2B8:r12
+8044B2BC:r22
+
 // m_Do_controller_pad.o
 // data
 803D7428:cpadInfo

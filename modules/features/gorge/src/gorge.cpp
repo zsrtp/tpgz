@@ -5,13 +5,16 @@
 #include "fifo_queue.h"
 #include "fs.h"
 #include "save_manager.h"
+#include "menus/menu_any_saves/include/any_saves_menu.h"
 #include "libtp_c/include/JSystem/JUtility/JUTGamePad.h"
 #include "libtp_c/include/d/com/d_com_inf_game.h"
 #include "libtp_c/include/SSystem/SComponent/c_counter.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "libtp_c/include/f_op/f_op_actor_mng.h"
 #include "libtp_c/include/utils.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "settings.h"
+#include "modules.h"
 
 #ifdef WII_PLATFORM
 #define TARGET_BUTTON Z
@@ -33,11 +36,18 @@ KEEP_FUNC void GZCmd_loadGorgeVoid() {
 
         SaveManager::triggerLoad(2, "any", sp, 1);
 #else
-        special sp[] = {
-            special(8, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
-        };
-
-        SaveManager::triggerLoad(8, "any", sp, 1);
+        if (gorge_wolf_active()) {
+            special sp[] = {
+                special(GORGE_VOID_INDEX, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
+            };
+            SaveManager::triggerLoad(GORGE_VOID_INDEX, "any", sp, 1);
+        } else if (gorge_human_active()) {
+            special sp[] = {
+                special(FRST_BIT_INDEX, GorgeVoidIndicator::warpToPosition, GorgeVoidIndicator::initState),
+            };
+            SaveManager::triggerLoad(FRST_BIT_INDEX, "any", sp, 1);
+        }
+        
 #endif
     }
 }
@@ -49,7 +59,7 @@ uint32_t current_counter = 0;
 uint32_t counter_difference = 0;
 static int after_cs_val = 0;
 static bool got_it = false;
-static char buf[20];
+static char buf[21];
 
 void actorFastCreateAtLink(short id, uint32_t parameters, int8_t subtype) {
     fopAcM_create(id, parameters, &dComIfGp_getPlayer()->current.pos,
@@ -69,17 +79,17 @@ void initState() {
 #ifdef WII_PLATFORM
     actorFastCreateAtLink(KYTAG09_ACTOR_ID, -1, -1);
 #endif
+    if (GZ_checkSwapEquips()) {
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_X, SLOT_3);
+    } else {
+        dComIfGs_setSelectItemIndex(SELECT_ITEM_Y, SLOT_3);
+    }
 }
 
 void warpToPosition() {
     // set gorge map info
     g_dComIfG_gameInfo.info.mMemory.mBit.mSwitch[0] = 0;  // optimize later
     dComIfGs_putSave(g_dComIfG_gameInfo.info.mDan.mStageNo);
-
-#ifdef GCN_PLATFORM
-    // change form to wolf
-    dComIfGs_setTransformStatus(STATUS_WOLF);
-#endif
 
     // set loading info
     g_dComIfG_gameInfo.play.mNextStage.wipe = 13;
@@ -130,31 +140,63 @@ KEEP_FUNC void execute() {
 
         // only care about 10f before and after
         if (counter_difference > 123 && after_cs_val < 10) {
-            // went early
-            if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
-                (counter_difference < WARP_CS_FRAMES) &&
-                (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
-                int final_val = WARP_CS_FRAMES - counter_difference;
-                snprintf(buf, sizeof(buf), "%df early", final_val);
-                FIFOQueue::push(buf, Queue, 0x0000FF00);
+
+            if (isAPressed()) {
+                // went early
+                if (counter_difference < WARP_CS_FRAMES) {
+                    int final_val = WARP_CS_FRAMES - counter_difference;
+                    snprintf(buf, sizeof(buf), "Jump attack %df early", final_val);
+                    FIFOQueue::push(buf, Queue, 0x0000FF00);
+                }
+
+                // got it
+                else if (!got_it && counter_difference == WARP_CS_FRAMES) {
+                    FIFOQueue::push("Jump attack got it", Queue, 0x00CC0000);
+                    got_it = true;
+                }
+
+                // went late
+                else if (!got_it && after_cs_val > 0) {
+                    snprintf(buf, sizeof(buf), "Jump attack %df late", after_cs_val);
+                    FIFOQueue::push(buf, Queue, 0x99000000);
+                }
             }
 
-            // got it
-            else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
-                     (counter_difference == WARP_CS_FRAMES) &&
-                     (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
-                FIFOQueue::push("got it", Queue, 0x00CC0000);
-                got_it = true;
-            }
+            if (gorge_human_active() && isBootsPressed()) {
+                // went early
+                if (counter_difference < WARP_CS_FRAMES) {
+                    int final_val = WARP_CS_FRAMES - counter_difference;
+                    snprintf(buf, sizeof(buf), "Boots %df early", final_val);
+                    FIFOQueue::push(buf, Queue, 0x0000FF00);
+                }
 
-            // went late
-            else if (!got_it && !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) &&
-                     after_cs_val > 0 &&
-                     (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON))) {
-                snprintf(buf, sizeof(buf), "%df late", after_cs_val);
-                FIFOQueue::push(buf, Queue, 0x99000000);
+                // got it
+                else if (counter_difference == WARP_CS_FRAMES) {
+                    FIFOQueue::push("Boots got it", Queue, 0x00CC0000);
+                    got_it = true;
+                }
+
+                // went late
+                else if (after_cs_val > 0) {
+                    snprintf(buf, sizeof(buf), "Boots %df late", after_cs_val);
+                    FIFOQueue::push(buf, Queue, 0x99000000);
+                }
             }
         }
     }
 }
+
+KEEP_FUNC bool isAPressed() {
+    return !(GZ_getButtonHold(TARGET_BUTTON) && GZ_getButtonHold(A)) 
+    && (GZ_getButtonPressed(A) && GZ_getButtonPressed(TARGET_BUTTON));
+}
+
+KEEP_FUNC bool isBootsPressed() {
+    #ifdef GCN_PLATFORM
+    return (!GZ_getButtonHold(X) && GZ_getButtonPressed(X)) || (!GZ_getButtonHold(Y) && GZ_getButtonPressed(Y));
+    #else
+    return false;
+    #endif
+}
+
 }  // namespace GorgeVoidIndicator

@@ -5,8 +5,6 @@
 ListMember g_font_opt[] = {"consola",   "calamity-bold",  "lib-sans",      "lib-sans-bold",
                            "lib-serif", "lib-serif-bold", "press-start-2p"};
 
-bool g_swap_equips_flag;
-
 tpgz::containers::deque<GZSettingEntry*> g_settings;
 
 KEEP_FUNC void GZStng_add(GZSettingID id, void* data, size_t size) {

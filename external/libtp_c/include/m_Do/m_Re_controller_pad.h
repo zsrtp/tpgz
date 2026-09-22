@@ -39,7 +39,7 @@ public:
             /* 0x000 */ Vec field_0x0[120];
             /* 0x5A0 */ Vec field_0x5a0[120];
             /* 0xB40 */ u32 field_0xb40;
-            /* 0xB44 */ u32 field_0xb44;
+            /* 0xB44 */ u32 m_swing; // > 0 when shake occurs
             /* 0xB48 */ f32 field_0xb48;
             /* 0xB4C */ f32 field_0xb4c;
             /* 0xB50 */ u8 field_0xb50;
@@ -84,8 +84,8 @@ public:
         /* 0x0080 */ u8 field_0x80[0x554 - 0x80];
         /* 0x0554 */ int field_0x554;
         /* 0x0558 */ u8 field_0x558[0x5e0 - 0x558];
-        /* 0x05E0 */ Acc field_0x5e0;
-        /* 0x11A4 */ Acc field_0x11a4;
+        /* 0x05E0 */ Acc m_remAcc; // wii remote
+        /* 0x11A4 */ Acc m_FSAcc; // nunchuk
         /* 0x1D68 */ f32 field_0x1d68;
         /* 0x1D6C */ f32 field_0x1d6c;
         /* 0x1D70 */ f32 mStickAmplitude;

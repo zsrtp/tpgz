@@ -190,7 +190,7 @@ KEEP_FUNC void GZ_handleTurbo() {
 KEEP_FUNC void GZ_renderMenuTitle() {
     if (g_menuMgr->isOpen()) {
         Vec2 spriteOffset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
-        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION, spriteOffset.x + 35.0f, 25.0f,
+        Font::GZ_drawStr("tpgz v" INTERNAL_GZ_VERSION "b", spriteOffset.x + 35.0f, 25.0f,
                          g_cursorColor, GZ_checkDropShadows());
         if (l_gzIconTex.loadCode == TexCode::TEX_OK) {
             Draw::drawRect(0xFFFFFFFF, {spriteOffset.x, 5.0f},

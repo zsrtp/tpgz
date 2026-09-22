@@ -57,6 +57,34 @@ void drawSceneExit(fopAc_ac_c* actor) {
     dDbVw_drawCube8pXlu(points, color);
 }
 
+void drawNoChangeRoomTrigger(fopAc_ac_c* actor) {
+    struct daNocrm_c : public fopAc_ac_c {
+
+    /* 0x568 */ Mtx mMtx;
+    /* 0x598 */ Mtx mInvMtx;
+    /* 0x5C8 */ s8 mRoomNo[2];
+    /* 0x5CA */ bool mRoomLoading;
+    };
+
+    daNocrm_c* nocrm = (daNocrm_c*)actor;
+
+    cXyz points[8];
+    points[0].set(-actor->mScale.x, actor->mScale.y, -actor->mScale.z);
+    points[1].set(actor->mScale.x, actor->mScale.y, -actor->mScale.z);
+    points[2].set(-actor->mScale.x, actor->mScale.y, actor->mScale.z);
+    points[3].set(actor->mScale.x, actor->mScale.y, actor->mScale.z);
+    points[4].set(-actor->mScale.x, 0.0f, -actor->mScale.z);
+    points[5].set(actor->mScale.x, 0.0f, -actor->mScale.z);
+    points[6].set(-actor->mScale.x, 0.0f, actor->mScale.z);
+    points[7].set(actor->mScale.x, 0.0f, actor->mScale.z);
+
+    mDoMtx_inverse(nocrm->mInvMtx, mDoMtx_stack_c::get());
+    mDoMtx_multVecArray(mDoMtx_stack_c::get(), points, points, 8);
+
+    GXColor color = {0x00, 0xFF, 0xFF, g_geometryOpacity};  // Different color to distinguish from scene exits
+    dDbVw_drawCube8pXlu(points, color);
+}
+
 // this one could probably be made more accurate
 void drawMidnaStop(fopAc_ac_c* actor) {
     struct daMidnaStop_c : public fopAc_ac_c {
@@ -392,9 +420,47 @@ void drawLeeverData(fopAc_ac_c* actor) {
     }
 }
 
+void drawShadowbeastDetect(fopAc_ac_c* actor) {
+    struct e_s1_class : public fopAc_ac_c {
+        u8 data[0x3064 - 0x0568];
+        /* 0x3064 */ f32 mSearchRange;
+    };
+
+    e_s1_class* s1 = (e_s1_class*)actor;
+    
+    f32 posy = s1->current.pos.y + 30.0f;
+    
+    // home position circle
+    cXyz home = {actor->orig.pos.x, posy, s1->orig.pos.z};
+    GXColor circleColor = {0x00, 0x00, 0xFF, g_geometryOpacity};
+    dDbVw_drawCircleXlu(home, s1->mSearchRange, circleColor, 1, 20);
+
+    // fov lines
+    GXColor lineColor = {0xFF, 0xFF, 0x00, g_geometryOpacity};
+    cXyz center = actor->current.pos;
+    center.y = posy;
+    f32 lineDistance = s1->mSearchRange;
+    cXyz offset(0.0f, 0.0f, lineDistance);
+
+    // edge 1
+    mDoMtx_stack_c::transS(center.x, center.y, center.z);
+    mDoMtx_stack_c::YrotM((s16)(s1->shape_angle.y + 0x7000));
+    cXyz endpos1;
+    mDoMtx_stack_c::multVec(&offset, &endpos1);
+    dDbVw_drawLineXlu(center, endpos1, lineColor, 1, 10);
+
+    // edge 2
+    mDoMtx_stack_c::transS(center.x, center.y, center.z);
+    mDoMtx_stack_c::YrotM((s16)(s1->shape_angle.y - 0x7000));
+    cXyz endpos2;
+    mDoMtx_stack_c::multVec(&offset, &endpos2);
+    dDbVw_drawLineXlu(center, endpos2, lineColor, 1, 10);
+}
+
 KEEP_FUNC void execute() {
     if (g_triggerViewFlags[VIEW_LOAD_ZONES].active) {
         searchActorForCallback(PROC_SCENE_EXIT, drawSceneExit);
+        searchActorForCallback(PROC_NO_CHG_ROOM, drawNoChangeRoomTrigger);
     }
 
     if (g_triggerViewFlags[VIEW_MIDNA_STOPS].active) {
@@ -432,6 +498,7 @@ KEEP_FUNC void execute() {
 
     if (g_triggerViewFlags[VIEW_ATTN_DISTS].active) {
         searchActorForCallback(-1, drawAttentionDists);
+        searchActorForCallback(PROC_E_S1, drawShadowbeastDetect);
     }
 
     if (g_triggerViewFlags[VIEW_MIST_AVOID].active) {

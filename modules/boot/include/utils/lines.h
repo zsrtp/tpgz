@@ -15,6 +15,13 @@ struct ListMember {
     char member[MAX_LIST_MEMBER_LENGTH];
 };
 
+struct RngPresetMember {
+    char member[MAX_LIST_MEMBER_LENGTH];
+    int r0;
+    int r1;
+    int r2;
+};
+
 struct Line {
     char line[50];
     uint32_t idx;
@@ -35,3 +42,4 @@ float maxF(float a, float b);
 float minF(float a, float b);
 void menu_anim(int idx);
 void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LINES);
+void GZ_drawRngLines(Line input_lines[], uint32_t cursor, uint32_t LINES);

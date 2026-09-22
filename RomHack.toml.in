@@ -21,27 +21,27 @@ iso = "@TPGZ_CFG_BLD_ISO@"
 "tpgz/fonts" = "../res/fonts"
 
 # any% saves
-"tpgz/save_files/any.bin" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any.bin"
+"tpgz/save_files/any.bin" = "@TPGZ_CFG_SAVE_META_PATH@/any.bin"
 "tpgz/save_files/any" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any"
 
 # any% bite saves
-"tpgz/save_files/any_bite.bin" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any_bite.bin"
+"tpgz/save_files/any_bite.bin" = "@TPGZ_CFG_SAVE_META_PATH@/any_bite.bin"
 "tpgz/save_files/any_bite" = "../@TPGZ_CFG_SAVE_ANY_PATH@/any_bite"
 
 # 100% saves
-"tpgz/save_files/hundo.bin" = "../res/save_files/hundo.bin"
-"tpgz/save_files/hundo" = "../res/save_files/hundo"
+"tpgz/save_files/hundo.bin" = "@TPGZ_CFG_SAVE_META_PATH@/hundo.bin"
+"tpgz/save_files/hundo" = "../@TPGZ_CFG_SAVE_ANY_PATH@/hundo"
 
 # All Dungeons saves
-"tpgz/save_files/ad.bin" = "../res/save_files/ad.bin"
+"tpgz/save_files/ad.bin" = "@TPGZ_CFG_SAVE_META_PATH@/ad.bin"
 "tpgz/save_files/ad" = "../res/save_files/ad"
 
 # No SQ saves
-@TPGZ_CFG_WII_ONLY@"tpgz/save_files/nosq.bin" = "../res/save_files/nosq.bin"
+@TPGZ_CFG_WII_ONLY@"tpgz/save_files/nosq.bin" = "@TPGZ_CFG_SAVE_META_PATH@/nosq.bin"
 @TPGZ_CFG_WII_ONLY@"tpgz/save_files/nosq" = "../res/save_files/nosq"
 
 # Glitchless saves
-"tpgz/save_files/glitchless.bin" = "../res/save_files/glitchless.bin"
+"tpgz/save_files/glitchless.bin" = "@TPGZ_CFG_SAVE_META_PATH@/glitchless.bin"
 "tpgz/save_files/glitchless" = "../res/save_files/glitchless"
 
 # actor info

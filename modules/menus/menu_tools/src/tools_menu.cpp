@@ -7,7 +7,9 @@ KEEP_FUNC ToolsMenu::ToolsMenu(Cursor& cursor)
             {"controller", CONTROLLER_INDEX, "Controller related tools", false},
             {"link", LINK_INDEX, "Link related tools", false},
             {"scene", SCENE_INDEX, "Scene related tools", false},
-            {"timers", TIMERS_INDEX, "Various timer tools", false}} {
+            {"timers", TIMERS_INDEX, "Various timer tools", false},
+            {"rng", RNG_INDEX, "Tools for modifying RNG values", false},
+        } {
 }
 
 ToolsMenu::~ToolsMenu() {}
@@ -34,6 +36,9 @@ void ToolsMenu::draw() {
             return;
         case TIMERS_INDEX:
             g_menuMgr->push(MN_TOOLS_TIMERS_INDEX);
+            return;
+        case RNG_INDEX:
+            g_menuMgr->push(MN_TOOLS_RNG_INDEX);
             return;
         }
     }

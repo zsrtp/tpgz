@@ -41,6 +41,10 @@ inline float fsin(float v) {
     return (float)sin(v);
 }
 
+inline float fmodf(float f1, float f2) {
+    return fmod(f1, f2);
+}
+
 #ifdef WII_PLATFORM
 inline float std__fabsf(float x) {
     return (x < 0.0f) ? -x : x;
@@ -48,5 +52,9 @@ inline float std__fabsf(float x) {
 #else
 LIBTP_DEFINE_FUNC(fabsf__3stdFf, fabsf, float, std__fabsf, (float))
 #endif
+
+extern int r0;
+extern int r1;
+extern int r2;
 
 #endif  // !LIB_TP_MATH

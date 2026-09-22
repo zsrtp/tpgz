@@ -2,8 +2,6 @@
 
 #include "menus/menu.h"
 
-#define GL_SPECIALS_AMNT 3
-
 enum GlitchlessPracticeIndex {
     GL_FARON_TWILIGHT_INDEX,
     GL_FOREST_INDEX,

@@ -6,6 +6,7 @@ enum ToolsIndex {
     LINK_INDEX,
     SCENE_INDEX,
     TIMERS_INDEX,
+    RNG_INDEX,
 
     // Entry used as a counter
     TOOLS_COUNT

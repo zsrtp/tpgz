@@ -19,6 +19,7 @@
 #include "features/projection_view/include/projection_view.h"
 #include "libtp_c/include/m_Do/m_Do_printf.h"
 #include "libtp_c/include/d/s/d_s_logo.h"
+#include "libtp_c/include/msl_c/math.h"
 
 #define HOOK_DEF(rettype, name, params)                                                            \
     typedef rettype(*tp_##name##_t) params;                                                        \
@@ -36,6 +37,10 @@ HOOK_DEF(void, draw, (void*));
 #endif
 
 extern volatile uint32_t gzCrashReport;
+
+int preset_r0 = 100;
+int preset_r1 = 100;
+int preset_r2 = 100;
 
 HOOK_DEF(uint32_t, PADRead, (uint16_t*));
 HOOK_DEF(uint32_t, checkHookshotStickBG, (void*, void*));
@@ -58,6 +63,8 @@ HOOK_DEF(int, dScnPly__phase_4, (void*));
 HOOK_DEF(void, dBgS_Acch__CrrPos, (dBgS_Acch*, dBgS&));
 HOOK_DEF(void, daAlink_c__setCutJumpSpeed, (daAlink_c*, int));
 HOOK_DEF(void, daAlink_c__posMove, (daAlink_c*));
+
+HOOK_DEF(uint32_t, fpcBs_Execute, (base_process_class*));
 
 #ifdef WII_PLATFORM
 HOOK_DEF(void, dScnLogo_c__create, (dScnLogo_c*));
@@ -116,6 +123,16 @@ uint32_t unrestrictedItemsHook(uint16_t p1) {
     } else {
         return checkCastleTownUseItemTrampoline(p1);
     }
+}
+
+uint32_t freezeRNGHook(base_process_class* i_proc) {
+    if (GZ_checkFreezeRng()) {
+        r0 = preset_r0;
+        r1 = preset_r1;
+        r2 = preset_r2;   
+    }
+
+    return fpcBs_ExecuteTrampoline(i_proc);
 }
 
 uint32_t transformAnywhereHook(void* p1, void* p2, int p3) {
@@ -202,7 +219,8 @@ int endSaveInjectHook(void* i_scene) {
         SaveManager::s_injectSave = false;
         SaveManager::s_injectMemfile = false;
     }
-    
+    //SaveManager::updateTime(); // needs to run late
+
     return rt;
 }
 
@@ -430,6 +448,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_dScnLogo_c__create dScnLogo_c__create_void_
 #define f_dScnLogo_c__dvdWaitDraw dScnLogo_c__dvdWaitDraw_void_
 #define f_mDoGph_gInf_c__startFadeOut mDoGph_gInf_c__startFadeOut_int_
+#define fpcBs_Execute fpcBs_Execute_base_process_class___
 #else
 #define draw_console draw__17JUTConsoleManagerCFv
 #define f_fapGm_Execute fapGm_Execute__Fv
@@ -451,6 +470,7 @@ void daAlink_c__posMoveHook(daAlink_c* i_this) {
 #define f_dBgS_Acch__CrrPos CrrPos__9dBgS_AcchFR4dBgS
 #define f_daAlink_c__setCutJumpSpeed setCutJumpSpeed__9daAlink_cFi
 #define f_daAlink_c__posMove posMove__9daAlink_cFv
+#define fpcBs_Execute fpcBs_Execute__FP18base_process_class
 #endif
 
 extern "C" {
@@ -474,6 +494,7 @@ void f_dCcS__MoveAfterCheck(dCcS*);
 void f_dBgS_Acch__CrrPos(dBgS_Acch*, dBgS&);
 void f_daAlink_c__setCutJumpSpeed(daAlink_c*, int);
 void f_daAlink_c__posMove(daAlink_c*);
+uint32_t fpcBs_Execute(base_process_class* i_proc);
 #ifdef WII_PLATFORM
 void f_dScnLogo_c__create(dScnLogo_c*);
 void f_dScnLogo_c__dvdWaitDraw(dScnLogo_c*);
@@ -508,6 +529,8 @@ KEEP_FUNC void applyHooks() {
 
     APPLY_HOOK(daAlink_c__setCutJumpSpeed, &f_daAlink_c__setCutJumpSpeed, daAlink_c__setCutJumpSpeedHook);
     APPLY_HOOK(daAlink_c__posMove, &f_daAlink_c__posMove, daAlink_c__posMoveHook);
+
+    APPLY_HOOK(fpcBs_Execute, &fpcBs_Execute, freezeRNGHook);
 #ifdef WII_PLATFORM
     APPLY_HOOK(dScnLogo_c__create, &f_dScnLogo_c__create, dScnLogo_c__create);
     APPLY_HOOK(dScnLogo_c__dvdWaitDraw, &f_dScnLogo_c__dvdWaitDraw, dScnLogo_c__dvdWaitDraw);

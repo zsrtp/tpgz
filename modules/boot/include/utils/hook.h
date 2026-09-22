@@ -18,6 +18,10 @@ enum HookIndex {
     HK_MYEXCEPTIONCALLBACK_INDEX = 13
 };
 
+extern int preset_r0;
+extern int preset_r1;
+extern int preset_r2;
+
 namespace Hook {
 void applyHooks();
 }  // namespace Hook

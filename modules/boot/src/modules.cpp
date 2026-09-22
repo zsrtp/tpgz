@@ -15,11 +15,14 @@ KEEP_VAR tpgz::containers::deque<Module*> g_modules;
  */
 KEEP_FUNC void GZ_handleModules() {
     for (auto mod : g_modules) {
-        if (mod->active() && !mod->rel.isLoaded()) {
-            mod->rel.load(true);
-        }
         if (!mod->active() && mod->rel.isLoaded()) {
             mod->rel.close();
+        }
+    }
+
+    for (auto mod : g_modules) {
+        if (mod->active() && !mod->rel.isLoaded()) {
+            mod->rel.load(true);
         }
     }
 }
@@ -66,14 +69,26 @@ KEEP_FUNC bool umd_active() {
 KEEP_FUNC bool bit_active() {
     return GZStng_getData(STNG_TOOLS_BIT, false);
 }
+
+KEEP_FUNC bool slash_active() {
+    return GZStng_getData(STNG_TOOLS_SLASH, false);
+}
 #endif
 
 KEEP_FUNC bool corotd_active() {
     return GZStng_getData(STNG_TOOLS_COROTD, false);
 }
 
+KEEP_FUNC bool fast_eel_regrab_active() {
+    return GZStng_getData(STNG_TOOLS_FAST_EEL_REGRAB, false);
+}
+
 KEEP_FUNC bool lfc_active() {
     return GZStng_getData(STNG_TOOLS_LFC, false);
+}
+
+KEEP_FUNC bool ebmb_active() {
+    return GZStng_getData(STNG_TOOLS_EBMB, false);
 }
 
 KEEP_FUNC bool ee_active() {
@@ -85,7 +100,15 @@ KEEP_FUNC bool mash_checker_active() {
 }
 
 KEEP_FUNC bool gorge_active() {
-    return GZStng_getData(STNG_TOOLS_GORGE, false);
+    return GZStng_getData<uint32_t>(STNG_TOOLS_GORGE, 0) != 0;
+}
+
+KEEP_FUNC bool gorge_wolf_active() {
+    return GZStng_getData<uint32_t>(STNG_TOOLS_GORGE, 0) == 1;
+}
+
+KEEP_FUNC bool gorge_human_active() {
+    return GZStng_getData<uint32_t>(STNG_TOOLS_GORGE, 0) == 2;
 }
 
 KEEP_FUNC bool rollcheck_active() {
@@ -106,4 +129,8 @@ KEEP_FUNC bool hide_actor_active() {
 
 KEEP_FUNC bool freeze_camera_active() {
     return GZStng_getData(STNG_SCENE_FREEZE_CAMERA, false);
+}
+
+KEEP_FUNC bool freezeRng_active() {
+    return GZStng_getData(STNG_TOOLS_FREEZE_RNG, false);
 }

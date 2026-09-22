@@ -16,6 +16,7 @@
 #include "libtp_c/include/m_Do/m_Re_controller_pad.h"
 #include "libtp_c/include/f_op/f_op_scene_req.h"
 #include "rels/include/defines.h"
+#include "libtp_c/include/m_Do/m_Do_printf.h"
 
 bool g_framePaused = false;
 
@@ -118,11 +119,32 @@ void GZ_execute(int phase) {
         }
     }
 
+    // separate variable to make sure the after-callback is only run after a load has happened
+    static bool load_started = false;
+    static bool load_finished_will_teleport = false;
+    if (fopScnRq.isLoading && !load_started) {
+        load_started = true;
+    }
+
     // Check for post load callback and run it once link is valid
-    if (!fopScnRq.isLoading && dComIfGp_getPlayer()) {
+    if (load_started && !fopScnRq.isLoading && dComIfGp_getPlayer()) {
         if (gSaveManager.mPracticeFileOpts.inject_options_after_load) {
             gSaveManager.mPracticeFileOpts.inject_options_after_load();
             gSaveManager.mPracticeFileOpts.inject_options_after_load = nullptr;
+        }
+        load_started = false;
+        if (gSaveManager.mPracticeFileOpts.inject_options_after_counter > 0) {
+            load_finished_will_teleport = true;
+        }
+    }
+
+    // maybe a bit convoluted but if Link needs to be teleported x frames after the post load
+    if (load_finished_will_teleport && !fopScnRq.isLoading && dComIfGp_getPlayer()) {
+        if (gSaveManager.mPracticeFileOpts.inject_options_after_counter > 0) {
+            gSaveManager.mPracticeFileOpts.inject_options_after_counter--;
+        } else {
+            gSaveManager.setLinkInfo();
+            load_finished_will_teleport = false;
         }
     }
 

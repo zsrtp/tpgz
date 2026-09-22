@@ -5,6 +5,7 @@
 #include "utils/draw.h"
 #include "utils/texture.h"
 #include "rels/include/defines.h"
+#include "utils/hook.h"
 
 KEEP_VAR uint32_t g_cursorColor;
 uint32_t min_line = 0;
@@ -84,4 +85,22 @@ KEEP_FUNC void GZ_drawMenuLines(Line input_lines[], uint32_t cursor, uint32_t LI
             Font::GZ_drawStr(input_lines[i].description, x_offset, 440.f, 0xFFFFFFFF, GZ_checkDropShadows());
         }
     }
+}
+
+KEEP_FUNC void GZ_drawRngLines(Line input_lines[], uint32_t cursor, uint32_t LINES) {
+    Vec2 offset = GZ_getSpriteOffset(STNG_SPRITES_MENU);
+    float x_offset = offset.x + 220.0f;
+    float y_offset = offset.y + 0.0f;
+
+    char r0_c[22];
+    char r1_c[22];
+    char r2_c[22];
+
+    snprintf(r0_c, sizeof(r0_c), "r0: %d", r0);
+    snprintf(r1_c, sizeof(r1_c), "r1: %d", r1);
+    snprintf(r2_c, sizeof(r2_c), "r2: %d", r2);
+    
+    Font::GZ_drawStr(r0_c, x_offset, y_offset, 0xfffba6ff, GZ_checkDropShadows());
+    Font::GZ_drawStr(r1_c, x_offset, y_offset + 20.0f, 0xfffba6ff, GZ_checkDropShadows());
+    Font::GZ_drawStr(r2_c, x_offset, y_offset + 40.0f, 0xfffba6ff, GZ_checkDropShadows());
 }

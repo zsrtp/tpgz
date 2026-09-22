@@ -1,0 +1,236 @@
+- filename: ordon_gate_clip
+  requirements: [POS, CAM]
+  angle: 498
+  pos: [827.450012, 216.490097, -4533.90625]
+  cam:
+    pos: [833.467468, 477.604675, -4241.97266]
+    target: [827.497559, 329.622986, -4532.90723]
+  counter: 10
+
+- filename: ordon_gate_clip
+  requirements: [POS, CAM]
+  angle: 52540
+  pos: [466.622467, 319.770752, -11651.3867]
+  cam:
+    pos: [735.525391, 524.418701, -11576.4746]
+    target: [465.674622, 421.052704, -11651.0684]
+  counter: 10
+
+- filename: goats
+
+- filename: hugo
+  requirements: [POS, CAM]
+  angle: 63622
+  pos: [701.797302, 85.5212784, -5299.6123]
+  cam:
+    pos: [735.525391, 524.418701, -11576.4746]
+    target: [465.674622, 421.052704, -11651.0684]
+
+- filename: faron_twilight
+
+- filename: coro_bugs
+
+- filename: mist_1
+
+- filename: ems
+
+- filename: purple_mist
+  requirements: [POS]
+  angle: 40758
+  pos: [-23524.6152, 250.0, -16220.166]
+  counter: 30
+
+- filename: kb1
+
+- filename: kak_dc
+
+- filename: eldin_twilight
+  requirements: [POS, CAM]
+  angle: 6058
+  pos: [455.088379, -150.0, 11516.7227]
+  cam:
+    pos: [219.367218, -20.1253014, 11157.582]
+    target: [482.515137, -39.9999771, 11558.5283]
+  counter: 10
+
+- filename: forest
+
+- filename: forest_2
+
+- filename: diababa
+
+- filename: pillar_clip
+
+- filename: lakebed1
+
+- filename: lakebed_main
+  requirements: [POS]
+  angle: 32767
+  pos: [71.9836, 1500.0, 2839.01587]
+
+- filename: edt_double_lja
+  requirements: [POS]
+  angle: 16384
+  pos: [7298.4106, -50.0, 4.0667]
+
+- filename: edt_dc
+
+- filename: deku_toad
+
+- filename: lanayru_twilight
+
+- filename: mountain_umd
+
+- filename: spr
+
+- filename: darkhammer
+
+- filename: spr_2
+
+- filename: lfc
+  requirements: [POS]
+  angle: 36572
+  pos: [-2640.6411, 0.0, -4806.1328]
+
+- filename: spr_bk_room
+  requirements: [POS]
+  angle: 48605
+  pos: [-3015.9932, 950.0, -5443.8247]
+
+- filename: blizzeta
+
+- filename: rusl_td
+
+- filename: early_elevator
+  requirements: [POS]
+  angle: 45717
+  pos: [1119.9015, -355.6001, -5571.2036]
+  cam:
+    pos: [1130.0, -355.6, -5569.0]
+    target: [1130.0, -355.6, -5569.0]
+  counter: 10
+
+- filename: elevator_escape
+
+- filename: gm
+
+- filename: kitty_climb
+  requirements: [POS]
+  angle: 49241
+  pos: [-1111.4636, -200.0, 5438.0581]
+
+- filename: clawshot_switch
+
+- filename: dangoro
+
+- filename: gm_2
+
+- filename: water_lja
+
+- filename: fyrus
+
+- filename: bk_skip
+  requirements: [POS, CAM]
+  angle: 32767
+  pos: [71.9835968, 1500.0, 2839.01587]
+  cam:
+    pos: [71.9835968, 1719.93542, 2969.04565]
+    target: [71.9835968, 1660.0, 2839.01587]
+  counter: 30
+
+- filename: morpheel
+  requirements: [POS, CAM]
+  angle: 10754
+  pos: [-1193.0, -23999.0, -770.0]
+
+- filename: mdh
+
+- filename: camp
+
+- filename: ag
+
+- filename: poe_gate_clip
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [10.0035, -19.55, -600.5942]
+
+- filename: ag_early_bk
+
+- filename: stalfos_skip
+  requirements: [POS]
+  angle: 16098
+  pos: [-731.9014, -2250.0, -2682.446]
+
+- filename: deathsword
+
+- filename: ag_2
+
+- filename: stallord
+
+- filename: faron_boost
+
+- filename: lost_woods_2
+
+- filename: sacred_grove
+
+- filename: tot
+
+- filename: first_staircase
+
+- filename: turning_platform
+  requirements: [POS]
+  angle: 60379
+  pos: [1620.3672, 4250.0, -60.77]
+
+- filename: statue_throws
+
+- filename: second_staircase
+
+- filename: tot_bk
+  requirements: [POS]
+  angle: 16374
+  pos: [2996.9797, 7401.5, -0.3486]
+
+- filename: third_staircase
+  requirements: [POS]
+  angle: 64834
+  pos: [76.6775818, 6950.0, 3465.99341]
+
+- filename: tot_darknut
+
+- filename: dot_skip
+
+- filename: silver_rupee
+
+- filename: city1
+
+- filename: city_gate_clip
+  requirements: [POS, CAM]
+  angle: 16384
+  pos: [16516.6094, 0.0, -12722.48]
+
+- filename: aeralfos
+
+- filename: city2
+
+- filename: kai_clip
+  requirements: [POS]
+  angle: 50124
+  pos: [1097.8264, 1312.71, -11830.8057]
+
+- filename: fan_tower
+
+- filename: argorok
+
+- filename: palace1
+
+- filename: palace2
+
+- filename: zant
+
+- filename: hc
+
+- filename: beast_ganon
+
+- filename: horseback
+

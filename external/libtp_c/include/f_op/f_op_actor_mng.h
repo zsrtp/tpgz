@@ -275,6 +275,9 @@ LIBTP_DEFINE_FUNC(gndCheck__11fopAcM_gc_cFPC4cXyz, fopAcM_gc_c__gndCheck_cXyz_co
 LIBTP_DEFINE_FUNC(fopAcM_CreateAppend__Fv, fopAcM_CreateAppend_void_,
                   fopAcM_prm_class*, fopAcM_CreateAppend, (void))
 
+LIBTP_DEFINE_FUNC(fopAcM_fastCreate__FsUlPC4cXyziPC5csXyzPC4cXyzScPFPv_iPv, fopAcM_fastCreate_short__unsigned_long__cXyz_const____int__csXyz_const____cXyz_const____signed_char__int_____void_____void___,
+                  fopAc_ac_c*, fopAcM_fastCreate, (s16, u32, const cXyz*, int, const csXyz*, const cXyz*, s8, createFunc, void*))
+
 #define tp_fopAcM_gc_c__mGroundY_addr 0x80450cd0
 #define tp_fopAcM_gc_c__mGroundY (*(f32*)(tp_fopAcM_gc_c__mGroundY_addr))
 

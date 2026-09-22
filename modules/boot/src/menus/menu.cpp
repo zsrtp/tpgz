@@ -18,7 +18,7 @@ const char* g_menuPaths[MN_COUNT] = {
     "projection_view",  "trigger_view",   "sound_test",
     "pos_settings",     "credits",        "combo",
     "tools_checkers",   "tools_controller", "tools_link",
-    "tools_scene",      "tools_timers"
+    "tools_scene",      "tools_timers",   "tools_rng"
 };
 
 KEEP_FUNC Menu::Menu(Cursor& cursor) : cursor(cursor) {}

@@ -120,22 +120,37 @@ public:
 public:
     enum daPy_FLG0 {
         FLG0_UNK_40000000 = 0x40000000,
-        EQUIP_HEAVY_BOOTS = 0x2000000,
-        FLG0_UNK_8000000 = 0x8000000,
+        FLG0_EQUIP_HVY_BOOTS = 0x2000000,
+        FLG0_PLAYER_NO_DRAW = 0x8000000,
+        FLG0_UNK_10000000 = 0x10000000,
         FLG0_UNK_1000000 = 0x1000000,
-        UNDER_WATER_MOVEMENT = 0x800000,
+        FLG0_UNDERWATER = 0x800000,
+        FLG0_UNK_400000 = 0x400000,
+        FLG0_UNK_200000 = 0x200000,
+        FLG0_UNK_100000 = 0x100000,
         FLG0_UNK_80000 = 0x80000,
-        FLG0_UNK_20000 = 0x20000,
+        FLG0_UNK_40000 = 0x40000,
+        FLG0_DK_CAUGHT = 0x20000,
+        FLG0_UNK_10000 = 0x10000,
         FLG0_UNK_8000 = 0x8000,
-        MAGNE_BOOTS_ON = 0x1000,
+        FLG0_UNK_4000 = 0x4000,
+        FLG0_UNK_2000 = 0x2000,
+        FLG0_MAGNE_BOOTS_ON = 0x1000,
+        FLG0_PUSH_PULL_KEEP = 0x800,
+        FLG0_UNK_400 = 0x400,
+        FLG0_SWIM_UP = 0x100,
         FLG0_UNK_80 = 0x80,
         FLG0_UNK_40 = 0x40,
         FLG0_UNK_20 = 0x20,
-        UNK_F_ROLL_CRASH_2 = 0x10,
-        UNK_F_ROLL_CRASH_1 = 0x8,
-        MIDNA_RIDE = 4,
+        FLG0_UNK_10 = 0x10,
+        FLG0_UNK_8 = 0x8,
+        FLG0_MIDNA_RIDE = 4,
+        FLG0_UNK_2 = 2,
 
-        HEAVY_STATE_BOOTS = FLG0_UNK_40000000 | EQUIP_HEAVY_BOOTS | FLG0_UNK_20000,
+        FLG0_HVY_STATE = FLG0_UNK_40000000 | FLG0_EQUIP_HVY_BOOTS | FLG0_DK_CAUGHT,
+        FLG0_UNK_14000 = 0x14000,
+        FLG0_UNK_10400 = 0x10400,
+        FLG0_UNK_18 = FLG0_UNK_10 | FLG0_UNK_8,
     };
     enum daPy_FLG1 { IS_WOLF = 0x2000000, FLG1_UNK_10000 = 0x10000, THROW_DAMAGE = 0x4000 };
     enum daPy_FLG2 {
@@ -225,6 +240,8 @@ public:
     void onNoResetFlg0(int pFlg) { mNoResetFlg0 |= pFlg; }
     void onEndResetFlg1(daPy_ERFLG1 pFlg) { mEndResetFlg1 |= pFlg; }
     int checkWolf() { return checkNoResetFlg1(IS_WOLF); }
+    u32 checkEquipHeavyBoots() const { return checkNoResetFlg0(FLG0_EQUIP_HVY_BOOTS); }
+    u32 checkMagneBootsOn() const { return checkNoResetFlg0(FLG0_MAGNE_BOOTS_ON); }
 };
 
 #endif /* D_A_D_A_PLAYER_H */

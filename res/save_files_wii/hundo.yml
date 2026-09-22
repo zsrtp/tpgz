@@ -1,0 +1,399 @@
+- filename: goats1
+
+- filename: ordongateclip
+
+- filename: goats2
+
+- filename: swordandshield
+
+- filename: farontwilight
+
+- filename: ems
+
+- filename: purplemist
+
+- filename: forestbit
+
+- filename: faronescape
+  requirements: [POS]
+  angle: 16779
+  pos: [-13149.165, 1.9844, -13106.8066]
+  counter: 10
+
+- filename: lanayrugateclip
+  requirements: [POS]
+  angle: 41765
+  pos: [-61951.3516, -9147.2793, 72637.9219]
+  counter: 10
+
+- filename: earlylakebedmidnadive
+
+- filename: jakeskip
+
+- filename: lakebeddisplacementclips
+
+- filename: dekutoad
+
+- filename: kargfight
+
+- filename: kargflight
+
+- filename: foresttemple2
+
+- filename: diababa
+
+- filename: hfspostmanskip
+  requirements: [POS]
+  angle: 20751
+  pos: [-38275.3672, -9126.06543, 75278.8672]
+
+- filename: eldintwilight
+  requirements: [POS]
+  angle: 6058
+  pos: [455.088379, -150.0, 11516.7227]
+  counter: 10
+
+- filename: basementbugs
+
+- filename: eldeinn
+
+- filename: bombhouseskip
+
+- filename: eldinsteamcycle
+
+- filename: posteldintwilight
+
+- filename: corotd
+  requirements: [POS]
+  angle: 27714
+  pos: [-13715.0713, 0.0, -14238.0654]
+  counter: 10
+
+- filename: earlyelevator
+
+- filename: goronmines
+
+- filename: keyshardskip
+
+- filename: dangoro
+
+- filename: fyrus
+
+- filename: zdbug
+  requirements: [POS]
+  angle: 32768
+  pos: [0.0, -8.27449322, -2750.0]
+  counter: 30
+
+- filename: waterfallsidehop
+
+- filename: ctbug
+  requirements: [POS]
+  angle: 17793
+  pos: [1003.9477, -200.0, 6493.8564]
+  counter: 10
+
+- filename: dockbug
+
+- filename: plumm
+
+- filename: iza1skipsetup
+
+- filename: kb2skip
+
+- filename: wagonescort
+
+- filename: kb1skip
+  requirements: [POS]
+  angle: 19735
+  pos: [4437.2925, -5765.1309, 52674.6719]
+  counter: 10
+
+- filename: premdhcleanup
+
+- filename: lakebedbkskip
+
+- filename: morpheel
+
+- filename: star1
+
+- filename: louiseglitch
+  requirements: [POS]
+  angle: 40960
+  pos: [2938.2393, -1150.0, 4472.1841]
+  counter: 10
+
+- filename: ropeskip
+  requirements: [POS]
+  angle: 33276
+  pos: [3173.88843, -500.0, 5294.07227]
+
+- filename: mdhtower
+
+- filename: mdhbridge
+
+- filename: postmdh
+
+- filename: kb1
+
+- filename: gorgecleanup
+
+- filename: iza1skip
+
+- filename: lakehyliacave
+
+- filename: desert
+
+- filename: bulblincamp
+
+- filename: arbitersgrounds
+
+- filename: poe1skip
+  requirements: [POS]
+  angle: 49244
+  pos: [-2146.1931, 0.0, -609.7213]
+  counter: 10
+
+- filename: poe4
+  requirements: [POS]
+  angle: 16376
+  pos: [-6690.0, 1050.0, 3993.3274]
+  counter: 10
+
+- filename: poe3
+  requirements: [POS]
+  angle: 65530
+  pos: [5574.4053, 1050.0, 560.0]
+  counter: 10
+
+- filename: agearlybk
+
+- filename: stalfosskip
+  requirements: [POS]
+  angle: 16384
+  pos: [-4984.0, -1700.0, -2919.1047]
+  counter: 10
+
+- filename: deathsword
+
+- filename: stallord
+
+- filename: stallord2
+
+- filename: postag
+
+- filename: outsidezdcleanup
+
+- filename: snowpeak
+
+- filename: graveyard
+
+- filename: snowpeakruins
+
+- filename: darkhammer
+
+- filename: sprsuperjump
+
+- filename: ladderfreezardcancel
+  requirements: [POS]
+  angle: 33554
+  pos: [-2645.686, 0.0, -4315.6831]
+  counter: 10
+
+- filename: sprbkroom
+
+- filename: blizzeta
+
+- filename: faronjsmb
+
+- filename: grove2skip
+  requirements: [POS]
+  angle: 17515
+  pos: [-9957.9814, 2000.0, 3963.5327]
+  counter: 10
+
+- filename: wreckagejsmb
+  requirements: [POS]
+  angle: 5942
+  pos: [-297.3111, 1000.0, 5052.4692]
+  counter: 10
+
+- filename: templeoftime
+
+- filename: totearlypoe
+
+- filename: totstatuethrows
+
+- filename: totearlyhp
+  requirements: [POS]
+  pos: [-6604.4204, 5050.0, -6780.604]
+  counter: 10
+
+- filename: totbkroom
+  requirements: [POS]
+  angle: 16384
+  pos: [2715.0, 7400.0, -7.0]
+  counter: 10
+
+- filename: totthirdstaircase
+  requirements: [POS]
+  pos: [62.8, 6950.0, 3410.0]
+  counter: 10
+
+- filename: totdarknut
+
+- filename: dotskip
+
+- filename: armagohma
+
+- filename: posttot
+
+- filename: yetarace
+  requirements: [POS]
+  angle: 45232
+  pos: [-71867.4766, -54450.0, 56622.8203]
+  counter: 10
+
+- filename: renadosletter
+
+- filename: hotspringminigame
+
+- filename: southcastletown
+
+- filename: hyrulefieldcleanup
+
+- filename: flightbyfowl
+
+- filename: hugoarchery
+
+- filename: bellsilverrupee
+
+- filename: earlycity
+  requirements: [POS]
+  angle: 57035
+  pos: [-4.2379, -770.0, -2968.9827]
+  counter: 10
+
+- filename: city1
+
+- filename: eastwing
+
+- filename: aeralfosskip
+
+- filename: city2
+
+- filename: annoyingroom
+  requirements: [POS]
+  angle: 32768
+  pos: [-14000.0, 0.0, -15965.9912]
+  counter: 10
+
+- filename: peahatlja
+  requirements: [POS]
+  pos: [-14009.4453, 3000.491, -16134.0078]
+  counter: 10
+
+- filename: citybkclip
+  requirements: [POS]
+  angle: 32698
+  pos: [-7.2611, 3000.0, -11317.8408]
+  counter: 10
+
+- filename: fantower
+
+- filename: argorok
+
+- filename: argorok2
+
+- filename: caveofordeals
+
+- filename: coofloor10
+
+- filename: coofloor20
+
+- filename: coofloor30
+
+- filename: coofloor40
+
+- filename: postcoo
+
+- filename: boepostmanskip
+  requirements: [POS]
+  angle: 32768
+  pos: [34800.0, -299.0, -26735.0]
+  counter: 10
+
+- filename: cats
+  requirements: [POS]
+  angle: 7759
+  pos: [5220.78906, 0.0, -3909.49048]
+
+- filename: hfncleanup
+
+- filename: icecave
+
+- filename: northfieldgrotto
+
+- filename: iza2
+  requirements: [POS]
+  angle: 14451
+  pos: [-5254.66602, 17082.0, -89796.7266]
+
+- filename: palaceeastwin
+
+- filename: phantomzant1
+
+- filename: postphantomzant1
+  requirements: [POS]
+  angle: 41971
+  pos: [0.0, 0.0, 300.0]
+
+- filename: palacewestwing1
+
+- filename: palacewestwing2
+  requirements: [POS]
+  angle: 32768
+  pos: [3999.17676, -725.0, 249.467438]
+  counter: 10
+
+- filename: phantomzant2
+
+- filename: postphantomzant2
+  requirements: [POS]
+  angle: 41971
+  pos: [0.0, 0.0, 300.0]
+
+- filename: doublesolroom
+
+- filename: potbkroom
+
+- filename: earlyplatform
+
+- filename: zant
+
+- filename: zantdangoro
+
+- filename: zantfinal
+
+- filename: star2
+
+- filename: hyrulecastle
+
+- filename: kb4
+  requirements: [POS]
+  angle: 23289
+  pos: [-8296.918, 62.0, -5183.4233]
+  counter: 10
+
+- filename: darknutskip
+
+- filename: aeralfos
+
+- filename: finaltower
+
+- filename: beastganon
+
+- filename: horsebackganon
+
+- filename: ganondorf
+

@@ -9,7 +9,7 @@
 #include "rels/include/defines.h"
 #include "menus/utils/menu_mgr.h"
 
-#define MAX_SAVE_SLOTS 20
+#define MAX_SAVE_SLOTS 100
 
 KEEP_FUNC MemfilesMenu::MemfilesMenu(MemfilesData& data)
     : Menu(data.cursor), l_fileNo(data.l_fileNo), lines{
@@ -30,10 +30,18 @@ void MemfilesMenu::draw() {
 
     switch (cursor.y) {
     case MEMFILE_SLOT_INDEX:
-        if (GZ_getButtonRepeat(GZPad::DPAD_LEFT) && l_fileNo > 1) {
-            l_fileNo--;
-        } else if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT) && l_fileNo < MAX_SAVE_SLOTS) {
-            l_fileNo++;
+        if (GZ_getButtonRepeat(GZPad::DPAD_LEFT)) {
+            if (l_fileNo > 1) {
+                l_fileNo--;
+            } else {
+                l_fileNo = MAX_SAVE_SLOTS;
+            }
+        } else if (GZ_getButtonRepeat(GZPad::DPAD_RIGHT)) {
+            if (l_fileNo < MAX_SAVE_SLOTS) {
+                l_fileNo++;
+            } else {
+                l_fileNo = 1;
+            }
         }
         break;
     }

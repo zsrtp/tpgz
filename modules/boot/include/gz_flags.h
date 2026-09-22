@@ -21,6 +21,7 @@ enum GZFlags {
     GZFLG_GORGE_VOID,
 #ifdef WII_PLATFORM
     GZFLG_BIT,
+    GZFLG_SLASH,
 #endif
     GZFLG_ROLL,
     GZFLG_COROTD,
@@ -33,7 +34,9 @@ enum GZFlags {
     GZFLG_DISABLE_BGM,
     GZFLG_DISABLE_SFX,
     GZFLG_LFC,
+    GZFLG_EBMB,
     GZFLG_EE,
+    GZFLG_FAST_EEL_REGRAB,
 };
 
 struct GZFlag {

@@ -40,17 +40,27 @@ public:
         idx = 0;
         CallbackDuring = nullptr;
         CallbackAfter = nullptr;
+        extraDelay = 0;
     }
 
     special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after) {
         idx = i_idx;
         CallbackDuring = cb_during;
         CallbackAfter = cb_after;
+        extraDelay = 0;
+    }
+
+    special(int i_idx, LoadingCallback cb_during, LoadingCallback cb_after, int i_extraDelay) {
+        idx = i_idx;
+        CallbackDuring = cb_during;
+        CallbackAfter = cb_after;
+        extraDelay = i_extraDelay;
     }
 
     uint32_t idx;
     LoadingCallback CallbackDuring;
     LoadingCallback CallbackAfter;
+    uint32_t extraDelay;
 
 private:
 };
@@ -100,6 +110,7 @@ public:
     static void defaultLoad();
     static void setLinkInfo();
     static void setPositionCamera();
+    static void updateTime();
 
     static void loadData();
 
@@ -110,6 +121,17 @@ public:
     }
 
     void setSaveAngle(int16_t angle) { mPracticeSaveInfo.angle = angle; }
+
+    void setSaveCamera(float camPosX, float camPosY, float camPosZ,
+                       float camTargetX, float camTargetY, float camTargetZ) {
+        mPracticeSaveInfo.cam_pos.x = camPosX;
+        mPracticeSaveInfo.cam_pos.y = camPosY;
+        mPracticeSaveInfo.cam_pos.z = camPosZ;
+
+        mPracticeSaveInfo.cam_target.x = camTargetX;
+        mPracticeSaveInfo.cam_target.y = camTargetY;
+        mPracticeSaveInfo.cam_target.z = camTargetZ;
+    }
 };
 
 extern SaveManager gSaveManager;

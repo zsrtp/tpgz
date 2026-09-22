@@ -1,0 +1,357 @@
+- filename: ordon_gate_clip
+  requirements: [POS, CAM]
+  angle: 498
+  pos: [827.450012, 216.490097, -4533.90625]
+  cam:
+    pos: [833.467468, 477.604675, -4241.97266]
+    target: [827.497559, 329.622986, -4532.90723]
+  counter: 10
+
+- filename: ordon_gate_clip
+  requirements: [POS, CAM]
+  angle: 52540
+  pos: [466.622467, 319.770752, -11651.3867]
+  cam:
+    pos: [735.525391, 524.418701, -11576.4746]
+    target: [465.674622, 421.052704, -11651.0684]
+  counter: 10
+
+- filename: goats
+
+- filename: sewers
+
+- filename: sewers_tower
+  requirements: [POS, CAM]
+  angle: 32737
+  pos: [25524.0, -3010.0, 8087.0]
+  cam:
+    pos: [25771.3672, -2753.22388, 7785.64941]
+    target: [25535.5352, -2890.0, 8078.35254]
+  counter: 30
+
+- filename: sewers_rooftops
+
+- filename: hugo
+  requirements: [POS, CAM]
+  angle: 63622
+  pos: [701.797302, 85.5212784, -5299.6123]
+  cam:
+    pos: [735.525391, 524.418701, -11576.4746]
+    target: [465.674622, 421.052704, -11651.0684]
+
+- filename: faron_twilight
+
+- filename: ems
+
+- filename: purple_mist
+  requirements: [POS]
+  angle: 40758
+  pos: [-23524.6152, 250.0, -16220.166]
+  counter: 30
+
+- filename: bite
+
+- filename: kb1
+  requirements: [POS]
+  angle: 16384
+  pos: [-9717.6035, 337.0316, 97.9661]
+  counter: 30
+
+- filename: kb1_2
+
+- filename: rebite
+
+- filename: kak_beasts
+
+- filename: eldin_twilight
+  requirements: [POS, CAM]
+  angle: 6058
+  pos: [455.088379, -150.0, 11516.7227]
+  cam:
+    pos: [219.367218, -20.1253014, 11157.582]
+    target: [482.515137, -39.9999771, 11558.5283]
+  counter: 10
+
+- filename: basement_bugs
+
+- filename: forest_temple
+
+- filename: faron_escape
+  requirements: [POS]
+  angle: 17562
+  pos: [-13557.3584, -3.1, -13216.2646]
+  counter: 10
+
+- filename: hfs_mailman_skip
+  requirements: [POS]
+  angle: 31612
+  pos: [-46261.4805, -7473.17773, 98200.4141]
+
+- filename: lanayru_gate_clip
+  requirements: [POS, CAM]
+  angle: 44248
+  pos: [-63026.2852, -9065.92578, 71680.3438]
+  cam:
+    pos: [-62655.8125, -8900.91309, 71903.6328]
+    target: [-63064.2148, -8969.97656, 71661.0781]
+  counter: 15
+
+- filename: kargarok_fight
+  requirements: [POS]
+  angle: 50103
+  pos: [-106950.828, -23436.4746, 47117.9375]
+  counter: 30
+
+- filename: kargarok_flight
+
+- filename: eld_inn
+
+- filename: bombhouse_skip
+
+- filename: eldin_steam_cycle
+  requirements: [POS]
+  angle: 33423
+  pos: [411.544403, 18.8815422, 9147.74805]
+  counter: 10
+
+- filename: lanayru_twilight
+
+- filename: inner_zd_bug
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [0.0, -8.27449322, -2750.0]
+  cam:
+    pos: [-280.019684, 76.9521179, -2899.97949]
+    target: [8.7422813, 86.7255249, -2740.0]
+  counter: 30
+
+- filename: waterfall_sidehop
+
+- filename: ct_bug
+  requirements: [POS]
+  angle: 19198
+  pos: [2185.91479, -725.0, 6443.65088]
+
+- filename: dock_bug
+
+- filename: boss_bug
+  requirements: [POS]
+  angle: 41851
+  pos: [-87517.1562, -18789.2812, 38927.082]
+  counter: 30
+
+- filename: iza
+  requirements: [POS]
+  angle: 10114
+  pos: [5979.97217, 150.0, -2748.34155]
+
+- filename: plumm_cs_skip
+  requirements: [POS]
+  angle: 57707
+  pos: [-101516.211, -18470.0, 53531.9336]
+
+- filename: plumm_oob
+  requirements: [POS]
+  angle: 45103
+  pos: [-104271.375, -18470.0, 52661.7812]
+  counter: 30
+
+- filename: enter_lakebed
+  requirements: [POS]
+  angle: 45767
+  pos: [-87645.3203, -21052.0078, 38436.0898]
+  counter: 10
+
+- filename: lakebed_1
+
+- filename: wormhole
+
+- filename: deku_toad
+
+- filename: lakebed_bk_skip
+  requirements: [POS]
+  angle: 32767
+  pos: [71.9835968, 1500.0, 2839.01587]
+  counter: 10
+
+- filename: morpheel
+
+- filename: louise_glitch
+  requirements: [POS]
+  angle: 32750
+  pos: [2861.78076, -1150.0, 4507.41846]
+
+- filename: rope_skip
+  requirements: [POS]
+  angle: 33276
+  pos: [3159.06836, -500.0, 5492.82129]
+
+- filename: mdh_tower
+  requirements: [POS, CAM]
+  angle: 29327
+  pos: [25362.3184, -3028.7673, 10060.8379]
+  counter: 30
+
+- filename: mdh_bridge
+
+- filename: post_mdh
+
+- filename: snowpeak_cave
+
+- filename: messenger_skip
+  requirements: [POS, CAM]
+  angle: 346
+  pos: [-9294.87988, 980.0, -11712.3838]
+  cam:
+    pos: [-9309.65137, 1280.4469, -12130.7695]
+    target: [-9294.2207, 1180.0, -11692.3945]
+  counter: 10
+
+- filename: blind_snowboarding
+  requirements: [POS]
+  angle: 36106
+  pos: [-14476.7305, 1814.04504, -9606.24609]
+
+- filename: snowpeak_ruins
+
+- filename: snowpeak_ruins_mbbb
+
+- filename: spr_spinner_boost
+
+- filename: freezard_skip
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [-125.9265, 33.8123, -3688.0295]
+  counter: 30
+
+- filename: dark_hammer
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [0.7448, 0.0, 1330.9711]
+  counter: 20
+
+- filename: desert_fence_clip
+  requirements: [POS]
+  angle: 40266
+  pos: [3885.38916, -732.859985, 18491.7715]
+
+- filename: bulblin_camp
+
+- filename: ag
+
+- filename: poe_gate_skip
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [0.0, -19.55, -600.0]
+
+- filename: early_boss_key
+
+- filename: triple_stalfos_skip
+  requirements: [POS]
+  angle: 16119
+  pos: [-4603.0, -1700.0, -2895.0]
+  counter: 10
+
+- filename: death_sword
+
+- filename: epic_spinner
+  requirements: [POS]
+  angle: 49152
+  pos: [-4815.0, -1700.0, -2848.0]
+  counter: 10
+
+- filename: stallord
+
+- filename: stallord
+
+- filename: mirror_chamber
+  requirements: [POS, CAM]
+  angle: 54828
+  pos: [5336.63672, 4392.44238, -20123.7754]
+  cam:
+    pos: [5772.17188, 4685.60254, -20415.6738]
+    target: [5344.75195, 4542.44629, -20157.0879]
+  counter: 10
+
+- filename: early_city
+
+- filename: cits
+  requirements: [POS]
+  angle: 16384
+  pos: [1309.60645, -240.0, 5533.43848]
+  counter: 10
+
+- filename: arg_cs_skip
+
+- filename: cits_west_inside
+
+- filename: aeralfos_skip
+
+- filename: cits_2
+
+- filename: cits_bk_clip
+
+- filename: fanless
+
+- filename: fan_tower
+
+- filename: argorok
+
+- filename: argorok_2
+
+- filename: pot1
+
+- filename: sol1_backtrack
+  requirements: [POS]
+  angle: 41971
+  pos: [0.0, 0.0, 300.0]
+
+- filename: stupidroom
+
+- filename: smart_room
+  requirements: [POS, CAM]
+  angle: 32768
+  pos: [3999.17676, -725.0, 249.467438]
+  cam:
+    pos: [4036.18408, -505.0, 378.042297]
+    target: [4026.32227, -565.0, 248.41687]
+  counter: 30
+
+- filename: sol2_backtrack
+  requirements: [POS]
+  angle: 41971
+  pos: [0.0, 0.0, 300.0]
+
+- filename: pot2
+
+- filename: pot_bk
+
+- filename: earlypf
+
+- filename: zant
+
+- filename: zant_dangoro
+
+- filename: zant_final
+
+- filename: ct_mailman_skip
+  requirements: [POS]
+  angle: 16384
+  pos: [-70000.0, -1400.0, 10662.0]
+
+- filename: hc
+
+- filename: kb4
+
+- filename: darknut
+
+- filename: hc_aeralfos
+
+- filename: towerclimb
+
+- filename: beast_ganon
+
+- filename: horseback
+
+- filename: ganondorf
+

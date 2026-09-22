@@ -15,13 +15,13 @@ def main():
     qlog2 = gcibytes[0x4ADC:0x5568]
     qlog3 = gcibytes[0x5570:0x5FFC]
 
-    with open("qlog1.bin", "w") as outfile:
+    with open("qlog1.bin", "wb") as outfile:
         outfile.write(qlog1)
 
-    with open("qlog2.bin", "w") as outfile:
+    with open("qlog2.bin", "wb") as outfile:
         outfile.write(qlog2)
 
-    with open("qlog3.bin", "w") as outfile:
+    with open("qlog3.bin", "wb") as outfile:
         outfile.write(qlog3)
     
 if __name__ == "__main__":

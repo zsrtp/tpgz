@@ -52,6 +52,8 @@ list(APPEND CMAKE_MODULE_PATH
   ${CMAKE_SOURCE_DIR}/cmake
 )
 
+include(cmake/version.cmake)
+
 # Once we have the platform and region ready, we can check and setup the compiler toolchain.
 include(cmake/CheckDevkitPro.cmake)
 
@@ -64,7 +66,6 @@ include(cmake/relmapper.cmake)
 include(cmake/fonts.cmake)
 
 project(TPGZ
-        VERSION 1.1.0
         DESCRIPTION "Twilight Princess speedrunning practice and testing tool"
         HOMEPAGE_URL "tpgz.io"
         LANGUAGES C CXX ASM)
@@ -74,12 +75,13 @@ file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 # Set compiler stuff
 include_directories(external)
-add_definitions(-D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${CMAKE_PROJECT_VERSION} -D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${CMAKE_PROJECT_VERSION}" -D_VARIANT="public" -D_BUILDID="${CMAKE_PROJECT_VERSION}" ${DEBUG} ${RUN_PR_TEST})
+add_definitions(-D${PLATFORM}_${REGION} -D${PLATFORM}_PLATFORM -DGZ_VERSION=${TPGZ_BUILD_VERSION} -D_PROJECT_NAME="${CMAKE_PROJECT_NAME}" -D_VERSION="${TPGZ_BUILD_VERSION}" -D_VARIANT="public" -D_BUILDID="${TPGZ_BUILD_VERSION}" ${DEBUG} ${RUN_PR_TEST})
 add_compile_options(-fdiagnostics-color=always -fvisibility=hidden)
 
 include(cmake/tp_c.cmake)
 include(cmake/gcn_c.cmake)
 include(cmake/${PLATFORM}_${REGION}.cmake)
+include(cmake/save_metadata.cmake)
 
 # Load the REL Loader code and parse it
 file(READ "res/bin/${PLATFORM}_${REGION}.bin" TPGZ_LOADER_BIN HEX)
@@ -108,16 +110,16 @@ foreach(rel_tgt ${TPGZ_RELS})
 endforeach()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_ISO}
-    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso  ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
+    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_SOURCE_DIR}/isos/${TPGZ_ISO_FILE}.iso  ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES} ${TPGZ_SAVE_META_FILES}
     COMMAND ${TPGZ_PATCHER_EXE} build)
 
 string(REPLACE ".iso" ".patch" TPGZ_CFG_BLD_PATCH_OLD ${TPGZ_CFG_BLD_ISO})
 string(TOLOWER ${PLATFORM} tpgz_platform_lower)
 string(TOLOWER ${REGION} tpgz_region_lower)
 string(REPLACE "_" "-" tpgz_region_lower ${tpgz_region_lower})
-set(TPGZ_CFG_BLD_PATCH ${CMAKE_PROJECT_VERSION}-${tpgz_platform_lower}-${tpgz_region_lower}.patch)
+set(TPGZ_CFG_BLD_PATCH tpgz-${tpgz_platform_lower}-${tpgz_region_lower}-${TPGZ_BUILD_VERSION}.patch)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${TPGZ_CFG_BLD_PATCH}
-    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES}
+    DEPENDS tpgz modules ${TPGZ_PATCHER_EXE} ${CMAKE_CURRENT_SOURCE_DIR}/res ${CMAKE_CURRENT_BINARY_DIR}/patch.asm ${CMAKE_CURRENT_BINARY_DIR}/RomHack.toml ${TPGZ_REL_FILES} ${TPGZ_SAVE_META_FILES}
     COMMAND ${TPGZ_PATCHER_EXE} build --patch
     COMMAND ${CMAKE_COMMAND} -E rename ${TPGZ_CFG_BLD_PATCH_OLD} ${TPGZ_CFG_BLD_PATCH})
 

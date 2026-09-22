@@ -3,7 +3,9 @@
 #include "save_manager.h"
 
 enum {
+#ifdef GCN_PLATFORM
     ANY_INDEX,
+#endif
     ANY_BITE_INDEX,
     HUNDO_INDEX,
     AD_INDEX,

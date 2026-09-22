@@ -741,6 +741,7 @@ public:
 class dSv_turnRestart_c {
 public:
     class dSv_turnRestart_camera_c {
+    public:
         /* 0x00 */ cXyz mCameraCtr;
         /* 0x0C */ cXyz mCameraEye;
         /* 0x18 */ cXyz mCameraUp;

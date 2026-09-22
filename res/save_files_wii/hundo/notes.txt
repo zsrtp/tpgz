@@ -1,0 +1,70 @@
+missing saves:
+karg fight
+hfs postman skip
+basement bugs
+elde inn
+eldin steam cycle
+mdh bridge
+post mdh
+
+goats 1 text box
+ordon gate clip spawn location: x 788.4056 y 217.2030 z -4522.7017 angle 5690
+faron escape spawn location: x -13149.1650 y 1.9844 z -13106.8066 angle 16779
+lanayru gate clip location: x -61951.3516 y -9147.2793 z 72637.9219 angle 41765
+early lakebed midna dive location: x -95846.8359 y -24550.7012 z 32464.5996 angle 28225, would need pot here as well
+deku toad needs ebf
+karg flight needs karg
+coro td spawn location: x -13715.0713 y 0.0000 z -14238.0654 angle 27714
+zd bug spawn at warp
+waterfall sidehop should be moving when entering
+ct bug spawn location: x 1003.9477 y -200.0000 z 6493.8564 angle 17793
+plumm minigame needs to start
+kb2 skip needs to start escort and keep lent bomb bag
+wagon escort needs to start escort and keep lent bomb bag
+kb1 skip needs to start escort and keep lent bomb bag, spawn location: x 4437.2925 y -5765.1309 z 52674.6719 angle 19735
+pre mdh cleanup needs to keep lent bomb bag and be on epona
+lakebed bk skip need to keep lent bomb bag
+morpheel needs to keep lent bomb bag
+star 1 needs to start minigame
+louise glitch spawn location: x 2938.2393 y -1150.0000 z 4472.1841 angle 40960
+rope skip needs to start cutscene
+mdh bridge needs to be running
+gorge cleanup needs to be on epona
+iza 1 skip needs to be in plumm's minigame
+enable icon shortcuts at bulblin camp
+poe 1 skip spawn location: x -2146.1931 y 0.0000 z -609.7213 angle 49244
+poe 4 spawn location: x -6690.0000 y 1050.0000 z 3993.3274 angle 16376
+poe 3 spawn location: x 5574.4053 y 1050.0000 z 560.0001 angle 65530
+ag early bk needs to be running
+stalfos skip spawn location: x -4984.0063 y -1700.0000 z -2919.1047 angle 16384
+stallord needs cutscene removed
+stallord 2 needs to start at proper phase
+snowpeak ruins put intro cutscene back
+darkhammer needs to start the fight
+ladder freezard cancel spawn location: x -2645.6860 y 0.0000 z -4315.6831 angle 33554
+grove skip spawn location: x -9957.9814 y 2000.0000 z 3963.5327
+wreckage jsmb spawn location: x -297.3111 y 1000 z 5052.4692 angle 5942
+tot early hp spawn location: x -6604.4204 y 5050.0000 z -6780.6040
+darknut room needs to start fight
+yeta race set respawn location at the top of snowpeak so you can dodge the respawn trigger, spawn location: x -71867.4766 y -54450.0000 z 56622.8203 angle 45232
+hotspring minigame needs to start the minigame
+hugo archery needs to start the minigame
+early city spawn location: x -4.2379 y-770.0000 z -2968.9827 angle 57035
+annoying room spawn location: x -14000.0000 y 0.0000 z -15965.9912 angle 32768
+peahat lja spawn location: x -14009.4453 y 3000.4910 z -16134.0078 angle 0
+city bk clip spawn location: x -7.2611 y 3000.0000 z -11317.8408 angle 32698
+argorok needs to start the fight
+argorok 2 needs to start phase 2
+coo floors 10-40 have the fairy talked to/door open
+boe postman skip spawn location: x 34800.0000 y -299.0000 z -26735.0000 angle 32768
+cats minigame needs to start the minigame
+north field grotto needs to be layer 3 for poes
+iza 2 needs to start in the boat
+post phantom zant 1 needs to start with sol
+palace west wing 2 spawn location: x 3950.0337 y -725.0000 z 647.9545 angle 32234
+post phantom zant 2 needs to start with sol
+zant dangoro needs to start dangoro phase in the right spot
+zant final needs to start final phase in the right spot
+star 2 needs to start minigame
+kb4 spawn location: x -8296.9180 y 52.0000 z -5183.4233 angle 23289
+beast ganon needs to be on layer 1 to start the fight

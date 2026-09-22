@@ -8,10 +8,12 @@
 #include "menus/utils/menu_mgr.h"
 
 #define MAX_RELOAD_OPTIONS 2
-#define MAX_CURSOR_COLOR_OPTIONS 6
+#define MAX_CURSOR_COLOR_OPTIONS 8
 
 KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
     : Menu(cursor), lines{
+                        {"advanced mode", ADVANCED_MODE_INDEX, "Display more information in certain tools",
+                         true, GZ_checkAdvancedMode},
                         {"area reload behavior:", AREA_RELOAD_BEHAVIOR_INDEX,
                          "Load area: reload last area | Load file = reload last file", false,
                          nullptr, MAX_RELOAD_OPTIONS},
@@ -21,7 +23,7 @@ KEEP_FUNC SettingsMenu::SettingsMenu(Cursor& cursor)
                         {"drop shadows", DROP_SHADOWS_INDEX, "Adds shadows to all font letters",
                          true, GZ_checkDropShadows},
                         {"swap equips", SWAP_EQUIPS_INDEX,
-                         "Swap equips when loading practice files", true, [](){return g_swap_equips_flag;}},
+                         "Swap equips when loading practice files", true, GZ_checkSwapEquips},
                         {"save card", SAVE_CARD_INDEX, "Save settings to memory card"},
                         {"load card", LOAD_CARD_INDEX, "Load settings from memory card"},
                         {"delete card", DELETE_CARD_INDEX, "Delete settings from memory card"},
@@ -46,6 +48,14 @@ void SettingsMenu::draw() {
     // static Storage storage;
     if (GZ_getButtonTrig(SELECTION_BUTTON)) {
         switch (cursor.y) {
+        case ADVANCED_MODE_INDEX:
+            stng = GZStng_get(STNG_ADVANCED_MODE);
+            if (!stng) {
+                stng = new GZSettingEntry{STNG_ADVANCED_MODE, sizeof(bool), new bool{false}};
+                g_settings.push_back(stng);
+            }
+            *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
+            break;
         case DROP_SHADOWS_INDEX:
             stng = GZStng_get(STNG_DROP_SHADOWS);
             if (!stng) {
@@ -109,15 +119,19 @@ void SettingsMenu::draw() {
             break;
         }
         case SWAP_EQUIPS_INDEX:
-            g_swap_equips_flag = !g_swap_equips_flag;
+            stng = GZStng_get(STNG_SWAP_EQUIPS);
+            if (!stng) {
+                stng = new GZSettingEntry{STNG_SWAP_EQUIPS, sizeof(bool), new bool{false}};
+                g_settings.push_back(stng);
+            }
+            *static_cast<bool*>(stng->data) = !*static_cast<bool*>(stng->data);
             break;
         }
     }
 
     ListMember reload_opt[MAX_RELOAD_OPTIONS] = {"load area", "load file"};
 
-    ListMember cursorCol_opt[MAX_CURSOR_COLOR_OPTIONS] = {"green",  "blue",   "red",
-                                                          "orange", "yellow", "purple"};
+    ListMember cursorCol_opt[MAX_CURSOR_COLOR_OPTIONS] = {"green",  "blue",   "red", "orange", "yellow", "purple", "pink", "cyan"};
 
     stng = nullptr;
     auto prev_x = cursor.x;

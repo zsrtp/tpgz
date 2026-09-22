@@ -77,6 +77,7 @@ enum MenuIndex {
     MN_TOOLS_LINK_INDEX,
     MN_TOOLS_SCENE_INDEX,
     MN_TOOLS_TIMERS_INDEX,
+    MN_TOOLS_RNG_INDEX,
 
     // This entry is used only to get a count of the number of valid entries.
     MN_COUNT

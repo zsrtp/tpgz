@@ -54,18 +54,18 @@ KEEP_FUNC void GZ_handleTools() {
                         GZCmd_resetTimer});
     }
 
-    if (GZStng_getData(STNG_TOOLS_TELEPORT, false) && !GZCmd_getCmd(CMD_STORE_POSITION)) {
+    if (GZStng_getData(STNG_TOOLS_TELEPORT, false || GZStng_getData(STNG_TOOLS_DISPLACEMENT, false)) && !GZCmd_getCmd(CMD_STORE_POSITION)) {
         GZCmd_addCmd(new Command{
             CMD_STORE_POSITION,
             GZStng_getData<uint16_t>(STNG_CMD_STORE_POSITION, STORE_POSITION_BUTTONS),
             GZCmd_storePosition});
-    } else if (!GZStng_getData(STNG_TOOLS_TELEPORT, false) &&
+    } else if (!GZStng_getData(STNG_TOOLS_TELEPORT, false) && !GZStng_getData(STNG_TOOLS_DISPLACEMENT, false) &&
                GZCmd_getCmd(CMD_STORE_POSITION)) {
         auto* cmd = GZCmd_removeCmd(CMD_STORE_POSITION);
         delete cmd;
     }
 
-    if (GZStng_getData(STNG_TOOLS_TELEPORT, false) && !GZCmd_getCmd(CMD_LOAD_POSITION)) {
+    if ((GZStng_getData(STNG_TOOLS_TELEPORT, false)) && !GZCmd_getCmd(CMD_LOAD_POSITION)) {
         GZCmd_addCmd(new Command{
             CMD_LOAD_POSITION,
             GZStng_getData<uint16_t>(STNG_CMD_LOAD_POSITION, LOAD_POSITION_BUTTONS),

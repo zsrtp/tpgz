@@ -12,7 +12,6 @@
 
 #define ACTIVE_FUNC(id) []() { return GZStng_getData(id, false); }
 
-extern bool g_swap_equips_flag;
 extern ListMember g_font_opt[7];
 
 // WARNING
@@ -108,6 +107,16 @@ enum GZSettingID : uint32_t {
     STNG_TOOLS_ELEVATOR_ESCAPE,
     STNG_TOOLS_STAGE_INFO,
     STNG_SPRITES_STAGE_INFO,
+    STNG_TOOLS_DISPLACEMENT,
+    STNG_SPRITES_DISPLACEMENT,
+    STNG_TOOLS_EBMB,
+    STNG_ADVANCED_MODE,
+    STNG_TOOLS_FREEZE_RNG,
+    STNG_TOOLS_ADVANCE_RNG,
+    STNG_TOOLS_LOAD_RNG_PRESET,
+    STNG_SWAP_EQUIPS,
+    STNG_TOOLS_FAST_EEL_REGRAB,
+    STNG_TOOLS_SLASH,
 };
 
 struct GZSettingEntry {
@@ -155,5 +164,20 @@ void GZ_initFont();
 
 inline bool GZ_checkDropShadows() {
     auto* stng = GZStng_get(STNG_DROP_SHADOWS);
+    return stng && *static_cast<bool*>(stng->data);
+}
+
+inline bool GZ_checkAdvancedMode() {
+    auto* stng = GZStng_get(STNG_ADVANCED_MODE);
+    return stng && *static_cast<bool*>(stng->data);
+}
+
+inline bool GZ_checkFreezeRng() {
+    auto* stng = GZStng_get(STNG_TOOLS_FREEZE_RNG);
+    return stng && *static_cast<bool*>(stng->data);
+}
+
+inline bool GZ_checkSwapEquips() {
+    auto* stng = GZStng_get(STNG_SWAP_EQUIPS);
     return stng && *static_cast<bool*>(stng->data);
 }

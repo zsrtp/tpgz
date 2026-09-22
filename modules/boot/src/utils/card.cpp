@@ -22,6 +22,8 @@
 #include "events/pre_loop_listener.h"
 #include "boot.h"
 
+#define MEMFILE_SIZE 0xf61
+
 #ifdef WII_PLATFORM
 KEEP_VAR void* g_tmpBuf;
 #endif
@@ -249,6 +251,24 @@ KEEP_FUNC void GZ_storeMemCard(Storage& storage) {
 }
 
 KEEP_FUNC void GZ_storeMemfile(Storage& storage) {
+    #ifdef GCN_PLATFORM
+    int bytesRemaining = 0;
+    int filesRemaining = 0;
+    StorageFreeBlocks(0, &bytesRemaining, &filesRemaining);
+    OSReport("GZ_storeMemfile: bytes remaining: %d, files remaining: %d\n", bytesRemaining, filesRemaining);
+
+    if (filesRemaining == 0) {
+        FIFOQueue::push("failed: no file slots remaining", Queue);
+        return;
+    }
+
+    bytesRemaining -= 4000;
+    if (bytesRemaining < MEMFILE_SIZE) {
+        FIFOQueue::push("failed: no space remaining", Queue);
+        return;
+    }
+    #endif
+
     PositionData posData;
     posData.link = dComIfGp_getPlayer()->current.pos;
     posData.cam.target = matrixInfo.matrix_info->target;

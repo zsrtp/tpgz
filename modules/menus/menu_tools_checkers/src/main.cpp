@@ -28,13 +28,13 @@ void exit() {
 }  // namespace tpgz::modules
 
 void onCreate() {
-    if (!g_menuMgr->getPermanentData<CheckersData>()) {
-        g_menuMgr->setPermanentData(new CheckersData);
+    if (!g_menuMgr->getPermanentData<Cursor>()) {
+        g_menuMgr->setPermanentData(new Cursor);
     }
 }
 
 void onLoad() {
-    l_checkersMenu = new CheckersMenu(*g_menuMgr->getPermanentData<CheckersData>());
+    l_checkersMenu = new CheckersMenu(*g_menuMgr->getPermanentData<Cursor>());
     g_drawListener->addListener(onDraw);
 }
 
